@@ -1,0 +1,37 @@
+{
+  "name": "diez",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "version": "1.0.0-alpha0",
+  "description": "Diez monorepo.",
+  "license": "Proprietary",
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^5.0.4",
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "enquirer": "^2.3.0",
+    "fs-extra": "^7.0.1",
+    "lerna": "^3.10.7",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-config-haiku": "^1.0.18",
+    "typescript": "^3.2.4"
+  },
+  "scripts": {
+    "create-package": "ts-node ./scripts/cli.ts create-package",
+    "compile": "lerna run compile",
+    "watch": "lerna run --parallel watch",
+    "fix": "lerna run fix",
+    "health": "lerna run health",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "postinstall": "yarn compile"
+  },
+  "resolutions": {
+    "istanbul-api": "^2.0.0"
+  }
+}

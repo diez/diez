@@ -1,0 +1,30 @@
+TODO: design and implement a reuseable format for Kotlin binding. This consists of several components:
+
+1. Data definition:
+
+package ai.haiku.puente
+
+import android.graphics.Color
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+
+typealias DiezColor = Int
+
+class DiezColorAdapter {
+    @FromJson fun fromJson(serial: FloatArray) : DiezColor {
+        return Color.argb(serial[3], serial[0] / 255, serial[1]  / 255, serial[2]  / 255)
+    }
+
+    @ToJson fun toJson(color: DiezColor) : FloatArray {
+        return floatArrayOf(
+            Color.red(color).toFloat(),
+            Color.green(color).toFloat(),
+            Color.blue(color).toFloat(),
+            Color.alpha(color).toFloat() / 255
+        )
+    }
+}
+
+2. Native constructor instructions for initializing from an instance:
+
+`Color.argb(${this.a * 255}, ${this.r}, ${this.g}, ${this.b})`

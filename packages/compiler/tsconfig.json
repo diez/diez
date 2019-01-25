@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.packages.json",
+  "include": ["src/**/*.ts", "playground/**/*.ts"],
+  "references": [
+    {
+      "path": "../engine"
+    },
+    {
+      "path": "../color"
+    }
+  ]
+}

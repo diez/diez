@@ -1,0 +1,9 @@
+TODO: design and implement a reuseable format for web binding. This consists of several components:
+
+1. Data definition:
+
+type DiezColor = string;
+
+2. Native constructor instructions for initializing from an instance:
+
+`rgba(${this.r / 255}, ${this.g / 255}, ${this.b / 255}, ${this.a})`

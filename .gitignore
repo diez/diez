@@ -1,0 +1,10 @@
+.DS_Store
+dist/
+node_modules/
+thumbs.db
+yarn-error.log
+test-result.tap
+cobertura-coverage.xml
+checkstyle-result.xml
+*.xcuserstate
+*.xcuserdatad
