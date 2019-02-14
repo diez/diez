@@ -1,0 +1,75 @@
+import child_process from 'child_process';
+import fsExtra from 'fs-extra';
+import path from 'path';
+import {Exportable} from '.';
+import {createFolders, escapeShell, fixGammaOfPNGFiles} from '../helpers/ioUtils';
+
+enum VALID_TYPES {
+  SLICE,
+  ARTBOARD,
+}
+
+const FOLDERS = {
+  [VALID_TYPES.SLICE]: 'slices',
+  [VALID_TYPES.ARTBOARD]: 'artboards',
+};
+
+const SKETCH_EXTENSION = '.sketch';
+const PARSER_CLI_PATH = '/Contents/Resources/sketchtool/bin/sketchtool';
+const INSTALL_PATH = '/Applications/Sketch.app';
+
+/**
+ *
+ * @param sketchtoolPath path to the `sketchtool` executable
+ * @param source Sketch file from where to export
+ * @param folder output folder
+ */
+const runExportCommand = async (sketchtoolPath: string, source: string, folder: string, out: string) => {
+  const output = escapeShell(path.join(out, folder));
+  const command = `${sketchtoolPath} export --format=svg --output=${output} ${folder} ${escapeShell(source)}`;
+
+  return new Promise((resolve, reject) => {
+    child_process.exec(command, (error) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(true);
+    });
+  });
+};
+
+export const sketch: Exportable = {
+  /**
+   * Returns a boolean indicating if the source provided can be opened in Sketch and parsed by this module.
+   */
+  canParse (source: string) {
+    return path.extname(source.trim()) === SKETCH_EXTENSION;
+  },
+
+  /**
+   * Exports SVG contents from the given `source` into the `out` folder.
+   *
+   * @param source from where to extract the SVG
+   * @param out directory to put the SVG
+   */
+  async exportSVG (source: string, out: string) {
+    const sketchtoolPath = INSTALL_PATH + PARSER_CLI_PATH;
+
+    if (!this.canParse(source)) {
+      throw new Error('Invalid source file.');
+    }
+
+    if (!fsExtra.existsSync(sketchtoolPath)) {
+      throw new Error('The file provided can\'t be opened in Sketch.');
+    }
+
+    await createFolders(out, FOLDERS);
+    await runExportCommand(sketchtoolPath, source, FOLDERS[VALID_TYPES.SLICE], out);
+    await runExportCommand(sketchtoolPath, source, FOLDERS[VALID_TYPES.ARTBOARD], out);
+
+    // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
+    // between browsers
+    await fixGammaOfPNGFiles(out);
+  },
+};
