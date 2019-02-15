@@ -1,3 +1,5 @@
+import Foundation
+
 public final class MyPalette : NSObject, StateBag {
     public var hello: Color
 

@@ -1,0 +1,8 @@
+<plist version="1.0">
+<dict>
+	<key>IS_DEVELOPMENT</key>
+	<true/>
+	<key>SERVER_URL</key>
+	<string>http://localhost:8081</string>
+</dict>
+</plist>

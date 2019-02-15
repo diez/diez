@@ -8,11 +8,13 @@ In its current form, the compiler only provides a dev server which can be be sta
 
 It reads the component specified in [playground/MyStateBag.ts](playground/MyStateBag.ts) and expects the sample native bindings in the `playground/` directory to be registered in a corresponding native project.
 
+## Requirements (macOS)
+ - Xcode >= version 10.1 and Android Studio >= version 3.3.1. See [IDE setup instructions](../../docs/ide-setup-macos.md) for details.
+ - For fast incremental native builds, you'll need to get Bazel. (TODO: manage Bazel setup and installation via the CLI.) See binary installer instructions [here](https://docs.bazel.build/versions/master/install-os-x.html#install-with-installer-mac-os-x). Make sure to run the installer with the `--user` flag and add `export PATH="$PATH:$HOME/bin"` in your `~/.bash_profile`.
+
 ### Running the demo adapter project for iOS (macOS)
 
- - Build the Diez package.
-   - Open the Xcode project at [playground/ios/Diez/Diez.xcodeproj](playground/ios/Diez/Diez.xcodeproj).
-   - Select the `Diez-Universal` Scheme targeting a `Generic iOS device`, and build the package (top menu `Product` > `Build` or `Cmd + B`). Confirm this creates a `Diez.framework` container in `playground/ios/Diez/`.
+ - Build the Diez package with Bazel by running `./fire.sh` in `playground/ios/Diez/`. This should create an (untracked) `Diez.framework` container in `playground/ios/Diez/`.
  - Run the `HelloMyStateBag` project.
   - Open the XCode project at [playground/ios/HelloMyStateBag/HelloMyStateBag](playground/ios/HelloMyStateBag/HelloMyStateBag).
   - Confirm the app builds against your locally built `Diez.framework`.

@@ -7,6 +7,8 @@
 //
 // All credit to: https://stablekernel.com/understanding-extending-swift-4-codable/
 
+import Foundation
+
 public protocol Updatable {
     mutating func update(from decoder: Decoder) throws
 }
