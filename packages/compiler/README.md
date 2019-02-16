@@ -16,15 +16,15 @@ It reads the component specified in [playground/MyStateBag.ts](playground/MyStat
 
  - Build the Diez package with Bazel by running `./fire.sh` in `playground/ios/Diez/`. This should create an (untracked) `Diez.framework` container in `playground/ios/Diez/`.
  - Run the `HelloMyStateBag` project.
-  - Open the XCode project at [playground/ios/HelloMyStateBag/HelloMyStateBag](playground/ios/HelloMyStateBag/HelloMyStateBag).
-  - Confirm the app builds against your locally built `Diez.framework`.
-  - Start the dev server in this package with `yarn serve` in Terminal.
-  - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode.
+   - Open the XCode project at [playground/ios/HelloMyStateBag/HelloMyStateBag](playground/ios/HelloMyStateBag/HelloMyStateBag).
+   - Confirm the app builds against your locally built `Diez.framework`.
+   - Start the dev server in this package with `yarn serve` in Terminal.
+   - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode.
  - To run on a device:
-  - In `System Preferences` > `Sharing`, note your local hostname, e.g. `http://my-local-hostname.local`, printed at the top of this settings panel. Make sure your device is on the same Wifi network as your development machine.
-  - **In the Diez project**, modify `Info.plist` to set `SERVER_URL` to your local hostname at port 8081, e.g. `http://my-local-hostname.local:8081`. Rebuild the framework with `Cmd + B`. (In the future, this modification should be managed by the compiler.)
-  - Start the dev server in this package with `yarn serve` in Terminal.
-  - Run `HelloMyStateBag` on your device with `Cmd + R` in Xcode.
+   - In `System Preferences` > `Sharing`, note your local hostname, e.g. `http://my-local-hostname.local`, printed at the top of this settings panel. Make sure your device is on the same Wifi network as your development machine.
+   - **In the Diez project**, modify `Info.plist` to set `SERVER_URL` to your local hostname at port 8081, e.g. `http://my-local-hostname.local:8081`. Rebuild the framework with `Cmd + B`. (In the future, this modification should be managed by the compiler.)
+   - Start the dev server in this package with `yarn serve` in Terminal.
+   - Run `HelloMyStateBag` on your device with `Cmd + R` in Xcode.
 
 ### Creating a demo adapter project for iOS
 
@@ -59,14 +59,14 @@ The following instructions should be suitable for creating a similar project fro
 ### Running the demo adapter project for Android (macOS)
 
  - Run the `HelloMyStateBag` project.
-  - Open the Android Studio project at [playground/android/HelloMyStateBag](playground/android/HelloMyStateBag).
-  - Start the dev server in this package with `yarn serve` in Terminal.
-  - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for Genymotion emulators. The correct AVD emulator `server_url` to use is: `http://10.0.2.2:8081`.
+   - Open the Android Studio project at [playground/android/HelloMyStateBag](playground/android/HelloMyStateBag).
+   - Start the dev server in this package with `yarn serve` in Terminal.
+   - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for Genymotion emulators. The correct AVD emulator `server_url` to use is: `http://10.0.2.2:8081`.
  - To run on a device:
-  - Make sure your device is on the same Wifi network as your development machine, and note your LAN IP.
-  - **In the Diez module**, modify `settings.xml` to set `server_url` to your LAN IP at port 8081, e.g. `http://192.168.1.2:8081`.
-  - Start the dev server in this package with `yarn serve` in Terminal.
-  - Run `HelloMyStateBag` on your device with `Ctrl + R` in Android Studio.
+   - Make sure your device is on the same Wifi network as your development machine, and note your LAN IP.
+   - **In the Diez module**, modify `settings.xml` to set `server_url` to your LAN IP at port 8081, e.g. `http://192.168.1.2:8081`.
+   - Start the dev server in this package with `yarn serve` in Terminal.
+   - Run `HelloMyStateBag` on your device with `Ctrl + R` in Android Studio.
 
 ### Creating a demo adapter project for Android
 
