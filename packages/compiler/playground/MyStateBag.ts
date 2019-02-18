@@ -2,7 +2,7 @@ import {Color, Palette} from '@livedesigner/color';
 import {Component, expression, method, property} from '@livedesigner/engine';
 import {File} from '@livedesigner/file';
 import {Haiku} from '@livedesigner/haiku';
-import {Image} from '@livedesigner/image';
+import {Image, SVG} from '@livedesigner/image';
 import {FontRegistry, TextStyle} from '@livedesigner/typography';
 import {easeInOutExpo} from 'just-curves';
 
@@ -39,6 +39,10 @@ class MyStateBag extends Component<MyStateShape> {
     width: 246,
     height: 246,
     scale: 3,
+  });
+
+  @property svg = new SVG({
+    file: new File({src: '/assets/images/rat.svg.html'}),
   });
 
   @property fontRegistry = new FontRegistry({

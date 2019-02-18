@@ -17,3 +17,11 @@ export class Image extends Component<ImageState> {
 
   @property scale: number = 1;
 }
+
+export interface SVGState {
+  file: File;
+}
+
+export class SVG extends Component<SVGState> {
+  @property file: File = new File();
+}

@@ -1,12 +1,13 @@
 import UIKit
+import WebKit
 
 public class Image : NSObject, Decodable, Updatable {
-    var file: File?
+    var file: File
     var width: CGFloat
     var height: CGFloat
     var scale: CGFloat
 
-    init(withFile file: File?, withWidth width: CGFloat, withHeight height: CGFloat, withScale scale: CGFloat) {
+    init(withFile file: File, withWidth width: CGFloat, withHeight height: CGFloat, withScale scale: CGFloat) {
         self.file = file
         self.width = width
         self.height = height
@@ -23,10 +24,14 @@ public class Image : NSObject, Decodable, Updatable {
     }
 
     private func image() throws -> UIImage? {
-        return UIImage(data: try Data(contentsOf: file!.url()!), scale: scale)
+        guard let url = file.url() else {
+            return nil
+        }
+
+        return UIImage(data: try Data(contentsOf: url), scale: scale)
     }
 
-    private func imageView() throws -> UIImageView {
+    private func imageView() throws -> UIImageView? {
         let view = UIImageView(image: try image())
         view.frame.size.width = width
         view.frame.size.height = height
@@ -41,5 +46,36 @@ public class Image : NSObject, Decodable, Updatable {
         } catch {
             print("unable to set background")
         }
+    }
+}
+
+public class SVG : NSObject, Decodable, Updatable {
+    var file: File
+
+    init(withFile file: File) {
+        self.file = file
+        super.init()
+    }
+
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        file = try container.decode(File.self, forKey: .file)
+    }
+
+    public func embedSvg(inView view: UIView) {
+        guard let request = file.request() else {
+            print("unable to load SVG URL")
+            return
+        }
+
+        // TODO: keep a weak handle to this webview and update it on updates.
+        // TODO: implement a SVGView metaclass.
+        let wk = WKWebView(frame: view.bounds)
+        wk.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        wk.scrollView.isScrollEnabled = false
+        wk.isOpaque = false
+        wk.backgroundColor = .clear
+        wk.load(request)
+        view.addSubview(wk)
     }
 }

@@ -22,6 +22,7 @@ public final class MyStateBag : NSObject, StateBag {
     public var fontRegistry: FontRegistry
     public var textStyle: TextStyle
     public var haiku: Haiku
+    public var svg: SVG
     var listener: Method? = nil
 
     private enum CodingKeys: String, CodingKey {
@@ -31,6 +32,7 @@ public final class MyStateBag : NSObject, StateBag {
         case fontRegistry
         case textStyle
         case haiku
+        case svg
     }
 
     public init(_ listenerIn: Method?) {
@@ -58,15 +60,17 @@ public final class MyStateBag : NSObject, StateBag {
         )
         listener = listenerIn
         haiku = Haiku(withFile: File(withSrc: "/assets/haiku/animator.html"))
+        svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg.html"))
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        try container.update(&palette, forKey: .palette)
-        try container.update(&image, forKey: .image)
-        try container.update(&textStyle, forKey: .textStyle)
+        try? container.update(&palette, forKey: .palette)
+        try? container.update(&image, forKey: .image)
+        try? container.update(&textStyle, forKey: .textStyle)
+        try? container.update(&svg, forKey: .svg)
+        try? container.update(&haiku, forKey: .haiku)
         copy = try container.decode(String.self, forKey: .copy)
-        // TODO: support haiku updating!
     }
 
     public func tap() {
