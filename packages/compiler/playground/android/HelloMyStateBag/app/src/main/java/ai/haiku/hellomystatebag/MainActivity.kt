@@ -22,11 +22,14 @@ class MainActivity : AppCompatActivity() {
                 component.image.setBackground(view)
                 if (!embeddedHaikuOnce) {
                     embeddedHaikuOnce = true
-                    val webview = component.haiku.embedHaiku(haikuSlot)
-                    webview.layoutParams = FrameLayout.LayoutParams(
+                    val layoutParams = FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT
                     )
+                    val haikuWebview = component.haiku.embedHaiku(haikuSlot)
+                    val svgWebview = component.svg.embedSvg(ratSlot)
+                    haikuWebview.layoutParams = layoutParams
+                    svgWebview.layoutParams = layoutParams
                 }
             }
         })

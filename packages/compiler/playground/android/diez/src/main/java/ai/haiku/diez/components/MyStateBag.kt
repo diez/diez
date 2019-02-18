@@ -9,6 +9,7 @@ import ai.haiku.diez.color.QualifiedColor
 import ai.haiku.diez.file.File
 import ai.haiku.diez.haiku.Haiku
 import ai.haiku.diez.image.Image
+import ai.haiku.diez.image.SVG
 import ai.haiku.diez.typography.FontRegistry
 import ai.haiku.diez.typography.TextStyle
 
@@ -39,7 +40,8 @@ data class MyStateBag(
         50F,
         ColorAdapter.hsla(floatArrayOf(0F, 1F, 0.5F, 1F))
     ),
-    var haiku: Haiku = Haiku(File("/assets/haiku/animator.html"))
+    var haiku: Haiku = Haiku(File("/assets/haiku/animator.html")),
+    var svg: SVG = SVG(File("/assets/images/rat.svg.html"))
 ) : StateBag {
     override val adapters = listOf(
         colorAdapter
