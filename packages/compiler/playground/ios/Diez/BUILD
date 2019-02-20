@@ -33,4 +33,8 @@ ios_framework(
   deps = [
     ":Diez",
   ],
+  linkopts = [
+    "-undefined",
+    "dynamic_lookup",
+  ],
 )
