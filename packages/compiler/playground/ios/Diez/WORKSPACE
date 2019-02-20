@@ -32,3 +32,15 @@ load(
 )
 
 apple_support_dependencies()
+
+local_repository(
+  name = "rules_pods",
+  path = "./PodToBUILD",
+)
+
+load("@rules_pods//BazelExtensions:workspace.bzl", "new_pod_repository")
+
+new_pod_repository(
+  name = "lottie-ios",
+  url = "https://github.com/airbnb/lottie-ios/archive/2.5.2.zip",
+)

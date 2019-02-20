@@ -1,0 +1,2 @@
+release:
+	@echo 'skipping build..'

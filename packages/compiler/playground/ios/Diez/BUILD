@@ -11,6 +11,9 @@ swift_library(
   srcs = glob([
     "Sources/**/*.swift",
   ]),
+  deps = [
+    "@lottie-ios//:lottie-ios",
+  ],
 )
 
 ios_framework(
