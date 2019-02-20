@@ -16,7 +16,7 @@ It reads the component specified in [playground/MyStateBag.ts](playground/MyStat
 
  - Build the Diez package with Bazel by running `./fire.sh` in `playground/ios/Diez/`. This should create an (untracked) `Diez.framework` container in `playground/ios/Diez/`.
  - Run the `HelloMyStateBag` project.
-   - Open the XCode project at [playground/ios/HelloMyStateBag/HelloMyStateBag](playground/ios/HelloMyStateBag/HelloMyStateBag).
+   - Open the XCode workspace at [playground/ios/HelloMyStateBag/HelloMyStateBag.xcworkspace](playground/ios/HelloMyStateBag/HelloMyStateBag.xcworkspace).
    - Confirm the app builds against your locally built `Diez.framework`.
    - Start the dev server in this package with `yarn serve` in Terminal.
    - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode.
