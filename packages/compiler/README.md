@@ -61,7 +61,7 @@ The following instructions should be suitable for creating a similar project fro
  - Run the `HelloMyStateBag` project.
    - Open the Android Studio project at [playground/android/HelloMyStateBag](playground/android/HelloMyStateBag).
    - Start the dev server in this package with `yarn serve` in Terminal.
-   - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for Genymotion emulators. The correct AVD emulator `server_url` to use is: `http://10.0.2.2:8081`.
+   - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for AVD emulators, which simulate localhost URLs at the IP `10.0.2.2`. If you are using a different emulator, you may need to use a different URL.
  - To run on a device:
    - Make sure your device is on the same Wifi network as your development machine, and note your LAN IP.
    - **In the Diez module**, modify `settings.xml` to set `server_url` to your LAN IP at port 8081, e.g. `http://192.168.1.2:8081`.
