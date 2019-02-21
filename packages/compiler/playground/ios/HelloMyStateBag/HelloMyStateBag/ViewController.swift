@@ -5,9 +5,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var animationContainer: UIView!
     @IBOutlet weak var ratContainer: UIView!
+    @IBOutlet weak var lottieContainer: UIView!
+
     let diez = Diez<MyStateBag>()
-    // TODO: handle downstream state changes atomically.
-    var embeddedViewOnce = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,14 @@ class ViewController: UIViewController {
         ratContainer.autoresizesSubviews = true
         ratContainer.backgroundColor = .clear
 
+        lottieContainer.autoresizesSubviews = true
+        lottieContainer.backgroundColor = .clear
+
+        // TODO: allow these to update on changes in a sane way.
+        diez.component.haiku.embedHaiku(inView: animationContainer)
+        diez.component.svg.embedSvg(inView: ratContainer)
+        diez.component.lottie.embedLottie(inView: lottieContainer)
+
         // Subscribe to component changes.
         diez.attach(self, subscriber: {(component: MyStateBag) in
             self.label.text = component.copy
@@ -34,11 +42,6 @@ class ViewController: UIViewController {
             self.label.textAlignment = .center
             self.label.center = self.view.center
             component.image.setBackground(forView: self.view)
-            if (!self.embeddedViewOnce) {
-                self.embeddedViewOnce = true
-                component.haiku.embedHaiku(inView: self.animationContainer)
-                component.svg.embedSvg(inView: self.ratContainer)
-            }
         })
     }
 

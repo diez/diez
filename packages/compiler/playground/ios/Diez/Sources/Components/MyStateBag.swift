@@ -23,6 +23,7 @@ public final class MyStateBag : NSObject, StateBag {
     public var textStyle: TextStyle
     public var haiku: Haiku
     public var svg: SVG
+    public var lottie: Lottie
     var listener: Method? = nil
 
     private enum CodingKeys: String, CodingKey {
@@ -33,6 +34,7 @@ public final class MyStateBag : NSObject, StateBag {
         case textStyle
         case haiku
         case svg
+        case lottie
     }
 
     public init(_ listenerIn: Method?) {
@@ -61,6 +63,7 @@ public final class MyStateBag : NSObject, StateBag {
         listener = listenerIn
         haiku = Haiku(withFile: File(withSrc: "/assets/haiku/animator.html"))
         svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg.html"))
+        lottie = Lottie(withFile: File(withSrc: "/assets/lottie/loading-pizza.json"))
     }
 
     public func update(from decoder: Decoder) throws {
@@ -70,6 +73,7 @@ public final class MyStateBag : NSObject, StateBag {
         try? container.update(&textStyle, forKey: .textStyle)
         try? container.update(&svg, forKey: .svg)
         try? container.update(&haiku, forKey: .haiku)
+        try? container.update(&lottie, forKey: .lottie)
         copy = try container.decode(String.self, forKey: .copy)
     }
 

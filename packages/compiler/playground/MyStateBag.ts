@@ -3,6 +3,7 @@ import {Component, expression, method, property} from '@livedesigner/engine';
 import {File} from '@livedesigner/file';
 import {Haiku} from '@livedesigner/haiku';
 import {Image, SVG} from '@livedesigner/image';
+import {Lottie} from '@livedesigner/lottie';
 import {FontRegistry, TextStyle} from '@livedesigner/typography';
 import {easeInOutExpo} from 'just-curves';
 
@@ -43,6 +44,10 @@ class MyStateBag extends Component<MyStateShape> {
 
   @property svg = new SVG({
     file: new File({src: '/assets/images/rat.svg.html'}),
+  });
+
+  @property lottie = new Lottie({
+    file: new File({src: '/assets/lottie/loading-pizza.json'}),
   });
 
   @property fontRegistry = new FontRegistry({
