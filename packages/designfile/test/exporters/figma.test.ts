@@ -5,25 +5,21 @@ import {figma, getSVGLinks} from '../../src/exporters/figma';
 jest.mock('fs-extra');
 jest.mock('request');
 
-beforeEach(() => {
-  __cleanup();
-});
-
 figma.token = 'mock-token';
 
 describe('Figma', () => {
   describe('#canParse', () => {
-    test('returns `false` if the file does not look like a Figma file', () => {
-      expect(figma.canParse('test.sketch')).toBe(false);
-      expect(figma.canParse('test.figmaster')).toBe(false);
-      expect(figma.canParse('http://illustrator.com/file/key/name')).toBe(false);
+    test('returns `false` if the file does not look like a Figma file', async () => {
+      expect(await figma.canParse('test.sketch')).toBe(false);
+      expect(await figma.canParse('test.figmaster')).toBe(false);
+      expect(await figma.canParse('http://illustrator.com/file/key/name')).toBe(false);
     });
 
-    test('returns `true` if the file does look like a Figma file', () => {
-      expect(figma.canParse('http://figma.com/file/key/name')).toBe(true);
-      expect(figma.canParse('http://figma.com/file/key')).toBe(true);
-      expect(figma.canParse('test.figma')).toBe(true);
-      expect(figma.canParse('my/awesome/path/test.figma')).toBe(true);
+    test('returns `true` if the file does look like a Figma file', async () => {
+      expect(await figma.canParse('http://figma.com/file/key/name')).toBe(true);
+      expect(await figma.canParse('http://figma.com/file/key')).toBe(true);
+      expect(await figma.canParse('test.figma')).toBe(true);
+      expect(await figma.canParse('my/awesome/path/test.figma')).toBe(true);
     });
   });
 

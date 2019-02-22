@@ -5,7 +5,7 @@ export type ProgressReporter = (message: string) => void;
  */
 export interface Exportable {
   exportSVG (source: string, out: string, onProgress: ProgressReporter): Promise<void>;
-  canParse (source: string): boolean;
+  canParse (source: string): Promise<boolean>;
 }
 
 /**

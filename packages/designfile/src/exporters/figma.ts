@@ -179,6 +179,10 @@ export const figma: Exportable & OAutheable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
+    if (!await this.canParse(source)) {
+      throw new Error('Invalid source file.');
+    }
+
     const projectData = parseProjectURL(source);
 
     if (!projectData) {
@@ -204,7 +208,7 @@ export const figma: Exportable & OAutheable = {
   /**
    * Returns a boolean indicating if the source provided looks like a Figma file or a project URL.
    */
-  canParse (source: string) {
+  async canParse (source: string) {
     return Boolean((source && source.match(IS_FIGMA_FILE_RE)) || parseProjectURL(source));
   },
 

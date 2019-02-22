@@ -77,8 +77,9 @@ export const illustrator: Exportable = {
   /**
    * Returns a boolean indicating if the source provided can be opened in Illustrator and parsed by this module.
    */
-  canParse (source: string) {
-    return path.extname(source.trim()) === ILLUSTRATOR_EXTENSION;
+  async canParse (source: string) {
+    const fileExists = await fsExtra.pathExists(source);
+    return Boolean(fileExists) && path.extname(source.trim()) === ILLUSTRATOR_EXTENSION;
   },
 
   /**
@@ -88,7 +89,7 @@ export const illustrator: Exportable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
-    if (!this.canParse(source)) {
+    if (!await this.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 

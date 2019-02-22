@@ -43,8 +43,9 @@ export const sketch: Exportable = {
   /**
    * Returns a boolean indicating if the source provided can be opened in Sketch and parsed by this module.
    */
-  canParse (source: string) {
-    return path.extname(source.trim()) === SKETCH_EXTENSION;
+  async canParse (source: string) {
+    const fileExists = await fsExtra.pathExists(source);
+    return fileExists && path.extname(source.trim()) === SKETCH_EXTENSION;
   },
 
   /**
@@ -56,7 +57,7 @@ export const sketch: Exportable = {
   async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
     const sketchtoolPath = INSTALL_PATH + PARSER_CLI_PATH;
 
-    if (!this.canParse(source)) {
+    if (!await this.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 

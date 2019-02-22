@@ -31,6 +31,10 @@ fsExtra.mkdirp = (dirpath: string) => {
   return true;
 };
 
+fsExtra.pathExists = (path: string) => {
+  return __fileSystem[path] !== undefined;
+};
+
 fsExtra.existsSync = () => {
   return true;
 };
