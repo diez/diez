@@ -6,11 +6,11 @@ import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
 import {UniqueNameResolver} from '../helpers/uniqueNameResolver';
 
-const FIGMA_HOST = 'figma.com';
-const API_BASE = 'https://api.figma.com/v1/';
-const IS_FIGMA_FILE_RE = /\.figma$/;
-const FIGMA_DEFAULT_FILENAME = 'Untitled';
-const IMPORT_BATCH_SIZE = 100;
+const figmaHost = 'figma.com';
+const apiBase = 'https://api.figma.com/v1/';
+const isFigmaFileRegExp = /\.figma$/;
+const figmaDefaultFilename = 'Untitled';
+const importBatchSize = 100;
 let token = '';
 
 const enum ValidType {
@@ -87,7 +87,7 @@ const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
  * @param id ID of the Figma file
  */
 export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: string) => {
-  const ids = chunk(elements.map((element) => element.id), IMPORT_BATCH_SIZE);
+  const ids = chunk(elements.map((element) => element.id), importBatchSize);
 
   if (ids[0].length === 0) {
     throw new Error(
@@ -104,7 +104,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
     ]);
 
     const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-      `${API_BASE}images/${id}?${params.toString()}`,
+      `${apiBase}images/${id}?${params.toString()}`,
       token,
     );
 
@@ -126,9 +126,9 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
 const parseProjectURL = (rawURL: string) => {
   const parsedURL = parse(rawURL);
 
-  if (parsedURL && parsedURL.pathname && parsedURL.host && parsedURL.host.endsWith(FIGMA_HOST)) {
+  if (parsedURL && parsedURL.pathname && parsedURL.host && parsedURL.host.endsWith(figmaHost)) {
     const paths = parsedURL.pathname.split('/');
-    return {id: paths[2] || '', name: paths[3] || FIGMA_DEFAULT_FILENAME};
+    return {id: paths[2] || '', name: paths[3] || figmaDefaultFilename};
   }
 
   return null;
@@ -140,7 +140,7 @@ const parseProjectURL = (rawURL: string) => {
  * @param id ID of the Figma document
  */
 const fetchFile = (id: string, authToken: string): Promise<FigmaProject> => {
-  return performGetRequestWithBearerToken<FigmaProject>(`${API_BASE}files/${id}`, authToken);
+  return performGetRequestWithBearerToken<FigmaProject>(`${apiBase}files/${id}`, authToken);
 };
 
 /**
@@ -209,7 +209,7 @@ export const figma: Exportable & OAutheable = {
    * Returns a boolean indicating if the source provided looks like a Figma file or a project URL.
    */
   async canParse (source: string) {
-    return Boolean((source && source.match(IS_FIGMA_FILE_RE)) || parseProjectURL(source));
+    return Boolean((source && source.match(isFigmaFileRegExp)) || parseProjectURL(source));
   },
 
   get token () {

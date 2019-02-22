@@ -2,7 +2,7 @@ import {exec} from 'child_process';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
 import {Exportable, ProgressReporter} from '.';
-import {createFolders, escapeShell, fixGammaOfPNGFiles} from '../helpers/ioUtils';
+import {createFolders, escapeShell, fixGammaOfPNGFiles, isMacOS, locateBinaryMacOS} from '../helpers/ioUtils';
 
 const enum ValidType {
   Slice,
@@ -15,7 +15,6 @@ const folders = new Map<ValidType, string>([
 ]);
 
 const sketchExtension = '.sketch';
-export const parserCliPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 
 /**
  *
@@ -58,8 +57,15 @@ export const sketch: Exportable = {
       throw new Error('Invalid source file.');
     }
 
-    if (!await pathExists(parserCliPath)) {
-      throw new Error('The file provided can\'t be opened in Sketch.');
+    if (!isMacOS) {
+      console.log(require('os').platform());
+      throw new Error('Sketch export is only supported on macOS');
+    }
+
+    const sketchPath = await locateBinaryMacOS('com.bohemiancoding.sketch3');
+    const parserCliPath = `${sketchPath}/Contents/Resources/sketchtool/bin/sketchtool`;
+    if (!sketchPath || !await pathExists(parserCliPath)) {
+      throw new Error('Unable to locate Sketch installation.');
     }
 
     onProgress('Creating necessary folders.');

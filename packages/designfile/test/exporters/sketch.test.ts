@@ -1,16 +1,22 @@
 // @ts-ignore
-import {__disableForceFail, __enableForceFail, __executedCommands} from 'child_process';
+import {__disableForceFail, __enableForceFail, __executedCommands, __setStdout} from 'child_process';
 // @ts-ignore
 import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
-import {parserCliPath, sketch} from '../../src/exporters/sketch';
-
-beforeEach(() => {
-  __cleanup();
-  writeFile(parserCliPath, '');
-});
+import os from 'os';
+import {sketch} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
 jest.mock('child_process');
+// TODO: use jest mock functions here.
+__setStdout('/Applications/Sketch.app');
+// TODO: mock this.
+os.platform = () => 'darwin';
+
+const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
+beforeEach(() => {
+  __cleanup();
+  writeFile(sketchtoolPath, '');
+});
 
 describe('Sketch', () => {
   describe('#canParse', () => {
@@ -39,8 +45,12 @@ describe('Sketch', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
       await sketch.exportSVG('test.sketch', 'outdir', () => {});
-      expect(__executedCommands.length).toBe(2);
-      expect(__executedCommands.every((command: string) => command.includes('sketchtool'))).toBe(true);
+      expect(__executedCommands.length).toBe(3);
+      expect(__executedCommands[0]).toBe('mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
+      expect(__executedCommands[1]).toBe(
+        `${sketchtoolPath} export --format=svg --output=outdir/slices slices test.sketch`);
+      expect(__executedCommands[2]).toBe(
+        `${sketchtoolPath} export --format=svg --output=outdir/artboards artboards test.sketch`);
     });
 
     test('returns false if the file provided cannot be parsed by this module', async () => {

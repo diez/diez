@@ -1,6 +1,7 @@
+import {exec} from 'child_process';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import klawSync from 'klaw-sync';
-import {tmpdir} from 'os';
+import {platform, tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
 import {v4} from 'uuid';
@@ -25,6 +26,26 @@ export const enum IMAGE_FORMATS {
   svg = 'svg',
   jpg = 'jpg',
 }
+
+export const isMacOS = platform() === 'darwin';
+
+/**
+ * Locate a binary on macOS.
+ * @param bundleId
+ */
+export const locateBinaryMacOS = async (bundleId: string) => new Promise<string>((resolve, reject) => {
+  if (!isMacOS) {
+    return reject(new Error('Platform is not macOS'));
+  }
+
+  exec(`mdfind kMDItemCFBundleIdentifier=${bundleId}`, (error, stdout) => {
+    if (error) {
+      return reject(error);
+    }
+
+    return resolve(stdout.trim());
+  });
+});
 
 /**
  * Empties `basePath` and creates the provided `folders` inside.
