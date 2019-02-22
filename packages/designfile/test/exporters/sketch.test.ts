@@ -23,19 +23,19 @@ describe('Sketch', () => {
 
   describe('#exportSVG', () => {
     test('executes sketchtools commands on export', async () => {
-      await sketch.exportSVG('test.sketch', 'outdir');
+      await sketch.exportSVG('test.sketch', 'outdir', () => {});
       expect(__executedCommands.length).toBe(2);
       expect(__executedCommands.every((command: string) => command.includes('sketchtool'))).toBe(true);
     });
 
     test('returns false if the file provided cannot be parsed by this module', async () => {
-      await expect(sketch.exportSVG('test.ai', 'out')).rejects.toThrow('Invalid source file.');
-      await expect(sketch.exportSVG('test.sketchster', 'out')).rejects.toThrow('Invalid source file.');
+      await expect(sketch.exportSVG('test.ai', 'out', () => {})).rejects.toThrow('Invalid source file.');
+      await expect(sketch.exportSVG('test.sketchster', 'out', () => {})).rejects.toThrow('Invalid source file.');
     });
 
     test('throws an error if there is an error running the export commands', async () => {
       __enableForceFail();
-      await expect(sketch.exportSVG('test.sketch', 'out')).rejects.toBeDefined();
+      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
       __disableForceFail();
     });
   });

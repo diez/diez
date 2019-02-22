@@ -1,7 +1,7 @@
 import child_process from 'child_process';
 import fsExtra from 'fs-extra';
 import path from 'path';
-import {Exportable} from '.';
+import {Exportable, ProgressReporter} from '.';
 import {createFolders, escapeShell, fixGammaOfPNGFiles} from '../helpers/ioUtils';
 
 const enum ValidType {
@@ -53,7 +53,7 @@ export const sketch: Exportable = {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string) {
+  async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
     const sketchtoolPath = INSTALL_PATH + PARSER_CLI_PATH;
 
     if (!this.canParse(source)) {
@@ -64,12 +64,15 @@ export const sketch: Exportable = {
       throw new Error('The file provided can\'t be opened in Sketch.');
     }
 
+    onProgress('Creating necessary folders.');
     await createFolders(out, folders);
+    onProgress('Running sketchtool export commands.');
     await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Slice)!, out);
     await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Artboard)!, out);
 
     // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
     // between browsers
+    onProgress('Fixing gamma of png files.');
     await fixGammaOfPNGFiles(out);
   },
 };

@@ -1,6 +1,6 @@
 import path from 'path';
 import url from 'url';
-import {Exportable, OAutheable} from '.';
+import {Exportable, OAutheable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
 import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
@@ -178,7 +178,7 @@ export const figma: Exportable & OAutheable = {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string) {
+  async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
     const projectData = parseProjectURL(source);
 
     if (!projectData) {
@@ -191,10 +191,13 @@ export const figma: Exportable & OAutheable = {
       );
     }
 
+    onProgress('Fetching information from Figma.');
     const file = await fetchFile(projectData.id, this.token);
     await createFolders(out, folders);
     const elements = await findExportableNodes(file.document.children, projectData.id, new UniqueNameResolver());
+    onProgress('Fetching SVG elements from Figma.');
     const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);
+    onProgress('Downloading SVG elements.');
     await getSVGContents(elementsWithLinks, out);
   },
 

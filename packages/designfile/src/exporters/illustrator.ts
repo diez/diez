@@ -1,7 +1,7 @@
 import child_process from 'child_process';
 import fsExtra from 'fs-extra';
 import path from 'path';
-import {Exportable} from '.';
+import {Exportable, ProgressReporter} from '.';
 import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
 const ILLUSTRATOR_EXTENSION = '.ai';
@@ -87,15 +87,17 @@ export const illustrator: Exportable = {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string) {
+  async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
     if (!this.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
+    onProgress('Creating necessary folders.');
     await createFolders(out, folders);
     const exportScriptPath = generateRandomFilePath('jsx');
     const outdir = path.join(out, folders.get(ValidType.Artboard)!);
     const exportScriptContents = ILLUSTRATOR_EXPORT_SCRIPT.replace('DEST_PATH', outdir).replace('SOURCE_PATH', source);
+    onProgress('Running export script.');
     await fsExtra.writeFile(exportScriptPath, exportScriptContents);
     await openIllustratorFile(source);
     await openIllustratorFile(exportScriptPath);

@@ -1,8 +1,10 @@
+export type ProgressReporter = (message: string) => void;
+
 /**
  * Defines a common interface for Exporters
  */
 export interface Exportable {
-  exportSVG (source: string, out: string): Promise<void>;
+  exportSVG (source: string, out: string, onProgress: ProgressReporter): Promise<void>;
   canParse (source: string): boolean;
 }
 

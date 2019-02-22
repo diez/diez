@@ -26,7 +26,7 @@ describe('Illustrator', () => {
 
   describe('#exportSVG', () => {
     test('creates an Illustrator scripts and runs it to export assets from an Illustrator file', async () => {
-      await illustrator.exportSVG('test.ai', 'outdir');
+      await illustrator.exportSVG('test.ai', 'outdir', () => {});
       expect(__executedCommands.length).toBe(2);
       expect(__executedCommands[0]).toContain('test.ai');
       expect(__fileSystem.outdir).toBe('FOLDER');
@@ -36,13 +36,13 @@ describe('Illustrator', () => {
     });
 
     test('throws an error if is not able to parse the file', async () => {
-      await expect(illustrator.exportSVG('test.sketch', 'out/dir')).rejects.toThrow('Invalid source file.');
-      await expect(illustrator.exportSVG('test.aiam', 'out/dir')).rejects.toThrow('Invalid source file.');
+      await expect(illustrator.exportSVG('test.sketch', 'out/dir', () => {})).rejects.toThrow('Invalid source file.');
+      await expect(illustrator.exportSVG('test.aiam', 'out/dir', () => {})).rejects.toThrow('Invalid source file.');
     });
 
     test('throws an error if there is an error running the export commands', async () => {
       __enableForceFail();
-      await expect(illustrator.exportSVG('test.ai', 'out')).rejects.toBeDefined();
+      await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toBeDefined();
       __disableForceFail();
     });
   });
