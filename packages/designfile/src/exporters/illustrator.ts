@@ -4,7 +4,7 @@ import {extname, join, resolve} from 'path';
 import {Exportable, ProgressReporter} from '.';
 import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
-const ILLUSTRATOR_EXTENSION = '.ai';
+const illustratorExtension = '.ai';
 
 const enum ValidType {
   Artboard,
@@ -25,7 +25,7 @@ const folders = new Map<ValidType, string>([
  *
  * [1]: https://adobe.ly/2GHpjEa
  */
-export const ILLUSTRATOR_EXPORT_SCRIPT = `
+export const illustratorExportScript = `
   if (app.documents.length > 0) {
     var exportOptions = new ExportOptionsSVG()
     var type = ExportType.SVG
@@ -80,7 +80,7 @@ const openIllustratorFile = async (file: string) => {
  * @param source illustrator source file
  */
 const generateScript = (outdir: string, source: string) => {
-  return ILLUSTRATOR_EXPORT_SCRIPT
+  return illustratorExportScript
     .replace('DEST_PATH', resolve(outdir))
     .replace('SOURCE_PATH', resolve(source));
 };
@@ -91,7 +91,7 @@ export const illustrator: Exportable = {
    */
   async canParse (source: string) {
     const fileExists = await pathExists(source);
-    return Boolean(fileExists) && extname(source.trim()) === ILLUSTRATOR_EXTENSION;
+    return Boolean(fileExists) && extname(source.trim()) === illustratorExtension;
   },
 
   /**

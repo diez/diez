@@ -14,8 +14,8 @@ const folders = new Map<ValidType, string>([
   [ValidType.Artboard, 'artboards'],
 ]);
 
-const SKETCH_EXTENSION = '.sketch';
-export const PARSER_CLI_PATH = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
+const sketchExtension = '.sketch';
+export const parserCliPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 
 /**
  *
@@ -44,7 +44,7 @@ export const sketch: Exportable = {
    */
   async canParse (source: string) {
     const fileExists = await pathExists(source);
-    return fileExists && extname(source.trim()) === SKETCH_EXTENSION;
+    return fileExists && extname(source.trim()) === sketchExtension;
   },
 
   /**
@@ -58,15 +58,15 @@ export const sketch: Exportable = {
       throw new Error('Invalid source file.');
     }
 
-    if (!await pathExists(PARSER_CLI_PATH)) {
+    if (!await pathExists(parserCliPath)) {
       throw new Error('The file provided can\'t be opened in Sketch.');
     }
 
     onProgress('Creating necessary folders.');
     await createFolders(out, folders);
     onProgress('Running sketchtool export commands.');
-    await runExportCommand(PARSER_CLI_PATH, source, folders.get(ValidType.Slice)!, out);
-    await runExportCommand(PARSER_CLI_PATH, source, folders.get(ValidType.Artboard)!, out);
+    await runExportCommand(parserCliPath, source, folders.get(ValidType.Slice)!, out);
+    await runExportCommand(parserCliPath, source, folders.get(ValidType.Artboard)!, out);
 
     // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
     // between browsers

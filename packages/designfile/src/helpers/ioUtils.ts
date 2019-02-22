@@ -5,12 +5,12 @@ import {extname, join} from 'path';
 import {PNG} from 'pngjs';
 import {v4} from 'uuid';
 
-const RESERVED_CHAR_REPLACEMENT = '-';
-const FILENAME_RESERVED_REGEX = /[<>:"\/\\|?*\x00-\x1F]/g;
-const WINDOWS_NAMES_RESERVED_REGEX = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
-export const BASE64_BITMAP_RE = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
-export const REDIRECT_URI_PORT = 3010;
-export const REDIRECT_URI = `http://localhost:${REDIRECT_URI_PORT}/oauth/callback`;
+const reservedCharReplacement = '-';
+const filenameReservedRegExp = /[<>:"\/\\|?*\x00-\x1F]/g;
+const windowsNamesReservedRegExp = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
+export const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
+export const redirectUriPort = 3010;
+export const redirectUri = `http://localhost:${redirectUriPort}/oauth/callback`;
 
 export interface FileObject {
   fullPath: string;
@@ -59,8 +59,8 @@ export const sanitizeFileName = (name: string) => {
   }
 
   return name
-    .replace(FILENAME_RESERVED_REGEX, RESERVED_CHAR_REPLACEMENT)
-    .replace(WINDOWS_NAMES_RESERVED_REGEX, RESERVED_CHAR_REPLACEMENT);
+    .replace(filenameReservedRegExp, reservedCharReplacement)
+    .replace(windowsNamesReservedRegExp, reservedCharReplacement);
 };
 
 /**
@@ -113,7 +113,7 @@ export const fixGammaOfPNGFiles = async (directory: string) => {
     }
 
     const outputContents = await readFile(outputEntry.path).toString();
-    const updatedContents = outputContents.replace(BASE64_BITMAP_RE, (matchString, imageFormat, base64data) => {
+    const updatedContents = outputContents.replace(base64BitMapRegExp, (matchString, imageFormat, base64data) => {
       return matchString.replace(
         base64data,
         adjustImageGamma(base64data, imageFormat),

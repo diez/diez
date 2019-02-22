@@ -2,7 +2,7 @@
 import {__disableForceFail, __enableForceFail, __executedCommands} from 'child_process';
 // @ts-ignore
 import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
-import {illustrator, ILLUSTRATOR_EXPORT_SCRIPT} from '../../src/exporters/illustrator';
+import {illustrator, illustratorExportScript} from '../../src/exporters/illustrator';
 
 beforeEach(() => {
   __cleanup();
@@ -42,7 +42,7 @@ describe('Illustrator', () => {
       expect(__fileSystem.outdir).toBe('FOLDER');
       expect(__fileSystem['outdir/artboards']).toBe('FOLDER');
       expect(__fileSystem[Object.keys(__fileSystem)[3]])
-      .toBe(ILLUSTRATOR_EXPORT_SCRIPT.replace('DEST_PATH', 'outdir/artboards').replace('SOURCE_PATH', 'test.ai'));
+        .toBe(illustratorExportScript.replace('DEST_PATH', 'outdir/artboards').replace('SOURCE_PATH', 'test.ai'));
     });
 
     test('throws an error if is not able to parse the file', async () => {

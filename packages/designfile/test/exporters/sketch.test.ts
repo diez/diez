@@ -2,11 +2,11 @@
 import {__disableForceFail, __enableForceFail, __executedCommands} from 'child_process';
 // @ts-ignore
 import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
-import {PARSER_CLI_PATH, sketch} from '../../src/exporters/sketch';
+import {parserCliPath, sketch} from '../../src/exporters/sketch';
 
 beforeEach(() => {
   __cleanup();
-  writeFile(PARSER_CLI_PATH, '');
+  writeFile(parserCliPath, '');
 });
 
 jest.mock('fs-extra');
