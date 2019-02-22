@@ -91,7 +91,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
 
   if (ids[0].length === 0) {
     throw new Error(
-      "It looks like the Figma document you imported doesn't have any exportable elements." +
+      'It looks like the Figma document you imported doesn\'t have any exportable elements. ' +
         'Try adding some and re-syncing.',
     );
   }
