@@ -1,6 +1,6 @@
-import child_process from 'child_process';
-import fsExtra from 'fs-extra';
-import path from 'path';
+import {exec} from 'child_process';
+import {pathExists} from 'fs-extra';
+import {extname, join} from 'path';
 import {Exportable, ProgressReporter} from '.';
 import {createFolders, escapeShell, fixGammaOfPNGFiles} from '../helpers/ioUtils';
 
@@ -15,8 +15,7 @@ const folders = new Map<ValidType, string>([
 ]);
 
 const SKETCH_EXTENSION = '.sketch';
-const PARSER_CLI_PATH = '/Contents/Resources/sketchtool/bin/sketchtool';
-const INSTALL_PATH = '/Applications/Sketch.app';
+export const PARSER_CLI_PATH = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 
 /**
  *
@@ -25,11 +24,11 @@ const INSTALL_PATH = '/Applications/Sketch.app';
  * @param folder output folder
  */
 const runExportCommand = async (sketchtoolPath: string, source: string, folder: string, out: string) => {
-  const output = escapeShell(path.join(out, folder));
+  const output = escapeShell(join(out, folder));
   const command = `${sketchtoolPath} export --format=svg --output=${output} ${folder} ${escapeShell(source)}`;
 
   return new Promise((resolve, reject) => {
-    child_process.exec(command, (error) => {
+    exec(command, (error) => {
       if (error) {
         return reject(error);
       }
@@ -44,8 +43,8 @@ export const sketch: Exportable = {
    * Returns a boolean indicating if the source provided can be opened in Sketch and parsed by this module.
    */
   async canParse (source: string) {
-    const fileExists = await fsExtra.pathExists(source);
-    return fileExists && path.extname(source.trim()) === SKETCH_EXTENSION;
+    const fileExists = await pathExists(source);
+    return fileExists && extname(source.trim()) === SKETCH_EXTENSION;
   },
 
   /**
@@ -55,21 +54,19 @@ export const sketch: Exportable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
-    const sketchtoolPath = INSTALL_PATH + PARSER_CLI_PATH;
-
     if (!await this.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
-    if (!fsExtra.existsSync(sketchtoolPath)) {
+    if (!await pathExists(PARSER_CLI_PATH)) {
       throw new Error('The file provided can\'t be opened in Sketch.');
     }
 
     onProgress('Creating necessary folders.');
     await createFolders(out, folders);
     onProgress('Running sketchtool export commands.');
-    await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Slice)!, out);
-    await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Artboard)!, out);
+    await runExportCommand(PARSER_CLI_PATH, source, folders.get(ValidType.Slice)!, out);
+    await runExportCommand(PARSER_CLI_PATH, source, folders.get(ValidType.Artboard)!, out);
 
     // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
     // between browsers

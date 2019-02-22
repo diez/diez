@@ -1,14 +1,14 @@
 // @ts-ignore
 import {ReadableMock} from 'stream-mock';
 
-interface options {
+interface Opts {
   uri: string;
   headers: {[key: string]: string};
 }
 
-type callback = (error: Error|null, status: {statusCode: number}, body: string) => void;
+type CallbackFn = (error: Error|null, status: {statusCode: number}, body: string) => void;
 
-const request = (options: options, callback: callback) => {
+const request = (options: Opts, callback: CallbackFn) => {
   if (options.uri.includes('files/')) {
     return callback(null, {statusCode: 200}, require('../fixtures/figma/sample-file.json'));
   }

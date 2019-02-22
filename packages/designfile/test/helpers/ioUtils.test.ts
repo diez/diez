@@ -1,10 +1,14 @@
 // @ts-ignore
-import fsExtra, {__cleanup, __fileSystem} from 'fs-extra';
-import path from 'path';
+import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
+import {join} from 'path';
 import * as ioUtils from '../../src/helpers/ioUtils';
 
 jest.mock('fs-extra');
 jest.mock('opn');
+
+beforeEach(() => {
+  __cleanup();
+});
 
 const svgWrap = (base64: string) => {
   return `<svg><image xlink:href="data:image/png;base64,${base64}"></image></svg>`;
@@ -87,9 +91,9 @@ describe('#createFolders', () => {
 
 describe('#fixGammaOfPNGFiles', () => {
   test('fixes the gamma values of a png embedded in a svg file', async () => {
-    await fsExtra.writeFile(path.join(file1.fullPath, ioUtils.sanitizeFileName(file1.name)), file1.content);
-    await fsExtra.writeFile(path.join(file2.fullPath, ioUtils.sanitizeFileName(file2.name)), file2.content);
-    await fsExtra.writeFile(path.join(file3.fullPath, ioUtils.sanitizeFileName(file3.name)), file3.content);
+    await writeFile(join(file1.fullPath, ioUtils.sanitizeFileName(file1.name)), file1.content);
+    await writeFile(join(file2.fullPath, ioUtils.sanitizeFileName(file2.name)), file2.content);
+    await writeFile(join(file3.fullPath, ioUtils.sanitizeFileName(file3.name)), file3.content);
     await ioUtils.fixGammaOfPNGFiles('full/path');
     expect(__fileSystem['full/path/file-one.svg']).toBe(svgWrap(processedPixel));
     expect(__fileSystem['full/path/nested/file-two.svg']).toBe(file2.content);

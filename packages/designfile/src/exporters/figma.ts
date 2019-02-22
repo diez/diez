@@ -1,5 +1,5 @@
-import path from 'path';
-import url from 'url';
+import {join} from 'path';
+import {parse, URLSearchParams} from 'url';
 import {Exportable, OAutheable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
 import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
@@ -65,7 +65,7 @@ const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
         if (element.svgURL) {
           await downloadFile(
             element.svgURL,
-            path.join(
+            join(
               outFolder,
               (folders.get(element.type) || folders.get(ValidType.Slice))!,
               sanitizeFileName(`${element.name}.svg`),
@@ -97,7 +97,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
   }
 
   const chunkedResponse = await Promise.all(ids.map(async (idsChunk) => {
-    const params = new url.URLSearchParams([
+    const params = new URLSearchParams([
       ['format', 'svg'],
       ['ids', idsChunk.join(',')],
       ['svg_include_id', 'true'],
@@ -124,7 +124,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
  * @param rawURL a Figma project URL
  */
 const parseProjectURL = (rawURL: string) => {
-  const parsedURL = url.parse(rawURL);
+  const parsedURL = parse(rawURL);
 
   if (parsedURL && parsedURL.pathname && parsedURL.host && parsedURL.host.endsWith(FIGMA_HOST)) {
     const paths = parsedURL.pathname.split('/');

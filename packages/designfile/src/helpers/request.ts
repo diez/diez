@@ -1,4 +1,4 @@
-import fsExtra from 'fs-extra';
+import {createWriteStream, unlink} from 'fs-extra';
 import request from 'request';
 
 export const performGetRequestWithBearerToken = <T>(uri: string, token: string): Promise<T> => {
@@ -15,7 +15,7 @@ export const performGetRequestWithBearerToken = <T>(uri: string, token: string):
 };
 
 export const downloadFile = (url: string, dest: string) => {
-  const file = fsExtra.createWriteStream(dest);
+  const file = createWriteStream(dest);
   const sendReq = request.get(url);
 
   return new Promise<void>((resolve, reject) => {
@@ -33,13 +33,13 @@ export const downloadFile = (url: string, dest: string) => {
     });
 
     sendReq.on('error', (err) => {
-      fsExtra.unlink(dest, () => {
+      unlink(dest, () => {
         reject(err.message);
       });
     });
 
     file.on('error', (err) => {
-      fsExtra.unlink(dest, () => {
+      unlink(dest, () => {
         reject(err.message);
       });
     });

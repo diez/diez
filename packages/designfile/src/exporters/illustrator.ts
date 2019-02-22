@@ -1,6 +1,6 @@
-import child_process from 'child_process';
-import fsExtra from 'fs-extra';
-import path from 'path';
+import {exec} from 'child_process';
+import {pathExists, writeFile} from 'fs-extra';
+import {extname, join, resolve} from 'path';
 import {Exportable, ProgressReporter} from '.';
 import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
@@ -62,15 +62,27 @@ export const ILLUSTRATOR_EXPORT_SCRIPT = `
  * @param file path to the file to be opened by Illustrator
  */
 const openIllustratorFile = async (file: string) => {
-  return new Promise<boolean>((resolve, reject) => {
-    child_process.exec(`open -g -b com.adobe.Illustrator ${file}`, (error) => {
+  return new Promise<boolean>((resolvePromise, rejectPromise) => {
+    exec(`open -g -b com.adobe.Illustrator ${file}`, (error) => {
       if (error) {
-        return reject(false);
+        return rejectPromise(false);
       }
 
-      resolve(true);
+      resolvePromise(true);
     });
   });
+};
+
+/**
+ * Generate a string containing an Illustrator (jsx) script to export Artboards.
+ *
+ * @param outdir directory to export the assets
+ * @param source illustrator source file
+ */
+const generateScript = (outdir: string, source: string) => {
+  return ILLUSTRATOR_EXPORT_SCRIPT
+    .replace('DEST_PATH', resolve(outdir))
+    .replace('SOURCE_PATH', resolve(source));
 };
 
 export const illustrator: Exportable = {
@@ -78,8 +90,8 @@ export const illustrator: Exportable = {
    * Returns a boolean indicating if the source provided can be opened in Illustrator and parsed by this module.
    */
   async canParse (source: string) {
-    const fileExists = await fsExtra.pathExists(source);
-    return Boolean(fileExists) && path.extname(source.trim()) === ILLUSTRATOR_EXTENSION;
+    const fileExists = await pathExists(source);
+    return Boolean(fileExists) && extname(source.trim()) === ILLUSTRATOR_EXTENSION;
   },
 
   /**
@@ -96,10 +108,10 @@ export const illustrator: Exportable = {
     onProgress('Creating necessary folders.');
     await createFolders(out, folders);
     const exportScriptPath = generateRandomFilePath('jsx');
-    const outdir = path.join(out, folders.get(ValidType.Artboard)!);
-    const exportScriptContents = ILLUSTRATOR_EXPORT_SCRIPT.replace('DEST_PATH', outdir).replace('SOURCE_PATH', source);
+    const outdir = join(out, folders.get(ValidType.Artboard)!);
+    const exportScriptContents = generateScript(outdir, source);
     onProgress('Running export script.');
-    await fsExtra.writeFile(exportScriptPath, exportScriptContents);
+    await writeFile(exportScriptPath, exportScriptContents);
     await openIllustratorFile(source);
     await openIllustratorFile(exportScriptPath);
   },

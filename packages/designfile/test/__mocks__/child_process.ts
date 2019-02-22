@@ -4,12 +4,12 @@ let __forceFail = false;
 export const __executedCommands: string[] = [];
 
 export const __enableForceFail = () => {
-  __forceFail = true
-}
+  __forceFail = true;
+};
 
 export const __disableForceFail = () => {
-  __forceFail = false
-}
+  __forceFail = false;
+};
 
 childProcess.exec = (command: string, callback: (error?: Error) => {}) => {
   if (__forceFail) {
@@ -20,4 +20,5 @@ childProcess.exec = (command: string, callback: (error?: Error) => {}) => {
   }
 };
 
+export const exec = childProcess.exec;
 export default childProcess;

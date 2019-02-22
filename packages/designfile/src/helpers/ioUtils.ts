@@ -1,9 +1,9 @@
-import fsExtra from 'fs-extra';
+import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import klawSync from 'klaw-sync';
-import os from 'os';
-import path from 'path';
+import {tmpdir} from 'os';
+import {extname, join} from 'path';
 import {PNG} from 'pngjs';
-import uuid from 'uuid';
+import {v4} from 'uuid';
 
 const RESERVED_CHAR_REPLACEMENT = '-';
 const FILENAME_RESERVED_REGEX = /[<>:"\/\\|?*\x00-\x1F]/g;
@@ -33,9 +33,9 @@ export const enum IMAGE_FORMATS {
  * @param folders
  */
 export const createFolders = async (basePath: string, folders: FolderGroup) => {
-  await fsExtra.emptyDir(basePath);
+  await emptyDir(basePath);
   return Promise.all([
-    Array.from(folders).map(async ([_, folder]) => fsExtra.mkdirp(path.join(basePath, folder))),
+    Array.from(folders).map(async ([_, folder]) => mkdirp(join(basePath, folder))),
   ]);
 };
 
@@ -95,9 +95,8 @@ export const adjustImageGamma = (base64data: string, imageFormat: IMAGE_FORMATS)
  * @param extension file extension
  */
 export const generateRandomFilePath = (extension = '') => {
-  const tmpdir = os.tmpdir();
-  const fileName = `${uuid.v4()}.${extension}`;
-  return path.join(tmpdir, fileName);
+  const fileName = `${v4()}.${extension}`;
+  return join(tmpdir(), fileName);
 };
 
 /**
@@ -109,11 +108,11 @@ export const fixGammaOfPNGFiles = async (directory: string) => {
   const outputEntries = klawSync(directory, {nodir: true});
 
   for (const outputEntry of outputEntries) {
-    if (path.extname(outputEntry.path) !== `.${IMAGE_FORMATS.svg}`) {
+    if (extname(outputEntry.path) !== `.${IMAGE_FORMATS.svg}`) {
       continue;
     }
 
-    const outputContents = await fsExtra.readFile(outputEntry.path).toString();
+    const outputContents = await readFile(outputEntry.path).toString();
     const updatedContents = outputContents.replace(BASE64_BITMAP_RE, (matchString, imageFormat, base64data) => {
       return matchString.replace(
         base64data,
@@ -121,6 +120,6 @@ export const fixGammaOfPNGFiles = async (directory: string) => {
       );
     });
 
-    await fsExtra.writeFile(outputEntry.path, updatedContents);
+    await writeFile(outputEntry.path, updatedContents);
   }
 };

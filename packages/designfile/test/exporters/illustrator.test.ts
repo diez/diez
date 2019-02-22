@@ -1,7 +1,7 @@
 // @ts-ignore
 import {__disableForceFail, __enableForceFail, __executedCommands} from 'child_process';
 // @ts-ignore
-import fsExtra, {__cleanup, __fileSystem} from 'fs-extra';
+import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
 import {illustrator, ILLUSTRATOR_EXPORT_SCRIPT} from '../../src/exporters/illustrator';
 
 beforeEach(() => {
@@ -10,13 +10,14 @@ beforeEach(() => {
 
 jest.mock('fs-extra');
 jest.mock('child_process');
+jest.mock('path');
 
 describe('Illustrator', () => {
   describe('#canParse', () => {
     test('returns `false` if the file does not look like an Illustrator file', async () => {
-      await fsExtra.writeFile('test.sketch', '');
+      await writeFile('test.sketch', '');
       expect(await illustrator.canParse('test.sketch')).toBe(false);
-      await fsExtra.writeFile('test.aiam', '');
+      await writeFile('test.aiam', '');
       expect(await illustrator.canParse('test.aiam')).toBe(false);
     });
 
@@ -25,16 +26,16 @@ describe('Illustrator', () => {
     });
 
     test('returns `true` if the file does look like an Illustrator file', async () => {
-      await fsExtra.writeFile('test.ai', '');
+      await writeFile('test.ai', '');
       expect(await illustrator.canParse('test.ai')).toBe(true);
-      await fsExtra.writeFile('my/awesome/path/test.ai', '');
+      await writeFile('my/awesome/path/test.ai', '');
       expect(await illustrator.canParse('my/awesome/path/test.ai')).toBe(true);
     });
   });
 
   describe('#exportSVG', () => {
     test('creates an Illustrator scripts and runs it to export assets from an Illustrator file', async () => {
-      await fsExtra.writeFile('test.ai', '');
+      await writeFile('test.ai', '');
       await illustrator.exportSVG('test.ai', 'outdir', () => {});
       expect(__executedCommands.length).toBe(2);
       expect(__executedCommands[0]).toContain('test.ai');
@@ -45,15 +46,15 @@ describe('Illustrator', () => {
     });
 
     test('throws an error if is not able to parse the file', async () => {
-      await fsExtra.writeFile('test.sketch', '');
+      await writeFile('test.sketch', '');
       await expect(illustrator.exportSVG('test.sketch', 'out/dir', () => {})).rejects.toThrow('Invalid source file.');
-      await fsExtra.writeFile('test.aiam', '');
+      await writeFile('test.aiam', '');
       await expect(illustrator.exportSVG('test.aiam', 'out/dir', () => {})).rejects.toThrow('Invalid source file.');
     });
 
     test('throws an error if there is an error running the export commands', async () => {
       __enableForceFail();
-      await fsExtra.writeFile('test.ai', '');
+      await writeFile('test.ai', '');
       await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toBeDefined();
       __disableForceFail();
     });

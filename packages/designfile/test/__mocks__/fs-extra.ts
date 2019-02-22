@@ -5,16 +5,16 @@ const fsExtra: any = jest.genMockFromModule('fs-extra');
 
 export let __fileSystem: {[key: string]: string} = {};
 
-fsExtra.writeFile = (fullPath: string, content: string) => {
+export const writeFile = (fullPath: string, content: string) => {
   __fileSystem[fullPath] = content;
   return true;
 };
 
-fsExtra.readFile = (fullPath: string) => {
+export const readFile = (fullPath: string) => {
   return __fileSystem[fullPath];
 };
 
-fsExtra.emptyDir = (dirpath: string) => {
+export const emptyDir = (dirpath: string) => {
   Object.keys(__fileSystem).forEach((dir) => {
     if (dir.includes(dirpath)) {
       delete __fileSystem[dirpath];
@@ -26,23 +26,27 @@ fsExtra.emptyDir = (dirpath: string) => {
   return true;
 };
 
-fsExtra.mkdirp = (dirpath: string) => {
+export const mkdirp = (dirpath: string) => {
   __fileSystem[dirpath] = 'FOLDER';
   return true;
 };
 
-fsExtra.pathExists = (path: string) => {
+export const pathExists = (path: string) => {
   return __fileSystem[path] !== undefined;
 };
 
-fsExtra.existsSync = () => {
+export const existsSync = () => {
   return true;
 };
 
-fsExtra.createWriteStream = (out: string) => {
+export const unlink = () => {
+  return true;
+};
+
+export const createWriteStream = (out: string) => {
   const stream = new WritableMock();
   stream.close = () => {
-    fsExtra.writeFile(out, 'mockcontent');
+    writeFile(out, 'mockcontent');
   };
   return stream;
 };
