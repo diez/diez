@@ -100,7 +100,7 @@ export const illustrator: Exportable = {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string, onProgress: ProgressReporter) {
+  async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
     if (!await this.canParse(source)) {
       throw new Error('Invalid source file.');
     }

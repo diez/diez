@@ -1,4 +1,4 @@
-export type ProgressReporter = (message: string) => void;
+export type ProgressReporter = (...message: any[]) => void;
 
 /**
  * Defines a common interface for Exporters
