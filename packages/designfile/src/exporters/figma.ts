@@ -1,6 +1,7 @@
 import path from 'path';
 import url from 'url';
 import {Exportable, OAutheable} from '.';
+import {chunk} from '../helpers/arrayUtils';
 import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
 import {UniqueNameResolver} from '../helpers/uniqueNameResolver';
@@ -9,7 +10,7 @@ const FIGMA_HOST = 'figma.com';
 const API_BASE = 'https://api.figma.com/v1/';
 const IS_FIGMA_FILE_RE = /\.figma$/;
 const FIGMA_DEFAULT_FILENAME = 'Untitled';
-const MAX_ITEMS_TO_IMPORT = 100;
+const IMPORT_BATCH_SIZE = 100;
 let token = '';
 
 const enum ValidType {
@@ -46,7 +47,11 @@ export interface FigmaProject {
 
 export interface FigmaImageResponse {
   err: null|string;
-  images: {[key: string]: string};
+  images: FigmaImagesURL;
+}
+
+export interface FigmaImagesURL {
+  [key: string]: string;
 }
 
 /**
@@ -82,29 +87,34 @@ const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
  * @param id ID of the Figma file
  */
 export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: string) => {
-  let ids = elements.map((element) => element.id);
+  const ids = chunk(elements.map((element) => element.id), IMPORT_BATCH_SIZE);
 
-  if (ids.length === 0) {
+  if (ids[0].length === 0) {
     throw new Error(
       "It looks like the Figma document you imported doesn't have any exportable elements." +
         'Try adding some and re-syncing.',
     );
   }
 
-  // TODO: instead of limiting the max number of items to import, import them in batches
-  if (ids.length > MAX_ITEMS_TO_IMPORT) {
-    ids = ids.slice(0, MAX_ITEMS_TO_IMPORT);
-  }
+  const chunkedResponse = await Promise.all(ids.map(async (idsChunk) => {
+    const params = new url.URLSearchParams([
+      ['format', 'svg'],
+      ['ids', idsChunk.join(',')],
+      ['svg_include_id', 'true'],
+    ]);
 
-  const params = new url.URLSearchParams([['format', 'svg'], ['ids', ids.join(',')], ['svg_include_id', 'true']]);
+    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
+      `${API_BASE}images/${id}?${params.toString()}`,
+      token,
+    );
 
-  const svgLinks = await performGetRequestWithBearerToken<FigmaImageResponse>(
-    `${API_BASE}images/${id}?${params.toString()}`,
-    token,
-  );
+    return images;
+  }));
+
+  const imageResponse: FigmaImagesURL = Object.assign({}, ...chunkedResponse);
 
   return elements.map((element) => {
-    return Object.assign(element, {svgURL: svgLinks.images[element.id]}) as FigmaNode;
+    return Object.assign(element, {svgURL: imageResponse[element.id]}) as FigmaNode;
   });
 };
 
