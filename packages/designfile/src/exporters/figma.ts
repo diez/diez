@@ -126,7 +126,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
 const parseProjectURL = (rawURL: string) => {
   const parsedURL = url.parse(rawURL);
 
-  if (parsedURL && parsedURL.pathname && parsedURL.host && parsedURL.host.includes(FIGMA_HOST)) {
+  if (parsedURL && parsedURL.pathname && parsedURL.host && parsedURL.host.endsWith(FIGMA_HOST)) {
     const paths = parsedURL.pathname.split('/');
     return {id: paths[2] || '', name: paths[3] || FIGMA_DEFAULT_FILENAME};
   }
