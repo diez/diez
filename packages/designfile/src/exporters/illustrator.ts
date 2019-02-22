@@ -6,13 +6,13 @@ import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
 const ILLUSTRATOR_EXTENSION = '.ai';
 
-enum VALID_TYPES {
-  ARTBOARD,
+const enum ValidType {
+  Artboard,
 }
 
-const FOLDERS = {
-  [VALID_TYPES.ARTBOARD]: 'artboards',
-};
+const folders = new Map<ValidType, string>([
+  [ValidType.Artboard, 'artboards'],
+]);
 
 /**
  * This template script runs inside Illustrator and perform the export of the
@@ -92,9 +92,9 @@ export const illustrator: Exportable = {
       throw new Error('Invalid source file.');
     }
 
-    await createFolders(out, FOLDERS);
+    await createFolders(out, folders);
     const exportScriptPath = generateRandomFilePath('jsx');
-    const outdir = path.join(out, FOLDERS[VALID_TYPES.ARTBOARD]);
+    const outdir = path.join(out, folders.get(ValidType.Artboard)!);
     const exportScriptContents = ILLUSTRATOR_EXPORT_SCRIPT.replace('DEST_PATH', outdir).replace('SOURCE_PATH', source);
     await fsExtra.writeFile(exportScriptPath, exportScriptContents);
     await openIllustratorFile(source);

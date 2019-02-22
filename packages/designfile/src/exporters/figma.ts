@@ -12,24 +12,24 @@ const FIGMA_DEFAULT_FILENAME = 'Untitled';
 const MAX_ITEMS_TO_IMPORT = 100;
 let token = '';
 
-enum VALID_TYPES {
-  SLICE,
-  GROUP,
-  FRAME,
-  COMPONENT,
+const enum ValidType {
+  Slice = 'SLICE',
+  Group = 'GROUP',
+  Frame = 'FRAME',
+  Component = 'COMPONENT',
 }
 
-const FOLDERS: {[key: string]: string} = {
-  [VALID_TYPES.SLICE]: 'slices/',
-  [VALID_TYPES.GROUP]: 'groups/',
-  [VALID_TYPES.COMPONENT]: 'groups/',
-  [VALID_TYPES.FRAME]: 'frames/',
-};
+const folders = new Map<ValidType, string>([
+  [ValidType.Slice, 'slices'],
+  [ValidType.Group, 'groups'],
+  [ValidType.Component, 'groups'],
+  [ValidType.Frame, 'frames'],
+]);
 
 export interface FigmaNode {
   exportSettings?: string[];
   name: string;
-  type: VALID_TYPES;
+  type: ValidType;
   id: string;
   children: FigmaNode[];
   svg: string;
@@ -56,15 +56,13 @@ export interface FigmaImageResponse {
 const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
   return Promise.all(
     elements.map(async (element) => {
-      const folderType = VALID_TYPES[element.type] ? VALID_TYPES[element.type] : VALID_TYPES.SLICE;
-
       try {
         if (element.svgURL) {
           await downloadFile(
             element.svgURL,
             path.join(
               outFolder,
-              FOLDERS[folderType],
+              (folders.get(element.type) || folders.get(ValidType.Slice))!,
               sanitizeFileName(`${element.name}.svg`),
             ),
           );
@@ -146,7 +144,7 @@ const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: Uni
   const result: FigmaNode[] = [];
 
   for (const item of iter) {
-    if (VALID_TYPES[item.type] || (item.exportSettings && item.exportSettings.length > 0)) {
+    if (folders.has(item.type) || (item.exportSettings && item.exportSettings.length > 0)) {
       result.push({
         ...item,
         id: item.id,
@@ -184,7 +182,7 @@ export const figma: Exportable & OAutheable = {
     }
 
     const file = await fetchFile(projectData.id, this.token);
-    await createFolders(out, FOLDERS);
+    await createFolders(out, folders);
     const elements = await findExportableNodes(file.document.children, projectData.id, new UniqueNameResolver());
     const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);
     await getSVGContents(elementsWithLinks, out);

@@ -18,9 +18,7 @@ export interface FileObject {
   name: string;
 }
 
-export interface FolderGroup {
-  [key: string]: string;
-}
+export type FolderGroup = Map<string|number, string>;
 
 export const enum IMAGE_FORMATS {
   png = 'png',
@@ -37,7 +35,7 @@ export const enum IMAGE_FORMATS {
 export const createFolders = async (basePath: string, folders: FolderGroup) => {
   await fsExtra.emptyDir(basePath);
   return Promise.all([
-    ...Object.values(folders).map(async (folder) => fsExtra.mkdirp(path.join(basePath, folder))),
+    Array.from(folders).map(async ([_, folder]) => fsExtra.mkdirp(path.join(basePath, folder))),
   ]);
 };
 

@@ -4,15 +4,15 @@ import path from 'path';
 import {Exportable} from '.';
 import {createFolders, escapeShell, fixGammaOfPNGFiles} from '../helpers/ioUtils';
 
-enum VALID_TYPES {
-  SLICE,
-  ARTBOARD,
+const enum ValidType {
+  Slice,
+  Artboard,
 }
 
-const FOLDERS = {
-  [VALID_TYPES.SLICE]: 'slices',
-  [VALID_TYPES.ARTBOARD]: 'artboards',
-};
+const folders = new Map<ValidType, string>([
+  [ValidType.Slice, 'slices'],
+  [ValidType.Artboard, 'artboards'],
+]);
 
 const SKETCH_EXTENSION = '.sketch';
 const PARSER_CLI_PATH = '/Contents/Resources/sketchtool/bin/sketchtool';
@@ -64,9 +64,9 @@ export const sketch: Exportable = {
       throw new Error('The file provided can\'t be opened in Sketch.');
     }
 
-    await createFolders(out, FOLDERS);
-    await runExportCommand(sketchtoolPath, source, FOLDERS[VALID_TYPES.SLICE], out);
-    await runExportCommand(sketchtoolPath, source, FOLDERS[VALID_TYPES.ARTBOARD], out);
+    await createFolders(out, folders);
+    await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Slice)!, out);
+    await runExportCommand(sketchtoolPath, source, folders.get(ValidType.Artboard)!, out);
 
     // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
     // between browsers

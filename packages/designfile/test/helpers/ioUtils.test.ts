@@ -74,12 +74,12 @@ describe('#generateRandomScriptPath', () => {
 
 describe('#createFolders', () => {
   test('creates the provided root in disk', async () => {
-    await ioUtils.createFolders('out/path', {slice: 'content/slices', artboards: 'content/artboards'});
+    await ioUtils.createFolders('out/path', new Map([[0, 'content/slices'], [1, 'content/artboards']]));
     expect(__fileSystem['out/path']).toBe('FOLDER');
   });
 
   test('creates the provided folders inside the root folder in disk', async () => {
-    await ioUtils.createFolders('out/path', {slice: 'content/slices', artboards: 'content/artboards'});
+    await ioUtils.createFolders('out/path', new Map([[0, 'content/slices'], [1, 'content/artboards']]));
     expect(__fileSystem['out/path/content/slices']).toBe('FOLDER');
     expect(__fileSystem['out/path/content/artboards']).toBe('FOLDER');
   });
