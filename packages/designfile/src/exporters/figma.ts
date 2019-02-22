@@ -70,7 +70,7 @@ const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
           );
         }
       } catch (error) {
-        console.log('Error importing', element.name, error);
+        throw new Error(`Error importing ${element.name}: ${error}`);
       }
     }),
   );
