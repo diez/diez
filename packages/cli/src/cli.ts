@@ -1,5 +1,5 @@
 /* tslint:disable no-var-requires */
-import {command, help, parse, version} from 'commander';
+import {args, command, help, on, parse, version} from 'commander';
 import {join} from 'path';
 import {CliCommandProvider} from '.';
 import {findPluginsWithPrefix} from './utils';
@@ -21,9 +21,9 @@ findPluginsWithPrefix('cli').then((plugins) => {
     }
   }
 
-  if (!process.argv.slice(2).length) {
+  on('command:*', () => {
     help();
-  }
+  });
 
   parse(process.argv);
 });
