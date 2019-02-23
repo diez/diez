@@ -13,7 +13,8 @@ const registerWithProvider = (provider: CliCommandProvider) => {
 findPluginsWithPrefix('cli').then((plugins) => {
   for (const plugin of plugins) {
     try {
-      const {provider} = require(plugin);
+      // By convention, CLI plugins provide their CLI hooks as the default export from lib/cli.
+      const {default: provider} = require(`${plugin}/lib/cli`);
       registerWithProvider(provider);
     } catch (error) {
       // Noop.
