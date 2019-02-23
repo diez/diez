@@ -3,9 +3,16 @@ export type ProgressReporter = (...message: any[]) => void;
 /**
  * Defines a common interface for Exporters
  */
-export interface Exportable {
-  exportSVG (source: string, out: string, onProgress: ProgressReporter): Promise<void>;
+export interface Exporter {
+  exportSVG (source: string, out: string, onProgress?: ProgressReporter): Promise<void>;
+}
+
+/**
+ * Defines a common interface for Exporter constructors.
+ */
+export interface ExporterFactory {
   canParse (source: string): Promise<boolean>;
+  create (...args: any[]): Exporter;
 }
 
 /**

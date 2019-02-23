@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
-import {Exportable, OAutheable, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, OAutheable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
 import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
@@ -11,7 +11,6 @@ const apiBase = 'https://api.figma.com/v1/';
 const isFigmaFileRegExp = /\.figma$/;
 const figmaDefaultFilename = 'Untitled';
 const importBatchSize = 100;
-let token = '';
 
 const enum ValidType {
   Slice = 'SLICE',
@@ -105,7 +104,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
 
     const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
       `${apiBase}images/${id}?${params.toString()}`,
-      token,
+      authToken,
     );
 
     return images;
@@ -171,7 +170,25 @@ const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: Uni
   return result;
 };
 
-export const figma: Exportable & OAutheable = {
+export const FigmaExporter: ExporterFactory = class implements Exporter, OAutheable {
+  /**
+   * ExporterFactory interface method.
+   * @param token
+   */
+  static create (token?: string) {
+    return new this(token);
+  }
+
+  /**
+   * ExporterFactory interface method.
+   * Returns a boolean indicating if the source provided looks like a Figma file or a project URL.
+   */
+  static async canParse (source: string) {
+    return Boolean((source && source.match(isFigmaFileRegExp)) || parseProjectURL(source));
+  }
+
+  constructor (public token = '') {}
+
   /**
    * Exports SVG contents from the given `source` into the `out` folder.
    *
@@ -179,7 +196,7 @@ export const figma: Exportable & OAutheable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
-    if (!await this.canParse(source)) {
+    if (!await FigmaExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
@@ -203,20 +220,5 @@ export const figma: Exportable & OAutheable = {
     const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);
     onProgress('Downloading SVG elements.');
     await getSVGContents(elementsWithLinks, out);
-  },
-
-  /**
-   * Returns a boolean indicating if the source provided looks like a Figma file or a project URL.
-   */
-  async canParse (source: string) {
-    return Boolean((source && source.match(isFigmaFileRegExp)) || parseProjectURL(source));
-  },
-
-  get token () {
-    return token;
-  },
-
-  set token (newToken: string) {
-    token = newToken;
-  },
+  }
 };

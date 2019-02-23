@@ -1,7 +1,7 @@
 import {exec} from 'child_process';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
-import {Exportable, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, ProgressReporter} from '.';
 import {createFolders, escapeShell, fixGammaOfPNGFiles, isMacOS, locateBinaryMacOS} from '../helpers/ioUtils';
 
 const enum ValidType {
@@ -37,14 +37,22 @@ const runExportCommand = async (sketchtoolPath: string, source: string, folder: 
   });
 };
 
-export const sketch: Exportable = {
+export const SketchExporter: ExporterFactory = class implements Exporter {
   /**
+   * ExporterFactory interface method.
+   */
+  static create () {
+    return new this();
+  }
+
+  /**
+   * ExporterFactory interface method.
    * Returns a boolean indicating if the source provided can be opened in Sketch and parsed by this module.
    */
-  async canParse (source: string) {
+  static async canParse (source: string) {
     const fileExists = await pathExists(source);
     return fileExists && extname(source.trim()) === sketchExtension;
-  },
+  }
 
   /**
    * Exports SVG contents from the given `source` into the `out` folder.
@@ -53,7 +61,7 @@ export const sketch: Exportable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
-    if (!await this.canParse(source)) {
+    if (!await SketchExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
@@ -78,5 +86,5 @@ export const sketch: Exportable = {
     // between browsers
     onProgress('Fixing gamma of png files.');
     await fixGammaOfPNGFiles(out);
-  },
+  }
 };

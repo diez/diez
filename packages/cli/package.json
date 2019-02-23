@@ -1,8 +1,8 @@
 {
-  "name": "@livedesigner/designfile",
+  "name": "@livedesigner/cli",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
-  "description": "Utilities to export assets from design files, currently supports Sketch, Illustrator and Figma documents.",
+  "description": "TODO: add description.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
   "publishConfig": {
@@ -16,28 +16,27 @@
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix"
   },
-  "dependencies": {
-    "@livedesigner/engine": "1.0.0-alpha0",
-    "fs-extra": "^7.0.1",
-    "klaw-sync": "^6.0.0",
-    "pngjs": "^3.3.3",
-    "request": "^2.88.0",
-    "uuid": "^3.3.2"
-  },
   "devDependencies": {
-    "@types/fs-extra": "^5.0.4",
+    "@types/async": "^2.4.1",
+    "@types/chalk": "^2.2.0",
+    "@types/commander": "^2.12.2",
     "@types/jest": "^23.3.13",
-    "@types/klaw-sync": "^6.0.0",
-    "@types/pngjs": "^3.3.2",
-    "@types/request": "^2.48.1",
-    "@types/uuid": "^3.4.4",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",
     "jest-tap-reporter": "^1.9.0",
-    "stream-mock": "^1.2.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.1",
     "tslint-config-haiku": "^1.0.18",
     "typescript": "^3.2.4"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "chalk": "^2.4.2",
+    "commander": "^2.19.0",
+    "enquirer": "^2.3.0",
+    "fs-extra": "^7.0.1"
+  },
+  "bin": {
+    "diez": "./bin/diez"
   }
 }

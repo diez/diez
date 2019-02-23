@@ -1,7 +1,7 @@
 import {exec} from 'child_process';
 import {pathExists, writeFile} from 'fs-extra';
 import {extname, join, resolve} from 'path';
-import {Exportable, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, ProgressReporter} from '.';
 import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
 const illustratorExtension = '.ai';
@@ -85,14 +85,22 @@ const generateScript = (outdir: string, source: string) => {
     .replace('SOURCE_PATH', resolve(source));
 };
 
-export const illustrator: Exportable = {
+export const IllustratorExporter: ExporterFactory = class implements Exporter {
   /**
+   * ExporterFactory interface method.
+   */
+  static create () {
+    return new this();
+  }
+
+  /**
+   * ExporterFactory interface method.
    * Returns a boolean indicating if the source provided can be opened in Illustrator and parsed by this module.
    */
-  async canParse (source: string) {
+  static async canParse (source: string) {
     const fileExists = await pathExists(source);
     return Boolean(fileExists) && extname(source.trim()) === illustratorExtension;
-  },
+  }
 
   /**
    * Exports SVG contents from the given `source` into the `out` folder.
@@ -101,7 +109,7 @@ export const illustrator: Exportable = {
    * @param out directory to put the SVG
    */
   async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
-    if (!await this.canParse(source)) {
+    if (!await IllustratorExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
@@ -114,5 +122,5 @@ export const illustrator: Exportable = {
     await writeFile(exportScriptPath, exportScriptContents);
     await openIllustratorFile(source);
     await openIllustratorFile(exportScriptPath);
-  },
+  }
 };

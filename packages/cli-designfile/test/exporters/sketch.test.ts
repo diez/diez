@@ -3,7 +3,7 @@ import {__disableForceFail, __enableForceFail, __executedCommands, __setStdout} 
 // @ts-ignore
 import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
 import os from 'os';
-import {sketch} from '../../src/exporters/sketch';
+import {SketchExporter} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
 jest.mock('child_process');
@@ -18,26 +18,28 @@ beforeEach(() => {
   writeFile(sketchtoolPath, '');
 });
 
+const sketch = SketchExporter.create();
+
 describe('Sketch', () => {
   describe('#canParse', () => {
     test('returns `false` if the file does not look like a Sketch file', async () => {
       await writeFile('test.ai', '');
-      expect(await sketch.canParse('test.ai')).toBe(false);
+      expect(await SketchExporter.canParse('test.ai')).toBe(false);
       await writeFile('test.sketchster', '');
-      expect(await sketch.canParse('test.sketchster')).toBe(false);
+      expect(await SketchExporter.canParse('test.sketchster')).toBe(false);
     });
 
     test('returns `false` if the file looks like an illustrator file but doesn\'t exist', async () => {
-      expect(await sketch.canParse('test.sketch')).toBe(false);
+      expect(await SketchExporter.canParse('test.sketch')).toBe(false);
     });
 
     test('returns `true` if the file does look like a Sketch file', async () => {
       await writeFile('test.sketch', '');
-      expect(await sketch.canParse('test.sketch')).toBe(true);
+      expect(await SketchExporter.canParse('test.sketch')).toBe(true);
       await writeFile('my/awesome/path/test.sketch', '');
-      expect(await sketch.canParse('my/awesome/path/test.sketch')).toBe(true);
+      expect(await SketchExporter.canParse('my/awesome/path/test.sketch')).toBe(true);
       await writeFile('/.haiku/cuboid.sketch  ', '');
-      expect(await sketch.canParse('/.haiku/cuboid.sketch  ')).toBe(true);
+      expect(await SketchExporter.canParse('/.haiku/cuboid.sketch  ')).toBe(true);
     });
   });
 
