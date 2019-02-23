@@ -1,6 +1,13 @@
 import chalk from 'chalk';
 
 /**
+ * A CLI configuration.
+ */
+export interface CliConfiguration {
+  cli?: string;
+}
+
+/**
  * A CLI action.
  */
 export type CliAction = (...args: string[]) => void;

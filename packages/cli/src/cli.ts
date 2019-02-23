@@ -2,7 +2,7 @@
 import {args, command, help, on, parse, version} from 'commander';
 import {join} from 'path';
 import {CliCommandProvider} from '.';
-import {findPluginsWithPrefix} from './utils';
+import {findPlugins} from './utils';
 
 version(require(join('..', 'package.json')).version).name('diez');
 
@@ -10,11 +10,15 @@ const registerWithProvider = (provider: CliCommandProvider) => {
   command(provider.command).description(provider.description).action(provider.action);
 };
 
-findPluginsWithPrefix('cli').then((plugins) => {
-  for (const plugin of plugins) {
+findPlugins().then((plugins) => {
+  for (const [plugin, {cli}] of plugins) {
+    if (cli === undefined) {
+      continue;
+    }
+
     try {
-      // By convention, CLI plugins provide their CLI hooks as the default export from lib/cli.
-      const {default: provider} = require(`${plugin}/lib/cli`);
+      // CLI plugins provide their CLI hooks as the default export.
+      const {default: provider} = require(join(plugin, cli));
       registerWithProvider(provider);
     } catch (error) {
       // Noop.
@@ -26,4 +30,7 @@ findPluginsWithPrefix('cli').then((plugins) => {
   });
 
   parse(process.argv);
+  if (!args.length) {
+    help();
+  }
 });

@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/cli-designfile",
+  "name": "@livedesigner/designfile",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "Utilities to export assets from design files, currently supports Sketch, Illustrator and Figma documents.",
@@ -40,5 +40,8 @@
     "tslint": "^5.12.1",
     "tslint-config-haiku": "^1.0.18",
     "typescript": "^3.2.4"
+  },
+  "diez": {
+    "cli": "./lib/cli"
   }
 }
