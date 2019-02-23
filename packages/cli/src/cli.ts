@@ -12,14 +12,14 @@ const registerWithProvider = (provider: CliCommandProvider) => {
 
 (async () => {
   const plugins = await findPlugins();
-  for (const [plugin, {cli}] of plugins) {
-    if (cli === undefined) {
+  for (const [plugin, {cliProvider}] of plugins) {
+    if (cliProvider === undefined) {
       continue;
     }
 
     try {
       // CLI plugins provide their CLI hooks as the default export.
-      const {default: provider} = require(join(plugin, cli));
+      const {default: provider} = require(join(plugin, cliProvider));
       registerWithProvider(provider);
     } catch (error) {
       // Noop.

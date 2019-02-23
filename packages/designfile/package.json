@@ -42,6 +42,6 @@
     "typescript": "^3.2.4"
   },
   "diez": {
-    "cli": "./lib/cli"
+    "cliProvider": "./lib/cli"
   }
 }
