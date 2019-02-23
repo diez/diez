@@ -4,7 +4,9 @@ import chalk from 'chalk';
  * A CLI configuration.
  */
 export interface CliConfiguration {
-  cliProvider?: string;
+  cli?: {
+    provider: string;
+  };
 }
 
 /**
