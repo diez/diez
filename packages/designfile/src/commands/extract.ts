@@ -1,8 +1,8 @@
 import {fatalError, info, provideCommand, success} from '@livedesigner/cli';
-import {ExporterFactory} from './exporters';
-import {FigmaExporter} from './exporters/figma';
-import {IllustratorExporter} from './exporters/illustrator';
-import {SketchExporter} from './exporters/sketch';
+import {ExporterFactory} from '../exporters';
+import {FigmaExporter} from '../exporters/figma';
+import {IllustratorExporter} from '../exporters/illustrator';
+import {SketchExporter} from '../exporters/sketch';
 
 const findFactory = async (source: string): Promise<ExporterFactory> => {
   for (const factory of [FigmaExporter, IllustratorExporter, SketchExporter]) {

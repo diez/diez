@@ -5,7 +5,7 @@ import chalk from 'chalk';
  */
 export interface CliConfiguration {
   cli?: {
-    provider: string;
+    providers: string[];
   };
 }
 

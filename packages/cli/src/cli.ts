@@ -18,9 +18,11 @@ const registerWithProvider = (provider: CliCommandProvider) => {
     }
 
     try {
-      // CLI plugins provide their CLI hooks as the default export.
-      const {default: provider} = require(join(plugin, cli.provider));
-      registerWithProvider(provider);
+      // CLI providers should have a default export.
+      for (const path of cli.providers) {
+        const {default: provider} = require(join(plugin, path));
+        registerWithProvider(provider);
+      }
     } catch (error) {
       // Noop.
     }

@@ -43,7 +43,7 @@
   },
   "diez": {
     "cli": {
-      "provider": "./lib/cli"
+      "providers": ["./lib/commands/extract"]
     }
   }
 }
