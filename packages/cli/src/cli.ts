@@ -10,7 +10,8 @@ const registerWithProvider = (provider: CliCommandProvider) => {
   command(provider.command).description(provider.description).action(provider.action);
 };
 
-findPlugins().then((plugins) => {
+(async () => {
+  const plugins = await findPlugins();
   for (const [plugin, {cli}] of plugins) {
     if (cli === undefined) {
       continue;
@@ -33,4 +34,4 @@ findPlugins().then((plugins) => {
   if (!args.length) {
     help();
   }
-});
+})();
