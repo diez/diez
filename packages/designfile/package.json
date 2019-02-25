@@ -19,6 +19,7 @@
   "dependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0",
+    "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
     "pngjs": "^3.3.3",

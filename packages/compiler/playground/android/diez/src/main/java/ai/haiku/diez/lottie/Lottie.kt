@@ -13,6 +13,7 @@ data class Lottie(val file: File) {
         lottieView.repeatCount = LottieDrawable.INFINITE
         // TODO: configuration "autoplay".
         lottieView.playAnimation()
+        // TODO: try/catch the exception that gets thrown here when Lottie is unable to load/parse this URL.
         lottieView.setAnimationFromUrl(file.canonicalURL())
         view.addView(lottieView)
         lottieView.layoutParams = FrameLayout.LayoutParams(

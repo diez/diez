@@ -18,6 +18,6 @@ export interface ExporterFactory {
 /**
  * Defines an interface for exporters that need OAuth credentials.
  */
-export interface OAutheable {
+export interface OAuthable {
   token: string;
 }

@@ -11,7 +11,10 @@ module.exports = {
       {
         test: /\.ts$/,
         exclude: resolve(__dirname, 'node_modules'),
-        use: ['awesome-typescript-loader'],
+        loader: 'awesome-typescript-loader',
+        options: {
+          configFileName: 'tsconfig.playground.json',
+        },
       },
     ],
   },

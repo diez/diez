@@ -8,12 +8,15 @@
     "registry": "https://registry.yarnpkg.com"
   },
   "scripts": {
+    "compile": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix",
     "serve": "webpack-dev-server -w --hot --inline --config devserver.webpack.config.js --host 0.0.0.0 --port 8081"
   },
   "dependencies": {
-    "@livedesigner/color": "1.0.0-alpha0",
+    "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0"
   },
   "devDependencies": {
@@ -34,5 +37,13 @@
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
+  },
+  "diez": {
+    "cli": {
+      "providers": [
+        "./lib/commands/compile",
+        "./lib/commands/init"
+      ]
+    }
   }
 }

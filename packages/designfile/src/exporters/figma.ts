@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
-import {Exporter, ExporterFactory, OAutheable, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, OAuthable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
 import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
@@ -170,7 +170,7 @@ const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: Uni
   return result;
 };
 
-export const FigmaExporter: ExporterFactory = class implements Exporter, OAutheable {
+export const FigmaExporter: ExporterFactory = class implements Exporter, OAuthable {
   /**
    * ExporterFactory interface method.
    * @param token

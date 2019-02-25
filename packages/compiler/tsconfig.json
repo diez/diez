@@ -1,12 +1,16 @@
 {
   "extends": "../tsconfig.packages.json",
-  "include": ["src/**/*.ts", "playground/**/*.ts"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src/**/*.ts"],
   "references": [
     {
       "path": "../engine"
     },
     {
-      "path": "../color"
+      "path": "../cli"
     }
   ]
 }

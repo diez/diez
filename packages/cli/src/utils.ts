@@ -2,7 +2,7 @@
 import {each} from 'async';
 import {readdir, stat} from 'fs';
 import {join} from 'path';
-import {CliConfiguration} from './api';
+import {CliAction, CliCommandProvider, CliConfiguration} from './api';
 
 const namespace = '@livedesigner';
 
@@ -52,3 +52,12 @@ export const findPlugins = (): Promise<Map<string, CliConfiguration>> => {
     );
   });
 };
+
+/**
+ * A CliCommandProvider factory.
+ * @param command
+ * @param description
+ * @param action
+ */
+export const provideCommand = (command: string, description: string, action: CliAction): CliCommandProvider => (
+  {command, description, action});

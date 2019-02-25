@@ -2,12 +2,21 @@
 import {args, command, help, on, parse, version} from 'commander';
 import {join} from 'path';
 import {CliCommandProvider} from '.';
+import {fatalError} from './reporting';
 import {findPlugins} from './utils';
 
 version(require(join('..', 'package.json')).version).name('diez');
 
 const registerWithProvider = (provider: CliCommandProvider) => {
-  command(provider.command).description(provider.description).action(provider.action);
+  command(provider.command)
+    .description(provider.description)
+    .action(async (...actionArguments: string[]) => {
+      try {
+        await provider.action.call(undefined, ...actionArguments);
+      } catch (error) {
+        fatalError(error.message);
+      }
+    });
 };
 
 (async () => {
@@ -18,10 +27,8 @@ const registerWithProvider = (provider: CliCommandProvider) => {
     }
 
     try {
-      // CLI providers should have a default export.
       for (const path of cli.providers) {
-        const {default: provider} = require(join(plugin, path));
-        registerWithProvider(provider);
+        registerWithProvider(require(join(plugin, path)));
       }
     } catch (error) {
       // Noop.
