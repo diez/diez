@@ -2,7 +2,7 @@
   "name": "@livedesigner/color",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
-  "description": "TODO: add description.",
+  "description": "Color support for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
   "publishConfig": {

@@ -2,7 +2,7 @@
   "name": "@livedesigner/lottie",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
-  "description": "TODO: add description.",
+  "description": "Lottie component support for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "MIT",
   "publishConfig": {

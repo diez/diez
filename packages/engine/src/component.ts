@@ -55,8 +55,6 @@ export abstract class Component<T extends Indexable>
 
   /**
    * A registry of tweens.
-   *
-   * TODO: should we support queuing/chaining tweens? If yes, this data structure should be refactored.
    */
   tweens = new Map<keyof T, Tween>();
 

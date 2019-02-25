@@ -48,7 +48,8 @@ export = provideCommand(
         {
           type: 'input',
           name: 'figmaToken',
-          message: 'Enter your Figma access token.',
+          // TODO: get and store this ourselves.
+          message: 'Enter your Figma OAuth access token.',
           required: true,
         },
       ]);
