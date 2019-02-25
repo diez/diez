@@ -33,22 +33,22 @@ describe('#escapeShell', () => {
 
 describe('#adjustImageGamma', () => {
   test('if the file format is not SVG, it returs the base64 data intact', () => {
-    expect(ioUtils.adjustImageGamma(pixel, ioUtils.IMAGE_FORMATS.svg)).toBe(pixel);
-    expect(ioUtils.adjustImageGamma(pixel, ioUtils.IMAGE_FORMATS.jpg)).toBe(pixel);
+    expect(ioUtils.adjustImageGamma(pixel, ioUtils.ImageFormats.svg)).toBe(pixel);
+    expect(ioUtils.adjustImageGamma(pixel, ioUtils.ImageFormats.jpg)).toBe(pixel);
   });
 
   test('properly corrects the gamma of a png', () => {
-    expect(ioUtils.adjustImageGamma(pixel, ioUtils.IMAGE_FORMATS.png)).toBe(processedPixel);
+    expect(ioUtils.adjustImageGamma(pixel, ioUtils.ImageFormats.png)).toBe(processedPixel);
   });
 
   test('does not choke on invalid data values', () => {
-    expect(ioUtils.adjustImageGamma('', ioUtils.IMAGE_FORMATS.png)).toBe('');
-    expect(ioUtils.adjustImageGamma('invalidvalue', ioUtils.IMAGE_FORMATS.png)).toBe('invalidvalue');
+    expect(ioUtils.adjustImageGamma('', ioUtils.ImageFormats.png)).toBe('');
+    expect(ioUtils.adjustImageGamma('invalidvalue', ioUtils.ImageFormats.png)).toBe('invalidvalue');
   });
 
   test('does not parse svg or jpg files', () => {
-    expect(ioUtils.adjustImageGamma('content', ioUtils.IMAGE_FORMATS.svg)).toBe('content');
-    expect(ioUtils.adjustImageGamma('content', ioUtils.IMAGE_FORMATS.jpg)).toBe('content');
+    expect(ioUtils.adjustImageGamma('content', ioUtils.ImageFormats.svg)).toBe('content');
+    expect(ioUtils.adjustImageGamma('content', ioUtils.ImageFormats.jpg)).toBe('content');
   });
 });
 

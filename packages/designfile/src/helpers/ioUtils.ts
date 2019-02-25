@@ -21,7 +21,7 @@ export interface FileObject {
 
 export type FolderGroup = Map<string|number, string>;
 
-export const enum IMAGE_FORMATS {
+export const enum ImageFormats {
   png = 'png',
   svg = 'svg',
   jpg = 'jpg',
@@ -90,8 +90,8 @@ export const sanitizeFileName = (name: string) => {
  * @param base64data
  * @param imageFormat
  */
-export const adjustImageGamma = (base64data: string, imageFormat: IMAGE_FORMATS) => {
-  if (imageFormat === IMAGE_FORMATS.png && typeof base64data === 'string' && base64data.length) {
+export const adjustImageGamma = (base64data: string, imageFormat: ImageFormats) => {
+  if (imageFormat === ImageFormats.png && typeof base64data === 'string' && base64data.length) {
     try {
       const imageBufferData = Buffer.from(base64data, 'base64');
       const pngInstance = PNG.sync.read(imageBufferData);
@@ -129,7 +129,7 @@ export const fixGammaOfPNGFiles = async (directory: string) => {
   const outputEntries = klawSync(directory, {nodir: true});
 
   for (const outputEntry of outputEntries) {
-    if (extname(outputEntry.path) !== `.${IMAGE_FORMATS.svg}`) {
+    if (extname(outputEntry.path) !== `.${ImageFormats.svg}`) {
       continue;
     }
 

@@ -57,7 +57,6 @@ export = provideCommand(
     }
 
     const exporter = factory.create(...constructorArgs);
-    // TODO: handle Figma token.
     await exporter.exportSVG(designFile, outputDirectory, info);
     success(`Design files were extracted to ${outputDirectory}.`);
   },
