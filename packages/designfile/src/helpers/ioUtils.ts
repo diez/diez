@@ -1,7 +1,6 @@
-import {eachSeries} from 'async';
 import {exec} from 'child_process';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
-import {createServer} from 'http';
+import {createServer, Server} from 'http';
 import klawSync from 'klaw-sync';
 import opn = require('opn');
 import {platform, tmpdir} from 'os';
@@ -33,38 +32,41 @@ export const enum ImageFormats {
 
 export const isMacOS = platform() === 'darwin';
 
+const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    try {
+      server.listen(port, '0.0.0.0');
+      server.once('listening', () => {
+        server.once('close', () => {
+          resolve(true);
+        });
+      });
+
+      server.on('error', () => {
+        // This port is taken or otherwise unavailable; try another.
+        resolve(false);
+      });
+    } catch (error) {
+      resolve(false);
+    }
+  });
+};
+
 /**
  * Find an open port.
  */
 export const findOpenPort = async (): Promise<number> => {
   const server = createServer();
-  return new Promise((resolve, reject) => {
-    eachSeries<number, boolean>(ports, (port, next) => {
-      try {
-        server.listen(port, '0.0.0.0');
-        server.once('listening', () => {
-          server.once('close', () => {
-            resolve(port);
-            return next(true);
-          });
-          server.close();
-        });
+  serverDestroy(server);
+  for (const port of ports) {
+    if (await isPortOpen(server, port)) {
+      server.destroy();
+      return port;
+    }
+  }
 
-        server.on('error', (err?: {code: string}) => {
-          if (err && err.code === 'EADDRINUSE') {
-            // This port is taken; try the next one.
-            return next();
-          }
-        });
-      } catch (error) {
-        return next();
-      }
-    }, (success) => {
-      if (!success) {
-        reject(new Error('Unable to find open port.'));
-      }
-    });
-  });
+  server.destroy();
+  throw new Error('Unable to find open port.');
 };
 
 export interface OAuthCode {

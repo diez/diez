@@ -20,7 +20,6 @@
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0",
     "@livedesigner/storage": "1.0.0-alpha0",
-    "async": "^2.6.2",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
@@ -31,7 +30,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@types/async": "^2.4.1",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
     "@types/klaw-sync": "^6.0.0",
