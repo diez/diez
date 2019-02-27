@@ -1,7 +1,8 @@
 import {info, provideCommand, success} from '@livedesigner/cli';
+import {Registry} from '@livedesigner/storage';
 import {prompt} from 'enquirer';
 import {ExporterFactory} from '../exporters';
-import {FigmaExporter} from '../exporters/figma';
+import {FigmaExporter, getFigmaAccessToken} from '../exporters/figma';
 import {IllustratorExporter} from '../exporters/illustrator';
 import {SketchExporter} from '../exporters/sketch';
 
@@ -44,16 +45,14 @@ export = provideCommand(
     const constructorArgs: string[] = [];
     const factory = await findFactory(designFile);
     if (factory === FigmaExporter) {
-      const {figmaToken} = await prompt<Answers>([
-        {
-          type: 'input',
-          name: 'figmaToken',
-          // TODO: get and store this ourselves.
-          message: 'Enter your Figma OAuth access token.',
-          required: true,
-        },
-      ]);
-      constructorArgs.push(figmaToken);
+      let figmaAccessToken = await Registry.get('figmaAccessToken');
+      if (!figmaAccessToken) {
+        info('Figma authentication required.');
+        figmaAccessToken = await getFigmaAccessToken();
+        await Registry.set('figmaAccessToken', figmaAccessToken);
+      }
+      // TODO: clean up Figma access token in the event of expired, invalid, or revoked token.
+      constructorArgs.push(figmaAccessToken as string);
     }
 
     const exporter = factory.create(...constructorArgs);

@@ -1,16 +1,25 @@
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
+import {v4} from 'uuid';
 import {Exporter, ExporterFactory, OAuthable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
-import {createFolders, sanitizeFileName} from '../helpers/ioUtils';
-import {downloadFile, performGetRequestWithBearerToken} from '../helpers/request';
+import {createFolders, findOpenPort, getOAuthCodeFromBrowser, sanitizeFileName} from '../helpers/ioUtils';
+import {downloadFile, performGetRequest, performGetRequestWithBearerToken} from '../helpers/request';
 import {UniqueNameResolver} from '../helpers/uniqueNameResolver';
 
 const figmaHost = 'figma.com';
-const apiBase = 'https://api.figma.com/v1/';
+const figmaUrl = 'https://www.figma.com';
+const apiBase = 'https://api.figma.com/v1';
+
 const isFigmaFileRegExp = /\.figma$/;
 const figmaDefaultFilename = 'Untitled';
 const importBatchSize = 100;
+
+/**
+ * We may want to consider allowing users of this library to use a different Figma app than the one we provide.
+ */
+const defaultFigmaClientId = 'dVkwfl8RBD91688fwCq9Da';
+const defaultTokenExchangeUrl = 'https://figma-token-exchange.haiku.ai';
 
 const enum ValidType {
   Slice = 'SLICE',
@@ -103,7 +112,7 @@ export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: 
     ]);
 
     const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-      `${apiBase}images/${id}?${params.toString()}`,
+      `${apiBase}/images/${id}?${params.toString()}`,
       authToken,
     );
 
@@ -139,7 +148,7 @@ const parseProjectURL = (rawURL: string) => {
  * @param id ID of the Figma document
  */
 const fetchFile = (id: string, authToken: string): Promise<FigmaProject> => {
-  return performGetRequestWithBearerToken<FigmaProject>(`${apiBase}files/${id}`, authToken);
+  return performGetRequestWithBearerToken<FigmaProject>(`${apiBase}/files/${id}`, authToken);
 };
 
 /**
@@ -168,6 +177,37 @@ const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: Uni
   }
 
   return result;
+};
+
+/**
+ * Implements the OAuth token dance for Figma and resolves a useful access token.
+ */
+export const getFigmaAccessToken = async (): Promise<string> => {
+  const port = await findOpenPort();
+  const state = v4();
+  const redirectUri = `http://localhost:${port}`;
+  const authParams = new URLSearchParams([
+      ['client_id', defaultFigmaClientId],
+      ['redirect_uri', redirectUri],
+      ['scope', 'file_read'],
+      ['state', state],
+      ['response_type', 'code'],
+  ]);
+  const authUrl = `${figmaUrl}/oauth?${authParams.toString()}`;
+  const {code, state: checkState} = await getOAuthCodeFromBrowser(authUrl, port);
+  if (state !== checkState) {
+    throw new Error('Security exception!');
+  }
+
+  const tokenExchangeParams = new URLSearchParams([
+      ['code', code],
+      ['redirect_uri', redirectUri],
+  ]);
+  const {access_token} = await performGetRequest<{access_token: string}>(
+    `${defaultTokenExchangeUrl}?${tokenExchangeParams.toString()}`,
+    );
+
+  return access_token;
 };
 
 export const FigmaExporter: ExporterFactory = class implements Exporter, OAuthable {

@@ -1,10 +1,13 @@
 import {createWriteStream, unlink} from 'fs-extra';
-import request from 'request';
+import request, {Headers} from 'request';
 
 export const performGetRequestWithBearerToken = <T>(uri: string, token: string): Promise<T> => {
-  const headers = {Authorization: `Bearer ${token}`};
+  return performGetRequest<T>(uri, true, {Authorization: `Bearer ${token}`});
+};
+
+export const performGetRequest = <T>(uri: string, json = true, headers?: Headers): Promise<T> => {
   return new Promise<T>((resolve, reject) => {
-    request({uri, headers, json: true}, (error, response, body) => {
+    request({uri, headers, json}, (error, response, body) => {
       if (error || response.statusCode !== 200) {
         reject(new Error(error ? error.message : body.err));
       } else {

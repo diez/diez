@@ -1,17 +1,21 @@
+import {eachSeries} from 'async';
 import {exec} from 'child_process';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
+import {createServer} from 'http';
 import klawSync from 'klaw-sync';
+import opn = require('opn');
 import {platform, tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
+import serverDestroy = require('server-destroy');
+import {URL} from 'url';
 import {v4} from 'uuid';
 
 const reservedCharReplacement = '-';
 const filenameReservedRegExp = /[<>:"\/\\|?*\x00-\x1F]/g;
 const windowsNamesReservedRegExp = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
-export const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
-export const redirectUriPort = 3010;
-export const redirectUri = `http://localhost:${redirectUriPort}/oauth/callback`;
+const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
+const ports = [46572, 48735, 7826, 44495, 21902];
 
 export interface FileObject {
   fullPath: string;
@@ -28,6 +32,74 @@ export const enum ImageFormats {
 }
 
 export const isMacOS = platform() === 'darwin';
+
+/**
+ * Find an open port.
+ */
+export const findOpenPort = async (): Promise<number> => {
+  const server = createServer();
+  return new Promise((resolve, reject) => {
+    eachSeries<number, boolean>(ports, (port, next) => {
+      try {
+        server.listen(port, '0.0.0.0');
+        server.once('listening', () => {
+          server.once('close', () => {
+            resolve(port);
+            return next(true);
+          });
+          server.close();
+        });
+      } catch (error) {
+        return next();
+      }
+    }, (success) => {
+      if (!success) {
+        reject(new Error('Unable to find open port.'));
+      }
+    });
+  });
+};
+
+export interface OAuthCode {
+  code: string;
+  state: string;
+}
+
+/**
+ * Requests an OAuth 2.0 code using the default web browser, starts a mini-web server for handling the redirect,
+ * and redirects to a success page after completion.
+ * @param authUrl The pre-built authentication URL where we can request a code.
+ * @param port The (open) port number where we should start listening for tokens.
+ */
+export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<OAuthCode> => {
+  return new Promise((resolve, reject) => {
+    const server = createServer(async (request, response) => {
+      try {
+        if (request) {
+          const {searchParams: qs} = new URL(request.url!, `http:localhost:${port}`);
+          resolve({code: qs.get('code')!, state: qs.get('state')!});
+          // TODO: improve the redirect location of this handshake.
+          response.writeHead(302, {
+            Location: 'https://www.haiku.ai/',
+          });
+          response.end();
+          server.destroy();
+          // TODO: take users back to Terminal (if possible) on other platforms.
+          if (isMacOS) {
+            exec('open -b com.apple.Terminal');
+          }
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }).listen(port, async () => {
+      const cp = await opn(authUrl, {wait: false});
+      cp.unref();
+    });
+
+    serverDestroy(server);
+  });
+};
 
 /**
  * Locate a binary on macOS.

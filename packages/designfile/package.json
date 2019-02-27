@@ -19,19 +19,26 @@
   "dependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0",
+    "@livedesigner/storage": "1.0.0-alpha0",
+    "async": "^2.6.2",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
+    "opn": "^5.4.0",
     "pngjs": "^3.3.3",
     "request": "^2.88.0",
+    "server-destroy": "^1.0.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/async": "^2.4.1",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
     "@types/klaw-sync": "^6.0.0",
+    "@types/opn": "^5.1.0",
     "@types/pngjs": "^3.3.2",
     "@types/request": "^2.48.1",
+    "@types/server-destroy": "^1.0.0",
     "@types/uuid": "^3.4.4",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",
@@ -44,7 +51,9 @@
   },
   "diez": {
     "cli": {
-      "providers": ["./lib/commands/extract"]
+      "providers": [
+        "./lib/commands/extract"
+      ]
     }
   }
 }

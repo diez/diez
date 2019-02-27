@@ -5,7 +5,7 @@ import {currentVersion} from './internal/helpers';
 commander.version(currentVersion);
 
 commander
-  .command('create-package')
+  .command('create-package [registry]')
   .description('Create a Diez package.')
   .action(createPackage);
 
