@@ -49,6 +49,13 @@ export const findOpenPort = async (): Promise<number> => {
           });
           server.close();
         });
+
+        server.on('error', (err?: {code: string}) => {
+          if (err && err.code === 'EADDRINUSE') {
+            // This port is taken; try the next one.
+            return next();
+          }
+        });
       } catch (error) {
         return next();
       }
