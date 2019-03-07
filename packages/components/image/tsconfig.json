@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.packages.json",
+  "extends": "../../tsconfig.packages.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib"
@@ -9,7 +9,10 @@
   ],
   "references": [
     {
-      "path": "../engine"
+      "path": "../../engine"
+    },
+    {
+      "path": "../file"
     }
   ]
 }
