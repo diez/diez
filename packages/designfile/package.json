@@ -30,6 +30,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@livedesigner/test-utils": "1.0.0-alpha0",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
     "@types/klaw-sync": "^6.0.0",

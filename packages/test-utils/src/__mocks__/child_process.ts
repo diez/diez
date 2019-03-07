@@ -1,7 +1,7 @@
 const childProcess = jest.genMockFromModule('child_process');
-import {mockCommandData, mockExecutedCommands} from '../mockUtils';
+import {mockCommandData, mockExecutedCommands} from '../utils';
 
-export const exec = (command: string, callback: (error?: Error, stdout?: string) => {}) => {
+export const exec = (command: string, callback: (error?: Error, stdout?: string) => void) => {
   if (mockCommandData.forceFail) {
     callback(new Error());
   } else {

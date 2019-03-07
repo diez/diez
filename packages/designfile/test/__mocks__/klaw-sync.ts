@@ -1,11 +1,9 @@
-import {mockFileSystem} from '../mockUtils';
+import {mockFileSystem} from '@livedesigner/test-utils';
 
-const klawSync = () => {
+export default () => {
   return Object.keys(mockFileSystem).map((k) => {
     return {
       path: k,
     };
   });
 };
-
-export default klawSync;

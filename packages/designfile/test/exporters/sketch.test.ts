@@ -1,8 +1,9 @@
 // @ts-ignore
+import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData,
+  mockExecutedCommands} from '@livedesigner/test-utils';
 import {writeFile} from 'fs-extra';
 import os from 'os';
 import {SketchExporter} from '../../src/exporters/sketch';
-import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands} from '../mockUtils';
 
 jest.mock('fs-extra');
 jest.mock('child_process');

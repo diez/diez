@@ -1,7 +1,5 @@
-const opn = () => {
+export default () => {
   return new Promise((resolve) => {
     resolve({unref: () => {}});
   });
 };
-
-export default opn;

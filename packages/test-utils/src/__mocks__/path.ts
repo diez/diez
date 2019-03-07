@@ -7,4 +7,6 @@ export const resolve = (dir: string) => {
 
 export const extname = originalPath.extname;
 export const join = originalPath.join;
+export const sep = originalPath.sep;
+
 export default path;

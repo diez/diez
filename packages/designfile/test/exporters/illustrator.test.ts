@@ -1,7 +1,7 @@
+import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands,
+  mockFileSystem} from '@livedesigner/test-utils';
 import {writeFile} from 'fs-extra';
 import {IllustratorExporter, illustratorExportScript} from '../../src/exporters/illustrator';
-import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands,
-  mockFileSystem} from '../mockUtils';
 
 const illustrator = IllustratorExporter.create();
 
