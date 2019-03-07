@@ -1,11 +1,12 @@
-// @ts-ignore
-import {__cleanup, __fileSystem} from 'fs-extra';
 import {FigmaExporter, getSVGLinks} from '../../src/exporters/figma';
+import {cleanupMockFileSystem, mockFileSystem} from '../mockUtils';
 
 jest.mock('fs-extra');
 jest.mock('request');
 
 const figma = FigmaExporter.create('mock-token');
+
+afterEach(cleanupMockFileSystem);
 
 describe('Figma', () => {
   describe('#canParse', () => {
@@ -27,11 +28,11 @@ describe('Figma', () => {
     test('exports assets as expected from a Figma URL', async () => {
       const result = await figma.exportSVG('http://figma.com/file/key/name', 'out', () => {});
       expect(result).toBeUndefined();
-      expect(__fileSystem['out/groups/Group.svg']).toBeTruthy();
-      expect(__fileSystem['out/groups/Subgroup.svg']).toBeTruthy();
-      expect(__fileSystem['out/frames/Frame.svg']).toBeTruthy();
-      expect(__fileSystem['out/groups/Component.svg']).toBeTruthy();
-      expect(__fileSystem['out/groups/Missing-URL.svg']).toBeFalsy();
+      expect(mockFileSystem['out/groups/Group.svg']).toBeTruthy();
+      expect(mockFileSystem['out/groups/Subgroup.svg']).toBeTruthy();
+      expect(mockFileSystem['out/frames/Frame.svg']).toBeTruthy();
+      expect(mockFileSystem['out/groups/Component.svg']).toBeTruthy();
+      expect(mockFileSystem['out/groups/Missing-URL.svg']).toBeFalsy();
     });
   });
 });

@@ -1,13 +1,13 @@
-// @ts-ignore
-import {__disableForceFail, __enableForceFail, __executedCommands} from 'child_process';
-// @ts-ignore
-import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
+import {writeFile} from 'fs-extra';
 import {IllustratorExporter, illustratorExportScript} from '../../src/exporters/illustrator';
+import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands,
+  mockFileSystem} from '../mockUtils';
 
 const illustrator = IllustratorExporter.create();
 
-beforeEach(() => {
-  __cleanup();
+afterEach(() => {
+  cleanupMockFileSystem();
+  cleanupMockCommandData();
 });
 
 jest.mock('fs-extra');
@@ -39,11 +39,11 @@ describe('Illustrator', () => {
     test('creates an Illustrator scripts and runs it to export assets from an Illustrator file', async () => {
       await writeFile('test.ai', '');
       await illustrator.exportSVG('test.ai', 'outdir', () => {});
-      expect(__executedCommands.length).toBe(2);
-      expect(__executedCommands[0]).toContain('test.ai');
-      expect(__fileSystem.outdir).toBe('FOLDER');
-      expect(__fileSystem['outdir/artboards']).toBe('FOLDER');
-      expect(__fileSystem[Object.keys(__fileSystem)[3]])
+      expect(mockExecutedCommands.length).toBe(2);
+      expect(mockExecutedCommands[0]).toContain('test.ai');
+      expect(mockFileSystem.outdir).toBe('FOLDER');
+      expect(mockFileSystem['outdir/artboards']).toBe('FOLDER');
+      expect(mockFileSystem[Object.keys(mockFileSystem)[3]])
         .toBe(illustratorExportScript.replace('DEST_PATH', 'outdir/artboards').replace('SOURCE_PATH', 'test.ai'));
     });
 
@@ -55,10 +55,9 @@ describe('Illustrator', () => {
     });
 
     test('throws an error if there is an error running the export commands', async () => {
-      __enableForceFail();
+      mockCommandData.forceFail = true;
       await writeFile('test.ai', '');
       await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toBeDefined();
-      __disableForceFail();
     });
   });
 });

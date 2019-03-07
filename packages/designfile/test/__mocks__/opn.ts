@@ -1,7 +1,7 @@
-const opn = (url: string, options: any) => {
+const opn = () => {
   return new Promise((resolve) => {
-    resolve({unref: () => {}})
-  })
-}
+    resolve({unref: () => {}});
+  });
+};
 
 export default opn;

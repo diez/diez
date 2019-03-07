@@ -1,7 +1,7 @@
-import {__fileSystem} from './fs-extra';
+import {mockFileSystem} from '../mockUtils';
 
 const klawSync = () => {
-  return Object.keys(__fileSystem).map((k) => {
+  return Object.keys(mockFileSystem).map((k) => {
     return {
       path: k,
     };

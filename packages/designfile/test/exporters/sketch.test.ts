@@ -1,21 +1,24 @@
 // @ts-ignore
-import {__disableForceFail, __enableForceFail, __executedCommands, __setStdout} from 'child_process';
-// @ts-ignore
-import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
+import {writeFile} from 'fs-extra';
 import os from 'os';
 import {SketchExporter} from '../../src/exporters/sketch';
+import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands} from '../mockUtils';
 
 jest.mock('fs-extra');
 jest.mock('child_process');
-// TODO: use jest mock functions here.
-__setStdout('/Applications/Sketch.app');
+
 // TODO: mock this.
 os.platform = () => 'darwin';
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 beforeEach(() => {
-  __cleanup();
+  // TODO: we should actually use jest mock functions here.
+  mockCommandData.stdout = '/Applications/Sketch.app';
   writeFile(sketchtoolPath, '');
+});
+afterEach(() => {
+  cleanupMockFileSystem();
+  cleanupMockCommandData();
 });
 
 const sketch = SketchExporter.create();
@@ -47,11 +50,11 @@ describe('Sketch', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
       await sketch.exportSVG('test.sketch', 'outdir', () => {});
-      expect(__executedCommands.length).toBe(3);
-      expect(__executedCommands[0]).toBe('mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
-      expect(__executedCommands[1]).toBe(
+      expect(mockExecutedCommands.length).toBe(3);
+      expect(mockExecutedCommands[0]).toBe('mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
+      expect(mockExecutedCommands[1]).toBe(
         `${sketchtoolPath} export --format=svg --output=outdir/slices slices test.sketch`);
-      expect(__executedCommands[2]).toBe(
+      expect(mockExecutedCommands[2]).toBe(
         `${sketchtoolPath} export --format=svg --output=outdir/artboards artboards test.sketch`);
     });
 
@@ -63,10 +66,9 @@ describe('Sketch', () => {
     });
 
     test('throws an error if there is an error running the export commands', async () => {
-      __enableForceFail();
+      mockCommandData.forceFail = true;
       await writeFile('test.sketch', '');
       await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
-      __disableForceFail();
     });
   });
 });

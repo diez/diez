@@ -1,38 +1,37 @@
 // @ts-ignore
 import {WritableMock} from 'stream-mock';
+import {mockFileSystem} from '../mockUtils';
 
-const fsExtra: any = jest.genMockFromModule('fs-extra');
-
-export let __fileSystem: {[key: string]: string} = {};
+const fsExtra = jest.genMockFromModule('fs-extra');
 
 export const writeFile = (fullPath: string, content: string) => {
-  __fileSystem[fullPath] = content;
+  mockFileSystem[fullPath] = content;
   return true;
 };
 
 export const readFile = (fullPath: string) => {
-  return __fileSystem[fullPath];
+  return mockFileSystem[fullPath];
 };
 
 export const emptyDir = (dirpath: string) => {
-  Object.keys(__fileSystem).forEach((dir) => {
+  Object.keys(mockFileSystem).forEach((dir) => {
     if (dir.includes(dirpath)) {
-      delete __fileSystem[dirpath];
+      delete mockFileSystem[dirpath];
     }
   });
 
-  __fileSystem[dirpath] = 'FOLDER';
+  mockFileSystem[dirpath] = 'FOLDER';
 
   return true;
 };
 
 export const mkdirp = (dirpath: string) => {
-  __fileSystem[dirpath] = 'FOLDER';
+  mockFileSystem[dirpath] = 'FOLDER';
   return true;
 };
 
 export const pathExists = (path: string) => {
-  return __fileSystem[path] !== undefined;
+  return mockFileSystem[path] !== undefined;
 };
 
 export const existsSync = () => {
@@ -49,10 +48,6 @@ export const createWriteStream = (out: string) => {
     writeFile(out, 'mockcontent');
   };
   return stream;
-};
-
-export const __cleanup = () => {
-  __fileSystem = {};
 };
 
 export default fsExtra;

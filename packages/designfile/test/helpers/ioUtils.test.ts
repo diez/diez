@@ -1,14 +1,12 @@
-// @ts-ignore
-import {__cleanup, __fileSystem, writeFile} from 'fs-extra';
+import {writeFile} from 'fs-extra';
 import {join} from 'path';
 import * as ioUtils from '../../src/helpers/ioUtils';
+import {cleanupMockFileSystem, mockFileSystem} from '../mockUtils';
 
 jest.mock('fs-extra');
 jest.mock('opn');
 
-beforeEach(() => {
-  __cleanup();
-});
+afterEach(cleanupMockFileSystem);
 
 const svgWrap = (base64: string) => {
   return `<svg><image xlink:href="data:image/png;base64,${base64}"></image></svg>`;
@@ -20,10 +18,6 @@ const processedPixel =
 const file1 = {content: svgWrap(pixel), fullPath: 'full/path/', name: 'file-one.svg'};
 const file2 = {content: 'file two content', fullPath: 'full/path/nested', name: 'file/two.svg'};
 const file3 = {content: 'file three content', fullPath: 'full/path/nested', name: 'file/three.png'};
-
-beforeEach(() => {
-  __cleanup();
-});
 
 describe('#escapeShell', () => {
   test('', () => {
@@ -79,13 +73,13 @@ describe('#generateRandomScriptPath', () => {
 describe('#createFolders', () => {
   test('creates the provided root in disk', async () => {
     await ioUtils.createFolders('out/path', new Map([[0, 'content/slices'], [1, 'content/artboards']]));
-    expect(__fileSystem['out/path']).toBe('FOLDER');
+    expect(mockFileSystem['out/path']).toBe('FOLDER');
   });
 
   test('creates the provided folders inside the root folder in disk', async () => {
     await ioUtils.createFolders('out/path', new Map([[0, 'content/slices'], [1, 'content/artboards']]));
-    expect(__fileSystem['out/path/content/slices']).toBe('FOLDER');
-    expect(__fileSystem['out/path/content/artboards']).toBe('FOLDER');
+    expect(mockFileSystem['out/path/content/slices']).toBe('FOLDER');
+    expect(mockFileSystem['out/path/content/artboards']).toBe('FOLDER');
   });
 });
 
@@ -95,7 +89,7 @@ describe('#fixGammaOfPNGFiles', () => {
     await writeFile(join(file2.fullPath, ioUtils.sanitizeFileName(file2.name)), file2.content);
     await writeFile(join(file3.fullPath, ioUtils.sanitizeFileName(file3.name)), file3.content);
     await ioUtils.fixGammaOfPNGFiles('full/path');
-    expect(__fileSystem['full/path/file-one.svg']).toBe(svgWrap(processedPixel));
-    expect(__fileSystem['full/path/nested/file-two.svg']).toBe(file2.content);
+    expect(mockFileSystem['full/path/file-one.svg']).toBe(svgWrap(processedPixel));
+    expect(mockFileSystem['full/path/nested/file-two.svg']).toBe(file2.content);
   });
 });
