@@ -1,4 +1,4 @@
-import {emptyDir, mkdirp, pathExists, readFile, writeFile} from '../src/__mocks__/fs-extra';
+import {emptyDir, mkdirp, pathExists, readFile, readJson, writeFile, writeJson} from '../src/__mocks__/fs-extra';
 import {cleanupMockFileSystem} from '../src/utils';
 
 afterEach(cleanupMockFileSystem);
@@ -24,5 +24,10 @@ describe('fs-extra mock', () => {
     expect(pathExists('/foo/bar/baz')).toBe(true);
     expect(pathExists('/foo/bar/baz/bat')).toBe(false);
     expect(() => readFile('/foo/bar/baz/bat')).toThrow();
+
+    writeJson('/foo/bar/baz/bat', {foo: 'bar', whoops: () => {}});
+    expect(pathExists('/foo/bar/baz/bat')).toBe(true);
+    // The function cannot be JSON encoded, so it is erased.
+    expect(readJson('/foo/bar/baz/bat')).toEqual({foo: 'bar'});
   });
 });

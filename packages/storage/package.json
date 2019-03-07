@@ -17,6 +17,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
+    "@livedesigner/test-utils": "1.0.0-alpha0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^23.3.13",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",

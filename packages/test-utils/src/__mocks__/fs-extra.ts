@@ -54,4 +54,10 @@ export const createWriteStream = (out: string) => {
   return stream;
 };
 
+export const readJson = (path: string) => JSON.parse(mockFileSystem[path] as string);
+
+export const writeJson = (path: string, content: any) => {
+  writeFile(path, JSON.stringify(content));
+};
+
 export default jest.genMockFromModule('fs-extra');

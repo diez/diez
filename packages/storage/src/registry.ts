@@ -1,4 +1,5 @@
-import {existsSync, mkdirp, readJson, writeJson} from 'fs-extra';
+import {mockFileSystem} from '@livedesigner/test-utils';
+import {mkdirp, pathExists, readJson, writeJson} from 'fs-extra';
 import {homedir} from 'os';
 import {join} from 'path';
 
@@ -16,7 +17,7 @@ const ensureDiezRoot = () => mkdirp(diezRootPath);
 
 const getRegistry = async (): Promise<Partial<Configuration>> => {
   await ensureDiezRoot();
-  if (!existsSync(registryPath)) {
+  if (!await pathExists(registryPath)) {
     await writeJson(registryPath, {});
   }
 
