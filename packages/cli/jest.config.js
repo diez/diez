@@ -14,4 +14,7 @@ module.exports = {
     'jsx',
     'json',
   ],
+  moduleNameMapper: {
+    '@livedesigner/awesomepackage/(.*)': '<rootDir>/test/fixtures/@livedesigner/awesomepackage/$1',
+  },
 };

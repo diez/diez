@@ -19,7 +19,7 @@ const registerWithProvider = (provider: CliCommandProvider) => {
     });
 };
 
-(async () => {
+export const bootstrap = async () => {
   const plugins = await findPlugins();
   for (const [plugin, {cli}] of plugins) {
     if (cli === undefined) {
@@ -34,7 +34,10 @@ const registerWithProvider = (provider: CliCommandProvider) => {
       // Noop.
     }
   }
+};
 
+export const run = async () => {
+  await bootstrap();
   on('command:*', () => {
     help();
   });
@@ -43,4 +46,4 @@ const registerWithProvider = (provider: CliCommandProvider) => {
   if (!args.length) {
     help();
   }
-})();
+};

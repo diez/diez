@@ -2,7 +2,8 @@
   "name": "diez",
   "private": true,
   "workspaces": [
-    "packages/**/*"
+    "packages/*",
+    "packages/components/*"
   ],
   "version": "1.0.0-alpha0",
   "description": "Diez monorepo.",

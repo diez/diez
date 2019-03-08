@@ -7,6 +7,8 @@ import {CliAction, CliCommandProvider, CliConfiguration} from './api';
 const namespace = '@livedesigner';
 
 const plugins = new Map<string, CliConfiguration>();
+// tslint:disable-next-line: no-var-requires
+const Module = require('module');
 let foundPlugins = false;
 
 export const findPlugins = (): Promise<Map<string, CliConfiguration>> => {
@@ -16,7 +18,7 @@ export const findPlugins = (): Promise<Map<string, CliConfiguration>> => {
 
   return new Promise((resolve) => {
     each<string>(
-      module.paths,
+      Module._nodeModulePaths(__dirname),
       (nodeModulesPath, next) => {
         const path = join(nodeModulesPath, namespace);
         stat(path, (statError, stats) => {

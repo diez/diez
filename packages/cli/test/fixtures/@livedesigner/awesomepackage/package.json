@@ -1,0 +1,11 @@
+{
+  "name": "@livedesigner/awesomepackage",
+  "main": "index.js",
+  "diez": {
+    "cli": {
+      "providers": [
+        "./foobar.js"
+      ]
+    }
+  }
+}
