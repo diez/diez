@@ -1,10 +1,5 @@
-import {Color, Palette} from '@livedesigner/color';
+import {Color, File, FontRegistry, Haiku, Image, Lottie, Palette, SVG, TextStyle} from '@livedesigner/designsystem';
 import {Component, expression, method, property} from '@livedesigner/engine';
-import {File} from '@livedesigner/file';
-import {Haiku} from '@livedesigner/haiku';
-import {Image, SVG} from '@livedesigner/image';
-import {Lottie} from '@livedesigner/lottie';
-import {FontRegistry, TextStyle} from '@livedesigner/typography';
 import {easeInOutExpo} from 'just-curves';
 
 import {Fonts} from './fonts';

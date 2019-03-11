@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
-    "@livedesigner/engine": "1.0.0-alpha0"
+    "@livedesigner/engine": "1.0.0-alpha0",
+    "@livedesigner/designsystem": "1.0.0-alpha0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",
