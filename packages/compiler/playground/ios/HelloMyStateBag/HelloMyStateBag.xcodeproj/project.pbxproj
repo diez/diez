@@ -282,7 +282,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -293,7 +293,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		952551D9B4C1568329F04D43 /* [CP] Check Pods Manifest.lock */ = {
