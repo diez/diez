@@ -3,9 +3,9 @@ import {args, command, help, on, parse, version} from 'commander';
 import {join} from 'path';
 import {CliCommandProvider} from '.';
 import {fatalError} from './reporting';
-import {findPlugins} from './utils';
+import {diezVersion, findPlugins} from './utils';
 
-version(require(join('..', 'package.json')).version).name('diez');
+version(diezVersion).name('diez');
 
 const registerWithProvider = (provider: CliCommandProvider) => {
   command(provider.command)

@@ -1,0 +1,12 @@
+{
+  "name": "{{packageName}}",
+  "version": "1.0.0",
+  "dependencies": {
+    "@livedesigner/engine": "{{diezVersion}}",
+    "@livedesigner/designsystem": "{{diezVersion}}"
+  },
+  "devDependencies": {
+    "@livedesigner/compiler": "{{diezVersion}}",
+    "typescript": "{{typescriptVersion}}"
+  }
+}

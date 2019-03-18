@@ -17,8 +17,14 @@
   },
   "dependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
+    "@livedesigner/designsystem": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0",
-    "@livedesigner/designsystem": "1.0.0-alpha0"
+    "enquirer": "^2.3.0",
+    "fs-extra": "^7.0.1",
+    "fs-walk": "^0.0.2",
+    "handlebars": "^4.1.1",
+    "pascal-case": "^2.0.1",
+    "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",
@@ -43,7 +49,7 @@
     "cli": {
       "providers": [
         "./lib/commands/compile",
-        "./lib/commands/init"
+        "./lib/commands/create"
       ]
     }
   }

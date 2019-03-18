@@ -43,7 +43,7 @@ const getHue = (min: number, max: number, r: number, g: number, b: number) => {
   return 4 + (r - g) / (max - min);
 };
 
-const normalizeUnit = (x: number) => (x > 1 ? x % 1 : x);
+const normalizeUnit = (x: number) => (Math.abs(x) > 1 ? x % 1 : x);
 
 export class Color extends Component<ColorState> {
   static rgba (rIn: number, gIn: number, bIn: number, a: number) {
@@ -72,6 +72,22 @@ export class Color extends Component<ColorState> {
 
   serialize () {
     return [normalizeUnit(this.h), normalizeUnit(this.s), normalizeUnit(this.l), normalizeUnit(this.a)];
+  }
+
+  lighten (amount: number) {
+    return Color.hsla(this.h, this.s, this.l + amount, this.a);
+  }
+
+  darken (amount: number) {
+    return Color.hsla(this.h, this.s, this.l - amount, this.a);
+  }
+
+  saturate (amount: number) {
+    return Color.hsla(this.h, this.s + amount, this.l + amount, this.a);
+  }
+
+  desaturate (amount: number) {
+    return Color.hsla(this.h, this.s - amount, this.l + amount, this.a);
   }
 }
 

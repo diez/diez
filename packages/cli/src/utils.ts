@@ -4,6 +4,12 @@ import {readdir, stat} from 'fs';
 import {join} from 'path';
 import {CliAction, CliCommandProvider, CliConfiguration} from './api';
 
+const packageJson = require(join('..', 'package.json'));
+
+export const devDependencies: {[key: string]: string} = packageJson.devDependencies;
+
+export const diezVersion: string = packageJson.version;
+
 const namespace = '@livedesigner';
 
 const plugins = new Map<string, CliConfiguration>();
@@ -34,9 +40,9 @@ export const findPlugins = (): Promise<Map<string, CliConfiguration>> => {
             for (const file of files) {
               try {
                 const packageName = `${namespace}/${file}`;
-                const packageJson = require(join(packageName, 'package.json'));
-                if (packageJson && packageJson.diez) {
-                  plugins.set(packageName, packageJson.diez);
+                const packageSpec = require(join(packageName, 'package.json'));
+                if (packageSpec && packageSpec.diez) {
+                  plugins.set(packageName, packageSpec.diez);
                 }
               } catch (error) {
                 // Noop.

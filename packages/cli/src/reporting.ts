@@ -26,3 +26,10 @@ export const success = (message: string) => {
 export const info = (message: string) => {
   console.log(chalk.blue(message));
 };
+
+/**
+ * Log a warning message.
+ */
+export const warning = (message: string) => {
+  console.log(chalk.yellow(message));
+};
