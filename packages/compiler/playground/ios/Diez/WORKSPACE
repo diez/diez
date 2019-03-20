@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 git_repository(
     name = "build_bazel_rules_apple",
@@ -33,9 +34,9 @@ load(
 
 apple_support_dependencies()
 
-local_repository(
-  name = "rules_pods",
-  path = "./PodToBUILD",
+http_archive(
+    name = "rules_pods",
+    urls = ["https://github.com/pinterest/PodToBUILD/releases/download/0.22.0-ee8466e/PodToBUILD.zip"],
 )
 
 load("@rules_pods//BazelExtensions:workspace.bzl", "new_pod_repository")
