@@ -1,27 +1,21 @@
 language: node_js
-
 node_js:
-  - 10.15.3
-
+- 10.15.3
 cache: yarn
-
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-  - nvm alias default 10.15.3
-  - nvm use 10.15.3
-  - export PATH="$HOME/.yarn/bin:$PATH"
-  - yarn global add codecov
-
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+- nvm alias default 10.15.3
+- nvm use 10.15.3
+- export PATH="$HOME/.yarn/bin:$PATH"
+- yarn global add codecov
 install: yarn
-
 script:
-  - yarn health --stream
-  - codecov
-
+- yarn health --stream
+- codecov
 notifications:
   slack:
     rooms:
-      secure: GAKO3wNrFB+T2gN8kvfAYIuwreF+3eOGN7++Ls7n/HGZWlfDDISaW4ptmPwGFinDE3vN2fdvklBhhd8s+nzKcns7nEbH6ILb5es+ZfMFkUlskcUSn3HugOKYIfniHjFR7uQsUwoR+hkIZiFR2GXPbV8j3haQl2a6M5chbp0bwFgnEEvyL8o49/kcDMQEJHH4URWbKNW6xSSGVq/0H5rmIDD45ZfEj+Zv5BCyeA/vqqAnGlG0vxav8qKAHpGH1rR1cadIvKk+8dUcSUMvVYUNSTE8ioxmnDPk6O9DvIb7zyzoybmJ7wEdbpvmHqMGOOgTSvbRM5liVnhqH2Lq9TSUtwTErQ8pdOrCtGDo/BrHO3HkmK2Fc1cxSeS5mk4X2oGYWJwe6oA06aU5gVIz4x/DgCGos+bDq/XcNfDihVmh62e8OEUABcssPr8bIWflsRhdtxIvuhG/lQ/XmzaaY89rt9RITJVmHqL6ZnoAgasAiviiSqgo+ohDYBk+ghfwXk1LLjdc7t70KvN/A2jgTugtAlpWYtCSczd9SOtqevo8u9PTjzRj1N6liPJYBw1KW8HUi82vFfxeNImV4QDMYLUCn5giN5MQ2UoKZ3bwxZPIt4XpnGpANVCdURrpi6GIKKscrO69+K2VMcee1cUkIETqDnM+0TMobI0kprAIyqgsMTY=
+      secure: f65aoB+MZ7N7yPgMHtrwO9oG7EgY5VDJBYiSkBpWagZNpSH92l9JAeWI3nCQh7+Mrp/HO8th/uvVujjtZlUORorzD77v32AGbpxxK4FKX0UmqmnQdn+JoruDLBJCUuzAR2fE3QIoScn5SI0Ur2Ag/poo2JzCy7vg9iHTpoEDQ2sSjg2okrd1q538SE/50VBGwI8ww1e2Fl5o/o6wK809YBnweTAS5GziGpVkKV9VQGVu2+AxhTMtQxxdK6JaBomeYL1/2wd1UKhkiCdvPny2Pr10Ksh559gnJKdKs56dbu4UcrL44+oStEXlaKfNexzlI3ssFRq2VYS+JxwmzqymbO193LPyaENoNwtesOL87YiP9T86kC4veG0HKmHLdueCPOij/cm9SK4cIc16gQs/cRIXONMi3ORbsyNaGZBTfuEYEnYszcAcPJ9R8O52jbR93BoSUfCC53cGhwG9ZS+uKIdVfgK6mhHZi+qOugcen7pb8/nZ4niGAinzd0+511c2+kge5PBZ41HrzCT4SCC06f9zsgMy8rimxsexiIv/0d/UKHHvAapEFM8y/ag7IMm/MJEUE1GaELB+AZxWOxUF1DQQOg2Pw2o7vD4rRkrmPtveqrinQA1VjgvWRE2UANzvG1K36qsMjpfpatQX8LCwowaV8rlRQNrcZkWF8LTBxsU=
     on_success: always
     on_failure: always
     on_pull_requests: true
