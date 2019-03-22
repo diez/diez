@@ -40,6 +40,7 @@ const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
         server.once('close', () => {
           resolve(true);
         });
+        server.close();
       });
 
       server.on('error', () => {
