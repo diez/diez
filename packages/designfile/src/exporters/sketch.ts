@@ -37,6 +37,7 @@ const runExportCommand = async (sketchtoolPath: string, source: string, folder: 
   });
 };
 
+// tslint:disable-next-line:variable-name
 export const SketchExporter: ExporterFactory = class implements Exporter {
   /**
    * ExporterFactory interface method.

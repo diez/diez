@@ -8,7 +8,6 @@
   "typescript.format.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "tslint.jsEnable": true,
-  "tslint.alwaysShowRuleFailuresAsWarnings": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.tslint": true
   }

@@ -27,8 +27,10 @@ export const extractAction = async () => {
     {
       type: 'input',
       name: 'designFile',
-      message: 'Enter a design file for SVG asset extraction.\n\nYou may use a local filesystem ' +
-        'path for Sketch and Illustrator files, or a remote Figma URL for Figma files.\n',
+      message: `Enter a design file for SVG asset extraction.
+
+You may use a local filesystem path for Sketch and Illustrator files, or a remote Figma URL for Figma files.
+`,
       required: true,
     },
     {

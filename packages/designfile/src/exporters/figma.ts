@@ -210,6 +210,7 @@ export const getFigmaAccessToken = async (): Promise<string> => {
   return access_token;
 };
 
+// tslint:disable-next-line:variable-name
 export const FigmaExporter: ExporterFactory = class implements Exporter, OAuthable {
   /**
    * ExporterFactory interface method.

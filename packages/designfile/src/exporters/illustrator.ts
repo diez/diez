@@ -85,6 +85,7 @@ const generateScript = (outdir: string, source: string) => {
     .replace('SOURCE_PATH', resolve(source));
 };
 
+// tslint:disable-next-line:variable-name
 export const IllustratorExporter: ExporterFactory = class implements Exporter {
   /**
    * ExporterFactory interface method.
