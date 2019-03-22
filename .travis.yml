@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - "10.15.3"
+
+cache: yarn
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  - nvm alias default 10.15.3
+  - nvm use 10.15.3
+  - yarn global add codecov
+
+install: yarn
+
+script:
+  - yarn health
+  - codecov

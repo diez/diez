@@ -8,9 +8,9 @@ This is the `diez` monorepo.
     - Get NVM:
       `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
     - Get Node:
-      `nvm install 10.13.0 && nvm alias default 10.13.0`
+      `nvm install 10.15.3 && nvm alias default 10.15.3`
     - Get Yarn:
-      `curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3`
+      `curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2`
  - Set up the Yarn workspace by running: `yarn`
  - Bootstrap local modules by running: `yarn lerna bootstrap`
  - Ensure you are equipped for native development. [macOS instructions](docs/ide-setup-macos.md) are available.
