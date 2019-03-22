@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "10.15.3"
+  - 10.15.3
 
 cache: yarn
 
@@ -17,3 +17,10 @@ install: yarn
 script:
   - yarn health --stream
   - codecov
+
+notifications:
+  slack:
+    rooms:
+      secure: GAKO3wNrFB+T2gN8kvfAYIuwreF+3eOGN7++Ls7n/HGZWlfDDISaW4ptmPwGFinDE3vN2fdvklBhhd8s+nzKcns7nEbH6ILb5es+ZfMFkUlskcUSn3HugOKYIfniHjFR7uQsUwoR+hkIZiFR2GXPbV8j3haQl2a6M5chbp0bwFgnEEvyL8o49/kcDMQEJHH4URWbKNW6xSSGVq/0H5rmIDD45ZfEj+Zv5BCyeA/vqqAnGlG0vxav8qKAHpGH1rR1cadIvKk+8dUcSUMvVYUNSTE8ioxmnDPk6O9DvIb7zyzoybmJ7wEdbpvmHqMGOOgTSvbRM5liVnhqH2Lq9TSUtwTErQ8pdOrCtGDo/BrHO3HkmK2Fc1cxSeS5mk4X2oGYWJwe6oA06aU5gVIz4x/DgCGos+bDq/XcNfDihVmh62e8OEUABcssPr8bIWflsRhdtxIvuhG/lQ/XmzaaY89rt9RITJVmHqL6ZnoAgasAiviiSqgo+ohDYBk+ghfwXk1LLjdc7t70KvN/A2jgTugtAlpWYtCSczd9SOtqevo8u9PTjzRj1N6liPJYBw1KW8HUi82vFfxeNImV4QDMYLUCn5giN5MQ2UoKZ3bwxZPIt4XpnGpANVCdURrpi6GIKKscrO69+K2VMcee1cUkIETqDnM+0TMobI0kprAIyqgsMTY=
+    on_success: always
+    on_failure: always
