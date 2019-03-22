@@ -1,25 +1,23 @@
-// @ts-ignore
-import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData,
-  mockExecutedCommands} from '@livedesigner/test-utils';
+import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData,
+  mockCommandData, mockExecutedCommands, mockOsData} from '@livedesigner/test-utils';
 import {writeFile} from 'fs-extra';
-import os from 'os';
 import {SketchExporter} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
 jest.mock('child_process');
-
-// TODO: mock this.
-os.platform = () => 'darwin';
+jest.mock('os');
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 beforeEach(() => {
   // TODO: we should actually use jest mock functions here.
   mockCommandData.stdout = '/Applications/Sketch.app';
+  mockOsData.platform = 'darwin';
   writeFile(sketchtoolPath, '');
 });
 afterEach(() => {
   cleanupMockFileSystem();
   cleanupMockCommandData();
+  cleanupMockOsData();
 });
 
 const sketch = SketchExporter.create();
@@ -64,6 +62,12 @@ describe('Sketch', () => {
       await expect(sketch.exportSVG('test.ai', 'out', () => {})).rejects.toThrow('Invalid source file.');
       await writeFile('test.sketchster', '');
       await expect(sketch.exportSVG('test.sketchster', 'out', () => {})).rejects.toThrow('Invalid source file.');
+    });
+
+    test('throws an error if not on mac', async () => {
+      mockOsData.platform = 'win32';
+      await writeFile('test.sketch', '');
+      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
     });
 
     test('throws an error if there is an error running the export commands', async () => {

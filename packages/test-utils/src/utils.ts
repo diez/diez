@@ -1,3 +1,5 @@
+import {platform} from 'os';
+
 export interface MockDirectory {
   [key: string]: string|MockDirectory;
 }
@@ -8,7 +10,7 @@ export interface MockDirectory {
 export const mockFileSystem: MockDirectory = {};
 
 /**
- * Reset the mock filesystem to initial state.
+ * Resets the mock filesystem to initial state.
  */
 export const cleanupMockFileSystem = () => {
   for (const key in mockFileSystem) {
@@ -30,9 +32,23 @@ export const mockCommandData = {
 };
 
 /**
- * Reset the mock command data to initial state.
+ * Resets the mock command data to initial state.
  */
 export const cleanupMockCommandData = () => {
   mockCommandData.forceFail = false;
   mockCommandData.stdout = '';
+};
+
+/**
+ * Tracks mock platform data.
+ */
+export const mockOsData = {
+  platform: 'linux',
+};
+
+/**
+ * Resets the mock platform data to initial state.
+ */
+export const cleanupMockOsData = () => {
+  mockOsData.platform = platform();
 };

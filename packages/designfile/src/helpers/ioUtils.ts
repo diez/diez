@@ -30,7 +30,7 @@ export const enum ImageFormats {
   jpg = 'jpg',
 }
 
-export const isMacOS = platform() === 'darwin';
+export const isMacOS = () => platform() === 'darwin';
 
 const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -95,7 +95,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
           response.end();
           server.destroy();
           // TODO: take users back to Terminal (if possible) on other platforms.
-          if (isMacOS) {
+          if (isMacOS()) {
             exec('open -b com.apple.Terminal');
           }
         }
@@ -116,7 +116,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
  * @param bundleId
  */
 export const locateBinaryMacOS = async (bundleId: string) => new Promise<string>((resolve, reject) => {
-  if (!isMacOS) {
+  if (!isMacOS()) {
     return reject(new Error('Platform is not macOS'));
   }
 

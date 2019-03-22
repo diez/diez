@@ -66,8 +66,7 @@ export const SketchExporter: ExporterFactory = class implements Exporter {
       throw new Error('Invalid source file.');
     }
 
-    if (!isMacOS) {
-      console.log(require('os').platform());
+    if (!isMacOS()) {
       throw new Error('Sketch export is only supported on macOS');
     }
 
