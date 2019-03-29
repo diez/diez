@@ -41,7 +41,7 @@ interface EndtimeResolver<T> {
 /**
  * The abstract Component class is responsible for serializing its readonly state via patches.
  */
-export abstract class Component<T extends Indexable>
+export abstract class Component<T extends Indexable = {}>
   implements Stateful<T>, Tweenable<T>, Listening, Tickable, Serializable {
   /**
    * Important: this flag instructs the hosting system we are a component instance.
