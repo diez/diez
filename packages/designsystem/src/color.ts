@@ -45,6 +45,8 @@ const getHue = (min: number, max: number, r: number, g: number, b: number) => {
 
 const normalizeUnit = (x: number) => (Math.abs(x) > 1 ? x % 1 : x);
 
+const hexRgb = (r: number, g: number, b: number, a: number = 255) => Color.rgba(r, g, b, a / 255);
+
 export class Color extends Component<ColorState> {
   static rgba (rIn: number, gIn: number, bIn: number, a: number) {
     const r = rIn / 255;
@@ -58,8 +60,37 @@ export class Color extends Component<ColorState> {
     return new Color({h, s, l, a});
   }
 
+  static rgb (r: number, g: number, b: number) {
+    return Color.rgba(r, g, b, 1);
+  }
+
   static hsla (h: number, s: number, l: number, a: number) {
     return new Color({h, s, l, a});
+  }
+
+  static hsl (h: number, s: number, l: number) {
+    return Color.hsla(h, s, l, 1);
+  }
+
+  static hex (hexCode: string) {
+    const hexValue = hexCode.replace(/[^a-f0-9]/gi, '');
+    switch (hexValue.length) {
+      case 3:
+      case 4:
+        const shortValues = hexValue.split('').map((value) => parseInt(`${value}${value}`, 16));
+        return hexRgb(shortValues[0], shortValues[1], shortValues[2], shortValues[3]);
+      case 6:
+      case 8:
+        const matches = hexValue.match(/[a-f0-9]{2}/gi);
+        if (matches) {
+          const longValues = matches.map((value) => parseInt(value, 16));
+          return hexRgb(longValues[0], longValues[1], longValues[2], longValues[3]);
+        }
+        break;
+    }
+
+    // Return with defaults if we were unable to parse.
+    return new Color();
   }
 
   @property h: number = 0;
@@ -88,6 +119,10 @@ export class Color extends Component<ColorState> {
 
   desaturate (amount: number) {
     return Color.hsla(this.h, this.s - amount, this.l + amount, this.a);
+  }
+
+  fade (amount: number) {
+    return Color.hsla(this.h, this.s, this.l, this.a - amount);
   }
 }
 

@@ -8,6 +8,12 @@ export interface FontRegistryState {
 
 export class FontRegistry extends Component<FontRegistryState> {
   @property files: File[] = [];
+
+  static fromFiles (...files: string[]) {
+    return new this({
+      files: files.map((src) => new File({src})),
+    });
+  }
 }
 
 export interface TextStyleState<T> {
