@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "packages/components/*"
+    "examples/*"
   ],
   "version": "1.0.0-alpha0",
   "description": "Diez monorepo.",
