@@ -45,22 +45,20 @@ class MyStateBag extends Component<MyStateShape> {
     file: new File({src: '/assets/lottie/loading-pizza.json'}),
   });
 
-  @property fontRegistry = new FontRegistry({
-    files: [
-      new File({src: '/assets/fonts/Roboto-Black.ttf'}),
-      new File({src: '/assets/fonts/Roboto-BlackItalic.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Bold.ttf'}),
-      new File({src: '/assets/fonts/Roboto-BoldItalic.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Italic.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Light.ttf'}),
-      new File({src: '/assets/fonts/Roboto-LightItalic.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Medium.ttf'}),
-      new File({src: '/assets/fonts/Roboto-MediumItalic.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Regular.ttf'}),
-      new File({src: '/assets/fonts/Roboto-Thin.ttf'}),
-      new File({src: '/assets/fonts/Roboto-ThinItalic.ttf'}),
-    ],
-  });
+  @property fontRegistry = FontRegistry.fromFiles(
+    '/assets/fonts/Roboto-Black.ttf',
+    '/assets/fonts/Roboto-BlackItalic.ttf',
+    '/assets/fonts/Roboto-Bold.ttf',
+    '/assets/fonts/Roboto-BoldItalic.ttf',
+    '/assets/fonts/Roboto-Italic.ttf',
+    '/assets/fonts/Roboto-Light.ttf',
+    '/assets/fonts/Roboto-LightItalic.ttf',
+    '/assets/fonts/Roboto-Medium.ttf',
+    '/assets/fonts/Roboto-MediumItalic.ttf',
+    '/assets/fonts/Roboto-Regular.ttf',
+    '/assets/fonts/Roboto-Thin.ttf',
+    '/assets/fonts/Roboto-ThinItalic.ttf',
+  );
 
   @property textStyle = new TextStyle<Fonts>({
     font: Fonts.Helvetica,
