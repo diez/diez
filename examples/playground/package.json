@@ -1,0 +1,17 @@
+{
+  "name": "@livedesigner/playground",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "diez serve"
+  },
+  "dependencies": {
+    "@livedesigner/designsystem": "1.0.0-alpha0",
+    "@livedesigner/engine": "1.0.0-alpha0",
+    "just-curves": "^0.2.0"
+  },
+  "devDependencies": {
+    "@livedesigner/cli": "1.0.0-alpha0",
+    "@livedesigner/compiler": "1.0.0-alpha0",
+    "typescript": "^3.2.4"
+  }
+}
