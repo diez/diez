@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		217F41972211FB53008A97C7 /* Diez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 217F41952211FB4C008A97C7 /* Diez.framework */; };
-		217F41982211FB53008A97C7 /* Diez.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 217F41952211FB4C008A97C7 /* Diez.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		21D3ADA0220230C600118420 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D3AD9F220230C600118420 /* AppDelegate.swift */; };
 		21D3ADA2220230C600118420 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D3ADA1220230C600118420 /* ViewController.swift */; };
 		21D3ADA5220230C600118420 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA3220230C600118420 /* Main.storyboard */; };
@@ -36,7 +34,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				217F41982211FB53008A97C7 /* Diez.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,7 +44,6 @@
 		12CA19CD69DE2D0BDAABC9A6 /* Pods-HelloMyStateBag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyStateBag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag.debug.xcconfig"; sourceTree = "<group>"; };
 		21034874221E1F7100CC55FA /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21034876221E1F9A00CC55FA /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		217F41952211FB4C008A97C7 /* Diez.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diez.framework; path = ../Diez/Diez.framework; sourceTree = "<group>"; };
 		21D3AD9C220230C600118420 /* HelloMyStateBag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloMyStateBag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D3AD9F220230C600118420 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21D3ADA1220230C600118420 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				217F41972211FB53008A97C7 /* Diez.framework in Frameworks */,
 				BE6629A7D441065CB4AF8901 /* Pods_HelloMyStateBag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,7 +84,6 @@
 		214EE4BE220BB43C0058E6BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				217F41952211FB4C008A97C7 /* Diez.framework */,
 				21034876221E1F9A00CC55FA /* Lottie.framework */,
 				21034874221E1F7100CC55FA /* Lottie.framework */,
 				4455D859E5194352E962B7DB /* Pods_HelloMyStateBag.framework */,
@@ -283,12 +277,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Diez/Diez.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Diez.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,7 +490,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TWM39MH96F;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../Diez",
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
@@ -518,7 +513,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TWM39MH96F;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../Diez",
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);

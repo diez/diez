@@ -21,7 +21,8 @@ class ViewController: UIViewController {
         animationContainer.layer.masksToBounds = false
         animationContainer.layer.shadowOffset = CGSize(width: -10, height: -20)
         animationContainer.layer.shadowRadius = 10
-        animationContainer.layer.shadowOpacity = 0.2
+        animationContainer.layer.shadowOpacity = 1
+        animationContainer.layer.shadowColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.4).cgColor
 
         ratContainer.autoresizesSubviews = true
         ratContainer.backgroundColor = .clear

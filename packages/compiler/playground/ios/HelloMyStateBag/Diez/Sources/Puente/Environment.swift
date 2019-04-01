@@ -1,13 +1,13 @@
 import Foundation
 
 public class Environment: NSObject {
-    fileprivate var infoDict: [String: Any] {
+    fileprivate var infoDict: NSDictionary {
         get {
-            if let dict = Bundle(for: Environment.self).infoDictionary {
-                return dict
+            if let path = Bundle(for: type(of: self)).path(forResource: "Diez", ofType: "plist") {
+              return NSDictionary(contentsOfFile: path)!
             }
 
-            fatalError("Info.plist not found")
+            fatalError("Configuration not found")
         }
     }
 

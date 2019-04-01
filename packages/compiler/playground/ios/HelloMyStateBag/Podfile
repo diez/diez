@@ -7,6 +7,8 @@ target 'HelloMyStateBag' do
 
   # Pods for HelloMyStateBag
   pod 'lottie-ios'
+  
+  pod 'Diez', :path => './Diez'
 
   target 'HelloMyStateBagTests' do
     inherit! :search_paths
