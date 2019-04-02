@@ -15,6 +15,9 @@ This is the `diez` monorepo.
  - Bootstrap local modules by running: `yarn lerna bootstrap`
  - Ensure you are equipped for native development. [macOS instructions](docs/ide-setup-macos.md) are available.
 
+## Native build requirements (macOS)
+ - Xcode >= version 10.1 and Android Studio >= version 3.3.1. See [IDE setup instructions](../../docs/ide-setup-macos.md) for details. For Xcode, CocoaPods is required for some functionality. Run `sudo gem install cocoapods` to install CocoaPods.
+
 ## Developing `yarn` commands
 
  - Commands are stored in the [scripts/commands/](scripts/commands) directory. To add a new command, register it in [scripts/cli.ts](scripts/cli.ts) and (recommended) create a shortcut for it in `package.json`.
@@ -29,6 +32,17 @@ The following commands are available in all subpackages, as well as in the monor
  - `yarn fix` - lint and automatically fix any automatically fixable lint issues found.
  - `yarn test` - run unit/integration tests.
  - `yarn health` - run tests and lint code with machine-readable outputs for CI.
+
+## Running the playground project
+
+ - Navigate to [examples/playground/](examples/playground) and run `yarn serve`. This will bring up the demo server.
+ - iOS:
+   - Open the XCode workspace at [examples/playground/ios/HelloMyStateBag.xcworkspace](examples/playground/ios/HelloMyStateBag.xcworkspace) in Xcode.
+   - Run `pod install` if you have not already done so.
+   - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode. To run on a device, modify `Diez.plist` to point to your LAN IP while on the same Wifi network as your development machine.
+ - Android:
+   - Open the Android Studio project at [examples/playground/android](examples/playground/android).
+   - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for AVD emulators, which simulate localhost URLs at the IP `10.0.2.2`. If you are using a different emulator, you may need to use a different URL. To run on a device, modify `settings.xml` to point to your LAN IP while on the same Wifi network as your development machine.
 
 ## Monorepo commands
 
