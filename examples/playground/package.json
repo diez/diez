@@ -13,5 +13,8 @@
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/compiler": "1.0.0-alpha0",
     "typescript": "^3.2.4"
+  },
+  "diez": {
+    "components": ["MyStateBag"]
   }
 }

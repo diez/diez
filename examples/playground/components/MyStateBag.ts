@@ -6,12 +6,12 @@ class MyPalette extends Component<Palette> {
   @property hello = Color.rgba(255, 0, 0, 1);
 }
 
-class MyStateBag extends Component {
+export class MyStateBag extends Component {
   @property palette: MyPalette = new MyPalette();
 
   @property name: string = 'Diez';
 
-  @property copy = `Hello ${name}`;
+  @property copy = `Hello ${this.name}`;
 
   @property image = new Image({
     file: new File({
@@ -79,5 +79,3 @@ class MyStateBag extends Component {
     );
   }
 }
-
-export const component = new MyStateBag();
