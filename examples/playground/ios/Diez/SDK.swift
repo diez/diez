@@ -1,7 +1,4 @@
 import Foundation
-import WebKit
-import UIKit
-import Lottie
 
 public class File : NSObject, Codable {
     var src: String
@@ -33,6 +30,7 @@ public class File : NSObject, Codable {
         return URLRequest(url: url)
     }
 }
+import Foundation
 
 public class Environment: NSObject {
     fileprivate var infoDict: NSDictionary {
@@ -60,12 +58,14 @@ public class Environment: NSObject {
 
 // Global singleton.
 let environment = Environment()
+import WebKit
 
 // TODO: Any? should actually be something codeable…right?
 public typealias Method = (String, Any?) -> Void
 
 public protocol StateBag : Decodable, Updatable {
     init(_ listener: Method?)
+    static var name: String { get }
 }
 
 public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
@@ -105,7 +105,8 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         wk.configuration.userContentController.add(self, name: "patch")
         if (environment.isDevelopment) {
             // TODO: Support environment-driven alternative port.
-            wk.load(URLRequest(url: URL(string: environment.serverUrl)!))
+            let url = URL(string: "\(environment.serverUrl)/components/\(T.name)")!
+            wk.load(URLRequest(url: url))
         } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
             wk.load(URLRequest(url: url))
         }
@@ -137,6 +138,8 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
 //  Copyright © 2019 Haiku. All rights reserved.
 //
 // All credit to: https://stablekernel.com/understanding-extending-swift-4-codable/
+
+import Foundation
 
 public protocol Updatable {
     mutating func update(from decoder: Decoder) throws
@@ -292,6 +295,7 @@ extension KeyedDecodingContainer {
         try value.update(from: nestedDecoder)
     }
 }
+import UIKit
 
 final public class Color : UIColor {}
 
@@ -308,6 +312,8 @@ extension Color : Decodable {
         self.init(hue: result[0], hslSaturation: result[1], lightness: result[2], alpha: result[3])
     }
 }
+import UIKit.UIView
+import WebKit
 
 // TODO: this should also be updatable.
 // TODO: this should also accept options.
@@ -344,6 +350,7 @@ public class Haiku : NSObject, Decodable, Updatable {
         view.addSubview(wk)
     }
 }
+import UIKit
 
 fileprivate let fallbackFont = "Helvetica"
 
@@ -432,6 +439,7 @@ public class TextStyle : NSObject, Decodable, Updatable {
         label.textColor = color
     }
 }
+import UIKit
 
 public class Image : NSObject, Decodable, Updatable {
     var file: File
@@ -480,6 +488,8 @@ public class Image : NSObject, Decodable, Updatable {
         }
     }
 }
+import UIKit
+import WebKit
 
 public class SVG : NSObject, Decodable, Updatable {
     var file: File
@@ -511,6 +521,7 @@ public class SVG : NSObject, Decodable, Updatable {
         view.addSubview(wk)
     }
 }
+import Foundation
 
 public final class MyPalette : NSObject, StateBag {
     public var hello: Color
@@ -518,6 +529,8 @@ public final class MyPalette : NSObject, StateBag {
     public init(_ listener: Method?) {
         hello = Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
     }
+
+    public static let name = "MyPalette"
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -537,6 +550,8 @@ public final class MyStateBag : NSObject, StateBag {
     public var svg: SVG
     public var lottie: Lottie
     var listener: Method? = nil
+
+    public static let name = "MyStateBag"
 
     private enum CodingKeys: String, CodingKey {
         case palette
@@ -597,6 +612,8 @@ public final class MyStateBag : NSObject, StateBag {
         listener!("tap", nil)
     }
 }
+import UIKit
+import Lottie
 
 public class Lottie : NSObject, Decodable, Updatable {
     var file: File

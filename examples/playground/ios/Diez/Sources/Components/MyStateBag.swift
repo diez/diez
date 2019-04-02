@@ -7,6 +7,8 @@ public final class MyPalette : NSObject, StateBag {
         hello = Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
     }
 
+    public static let name = "MyPalette"
+
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // TODO: We should be able to patch instead of replacing here.
@@ -25,6 +27,8 @@ public final class MyStateBag : NSObject, StateBag {
     public var svg: SVG
     public var lottie: Lottie
     var listener: Method? = nil
+
+    public static let name = "MyStateBag"
 
     private enum CodingKeys: String, CodingKey {
         case palette

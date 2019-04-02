@@ -5,6 +5,7 @@ public typealias Method = (String, Any?) -> Void
 
 public protocol StateBag : Decodable, Updatable {
     init(_ listener: Method?)
+    static var name: String { get }
 }
 
 public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
@@ -44,7 +45,8 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         wk.configuration.userContentController.add(self, name: "patch")
         if (environment.isDevelopment) {
             // TODO: Support environment-driven alternative port.
-            wk.load(URLRequest(url: URL(string: environment.serverUrl)!))
+            let url = URL(string: "\(environment.serverUrl)/components/\(T.name)")!
+            wk.load(URLRequest(url: url))
         } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
             wk.load(URLRequest(url: url))
         }
