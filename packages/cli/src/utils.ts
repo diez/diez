@@ -1,8 +1,9 @@
 /* tslint:disable no-var-requires */
+import {DiezConfiguration} from '@livedesigner/engine';
 import {each} from 'async';
 import {readdir, stat} from 'fs';
 import {join} from 'path';
-import {CliAction, CliCommandProvider, CliConfiguration} from './api';
+import {CliAction, CliCommandProvider} from './api';
 
 const packageJson = require(join('..', 'package.json'));
 
@@ -12,12 +13,12 @@ export const diezVersion: string = packageJson.version;
 
 const namespace = '@livedesigner';
 
-const plugins = new Map<string, CliConfiguration>();
-// tslint:disable-next-line: no-var-requires
+const plugins = new Map<string, DiezConfiguration>();
+// tslint:disable-next-line:no-var-requires variable-name
 const Module = require('module');
 let foundPlugins = false;
 
-export const findPlugins = (): Promise<Map<string, CliConfiguration>> => {
+export const findPlugins = (): Promise<Map<string, DiezConfiguration>> => {
   if (foundPlugins) {
     return Promise.resolve(plugins);
   }

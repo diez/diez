@@ -102,4 +102,7 @@ export const createProject = async (projectName?: string) => {
       compile(readFileSync(resolve(basedir, filename)).toString())(tokens),
     );
   });
+
+  // TODO: finalize template project.
+  // TODO: yarn install, print instructions.
 };

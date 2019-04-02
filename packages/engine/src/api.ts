@@ -118,3 +118,13 @@ export type Formula<T extends AnySerializable> = (...args: any[]) => T;
 export interface ExpressionResolver {
   [key: string]: any;
 }
+
+/**
+ * A Diez configuration.
+ */
+export type DiezConfiguration = Partial<{
+  cli: {
+    providers: string[];
+  };
+  components: string[];
+}>;
