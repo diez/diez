@@ -41,13 +41,15 @@ data class MyStateBag(
         50F,
         ColorAdapter.hsla(floatArrayOf(0F, 1F, 0.5F, 1F))
     ),
-    var haiku: Haiku = Haiku(File("/assets/haiku/animator.html")),
+    var haiku: Haiku = Haiku("@haiku/taylor-testthang"),
     var svg: SVG = SVG(File("/assets/images/rat.svg")),
     var lottie: Lottie = Lottie(File("/assets/lottie/loading-pizza.json"))
 ) : StateBag {
     override val adapters = listOf(
         colorAdapter
     )
+
+    override val name = "MyStateBag"
 
     @Transient
     private var listener: Method? = null

@@ -13,6 +13,7 @@ typealias Method = (String, Any?) -> Unit
 
 interface StateBag {
     val adapters : List<Any>
+    val name : String
     fun listen(listener: Method)
 }
 
@@ -60,7 +61,8 @@ class Diez<T : StateBag>(var component: T) {
         webview.addJavascriptInterface(this, "puente")
         subscribe(subscriber)
         if (Environment.isDevelopment) {
-            webview.loadUrl(Environment.serverUrl)
+            print("${Environment.serverUrl}/components/${component.name}")
+            webview.loadUrl("${Environment.serverUrl}/components/${component.name}")
         } else {
             // TODO: where is this really?
             webview.loadUrl("file:///android_asset/index.html")
