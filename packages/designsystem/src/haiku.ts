@@ -2,11 +2,11 @@ import {Component, property} from '@livedesigner/engine';
 import {File} from './file';
 
 export interface HaikuState {
-  file: File;
+  component: string;
   // TODO: add support for Haiku options.
   // TODO: add support for dimensions.
 }
 
 export class Haiku extends Component<HaikuState> {
-  @property file = new File();
+  @property component = '';
 }

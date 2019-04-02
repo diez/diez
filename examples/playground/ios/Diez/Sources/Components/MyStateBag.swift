@@ -65,8 +65,8 @@ public final class MyStateBag : NSObject, StateBag {
             withColor: Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
         )
         listener = listenerIn
-        haiku = Haiku(withFile: File(withSrc: "/assets/haiku/animator.html"))
-        svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg.html"))
+        haiku = Haiku(withPackageName: "@haiku/taylor-testthang")
+        svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg"))
         lottie = Lottie(withFile: File(withSrc: "/assets/lottie/loading-pizza.json"))
     }
 

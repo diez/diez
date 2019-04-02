@@ -4,23 +4,27 @@ import WebKit
 // TODO: this should also be updatable.
 // TODO: this should also accept options.
 public class Haiku : NSObject, Decodable, Updatable {
-    var file: File
+    var packageName: String
 
-    init(withFile file: File) {
-        self.file = file
+    init(withPackageName packageName: String) {
+        self.packageName = packageName
+    }
+
+    private func file() -> File {
+      return File(withSrc: "/haiku/\(packageName)")
     }
 
     private enum CodingKeys: String, CodingKey {
-        case file
+        case packageName
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
+        packageName = try container.decode(String.self, forKey: .packageName)
     }
 
     public func embedHaiku(inView view: UIView) {
-        guard let request = file.request() else {
+        guard let request = file().request() else {
             print("unable to load Haiku URL")
             return
         }

@@ -42,7 +42,7 @@ data class MyStateBag(
         ColorAdapter.hsla(floatArrayOf(0F, 1F, 0.5F, 1F))
     ),
     var haiku: Haiku = Haiku(File("/assets/haiku/animator.html")),
-    var svg: SVG = SVG(File("/assets/images/rat.svg.html")),
+    var svg: SVG = SVG(File("/assets/images/rat.svg")),
     var lottie: Lottie = Lottie(File("/assets/lottie/loading-pizza.json"))
 ) : StateBag {
     override val adapters = listOf(

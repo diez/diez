@@ -5,6 +5,7 @@
     "serve": "diez serve"
   },
   "dependencies": {
+    "@haiku/taylor-testthang": "^0.0.2",
     "@livedesigner/designsystem": "1.0.0-alpha0",
     "@livedesigner/engine": "1.0.0-alpha0",
     "just-curves": "^0.2.0"
@@ -15,6 +16,8 @@
     "typescript": "^3.2.4"
   },
   "diez": {
-    "components": ["MyStateBag"]
+    "components": [
+      "MyStateBag"
+    ]
   }
 }

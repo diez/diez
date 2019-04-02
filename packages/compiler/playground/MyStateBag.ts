@@ -38,7 +38,7 @@ class MyStateBag extends Component<MyStateShape> {
   });
 
   @property svg = new SVG({
-    file: new File({src: '/assets/images/rat.svg.html'}),
+    file: new File({src: '/assets/images/rat.svg'}),
   });
 
   @property lottie = new Lottie({

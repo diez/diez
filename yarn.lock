@@ -61,10 +61,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.0.0", "@babel/parser@^7.4.0":
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.4.2.tgz#b4521a400cb5a871eab3890787b4bc1326d38d91"
-  integrity sha512-9fJTDipQFvlfSVdD/JBtkiY0br9BtfvW2R8wo6CX/Ej2eMuV0gWPk1M67Mt3eggQvBqYW1FCEk8BN7WvGm/g5g==
+"@babel/parser@^7.0.0", "@babel/parser@^7.4.0", "@babel/parser@^7.4.3":
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.4.3.tgz#eb3ac80f64aa101c907d4ce5406360fe75b7895b"
+  integrity sha512-gxpEUhTS1sGA63EGQGuA+WESPR/6tz6ng7tSHFCmaTJK/cGK8y37cBTspX+U2xCAue2IQVvF6Z0oigmjwD8YGQ==
 
 "@babel/template@^7.0.0", "@babel/template@^7.1.0":
   version "7.4.0"
@@ -76,15 +76,15 @@
     "@babel/types" "^7.4.0"
 
 "@babel/traverse@^7.0.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.4.0.tgz#14006967dd1d2b3494cdd650c686db9daf0ddada"
-  integrity sha512-/DtIHKfyg2bBKnIN+BItaIlEg5pjAnzHOIQe5w+rHAw/rg9g0V7T4rqPX8BJPfW11kt3koyjAnTNwCzb28Y1PA==
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.4.3.tgz#1a01f078fc575d589ff30c0f71bf3c3d9ccbad84"
+  integrity sha512-HmA01qrtaCwwJWpSKpA948cBvU5BrmviAief/b3AVw936DtcdsTexlbyzNuDnthwhOQ37xshn7hvQaEQk7ISYQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/generator" "^7.4.0"
     "@babel/helper-function-name" "^7.1.0"
     "@babel/helper-split-export-declaration" "^7.4.0"
-    "@babel/parser" "^7.4.0"
+    "@babel/parser" "^7.4.3"
     "@babel/types" "^7.4.0"
     debug "^4.1.0"
     globals "^11.1.0"
@@ -117,6 +117,18 @@
     inversify "^5.0.0"
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
+
+"@haiku/core@^4.3.11":
+  version "4.5.2"
+  resolved "https://reservoir.haiku.ai:8910/@haiku%2fcore/-/core-4.5.2.tgz#0c054a1cb8bb26ecfebf7f0adafae194093d3c9a"
+  integrity sha512-C1dFZcv2lBieVgfXM89D/BrKwBvWieYZzEL7BF3Xn9PDwMty1EjihiyZ2M+bORpSZ2ipcweg0gULb9Fz6UQqbQ==
+
+"@haiku/taylor-testthang@^0.0.2":
+  version "0.0.2"
+  resolved "https://reservoir.haiku.ai:8910/@haiku%2ftaylor-testthang/-/taylor-testthang-0.0.2.tgz#d782705cb598ae72cf770fd55e340c1d4b56465b"
+  integrity sha512-8tj6d9i1dHzgP6DsKcF9NGFZFd7NP2/9e8NLpLD0+/vWnaELgdB30Pl/es9aTHh0OUlg2/dXEcqT4E3aeIuVZw==
+  dependencies:
+    "@haiku/core" "^4.3.11"
 
 "@lerna/add@3.13.1":
   version "3.13.1"

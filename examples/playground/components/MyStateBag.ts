@@ -24,7 +24,7 @@ export class MyStateBag extends Component {
   });
 
   @property svg = new SVG({
-    file: new File({src: '/assets/images/rat.svg.html'}),
+    file: new File({src: '/assets/images/rat.svg'}),
   });
 
   @property lottie = new Lottie({
@@ -54,7 +54,7 @@ export class MyStateBag extends Component {
   });
 
   @property haiku = new Haiku({
-    file: new File({src: '/assets/haiku/animator.html'}),
+    component: '@haiku/taylor-testthang',
   });
 
   @method async tap () {
