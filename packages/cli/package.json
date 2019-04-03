@@ -27,7 +27,7 @@
     "jest-tap-reporter": "^1.9.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.19",
+    "tslint-config-haiku": "^1.0.20",
     "typescript": "^3.4.1"
   },
   "dependencies": {

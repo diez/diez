@@ -7769,17 +7769,17 @@ tslint-config-airbnb@^5.10.0:
     tslint-eslint-rules "^5.4.0"
     tslint-microsoft-contrib "~5.2.1"
 
-tslint-config-haiku@^1.0.19:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.19.tgz#a16a5a13bd4a513f5d5f5b2665cd6d386c712ee1"
-  integrity sha512-xlt6iPE/D6CCoUpJEjCn4gajVBd1loinbCJzC6iK49cxCW9BiA2Pj8hYjtjE/LkDawaKawuWJS5DD84YfVC/fA==
+tslint-config-haiku@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.20.tgz#a623705a23b28c80786022f0101fdd01f8950e38"
+  integrity sha512-y+490m97AmQbAh8yW+kxA1PozpLGFDFmC1oo4TDdvKM2O/xirAZfqyuiViiFsEV3Ag0PTmFmGXgAXtFk1FTRzQ==
   dependencies:
     tslib "^1.9.3"
     tslint "^5.11.0"
     tslint-config-airbnb "^5.10.0"
     tslint-consistent-codestyle "^1.13.3"
     tslint-eslint-rules "^5.4.0"
-    tslint-no-circular-imports "^0.6.1"
+    tslint-no-circular-imports "^0.6.2"
     tslint-react "^3.6.0"
     tsutils "^3.0.0"
     typescript "^3.0.3"
@@ -7809,7 +7809,7 @@ tslint-microsoft-contrib@~5.2.1:
   dependencies:
     tsutils "^2.27.2 <2.29.0"
 
-tslint-no-circular-imports@^0.6.1:
+tslint-no-circular-imports@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/tslint-no-circular-imports/-/tslint-no-circular-imports-0.6.2.tgz#ee00dbf6ebb98f8de45a8e3bf743d2656b2e8df4"
   integrity sha512-WtOE8ArVcZzFDw62Ya/tzk0VeB4xLh4V0Eft2jxKHqUpDzz2S6J63AnhQv3YVyChaj7G4tBhPBE0tcVAflsw4A==
