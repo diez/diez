@@ -27,7 +27,7 @@ export const bootstrap = async () => {
     }
 
     try {
-      for (const path of cli.providers) {
+      for (const path of cli.commandProviders) {
         registerWithProvider(require(join(plugin, path)));
       }
     } catch (error) {

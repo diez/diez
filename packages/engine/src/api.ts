@@ -1,3 +1,5 @@
+import {RequestHandler} from 'express';
+
 /**
  * Primitive types. These can always be serialized over the wire without intervention.
  */
@@ -124,7 +126,10 @@ export interface ExpressionResolver {
  */
 export type DiezConfiguration = Partial<{
   cli: {
-    providers: string[];
+    commandProviders: string[];
   };
   components: string[];
+  compiler: {
+    templateProviders: string[];
+  };
 }>;

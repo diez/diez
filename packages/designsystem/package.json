@@ -20,6 +20,7 @@
     "@livedesigner/engine": "1.0.0-alpha0"
   },
   "devDependencies": {
+    "@livedesigner/compiler": "1.0.0-alpha0",
     "@types/jest": "^23.3.13",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",
@@ -28,5 +29,13 @@
     "tslint": "^5.12.1",
     "tslint-config-haiku": "^1.0.18",
     "typescript": "^3.2.4"
+  },
+  "diez": {
+    "compiler": {
+      "templateProviders": [
+        "./lib/templates/haiku",
+        "./lib/templates/svg"
+      ]
+    }
   }
 }

@@ -3,6 +3,6 @@ import {serveAction} from './serve.action';
 
 export = provideCommand(
   'serve',
-  'Serves the current directory.',
+  'Hot-serve a local Diez project.',
   serveAction,
 );

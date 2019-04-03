@@ -1,12 +1,17 @@
-import {info} from '@livedesigner/cli';
-import express from 'express';
+import {findPlugins, info} from '@livedesigner/cli';
+import express, {Express} from 'express';
 import expressHandlebars from 'express-handlebars';
 import {existsSync, readFile} from 'fs-extra';
-import {resolve} from 'path';
+import {join, resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import {TemplateProvider} from '../api';
 import {getConfiguration} from '../server/config';
+
+const registerWithProvider = (app: Express, projectRoot: string, provider: TemplateProvider) => {
+  app.get(provider.path, provider.factory(projectRoot));
+};
 
 export const serveAction = async () => {
   const app = express();
@@ -30,45 +35,15 @@ export const serveAction = async () => {
     response.render('component', {componentName});
   });
 
-  // TODO: should packages (e.g. the @livedesigner/designsystem package) yield their own templates and routes?
-  app.get('/assets/(*/)?(*.svg)', (request, response) => {
-    const svgFile = resolve(projectRoot, 'assets', request.params[0] || '', request.params[1]);
-    if (!existsSync(svgFile)) {
-      response.status(404);
-      return response.end();
+  for (const [plugin, config] of await findPlugins()) {
+    if (!config.compiler || !config.compiler.templateProviders) {
+      continue;
     }
 
-    readFile(svgFile, (_, svgContentsBuffer) => {
-      response.render('svg', {svgContents: svgContentsBuffer.toString()});
-    });
-  });
-
-  // TODO: should packages (e.g. the @livedesigner/designsystem package) yield their own templates and routes?
-  app.get('/haiku/(*)', (request, response) => {
-    let packagePath = '';
-    try {
-      packagePath = require.resolve(request.params[0]);
-    } catch (e) {
-      response.status(404);
-      return response.end();
+    for (const path of config.compiler.templateProviders) {
+      registerWithProvider(app, projectRoot, require(join(plugin, path)));
     }
-
-    const standandaloneIndexPath = packagePath.replace('index.js', 'index.standalone.js');
-    if (!existsSync(standandaloneIndexPath)) {
-      response.status(404);
-      return response.end();
-    }
-
-    readFile(standandaloneIndexPath, (_, standaloneIndexContentBuffer) => {
-      const standaloneIndexContent = standaloneIndexContentBuffer.toString();
-      const matches = standaloneIndexContent.match(/var (\w+)=/);
-      if (!matches) {
-        response.status(404);
-        return response.end();
-      }
-      response.render('haiku', {standaloneIndexContent, adapterName: matches[1]});
-    });
-  });
+  }
 
   // TODO: should this be configured or always a magic directory called "assets"?
   app.use('/assets', express.static(resolve(projectRoot, 'assets')));

@@ -1,5 +1,6 @@
 {
   "name": "@livedesigner/compiler",
+  "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "The Diez Compiler.",
   "author": "The Haiku Team <contact@haiku.ai>",
@@ -12,8 +13,7 @@
     "watch": "tsc --watch",
     "test": "jest",
     "lint": "tslint -p . -t stylish",
-    "fix": "tslint -p . -t stylish --fix",
-    "serve": "webpack-dev-server -w --hot --inline --config devserver.webpack.config.js --host 0.0.0.0 --port 8081"
+    "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
@@ -51,7 +51,7 @@
   },
   "diez": {
     "cli": {
-      "providers": [
+      "commandProviders": [
         "./lib/commands/compile",
         "./lib/commands/create",
         "./lib/commands/serve"

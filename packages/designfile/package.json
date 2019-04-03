@@ -50,7 +50,7 @@
   },
   "diez": {
     "cli": {
-      "providers": [
+      "commandProviders": [
         "./lib/commands/extract"
       ]
     }
