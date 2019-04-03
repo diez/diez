@@ -46,5 +46,5 @@ The following commands are available in all subpackages, as well as in the monor
 
 ## Monorepo commands
 
- - `yarn create-package` - create a package and register it with `lerna`. This command will create a new TypeScript package in `packages/` in the `@livedesigner` namespace with a dependency on `@livedesigner/engine`. Note: this repository uses TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) and a common to optimize the development experience. When you create a package dependency on another local package, be sure to update project references in its `tsconfig.json` for an ideal editing/development experience.
- - `yarn release` - TODO.
+ - `yarn create-package` - creates a package and registers it with `lerna`. This command will create a new TypeScript package in `packages/` in the `@livedesigner` namespace with a dependency on `@livedesigner/engine`. Note: this repository uses TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) and a common to optimize the development experience. When you create a package dependency on another local package, be sure to update project references in its `tsconfig.json` for an ideal editing/development experience.
+ - `yarn docs` - generates the latest version of API docs in `./api`.

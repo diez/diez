@@ -9,6 +9,7 @@
   "description": "Diez monorepo.",
   "license": "Proprietary",
   "devDependencies": {
+    "@strictsoftware/typedoc-plugin-monorepo": "^0.2.1",
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^5.0.4",
@@ -20,10 +21,12 @@
     "ts-node": "^8.0.2",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.19",
+    "typedoc": "^0.14.2",
     "typescript": "^3.4.1"
   },
   "scripts": {
     "create-package": "ts-node ./scripts/cli.ts create-package",
+    "docs": "typedoc",
     "compile": "lerna run compile",
     "watch": "lerna run --parallel watch",
     "fix": "lerna run fix",

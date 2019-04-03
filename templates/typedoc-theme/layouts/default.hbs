@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="minimal no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{model.name}} | {{project.name}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{relativeURL "assets/css/main.css"}}">
+</head>
+<body>
+
+{{> header}}
+
+<nav class="tsd-navigation secondary">
+    <h4>Packages</h4>
+    <ul>
+        {{#each toc.children}}
+            {{> toc}}
+        {{/each}}
+    </ul>
+</nav>
+
+<div class="container container-main">
+    <div class="content-wrap">
+        {{#if model.readme}}
+                <div class="tsd-panel tsd-typography">
+                        {{#markdown}}{{{model.readme}}}{{/markdown}}
+                </div>
+        {{/if}}
+
+        {{{contents}}}
+        {{> footer}}
+    </div>
+</div>
+
+{{> analytics}}
+
+</body>
+</html>

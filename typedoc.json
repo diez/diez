@@ -1,0 +1,16 @@
+{
+  "name": "Diez",
+  "mode": "modules",
+  "out": "api",
+  "theme": "./templates/typedoc-theme",
+  "ignoreCompilerErrors": "false",
+  "preserveConstEnums": "true",
+  "stripInternal": "true",
+  "excludeNotExported": "true",
+  "excludePrivate": "true",
+  "external-modulemap": ".*packages\/([^\/]+)\/.*",
+  "readme": "./docs/API.md",
+  "exclude": [
+    "scripts/**/*.ts"
+  ]
+}
