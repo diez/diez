@@ -1,6 +1,5 @@
 import WebKit
 
-// TODO: Any? should actually be something codeable…right?
 public typealias Method = (String, Any?) -> Void
 
 public protocol StateBag : Decodable, Updatable {
@@ -44,7 +43,6 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         subscriber(component)
         wk.configuration.userContentController.add(self, name: "patch")
         if (environment.isDevelopment) {
-            // TODO: Support environment-driven alternative port.
             let url = URL(string: "\(environment.serverUrl)/components/\(T.name)")!
             wk.load(URLRequest(url: url))
         } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
