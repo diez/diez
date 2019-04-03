@@ -4,6 +4,9 @@ import {copy, existsSync} from 'fs-extra';
 import {join} from 'path';
 import {currentVersion, replaceInFile, root, run} from '../internal/helpers';
 
+/**
+ * Creates a new package in the monorepo.
+ */
 export const createPackage = async (name: string) => {
   const templateLocation = join(root, 'templates', 'package');
   if (!existsSync(templateLocation)) {

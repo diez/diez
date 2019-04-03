@@ -17,7 +17,9 @@
     "commander": "^2.19.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
+    "fs-walk": "^0.0.2",
     "lerna": "^3.13.1",
+    "ts-morph": "^1.3.3",
     "ts-node": "^8.0.2",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
@@ -26,7 +28,7 @@
   },
   "scripts": {
     "create-package": "ts-node ./scripts/cli.ts create-package",
-    "docs": "typedoc",
+    "docs": "ts-node ./scripts/cli.ts generate-docs",
     "compile": "lerna run compile",
     "watch": "lerna run --parallel watch",
     "fix": "lerna run fix",

@@ -40,6 +40,8 @@ interface EndtimeResolver<T> {
 
 /**
  * The abstract Component class is responsible for serializing its readonly state via patches.
+ * @typeparam T - An [[Indexable]] interface the component state must adhere to. This parameter can be elided unless the
+ *                component is instantiated with overridden state.
  */
 export abstract class Component<T extends Indexable = {}>
   implements Stateful<T>, Tweenable<T>, Listening, Tickable, Serializable {
