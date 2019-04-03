@@ -5,6 +5,7 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
+    "incremental": true,
     "target": "es2017",
     "module": "commonjs",
     "lib": ["es2017", "dom"],

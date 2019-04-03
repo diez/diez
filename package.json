@@ -16,11 +16,11 @@
     "commander": "^2.19.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
-    "lerna": "^3.10.7",
+    "lerna": "^3.13.1",
     "ts-node": "^8.0.2",
-    "tslint": "^5.12.1",
+    "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.18",
-    "typescript": "^3.2.4"
+    "typescript": "^3.4.1"
   },
   "scripts": {
     "create-package": "ts-node ./scripts/cli.ts create-package",
