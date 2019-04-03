@@ -1,4 +1,4 @@
-import {RequestHandler} from 'express-serve-static-core';
+import {RequestHandler} from 'express';
 
 export type TemplateHandlerFactory = (projectRoot: string) => RequestHandler;
 

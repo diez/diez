@@ -4911,7 +4911,7 @@ left-pad@^1.3.0:
   resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.3.0.tgz#5b8a3a7765dfe001261dde915589e782f8c94d1e"
   integrity sha512-XI5MPzVNApjAyhQzphX8BkmKsKUxD4LdyK24iZeQGinBN9yTQT3bFlCBy/aVx2HrNcqQGsdot8ghrjyrvMCoEA==
 
-lerna@^3.10.7:
+lerna@^3.13.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.13.1.tgz#feaff562176f304bd82329ca29ce46ab6c033463"
   integrity sha512-7kSz8LLozVsoUNTJzJzy+b8TnV9YdviR2Ee2PwGZSlVw3T1Rn7kOAPZjEi+3IWnOPC96zMPHVmjCmzQ4uubalw==
@@ -7671,10 +7671,10 @@ tslint-config-airbnb@^5.10.0:
     tslint-eslint-rules "^5.4.0"
     tslint-microsoft-contrib "~5.2.1"
 
-tslint-config-haiku@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.18.tgz#029a12f1f4c0804d84a75bd885d26739f3e501e2"
-  integrity sha512-fdUnKCwSZ/PBd/ZKXsiqWNnL3OCnAisES4eCcskjBi/nQWJvMryUfUFrEquV4V+LNfvVlzl0gxXnbR2rSN8SsA==
+tslint-config-haiku@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.19.tgz#a16a5a13bd4a513f5d5f5b2665cd6d386c712ee1"
+  integrity sha512-xlt6iPE/D6CCoUpJEjCn4gajVBd1loinbCJzC6iK49cxCW9BiA2Pj8hYjtjE/LkDawaKawuWJS5DD84YfVC/fA==
   dependencies:
     tslib "^1.9.3"
     tslint "^5.11.0"

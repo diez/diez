@@ -1,5 +1,3 @@
-import {RequestHandler} from 'express';
-
 /**
  * Primitive types. These can always be serialized over the wire without intervention.
  */

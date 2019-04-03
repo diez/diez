@@ -17,6 +17,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
+    "@livedesigner/engine": "1.0.0-alpha0",
     "@types/async": "^2.4.1",
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
@@ -26,7 +27,7 @@
     "jest-tap-reporter": "^1.9.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.18",
+    "tslint-config-haiku": "^1.0.19",
     "typescript": "^3.4.1"
   },
   "dependencies": {
