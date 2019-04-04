@@ -1,0 +1,32 @@
+{
+  "name": "@livedesigner/site",
+  "version": "1.0.0-alpha0",
+  "description": "The official website for Diez.js https://diezjs.org",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "Proprietary",
+  "scripts": {
+    "start": "nuxt",
+    "build": "nuxt generate",
+    "test": "jest",
+    "lint": "vue-tslint --gitignore",
+    "fix": "vue-tslint --gitignore --fix"
+  },
+  "dependencies": {
+    "@nuxtjs/google-analytics": "^2.2.0",
+    "modern-normalize": "^0.5.0",
+    "nuxt": "^2.5.1",
+    "nuxt-property-decorator": "^2.1.3"
+  },
+  "devDependencies": {
+    "@nuxt/typescript": "^2.5.1",
+    "@types/jest": "^23.3.13",
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "jest": "^23.6.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "ts-jest": "^23.10.5",
+    "tslint-config-haiku": "^1.0.20",
+    "vue-jest": "^3.0.4",
+    "vue-tslint": "^0.3.2"
+  }
+}

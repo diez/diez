@@ -1,0 +1,10 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint-config-haiku"
+  ],
+  "rules": {
+    "import-name": false,
+    "no-implicit-dependencies": [true, "dev", ["@/pages"]]
+  }
+}
