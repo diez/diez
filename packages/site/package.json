@@ -9,7 +9,8 @@
     "build": "nuxt generate",
     "test": "jest",
     "lint": "vue-tslint --gitignore",
-    "fix": "vue-tslint --gitignore --fix"
+    "fix": "vue-tslint --gitignore --fix",
+    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml"
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.2.0",
@@ -18,6 +19,8 @@
     "nuxt-property-decorator": "^2.1.3"
   },
   "devDependencies": {
+    "jest-tap-reporter": "^1.9.0",
+    "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "@nuxt/typescript": "^2.5.1",
     "@types/jest": "^23.3.13",
     "@vue/test-utils": "^1.0.0-beta.29",
