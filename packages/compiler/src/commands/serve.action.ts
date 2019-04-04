@@ -1,7 +1,6 @@
 import {findPlugins, info} from '@livedesigner/cli';
 import express, {Express} from 'express';
 import expressHandlebars from 'express-handlebars';
-import {existsSync, readFile} from 'fs-extra';
 import {join, resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -13,6 +12,11 @@ const registerWithProvider = (app: Express, projectRoot: string, provider: Templ
   app.get(provider.path, provider.factory(projectRoot));
 };
 
+/**
+ * The serve action starts a hot server for a live design session.
+ *
+ * Eventually, this action should be retired in favor of `diez compile --dev`.
+ */
 export const serveAction = async () => {
   const app = express();
   const projectRoot = global.process.cwd();
