@@ -2,7 +2,7 @@ import {exec} from 'child_process';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {createServer, Server} from 'http';
 import klawSync from 'klaw-sync';
-import opn = require('opn');
+import open = require('open');
 import {platform, tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
@@ -103,7 +103,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
         reject(error);
       }
     }).listen(port, async () => {
-      const cp = await opn(authUrl, {wait: false});
+      const cp = await open(authUrl, {wait: false});
       cp.unref();
     });
 

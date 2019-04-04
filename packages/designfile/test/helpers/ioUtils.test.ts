@@ -4,7 +4,7 @@ import {join} from 'path';
 import * as ioUtils from '../../src/helpers/ioUtils';
 
 jest.mock('fs-extra');
-jest.mock('opn');
+jest.mock('open');
 
 afterEach(cleanupMockFileSystem);
 
