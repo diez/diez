@@ -10,6 +10,7 @@
   "external-modulemap": ".*packages\/([^\/]+)\/.*",
   "readme": "./docs/API.md",
   "exclude": [
-    "scripts/**/*.ts"
+    "scripts/**/*.ts",
+    "packages/site/**/*.ts"
   ]
 }
