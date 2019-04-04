@@ -12,7 +12,7 @@ interface AdaptedWindow extends Window {
 const adaptedWindow = window as AdaptedWindow;
 
 const getComponentDefinition = async (): Promise<typeof ConcreteComponent> => {
-  const componentFile = await import(`@/${adaptedWindow.componentName}`) as any;
+  const componentFile = await import(`${'@'}`) as any;
   return componentFile[adaptedWindow.componentName];
 };
 

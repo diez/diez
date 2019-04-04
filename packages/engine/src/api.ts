@@ -129,5 +129,6 @@ export type DiezConfiguration = Partial<{
   components: string[];
   compiler: {
     templateProviders: string[];
+    [name: string]: any;
   };
 }>;

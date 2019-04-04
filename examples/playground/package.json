@@ -1,5 +1,6 @@
 {
   "name": "@livedesigner/playground",
+  "main": "lib/index.js",
   "version": "1.0.0",
   "scripts": {
     "serve": "diez serve"

@@ -22,7 +22,7 @@ export const getConfiguration = (projectRoot: string): Configuration => ({
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
-      '@': join(relative(__dirname, projectRoot), 'components'),
+      '@': join(relative(__dirname, projectRoot), 'src'),
     },
   },
   output: {
