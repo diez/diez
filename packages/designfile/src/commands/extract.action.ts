@@ -1,4 +1,4 @@
-import {info, success} from '@diez/cli';
+import {info, success, warning} from '@diez/cli';
 import {Registry} from '@diez/storage';
 import {prompt} from 'enquirer';
 import {ExporterFactory} from '../exporters';
@@ -55,6 +55,6 @@ You may use a local filesystem path for Sketch and Illustrator files, or a remot
   }
 
   const exporter = factory.create(...constructorArgs);
-  await exporter.exportSVG(designFile, outputDirectory, {progress: info});
+  await exporter.exportSVG(designFile, outputDirectory, {progress: info, error: warning});
   success(`Design files were extracted to ${outputDirectory}.`);
 };

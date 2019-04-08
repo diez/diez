@@ -1,5 +1,6 @@
 export type ProgressReporter = (...message: any[]) => void;
-export type Reporters = {progress: ProgressReporter}
+export type ErrorReporter = (...message: any[]) => void;
+export type Reporters = {progress: ProgressReporter, error: ErrorReporter}
 
 /**
  * Defines a common interface for Exporters
