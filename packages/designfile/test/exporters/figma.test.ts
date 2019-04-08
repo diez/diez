@@ -26,7 +26,7 @@ describe('Figma', () => {
 
   describe('#exportSVG', () => {
     test('exports assets as expected from a Figma URL', async () => {
-      const result = await figma.exportSVG('http://figma.com/file/key/name', 'out', () => {});
+      const result = await figma.exportSVG('http://figma.com/file/key/name', 'out');
       expect(result).toBeUndefined();
       expect(mockFileSystem['out/groups/Group.svg']).toBeTruthy();
       expect(mockFileSystem['out/groups/Subgroup.svg']).toBeTruthy();

@@ -2,7 +2,7 @@ import {findOpenPort} from '@diez/cli';
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';
-import {Exporter, ExporterFactory, OAuthable, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, OAuthable, Reporters} from '.';
 import {chunk} from '../helpers/arrayUtils';
 import {createFolders, getOAuthCodeFromBrowser, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequest, performGetRequestWithBearerToken} from '../helpers/request';
@@ -238,7 +238,7 @@ export const FigmaExporter: ExporterFactory = class implements Exporter, OAuthab
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
+  async exportSVG (source: string, out: string, reporters: Reporters = {progress: console.log}) {
     if (!await FigmaExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
@@ -255,13 +255,13 @@ export const FigmaExporter: ExporterFactory = class implements Exporter, OAuthab
       );
     }
 
-    onProgress('Fetching information from Figma.');
+    reporters.progress('Fetching information from Figma.');
     const file = await fetchFile(projectData.id, this.token);
     await createFolders(out, folders);
     const elements = await findExportableNodes(file.document.children, projectData.id, new UniqueNameResolver());
-    onProgress('Fetching SVG elements from Figma.');
+    reporters.progress('Fetching SVG elements from Figma.');
     const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);
-    onProgress('Downloading SVG elements.');
+    reporters.progress('Downloading SVG elements.');
     await getSVGContents(elementsWithLinks, out);
   }
 };

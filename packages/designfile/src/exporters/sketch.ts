@@ -1,7 +1,7 @@
 import {execAsync, isMacOS} from '@diez/cli';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
-import {Exporter, ExporterFactory, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, Reporters} from '.';
 import {createFolders, escapeShell, fixGammaOfPNGFiles, locateBinaryMacOS} from '../helpers/ioUtils';
 
 const enum ValidType {
@@ -54,7 +54,7 @@ export const SketchExporter: ExporterFactory = class implements Exporter {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
+  async exportSVG (source: string, out: string, reporters: Reporters = {progress: console.log}) {
     if (!await SketchExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
@@ -69,15 +69,15 @@ export const SketchExporter: ExporterFactory = class implements Exporter {
       throw new Error('Unable to locate Sketch installation.');
     }
 
-    onProgress('Creating necessary folders.');
+    reporters.progress('Creating necessary folders.');
     await createFolders(out, folders);
-    onProgress('Running sketchtool export commands.');
+    reporters.progress('Running sketchtool export commands.');
     await runExportCommand(parserCliPath, source, folders.get(ValidType.Slice)!, out);
     await runExportCommand(parserCliPath, source, folders.get(ValidType.Artboard)!, out);
 
     // Now loop through all of the outputs and fix the gamma value which leads to opacitation inconsistencies
     // between browsers
-    onProgress('Fixing gamma of png files.');
+    reporters.progress('Fixing gamma of png files.');
     await fixGammaOfPNGFiles(out);
   }
 };

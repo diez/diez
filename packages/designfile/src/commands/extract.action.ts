@@ -55,6 +55,6 @@ You may use a local filesystem path for Sketch and Illustrator files, or a remot
   }
 
   const exporter = factory.create(...constructorArgs);
-  await exporter.exportSVG(designFile, outputDirectory, info);
+  await exporter.exportSVG(designFile, outputDirectory, {progress: info});
   success(`Design files were extracted to ${outputDirectory}.`);
 };

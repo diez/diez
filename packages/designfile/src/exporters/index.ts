@@ -1,10 +1,11 @@
 export type ProgressReporter = (...message: any[]) => void;
+export type Reporters = {progress: ProgressReporter}
 
 /**
  * Defines a common interface for Exporters
  */
 export interface Exporter {
-  exportSVG (source: string, out: string, onProgress?: ProgressReporter): Promise<void>;
+  exportSVG (source: string, out: string, reporters?: Reporters): Promise<void>;
 }
 
 /**

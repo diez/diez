@@ -1,7 +1,7 @@
 import {execAsync} from '@diez/cli';
 import {pathExists, writeFile} from 'fs-extra';
 import {extname, join, resolve} from 'path';
-import {Exporter, ExporterFactory, ProgressReporter} from '.';
+import {Exporter, ExporterFactory, Reporters} from '.';
 import {createFolders, generateRandomFilePath} from '../helpers/ioUtils';
 
 const illustratorExtension = '.ai';
@@ -102,17 +102,17 @@ export const IllustratorExporter: ExporterFactory = class implements Exporter {
    * @param source from where to extract the SVG
    * @param out directory to put the SVG
    */
-  async exportSVG (source: string, out: string, onProgress: ProgressReporter = console.log) {
+  async exportSVG (source: string, out: string, reporters: Reporters = {progress: console.log}) {
     if (!await IllustratorExporter.canParse(source)) {
       throw new Error('Invalid source file.');
     }
 
-    onProgress('Creating necessary folders.');
+    reporters.progress('Creating necessary folders.');
     await createFolders(out, folders);
     const exportScriptPath = generateRandomFilePath('jsx');
     const outdir = join(out, folders.get(ValidType.Artboard)!);
     const exportScriptContents = generateScript(outdir, source);
-    onProgress('Running export script.');
+    reporters.progress('Running export script.');
     await writeFile(exportScriptPath, exportScriptContents);
     await openIllustratorFile(source);
     await openIllustratorFile(exportScriptPath);

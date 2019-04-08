@@ -46,7 +46,7 @@ describe('Sketch', () => {
   describe('#exportSVG', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
-      await sketch.exportSVG('test.sketch', 'outdir', () => {});
+      await sketch.exportSVG('test.sketch', 'outdir');
       expect(mockExec).toHaveBeenCalledTimes(3);
       expect(mockExec).toHaveBeenNthCalledWith(1,
         'mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
@@ -58,15 +58,15 @@ describe('Sketch', () => {
 
     test('returns false if the file provided cannot be parsed by this module', async () => {
       await writeFile('test.ai', '');
-      await expect(sketch.exportSVG('test.ai', 'out', () => {})).rejects.toThrow('Invalid source file.');
+      await expect(sketch.exportSVG('test.ai', 'out')).rejects.toThrow('Invalid source file.');
       await writeFile('test.sketchster', '');
-      await expect(sketch.exportSVG('test.sketchster', 'out', () => {})).rejects.toThrow('Invalid source file.');
+      await expect(sketch.exportSVG('test.sketchster', 'out')).rejects.toThrow('Invalid source file.');
     });
 
     test('throws an error if not on mac', async () => {
       mockOsData.platform = 'win32';
       await writeFile('test.sketch', '');
-      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toThrow();
+      await expect(sketch.exportSVG('test.sketch', 'out')).rejects.toThrow();
     });
 
     test('throws an error if there is an error running the export commands', async () => {
@@ -74,7 +74,7 @@ describe('Sketch', () => {
         throw new Error('Whoops!');
       });
       await writeFile('test.sketch', '');
-      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toThrow();
+      await expect(sketch.exportSVG('test.sketch', 'out')).rejects.toThrow();
     });
   });
 });
