@@ -20,6 +20,8 @@
     "@livedesigner/test-utils": "1.0.0-alpha0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^23.3.13",
+    "fs-walk": "^0.0.2",
+    "handlebars": "^4.1.1",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",
     "jest-tap-reporter": "^1.9.0",

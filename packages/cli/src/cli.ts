@@ -1,28 +1,52 @@
 /* tslint:disable no-var-requires */
 import {args, command, help, on, parse, version} from 'commander';
 import {join} from 'path';
-import {CliCommandProvider} from '.';
+import {CliCommandProvider} from './api';
 import {fatalError} from './reporting';
 import {diezVersion, findPlugins} from './utils';
 
 version(diezVersion).name('diez');
 
+/**
+ * @internal
+ */
 const registerWithProvider = (provider: CliCommandProvider) => {
-  command(provider.command)
+  const validators: (() => void)[] = [];
+  const registeredCommand = command(provider.name)
     .description(provider.description)
-    .action(async (...actionArguments: string[]) => {
+    .action(async (...options: any[]) => {
       try {
-        await provider.action.call(undefined, ...actionArguments);
+        for (const validator of validators) {
+          await validator();
+        }
+        await provider.action.call(undefined, registeredCommand, ...options);
       } catch (error) {
         fatalError(error.message);
       }
     });
+
+  if (provider.options) {
+    for (const option of provider.options) {
+      let optionText = option.shortName ? `-${option.shortName}, --${option.longName}` : `--${option.longName}`;
+      if (option.valueName) {
+        optionText += ` <${option.valueName}>`;
+      }
+      registeredCommand.option(optionText, option.description);
+      if (!option.validator) {
+        continue;
+      }
+
+      validators.push(() => {
+        option.validator!(registeredCommand[option.longName]);
+      });
+    }
+  }
 };
 
 export const bootstrap = async () => {
   const plugins = await findPlugins();
   for (const [plugin, {cli}] of plugins) {
-    if (cli === undefined) {
+    if (!cli || !cli.commandProviders) {
       continue;
     }
 

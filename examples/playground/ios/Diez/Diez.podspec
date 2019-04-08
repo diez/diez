@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   # TODO: What are these, actually?
   s.platforms = { :ios => '12.1' }
   # TODO: Support new Lottie iOS
-  s.dependency 'lottie-ios'
+  s.dependency 'lottie-ios', '~> 2.5.2'
   s.source_files = 'SDK.swift', 'Diez.plist'
   s.framework = 'UIKit', 'WebKit'
   # TODO: s.ios.source_files and s.ios.framework for iOS, s.osx.* for macOS, and so on

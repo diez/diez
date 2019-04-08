@@ -28,7 +28,7 @@ const isAndroid = (w: CrossPlatformWindow): w is AndroidAdaptedWindow => w.hasOw
  * TODO: only wired components need a patcher; refactor accordingly?
  */
 export const getPatcher = (): Patcher => {
-  const w = window as CrossPlatformWindow;
+  const w = (typeof window !== 'undefined' ? window : {}) as CrossPlatformWindow;
   if (isIOS(w)) {
     return (payload: AnySerializable) => {
       w.webkit.messageHandlers.patch.postMessage(JSON.stringify(payload));

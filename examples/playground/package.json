@@ -1,9 +1,11 @@
 {
   "name": "@livedesigner/playground",
   "main": "lib/index.js",
+  "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "serve": "diez serve"
+    "serve": "diez serve",
+    "run-ios": "diez compile -t ios -o ios -d"
   },
   "dependencies": {
     "@haiku/taylor-testthang": "^0.0.2",
@@ -15,10 +17,5 @@
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/compiler": "1.0.0-alpha0",
     "typescript": "^3.4.1"
-  },
-  "diez": {
-    "components": [
-      "MyStateBag"
-    ]
   }
 }

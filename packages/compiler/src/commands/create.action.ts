@@ -6,24 +6,18 @@
  */
 
 import {devDependencies, diezVersion, fatalError, warning} from '@livedesigner/cli';
-import {exec} from 'child_process';
+import {outputTemplatePackage} from '@livedesigner/storage';
 import enquirer from 'enquirer';
-import {ensureDirSync, existsSync, lstatSync, readFileSync, writeFileSync} from 'fs-extra';
-import {walkSync} from 'fs-walk';
-import {compile} from 'handlebars';
+import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import pascalCase from 'pascal-case';
-import {basename, join, relative, resolve} from 'path';
+import {basename, join, resolve} from 'path';
 import validateNpmPackageName from 'validate-npm-package-name';
+import {shouldUseYarn} from '..';
+import {canUseNpm} from '../utils';
 
 interface Answers {
   projectName: string;
 }
-
-const shouldUseYarn = async () => new Promise<boolean>((resolvePromise) => {
-  exec('yarnpkg --version', (error) => {
-    resolvePromise(!error);
-  });
-});
 
 const validatePackageName = (packageName: string) => {
   const validationResult = validateNpmPackageName(packageName);
@@ -45,7 +39,7 @@ const validatePackageName = (packageName: string) => {
   }
 };
 
-const validateProjectRoot = (root: string, useYarn = false) => {
+const validateProjectRoot = async (root: string, useYarn = false) => {
   if (existsSync(root) && !lstatSync(root).isDirectory()) {
     fatalError(`Found a non-directory at ${root}.`);
   }
@@ -59,12 +53,12 @@ const validateProjectRoot = (root: string, useYarn = false) => {
     return;
   }
 
-  // TODO: check that NPM can read CWD.
-  // tslint:disable-next-line: max-line-length
-  // See https://github.com/facebook/create-react-app/blob/7864ba3ce70892ebe43d56487b45d3267890df14/packages/create-react-app/createReactApp.js#L826.
+  if (!await canUseNpm(root)) {
+    fatalError(`Unable to start an NPM process in ${root}.`);
+  }
 };
 
-export const createProject = async (projectName?: string) => {
+export const createProjectAction = async (_: {}, projectName: string) => {
   let packageName = projectName;
   if (!packageName) {
     packageName = (await enquirer.prompt<Answers>({
@@ -80,7 +74,7 @@ export const createProject = async (projectName?: string) => {
   const useYarn = await shouldUseYarn();
   const root = resolve(basename(packageName));
   const originalDirectory = process.cwd();
-  validateProjectRoot(root, useYarn);
+  await validateProjectRoot(root, useYarn);
 
   const templateRoot = resolve(__dirname, '..', '..', 'templates', 'project');
   const tokens = {
@@ -90,18 +84,7 @@ export const createProject = async (projectName?: string) => {
     componentName: pascalCase(basename(packageName)),
   };
 
-  walkSync(templateRoot, (basedir, filename, stats) => {
-    if (!stats.isFile()) {
-      return;
-    }
-
-    const outputDirectory = resolve(root, relative(templateRoot, basedir));
-    ensureDirSync(outputDirectory);
-    writeFileSync(
-      join(outputDirectory, filename),
-      compile(readFileSync(resolve(basedir, filename)).toString())(tokens),
-    );
-  });
+  outputTemplatePackage(templateRoot, root, tokens);
 
   // TODO: finalize template project.
   // TODO: yarn install, print instructions.

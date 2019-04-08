@@ -11393,6 +11393,11 @@ typedoc-default-themes@^0.5.0:
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
   integrity sha1-bcJDPnjti+qOiHo6zeLzF4W9Yic=
 
+typedoc-plugin-no-inherit@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-no-inherit/-/typedoc-plugin-no-inherit-1.1.6.tgz#535d6d4eba84766ffb932ab8c784bfe9916cace7"
+  integrity sha512-20aQgtPU3aLchr/N5wdpWVt41jdGZES2wSKxlvZ0EsZa84S2m3N46J3mf5uNCGI8v6ZeuEKmwQ3SXq6e1xPRpg==
+
 typedoc@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.14.2.tgz#769f457f4f9e4bdb8b5f3b177c86b6a31d8c3dc3"

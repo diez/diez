@@ -1,6 +1,6 @@
 PODS:
   - Diez (1.0.0-alpha0):
-    - lottie-ios
+    - lottie-ios (~> 2.5.2)
   - lottie-ios (2.5.2)
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "./Diez"
 
 SPEC CHECKSUMS:
-  Diez: 8767fee605d501515fcd47e1fea9cde6f438e791
+  Diez: 2ef68b64efd5ae5548345f7228e9a2d7bdc85aa4
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
 
 PODFILE CHECKSUM: a7f134adf013ab16ce744504cce616f5cdc8acd9

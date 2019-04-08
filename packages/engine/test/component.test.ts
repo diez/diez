@@ -183,9 +183,9 @@ describe('component', () => {
     }
 
     class Adder extends Component<AdderState> {
-      @shared a = 0;
-      @shared b = 0;
-      @shared c = 0;
+      @shared a!: number;
+      @shared b!: number;
+      @shared c!: number;
 
       @property sum = expression<number>(
         (a: number, b: number, c: number) => a + b + c,
@@ -197,9 +197,9 @@ describe('component', () => {
     }
 
     class Multiplier extends Component<MultiplierState> {
-      @shared a = 0;
-      @shared b = 0;
-      @shared c = 0;
+      @shared a!: number;
+      @shared b!: number;
+      @shared c!: number;
 
       @property product = expression<number>(
         (a: number, b: number, c: number) => a * b * c,

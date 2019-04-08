@@ -1,0 +1,17 @@
+import {Color} from '@livedesigner/designsystem';
+import {join} from 'path';
+import {IosPrefab} from '../../api';
+import {sourcesPath} from '../../utils';
+
+const prefab: IosPrefab = {
+  sources: [join(sourcesPath, 'ios', 'prefabs', 'Color.swift')],
+  imports: ['UIKit'],
+  // FIXME: can we make UIColors updateable? Possibly not!
+  updateable: false,
+  initializer: (instance: Color) => {
+    const [h, s, l, a] = instance.serialize();
+    return `Color(hue: ${h}, hslSaturation: ${s}, lightness: ${l}, alpha: ${a})`;
+  },
+};
+
+export = prefab;

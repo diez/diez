@@ -1,11 +1,11 @@
-import {provideTemplate} from '@livedesigner/compiler';
+import {TemplateProvider} from '@livedesigner/compiler';
 import {existsSync, readFile} from 'fs-extra';
 import {resolve} from 'path';
-import {viewRoot} from '..';
+import {viewRoot} from '.';
 
-export = provideTemplate(
-  '/haiku/(*)',
-  () => (request, response) => {
+const template: TemplateProvider = {
+  path: '/haiku/(*)',
+  factory: () => (request, response) => {
     let packagePath = '';
     try {
       packagePath = require.resolve(request.params[0]);
@@ -30,4 +30,6 @@ export = provideTemplate(
       response.render(resolve(viewRoot, 'haiku'), {standaloneIndexContent, adapterName: matches[1]});
     });
   },
-);
+};
+
+export = template;

@@ -1,4 +1,3 @@
-import {mockFileSystem} from '@livedesigner/test-utils';
 import {mkdirp, pathExists, readJson, writeJson} from 'fs-extra';
 import {homedir} from 'os';
 import {join} from 'path';

@@ -1,8 +1,10 @@
-import {provideCommand} from '@livedesigner/cli';
-import {createProject} from './create.action';
+import {CliCommandProvider} from '@livedesigner/cli';
+import {createProjectAction as action} from './create.action';
 
-export = provideCommand(
-  'create [project-name]',
-  'Creates a Diez project.',
-  createProject,
-);
+const provider: CliCommandProvider = {
+  action,
+  name: 'create [projectName]',
+  description: 'Creates a Diez project.',
+};
+
+export = provider;

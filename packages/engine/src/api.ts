@@ -30,6 +30,7 @@ export interface Indexable {
  * Stateful interfaces can be updated through partial state definitions.
  */
 export interface Stateful<T extends Indexable> {
+  get<K extends keyof T> (key: K): T[K];
   set (state: Partial<T>): void;
 }
 
@@ -120,15 +121,26 @@ export interface ExpressionResolver {
 }
 
 /**
+ * A specification for a Component compiler target prefab.
+ */
+export interface TargetPrefab {
+  [sourceName: string]: {
+    [componentName: string]: string;
+  };
+}
+
+/**
  * A Diez configuration.
  */
 export type DiezConfiguration = Partial<{
-  cli: {
+  cli: Partial<{
     commandProviders: string[];
-  };
-  components: string[];
-  compiler: {
+  }>;
+  compiler: Partial<{
     templateProviders: string[];
-    [name: string]: any;
-  };
+    targetProviders: string[];
+    prefabs: {
+      [targetName: string]: TargetPrefab;
+    };
+  }>;
 }>;

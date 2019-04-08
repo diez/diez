@@ -1,66 +1,9 @@
 import Foundation
-
-public class File : NSObject, Codable {
-    var src: String
-
-    private func fullyQualifiedUrl() -> String {
-        // TODO: when we are not in development, we should load the file from a local bundle URL.
-        // This will look something like: Bundle.main.url(forResource: "index", withExtension: "html")
-        // except we will be loading from the framework bundle (not main). Probably this should be handled
-        // inside class Environment {...}.
-        return environment.isDevelopment
-            ? "\(environment.serverUrl)\(src)"
-            : "TODO"
-    }
-
-    public init(withSrc src: String) {
-        self.src = src
-        super.init()
-    }
-
-    public func url() -> URL? {
-        return URL(string: fullyQualifiedUrl())
-    }
-
-    public func request() -> URLRequest? {
-        guard let url = url() else {
-            return nil
-        }
-
-        return URLRequest(url: url)
-    }
-}
-import Foundation
-
-public class Environment: NSObject {
-    fileprivate var infoDict: NSDictionary {
-        get {
-            if let path = Bundle(for: type(of: self)).path(forResource: "Diez", ofType: "plist") {
-              return NSDictionary(contentsOfFile: path)!
-            }
-
-            fatalError("Configuration not found")
-        }
-    }
-
-    var isDevelopment: Bool {
-        get {
-            return infoDict["IS_DEVELOPMENT"] as! Bool
-        }
-    }
-
-    var serverUrl: String {
-        get {
-            return infoDict["SERVER_URL"] as! String
-        }
-    }
-}
-
-// Global singleton.
-let environment = Environment()
 import WebKit
+import UIKit
+import Lottie
+import UIKit.UIView
 
-// TODO: Any? should actually be something codeable…right?
 public typealias Method = (String, Any?) -> Void
 
 public protocol StateBag : Decodable, Updatable {
@@ -104,7 +47,6 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         subscriber(component)
         wk.configuration.userContentController.add(self, name: "patch")
         if (environment.isDevelopment) {
-            // TODO: Support environment-driven alternative port.
             let url = URL(string: "\(environment.serverUrl)/components/\(T.name)")!
             wk.load(URLRequest(url: url))
         } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
@@ -130,16 +72,35 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         wk.evaluateJavaScript("tick(\(CACurrentMediaTime() * 1000))")
     }
 }
-//
-//  Serialization.swift
-//  Diez
-//
-//  Created by Sasha Joseph on 1/28/19.
-//  Copyright © 2019 Haiku. All rights reserved.
-//
-// All credit to: https://stablekernel.com/understanding-extending-swift-4-codable/
 
-import Foundation
+public class Environment: NSObject {
+    fileprivate var infoDict: NSDictionary {
+        get {
+            if let path = Bundle(for: type(of: self)).path(forResource: "Diez", ofType: "plist") {
+              return NSDictionary(contentsOfFile: path)!
+            }
+
+            fatalError("Configuration not found")
+        }
+    }
+
+    var isDevelopment: Bool {
+        get {
+            return infoDict["IS_DEVELOPMENT"] as! Bool
+        }
+    }
+
+    var serverUrl: String {
+        get {
+            return infoDict["SERVER_URL"] as! String
+        }
+    }
+}
+
+// Global singleton.
+let environment = Environment()
+
+// All credit to: https://stablekernel.com/understanding-extending-swift-4-codable/
 
 public protocol Updatable {
     mutating func update(from decoder: Decoder) throws
@@ -295,7 +256,6 @@ extension KeyedDecodingContainer {
         try value.update(from: nestedDecoder)
     }
 }
-import UIKit
 
 final public class Color : UIColor {}
 
@@ -312,39 +272,128 @@ extension Color : Decodable {
         self.init(hue: result[0], hslSaturation: result[1], lightness: result[2], alpha: result[3])
     }
 }
-import UIKit.UIView
-import WebKit
 
-// TODO: this should also be updatable.
-// TODO: this should also accept options.
-public class Haiku : NSObject, Decodable, Updatable {
-    var component: String
-
-    init(withComponent component: String) {
-        self.component = component
-    }
-
-    private func file() -> File {
-      return File(withSrc: "/haiku/\(component)")
-    }
+public final class MyPalette : NSObject, StateBag {
+    var listener: Method? = nil
+    public var hello: Color
 
     private enum CodingKeys: String, CodingKey {
-        case component
+        case hello
+    }
+
+    public init(_ listenerIn: Method?) {
+        listener = listenerIn
+        hello = Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
+    }
+
+    public static let name = "MyPalette"
+
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        hello = try container.decode(Color.self, forKey: .hello)
+    }
+}
+
+public class Image : NSObject, Decodable, Updatable {
+    var file: File
+    var width: CGFloat
+    var height: CGFloat
+    var scale: CGFloat
+
+    init(withFile file: File, withWidth width: CGFloat, withHeight height: CGFloat, withScale scale: CGFloat) {
+        self.file = file
+        self.width = width
+        self.height = height
+        self.scale = scale
+        super.init()
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        component = try container.decode(String.self, forKey: .component)
+        file = try container.decode(File.self, forKey: .file)
+        width = try container.decode(CGFloat.self, forKey: .width)
+        height = try container.decode(CGFloat.self, forKey: .height)
+        scale = try container.decode(CGFloat.self, forKey: .scale)
     }
 
-    public func embedHaiku(inView view: UIView) {
-        guard let request = file().request() else {
-            print("unable to load Haiku URL")
+    private func image() throws -> UIImage? {
+        guard let url = file.url() else {
+            return nil
+        }
+
+        return UIImage(data: try Data(contentsOf: url), scale: scale)
+    }
+
+    private func imageView() throws -> UIImageView? {
+        let view = UIImageView(image: try image())
+        view.frame.size.width = width
+        view.frame.size.height = height
+        return view
+    }
+
+    public func setBackground(forView view: UIView) {
+        do {
+            if let image = try image() {
+                view.backgroundColor = UIColor(patternImage: image)
+            }
+        } catch {
+            print("unable to set background")
+        }
+    }
+}
+
+public class File : NSObject, Codable {
+    var src: String
+
+    private func fullyQualifiedUrl() -> String {
+        // TODO: when we are not in development, we should load the file from a local bundle URL.
+        // This will look something like: Bundle.main.url(forResource: "index", withExtension: "html")
+        // except we will be loading from the framework bundle (not main). Probably this should be handled
+        // inside class Environment {...}.
+        return environment.isDevelopment
+            ? "\(environment.serverUrl)\(src)"
+            : "TODO"
+    }
+
+    public init(withSrc src: String) {
+        self.src = src
+        super.init()
+    }
+
+    public func url() -> URL? {
+        return URL(string: fullyQualifiedUrl())
+    }
+
+    public func request() -> URLRequest? {
+        guard let url = url() else {
+            return nil
+        }
+
+        return URLRequest(url: url)
+    }
+}
+
+public class SVG : NSObject, Decodable, Updatable {
+    var file: File
+
+    init(withFile file: File) {
+        self.file = file
+        super.init()
+    }
+
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        file = try container.decode(File.self, forKey: .file)
+    }
+
+    public func embedSvg(inView view: UIView) {
+        guard let request = file.request() else {
+            print("unable to load SVG URL")
             return
         }
 
         // TODO: keep a weak handle to this webview and update it on updates.
-        // TODO: implement a HaikuView metaclass.
+        // TODO: implement a SVGView metaclass.
         let wk = WKWebView(frame: view.bounds)
         wk.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         wk.scrollView.isScrollEnabled = false
@@ -354,9 +403,45 @@ public class Haiku : NSObject, Decodable, Updatable {
         view.addSubview(wk)
     }
 }
-import UIKit
 
-fileprivate let fallbackFont = "Helvetica"
+public class Lottie : NSObject, Decodable, Updatable {
+    var file: File
+
+    init(withFile file: File) {
+        self.file = file
+        super.init()
+    }
+
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        file = try container.decode(File.self, forKey: .file)
+    }
+
+    public func view() -> LOTAnimationView? {
+        guard let url = file.url() else {
+            print("unable to load Lottie URL")
+            return nil
+        }
+
+        // TODO: keep a weak handle to this view and update it on updates.
+        let view = LOTAnimationView(contentsOf: url)
+        // TODO: configuration "loop".
+        view.loopAnimation = true
+        // TODO: configuration "autoplay".
+        view.play()
+        return view
+    }
+
+    public func embedLottie(inView parent: UIView) {
+        guard let lottieView = view() else {
+            return
+        }
+
+        lottieView.frame = parent.bounds
+        lottieView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        parent.addSubview(lottieView)
+    }
+}
 
 public class FontRegistry : NSObject, Decodable, Updatable {
     var files: [File]
@@ -411,6 +496,8 @@ public class FontRegistry : NSObject, Decodable, Updatable {
     }
 }
 
+fileprivate let fallbackFont = "Helvetica"
+
 public class TextStyle : NSObject, Decodable, Updatable {
     var font: String
     var fontSize: CGFloat
@@ -443,79 +530,40 @@ public class TextStyle : NSObject, Decodable, Updatable {
         label.textColor = color
     }
 }
-import UIKit
 
-public class Image : NSObject, Decodable, Updatable {
-    var file: File
-    var width: CGFloat
-    var height: CGFloat
-    var scale: CGFloat
-
-    init(withFile file: File, withWidth width: CGFloat, withHeight height: CGFloat, withScale scale: CGFloat) {
-        self.file = file
-        self.width = width
-        self.height = height
-        self.scale = scale
-        super.init()
-    }
-
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
-        width = try container.decode(CGFloat.self, forKey: .width)
-        height = try container.decode(CGFloat.self, forKey: .height)
-        scale = try container.decode(CGFloat.self, forKey: .scale)
-    }
-
-    private func image() throws -> UIImage? {
-        guard let url = file.url() else {
-            return nil
-        }
-
-        return UIImage(data: try Data(contentsOf: url), scale: scale)
-    }
-
-    private func imageView() throws -> UIImageView? {
-        let view = UIImageView(image: try image())
-        view.frame.size.width = width
-        view.frame.size.height = height
-        return view
-    }
-
-    public func setBackground(forView view: UIView) {
-        do {
-            if let image = try image() {
-                view.backgroundColor = UIColor(patternImage: image)
-            }
-        } catch {
-            print("unable to set background")
-        }
-    }
-}
-import UIKit
+import UIKit.UIView
 import WebKit
 
-public class SVG : NSObject, Decodable, Updatable {
-    var file: File
+// TODO: this should also be updatable.
+// TODO: this should also accept options.
+public class Haiku : NSObject, Decodable, Updatable {
+    var component: String
 
-    init(withFile file: File) {
-        self.file = file
-        super.init()
+    init(withComponent component: String) {
+        self.component = component
+    }
+
+    private func file() -> File {
+      return File(withSrc: "/haiku/\(component)")
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case component
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
+        component = try container.decode(String.self, forKey: .component)
     }
 
-    public func embedSvg(inView view: UIView) {
-        guard let request = file.request() else {
-            print("unable to load SVG URL")
+    public func embedHaiku(inView view: UIView) {
+        guard let request = file().request() else {
+            print("unable to load Haiku URL")
             return
         }
 
         // TODO: keep a weak handle to this webview and update it on updates.
-        // TODO: implement a SVGView metaclass.
+        // TODO: implement a HaikuView metaclass.
         let wk = WKWebView(frame: view.bounds)
         wk.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         wk.scrollView.isScrollEnabled = false
@@ -525,50 +573,36 @@ public class SVG : NSObject, Decodable, Updatable {
         view.addSubview(wk)
     }
 }
-import Foundation
-
-public final class MyPalette : NSObject, StateBag {
-    public var hello: Color
-
-    public init(_ listener: Method?) {
-        hello = Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
-    }
-
-    public static let name = "MyPalette"
-
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        // TODO: We should be able to patch instead of replacing here.
-        // Is it possible to update UIColors?
-        hello = try container.decode(Color.self, forKey: .hello)
-    }
-}
 
 public final class MyStateBag : NSObject, StateBag {
+    var listener: Method? = nil
     public var palette: MyPalette
     public var copy: String
     public var image: Image
+    public var svg: SVG
+    public var lottie: Lottie
     public var fontRegistry: FontRegistry
     public var textStyle: TextStyle
     public var haiku: Haiku
-    public var svg: SVG
-    public var lottie: Lottie
-    var listener: Method? = nil
-
-    public static let name = "MyStateBag"
 
     private enum CodingKeys: String, CodingKey {
         case palette
         case copy
         case image
+        case svg
+        case lottie
         case fontRegistry
         case textStyle
         case haiku
-        case svg
-        case lottie
     }
 
     public init(_ listenerIn: Method?) {
+        listener = listenerIn
+        palette = MyPalette(listener)
+        copy = "Hello Diez"
+        image = Image(withFile: File(withSrc: "/assets/images/haiku.jpg"), withWidth: 246, withHeight: 246, withScale: 3)
+        svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg"))
+        lottie = Lottie(withFile: File(withSrc: "/assets/lottie/loading-pizza.json"))
         fontRegistry = FontRegistry(withFiles: [
             File(withSrc: "/assets/fonts/Roboto-Black.ttf"),
             File(withSrc: "/assets/fonts/Roboto-BlackItalic.ttf"),
@@ -583,77 +617,22 @@ public final class MyStateBag : NSObject, StateBag {
             File(withSrc: "/assets/fonts/Roboto-Thin.ttf"),
             File(withSrc: "/assets/fonts/Roboto-ThinItalic.ttf"),
         ])
-        palette = MyPalette(listener)
-        copy = "Hello Diez"
-        image = Image(withFile: File(withSrc: "/assets/images/haiku.jpg"), withWidth: 246, withHeight: 246, withScale: 3)
-        textStyle = TextStyle(
-            withFont: "Helvetica",
-            withFontSize: 50,
-            withColor: Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1)
-        )
-        listener = listenerIn
+        textStyle = TextStyle(withFont: "Helvetica", withFontSize: 50, withColor: Color(hue: 0, hslSaturation: 1, lightness: 0.5, alpha: 1))
         haiku = Haiku(withComponent: "@haiku/taylor-testthang")
-        svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg"))
-        lottie = Lottie(withFile: File(withSrc: "/assets/lottie/loading-pizza.json"))
     }
+
+    public static let name = "MyStateBag"
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try? container.update(&palette, forKey: .palette)
-        try? container.update(&image, forKey: .image)
-        try? container.update(&textStyle, forKey: .textStyle)
-        try? container.update(&svg, forKey: .svg)
-        try? container.update(&haiku, forKey: .haiku)
-        try? container.update(&lottie, forKey: .lottie)
         copy = try container.decode(String.self, forKey: .copy)
-    }
-
-    public func tap() {
-        if (listener == nil) {
-            return
-        }
-
-        listener!("tap", nil)
+        try? container.update(&image, forKey: .image)
+        try? container.update(&svg, forKey: .svg)
+        try? container.update(&lottie, forKey: .lottie)
+        try? container.update(&fontRegistry, forKey: .fontRegistry)
+        try? container.update(&textStyle, forKey: .textStyle)
+        try? container.update(&haiku, forKey: .haiku)
     }
 }
-import UIKit
-import Lottie
 
-public class Lottie : NSObject, Decodable, Updatable {
-    var file: File
-
-    init(withFile file: File) {
-        self.file = file
-        super.init()
-    }
-
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
-    }
-
-    public func view() -> LOTAnimationView? {
-        guard let url = file.url() else {
-            print("unable to load Lottie URL")
-            return nil
-        }
-
-        // TODO: keep a weak handle to this view and update it on updates.
-        let view = LOTAnimationView(contentsOf: url)
-        // TODO: configuration "loop".
-        view.loopAnimation = true
-        // TODO: configuration "autoplay".
-        view.play()
-        return view
-    }
-
-    public func embedLottie(inView parent: UIView) {
-        guard let lottieView = view() else {
-            return
-        }
-
-        lottieView.frame = parent.bounds
-        lottieView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        parent.addSubview(lottieView)
-    }
-}

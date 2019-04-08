@@ -47,6 +47,6 @@ class ViewController: UIViewController {
     }
 
     @objc func handleSingleTap() {
-        self.diez.component.tap()
+        // TODO: self.diez.component.tap()
     }
 }

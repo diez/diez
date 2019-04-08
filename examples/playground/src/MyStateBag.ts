@@ -7,9 +7,9 @@ class MyPalette extends Component<Palette> {
 }
 
 export class MyStateBag extends Component {
-  @property palette: MyPalette = new MyPalette();
+  @property palette = new MyPalette();
 
-  @property name: string = 'Diez';
+  private name = 'Diez';
 
   @property copy = `Hello ${this.name}`;
 

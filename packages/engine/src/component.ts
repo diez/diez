@@ -43,7 +43,7 @@ interface EndtimeResolver<T> {
  * @typeparam T - An [[Indexable]] interface the component state must adhere to. This parameter can be elided unless the
  *                component is instantiated with overridden state.
  */
-export abstract class Component<T extends Indexable = {}>
+export abstract class Component<T extends Indexable = any>
   implements Stateful<T>, Tweenable<T>, Listening, Tickable, Serializable {
   /**
    * Important: this flag instructs the hosting system we are a component instance.
@@ -94,6 +94,16 @@ export abstract class Component<T extends Indexable = {}>
    * Internal tracker for whether our component instance should patch on the next tick.
    */
   private doPatch = false;
+
+  /**
+   * A map of bound state names.
+   */
+  readonly boundStates = new Map<string, boolean>();
+
+  /**
+   * A map of bound shared data.
+   */
+  readonly boundShared = new Map<string, any>();
 
   constructor (
     state: Partial<T> = {},
@@ -157,6 +167,13 @@ export abstract class Component<T extends Indexable = {}>
     if (!this.host) {
       this.patch();
     }
+  }
+
+  /**
+   * Stateful<T> interface. Retrieves a state value.
+   */
+  get<K extends keyof T> (key: K): T[K] {
+    return this.state[key];
   }
 
   /**
@@ -270,3 +287,13 @@ export abstract class Component<T extends Indexable = {}>
     this.listeners[name].call(this, payload);
   }
 }
+
+/**
+ * A concrete component, used for typing.
+ */
+export class ConcreteComponent extends Component<any> {}
+
+/**
+ * A concrete component type, used for typing.
+ */
+export type ConcreteComponentType = typeof ConcreteComponent;

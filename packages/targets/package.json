@@ -1,0 +1,62 @@
+{
+  "name": "@livedesigner/targets",
+  "main": "lib/index.js",
+  "version": "1.0.0-alpha0",
+  "description": "TODO: add description.",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "Proprietary",
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
+    "lint": "tslint -p . -t stylish",
+    "fix": "tslint -p . -t stylish --fix"
+  },
+  "dependencies": {
+    "@livedesigner/cli": "1.0.0-alpha0",
+    "@livedesigner/compiler": "1.0.0-alpha0",
+    "@livedesigner/designsystem": "1.0.0-alpha0",
+    "@livedesigner/engine": "1.0.0-alpha0",
+    "@livedesigner/storage": "1.0.0-alpha0",
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.13",
+    "istanbul-reporter-cobertura-haiku": "^1.0.4",
+    "jest": "^23.6.0",
+    "jest-tap-reporter": "^1.9.0",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.15.0",
+    "tslint-config-haiku": "^1.0.20",
+    "typescript": "^3.4.1"
+  },
+  "diez": {
+    "compiler": {
+      "targetProviders": [
+        "./lib/ios",
+        "./lib/android",
+        "./lib/web"
+      ],
+      "prefabs": {
+        "ios": {
+          "@livedesigner/designsystem": {
+            "Color": "./lib/prefabs/Color/ios",
+            "File": "./lib/prefabs/File/ios",
+            "FontRegistry": "./lib/prefabs/FontRegistry/ios",
+            "Haiku": "./lib/prefabs/Haiku/ios",
+            "Image": "./lib/prefabs/Image/ios",
+            "Lottie": "./lib/prefabs/Lottie/ios",
+            "SVG": "./lib/prefabs/SVG/ios",
+            "TextStyle": "./lib/prefabs/TextStyle/ios"
+          }
+        }
+      }
+    }
+  }
+}

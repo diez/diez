@@ -47,6 +47,11 @@ const normalizeUnit = (x: number) => (Math.abs(x) > 1 ? x % 1 : x);
 
 const hexRgb = (r: number, g: number, b: number, a: number = 255) => Color.rgba(r, g, b, a / 255);
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class Color extends Component<ColorState> {
   static rgba (rIn: number, gIn: number, bIn: number, a: number) {
     const r = rIn / 255;

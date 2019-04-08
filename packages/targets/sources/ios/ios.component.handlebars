@@ -1,0 +1,32 @@
+public final class {{{componentName}}} : NSObject, StateBag {
+    var listener: Method? = nil
+    {{#each properties}}
+    public var {{@key}}: {{this.type}}
+    {{/each}}
+
+    private enum CodingKeys: String, CodingKey {
+        {{#each properties}}
+        case {{@key}}
+        {{/each}}
+    }
+
+    public init(_ listenerIn: Method?) {
+        listener = listenerIn
+        {{#each properties}}
+        {{@key}} = {{{this.initializer}}}
+        {{/each}}
+    }
+
+    public static let name = "{{{componentName}}}"
+
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        {{#each properties}}
+          {{#if this.updateable}}
+        try? container.update(&{{@key}}, forKey: .{{@key}})
+          {{else}}
+        {{@key}} = try container.decode({{this.type}}.self, forKey: .{{@key}})
+          {{/if}}
+        {{/each}}
+    }
+}

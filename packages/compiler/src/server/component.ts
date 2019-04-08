@@ -1,17 +1,15 @@
-import {Component} from '@livedesigner/engine';
-
-class ConcreteComponent extends Component {}
+import {ConcreteComponent, ConcreteComponentType} from '@livedesigner/engine';
 
 interface AdaptedWindow extends Window {
   tick (time: number): void;
   trigger (name: string, payload?: any): void;
   componentName: string;
-  component: Component;
+  component: ConcreteComponent;
 }
 
 const adaptedWindow = window as AdaptedWindow;
 
-const getComponentDefinition = async (): Promise<typeof ConcreteComponent> => {
+const getComponentDefinition = async (): Promise<ConcreteComponentType> => {
   const componentFile = await import(`${'@'}`) as any;
   return componentFile[adaptedWindow.componentName];
 };

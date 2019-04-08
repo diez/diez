@@ -6,6 +6,11 @@ export interface HaikuState {
   // TODO: add support for Haiku options.
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class Haiku extends Component<HaikuState> {
   @property component = '';
 }

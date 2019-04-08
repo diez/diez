@@ -6,6 +6,11 @@ export interface FontRegistryState {
   files: File[];
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class FontRegistry extends Component<FontRegistryState> {
   @property files: File[] = [];
 
@@ -22,6 +27,11 @@ export interface TextStyleState<T> {
   color: Color;
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class TextStyle<T = {}> extends Component<TextStyleState<T>> {
   @property font = IOSFonts.Helvetica;
   @property fontSize = 12;

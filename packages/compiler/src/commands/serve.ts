@@ -1,8 +1,10 @@
-import {provideCommand} from '@livedesigner/cli';
-import {serveAction} from './serve.action';
+import {CliCommandProvider} from '@livedesigner/cli';
+import {serveAction as action} from './serve.action';
 
-export = provideCommand(
-  'serve',
-  'Hot-serve a local Diez project.',
-  serveAction,
-);
+const provider: CliCommandProvider = {
+  action,
+  name: 'serve',
+  description: 'Hot-serve a local Diez project.',
+};
+
+export = provider;

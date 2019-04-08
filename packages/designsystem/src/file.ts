@@ -5,6 +5,11 @@ export interface FileState {
   src: string;
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class File extends Component<FileState> {
   @property src: string = '';
 

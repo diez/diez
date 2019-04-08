@@ -13,13 +13,23 @@ export const diezVersion: string = packageJson.version;
 
 const namespace = '@livedesigner';
 
-const plugins = new Map<string, DiezConfiguration>();
 // tslint:disable-next-line:no-var-requires variable-name
 const Module = require('module');
-let foundPlugins = false;
 
+/**
+ * Cache for found plugins.
+ *
+ * @internal
+ */
+const plugins = new Map<string, DiezConfiguration>();
+
+/**
+ * Loops through all namespaced dependencies to locate Diez plugins, and returns a map of module names to Diez plugin
+ * configurations.
+ */
 export const findPlugins = (): Promise<Map<string, DiezConfiguration>> => {
-  if (foundPlugins) {
+  // Use our cache if it's populated.
+  if (plugins.size) {
     return Promise.resolve(plugins);
   }
 
@@ -56,17 +66,7 @@ export const findPlugins = (): Promise<Map<string, DiezConfiguration>> => {
       },
       () => {
         resolve(plugins);
-        foundPlugins = true;
       },
     );
   });
 };
-
-/**
- * A CliCommandProvider factory.
- * @param command
- * @param description
- * @param action
- */
-export const provideCommand = (command: string, description: string, action: CliAction): CliCommandProvider => (
-  {command, description, action});

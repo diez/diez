@@ -6,9 +6,11 @@
     "declaration": true,
     "declarationMap": true,
     "incremental": true,
-    "target": "es2017",
+    "target": "ESNext",
     "module": "commonjs",
-    "lib": ["es2017", "dom"],
+    "baseUrl": "./",
+    "paths": {"*": ["../types/*"]},
+    "lib": ["esnext", "dom"],
     "esModuleInterop": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -16,6 +18,7 @@
     "noUnusedLocals": false,
     "inlineSources": true,
     "sourceMap": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "newLine": "lf"
   }

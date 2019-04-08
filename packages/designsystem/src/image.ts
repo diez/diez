@@ -8,6 +8,11 @@ export interface ImageState {
   scale: number;
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class Image extends Component<ImageState> {
   @property file: File = new File();
 
@@ -22,6 +27,11 @@ export interface SVGState {
   file: File;
 }
 
+/**
+ * TODO.
+ *
+ * @noinheritdoc
+ */
 export class SVG extends Component<SVGState> {
   @property file: File = new File();
 }
