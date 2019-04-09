@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license = 'MIT'
   s.author = 'Diez'
   s.homepage = 'https://diezjs.org'
-  s.source = { :git => 'https://github.com/diezjs/diez' }
+  s.source = { :git => 'https://github.com/dieznative/diez' }
   # TODO: What are these, actually?
   s.platforms = { :ios => '12.1' }
   # TODO: Support new Lottie iOS
