@@ -11,6 +11,8 @@ import UIKit
 class ReportViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
+
+        title = "PoodleSurf"
     }
 
     override func loadView() {
