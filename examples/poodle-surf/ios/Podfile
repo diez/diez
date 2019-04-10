@@ -1,0 +1,7 @@
+platform :ios, '12.2'
+
+target 'PoodleSurf' do
+  use_frameworks!
+
+  pod 'lottie-ios'
+end

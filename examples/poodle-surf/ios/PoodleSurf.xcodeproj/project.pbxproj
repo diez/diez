@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E70F8C4CED7006B9CAAADBD /* Pods_PoodleSurf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */; };
 		46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE6225D341600F4B63F /* AppDelegate.swift */; };
 		46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE8225D341600F4B63F /* ReportViewController.swift */; };
 		46087BEE225D341800F4B63F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46087BED225D341800F4B63F /* Assets.xcassets */; };
@@ -19,9 +20,13 @@
 		46087C07225D5A3600F4B63F /* UIView+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */; };
 		46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C0B225D5F0B00F4B63F /* HorizontalImageLabelView.swift */; };
 		46087C0E225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */; };
+		46087C11225D792800F4B63F /* loading-pizza.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C10225D792800F4B63F /* loading-pizza.json */; };
+		46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C13225D795000F4B63F /* LoadingViewController.swift */; };
+		46087C16225D799800F4B63F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C15225D799800F4B63F /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C69D8C37A384AA2807A41EE /* Pods-PoodleSurf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.debug.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.debug.xcconfig"; sourceTree = "<group>"; };
 		46087BE3225D341600F4B63F /* PoodleSurf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoodleSurf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46087BE6225D341600F4B63F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46087BE8225D341600F4B63F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +41,11 @@
 		46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadius.swift"; sourceTree = "<group>"; };
 		46087C0B225D5F0B00F4B63F /* HorizontalImageLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalImageLabelView.swift; sourceTree = "<group>"; };
 		46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalImageVerticalLabelsView.swift; sourceTree = "<group>"; };
+		46087C10225D792800F4B63F /* loading-pizza.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-pizza.json"; sourceTree = "<group>"; };
+		46087C13225D795000F4B63F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		46087C15225D799800F4B63F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E70F8C4CED7006B9CAAADBD /* Pods_PoodleSurf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +65,8 @@
 			children = (
 				46087BE5225D341600F4B63F /* PoodleSurf */,
 				46087BE4225D341600F4B63F /* Products */,
+				65C8EFBDD839B4B74105AEB5 /* Pods */,
+				6B0A71DC0A547A264E3B4755 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +84,7 @@
 				46087BE6225D341600F4B63F /* AppDelegate.swift */,
 				46087C00225D54E400F4B63F /* Extensions */,
 				46087BFD225D42F900F4B63F /* Generic Views */,
+				46087C12225D794100F4B63F /* Loading */,
 				46087BF8225D3F7600F4B63F /* Report */,
 				46087C0F225D74C900F4B63F /* Resources */,
 			);
@@ -120,9 +134,36 @@
 			children = (
 				46087BED225D341800F4B63F /* Assets.xcassets */,
 				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
+				46087C10225D792800F4B63F /* loading-pizza.json */,
 				46087BF2225D341800F4B63F /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		46087C12225D794100F4B63F /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				46087C13225D795000F4B63F /* LoadingViewController.swift */,
+				46087C15225D799800F4B63F /* LoadingView.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		65C8EFBDD839B4B74105AEB5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0C69D8C37A384AA2807A41EE /* Pods-PoodleSurf.debug.xcconfig */,
+				8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6B0A71DC0A547A264E3B4755 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,9 +173,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 46087BF5225D341800F4B63F /* Build configuration list for PBXNativeTarget "PoodleSurf" */;
 			buildPhases = (
+				D81ED5ACAEDD9CC899155DA4 /* [CP] Check Pods Manifest.lock */,
 				46087BDF225D341600F4B63F /* Sources */,
 				46087BE0225D341600F4B63F /* Frameworks */,
 				46087BE1225D341600F4B63F /* Resources */,
+				F48D55BB1AB05A24D66574A8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -185,10 +228,58 @@
 			files = (
 				46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */,
 				46087BEE225D341800F4B63F /* Assets.xcassets in Resources */,
+				46087C11225D792800F4B63F /* loading-pizza.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D81ED5ACAEDD9CC899155DA4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PoodleSurf-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F48D55BB1AB05A24D66574A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		46087BDF225D341600F4B63F /* Sources */ = {
@@ -200,9 +291,11 @@
 				46087C07225D5A3600F4B63F /* UIView+CornerRadius.swift in Sources */,
 				46087C03225D54FA00F4B63F /* UIView+Embed.swift in Sources */,
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
+				46087C16225D799800F4B63F /* LoadingView.swift in Sources */,
 				46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */,
 				46087BFF225D544400F4B63F /* StrokedCircularImageView.swift in Sources */,
 				46087BFC225D419500F4B63F /* ReportHeaderView.swift in Sources */,
+				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
 				46087BFA225D3F9900F4B63F /* ReportView.swift in Sources */,
 			);
@@ -340,6 +433,7 @@
 		};
 		46087BF6225D341800F4B63F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C69D8C37A384AA2807A41EE /* Pods-PoodleSurf.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -358,6 +452,7 @@
 		};
 		46087BF7225D341800F4B63F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

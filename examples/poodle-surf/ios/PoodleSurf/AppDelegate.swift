@@ -21,6 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         self.window = window
 
+        showLoading()
+
         return true
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        showLoading()
+    }
+
+    private func showLoading() {
+        let loadingViewController = LoadingViewController()
+        window?.rootViewController?.present(loadingViewController, animated: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            loadingViewController.dismiss(animated: true)
+        }
     }
 }
