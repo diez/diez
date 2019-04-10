@@ -55,6 +55,11 @@ class ReportHeaderView: UIView {
         }
     }
 
+    var labelsVerticalSpacing: CGFloat {
+        get { return locationLabelsOutterStackView.spacing }
+        set { locationLabelsOutterStackView.spacing = newValue }
+    }
+
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
@@ -110,6 +115,9 @@ class ReportHeaderView: UIView {
         locationLabelsOutterStackView.isLayoutMarginsRelativeArrangement = true
 
         locationImageView.clipsToBounds = true
+
+        bannerImageView.contentMode = .scaleAspectFill
+        bannerImageView.clipsToBounds = true
 
         updateLocationImageCornerRadius(forImageWidthAndHeight: locationImageWidthAndHeight)
     }

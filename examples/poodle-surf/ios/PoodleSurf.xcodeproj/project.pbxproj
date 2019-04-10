@@ -23,6 +23,7 @@
 		46087C11225D792800F4B63F /* loading-pizza.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C10225D792800F4B63F /* loading-pizza.json */; };
 		46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C13225D795000F4B63F /* LoadingViewController.swift */; };
 		46087C16225D799800F4B63F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C15225D799800F4B63F /* LoadingView.swift */; };
+		46087C19225D7F3200F4B63F /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C18225D7F3200F4B63F /* ReportState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		46087C10225D792800F4B63F /* loading-pizza.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-pizza.json"; sourceTree = "<group>"; };
 		46087C13225D795000F4B63F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		46087C15225D799800F4B63F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		46087C18225D7F3200F4B63F /* ReportState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
 		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				46087BFB225D419500F4B63F /* ReportHeaderView.swift */,
+				46087C18225D7F3200F4B63F /* ReportState.swift */,
 				46087BF9225D3F9900F4B63F /* ReportView.swift */,
 				46087BE8225D341600F4B63F /* ReportViewController.swift */,
 				46087C04225D5A0F00F4B63F /* TemperatureCardView.swift */,
@@ -291,6 +294,7 @@
 				46087C07225D5A3600F4B63F /* UIView+CornerRadius.swift in Sources */,
 				46087C03225D54FA00F4B63F /* UIView+Embed.swift in Sources */,
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
+				46087C19225D7F3200F4B63F /* ReportState.swift in Sources */,
 				46087C16225D799800F4B63F /* LoadingView.swift in Sources */,
 				46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */,
 				46087BFF225D544400F4B63F /* StrokedCircularImageView.swift in Sources */,

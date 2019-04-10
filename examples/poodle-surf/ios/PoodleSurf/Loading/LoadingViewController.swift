@@ -20,10 +20,13 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // XXX:
-        loadingView.backgroundColor = .white
-        loadingView.animationView.setAnimation(named: "loading-pizza")
-        loadingView.animationView.play()
+        applyStyle(to: loadingView)
+    }
+
+    private func applyStyle(to view: LoadingView) {
+        view.backgroundColor = .white
+        view.animationView.setAnimation(named: "loading-pizza")
+        view.animationView.play()
     }
 
     private var loadingView: LoadingView {
