@@ -22,6 +22,8 @@ class ReportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.titleView = titleView
+
         // XXX:
         reportView.backgroundColor = .white
         reportView.contentLayoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -42,11 +44,14 @@ class ReportViewController: UIViewController {
         temperature.wetsuitView.bottomLabel.text = "4mm Wetsuit"
         temperature.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         temperature.cornerRadius = 5
+        titleView.label.text = title
     }
 
     private var reportView: ReportView {
         return view as! ReportView
     }
+
+    private let titleView = HorizontalImageLabelView()
 
     @available(*, unavailable)
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) { fatalError("\(#function) not implemented.") }
