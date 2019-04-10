@@ -62,6 +62,11 @@ class ReportView: UIView {
         set { contentStackView.layoutMargins = newValue }
     }
 
+    var contentSpacing: CGFloat {
+        get { return contentStackView.spacing }
+        set { contentStackView.spacing = newValue }
+    }
+
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }

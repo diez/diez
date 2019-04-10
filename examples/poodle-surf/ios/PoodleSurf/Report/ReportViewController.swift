@@ -32,6 +32,7 @@ class ReportViewController: UIViewController {
     private func applyReportStyle(to view: ReportView) {
         view.backgroundColor = .white
         view.contentLayoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        view.contentSpacing = 20
 
         applyHeaderStyle(to: view.headerView)
         applyTemperatureStyle(to: view.temperatureCardView)
