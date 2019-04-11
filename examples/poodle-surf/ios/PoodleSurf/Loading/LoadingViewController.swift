@@ -25,7 +25,7 @@ class LoadingViewController: UIViewController {
 
     private func applyStyle(to view: LoadingView) {
         view.backgroundColor = UIColor(red: 120/255, green: 207/255, blue: 253/255, alpha: 1)
-        view.animationView.setAnimation(named: "loading-pizza")
+        view.animationView.setAnimation(named: "hang10")
         view.animationView.play()
     }
 
