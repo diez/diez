@@ -45,8 +45,8 @@ class ReportViewController: UIViewController {
         view.regionLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         view.placeLabel.font = UIFont.systemFont(ofSize: 12)
         view.pinIconImageView.image = UIImage(named: "Map Pin")
-        view.locationImageView.borderColor = UIColor(red: 0.98, green: 0.35, blue: 0.4, alpha: 1)
-        view.locationImageView.borderWidth = 3
+        view.locationImageView.strokeGradient = Gradient.makeExample()
+        view.locationImageView.strokeWidth = 3
         view.locationImageWidthAndHeight = 106
         view.bannerHeight = 149
         view.labelsStackViewLayoutMargins = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 20)

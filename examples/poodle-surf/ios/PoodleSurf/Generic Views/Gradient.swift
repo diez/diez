@@ -36,4 +36,11 @@ struct Gradient {
 
         self.init(colors: colors, startPoint: startPoint, endPoint: endPoint)
     }
+
+    init(color: UIColor) {
+        let startPoint = GradientPoint(x: 0, y: 0)
+        let endPoint = GradientPoint(x: 1, y: 1)
+
+        self.init(startColor: color, endColor: color, startPoint: startPoint, endPoint: endPoint)
+    }
 }

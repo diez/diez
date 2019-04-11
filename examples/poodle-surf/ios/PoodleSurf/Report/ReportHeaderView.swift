@@ -49,10 +49,7 @@ class ReportHeaderView: UIView {
 
     var locationImageWidthAndHeight: CGFloat {
         get { return locationImageWidthConstraint.constant }
-        set {
-            locationImageWidthConstraint.constant = newValue
-            updateLocationImageCornerRadius(forImageWidthAndHeight: newValue)
-        }
+        set { locationImageWidthConstraint.constant = newValue }
     }
 
     var labelsVerticalSpacing: CGFloat {
@@ -116,12 +113,6 @@ class ReportHeaderView: UIView {
 
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
-
-        updateLocationImageCornerRadius(forImageWidthAndHeight: locationImageWidthAndHeight)
-    }
-
-    private func updateLocationImageCornerRadius(forImageWidthAndHeight value: CGFloat) {
-        locationImageView.layer.cornerRadius = value / 2
     }
 
     @available(*, unavailable)
