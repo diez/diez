@@ -24,6 +24,13 @@
 		46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C13225D795000F4B63F /* LoadingViewController.swift */; };
 		46087C16225D799800F4B63F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C15225D799800F4B63F /* LoadingView.swift */; };
 		46087C19225D7F3200F4B63F /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C18225D7F3200F4B63F /* ReportState.swift */; };
+		46087C2D225FA14B00F4B63F /* DayPartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C2C225FA14B00F4B63F /* DayPartView.swift */; };
+		46087C2F225FA36A00F4B63F /* ForecastCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C2E225FA36A00F4B63F /* ForecastCardView.swift */; };
+		46087C32225FCB1000F4B63F /* ReportState+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C31225FCB1000F4B63F /* ReportState+Example.swift */; };
+		46087C35225FCEF000F4B63F /* UIImage+CardinalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C34225FCEF000F4B63F /* UIImage+CardinalDirection.swift */; };
+		46087C37225FCF5800F4B63F /* CardinalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C36225FCF5800F4B63F /* CardinalDirection.swift */; };
+		46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C38225FD3F500F4B63F /* CardViewDescribable.swift */; };
+		46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +53,13 @@
 		46087C13225D795000F4B63F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		46087C15225D799800F4B63F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		46087C18225D7F3200F4B63F /* ReportState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
+		46087C2C225FA14B00F4B63F /* DayPartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPartView.swift; sourceTree = "<group>"; };
+		46087C2E225FA36A00F4B63F /* ForecastCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCardView.swift; sourceTree = "<group>"; };
+		46087C31225FCB1000F4B63F /* ReportState+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportState+Example.swift"; sourceTree = "<group>"; };
+		46087C34225FCEF000F4B63F /* UIImage+CardinalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CardinalDirection.swift"; sourceTree = "<group>"; };
+		46087C36225FCF5800F4B63F /* CardinalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardinalDirection.swift; sourceTree = "<group>"; };
+		46087C38225FD3F500F4B63F /* CardViewDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDescribable.swift; sourceTree = "<group>"; };
+		46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Named.swift"; sourceTree = "<group>"; };
 		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,11 +110,11 @@
 		46087BF8225D3F7600F4B63F /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				46087C30225FA44B00F4B63F /* Cards */,
 				46087BFB225D419500F4B63F /* ReportHeaderView.swift */,
-				46087C18225D7F3200F4B63F /* ReportState.swift */,
 				46087BF9225D3F9900F4B63F /* ReportView.swift */,
 				46087BE8225D341600F4B63F /* ReportViewController.swift */,
-				46087C04225D5A0F00F4B63F /* TemperatureCardView.swift */,
+				46087C33225FCECF00F4B63F /* State */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -126,8 +140,10 @@
 		46087C01225D54E800F4B63F /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				46087C34225FCEF000F4B63F /* UIImage+CardinalDirection.swift */,
 				46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */,
 				46087C02225D54FA00F4B63F /* UIView+Embed.swift */,
+				46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -150,6 +166,27 @@
 				46087C15225D799800F4B63F /* LoadingView.swift */,
 			);
 			path = Loading;
+			sourceTree = "<group>";
+		};
+		46087C30225FA44B00F4B63F /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				46087C2C225FA14B00F4B63F /* DayPartView.swift */,
+				46087C2E225FA36A00F4B63F /* ForecastCardView.swift */,
+				46087C04225D5A0F00F4B63F /* TemperatureCardView.swift */,
+				46087C38225FD3F500F4B63F /* CardViewDescribable.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		46087C33225FCECF00F4B63F /* State */ = {
+			isa = PBXGroup;
+			children = (
+				46087C18225D7F3200F4B63F /* ReportState.swift */,
+				46087C31225FCB1000F4B63F /* ReportState+Example.swift */,
+				46087C36225FCF5800F4B63F /* CardinalDirection.swift */,
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 		65C8EFBDD839B4B74105AEB5 /* Pods */ = {
@@ -295,12 +332,19 @@
 				46087C03225D54FA00F4B63F /* UIView+Embed.swift in Sources */,
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
 				46087C19225D7F3200F4B63F /* ReportState.swift in Sources */,
+				46087C2D225FA14B00F4B63F /* DayPartView.swift in Sources */,
 				46087C16225D799800F4B63F /* LoadingView.swift in Sources */,
+				46087C32225FCB1000F4B63F /* ReportState+Example.swift in Sources */,
+				46087C2F225FA36A00F4B63F /* ForecastCardView.swift in Sources */,
 				46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */,
 				46087BFF225D544400F4B63F /* StrokedCircularImageView.swift in Sources */,
 				46087BFC225D419500F4B63F /* ReportHeaderView.swift in Sources */,
+				46087C37225FCF5800F4B63F /* CardinalDirection.swift in Sources */,
+				46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */,
 				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
+				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
+				46087C35225FCEF000F4B63F /* UIImage+CardinalDirection.swift in Sources */,
 				46087BFA225D3F9900F4B63F /* ReportView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

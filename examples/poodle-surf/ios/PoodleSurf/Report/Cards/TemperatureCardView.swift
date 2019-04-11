@@ -30,7 +30,7 @@ class TemperatureCardView: UIView {
         configureViews()
     }
 
-    var verticalSpacing: CGFloat {
+    var titleContentSpacing: CGFloat {
         get { return outterStackView.spacing }
         set { outterStackView.spacing = newValue }
     }
@@ -45,9 +45,7 @@ class TemperatureCardView: UIView {
         set { outterStackView.layoutMargins = newValue }
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let innerStackView: UIStackView

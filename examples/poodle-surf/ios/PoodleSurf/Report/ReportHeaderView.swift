@@ -60,9 +60,7 @@ class ReportHeaderView: UIView {
         set { locationLabelsOutterStackView.spacing = newValue }
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let placeImageLabelStackView: UIStackView
     private let locationLabelsOutterStackView: UIStackView

@@ -34,9 +34,7 @@ class HorizontalImageLabelView: UIView {
         set { stackView.layoutMargins = newValue }
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let stackView: UIStackView
 
@@ -45,6 +43,7 @@ class HorizontalImageLabelView: UIView {
     }
 
     private func configureViews() {
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.axis = .horizontal
     }
 

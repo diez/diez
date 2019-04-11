@@ -41,9 +41,7 @@ class StrokedCirularImageView: UIView {
         imageView.clipsToBounds = true
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let imageView = UIImageView()
 

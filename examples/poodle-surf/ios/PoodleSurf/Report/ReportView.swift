@@ -11,10 +11,16 @@ import UIKit
 class ReportView: UIView {
     let headerView = ReportHeaderView()
     let temperatureCardView = TemperatureCardView()
+    let windCardView = ForecastCardView()
+    let swellCardView = ForecastCardView()
+    let tideCardView = ForecastCardView()
 
     override init(frame: CGRect) {
         contentStackView = UIStackView(arrangedSubviews: [
-            temperatureCardView
+            temperatureCardView,
+            windCardView,
+            swellCardView,
+            tideCardView,
         ])
 
         outterStackView = UIStackView(arrangedSubviews: [
@@ -67,9 +73,7 @@ class ReportView: UIView {
         set { contentStackView.spacing = newValue }
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let scrollView = UIScrollView()
     private let outterStackView: UIStackView
