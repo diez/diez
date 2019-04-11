@@ -44,9 +44,11 @@ class ReportViewController: UIViewController {
     private func applyHeaderStyle(to view: ReportHeaderView) {
         view.regionLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         view.placeLabel.font = UIFont.systemFont(ofSize: 12)
+        view.pinIconImageView.image = UIImage(named: "Map Pin")
         view.locationImageView.borderColor = UIColor(red: 0.98, green: 0.35, blue: 0.4, alpha: 1)
         view.locationImageView.borderWidth = 3
-        view.locationImageWidthAndHeight = 110
+        view.locationImageWidthAndHeight = 106
+        view.bannerHeight = 149
         view.labelsStackViewLayoutMargins = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 20)
         view.regionLabelToPinIconSpacing = 10
         view.labelsVerticalSpacing = 5
@@ -54,15 +56,20 @@ class ReportViewController: UIViewController {
 
     private func applyTemperatureStyle(to view: TemperatureCardView) {
         applyCardStyle(to: view)
-        view.horizontalSpacing = 40
+        view.horizontalSpacing = 20
         view.titleLabel.text = "Water temperature"
+        view.temperatureView.label.font = .systemFont(ofSize: 30)
+        view.temperatureView.label.textColor = .white
+        view.temperatureView.imageView.image = UIImage(named: "Thermometer")
+        view.temperatureView.spacing = 10
         view.wetsuitView.topLabel.font = .systemFont(ofSize: 12, weight: .bold)
         view.wetsuitView.topLabel.textColor = .white
         view.wetsuitView.topLabel.text = "Recommended"
+        view.wetsuitView.imageView.image = UIImage(named: "Gear")
         view.wetsuitView.bottomLabel.font = .systemFont(ofSize: 12)
         view.wetsuitView.bottomLabel.textColor = UIColor(white: 1, alpha: 0.6)
-        view.temperatureView.label.font = .systemFont(ofSize: 30)
-        view.temperatureView.label.textColor = .white
+        view.wetsuitView.horizontalSpacing = 10
+        view.wetsuitView.verticalSpacing = 5
     }
 
     private func applyWindStyle(to view: ForecastCardView) {
@@ -119,6 +126,8 @@ class ReportViewController: UIViewController {
 
     private func applyTitleStyle(to view: HorizontalImageLabelView) {
         titleView.label.text = "P o o d l e S u r f"
+        titleView.imageView.image = UIImage(named: "Poodle")
+        titleView.spacing = 10
     }
 
     private var reportView: ReportView {

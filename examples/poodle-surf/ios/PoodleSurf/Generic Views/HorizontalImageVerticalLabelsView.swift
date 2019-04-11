@@ -57,7 +57,20 @@ class HorizontalImageVerticalLabelsView: UIView {
     private func configureViews() {
         horizontalStackView.isLayoutMarginsRelativeArrangement = true
         horizontalStackView.axis = .horizontal
+        horizontalStackView.alignment = .center
+
         verticalStackView.axis = .vertical
+
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+
+        topLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        topLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        bottomLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        bottomLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
     @available(*, unavailable)

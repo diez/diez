@@ -20,7 +20,6 @@
 		46087C07225D5A3600F4B63F /* UIView+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */; };
 		46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C0B225D5F0B00F4B63F /* HorizontalImageLabelView.swift */; };
 		46087C0E225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */; };
-		46087C11225D792800F4B63F /* loading-pizza.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C10225D792800F4B63F /* loading-pizza.json */; };
 		46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C13225D795000F4B63F /* LoadingViewController.swift */; };
 		46087C16225D799800F4B63F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C15225D799800F4B63F /* LoadingView.swift */; };
 		46087C19225D7F3200F4B63F /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C18225D7F3200F4B63F /* ReportState.swift */; };
@@ -31,6 +30,8 @@
 		46087C37225FCF5800F4B63F /* CardinalDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C36225FCF5800F4B63F /* CardinalDirection.swift */; };
 		46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C38225FD3F500F4B63F /* CardViewDescribable.swift */; };
 		46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */; };
+		46087C41225FF41600F4B63F /* loading-pizza.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C40225FF41600F4B63F /* loading-pizza.json */; };
+		46087C43225FF46D00F4B63F /* surfing-poodle.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C42225FF46D00F4B63F /* surfing-poodle.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +50,6 @@
 		46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadius.swift"; sourceTree = "<group>"; };
 		46087C0B225D5F0B00F4B63F /* HorizontalImageLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalImageLabelView.swift; sourceTree = "<group>"; };
 		46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalImageVerticalLabelsView.swift; sourceTree = "<group>"; };
-		46087C10225D792800F4B63F /* loading-pizza.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-pizza.json"; sourceTree = "<group>"; };
 		46087C13225D795000F4B63F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		46087C15225D799800F4B63F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		46087C18225D7F3200F4B63F /* ReportState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
@@ -60,6 +60,8 @@
 		46087C36225FCF5800F4B63F /* CardinalDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardinalDirection.swift; sourceTree = "<group>"; };
 		46087C38225FD3F500F4B63F /* CardViewDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDescribable.swift; sourceTree = "<group>"; };
 		46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Named.swift"; sourceTree = "<group>"; };
+		46087C40225FF41600F4B63F /* loading-pizza.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-pizza.json"; sourceTree = "<group>"; };
+		46087C42225FF46D00F4B63F /* surfing-poodle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "surfing-poodle.json"; sourceTree = "<group>"; };
 		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,9 +154,10 @@
 			isa = PBXGroup;
 			children = (
 				46087BED225D341800F4B63F /* Assets.xcassets */,
-				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
-				46087C10225D792800F4B63F /* loading-pizza.json */,
 				46087BF2225D341800F4B63F /* Info.plist */,
+				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
+				46087C40225FF41600F4B63F /* loading-pizza.json */,
+				46087C42225FF46D00F4B63F /* surfing-poodle.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -267,8 +270,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */,
+				46087C43225FF46D00F4B63F /* surfing-poodle.json in Resources */,
 				46087BEE225D341800F4B63F /* Assets.xcassets in Resources */,
-				46087C11225D792800F4B63F /* loading-pizza.json in Resources */,
+				46087C41225FF41600F4B63F /* loading-pizza.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

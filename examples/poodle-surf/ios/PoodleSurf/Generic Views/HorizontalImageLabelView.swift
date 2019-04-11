@@ -45,6 +45,15 @@ class HorizontalImageLabelView: UIView {
     private func configureViews() {
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.axis = .horizontal
+        stackView.alignment = .center
+
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 
     @available(*, unavailable)
