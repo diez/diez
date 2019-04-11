@@ -116,12 +116,12 @@ class ReportViewController: UIViewController {
     }
 
     private func applyCardStyle(to view: CardViewDescribable) {
-        view.backgroundColor = UIColor(red: 0.98, green: 0.35, blue: 0.4, alpha: 1)
         view.titleLabel.font = .systemFont(ofSize: 20)
         view.titleLabel.textColor = .white
         view.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 30, right: 20)
         view.cornerRadius = 5
         view.titleContentSpacing = 20
+        view.gradient = Gradient.makeExample()
     }
 
     private func applyTitleStyle(to view: HorizontalImageLabelView) {

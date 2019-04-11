@@ -56,6 +56,11 @@ class ForecastCardView: UIView {
         set { separatorWidthConstraints.forEach { $0.constant = newValue } }
     }
 
+    var gradient: Gradient? {
+        get { return gradientView.gradient }
+        set { gradientView.gradient = newValue }
+    }
+
     func setDayPartViewsVerticalSpacing(_ spacing: CGFloat) {
         dayParts.forEach { $0.verticalSpacing = spacing }
     }
@@ -77,9 +82,12 @@ class ForecastCardView: UIView {
     private let outterStackView: UIStackView
     private let partsStackView: UIStackView
     private var separatorWidthConstraints: [NSLayoutConstraint] = []
+    private let gradientView = GradientView()
 
     private func setupLayout() {
-        var constraints = embed(outterStackView, shouldActivateConstraints: false)
+        var constraints = embed(gradientView, shouldActivateConstraints: false)
+
+        constraints += embed(outterStackView, shouldActivateConstraints: false)
 
         constraints += addSeparators()
 

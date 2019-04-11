@@ -12,6 +12,7 @@ protocol CardViewDescribable: UIView {
     var titleLabel: UILabel { get }
     var layoutMargins: UIEdgeInsets { get }
     var titleContentSpacing: CGFloat { get set }
+    var gradient: Gradient? { get set }
 }
 
 extension ForecastCardView: CardViewDescribable { }

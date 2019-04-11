@@ -45,13 +45,23 @@ class TemperatureCardView: UIView {
         set { outterStackView.layoutMargins = newValue }
     }
 
+    var gradient: Gradient? {
+        get { return gradientView.gradient }
+        set { gradientView.gradient = newValue }
+    }
+
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let innerStackView: UIStackView
+    private let gradientView = GradientView()
 
     private func setupLayout() {
-        embed(outterStackView)
+        var constraints = embed(gradientView, shouldActivateConstraints: false)
+
+        constraints += embed(outterStackView, shouldActivateConstraints: false)
+
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func configureViews() {
