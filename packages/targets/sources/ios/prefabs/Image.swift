@@ -20,7 +20,7 @@ public class Image : NSObject, Decodable, Updatable {
         scale = try container.decode(CGFloat.self, forKey: .scale)
     }
 
-    private func image() throws -> UIImage? {
+    public func image() throws -> UIImage? {
         guard let url = file.url() else {
             return nil
         }
@@ -28,7 +28,7 @@ public class Image : NSObject, Decodable, Updatable {
         return UIImage(data: try Data(contentsOf: url), scale: scale)
     }
 
-    private func imageView() throws -> UIImageView? {
+    public func imageView() throws -> UIImageView? {
         let view = UIImageView(image: try image())
         view.frame.size.width = width
         view.frame.size.height = height
