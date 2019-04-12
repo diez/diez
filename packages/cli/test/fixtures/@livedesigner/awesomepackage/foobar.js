@@ -1,5 +1,5 @@
 module.exports = {
-  command: 'foobar',
+  name: 'foobar',
   description: 'Do stuff.',
   action: jest.fn(),
 };

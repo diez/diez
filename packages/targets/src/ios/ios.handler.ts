@@ -152,7 +152,7 @@ const processComponentInstance = async (
   return true;
 };
 
-const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort: number) => {
+const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort?: number) => {
   const tokens = {
     devMode,
     devPort,
@@ -168,12 +168,12 @@ const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, 
  * The canonical iOS compiler target implementation.
  */
 export const iosHandler: CompilerTargetHandler = async (
-  projectRoot: string,
-  destinationPath: string,
-  localComponentNames: string[],
-  namedComponentMap: NamedComponentMap,
-  devMode: boolean,
-  devPort: number,
+  projectRoot,
+  destinationPath,
+  localComponentNames,
+  namedComponentMap,
+  devMode,
+  devPort,
 ) => {
   const componentModule = await loadComponentModule(projectRoot);
   const output: IosOutput = {
