@@ -65,6 +65,7 @@ class ReportViewController: UIViewController {
     private func apply(_ design: WaterTemperatureCardDesign, to view: TemperatureCardView) {
         view.horizontalSpacing = design.horizontalSpacing
         view.titleLabel.text = design.title
+        view.gradient = Gradient(design.gradient)
         apply(design.temperature, to: view.temperatureView)
         apply(design.wetsuit, to: view.wetsuitView)
     }

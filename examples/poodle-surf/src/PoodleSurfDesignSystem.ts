@@ -128,8 +128,9 @@ class WetsuitDesign extends Component {
 }
 
 class WaterTemperatureCardDesign extends Component {
-  @property horizontalSpacing = layoutValues.defaultMargin;
   @property title = 'Water temperature';
+  @property gradient = palette.gradient;
+  @property horizontalSpacing = layoutValues.defaultMargin;
   @property temperature = new TemperatureDesign();
   @property wetsuit = new WetsuitDesign();
 }
