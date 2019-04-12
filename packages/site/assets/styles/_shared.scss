@@ -28,6 +28,16 @@ a {
   }
 }
 
+h1 {
+  font-size: 4rem;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 2.72rem;
+}
+
 button, .button {
   background-color: $primary;
   position: relative;
@@ -68,4 +78,13 @@ button, .button {
       transition: all 300ms ease-in;
     }
   }
+}
+
+.center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.muted {
+  opacity: .44
 }

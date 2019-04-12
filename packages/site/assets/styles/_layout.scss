@@ -1,9 +1,33 @@
-$example-size: 90px;
-$page-width: 1320px;
+// SPACINGS
+$spacing2XS: 2px;
+$spacingXS: 4px;
+$spacingSM: 8px;
+$spacingMD: 12px;
+$spacingLG: 18px;
+$spacingXL: 24px;
+$spacing2XL: 32px;
+$spacing3XL: 44px;
+
+// SIZINGS
+$sizing2XS: 60px;
+$sizingXS: 100px;
+$sizingSM: 200px;
+$sizingMD: 300px;
+$sizingLG: 400px;
+$sizingXL: 600px;
+$sizing2XL: 860px;
+$sizing3XL: 1300px;
+
+$page-width: $sizing3XL;
 
 .page {
   max-width: $page-width;
   margin: 0 auto;
   padding: 40px;
   position: relative;
+}
+
+.section-narrow {
+  max-width: $sizing2XL;
+  margin: 0 auto;
 }
