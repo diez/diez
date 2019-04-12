@@ -32,6 +32,10 @@ const normalizeHue = (degrees: number) => {
 };
 
 const getHue = (min: number, max: number, r: number, g: number, b: number) => {
+  if (max === min) {
+    return 0;
+  }
+
   if (r === max) {
     return (g - b) / (max - min);
   }
