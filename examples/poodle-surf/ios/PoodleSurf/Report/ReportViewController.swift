@@ -29,9 +29,9 @@ class ReportViewController: UIViewController {
             print(system)
         }
 
-//        diezDesignSystem.attach(self) { model in
-//            print(model)
-//        }
+        diezModels.attach(self) { model in
+            print(model)
+        }
     }
 
     private func applyReportStyle(to view: ReportView) {
