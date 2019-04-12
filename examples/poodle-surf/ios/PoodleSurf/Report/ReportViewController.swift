@@ -125,8 +125,9 @@ class ReportViewController: UIViewController {
     }
 
     private func applyTitleStyle(to view: HorizontalImageLabelView) {
-        titleView.label.text = "P o o d l e S u r f"
-        titleView.imageView.image = UIImage(named: "Poodle")
+        titleView.label.text = "PITTED"
+        titleView.label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleView.imageView.image = UIImage(named: "Icon")
         titleView.spacing = 10
     }
 
