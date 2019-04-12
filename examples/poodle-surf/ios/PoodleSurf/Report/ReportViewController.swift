@@ -25,14 +25,28 @@ class ReportViewController: UIViewController {
         applyReportStyle(to: reportView)
         applyTitleStyle(to: titleView)
 
-        diezDesignSystem.attach(self) { system in
-            print(system)
+        diezDesignSystem.attach(self) { [weak self] system in
+            self?.apply(system)
         }
 
         diezModels.attach(self) { model in
             print(model)
         }
     }
+
+    // MARK: - Diez Styling
+
+    private func apply(_ system: PoodleSurfDesignSystem) {
+        apply(system.report, to: reportView)
+    }
+
+    private func apply(_ design: ReportDesign, to view: ReportView) {
+        view.backgroundColor = design.backgroundColor
+        view.contentLayoutMargins = UIEdgeInsets(design.contentLayoutMargins)
+        view.contentSpacing = design.contentSpacing
+    }
+
+    // MARK: - Default Styling
 
     private func applyReportStyle(to view: ReportView) {
         view.backgroundColor = .white

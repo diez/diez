@@ -35,6 +35,7 @@
 		46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C48225FFC3000F4B63F /* Gradient+Example.swift */; };
 		46087C4B2260084000F4B63F /* hang10.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C4A2260084000F4B63F /* hang10.json */; };
 		46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */; };
+		46087C5122612C9100F4B63F /* UIEdgeInsets+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5022612C9100F4B63F /* UIEdgeInsets+Diez.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		46087C48225FFC3000F4B63F /* Gradient+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Example.swift"; sourceTree = "<group>"; };
 		46087C4A2260084000F4B63F /* hang10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hang10.json; sourceTree = "<group>"; };
 		46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewStateBinder.swift; sourceTree = "<group>"; };
+		46087C5022612C9100F4B63F /* UIEdgeInsets+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Diez.swift"; path = "../../../../../../../../../Documents/UIEdgeInsets+Diez.swift"; sourceTree = "<group>"; };
 		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,6 +158,7 @@
 				46087C06225D5A3600F4B63F /* UIView+CornerRadius.swift */,
 				46087C02225D54FA00F4B63F /* UIView+Embed.swift */,
 				46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */,
+				46087C5022612C9100F4B63F /* UIEdgeInsets+Diez.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				46087C03225D54FA00F4B63F /* UIView+Embed.swift in Sources */,
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
 				46087C19225D7F3200F4B63F /* ReportState.swift in Sources */,
+				46087C5122612C9100F4B63F /* UIEdgeInsets+Diez.swift in Sources */,
 				46087C2D225FA14B00F4B63F /* DayPartView.swift in Sources */,
 				46087C16225D799800F4B63F /* LoadingView.swift in Sources */,
 				46087C32225FCB1000F4B63F /* ReportState+Example.swift in Sources */,
