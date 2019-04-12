@@ -9,21 +9,14 @@
 import UIKit
 
 class ReportViewController: UIViewController {
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    override func loadView() {
-        view = ReportView(frame: UIScreen.main.bounds)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.titleView = titleView
 
-        let exampleState = ReportState.makeExample()
-        configure(with: exampleState)
+        let state = ReportState.makeExample()
+        let binder = ReportViewStateBinder(view: reportView)
+        binder.update(with: state)
 
         applyReportStyle(to: reportView)
         applyTitleStyle(to: titleView)
@@ -131,63 +124,16 @@ class ReportViewController: UIViewController {
         titleView.spacing = 10
     }
 
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    override func loadView() {
+        view = ReportView(frame: UIScreen.main.bounds)
+    }
+
     private var reportView: ReportView {
         return view as! ReportView
-    }
-
-    private func configure(with state: ReportState) {
-        configure(with: state.location)
-        configure(with: state.temperature)
-        configure(with: state.wind)
-        configure(reportView.swellCardView, with: state.swell)
-        configure(reportView.tideCardView, with: state.tide)
-    }
-
-    private func configure(with state: ReportState.Location) {
-        let header = reportView.headerView
-        header.placeLabel.text = state.place
-        header.regionLabel.text = state.region
-        header.bannerImageView.image = UIImage(named: state.bannerImageName)
-        header.locationImageView.image = UIImage(named: state.mapImageName)
-    }
-
-    private func configure(with state: ReportState.Temperature) {
-        let card = reportView.temperatureCardView
-        card.temperatureView.label.text = state.formattedValue
-        card.wetsuitView.bottomLabel.text = state.recommendedGear
-    }
-
-    private func configure(with state: ReportState.WindForecast) {
-        let card = reportView.windCardView
-        configure(card.earlyPart, withState: state.early, iconImageName: UIImage.iconName(for: state.early.direction))
-        configure(card.middlePart, withState: state.middle, iconImageName: UIImage.iconName(for: state.middle.direction))
-        configure(card.latePart, withState: state.late, iconImageName: UIImage.iconName(for: state.late.direction))
-    }
-
-    private func configure<T: ForecastDescribable>(_ card: ForecastCardView, with state: T) {
-        configure(card.earlyPart, withState: state.early)
-        configure(card.middlePart, withState: state.middle)
-        configure(card.latePart, withState: state.late)
-    }
-
-    private func configure(_ view: DayPartView, withState state: DayPartDescribable, iconImageName iconName: String? = nil){
-        view.timeLabel.text = state.time
-        view.valueLabel.text = state.value
-
-        guard
-            let iconName = iconName,
-            let icon = UIImage(named: iconName) else {
-                view.iconView.isHidden = true
-                return
-        }
-
-        view.iconView.isHidden = false
-        view.iconView.image = icon
-
-    }
-
-    private func configure(_ view: DayPartView, withIconNamed iconName: String?) {
-
     }
 
     private let titleView = HorizontalImageLabelView()
