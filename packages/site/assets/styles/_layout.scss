@@ -1,1 +1,9 @@
-$example-size: 40px;
+$example-size: 90px;
+$page-width: 1320px;
+
+.page {
+  max-width: $page-width;
+  margin: 0 auto;
+  padding: 40px;
+  position: relative;
+}
