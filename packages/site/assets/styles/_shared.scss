@@ -55,7 +55,7 @@ button, .button {
   overflow: hidden;
   cursor: pointer;
   &:active {
-    transform: translate(0px,4px);
+    transform: translateY(4px);
     border-bottom: 1px solid;
   }
   &:before {
