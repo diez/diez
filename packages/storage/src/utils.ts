@@ -15,10 +15,13 @@ export const outputTemplatePackage = (templateRoot: string, outputRoot: string, 
       return;
     }
 
-    const outputDirectory = resolve(outputRoot, relative(templateRoot, basedir));
+    // Note: even the file and directory names can be tokenized.
+    const outputFilename = compile(filename)(tokens);
+    const outputDirectory = compile(resolve(outputRoot, relative(templateRoot, basedir)))(tokens);
+
     ensureDirSync(outputDirectory);
     writeFileSync(
-      join(outputDirectory, filename),
+      join(outputDirectory, outputFilename),
       compile(readFileSync(resolve(basedir, filename)).toString())(tokens),
     );
   });

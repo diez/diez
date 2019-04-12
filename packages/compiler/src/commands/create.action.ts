@@ -13,7 +13,7 @@ import pascalCase from 'pascal-case';
 import {basename, join, resolve} from 'path';
 import validateNpmPackageName from 'validate-npm-package-name';
 import {shouldUseYarn} from '..';
-import {canUseNpm} from '../utils';
+import {canUseNpm, runPackageScript} from '../utils';
 
 interface Answers {
   projectName: string;
@@ -72,8 +72,7 @@ export const createProjectAction = async (_: {}, projectName: string) => {
   validatePackageName(packageName);
 
   const useYarn = await shouldUseYarn();
-  const root = resolve(basename(packageName));
-  const originalDirectory = process.cwd();
+  const root = resolve(process.cwd(), basename(packageName));
   await validateProjectRoot(root, useYarn);
 
   const templateRoot = resolve(__dirname, '..', '..', 'templates', 'project');
@@ -86,6 +85,7 @@ export const createProjectAction = async (_: {}, projectName: string) => {
 
   outputTemplatePackage(templateRoot, root, tokens);
 
+  await runPackageScript('install', useYarn, root);
   // TODO: finalize template project.
-  // TODO: yarn install, print instructions.
+  // TODO: print instructions.
 };

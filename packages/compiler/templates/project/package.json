@@ -1,5 +1,6 @@
 {
   "name": "{{packageName}}",
+  "main": "lib/index.js",
   "version": "1.0.0",
   "dependencies": {
     "@livedesigner/engine": "{{diezVersion}}",
@@ -7,6 +8,7 @@
   },
   "devDependencies": {
     "@livedesigner/compiler": "{{diezVersion}}",
+    "@livedesigner/targets": "{{diezVersion}}",
     "typescript": "{{typescriptVersion}}"
   }
 }
