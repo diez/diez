@@ -37,7 +37,10 @@ class ReportViewController: UIViewController {
     // MARK: - Diez Styling
 
     private func apply(_ system: PoodleSurfDesignSystem) {
-        apply(system.report, to: reportView)
+        UIView.animate(withDuration: 0.5) {
+            self.apply(system.report, to: self.reportView)
+            self.view.layoutIfNeeded()
+        }
     }
 
     private func apply(_ design: ReportDesign, to view: ReportView) {
