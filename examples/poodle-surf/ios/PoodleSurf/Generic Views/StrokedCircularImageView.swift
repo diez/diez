@@ -74,10 +74,16 @@ class StrokedCirularImageView: UIView {
     }
 
     private func updateStrokePath(forWidth width: CGFloat) {
+        let strokeViewWidth = strokeView.frame.size.width
+        guard width > 0, strokeViewWidth > 0 else {
+            strokeMaskLayer.path = nil
+            return
+        }
+
         /// Since the stroke is rendered around the line we need to inset the path by half the stroke width.
         let insetAmount = width / 2
         let strokeBounds = strokeView.frame.insetBy(dx: insetAmount, dy: insetAmount)
-        let cornerRadius = strokeView.frame.size.width / 2
+        let cornerRadius = strokeViewWidth / 2
         strokeMaskLayer.path = UIBezierPath(roundedRect: strokeBounds, cornerRadius: cornerRadius).cgPath
     }
 
