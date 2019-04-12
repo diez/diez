@@ -44,6 +44,6 @@ export const inlineCodeSnippet = (message: string) => chalk.green(message);
  */
 export const code = (message: string) => {
   console.log(
-    '\n' + chalk.green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n')),
+    `${chalk.green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n'))}`,
   );
 };
