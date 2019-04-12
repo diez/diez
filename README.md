@@ -35,12 +35,14 @@ The following commands are available in all subpackages, as well as in the monor
 
 ## Running the playground project
 
- - Navigate to [examples/playground/](examples/playground) and run `yarn serve`. This will bring up the demo server.
+ - Navigate to [examples/playground/](examples/playground).
  - iOS:
+   - Run `yarn run-ios`. This will compile a Swift iOS SDK and bring up the dev server.
+   - In [examples/playground/ios/](examples/playground/ios), run `pod install`.
    - Open the XCode workspace at [examples/playground/ios/HelloMyStateBag.xcworkspace](examples/playground/ios/HelloMyStateBag.xcworkspace) in Xcode.
-   - Run `pod install` if you have not already done so.
-   - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode. To run on a device, modify `Diez.plist` to point to your LAN IP while on the same Wifi network as your development machine.
+   - Run `HelloMyStateBag` in an available simulator with `Cmd + R` in Xcode. You should also be able to run it on a device on the same LAN as your development machine.
  - Android:
+   - Run `yarn run-android` (TODO). This will compile a Kotlin Android SDK and bring up the dev server.
    - Open the Android Studio project at [examples/playground/android](examples/playground/android).
    - Run `HelloMyStateBag` in an available simulator with `Ctrl + R` in Android Studio. Note that the `settings.xml` in the `Diez` module is preconfigured for AVD emulators, which simulate localhost URLs at the IP `10.0.2.2`. If you are using a different emulator, you may need to use a different URL. To run on a device, modify `settings.xml` to point to your LAN IP while on the same Wifi network as your development machine.
 
