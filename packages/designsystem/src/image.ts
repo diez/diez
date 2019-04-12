@@ -14,6 +14,15 @@ export interface ImageState {
  * @noinheritdoc
  */
 export class Image extends Component<ImageState> {
+  static scaled (src: string, scale: number, width = 0, height = 0) {
+    return new Image({
+      scale,
+      width,
+      height,
+      file: new File({src}),
+    });
+  }
+
   @property file: File = new File();
 
   @property width: number = 0;

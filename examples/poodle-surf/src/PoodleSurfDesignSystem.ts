@@ -1,5 +1,6 @@
-import {Color, IOSFonts, TextStyle} from '@livedesigner/designsystem';
+import {Color, Image, IOSFonts, TextStyle} from '@livedesigner/designsystem';
 import {Component, property} from '@livedesigner/engine';
+import {ImagePanel} from './BasicLayouts';
 import {SimpleGradient} from './SimpleGradient';
 
 class PoodleSurfPalette extends Component {
@@ -28,10 +29,23 @@ class TextStyles extends Component {
   });
 }
 
+class Panels extends Component {
+  @property titleView = new ImagePanel({
+    text: 'PITTED',
+    textStyle: new TextStyle({
+      font: IOSFonts.HelveticaBold,
+      fontSize: 20,
+    }),
+    image: Image.scaled('/assets/images/icon.png', 3),
+    spacing: 10,
+  });
+}
+
 /**
  * The design system for Poodle Surf.
  */
 export class PoodleSurfDesignSystem extends Component {
   @property palette = palette;
   @property textStyles = new TextStyles();
+  @property panels = new Panels();
 }

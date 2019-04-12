@@ -1,4 +1,4 @@
-import {File, Image} from '@livedesigner/designsystem';
+import {Image} from '@livedesigner/designsystem';
 import {Component, property} from '@livedesigner/engine';
 
 class Strings extends Component {
@@ -6,12 +6,7 @@ class Strings extends Component {
 }
 
 class Images extends Component {
-  @property someIcon = new Image({
-    file: new File({
-      src: '/assets/images/some-icon.png',
-    }),
-    scale: 3,
-  });
+  @property someIcon = Image.scaled('/assets/images/some-icon.png', 3);
 }
 
 /**
