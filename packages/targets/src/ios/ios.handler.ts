@@ -152,10 +152,10 @@ const processComponentInstance = async (
   return true;
 };
 
-const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean) => {
+const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort: number) => {
   const tokens = {
     devMode,
-    devPort: 8081,
+    devPort,
     dependencies: Array.from(output.dependencies),
     imports: Array.from(output.imports),
     sources: Array.from(output.sources).map((source) => readFileSync(source).toString()),
@@ -173,6 +173,7 @@ export const iosHandler: CompilerTargetHandler = async (
   localComponentNames: string[],
   namedComponentMap: NamedComponentMap,
   devMode: boolean,
+  devPort: number,
 ) => {
   const componentModule = await loadComponentModule(projectRoot);
   const output: IosOutput = {
@@ -196,5 +197,5 @@ export const iosHandler: CompilerTargetHandler = async (
     await processComponentInstance(componentInstance, componentName, output, namedComponentMap);
   }
 
-  writeSdk(output, destinationPath, devMode);
+  writeSdk(output, destinationPath, devMode, devPort);
 };

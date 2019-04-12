@@ -6,7 +6,7 @@ import open = require('open');
 import {platform, tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
-import serverDestroy = require('server-destroy');
+import serverDestroy from 'server-destroy';
 import {URL} from 'url';
 import {v4} from 'uuid';
 
@@ -14,7 +14,6 @@ const reservedCharReplacement = '-';
 const filenameReservedRegExp = /[<>:"\/\\|?*\x00-\x1F]/g;
 const windowsNamesReservedRegExp = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
 const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
-const ports = [46572, 48735, 7826, 44495, 21902];
 
 export interface FileObject {
   fullPath: string;
@@ -31,44 +30,6 @@ export const enum ImageFormats {
 }
 
 export const isMacOS = () => platform() === 'darwin';
-
-const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
-  return new Promise((resolve) => {
-    try {
-      server.listen(port, '0.0.0.0');
-      server.once('listening', () => {
-        server.once('close', () => {
-          resolve(true);
-        });
-        server.close();
-      });
-
-      server.on('error', () => {
-        // This port is taken or otherwise unavailable; try another.
-        resolve(false);
-      });
-    } catch (error) {
-      resolve(false);
-    }
-  });
-};
-
-/**
- * Find an open port.
- */
-export const findOpenPort = async (): Promise<number> => {
-  const server = createServer();
-  serverDestroy(server);
-  for (const port of ports) {
-    if (await isPortOpen(server, port)) {
-      server.destroy();
-      return port;
-    }
-  }
-
-  server.destroy();
-  throw new Error('Unable to find open port.');
-};
 
 export interface OAuthCode {
   code: string;

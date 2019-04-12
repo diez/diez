@@ -1,15 +1,17 @@
+import {findOpenPort} from '@livedesigner/cli';
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';
 import {Exporter, ExporterFactory, OAuthable, ProgressReporter} from '.';
 import {chunk} from '../helpers/arrayUtils';
-import {createFolders, findOpenPort, getOAuthCodeFromBrowser, sanitizeFileName} from '../helpers/ioUtils';
+import {createFolders, getOAuthCodeFromBrowser, sanitizeFileName} from '../helpers/ioUtils';
 import {downloadFile, performGetRequest, performGetRequestWithBearerToken} from '../helpers/request';
 import {UniqueNameResolver} from '../helpers/uniqueNameResolver';
 
 const figmaHost = 'figma.com';
 const figmaUrl = 'https://www.figma.com';
 const apiBase = 'https://api.figma.com/v1';
+const figmaPorts = [46572, 48735, 7826, 44495, 21902];
 
 const isFigmaFileRegExp = /\.figma$/;
 const figmaDefaultFilename = 'Untitled';
@@ -183,7 +185,7 @@ const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: Uni
  * Implements the OAuth token dance for Figma and resolves a useful access token.
  */
 export const getFigmaAccessToken = async (): Promise<string> => {
-  const port = await findOpenPort();
+  const port = await findOpenPort(figmaPorts);
   const state = v4();
   const redirectUri = `http://localhost:${port}`;
   const authParams = new URLSearchParams([

@@ -53,8 +53,7 @@
     "cli": {
       "commandProviders": [
         "./lib/commands/compile",
-        "./lib/commands/create",
-        "./lib/commands/serve"
+        "./lib/commands/create"
       ]
     }
   }

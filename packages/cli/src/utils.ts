@@ -2,7 +2,6 @@ import {DiezConfiguration} from '@livedesigner/engine';
 import {each} from 'async';
 import {readdir, stat} from 'fs';
 import {join} from 'path';
-import {CliAction, CliCommandProvider} from './api';
 
 // tslint:disable-next-line:no-var-requires
 const packageJson = require(join('..', 'package.json'));

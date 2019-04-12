@@ -85,6 +85,7 @@ export type CompilerTargetHandler = (
   localComponentNames: string[],
   namedComponentMap: NamedComponentMap,
   devMode: boolean,
+  devPort?: number,
 ) => void;
 
 /**

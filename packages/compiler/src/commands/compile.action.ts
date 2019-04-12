@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {fatalError, info} from '@livedesigner/cli';
+import {fatalError, findOpenPort, getCandidatePortRange, info} from '@livedesigner/cli';
 import {join, resolve} from 'path';
 import {ClassDeclaration} from 'ts-morph';
 import {NamedComponentMap} from '../api';
@@ -62,6 +62,12 @@ export const compileAction = async ({output, target, dev}: CompileOptions) => {
     }
   }
 
-  await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, dev);
+  if (dev) {
+    const devPort = await findOpenPort(getCandidatePortRange(8080, 100));
+    await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, true, devPort);
+  } else {
+    await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, false);
+  }
+
   printWarnings(targetComponents);
 };
