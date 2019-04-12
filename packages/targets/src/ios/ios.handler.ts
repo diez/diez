@@ -1,4 +1,4 @@
-import {warning} from '@livedesigner/cli';
+import {code, info, inlineCodeSnippet, warning} from '@livedesigner/cli';
 import {CompilerTargetHandler, getPrefab, NamedComponentMap} from '@livedesigner/compiler';
 import {ConcreteComponent} from '@livedesigner/engine';
 import {outputTemplatePackage} from '@livedesigner/storage';
@@ -198,4 +198,33 @@ export const iosHandler: CompilerTargetHandler = async (
   }
 
   writeSdk(output, destinationPath, devMode, devPort);
+
+  info(`Diez SDK installed locally at ${join(projectRoot, 'Diez')}.\n`);
+
+  // TODO: Check if the target is actually using CocoaPods; locate Podfile if they are.
+  // TODO: Offer to add dependency to CocoaPods for the user, but don't force them to accept.
+  // Check if they already have a pod dependency.
+  info(`You can depend on the Diez SDK in your ${inlineCodeSnippet('Podfile')} like so:`);
+  code('pod \'Diez\', :path => \'./Diez\'\n');
+  info(`Don't forget to run ${inlineCodeSnippet('pod install')} after updating your CocoaPods dependencies!\n`);
+
+  // TODO: Check if the target is actually using Swift.
+  info(`You can use ${inlineCodeSnippet('Diez')} to bootstrap any of the components defined in your project.\n`);
+  info('For example:');
+  // TODO: Move this into a template.
+  // TODO: Prefab components should yield their own documentation.
+  code(`import UIKit
+import Diez
+
+class ViewController: UIViewController {
+  let diez = Diez<${localComponentNames[0]}>()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    diez.attach(self, subscriber: {(component: ${localComponentNames[0]}) in
+      // ...
+    })
+  }
+}
+`);
 };

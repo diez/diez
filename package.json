@@ -31,7 +31,7 @@
     "create-package": "ts-node ./scripts/cli.ts create-package",
     "docs": "ts-node ./scripts/cli.ts generate-docs",
     "compile": "lerna run compile",
-    "watch": "lerna run --parallel watch",
+    "watch": "lerna run compile && lerna run --parallel watch",
     "fix": "lerna run fix",
     "health": "lerna run health",
     "lint": "lerna run lint",

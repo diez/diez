@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
 /**
- * Report a fatal error and exit.
+ * Reports a fatal error and exits.
  * @param message
  */
 export const fatalError = (message: string) => {
@@ -12,7 +12,7 @@ export const fatalError = (message: string) => {
 };
 
 /**
- * Log a success message and exit.
+ * Logs a success message and exit.
  * @param message
  */
 export const success = (message: string) => {
@@ -21,15 +21,29 @@ export const success = (message: string) => {
 };
 
 /**
- * Log an info message.
+ * Logs an info message.
  */
 export const info = (message: string) => {
   console.log(chalk.blue(message));
 };
 
 /**
- * Log a warning message.
+ * Logs a warning message.
  */
 export const warning = (message: string) => {
   console.log(chalk.yellow(message));
+};
+
+/**
+ * Yields an inline code snippet.
+ */
+export const inlineCodeSnippet = (message: string) => chalk.green(message);
+
+/**
+ * Yields a code snippet.
+ */
+export const code = (message: string) => {
+  console.log(
+    '\n' + chalk.green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n')),
+  );
 };

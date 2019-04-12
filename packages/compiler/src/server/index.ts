@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import {TemplateProvider} from '../api';
-import {getConfiguration} from '../server/config';
+import {getConfiguration} from './config';
 
 const registerWithProvider = (app: Express, projectRoot: string, provider: TemplateProvider) => {
   app.get(provider.path, provider.factory(projectRoot));
@@ -14,18 +14,16 @@ const registerWithProvider = (app: Express, projectRoot: string, provider: Templ
 
 /**
  * The serve action starts a hot server for a live design session.
- *
- * Eventually, this action should be retired in favor of `diez compile --dev`.
  */
-export const serveAction = async () => {
+export const serveHot = async (projectRoot: string, port: number) => {
   const app = express();
-  const projectRoot = global.process.cwd();
 
   const webpackConfig = getConfiguration(projectRoot);
   const compiler = webpack(webpackConfig);
 
   app.use(webpackDevMiddleware(compiler, {
     publicPath: '/',
+    logLevel: 'warn',
   }));
   app.use(webpackHotMiddleware(compiler));
 
@@ -53,7 +51,6 @@ export const serveAction = async () => {
   app.use('/assets', express.static(resolve(projectRoot, 'assets')));
 
   // TODO: get an open port programatically.
-  const port = 8081;
   app.listen(port, () => {
     info(`Serving hot on port ${port}.`);
   });

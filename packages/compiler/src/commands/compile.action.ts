@@ -3,6 +3,7 @@ import {fatalError, findOpenPort, getCandidatePortRange, info} from '@livedesign
 import {join, resolve} from 'path';
 import {ClassDeclaration} from 'ts-morph';
 import {NamedComponentMap} from '../api';
+import {serveHot} from '../server';
 import {getTargets, getValidProject, printWarnings, processType, runPackageScript, shouldUseYarn} from '../utils';
 
 interface CompileOptions {
@@ -62,9 +63,16 @@ export const compileAction = async ({output, target, dev}: CompileOptions) => {
     }
   }
 
+  if (!foundComponents.length) {
+    fatalError('No components found!');
+  }
+
   if (dev) {
     const devPort = await findOpenPort(getCandidatePortRange(8080, 100));
+    await serveHot(projectRoot, devPort);
     await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, true, devPort);
+    // TODO: watch for hot updates and update the SDK when things change.
+    // TODO: when we shut down, compile once in prod mode.
   } else {
     await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, false);
   }
