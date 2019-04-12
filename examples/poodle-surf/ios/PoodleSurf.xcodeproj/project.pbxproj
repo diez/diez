@@ -34,7 +34,7 @@
 		46087C47225FFC1800F4B63F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C46225FFC1800F4B63F /* Gradient.swift */; };
 		46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C48225FFC3000F4B63F /* Gradient+Example.swift */; };
 		46087C4B2260084000F4B63F /* hang10.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C4A2260084000F4B63F /* hang10.json */; };
-		46087C4D2260EA0E00F4B63F /* ReportViewStateBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4C2260EA0E00F4B63F /* ReportViewStateBinder.swift */; };
+		46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +67,7 @@
 		46087C46225FFC1800F4B63F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		46087C48225FFC3000F4B63F /* Gradient+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Example.swift"; sourceTree = "<group>"; };
 		46087C4A2260084000F4B63F /* hang10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hang10.json; sourceTree = "<group>"; };
-		46087C4C2260EA0E00F4B63F /* ReportViewStateBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReportViewStateBinder.swift; path = ../../../../../../../../Documents/ReportViewStateBinder.swift; sourceTree = "<group>"; };
+		46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewStateBinder.swift; sourceTree = "<group>"; };
 		6C4AECABD9C1727831BEA573 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E08F93612D7318296206E7F /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,8 +121,8 @@
 				46087C30225FA44B00F4B63F /* Cards */,
 				46087BFB225D419500F4B63F /* ReportHeaderView.swift */,
 				46087BF9225D3F9900F4B63F /* ReportView.swift */,
-				46087C4C2260EA0E00F4B63F /* ReportViewStateBinder.swift */,
 				46087BE8225D341600F4B63F /* ReportViewController.swift */,
+				46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */,
 				46087C33225FCECF00F4B63F /* State */,
 			);
 			path = Report;
@@ -356,9 +356,9 @@
 				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
 				46087C45225FF79C00F4B63F /* GradientView.swift in Sources */,
+				46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */,
 				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
 				46087C47225FFC1800F4B63F /* Gradient.swift in Sources */,
-				46087C4D2260EA0E00F4B63F /* ReportViewStateBinder.swift in Sources */,
 				46087C35225FCEF000F4B63F /* UIImage+CardinalDirection.swift in Sources */,
 				46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */,
 				46087BFA225D3F9900F4B63F /* ReportView.swift in Sources */,
