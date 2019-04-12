@@ -1,7 +1,10 @@
 <template>
   <div class="nav">
     <div class="holster">
-      <div class="logo">Diez {%</div>
+      <div class="logo">
+        Diez
+        <img width="34" src="../assets/imgs/logo.svg"/>
+      </div>
       <div>
         <a href="#">Github</a>
         <a href="#">Docs</a>
@@ -47,10 +50,16 @@ export default class NavBar extends Vue {
     font-family: 'Source Code Pro', monospace;
     font-weight: 900;
     font-size: 30px;
+    display: flex;
+    align-items: center;
   }
 
   a {
     padding: 0 30px;
     color: $black;
+  }
+
+  img {
+    margin-left: 10px;
   }
 </style>
