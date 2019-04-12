@@ -53,7 +53,7 @@ class ReportViewController: UIViewController {
         design.placeLabel.setTextStyle(forLabel: view.placeLabel)
         view.pinIconImageView.image = try? design.mapPinIcon.image()
         view.locationImageView.strokeWidth = design.locationImage.strokeWidth
-        view.locationImageView.strokeGradient = design.locationImage.strokeGradient
+        view.locationImageView.strokeGradient = Gradient(design.locationImage.strokeGradient)
         view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
         view.bannerHeight = design.bannerHeight
         view.labelsStackViewLayoutMargins = UIEdgeInsets(design.labelsLayoutMargin)
