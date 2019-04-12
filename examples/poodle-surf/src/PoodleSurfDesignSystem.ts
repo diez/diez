@@ -28,7 +28,7 @@ class LayoutValues extends Component {
   @property compactMargin = 15;
   @property looseMargin = 30;
   @property defaultSpacing = 10;
-  @property tightSpacing = 5;
+  @property compactSpacing = 5;
 }
 
 /**
@@ -69,6 +69,21 @@ class TextStyles extends Component {
     fontSize: fontSizes.caption,
     color: palette.black,
   });
+  @property value = new TextStyle({
+    font: fontNames.default,
+    fontSize: fontSizes.value,
+    color: palette.white,
+  });
+  @property caption = new TextStyle({
+    font: fontNames.default,
+    fontSize: fontSizes.caption,
+    color: palette.white,
+  })
+  @property captionHeader = new TextStyle({
+    font: fontNames.defaultBold,
+    fontSize: fontSizes.caption,
+    color: palette.white,
+  })
 }
 
 /**
@@ -76,17 +91,17 @@ class TextStyles extends Component {
  */
 const textStyles = new TextStyles();
 
-class ReportLocationImageDesign extends Component {
+class LocationImageDesign extends Component {
   @property strokeWidth = 3;
   @property strokeGradient = palette.gradient;
   @property widthAndHeight = 106;
 }
 
-class ReportHeaderDesign extends Component {
+class HeaderDesign extends Component {
   @property regionLabel = textStyles.headerTitle;
   @property placeLabel = textStyles.headerCaption;
   @property mapPinIcon = Image.scaled('/assets/images/Map Pin@3x.png', 3);
-  @property locationImage = new ReportLocationImageDesign();
+  @property locationImage = new LocationImageDesign();
   @property bannerHeight = 149;
   @property labelsLayoutMargin = new EdgeInsets({
     top: layoutValues.compactMargin,
@@ -95,7 +110,28 @@ class ReportHeaderDesign extends Component {
     right: layoutValues.defaultMargin,
   });
   @property pinIconToLabelSpacing = layoutValues.defaultSpacing;
-  @property labelsSpacing = layoutValues.tightSpacing;
+  @property labelsSpacing = layoutValues.compactSpacing;
+}
+
+class TemperatureDesign extends Component {
+  @property textStyle = textStyles.value;
+  @property icon = Image.scaled('/assets/images/Thermometer@3x.png', 3);
+  @property iconSpacing = layoutValues.defaultSpacing;
+}
+
+class WetsuitDesign extends Component {
+  @property headerText = 'Recommended';
+  @property headerTextStyle = textStyles.captionHeader;
+  @property valueTextStyle = textStyles.caption;
+  @property labelSpacing = layoutValues.compactSpacing;
+  @property iconSpacing = layoutValues.defaultSpacing;
+}
+
+class WaterTemperatureCardDesign extends Component {
+  @property horizontalSpacing = layoutValues.defaultMargin;
+  @property title = 'Water temperature';
+  @property temperature = new TemperatureDesign();
+  @property wetsuit = new WetsuitDesign();
 }
 
 class ReportDesign extends Component {
@@ -107,7 +143,8 @@ class ReportDesign extends Component {
     right: layoutValues.defaultMargin,
   });
   @property contentSpacing = layoutValues.defaultMargin;
-  @property header = new ReportHeaderDesign();
+  @property header = new HeaderDesign();
+  @property waterTemperatureCard = new WaterTemperatureCardDesign();
 }
 
 /**

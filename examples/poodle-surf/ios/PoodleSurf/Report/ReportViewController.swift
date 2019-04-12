@@ -46,9 +46,10 @@ class ReportViewController: UIViewController {
         view.contentSpacing = design.contentSpacing
 
         apply(design.header, to: view.headerView)
+        apply(design.waterTemperatureCard, to: view.temperatureCardView)
     }
 
-    private func apply(_ design: ReportHeaderDesign, to view: ReportHeaderView) {
+    private func apply(_ design: HeaderDesign, to view: ReportHeaderView) {
         design.regionLabel.setTextStyle(forLabel: view.regionLabel)
         design.placeLabel.setTextStyle(forLabel: view.placeLabel)
         view.pinIconImageView.image = try? design.mapPinIcon.image()
@@ -59,6 +60,27 @@ class ReportViewController: UIViewController {
         view.labelsStackViewLayoutMargins = UIEdgeInsets(design.labelsLayoutMargin)
         view.regionLabelToPinIconSpacing = design.pinIconToLabelSpacing
         view.labelsVerticalSpacing = design.labelsSpacing
+    }
+
+    private func apply(_ design: WaterTemperatureCardDesign, to view: TemperatureCardView) {
+        view.horizontalSpacing = design.horizontalSpacing
+        view.titleLabel.text = design.title
+        apply(design.temperature, to: view.temperatureView)
+        apply(design.wetsuit, to: view.wetsuitView)
+    }
+
+    private func apply(_ design: TemperatureDesign, to view: HorizontalImageLabelView) {
+        design.textStyle.setTextStyle(forLabel: view.label)
+        view.imageView.image = try? design.icon.image()
+        view.spacing = design.iconSpacing
+    }
+
+    private func apply(_ design: WetsuitDesign, to view: HorizontalImageVerticalLabelsView) {
+        view.topLabel.text = design.headerText
+        design.headerTextStyle.setTextStyle(forLabel: view.topLabel)
+        design.valueTextStyle.setTextStyle(forLabel: view.bottomLabel)
+        view.verticalSpacing = design.labelSpacing
+        view.horizontalSpacing = design.iconSpacing
     }
 
     // MARK: - Default Styling
