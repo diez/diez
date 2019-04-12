@@ -4,7 +4,6 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "serve": "diez serve",
     "run-ios": "diez compile -t ios -o ios -d"
   },
   "dependencies": {
