@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Diez
 
 class ReportViewController: UIViewController {
+    private let diezDesignSystem = Diez<PoodleSurfDesignSystem>()
+    private let diezModels = Diez<PoodleSurfModels>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +24,14 @@ class ReportViewController: UIViewController {
 
         applyReportStyle(to: reportView)
         applyTitleStyle(to: titleView)
+
+        diezDesignSystem.attach(self) { system in
+            print(system)
+        }
+
+//        diezDesignSystem.attach(self) { model in
+//            print(model)
+//        }
     }
 
     private func applyReportStyle(to view: ReportView) {
