@@ -21,6 +21,6 @@ describe('text style', () => {
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
     });
-    expect(textStyle.serialize()).toEqual({font: 'BloopMediumItalic', fontSize: 50, color: [0, 0, 0, 0.5]});
+    expect(textStyle.serialize()).toEqual({font: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
   });
 });

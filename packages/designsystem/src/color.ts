@@ -1,6 +1,8 @@
 import {Component, HashMap, property} from '@livedesigner/engine';
 
-// For simplicity, Hue, Saturation, Lightness, and Alpha are all normalized in [0, 1].
+/**
+ * Provides simple hue-saturation-lightness-alpha color state.
+ */
 export interface ColorState {
   h: number;
   s: number;
@@ -8,6 +10,9 @@ export interface ColorState {
   a: number;
 }
 
+/**
+ * Provides simple red-green-blue-alpha color state.
+ */
 export interface RGBAColorState {
   r: number;
   b: number;
@@ -102,16 +107,22 @@ export class Color extends Component<ColorState> {
     return new Color();
   }
 
-  @property h: number = 0;
+  @property h = 0;
 
-  @property s: number = 0;
+  @property s = 0;
 
-  @property l: number = 0;
+  @property l = 0;
 
-  @property a: number = 1;
+  @property a = 1;
 
   serialize () {
-    return [normalizeUnit(this.h), normalizeUnit(this.s), normalizeUnit(this.l), normalizeUnit(this.a)];
+    // Important: ensure all values are normalized in [0, 1] before serializing.
+    return {
+      h: normalizeUnit(this.h),
+      s: normalizeUnit(this.s),
+      l: normalizeUnit(this.l),
+      a: normalizeUnit(this.a),
+    };
   }
 
   lighten (amount: number) {

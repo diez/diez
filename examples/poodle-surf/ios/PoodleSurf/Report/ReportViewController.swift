@@ -41,7 +41,7 @@ class ReportViewController: UIViewController {
     }
 
     private func apply(_ design: ReportDesign, to view: ReportView) {
-        view.backgroundColor = design.backgroundColor
+        view.backgroundColor = design.backgroundColor.color
         view.contentLayoutMargins = UIEdgeInsets(design.contentLayoutMargins)
         view.contentSpacing = design.contentSpacing
 

@@ -9,8 +9,8 @@ const prefab: IosPrefab = {
   // FIXME: can we make UIColors updateable? Possibly not!
   updateable: false,
   initializer: (instance: Color) => {
-    const [h, s, l, a] = instance.serialize();
-    return `Color(hue: ${h}, hslSaturation: ${s}, lightness: ${l}, alpha: ${a})`;
+    const {h, s, l, a} = instance.serialize();
+    return `Color(withHue: ${h}, withSaturation: ${s}, withLightness: ${l}, withAlpha: ${a})`;
   },
 };
 

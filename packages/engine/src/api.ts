@@ -9,7 +9,7 @@ export type Primitive = (
 /**
  * Anything serializable is either primitive or provides its own serialization instructions.
  */
-export type AnySerializable = Primitive | Serializable;
+export type AnySerializable = Primitive | Serializable | {[property: string]: Primitive | Serializable};
 
 /**
  * A serializable interface for providing bespoke serialization instructions. Can return anything

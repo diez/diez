@@ -11,8 +11,8 @@ import Diez
 extension Gradient {
     init(_ gradient: SimpleGradient) {
         self.init(
-            startColor: gradient.startColor,
-            endColor: gradient.endColor,
+            startColor: gradient.startColor.color,
+            endColor: gradient.endColor.color,
             startPoint: CGPoint(x: gradient.startPointX, y: gradient.startPointY),
             endPoint: CGPoint(x: gradient.endPointX, y: gradient.endPointY))
     }

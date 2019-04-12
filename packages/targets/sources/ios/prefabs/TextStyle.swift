@@ -29,6 +29,6 @@ public class TextStyle : NSObject, Decodable, Updatable {
 
     public func setTextStyle(forLabel label: UILabel) {
         label.font = fontWithSize()
-        label.textColor = color
+        label.textColor = color.color
     }
 }
