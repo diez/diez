@@ -21,6 +21,7 @@ const registerWithProvider = (provider: CliCommandProvider) => {
         }
         await provider.action.call(undefined, registeredCommand, ...options);
       } catch (error) {
+        console.error(error.stack);
         fatalError(error.message);
       }
     });

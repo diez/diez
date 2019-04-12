@@ -8,22 +8,17 @@ export const shared = (target: Component, key: string) => {
   Object.defineProperty(target, key, {
     get () {
       // Yield the value from our host if it is provided.
-      if (this.host && this.host.get(key)) {
-        return this.host.get(key);
-      }
-
-      // Check a shared binding for a suitable default.
-      if (this.boundShared.get(key)) {
-        return this.boundShared.get(key);
+      if (this.host && this.host[key]) {
+        return this.host[key];
       }
 
       // Allow potential errors to fall through with a null return.
       return null;
     },
-    set (data: any) {
-      this.boundShared.set(key, data);
+    set () {
+      throw new Error('Do not set @shared values directly.');
     },
-  } as ThisType<Component>);
+  });
 };
 
 /**

@@ -577,6 +577,7 @@ public class Haiku : NSObject, Decodable, Updatable {
 public final class MyStateBag : NSObject, StateBag {
     var listener: Method? = nil
     public var palette: MyPalette
+    public var helloRValue: CGFloat
     public var copy: String
     public var image: Image
     public var svg: SVG
@@ -587,6 +588,7 @@ public final class MyStateBag : NSObject, StateBag {
 
     private enum CodingKeys: String, CodingKey {
         case palette
+        case helloRValue
         case copy
         case image
         case svg
@@ -599,6 +601,7 @@ public final class MyStateBag : NSObject, StateBag {
     public init(_ listenerIn: Method?) {
         listener = listenerIn
         palette = MyPalette(listener)
+        helloRValue = 255
         copy = "Hello Diez"
         image = Image(withFile: File(withSrc: "/assets/images/haiku.jpg"), withWidth: 246, withHeight: 246, withScale: 3)
         svg = SVG(withFile: File(withSrc: "/assets/images/rat.svg"))
@@ -626,6 +629,7 @@ public final class MyStateBag : NSObject, StateBag {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try? container.update(&palette, forKey: .palette)
+        helloRValue = try container.decode(CGFloat.self, forKey: .helloRValue)
         copy = try container.decode(String.self, forKey: .copy)
         try? container.update(&image, forKey: .image)
         try? container.update(&svg, forKey: .svg)

@@ -100,11 +100,6 @@ export abstract class Component<T extends Indexable = any>
    */
   readonly boundStates = new Map<string, boolean>();
 
-  /**
-   * A map of bound shared data.
-   */
-  readonly boundShared = new Map<string, any>();
-
   constructor (
     state: Partial<T> = {},
     private readonly patcher: Patcher = getPatcher(),

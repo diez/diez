@@ -1,13 +1,16 @@
 import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@livedesigner/designsystem';
-import {Component, method, property} from '@livedesigner/engine';
+import {Component, expression, method, property, shared} from '@livedesigner/engine';
 import {easeInOutExpo} from 'just-curves';
 
 class MyPalette extends Component<Palette> {
-  @property hello = Color.rgba(255, 0, 0, 1);
+  @shared helloRValue!: number;
+  @property hello = expression<Color>((helloRValue: number) => Color.rgba(helloRValue, 0, 0, 1));
 }
 
 export class MyStateBag extends Component {
   @property palette = new MyPalette();
+
+  @property helloRValue = 255;
 
   private name = 'Diez';
 

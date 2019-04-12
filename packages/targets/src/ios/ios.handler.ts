@@ -81,16 +81,6 @@ const processComponentInstance = async (
 
   for (const property of targetComponent.properties) {
     if (!instance.boundStates.get(property.name)) {
-      // This is a shared property, and shouldn't be transpiled.
-      if (instance.boundShared.get(property.name)) {
-        continue;
-      }
-
-      // This is neither @shared nor an actual @property.
-      // Warn if this is a userland component, but we don't have to crash on this.
-      if (!targetComponent.source || targetComponent.source === '.') {
-        targetComponent.warnings.missingProperties.add(property.name);
-      }
       continue;
     }
 

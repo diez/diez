@@ -49,12 +49,14 @@ class Expression<T extends AnySerializable> implements Serializable {
    */
   serialize (): T {
     // TODO: implement dirty arg watching (only update expression if one of its args has changed).
-    return this.formula.apply(
+    const serialized = this.formula.apply(
       this.resolver,
       this.argList.map(
         (name: string) => this.resolver[name] || null,
       ),
     );
+
+    return serialized;
   }
 }
 
@@ -72,6 +74,11 @@ export const expression = <T extends AnySerializable>(
     instance,
     {
       get (self: any, property: string) {
+        const serialized = self.serialize();
+        if (property === 'serialize' && serialized.serialize) {
+          return serialized.serialize;
+        }
+
         // If this property is defined on ourself (think `serialize` or `autoResolve`), return it
         // directly.
         if (
@@ -82,7 +89,6 @@ export const expression = <T extends AnySerializable>(
           return self[property];
         }
 
-        const serialized = self.serialize();
         const proxied = serialized[property];
         if (proxied instanceof Function) {
           // Important: make sure to bind to our serialized self if we have a proxied function.
