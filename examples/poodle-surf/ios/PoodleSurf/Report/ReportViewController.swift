@@ -11,7 +11,7 @@ import Diez
 
 class ReportViewController: UIViewController {
     private let diezDesignSystem = Diez<PoodleSurfDesignSystem>()
-    private let diezModels = Diez<PoodleSurfModels>()
+    private let diezModels = Diez<PoodleSurfReportModel>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class ReportViewController: UIViewController {
         }
 
         diezModels.attach(self) { model in
-            print(model)
+            // TODO:
         }
     }
 
@@ -44,6 +44,21 @@ class ReportViewController: UIViewController {
         view.backgroundColor = design.backgroundColor
         view.contentLayoutMargins = UIEdgeInsets(design.contentLayoutMargins)
         view.contentSpacing = design.contentSpacing
+
+        apply(design.header, to: view.headerView)
+    }
+
+    private func apply(_ design: ReportHeaderDesign, to view: ReportHeaderView) {
+        design.regionLabel.setTextStyle(forLabel: view.regionLabel)
+        design.placeLabel.setTextStyle(forLabel: view.placeLabel)
+        view.pinIconImageView.image = try? design.mapPinIcon.image()
+        view.locationImageView.strokeWidth = design.locationImage.strokeWidth
+        view.locationImageView.strokeGradient = design.locationImage.strokeGradient
+        view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
+        view.bannerHeight = design.bannerHeight
+        view.labelsStackViewLayoutMargins = UIEdgeInsets(design.labelsLayoutMargin)
+        view.regionLabelToPinIconSpacing = design.pinIconToLabelSpacing
+        view.labelsVerticalSpacing = design.labelsSpacing
     }
 
     // MARK: - Default Styling

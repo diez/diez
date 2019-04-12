@@ -1,2 +1,2 @@
 export {PoodleSurfDesignSystem} from './PoodleSurfDesignSystem';
-export {PoodleSurfModels} from './PoodleSurfModels';
+export {PoodleSurfReportModel} from './PoodleSurfReportModels';

@@ -1,6 +1,5 @@
 import {Color, Image, IOSFonts, TextStyle} from '@livedesigner/designsystem';
 import {Component, property} from '@livedesigner/engine';
-import {ImagePanel} from './BasicLayouts';
 import {EdgeInsets} from './EdgeInsets';
 import {SimpleGradient} from './SimpleGradient';
 
@@ -28,6 +27,8 @@ class LayoutValues extends Component {
   @property defaultMargin = 20;
   @property compactMargin = 15;
   @property looseMargin = 30;
+  @property defaultSpacing = 10;
+  @property tightSpacing = 5;
 }
 
 /**
@@ -35,25 +36,66 @@ class LayoutValues extends Component {
  */
 const layoutValues = new LayoutValues();
 
+class FontNames extends Component {
+  @property default = IOSFonts.Helvetica;
+  @property defaultBold = IOSFonts.HelveticaBold;
+}
+
+/**
+ * @internal
+ */
+const fontNames = new FontNames();
+
+class FontSizes extends Component {
+  @property title = 20;
+  @property caption = 12;
+  @property value = 30;
+  @property unit = 16;
+}
+
+/**
+ * @internal
+ */
+const fontSizes = new FontSizes();
+
 class TextStyles extends Component {
-  @property someTextStyle = new TextStyle({
-    font: IOSFonts.Helvetica,
-    fontSize: 50,
-    color: palette.white,
+  @property headerTitle = new TextStyle({
+    font: fontNames.defaultBold,
+    fontSize: fontSizes.title,
+    color: palette.black,
+  });
+  @property headerCaption = new TextStyle({
+    font: fontNames.default,
+    fontSize: fontSizes.caption,
+    color: palette.black,
   });
 }
 
-class Panels extends Component {
-  @property titleView = new ImagePanel({
-    text: 'PITTED',
-    textStyle: new TextStyle({
-      font: IOSFonts.HelveticaBold,
-      fontSize: 20,
-      color: palette.white,
-    }),
-    image: Image.scaled('/assets/images/icon.png', 3),
-    spacing: 10,
+/**
+ * @internal
+ */
+const textStyles = new TextStyles();
+
+class ReportLocationImageDesign extends Component {
+  @property strokeWidth = 3;
+  @property strokeGradient = palette.gradient;
+  @property widthAndHeight = 106;
+}
+
+class ReportHeaderDesign extends Component {
+  @property regionLabel = textStyles.headerTitle;
+  @property placeLabel = textStyles.headerCaption;
+  @property mapPinIcon = Image.scaled('/assets/images/Map Pin@3x.png', 3);
+  @property locationImage = new ReportLocationImageDesign();
+  @property bannerHeight = 149;
+  @property labelsLayoutMargin = new EdgeInsets({
+    top: layoutValues.compactMargin,
+    bottom: layoutValues.compactMargin,
+    left: layoutValues.defaultMargin,
+    right: layoutValues.defaultMargin,
   });
+  @property pinIconToLabelSpacing = layoutValues.defaultSpacing;
+  @property labelsSpacing = layoutValues.tightSpacing;
 }
 
 class ReportDesign extends Component {
@@ -65,6 +107,7 @@ class ReportDesign extends Component {
     right: layoutValues.defaultMargin,
   });
   @property contentSpacing = layoutValues.defaultMargin;
+  @property header = new ReportHeaderDesign();
 }
 
 /**
@@ -72,7 +115,6 @@ class ReportDesign extends Component {
  */
 export class PoodleSurfDesignSystem extends Component {
   @property palette = palette;
-  @property textStyles = new TextStyles();
-  @property panels = new Panels();
+  @property textStyles = textStyles;
   @property report = new ReportDesign();
 }
