@@ -11,6 +11,7 @@ import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
 const coreIos = join(sourcesPath, 'ios');
 
 interface IosOutput {
+  processedComponents: Set<string>;
   imports: Set<string>;
   sources: Set<string>;
   dependencies: Set<IosDependency>;
@@ -65,6 +66,10 @@ const processComponentInstance = async (
   output: IosOutput,
   namedComponentMap: NamedComponentMap,
 ): Promise<boolean> => {
+  if (output.processedComponents.has(name)) {
+    return true;
+  }
+
   const targetComponent = namedComponentMap.get(name);
   if (!targetComponent) {
     warning(`Unable to find component definition for ${name}!`);
@@ -149,6 +154,7 @@ const processComponentInstance = async (
     output.sources.add(filename);
   }
 
+  output.processedComponents.add(name);
   return true;
 };
 
@@ -177,6 +183,7 @@ export const iosHandler: CompilerTargetHandler = async (
 ) => {
   const componentModule = await loadComponentModule(projectRoot);
   const output: IosOutput = {
+    processedComponents: new Set(),
     imports: new Set(['Foundation', 'WebKit']),
     sources: new Set([
       join(coreIos, 'Diez.swift'),
