@@ -61,22 +61,6 @@ class ForecastCardView: UIView {
         set { gradientView.gradient = newValue }
     }
 
-    func setDayPartViewsVerticalSpacing(_ spacing: CGFloat) {
-        dayParts.forEach { $0.verticalSpacing = spacing }
-    }
-
-    func setDayPartViewsLayoutMargins(_ layoutMargins: UIEdgeInsets) {
-        dayParts.forEach { $0.layoutMargins = layoutMargins }
-    }
-
-    func setDayPartViewsValueUnitSpacing(_ spacing: CGFloat) {
-        dayParts.forEach { $0.valueUnitSpacing = spacing }
-    }
-
-    func setDayPartViewsValueUnitLayoutMargins(_ layoutMargins: UIEdgeInsets) {
-        dayParts.forEach { $0.valueUnitLayoutMargins = layoutMargins }
-    }
-
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView

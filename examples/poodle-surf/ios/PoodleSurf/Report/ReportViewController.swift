@@ -49,7 +49,10 @@ class ReportViewController: UIViewController {
         view.contentSpacing = design.contentSpacing
 
         apply(design.header, to: view.headerView)
-        apply(design.waterTemperatureCard, to: view.temperatureCardView)
+        apply(design.waterTemperature, to: view.temperatureCardView)
+        apply(design.wind, to: view.windCardView)
+        apply(design.swell, to: view.swellCardView)
+        apply(design.tide, to: view.tideCardView)
     }
 
     private func apply(_ design: HeaderDesign, to view: ReportHeaderView) {
@@ -68,6 +71,7 @@ class ReportViewController: UIViewController {
     private func apply(_ design: WaterTemperatureCardDesign, to view: TemperatureCardView) {
         view.horizontalSpacing = design.horizontalSpacing
         view.titleLabel.text = design.title
+        design.titleTextStyle.setTextStyle(forLabel: view.titleLabel)
         view.gradient = Gradient(design.gradient)
         apply(design.temperature, to: view.temperatureView)
         apply(design.wetsuit, to: view.wetsuitView)
@@ -85,6 +89,28 @@ class ReportViewController: UIViewController {
         design.valueTextStyle.setTextStyle(forLabel: view.bottomLabel)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
+    }
+
+    private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
+        view.titleLabel.text = design.title
+        design.titleTextStyle.setTextStyle(forLabel: view.titleLabel)
+        view.gradient = Gradient(design.gradient)
+        view.dayPartsHorizontalSpacing = design.dayPartSpacing
+        view.separatorWidth = design.separatorWidth
+        view.separators.forEach { $0.backgroundColor = design.separatorColor.color }
+        view.dayParts.forEach { dayPart in
+            dayPart.unitLabel.text = design.unit
+            dayPart.valueUnitLayoutMargins = UIEdgeInsets(design.valueUnitMargins)
+            apply(design.dayPart, to: dayPart)
+        }
+    }
+
+    private func apply(_ design: SharedDayPartDesign, to view: DayPartView) {
+        design.valueTextStyle.setTextStyle(forLabel: view.valueLabel)
+        design.unitTextStyle.setTextStyle(forLabel: view.unitLabel)
+        design.timeTextStyle.setTextStyle(forLabel: view.timeLabel)
+        view.valueUnitSpacing = design.valueUnitSpacing
+        view.layoutMargins = UIEdgeInsets(design.layoutMargins)
     }
 
     // MARK: - Default Styling
