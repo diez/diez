@@ -24,4 +24,10 @@ export class File extends Component<FileState> {
   get directory () {
     return dirname(this.src);
   }
+
+  serialize () {
+    return {
+      src: this.src.split('/').map(encodeURIComponent).join('/'),
+    };
+  }
 }
