@@ -40,8 +40,18 @@ class ReportViewController: UIViewController {
 
     private func apply(_ system: DesignSystem) {
         UIView.animate(withDuration: 0.5) {
+            defer {
+                self.view.layoutSubviews()
+            }
+
             self.apply(system.designs.report, to: self.reportView)
-            self.view.layoutIfNeeded()
+
+            guard let navigationBar = self.navigationController?.navigationBar else {
+                print("Failed to get navigation bar.")
+                return
+            }
+
+            self.apply(system.designs.navigationTitle, toView: self.titleView, navigationBar: navigationBar)
         }
     }
 

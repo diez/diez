@@ -1,9 +1,10 @@
 import {Component, property} from '@livedesigner/engine';
-import {LoadingDesign, palette, ReportDesign, textStyles} from './designs';
+import {LoadingDesign, NavigationTitleDesign, palette, ReportDesign, textStyles} from './designs';
 
 class Designs extends Component {
   @property report = new ReportDesign();
   @property loading = new LoadingDesign();
+  @property navigationTitle = new NavigationTitleDesign();
 }
 
 /**

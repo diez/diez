@@ -9,6 +9,8 @@
 import UIKit
 import Diez
 
+// MARK: - Report View
+
 extension ReportViewController {
     func apply(_ design: ReportDesign, to view: ReportView) {
         view.backgroundColor = design.backgroundColor.color
@@ -79,5 +81,16 @@ extension ReportViewController {
         design.timeTextStyle.setTextStyle(forLabel: view.timeLabel)
         view.valueUnitSpacing = design.valueUnitSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
+    }
+}
+
+// MARK: - Navigation Title View
+
+extension ReportViewController {
+    func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
+        navigationBar.barTintColor = design.barTintColor.color
+        view.label.text = design.title
+        design.textStyle.setTextStyle(forLabel: view.label)
+        view.imageView.image = try? design.icon.image()
     }
 }
