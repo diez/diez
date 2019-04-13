@@ -10,31 +10,35 @@ import UIKit
 import Lottie
 
 class LoadingView: UIView {
-    let animationView = LOTAnimationView()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setupLayout()
-        configureViews()
+    init() {
+        super.init(frame: CGRect.zero)
     }
 
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+    func setAnimationView(to animationView: LOTAnimationView?) {
+        if let currentView = self.animationView {
+            currentView.removeFromSuperview()
+        }
 
-    private func setupLayout() {
+        self.animationView = animationView
+
+        guard let animationView = animationView else { return }
+
         animationView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animationView)
         NSLayoutConstraint.activate([
             animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
+
+        animationView.loopAnimation = true
+        animationView.play()
     }
 
-    private func configureViews() {
-        animationView.loopAnimation = true
+    override class var requiresConstraintBasedLayout: Bool {
+        return true
     }
+
+    private var animationView: LOTAnimationView?
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }

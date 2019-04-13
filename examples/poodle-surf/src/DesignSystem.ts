@@ -1,4 +1,4 @@
-import {Color, Image, IOSFonts, TextStyle} from '@livedesigner/designsystem';
+import {Color, File, Image, IOSFonts, TextStyle, Lottie} from '@livedesigner/designsystem';
 import {Component, property} from '@livedesigner/engine';
 import {EdgeInsets} from './EdgeInsets';
 import {SimpleGradient} from './SimpleGradient';
@@ -6,6 +6,7 @@ import {SimpleGradient} from './SimpleGradient';
 class Palette extends Component {
   @property pink = Color.rgba(255, 63, 112, 1);
   @property orange = Color.rgba(255, 154, 58, 1);
+  @property blue = Color.rgba(120, 207, 253, 1)
   @property white = Color.rgba(255, 255, 255, 1);
   @property whiteA40 = Color.rgba(255, 255, 255, 0.4);
   @property black = Color.rgba(0, 0, 0, 1);
@@ -212,11 +213,19 @@ class ReportDesign extends Component {
   });
 }
 
+class LoadingDesign extends Component {
+  @property backgroundColor = palette.blue;
+  @property animation = new Lottie({
+    file: new File({src: '/assets/lottie/hang10.json'}),
+  });
+}
+
 /**
  * The design system for Poodle Surf.
  */
-export class PoodleSurfDesignSystem extends Component {
+export class DesignSystem extends Component {
   @property palette = palette;
   @property textStyles = textStyles;
   @property report = new ReportDesign();
+  @property loading = new LoadingDesign();
 }

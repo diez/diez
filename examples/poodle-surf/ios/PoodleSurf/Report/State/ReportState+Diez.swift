@@ -9,7 +9,7 @@
 import Diez
 
 extension ReportState {
-    init?(mock: PoodleSurfReportModelMock) {
+    init?(mock: ReportModelMock) {
         guard
             let location = Location(mock: mock.location),
             let wind = WindForecast(mock: mock.wind) else {

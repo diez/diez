@@ -10,8 +10,8 @@ import UIKit
 import Diez
 
 class ReportViewController: UIViewController {
-    private let diezDesignSystem = Diez<PoodleSurfDesignSystem>()
-    private let diezModelMock = Diez<PoodleSurfReportModelMock>()
+    private let diezDesignSystem = Diez<DesignSystem>()
+    private let diezModelMock = Diez<ReportModelMock>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class ReportViewController: UIViewController {
 
     // MARK: - Diez Styling
 
-    private func apply(_ system: PoodleSurfDesignSystem) {
+    private func apply(_ system: DesignSystem) {
         UIView.animate(withDuration: 0.5) {
             self.apply(system.report, to: self.reportView)
             self.view.layoutIfNeeded()

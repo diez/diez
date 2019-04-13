@@ -77,9 +77,9 @@ class ForecastMock extends Component<ForecastMockState> {
 }
 
 /**
- * Provides report model data for the Poodle Surf app.
+ * A mock API report object.
  */
-export class PoodleSurfReportModelMock extends Component {
+export class ReportModelMock extends Component {
   @property location = new LocationMock();
   @property temperature = new TemperatureMock();
   @property wind = new WindMock();

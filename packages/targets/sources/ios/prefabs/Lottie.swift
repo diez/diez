@@ -1,5 +1,5 @@
 public class Lottie : NSObject, Decodable, Updatable {
-    var file: File
+    public var file: File
 
     init(withFile file: File) {
         self.file = file

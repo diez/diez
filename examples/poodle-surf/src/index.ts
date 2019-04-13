@@ -1,2 +1,2 @@
-export {PoodleSurfDesignSystem} from './PoodleSurfDesignSystem';
-export {PoodleSurfReportModelMock} from './PoodleSurfReportModelMock';
+export {DesignSystem} from './DesignSystem';
+export {ReportModelMock} from './ReportModelMock';
