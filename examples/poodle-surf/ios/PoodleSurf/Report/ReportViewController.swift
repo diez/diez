@@ -18,9 +18,9 @@ class ReportViewController: UIViewController {
 
         navigationItem.titleView = titleView
 
-        let state = ReportState.makeExample()
-        let binder = ReportViewStateBinder(view: reportView)
-        binder.update(with: state)
+        let model = ReportModel.makeExample()
+        let binder = ReportViewModelBinder(view: reportView)
+        binder.update(with: model)
 
         applyFallbackStyleTo(reportView: reportView, titleView: titleView)
 
@@ -29,12 +29,12 @@ class ReportViewController: UIViewController {
         }
 
         diezModelMock.attach(self) { mock in
-            guard let state = ReportState(mock: mock) else {
-                print("Failed to create state from Diez mock.")
+            guard let model = ReportModel(mock: mock) else {
+                print("Failed to create model from Diez mock.")
                 return
             }
 
-            binder.update(with: state)
+            binder.update(with: model)
         }
     }
 

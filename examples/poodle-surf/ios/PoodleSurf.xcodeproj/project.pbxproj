@@ -21,20 +21,20 @@
 		46087C0E225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */; };
 		46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C13225D795000F4B63F /* LoadingViewController.swift */; };
 		46087C16225D799800F4B63F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C15225D799800F4B63F /* LoadingView.swift */; };
-		46087C19225D7F3200F4B63F /* ReportState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C18225D7F3200F4B63F /* ReportState.swift */; };
+		46087C19225D7F3200F4B63F /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C18225D7F3200F4B63F /* ReportModel.swift */; };
 		46087C2D225FA14B00F4B63F /* DayPartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C2C225FA14B00F4B63F /* DayPartView.swift */; };
 		46087C2F225FA36A00F4B63F /* ForecastCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C2E225FA36A00F4B63F /* ForecastCardView.swift */; };
-		46087C32225FCB1000F4B63F /* ReportState+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C31225FCB1000F4B63F /* ReportState+Example.swift */; };
+		46087C32225FCB1000F4B63F /* ReportModel+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C31225FCB1000F4B63F /* ReportModel+Example.swift */; };
 		46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C38225FD3F500F4B63F /* CardViewDescribable.swift */; };
 		46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */; };
 		46087C45225FF79C00F4B63F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C44225FF79C00F4B63F /* GradientView.swift */; };
 		46087C47225FFC1800F4B63F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C46225FFC1800F4B63F /* Gradient.swift */; };
 		46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C48225FFC3000F4B63F /* Gradient+Example.swift */; };
 		46087C4B2260084000F4B63F /* hang10.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C4A2260084000F4B63F /* hang10.json */; };
-		46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */; };
+		46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */; };
 		46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */; };
 		46087C552261499000F4B63F /* Gradient+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C542261499000F4B63F /* Gradient+Diez.swift */; };
-		46087C572261758D00F4B63F /* ReportState+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C562261758D00F4B63F /* ReportState+Diez.swift */; };
+		46087C572261758D00F4B63F /* ReportModel+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C562261758D00F4B63F /* ReportModel+Diez.swift */; };
 		46087C5922617A9000F4B63F /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5822617A9000F4B63F /* UIImage+URL.swift */; };
 		46087C5B22623B0900F4B63F /* ReportViewController+FallbackStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */; };
 		46087C5D22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */; };
@@ -62,20 +62,20 @@
 		46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalImageVerticalLabelsView.swift; sourceTree = "<group>"; };
 		46087C13225D795000F4B63F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		46087C15225D799800F4B63F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		46087C18225D7F3200F4B63F /* ReportState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportState.swift; sourceTree = "<group>"; };
+		46087C18225D7F3200F4B63F /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		46087C2C225FA14B00F4B63F /* DayPartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPartView.swift; sourceTree = "<group>"; };
 		46087C2E225FA36A00F4B63F /* ForecastCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCardView.swift; sourceTree = "<group>"; };
-		46087C31225FCB1000F4B63F /* ReportState+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportState+Example.swift"; sourceTree = "<group>"; };
+		46087C31225FCB1000F4B63F /* ReportModel+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportModel+Example.swift"; sourceTree = "<group>"; };
 		46087C38225FD3F500F4B63F /* CardViewDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDescribable.swift; sourceTree = "<group>"; };
 		46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Named.swift"; sourceTree = "<group>"; };
 		46087C44225FF79C00F4B63F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		46087C46225FFC1800F4B63F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		46087C48225FFC3000F4B63F /* Gradient+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Example.swift"; sourceTree = "<group>"; };
 		46087C4A2260084000F4B63F /* hang10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hang10.json; sourceTree = "<group>"; };
-		46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewStateBinder.swift; sourceTree = "<group>"; };
+		46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewModelBinder.swift; sourceTree = "<group>"; };
 		46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Diez.swift"; sourceTree = "<group>"; };
 		46087C542261499000F4B63F /* Gradient+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Diez.swift"; sourceTree = "<group>"; };
-		46087C562261758D00F4B63F /* ReportState+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportState+Diez.swift"; sourceTree = "<group>"; };
+		46087C562261758D00F4B63F /* ReportModel+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportModel+Diez.swift"; sourceTree = "<group>"; };
 		46087C5822617A9000F4B63F /* UIImage+URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+URL.swift"; sourceTree = "<group>"; };
 		46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportViewController+FallbackStyle.swift"; sourceTree = "<group>"; };
 		46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+FallbackStyle.swift"; sourceTree = "<group>"; };
@@ -136,8 +136,8 @@
 				46087BE8225D341600F4B63F /* ReportViewController.swift */,
 				46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */,
 				46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */,
-				46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */,
-				46087C33225FCECF00F4B63F /* State */,
+				46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */,
+				46087C33225FCECF00F4B63F /* Model */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -209,14 +209,14 @@
 			path = Cards;
 			sourceTree = "<group>";
 		};
-		46087C33225FCECF00F4B63F /* State */ = {
+		46087C33225FCECF00F4B63F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				46087C18225D7F3200F4B63F /* ReportState.swift */,
-				46087C31225FCB1000F4B63F /* ReportState+Example.swift */,
-				46087C562261758D00F4B63F /* ReportState+Diez.swift */,
+				46087C18225D7F3200F4B63F /* ReportModel.swift */,
+				46087C31225FCB1000F4B63F /* ReportModel+Example.swift */,
+				46087C562261758D00F4B63F /* ReportModel+Diez.swift */,
 			);
-			path = State;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		65C8EFBDD839B4B74105AEB5 /* Pods */ = {
@@ -365,17 +365,17 @@
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
 				46087C5D22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift in Sources */,
 				46087C6122623D9400F4B63F /* LoadingViewController+Diez.swift in Sources */,
-				46087C19225D7F3200F4B63F /* ReportState.swift in Sources */,
+				46087C19225D7F3200F4B63F /* ReportModel.swift in Sources */,
 				46087C5B22623B0900F4B63F /* ReportViewController+FallbackStyle.swift in Sources */,
 				46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */,
 				46087C5922617A9000F4B63F /* UIImage+URL.swift in Sources */,
 				46087C2D225FA14B00F4B63F /* DayPartView.swift in Sources */,
 				46087C16225D799800F4B63F /* LoadingView.swift in Sources */,
-				46087C32225FCB1000F4B63F /* ReportState+Example.swift in Sources */,
+				46087C32225FCB1000F4B63F /* ReportModel+Example.swift in Sources */,
 				46087C2F225FA36A00F4B63F /* ForecastCardView.swift in Sources */,
 				46087C0C225D5F0B00F4B63F /* HorizontalImageLabelView.swift in Sources */,
 				46087BFF225D544400F4B63F /* StrokedCircularImageView.swift in Sources */,
-				46087C572261758D00F4B63F /* ReportState+Diez.swift in Sources */,
+				46087C572261758D00F4B63F /* ReportModel+Diez.swift in Sources */,
 				46087BFC225D419500F4B63F /* ReportHeaderView.swift in Sources */,
 				46087C552261499000F4B63F /* Gradient+Diez.swift in Sources */,
 				46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */,
@@ -383,7 +383,7 @@
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
 				46087C45225FF79C00F4B63F /* GradientView.swift in Sources */,
 				46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */,
-				46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */,
+				46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */,
 				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
 				46087C47225FFC1800F4B63F /* Gradient.swift in Sources */,
 				46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */,

@@ -21,7 +21,7 @@ protocol ForecastDescribable {
     var late: DayPart { get }
 }
 
-struct ReportState {
+struct ReportModel {
     struct Location {
         let region: String
         let place: String

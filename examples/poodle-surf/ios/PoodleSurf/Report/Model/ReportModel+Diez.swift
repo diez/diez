@@ -1,5 +1,5 @@
 //
-//  ReportState+Diez.swift
+//  ReportModel+Diez.swift
 //  PoodleSurf
 //
 //  Created by Westin Newell on 4/12/19.
@@ -8,7 +8,7 @@
 
 import Diez
 
-extension ReportState {
+extension ReportModel {
     init?(mock: ReportModelMock) {
         guard
             let location = Location(mock: mock.location),
@@ -25,7 +25,7 @@ extension ReportState {
     }
 }
 
-extension ReportState.Location {
+extension ReportModel.Location {
     init?(mock: LocationMock) {
         guard
             let mapImageURL = mock.mapImage.file.url(),
@@ -41,7 +41,7 @@ extension ReportState.Location {
     }
 }
 
-extension ReportState.Temperature {
+extension ReportModel.Temperature {
     init(mock: TemperatureMock) {
         self.init(
             formattedValue: mock.value,
@@ -49,7 +49,7 @@ extension ReportState.Temperature {
     }
 }
 
-extension ReportState.WindForecast {
+extension ReportModel.WindForecast {
     init?(mock: WindMock) {
         guard
             let early = DayPart(mock: mock.early),
@@ -65,7 +65,7 @@ extension ReportState.WindForecast {
     }
 }
 
-extension ReportState.WindForecast.DayPart {
+extension ReportModel.WindForecast.DayPart {
     init?(mock: WindDayPartMock) {
         guard let directionImageURL = mock.direction.file.url() else {
             return nil
@@ -78,7 +78,7 @@ extension ReportState.WindForecast.DayPart {
     }
 }
 
-extension ReportState.Forecast {
+extension ReportModel.Forecast {
     init(mock: ForecastMock) {
         self.init(
             early: DayPart(mock: mock.early),
@@ -87,7 +87,7 @@ extension ReportState.Forecast {
     }
 }
 
-extension ReportState.Forecast.DayPart {
+extension ReportModel.Forecast.DayPart {
     init(mock: ForecastDayPartMock) {
         self.init(
             value: mock.value,

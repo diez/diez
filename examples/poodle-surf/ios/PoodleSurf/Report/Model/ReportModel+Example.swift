@@ -1,5 +1,5 @@
 //
-//  ReportState+Example.swift
+//  ReportModel+Example.swift
 //  PoodleSurf
 //
 //  Created by Westin Newell on 4/11/19.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-extension ReportState {
-    static func makeExample() -> ReportState {
+extension ReportModel {
+    static func makeExample() -> ReportModel {
         let location = Location(
             region: "Santa Cruz, CA",
             place: "Natural Bridges State Park",
@@ -24,16 +24,16 @@ extension ReportState {
         let middleTime = "Noon"
         let lateTime = "6pm"
 
-        let wind = ReportState.WindForecast.makeExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
-        let swell = ReportState.Forecast.makeSwellExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
-        let tide = ReportState.Forecast.makeTideExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
+        let wind = ReportModel.WindForecast.makeExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
+        let swell = ReportModel.Forecast.makeSwellExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
+        let tide = ReportModel.Forecast.makeTideExample(earlyTime: earlyTime, middleTime: middleTime, lateTime: lateTime)
 
-        return ReportState(location: location, temperature: temperature, wind: wind, swell: swell, tide: tide)
+        return ReportModel(location: location, temperature: temperature, wind: wind, swell: swell, tide: tide)
     }
 }
 
-extension ReportState.WindForecast {
-    static func makeExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportState.WindForecast {
+extension ReportModel.WindForecast {
+    static func makeExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportModel.WindForecast {
         let early = DayPart(
             directionImage: UIImage.getURLForImage(named: "Direction - South West")!,
             value: "4",
@@ -49,12 +49,12 @@ extension ReportState.WindForecast {
             value: "17",
             time: lateTime)
 
-        return ReportState.WindForecast(early: early, middle: middle, late: late)
+        return ReportModel.WindForecast(early: early, middle: middle, late: late)
     }
 }
 
-extension ReportState.Forecast {
-    static func makeSwellExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportState.Forecast {
+extension ReportModel.Forecast {
+    static func makeSwellExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportModel.Forecast {
         let early = DayPart(
             value: "6.3",
             time: earlyTime)
@@ -67,10 +67,10 @@ extension ReportState.Forecast {
             value: "6.5",
             time: lateTime)
 
-        return ReportState.Forecast(early: early, middle: middle, late: late)
+        return ReportModel.Forecast(early: early, middle: middle, late: late)
     }
 
-    static func makeTideExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportState.Forecast {
+    static func makeTideExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportModel.Forecast {
         let early = DayPart(
             value: "5",
             time: earlyTime)
@@ -83,6 +83,6 @@ extension ReportState.Forecast {
             value: "4",
             time: lateTime)
 
-        return ReportState.Forecast(early: early, middle: middle, late: late)
+        return ReportModel.Forecast(early: early, middle: middle, late: late)
     }
 }
