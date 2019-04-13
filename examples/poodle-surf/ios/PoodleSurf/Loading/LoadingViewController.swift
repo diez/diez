@@ -20,7 +20,7 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        applyStyle(to: loadingView)
+        applyFallbackStyle(to: loadingView)
 
         diezDesignSystem.attach(self) { [weak self] system in
             self?.apply(system)
@@ -40,13 +40,6 @@ class LoadingViewController: UIViewController {
         }
 
         view.setAnimationView(to: animationView)
-    }
-
-    // MARK: - Local Styling
-
-    private func applyStyle(to view: LoadingView) {
-        view.backgroundColor = UIColor(red: 120/255, green: 207/255, blue: 253/255, alpha: 1)
-        loadingView.setAnimationView(to: LOTAnimationView(name: "hang10"))
     }
 
     private var loadingView: LoadingView {
