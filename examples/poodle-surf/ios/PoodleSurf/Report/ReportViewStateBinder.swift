@@ -27,8 +27,8 @@ class ReportViewStateBinder {
         let header = view.headerView
         header.placeLabel.text = state.place
         header.regionLabel.text = state.region
-        header.bannerImageView.image = UIImage(named: state.bannerImageName)
-        header.locationImageView.image = UIImage(named: state.mapImageName)
+        header.locationImageView.image = UIImage(url: state.mapImage)
+        header.bannerImageView.image = UIImage(url: state.bannerImage)
     }
 
     private func update(with state: ReportState.Temperature) {
@@ -39,9 +39,9 @@ class ReportViewStateBinder {
 
     private func update(with state: ReportState.WindForecast) {
         let card = view.windCardView
-        update(card.earlyPart, withState: state.early, iconImageName: UIImage.iconName(for: state.early.direction))
-        update(card.middlePart, withState: state.middle, iconImageName: UIImage.iconName(for: state.middle.direction))
-        update(card.latePart, withState: state.late, iconImageName: UIImage.iconName(for: state.late.direction))
+        update(card.earlyPart, withState: state.early, icon: UIImage(url: state.early.directionImage))
+        update(card.middlePart, withState: state.middle, icon: UIImage(url: state.middle.directionImage))
+        update(card.latePart, withState: state.late, icon: UIImage(url: state.late.directionImage))
     }
 
     private func update<T: ForecastDescribable>(_ card: ForecastCardView, with state: T) {
@@ -50,19 +50,11 @@ class ReportViewStateBinder {
         update(card.latePart, withState: state.late)
     }
 
-    private func update(_ view: DayPartView, withState state: DayPartDescribable, iconImageName iconName: String? = nil){
+    private func update(_ view: DayPartView, withState state: DayPartDescribable, icon: UIImage? = nil){
         view.timeLabel.text = state.time
         view.valueLabel.text = state.value
-
-        guard
-            let iconName = iconName,
-            let icon = UIImage(named: iconName) else {
-                view.iconView.isHidden = true
-                return
-        }
-
-        view.iconView.isHidden = false
         view.iconView.image = icon
+        view.iconView.isHidden = (icon == nil)
 
     }
 }

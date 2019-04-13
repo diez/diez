@@ -11,7 +11,7 @@ import Diez
 
 class ReportViewController: UIViewController {
     private let diezDesignSystem = Diez<PoodleSurfDesignSystem>()
-    private let diezModels = Diez<PoodleSurfReportModel>()
+    private let diezModelMock = Diez<PoodleSurfReportModelMock>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,13 @@ class ReportViewController: UIViewController {
             self?.apply(system)
         }
 
-        diezModels.attach(self) { model in
-            // TODO:
+        diezModelMock.attach(self) { mock in
+            guard let state = ReportState(mock: mock) else {
+                print("Failed to create state from Diez mock.")
+                return
+            }
+
+            binder.update(with: state)
         }
     }
 

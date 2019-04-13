@@ -25,8 +25,8 @@ struct ReportState {
     struct Location {
         let region: String
         let place: String
-        let mapImageName: String
-        let bannerImageName: String
+        let mapImage: URL
+        let bannerImage: URL
     }
 
     struct Temperature {
@@ -36,7 +36,7 @@ struct ReportState {
 
     struct WindForecast: ForecastDescribable {
         struct DayPart: DayPartDescribable {
-            let direction: CardinalDirection
+            let directionImage: URL
             let value: String
             let time: String
         }

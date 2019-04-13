@@ -10,14 +10,11 @@ import UIKit
 
 extension ReportState {
     static func makeExample() -> ReportState {
-        let mapImageName = "Santa Cruz Map"
-        let bannerImageName = "Santa Cruz Banner"
-
         let location = Location(
             region: "Santa Cruz, CA",
             place: "Natural Bridges State Park",
-            mapImageName: mapImageName,
-            bannerImageName: bannerImageName)
+            mapImage: UIImage.getURLForImage(named: "Santa Cruz Map")!,
+            bannerImage: UIImage.getURLForImage(named: "Santa Cruz Banner")!)
 
         let temperature = Temperature(
             formattedValue: "55°F",
@@ -38,17 +35,17 @@ extension ReportState {
 extension ReportState.WindForecast {
     static func makeExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportState.WindForecast {
         let early = DayPart(
-            direction: .southWest,
+            directionImage: UIImage.getURLForImage(named: "Direction - South West")!,
             value: "4",
             time: earlyTime)
 
         let middle = DayPart(
-            direction: .south,
+            directionImage: UIImage.getURLForImage(named: "Direction - South")!,
             value: "12",
             time:  middleTime)
 
         let late = DayPart(
-            direction: .northEast,
+            directionImage: UIImage.getURLForImage(named: "Direction - North East")!,
             value: "17",
             time: lateTime)
 

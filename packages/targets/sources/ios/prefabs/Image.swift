@@ -1,5 +1,5 @@
 public class Image : NSObject, Decodable, Updatable {
-    var file: File
+    public var file: File
     var width: CGFloat
     var height: CGFloat
     var scale: CGFloat
