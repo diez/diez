@@ -62,12 +62,13 @@ extension ReportViewController {
         view.titleLabel.text = design.title
         design.titleTextStyle.setTextStyle(forLabel: view.titleLabel)
         view.gradient = Gradient(design.gradient)
-        view.dayPartsHorizontalSpacing = design.dayPartSpacing
+        view.dayPartsHorizontalSpacing = design.dayPartsHorizontalSpacing
         view.separatorWidth = design.separatorWidth
         view.separators.forEach { $0.backgroundColor = design.separatorColor.color }
         view.dayParts.forEach { dayPart in
             dayPart.unitLabel.text = design.unit
             dayPart.valueUnitLayoutMargins = UIEdgeInsets(design.valueUnitMargins)
+            dayPart.verticalSpacing = design.dayPartVerticalSpacing
             apply(design.dayPart, to: dayPart)
         }
     }

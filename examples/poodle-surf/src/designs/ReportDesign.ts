@@ -61,7 +61,8 @@ interface ForecastCardDesignState {
   unit: string;
   gradient: SimpleGradient;
   dayPart: SharedDayPartDesign;
-  dayPartSpacing: number;
+  dayPartsHorizontalSpacing: number;
+  dayPartVerticalSpacing: number;
   separatorWidth: number;
   separatorColor: number;
   valueUnitMargins: EdgeInsets;
@@ -73,7 +74,8 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
   @property unit = '';
   @property gradient = palette.gradient;
   @property dayPart = new SharedDayPartDesign();
-  @property dayPartSpacing = LayoutValues.defaultMargin;
+  @property dayPartsHorizontalSpacing = LayoutValues.defaultMargin;
+  @property dayPartVerticalSpacing = LayoutValues.looseMargin;
   @property separatorWidth = 1;
   @property separatorColor = palette.whiteA40;
   @property valueUnitMargins = new EdgeInsets();
@@ -91,8 +93,9 @@ export class ReportDesign extends Component {
   @property wind = new ForecastCardDesign({
     title: 'Wind',
     unit: 'mph',
+    dayPartVerticalSpacing: LayoutValues.defaultSpacing,
     valueUnitMargins: new EdgeInsets({
-      top: 20,
+      top: LayoutValues.defaultMargin,
     }),
   });
   @property swell = new ForecastCardDesign({
