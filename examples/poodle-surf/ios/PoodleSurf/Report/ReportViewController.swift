@@ -11,7 +11,7 @@ import Diez
 
 class ReportViewController: UIViewController {
     private let diezDesignSystem = Diez<DesignSystem>()
-    private let diezModelMock = Diez<ReportModelMock>()
+    private let diezModelMocks = Diez<ModelMocks>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +28,8 @@ class ReportViewController: UIViewController {
             self?.apply(system)
         }
 
-        diezModelMock.attach(self) { mock in
-            guard let model = ReportModel(mock: mock) else {
+        diezModelMocks.attach(self) { mocks in
+            guard let model = ReportModel(mock: mocks.report) else {
                 print("Failed to create model from Diez mock.")
                 return
             }
@@ -40,7 +40,7 @@ class ReportViewController: UIViewController {
 
     private func apply(_ system: DesignSystem) {
         UIView.animate(withDuration: 0.5) {
-            self.apply(system.report, to: self.reportView)
+            self.apply(system.designs.report, to: self.reportView)
             self.view.layoutIfNeeded()
         }
     }

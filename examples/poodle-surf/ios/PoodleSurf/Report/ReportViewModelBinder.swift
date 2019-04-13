@@ -55,6 +55,5 @@ class ReportViewModelBinder {
         view.valueLabel.text = model.value
         view.iconView.image = icon
         view.iconView.isHidden = (icon == nil)
-
     }
 }

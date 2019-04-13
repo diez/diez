@@ -1,2 +1,2 @@
 export {DesignSystem} from './DesignSystem';
-export {ReportModelMock} from './ReportModelMock';
+export {ModelMocks} from './ModelMocks';

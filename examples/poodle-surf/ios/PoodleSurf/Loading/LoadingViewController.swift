@@ -28,7 +28,7 @@ class LoadingViewController: UIViewController {
     }
 
     private func apply(_ system: DesignSystem){
-        apply(system.loading, to: loadingView)
+        apply(system.designs.loading, to: loadingView)
     }
 
     private var loadingView: LoadingView {
@@ -44,9 +44,4 @@ class LoadingViewController: UIViewController {
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }
-}
-
-// MARK: - Diez Styling
-
-extension LoadingViewController {
 }

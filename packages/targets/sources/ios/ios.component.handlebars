@@ -23,7 +23,7 @@ public final class {{{componentName}}} : NSObject, StateBag {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         {{#each properties}}
           {{#if this.updateable}}
-        try? container.update(&{{@key}}, forKey: .{{@key}})
+        try container.update(&{{@key}}, forKey: .{{@key}})
           {{else}}
         {{@key}} = try container.decode({{this.type}}.self, forKey: .{{@key}})
           {{/if}}

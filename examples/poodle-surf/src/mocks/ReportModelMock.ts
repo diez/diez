@@ -1,22 +1,13 @@
 import {Image} from '@livedesigner/designsystem';
 import {Component, property} from '@livedesigner/engine';
-
-class DayPartTimes extends Component {
-  @property early = '6am';
-  @property middle = 'Noon';
-  @property late = '6pm';
-}
-
-/**
- * @internal
- */
-const dayPartTimes = new DayPartTimes();
+import {ImageNames} from './assets';
+import {DayPartTimes} from './constants';
 
 class LocationMock extends Component {
   @property region = 'Santa Cruz, CA';
   @property place = 'Natural Bridges State Park';
-  @property mapImage = Image.scaled('/assets/images/Santa Cruz Map@3x.png', 3);
-  @property bannerImage = Image.scaled('/assets/images/Santa Cruz Banner@3x.png', 3);
+  @property mapImage = Image.scaled(ImageNames.SantaCruzMap, 3);
+  @property bannerImage = Image.scaled(ImageNames.SantaCruzBanner, 3);
 }
 
 class TemperatureMock extends Component {
@@ -31,26 +22,26 @@ interface WindDayPartMockState {
 }
 
 class WindDayPartMock extends Component<WindDayPartMockState> {
-  @property direction = Image.scaled('/assets/images/Direction - North@3x.png', 3);
+  @property direction = Image.scaled(ImageNames.WindNorth, 3);
   @property value = '';
   @property dayPart = '';
 }
 
 class WindMock extends Component {
   @property early = new WindDayPartMock({
-    direction: Image.scaled('/assets/images/Direction - South West@3x.png', 3),
+    direction: Image.scaled(ImageNames.WindSouthWest, 3),
     value: '4',
-    dayPart: dayPartTimes.early,
+    dayPart: DayPartTimes.early,
   });
   @property middle = new WindDayPartMock({
-    direction: Image.scaled('/assets/images/Direction - South@3x.png', 3),
+    direction: Image.scaled(ImageNames.WindSouth, 3),
     value: '12',
-    dayPart: dayPartTimes.middle,
+    dayPart: DayPartTimes.middle,
   });
   @property late = new WindDayPartMock({
-    direction: Image.scaled('/assets/images/Direction - North East@3x.png', 3),
+    direction: Image.scaled(ImageNames.WindNorthEast, 3),
     value: '17',
-    dayPart: dayPartTimes.late,
+    dayPart: DayPartTimes.late,
   });
 }
 
@@ -86,29 +77,29 @@ export class ReportModelMock extends Component {
   @property swell = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '6.3',
-      dayPart: dayPartTimes.early,
+      dayPart: DayPartTimes.early,
     }),
     middle: new ForecastDayPartMock({
       value: '6',
-      dayPart: dayPartTimes.middle,
+      dayPart: DayPartTimes.middle,
     }),
     late: new ForecastDayPartMock({
       value: '6.5',
-      dayPart: dayPartTimes.late,
+      dayPart: DayPartTimes.late,
     }),
   });
   @property tide = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '5',
-      dayPart: dayPartTimes.early,
+      dayPart: DayPartTimes.early,
     }),
     middle: new ForecastDayPartMock({
       value: '0.5',
-      dayPart: dayPartTimes.middle,
+      dayPart: DayPartTimes.middle,
     }),
     late: new ForecastDayPartMock({
       value: '4',
-      dayPart: dayPartTimes.late,
+      dayPart: DayPartTimes.late,
     }),
   });
 }

@@ -7,4 +7,10 @@ export interface LottieState {
 
 export class Lottie extends Component<LottieState> {
   @property file: File = new File();
+
+  static fromJson (src: string) {
+    return new Lottie({
+      file: new File({src}),
+    });
+  }
 }
