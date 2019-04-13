@@ -40,6 +40,15 @@ extension UIImage {
             return nil
         }
 
-        self.init(data: data, scale: UIScreen.main.scale)
+        let scale: CGFloat = {
+            // Assume remote assets are delivered at 3x but local assets are at appropriate scale.
+            if url.scheme?.hasPrefix("http") == true {
+                return 3
+            }
+
+            return UIScreen.main.scale
+        }()
+
+        self.init(data: data, scale: scale)
     }
 }
