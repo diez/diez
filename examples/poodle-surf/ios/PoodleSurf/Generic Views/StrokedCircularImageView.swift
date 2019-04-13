@@ -80,7 +80,7 @@ class StrokedCirularImageView: UIView {
             return
         }
 
-        /// Since the stroke is rendered around the line we need to inset the path by half the stroke width.
+        /// Since the stroke is rendered around the line we need to inset the path by half of the stroke's width.
         let insetAmount = width / 2
         let strokeBounds = strokeView.frame.insetBy(dx: insetAmount, dy: insetAmount)
         let cornerRadius = strokeViewWidth / 2

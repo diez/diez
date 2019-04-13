@@ -34,14 +34,16 @@ extension UIImage {
     }
 
     /// TODO: Use asynchronous method instead. Possibly also rely on the suffix for image scale.
-    /// - Note: Assumes the image was generated for the UIScreen.main's scale.
+    /// - Note: Assumes remote assets (URLs with a scheme prefixed with "http") are delivered at 3x but local assets are
+    ///         at the scale of the UIScreen.main.screen.
     convenience init?(url: URL) {
         guard let data = try? Data(contentsOf: url) else {
             return nil
         }
 
         let scale: CGFloat = {
-            // Assume remote assets are delivered at 3x but local assets are at appropriate scale.
+            // Assume remote assets (URLs with a scheme prefixed with "http") are delivered at 3x but local assets are
+            // at the scale of the UIScreen.main.screen.
             if url.scheme?.hasPrefix("http") == true {
                 return 3
             }

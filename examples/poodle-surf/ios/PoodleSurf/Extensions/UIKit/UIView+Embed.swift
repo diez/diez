@@ -29,7 +29,8 @@ extension UIView {
         return constraints
     }
 
-    /// Adds the provided view as a subview and constrains all edges to the receiver using autolayout.
+    /// Adds the provided view as a subview and constrains all edges to the receiver's layoutMarginsGuide using
+    /// autolayout.
     @discardableResult
     func embedToMargins(_ view: UIView, shouldActivateConstraints: Bool = true) -> [NSLayoutConstraint] {
         view.translatesAutoresizingMaskIntoConstraints = false
