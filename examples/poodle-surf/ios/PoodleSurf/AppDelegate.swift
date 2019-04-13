@@ -12,6 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
+    private let loadingViewController = LoadingViewController()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let viewController = ReportViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -31,10 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func showLoading() {
-        let loadingViewController = LoadingViewController()
         window?.rootViewController?.present(loadingViewController, animated: false)
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            loadingViewController.dismiss(animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
+            self?.loadingViewController.dismiss(animated: true)
         }
     }
 }
