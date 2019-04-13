@@ -31,17 +31,6 @@ class LoadingViewController: UIViewController {
         apply(system.loading, to: loadingView)
     }
 
-    private func apply(_ design: LoadingDesign, to view: LoadingView) {
-        view.backgroundColor = design.backgroundColor.color
-
-        guard let animationView = design.animation.view() else {
-            print("Failed to load lottie animation view.")
-            return
-        }
-
-        view.setAnimationView(to: animationView)
-    }
-
     private var loadingView: LoadingView {
         return view as! LoadingView
     }
@@ -55,4 +44,9 @@ class LoadingViewController: UIViewController {
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }
+}
+
+// MARK: - Diez Styling
+
+extension LoadingViewController {
 }

@@ -38,6 +38,8 @@
 		46087C5922617A9000F4B63F /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5822617A9000F4B63F /* UIImage+URL.swift */; };
 		46087C5B22623B0900F4B63F /* ReportViewController+FallbackStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */; };
 		46087C5D22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */; };
+		46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */; };
+		46087C6122623D9400F4B63F /* LoadingViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */; };
 		D036E2EDC4B2DFDD9B65F7E3 /* Pods_PoodleSurf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 004A5CE4D3AFF9FBB963C591 /* Pods_PoodleSurf.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		46087C5822617A9000F4B63F /* UIImage+URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+URL.swift"; sourceTree = "<group>"; };
 		46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportViewController+FallbackStyle.swift"; sourceTree = "<group>"; };
 		46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+FallbackStyle.swift"; sourceTree = "<group>"; };
+		46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportViewController+Diez.swift"; sourceTree = "<group>"; };
+		46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+Diez.swift"; sourceTree = "<group>"; };
 		C1D82D16AD79B2D902C96B87 /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +134,7 @@
 				46087BFB225D419500F4B63F /* ReportHeaderView.swift */,
 				46087BF9225D3F9900F4B63F /* ReportView.swift */,
 				46087BE8225D341600F4B63F /* ReportViewController.swift */,
+				46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */,
 				46087C5A22623B0900F4B63F /* ReportViewController+FallbackStyle.swift */,
 				46087C4E226105B400F4B63F /* ReportViewStateBinder.swift */,
 				46087C33225FCECF00F4B63F /* State */,
@@ -186,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				46087C13225D795000F4B63F /* LoadingViewController.swift */,
+				46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */,
 				46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */,
 				46087C15225D799800F4B63F /* LoadingView.swift */,
 			);
@@ -358,6 +364,7 @@
 				46087C03225D54FA00F4B63F /* UIView+Embed.swift in Sources */,
 				46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */,
 				46087C5D22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift in Sources */,
+				46087C6122623D9400F4B63F /* LoadingViewController+Diez.swift in Sources */,
 				46087C19225D7F3200F4B63F /* ReportState.swift in Sources */,
 				46087C5B22623B0900F4B63F /* ReportViewController+FallbackStyle.swift in Sources */,
 				46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */,
@@ -375,6 +382,7 @@
 				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
 				46087C45225FF79C00F4B63F /* GradientView.swift in Sources */,
+				46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */,
 				46087C4F226105B500F4B63F /* ReportViewStateBinder.swift in Sources */,
 				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
 				46087C47225FFC1800F4B63F /* Gradient.swift in Sources */,
