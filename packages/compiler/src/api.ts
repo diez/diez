@@ -53,22 +53,22 @@ export interface TargetComponentWarnings {
  */
 export interface TargetComponent {
   /**
+   * The set of compilable properties for the component.
+   */
+  properties: TargetProperty[];
+  /**
    * The wrapped TypeScript type of the component. Used mainly for detecting naming collisions.
    */
-  type: Type;
+  type?: Type;
   /**
    * If specified, the resolvable module that provides the property's component type. Used for assembling prefabs for
    * some compiler targets.
    */
   source?: string;
   /**
-   * The set of compilable properties for the component.
-   */
-  properties: TargetProperty[];
-  /**
    * Warnings encountered while attempting to compile this component.
    */
-  warnings: TargetComponentWarnings;
+  warnings?: TargetComponentWarnings;
 }
 
 /**

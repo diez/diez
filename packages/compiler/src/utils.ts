@@ -296,7 +296,7 @@ export const processType = (
       continue;
     }
 
-    if (propertyType.isUnknown() || propertyType.isAny()) {
+    if (newTarget.warnings && (propertyType.isUnknown() || propertyType.isAny())) {
       newTarget.warnings.ambiguousTypes.add(propertyName);
       continue;
     }
@@ -320,6 +320,10 @@ export const processType = (
 
 export const printWarnings = (targetComponents: NamedComponentMap) => {
   for (const [name, targetComponent] of targetComponents) {
+    if (!targetComponent.warnings) {
+      continue;
+    }
+
     if (!targetComponent.warnings.missingProperties.size && !targetComponent.warnings.ambiguousTypes.size) {
       continue;
     }

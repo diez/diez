@@ -24,7 +24,7 @@ const provider: CliCommandProvider = {
       description: 'The path to your target codebase.',
       validator: (value) => {
         if (!value) {
-          fatalError('--destination is a required flag.');
+          fatalError('--output is a required flag.');
         }
       },
     },

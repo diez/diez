@@ -27,6 +27,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@livedesigner/test-utils": "1.0.0-alpha0",
     "@types/jest": "^23.3.13",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",

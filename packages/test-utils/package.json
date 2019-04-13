@@ -17,10 +17,13 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
+    "expect": "^23.6.0",
+    "fs-walk": "^0.0.2",
     "jest": "^23.6.0",
     "stream-mock": "^1.2.0"
   },
   "devDependencies": {
+    "@types/expect": "^1.20.4",
     "@types/jest": "^23.3.13",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest-tap-reporter": "^1.9.0",

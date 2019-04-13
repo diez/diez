@@ -10,7 +10,10 @@ import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
 
 const coreIos = join(sourcesPath, 'ios');
 
-interface IosOutput {
+/**
+ * Describes the complete output for a transpiled iOS target.
+ */
+export interface IosOutput {
   processedComponents: Set<string>;
   imports: Set<string>;
   sources: Set<string>;
@@ -55,12 +58,10 @@ interface IosComponentSpec {
   properties: {[name: string]: IosComponentProperty};
 }
 
-interface ComponentWarnings {
-  missingProperties: string[];
-  ambiguousTypes: string[];
-}
-
-const processComponentInstance = async (
+/**
+ * Processes a component instance and updates the provided outputs.
+ */
+export const processComponentInstance = async (
   instance: ConcreteComponent,
   name: string,
   output: IosOutput,
@@ -92,7 +93,9 @@ const processComponentInstance = async (
     const value = instance.get(property.name);
     if (property.isComponent) {
       if (!property.type || !await processComponentInstance(value, property.type, output, namedComponentMap)) {
-        targetComponent.warnings.ambiguousTypes.add(property.name);
+        if (targetComponent.warnings) {
+          targetComponent.warnings.ambiguousTypes.add(property.name);
+        }
         continue;
       }
 
@@ -158,7 +161,10 @@ const processComponentInstance = async (
   return true;
 };
 
-const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort?: number) => {
+/**
+ * Given a set of constructed iOS outputs, writes an SDK to a destination path.
+ */
+export const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort?: number) => {
   const tokens = {
     devMode,
     devPort,

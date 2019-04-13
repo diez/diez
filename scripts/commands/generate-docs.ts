@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import {Stats} from 'fs-extra';
-// @ts-ignore
 import {walkSync} from 'fs-walk';
 import {extname, join, relative, sep} from 'path';
 import {Project} from 'ts-morph';
