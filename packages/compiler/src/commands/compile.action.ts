@@ -39,7 +39,7 @@ export const compileAction = async ({output, target, dev}: CompileOptions) => {
   // Create a stub type file for typing the class
   const stubTypeFile = project.createSourceFile(
     'src/__stub.ts',
-    `import {Component} from '@livedesigner/engine';`,
+    "import {Component} from '@livedesigner/engine';",
   );
 
   const sourceFile = project.getSourceFileOrThrow(join('src', 'index.ts'));

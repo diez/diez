@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
 import NavBar from '@/components/NavBar.vue';
+import {Component, Vue} from 'nuxt-property-decorator';
 
 @Component({
   components: {NavBar},

@@ -5,6 +5,7 @@
   ],
   "rules": {
     "import-name": false,
-    "no-implicit-dependencies": [true, "dev", ["@/pages"]]
+    "no-implicit-dependencies": [true, "dev", ["@"]],
+    "completed-docs": false
   }
 }

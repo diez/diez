@@ -2,7 +2,7 @@ import {DiezConfiguration} from '@livedesigner/engine';
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
 import {readdir, stat} from 'fs';
-import { platform } from 'os';
+import {platform} from 'os';
 import {join} from 'path';
 
 // tslint:disable-next-line:no-var-requires
@@ -28,7 +28,6 @@ const plugins = new Map<string, DiezConfiguration>();
  * A Promise-wrapped child_process.exec.
  * @param command - The command to run, with space-separated arguments.
  * @param options - The child_process.exec options.
- * @param stdio
  */
 export const execAsync = (command: string, options?: ExecOptions) => new Promise<string>(
   (resolve, reject) => {
