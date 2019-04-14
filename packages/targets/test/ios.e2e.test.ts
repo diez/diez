@@ -24,7 +24,7 @@ describe('index', () => {
 
     const destinationPath = getTempFileName();
     ensureDirSync(destinationPath);
-    writeSdk(output, destinationPath, true, 9001);
+    writeSdk(output, destinationPath, true, 'localhost', 9001);
     expect(join(destinationPath, 'Diez')).toMatchDirectory(join(__dirname, 'goldens', 'primitives-ios'));
   });
 });

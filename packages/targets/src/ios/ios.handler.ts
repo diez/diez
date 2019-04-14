@@ -1,4 +1,4 @@
-import {code, info, inlineCodeSnippet, warning} from '@livedesigner/cli';
+import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@livedesigner/cli';
 import {CompilerTargetHandler, getPrefab, NamedComponentMap} from '@livedesigner/compiler';
 import {ConcreteComponent} from '@livedesigner/engine';
 import {outputTemplatePackage} from '@livedesigner/storage';
@@ -164,10 +164,17 @@ export const processComponentInstance = async (
 /**
  * Given a set of constructed iOS outputs, writes an SDK to a destination path.
  */
-export const writeSdk = (output: IosOutput, destinationPath: string, devMode: boolean, devPort?: number) => {
+export const writeSdk = (
+  output: IosOutput,
+  destinationPath: string,
+  devMode: boolean,
+  hostname?: string,
+  devPort?: number,
+) => {
   const tokens = {
     devMode,
     devPort,
+    hostname,
     dependencies: Array.from(output.dependencies),
     imports: Array.from(output.imports),
     sources: Array.from(output.sources).map((source) => readFileSync(source).toString()),
@@ -210,7 +217,15 @@ export const iosHandler: CompilerTargetHandler = async (
     await processComponentInstance(componentInstance, componentName, output, namedComponentMap);
   }
 
-  writeSdk(output, destinationPath, devMode, devPort);
+  let hostname = 'localhost';
+  if (isMacOS()) {
+    try {
+      hostname = `${await execAsync('scutil --get LocalHostName')}.local`;
+    } catch (_) {
+      // Noop.
+    }
+  }
+  writeSdk(output, destinationPath, devMode, hostname, devPort);
 
   info(`Diez SDK installed locally at ${join(projectRoot, 'Diez')}.\n`);
 
