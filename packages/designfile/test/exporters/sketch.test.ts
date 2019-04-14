@@ -1,16 +1,15 @@
-import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData,
-  mockCommandData, mockExecutedCommands, mockOsData} from '@livedesigner/test-utils';
+import * as cli from '@livedesigner/cli';
+import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData, mockExec, mockOsData} from '@livedesigner/test-utils';
 import {writeFile} from 'fs-extra';
 import {SketchExporter} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
-jest.mock('child_process');
+jest.mock('@livedesigner/cli');
 jest.mock('os');
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 beforeEach(() => {
-  // TODO: we should actually use jest mock functions here.
-  mockCommandData.stdout = '/Applications/Sketch.app';
+  mockExec.mockResolvedValue('/Applications/Sketch.app');
   mockOsData.platform = 'darwin';
   writeFile(sketchtoolPath, '');
 });
@@ -49,11 +48,12 @@ describe('Sketch', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
       await sketch.exportSVG('test.sketch', 'outdir', () => {});
-      expect(mockExecutedCommands.length).toBe(3);
-      expect(mockExecutedCommands[0]).toBe('mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
-      expect(mockExecutedCommands[1]).toBe(
+      expect(mockExec).toHaveBeenCalledTimes(3);
+      expect(mockExec).toHaveBeenNthCalledWith(1,
+        'mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
+      expect(mockExec).toHaveBeenNthCalledWith(2,
         `${sketchtoolPath} export --format=svg --output=outdir/slices slices test.sketch`);
-      expect(mockExecutedCommands[2]).toBe(
+      expect(mockExec).toHaveBeenNthCalledWith(3,
         `${sketchtoolPath} export --format=svg --output=outdir/artboards artboards test.sketch`);
     });
 
@@ -71,7 +71,9 @@ describe('Sketch', () => {
     });
 
     test('throws an error if there is an error running the export commands', async () => {
-      mockCommandData.forceFail = true;
+      mockExec.mockImplementationOnce(() => {
+        throw new Error('Whoops!');
+      });
       await writeFile('test.sketch', '');
       await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
     });

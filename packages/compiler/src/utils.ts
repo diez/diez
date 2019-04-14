@@ -1,9 +1,9 @@
 /* tslint:disable:max-line-length */
-import {fatalError, findPlugins, warning} from '@livedesigner/cli';
-import {exec, execSync} from 'child_process';
+import {execAsync, fatalError, findPlugins, warning} from '@livedesigner/cli';
+import {execSync} from 'child_process';
 import {existsSync} from 'fs';
 import {readJsonSync} from 'fs-extra';
-import {join, resolve, sep} from 'path';
+import {join, sep} from 'path';
 import {ClassDeclaration, Project, PropertyDeclaration, ts, Type, TypeChecker} from 'ts-morph';
 import {CompilerOptions, findConfigFile, sys} from 'typescript';
 import {CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, TargetComponent, TargetComponentWarnings} from './api';
@@ -11,11 +11,14 @@ import {CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, Target
 /**
  * Provides an async check for if we are equipped to use `yarn` for package management operations.
  */
-export const shouldUseYarn = async () => new Promise<boolean>((resolvePromise) => {
-  exec('yarnpkg --version', (error) => {
-    resolvePromise(!error);
-  });
-});
+export const shouldUseYarn = async () => {
+  try {
+    await execAsync('yarnpkg --version');
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
 
 /**
  * Provides an async check for if we are equipped to use `npm` in the current root as fallback for package management

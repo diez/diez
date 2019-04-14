@@ -1,4 +1,4 @@
-import {exec} from 'child_process';
+import {execAsync} from '@livedesigner/cli';
 import {pathExists, writeFile} from 'fs-extra';
 import {extname, join, resolve} from 'path';
 import {Exporter, ExporterFactory, ProgressReporter} from '.';
@@ -62,15 +62,8 @@ export const illustratorExportScript = `
  * @param file path to the file to be opened by Illustrator
  */
 const openIllustratorFile = async (file: string) => {
-  return new Promise<boolean>((resolvePromise, rejectPromise) => {
-    exec(`open -g -b com.adobe.Illustrator ${file}`, (error) => {
-      if (error) {
-        return rejectPromise(false);
-      }
-
-      resolvePromise(true);
-    });
-  });
+  await execAsync(`open -g -b com.adobe.Illustrator ${file}`);
+  return true;
 };
 
 /**

@@ -1,8 +1,8 @@
-import {exec} from 'child_process';
+import {execAsync, isMacOS} from '@livedesigner/cli';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
 import {Exporter, ExporterFactory, ProgressReporter} from '.';
-import {createFolders, escapeShell, fixGammaOfPNGFiles, isMacOS, locateBinaryMacOS} from '../helpers/ioUtils';
+import {createFolders, escapeShell, fixGammaOfPNGFiles, locateBinaryMacOS} from '../helpers/ioUtils';
 
 const enum ValidType {
   Slice,
@@ -26,15 +26,8 @@ const runExportCommand = async (sketchtoolPath: string, source: string, folder: 
   const output = escapeShell(join(out, folder));
   const command = `${sketchtoolPath} export --format=svg --output=${output} ${folder} ${escapeShell(source)}`;
 
-  return new Promise((resolve, reject) => {
-    exec(command, (error) => {
-      if (error) {
-        return reject(error);
-      }
-
-      resolve(true);
-    });
-  });
+  await execAsync(command);
+  return true;
 };
 
 // tslint:disable-next-line:variable-name

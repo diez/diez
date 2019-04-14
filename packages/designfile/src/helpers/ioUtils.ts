@@ -1,6 +1,6 @@
-import {exec} from 'child_process';
+import {execAsync, isMacOS} from '@livedesigner/cli';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
-import {createServer, Server} from 'http';
+import {createServer} from 'http';
 import klawSync from 'klaw-sync';
 import open = require('open');
 import {platform, tmpdir} from 'os';
@@ -29,8 +29,6 @@ export const enum ImageFormats {
   jpg = 'jpg',
 }
 
-export const isMacOS = () => platform() === 'darwin';
-
 export interface OAuthCode {
   code: string;
   state: string;
@@ -57,7 +55,11 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
           server.destroy();
           // TODO: take users back to Terminal (if possible) on other platforms.
           if (isMacOS()) {
-            exec('open -b com.apple.Terminal');
+            try {
+              await execAsync('open -b com.apple.Terminal');
+            } catch (_) {
+              // Noop.
+            }
           }
         }
       } catch (error) {
@@ -76,19 +78,13 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
  * Locate a binary on macOS.
  * @param bundleId
  */
-export const locateBinaryMacOS = async (bundleId: string) => new Promise<string>((resolve, reject) => {
+export const locateBinaryMacOS = async (bundleId: string) => {
   if (!isMacOS()) {
-    return reject(new Error('Platform is not macOS'));
+    throw new Error('Platform is not macOS');
   }
 
-  exec(`mdfind kMDItemCFBundleIdentifier=${bundleId}`, (error, stdout) => {
-    if (error) {
-      return reject(error);
-    }
-
-    return resolve(stdout.trim());
-  });
-});
+  return await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
+};
 
 /**
  * Empties `basePath` and creates the provided `folders` inside.

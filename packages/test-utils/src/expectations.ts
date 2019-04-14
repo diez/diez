@@ -8,6 +8,9 @@ const fileContentsMatch = (sourceFile: string, goldenFile: string) =>
   existsSync(goldenFile) &&
   readFileSync(sourceFile).toString() === readFileSync(goldenFile).toString();
 
+/**
+ * Expectation that files have the same contents.
+ */
 const toMatchFile = (sourceFile: string, goldenFile: string) => {
   if (fileContentsMatch(sourceFile, goldenFile)) {
     return {
@@ -22,6 +25,9 @@ const toMatchFile = (sourceFile: string, goldenFile: string) => {
   };
 };
 
+/**
+ * Expectation that directories have the same contents.
+ */
 const toMatchDirectory = (sourceDirectory: string, goldenDirectory: string) => {
   const failures: string[] = [];
 

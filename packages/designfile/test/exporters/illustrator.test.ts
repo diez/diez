@@ -1,5 +1,4 @@
-import {cleanupMockCommandData, cleanupMockFileSystem, mockCommandData, mockExecutedCommands,
-  mockFileSystem} from '@livedesigner/test-utils';
+import {cleanupMockCommandData, cleanupMockFileSystem, mockExec, mockFileSystem} from '@livedesigner/test-utils';
 import {writeFile} from 'fs-extra';
 import {IllustratorExporter, illustratorExportScript} from '../../src/exporters/illustrator';
 
@@ -11,7 +10,7 @@ afterEach(() => {
 });
 
 jest.mock('fs-extra');
-jest.mock('child_process');
+jest.mock('@livedesigner/cli');
 jest.mock('path');
 
 describe('Illustrator', () => {
@@ -39,8 +38,8 @@ describe('Illustrator', () => {
     test('creates an Illustrator scripts and runs it to export assets from an Illustrator file', async () => {
       await writeFile('test.ai', '');
       await illustrator.exportSVG('test.ai', 'outdir', () => {});
-      expect(mockExecutedCommands.length).toBe(2);
-      expect(mockExecutedCommands[0]).toContain('test.ai');
+      expect(mockExec).toHaveBeenCalledTimes(2);
+      expect(mockExec).toHaveBeenNthCalledWith(1, 'open -g -b com.adobe.Illustrator test.ai');
       expect(mockFileSystem.outdir).toBe('FOLDER');
       expect(mockFileSystem['outdir/artboards']).toBe('FOLDER');
       expect(mockFileSystem[Object.keys(mockFileSystem)[3]])
@@ -55,7 +54,9 @@ describe('Illustrator', () => {
     });
 
     test('throws an error if there is an error running the export commands', async () => {
-      mockCommandData.forceFail = true;
+      mockExec.mockImplementationOnce(() => {
+        throw new Error('Whoops!');
+      });
       await writeFile('test.ai', '');
       await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toBeDefined();
     });

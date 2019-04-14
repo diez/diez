@@ -19,24 +19,15 @@ export const cleanupMockFileSystem = () => {
 };
 
 /**
- * Tracks executed commands.
+ * Factory for our mock exec singleton.
  */
-export const mockExecutedCommands: string[] = [];
-
-/**
- * Tracks mock command data.
- */
-export const mockCommandData = {
-  forceFail: false,
-  stdout: '',
-};
+export const mockExec = (typeof jest === 'undefined' ? () => {} : jest.fn()) as jest.Mock;
 
 /**
  * Resets the mock command data to initial state.
  */
 export const cleanupMockCommandData = () => {
-  mockCommandData.forceFail = false;
-  mockCommandData.stdout = '';
+  mockExec.mockReset();
 };
 
 /**
