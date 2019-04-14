@@ -67,7 +67,7 @@ describe('Sketch', () => {
     test('throws an error if not on mac', async () => {
       mockOsData.platform = 'win32';
       await writeFile('test.sketch', '');
-      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
+      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toThrow();
     });
 
     test('throws an error if there is an error running the export commands', async () => {
@@ -75,7 +75,7 @@ describe('Sketch', () => {
         throw new Error('Whoops!');
       });
       await writeFile('test.sketch', '');
-      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toBeDefined();
+      await expect(sketch.exportSVG('test.sketch', 'out', () => {})).rejects.toThrow();
     });
   });
 });

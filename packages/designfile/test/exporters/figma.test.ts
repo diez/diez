@@ -39,6 +39,6 @@ describe('Figma', () => {
 
 describe('#getSVGLinks', () => {
   test('throws an error if there are\'n assets to export', async () => {
-    await expect(getSVGLinks([], '', '')).rejects.toBeDefined();
+    await expect(getSVGLinks([], '', '')).rejects.toThrow();
   });
 });

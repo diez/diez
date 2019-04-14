@@ -58,7 +58,7 @@ describe('Illustrator', () => {
         throw new Error('Whoops!');
       });
       await writeFile('test.ai', '');
-      await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toBeDefined();
+      await expect(illustrator.exportSVG('test.ai', 'out', () => {})).rejects.toThrow();
     });
   });
 });
