@@ -10,5 +10,8 @@
   "tslint.jsEnable": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.tslint": true
+  },
+  "files.associations": {
+    ".diezrc": "json"
   }
 }
