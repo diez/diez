@@ -1,6 +1,6 @@
 {
-  "cli": {
-    "commandProviders": [
+  "providers": {
+    "commands": [
       "./foobar.js"
     ]
   }

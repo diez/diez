@@ -55,12 +55,12 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
     return targets;
   }
 
-  for (const [plugin, configuration] of await findPlugins()) {
-    if (!configuration.compiler || !configuration.compiler.targetProviders) {
+  for (const [plugin, {providers}] of await findPlugins()) {
+    if (!providers || !providers.targets) {
       continue;
     }
 
-    for (const path of configuration.compiler.targetProviders) {
+    for (const path of providers.targets) {
       const provider = require(join(plugin, path)) as CompilerTargetProvider;
       targets.set(provider.name, provider.handler);
     }
@@ -321,6 +321,9 @@ export const processType = (
   return true;
 };
 
+/**
+ * Prints all warnings encountered while processing a target component.
+ */
 export const printWarnings = (targetComponents: NamedComponentMap) => {
   for (const [name, targetComponent] of targetComponents) {
     if (!targetComponent.warnings) {

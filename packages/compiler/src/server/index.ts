@@ -37,12 +37,12 @@ export const serveHot = async (projectRoot: string, port: number) => {
     response.render('component', {componentName});
   });
 
-  for (const [plugin, config] of await findPlugins()) {
-    if (!config.compiler || !config.compiler.templateProviders) {
+  for (const [plugin, {providers}] of await findPlugins()) {
+    if (!providers || !providers.templates) {
       continue;
     }
 
-    for (const path of config.compiler.templateProviders) {
+    for (const path of providers.templates) {
       registerWithProvider(app, projectRoot, require(join(plugin, path)));
     }
   }

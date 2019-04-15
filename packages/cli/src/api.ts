@@ -29,3 +29,28 @@ export interface CliCommandProvider {
   aliases?: string[];
   options?: CliCommandOption[];
 }
+
+/**
+ * A specification for a Component compiler target prefab.
+ */
+export interface TargetPrefab {
+  [sourceName: string]: {
+    [componentName: string]: string;
+  };
+}
+
+/**
+ * A Diez configuration.
+ */
+export type DiezConfiguration = Partial<{
+  providers: Partial<{
+    commands: Iterable<string>;
+    templates: Iterable<string>;
+    targets: Iterable<string>;
+  }>;
+  compiler: Partial<{
+    prefabs: {
+      [targetName: string]: TargetPrefab;
+    };
+  }>;
+}>;

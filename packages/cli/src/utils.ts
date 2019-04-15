@@ -1,16 +1,22 @@
-import {DiezConfiguration} from '@diez/engine';
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
-import {existsSync, readdir, readJsonSync, stat} from 'fs-extra';
+import {existsSync, readJsonSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {join} from 'path';
+import {DiezConfiguration} from './api';
 
 // tslint:disable-next-line:no-var-requires
 const packageJson = require(join('..', 'package.json'));
 
+/**
+ * The development dependencies of this package.
+ */
 export const devDependencies: {[key: string]: string} = packageJson.devDependencies;
 
+/**
+ * The version of this package. Used for synchronizing Diez versions.
+ */
 export const diezVersion: string = packageJson.version;
 
 /**

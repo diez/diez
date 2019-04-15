@@ -119,28 +119,3 @@ export type Formula<T extends AnySerializable> = (...args: any[]) => T;
 export interface ExpressionResolver {
   [key: string]: any;
 }
-
-/**
- * A specification for a Component compiler target prefab.
- */
-export interface TargetPrefab {
-  [sourceName: string]: {
-    [componentName: string]: string;
-  };
-}
-
-/**
- * A Diez configuration.
- */
-export type DiezConfiguration = Partial<{
-  cli: Partial<{
-    commandProviders: string[];
-  }>;
-  compiler: Partial<{
-    templateProviders: string[];
-    targetProviders: string[];
-    prefabs: {
-      [targetName: string]: TargetPrefab;
-    };
-  }>;
-}>;

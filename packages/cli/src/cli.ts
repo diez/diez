@@ -49,13 +49,13 @@ const registerWithProvider = (provider: CliCommandProvider) => {
  */
 export const bootstrap = async (rootPackageName = global.process.cwd()) => {
   const plugins = await findPlugins(rootPackageName);
-  for (const [plugin, {cli}] of plugins) {
-    if (!cli || !cli.commandProviders) {
+  for (const [plugin, {providers}] of plugins) {
+    if (!providers || !providers.commands) {
       continue;
     }
 
     try {
-      for (const path of cli.commandProviders) {
+      for (const path of providers.commands) {
         registerWithProvider(require(join(plugin, path)));
       }
     } catch (error) {

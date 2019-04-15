@@ -1,10 +1,12 @@
 {
-  "compiler": {
-    "targetProviders": [
+  "providers": {
+    "targets": [
       "./lib/ios",
       "./lib/android",
       "./lib/web"
-    ],
+    ]
+  },
+  "compiler": {
     "prefabs": {
       "ios": {
         "@diez/designsystem": {
