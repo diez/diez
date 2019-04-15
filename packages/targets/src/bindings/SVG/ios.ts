@@ -1,15 +1,15 @@
 import {SVG} from '@diez/designsystem';
 import {join} from 'path';
-import {IosPrefab} from '../../api';
+import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
-const prefab: IosPrefab = {
-  sources: [join(sourcesPath, 'ios', 'prefabs', 'SVG.swift')],
+const binding: IosBinding = {
+  sources: [join(sourcesPath, 'ios', 'bindings', 'SVG.swift')],
   imports: ['UIKit', 'WebKit'],
   updateable: true,
   initializer: (instance: SVG) =>
     `SVG(withFile: ${fileInitializer!(instance.file)})`,
 };
 
-export = prefab;
+export = binding;

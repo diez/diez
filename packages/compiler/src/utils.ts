@@ -72,74 +72,77 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
 /**
  * @internal
  */
-const hashPrefab = (target: string, source: string, componentName: string) => `${target}|${source}|${componentName}`;
+const hashComponent = (source: string, componentName: string) => `${source}:${componentName}`;
+const hashBinding = (target: string, source: string, componentName: string) => `${target}|${hashComponent(source, componentName)}`;
 
-const prefabLocations = new Map<string, string>();
+const bindingLocations = new Map<string, string>();
 
 /**
  * @internal
  */
-const getPrefabLocation = async (
+const getBindingLocation = async (
   target: string,
   source: string,
   componentName: string,
 ): Promise<string | undefined> => {
-  const hash = hashPrefab(target, source, componentName);
-  if (prefabLocations.size > 0) {
-    return prefabLocations.get(`${target}|${source}|${componentName}`);
+  const hash = hashBinding(target, source, componentName);
+  if (bindingLocations.size > 0) {
+    return bindingLocations.get(hash);
   }
 
-  for (const [plugin, configuration] of await findPlugins()) {
-    if (!configuration.compiler || !configuration.compiler.prefabs) {
+  for (const [plugin, {bindings}] of await findPlugins()) {
+    if (!bindings) {
       continue;
     }
 
-    for (const pluginTarget in configuration.compiler.prefabs) {
-      for (const pluginSource in configuration.compiler.prefabs[pluginTarget]) {
-        for (const pluginComponentName in configuration.compiler.prefabs[pluginTarget][pluginSource]) {
-          const newHash = hashPrefab(pluginTarget, pluginSource, pluginComponentName);
-          if (prefabLocations.has(newHash)) {
-            fatalError(`Found duplicate prefab compilation instructions for target ${pluginTarget}. Component name: ${pluginComponentName}. Component source: ${pluginSource}.`);
-          }
-          prefabLocations.set(
-            newHash,
-            join(plugin, configuration.compiler.prefabs[pluginTarget][pluginSource][pluginComponentName]),
-          );
+    for (const componentHash in bindings) {
+      for (const targetName in bindings[componentHash]) {
+        const newHash = `${targetName}|${componentHash}`;
+        if (bindingLocations.has(newHash)) {
+          fatalError(`Found duplicate binding compilation instructions for target ${targetName}. Component: ${componentHash}.`);
         }
+
+        bindingLocations.set(
+          newHash,
+          join(plugin, bindings[componentHash][targetName]),
+        );
       }
     }
   }
 
-  return prefabLocations.get(hash);
+  return bindingLocations.get(hash);
 };
 
 /**
  * @internal
  */
-const prefabs = new Map<string, any>();
+const resolvedBindings = new Map<string, any>();
 
-export const getPrefab = async <T>(
+/**
+ * Retrieves a binding for a given target and component source.
+ */
+export const getBinding = async <T>(
   target: string,
   source: string,
   componentName: string,
 ): Promise<T | undefined> => {
-  const hash = hashPrefab(target, source, componentName);
-  if (prefabs.has(hash)) {
-    return prefabs.get(hash);
+  const hash = hashBinding(target, source, componentName);
+  if (resolvedBindings.has(hash)) {
+    return resolvedBindings.get(hash);
   }
-  const location = await getPrefabLocation(target, source, componentName);
+  const location = await getBindingLocation(target, source, componentName);
   if (!location) {
-    prefabs.set(hash, undefined);
+    resolvedBindings.set(hash, undefined);
     return undefined;
   }
 
   try {
-    const prefab = require(location) as T;
-    prefabs.set(hash, prefab);
-    return prefab;
+    const binding = require(location) as T;
+    resolvedBindings.set(hash, binding);
+    return binding;
   } catch (e) {
-    warning(`A prefab for ${componentName} was specified in package.json, but could not be loaded.`);
-    prefabs.set(hash, undefined);
+    warning(`A binding for ${componentName} was specified in package.json, but could not be loaded.`);
+    resolvedBindings.set(hash, undefined);
     return undefined;
   }
 };

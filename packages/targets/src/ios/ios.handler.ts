@@ -1,11 +1,11 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
-import {CompilerTargetHandler, getPrefab, NamedComponentMap} from '@diez/compiler';
+import {CompilerTargetHandler, getBinding, NamedComponentMap} from '@diez/compiler';
 import {ConcreteComponent} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';
-import {IosDependency, IosPrefab} from '../api';
+import {IosBinding, IosDependency} from '../api';
 import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
 
 const coreIos = join(sourcesPath, 'ios');
@@ -31,17 +31,17 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
   dependencies.add(newDependency);
 };
 
-const mergePrefabToOutput = (output: IosOutput, prefab: IosPrefab) => {
-  for (const prefabImport of prefab.imports) {
-    output.imports.add(prefabImport);
+const mergeBindingToOutput = (output: IosOutput, binding: IosBinding) => {
+  for (const bindingImport of binding.imports) {
+    output.imports.add(bindingImport);
   }
 
-  for (const prefabSource of prefab.sources) {
-    output.sources.add(prefabSource);
+  for (const bindingSource of binding.sources) {
+    output.sources.add(bindingSource);
   }
 
-  if (prefab.dependencies) {
-    for (const dependency of prefab.dependencies) {
+  if (binding.dependencies) {
+    for (const dependency of binding.dependencies) {
       mergeDependency(output.dependencies, dependency);
     }
   }
@@ -77,10 +77,10 @@ export const processComponentInstance = async (
     return false;
   }
 
-  // Add sources etc. if we're looking at a prefab.
-  const prefab = await getPrefab<IosPrefab>('ios', targetComponent.source || '.', name);
-  if (prefab) {
-    mergePrefabToOutput(output, prefab);
+  // Add sources etc. if we're looking at a binding.
+  const binding = await getBinding<IosBinding>('ios', targetComponent.source || '.', name);
+  if (binding) {
+    mergeBindingToOutput(output, binding);
   }
 
   const spec: IosComponentSpec = {componentName: name, properties: {}};
@@ -100,15 +100,15 @@ export const processComponentInstance = async (
       }
 
       const propertyComponent = namedComponentMap.get(property.type)!;
-      const propertyPrefab = await getPrefab<IosPrefab>('ios', propertyComponent.source || '.', property.type);
-      if (propertyPrefab) {
+      const propertyBinding = await getBinding<IosBinding>('ios', propertyComponent.source || '.', property.type);
+      if (propertyBinding) {
         spec.properties[property.name] = {
           type: property.type,
-          initializer: propertyPrefab.initializer ? propertyPrefab.initializer(value) : `${property.type}()`,
-          updateable: propertyPrefab.updateable,
+          initializer: propertyBinding.initializer ? propertyBinding.initializer(value) : `${property.type}()`,
+          updateable: propertyBinding.updateable,
         };
       } else {
-        // FIXME: as currently implemented, non-prefab components can't take custom constructors.
+        // FIXME: as currently implemented, non-binding components can't take custom constructors.
         // This doesn't make sense as a restriction.
         spec.properties[property.name] = {
           type: property.type,
@@ -147,7 +147,7 @@ export const processComponentInstance = async (
     }
   }
 
-  if (!prefab || !prefab.sources.length) {
+  if (!binding || !binding.sources.length) {
     const filename = getTempFileName();
     writeFileSync(
       filename,
@@ -240,7 +240,7 @@ export const iosHandler: CompilerTargetHandler = async (
   info(`You can use ${inlineCodeSnippet('Diez')} to bootstrap any of the components defined in your project.\n`);
   info('For example:');
   // TODO: Move this into a template.
-  // TODO: Prefab components should yield their own documentation.
+  // TODO: components with bindings should yield their own documentation.
   code(`import UIKit
 import Diez
 

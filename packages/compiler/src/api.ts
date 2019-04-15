@@ -61,7 +61,7 @@ export interface TargetComponent {
    */
   type?: Type;
   /**
-   * If specified, the resolvable module that provides the property's component type. Used for assembling prefabs for
+   * If specified, the resolvable module that provides the property's component type. Used for assembling bindings for
    * some compiler targets.
    */
   source?: string;

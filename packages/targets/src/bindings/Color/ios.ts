@@ -1,10 +1,10 @@
 import {Color} from '@diez/designsystem';
 import {join} from 'path';
-import {IosPrefab} from '../../api';
+import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 
-const prefab: IosPrefab = {
-  sources: [join(sourcesPath, 'ios', 'prefabs', 'Color.swift')],
+const binding: IosBinding = {
+  sources: [join(sourcesPath, 'ios', 'bindings', 'Color.swift')],
   imports: ['UIKit'],
   // FIXME: can we make UIColors updateable? Possibly not!
   updateable: false,
@@ -14,4 +14,4 @@ const prefab: IosPrefab = {
   },
 };
 
-export = prefab;
+export = binding;

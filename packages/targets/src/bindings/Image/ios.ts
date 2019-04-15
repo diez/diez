@@ -1,11 +1,11 @@
 import {Image} from '@diez/designsystem';
 import {join} from 'path';
-import {IosPrefab} from '../../api';
+import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
-const prefab: IosPrefab = {
-  sources: [join(sourcesPath, 'ios', 'prefabs', 'Image.swift')],
+const binding: IosBinding = {
+  sources: [join(sourcesPath, 'ios', 'bindings', 'Image.swift')],
   imports: ['UIKit'],
   updateable: true,
   initializer: (instance: Image) =>
@@ -13,4 +13,4 @@ const prefab: IosPrefab = {
     `withHeight: ${instance.height}, withScale: ${instance.scale})`,
 };
 
-export = prefab;
+export = binding;

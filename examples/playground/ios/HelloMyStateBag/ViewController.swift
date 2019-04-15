@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         let singleFingerTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap))
         view.addGestureRecognizer(singleFingerTap)
 
-        // Style our animation container. TODO: we should do this with a shadow prefab!
+        // Style our animation container. TODO: we should do this with a shadow binding!
         animationContainer.autoresizesSubviews = true
         animationContainer.layer.masksToBounds = false
         animationContainer.layer.shadowOffset = CGSize(width: -10, height: -20)

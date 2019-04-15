@@ -31,12 +31,10 @@ export interface CliCommandProvider {
 }
 
 /**
- * A specification for a Component compiler target prefab.
+ * A specification for a Component compiler target binding.
  */
-export interface TargetPrefab {
-  [sourceName: string]: {
-    [componentName: string]: string;
-  };
+export interface TargetBinding {
+  [targetName: string]: string;
 }
 
 /**
@@ -48,9 +46,7 @@ export type DiezConfiguration = Partial<{
     templates: Iterable<string>;
     targets: Iterable<string>;
   }>;
-  compiler: Partial<{
-    prefabs: {
-      [targetName: string]: TargetPrefab;
-    };
-  }>;
+  bindings?: {
+    [componentHash: string]: TargetBinding;
+  };
 }>;

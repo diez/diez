@@ -19,9 +19,9 @@ export interface IosDependency {
 }
 
 /**
- * Describes an iOS prefab.
+ * Describes an iOS binding.
  */
-export interface IosPrefab {
+export interface IosBinding {
   imports: string[];
   sources: string[];
   updateable: boolean;
