@@ -15,6 +15,7 @@
   "devDependencies": {
     "@livedesigner/cli": "1.0.0-alpha0",
     "@livedesigner/compiler": "1.0.0-alpha0",
+    "@livedesigner/targets": "1.0.0-alpha0",
     "typescript": "^3.4.1"
   }
 }

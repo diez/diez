@@ -6,7 +6,7 @@ afterAll(restoreModules);
 
 describe('utils', () => {
   test('findPlugins', async () => {
-    const plugins = await findPlugins();
-    expect(plugins.has('@livedesigner/awesomepackage')).toBe(true);
+    const plugins = await findPlugins('starting-point');
+    expect(plugins.has('command-provider')).toBe(true);
   });
 });

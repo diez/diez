@@ -7,7 +7,7 @@ afterAll(restoreModules);
 
 describe('cli', () => {
   test('basic functionality', async () => {
-    await bootstrap();
+    await bootstrap('starting-point');
     const foobarCommand = commander.commands.find((command: Command) => command.name() === 'foobar');
     expect(foobarCommand).toBeDefined();
     expect(foobarCommand.description()).toBe('Do stuff.');

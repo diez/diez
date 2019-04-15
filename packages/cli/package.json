@@ -26,6 +26,7 @@
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^23.6.0",
     "jest-tap-reporter": "^1.9.0",
+    "package-json": "^6.3.0",
     "ts-jest": "^23.10.5",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
@@ -38,7 +39,6 @@
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "server-destroy": "^1.0.1"
-
   },
   "bin": {
     "diez": "./bin/diez"

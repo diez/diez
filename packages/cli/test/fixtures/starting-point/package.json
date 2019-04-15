@@ -1,0 +1,8 @@
+{
+  "name": "starting-point",
+  "version": "10.10.10",
+  "main": "lib/index.js",
+  "dependencies": {
+    "command-provider": "10.10.10"
+  }
+}

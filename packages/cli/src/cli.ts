@@ -44,8 +44,11 @@ const registerWithProvider = (provider: CliCommandProvider) => {
   }
 };
 
-export const bootstrap = async () => {
-  const plugins = await findPlugins();
+/**
+ * Bootstraps all available CLI commands based on local package dependencies.
+ */
+export const bootstrap = async (rootPackageName = global.process.cwd()) => {
+  const plugins = await findPlugins(rootPackageName);
   for (const [plugin, {cli}] of plugins) {
     if (!cli || !cli.commandProviders) {
       continue;

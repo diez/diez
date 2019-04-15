@@ -1,0 +1,7 @@
+{
+  "cli": {
+    "commandProviders": [
+      "./foobar.js"
+    ]
+  }
+}

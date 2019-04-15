@@ -1,8 +1,9 @@
 import {DiezConfiguration} from '@livedesigner/engine';
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
-import {readdir, stat} from 'fs';
+import {existsSync, readdir, readJsonSync, stat} from 'fs-extra';
 import {platform} from 'os';
+import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {join} from 'path';
 
 // tslint:disable-next-line:no-var-requires
@@ -11,11 +12,6 @@ const packageJson = require(join('..', 'package.json'));
 export const devDependencies: {[key: string]: string} = packageJson.devDependencies;
 
 export const diezVersion: string = packageJson.version;
-
-const namespace = '@livedesigner';
-
-// tslint:disable-next-line:no-var-requires variable-name
-const Module = require('module');
 
 /**
  * Cache for found plugins.
@@ -48,45 +44,76 @@ export const execAsync = (command: string, options?: ExecOptions) => new Promise
 export const isMacOS = () => platform() === 'darwin';
 
 /**
- * Loops through all namespaced dependencies to locate Diez plugins, and returns a map of module names to Diez plugin
+ * Recursively resolve dependencies for a given package name.
+ *
+ * @internal
+ */
+const getDependencies = (
+  packageNameIn: string,
+  foundPackages: Map<string, {json: PackageJson, path: string}>): void => {
+  const packageName = packageNameIn === global.process.cwd() ? '.' : packageNameIn;
+  if (foundPackages.has(packageName)) {
+    return;
+  }
+
+  // FIXME: we shouldn't necessarily require `lib/` in the main package path.
+  const packagePath = require.resolve(packageNameIn).split('lib')[0];
+  const json = readJsonSync(join(packagePath, 'package.json'), {throws: false});
+  if (!json) {
+    return;
+  }
+
+  foundPackages.set(packageName, {json, path: packagePath});
+
+  if (json.dependencies) {
+    for (const name in json.dependencies) {
+      try {
+        getDependencies(name, foundPackages);
+      } catch (_) {}
+    }
+  }
+
+  if (json.devDependencies) {
+    for (const name in json.devDependencies) {
+      try {
+        getDependencies(name, foundPackages);
+      } catch (_) {}
+    }
+  }
+};
+
+/**
+ * Loops through all dependencies to locate Diez plugins, and returns a map of module names to Diez plugin
  * configurations.
  */
-export const findPlugins = (): Promise<Map<string, DiezConfiguration>> => {
+export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map<string, DiezConfiguration>> => {
   // Use our cache if it's populated.
   if (plugins.size) {
     return Promise.resolve(plugins);
   }
 
+  const foundPackages = new Map<string, {json: PackageJson, path: string}>();
+  getDependencies(rootPackageName, foundPackages);
+
   return new Promise((resolve) => {
-    each<string>(
-      Module._nodeModulePaths(__dirname),
-      (nodeModulesPath, next) => {
-        const path = join(nodeModulesPath, namespace);
-        stat(path, (statError, stats) => {
-          if (statError || !stats.isDirectory()) {
-            return next();
+    each<[string, {json: PackageJson, path: string}]>(
+      Array.from(foundPackages),
+      ([packageName, {json, path}], next) => {
+        const configuration = (json.diez || {}) as DiezConfiguration;
+        const diezRcPath = join(path, '.diezrc');
+        if (existsSync(diezRcPath)) {
+          // TODO: support alternative formats (e.g. YAML) here.
+          const rcConfiguration = readJsonSync(diezRcPath, {throws: false});
+          if (rcConfiguration) {
+            Object.assign(configuration, rcConfiguration);
           }
+        }
 
-          readdir(path, (readdirError, files) => {
-            if (readdirError) {
-              return next();
-            }
+        if (Object.keys(configuration).length) {
+          plugins.set(packageName, configuration);
+        }
 
-            for (const file of files) {
-              try {
-                const packageName = `${namespace}/${file}`;
-                const packageSpec = require(join(packageName, 'package.json'));
-                if (packageSpec && packageSpec.diez) {
-                  plugins.set(packageName, packageSpec.diez);
-                }
-              } catch (error) {
-                // Noop.
-              }
-            }
-
-            return next();
-          });
-        });
+        return next();
       },
       () => {
         resolve(plugins);
