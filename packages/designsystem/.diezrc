@@ -1,0 +1,8 @@
+{
+  "compiler": {
+    "templateProviders": [
+      "./lib/templates/haiku",
+      "./lib/templates/svg"
+    ]
+  }
+}

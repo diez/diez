@@ -1,0 +1,8 @@
+{
+  "cli": {
+    "commandProviders": [
+      "./lib/commands/compile",
+      "./lib/commands/create"
+    ]
+  }
+}
