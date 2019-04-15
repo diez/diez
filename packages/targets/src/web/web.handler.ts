@@ -1,13 +1,27 @@
-import {CompilerTargetHandler, NamedComponentMap} from '@diez/compiler';
+import {CompilerTargetHandler, getHotPort, serveHot} from '@diez/compiler';
 
 /**
- * The canonical web compiler target implementation.
+ * The canonical Web compiler target implementation.
  */
-export const webHandler: CompilerTargetHandler = (
-  projectRoot: string,
-  destinationPath: string,
-  localComponentNames: string[],
-  namedComponentMap: NamedComponentMap,
+export const webHandler: CompilerTargetHandler = async (
+  projectRoot,
+  destinationPath,
+  localComponentNames,
+  namedComponentMap,
+  devMode,
 ) => {
-  console.log(projectRoot, destinationPath, localComponentNames, namedComponentMap);
+  if (devMode) {
+    const devPort = await getHotPort();
+    await serveHot(
+      projectRoot,
+      'web',
+      require.resolve('@diez/targets/lib/web/web.component'),
+      devPort,
+    );
+    // TODO: write SDK in dev mode.
+    // TODO: watch for hot updates and update the SDK when things change.
+    // TODO: when we shut down, compile once in prod mode.
+  } else {
+    // TODO: write SDK in prod mode.
+  }
 };

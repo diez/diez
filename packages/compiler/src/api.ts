@@ -1,6 +1,7 @@
 import {ConcreteComponentType} from '@diez/engine';
-import {RequestHandler} from 'express';
+import {Express, RequestHandler} from 'express';
 import {Type} from 'ts-morph';
+import {Configuration} from 'webpack';
 
 /**
  * A template handler factory, which receives a web project root and returns a suitable
@@ -9,12 +10,22 @@ import {Type} from 'ts-morph';
 export type TemplateHandlerFactory = (projectRoot: string) => RequestHandler;
 
 /**
- * A generic interface for a compiler template.
+ * A generic interface for a compiler hot server handler.
  */
-export interface TemplateProvider {
+export interface HandlerProvider {
   path: string;
   factory: TemplateHandlerFactory;
 }
+
+/**
+ * Modifies a webpack configuration before hot serving to provide platform-specific functionality.
+ */
+export type WebpackConfigModifier = (config: Configuration) => void;
+
+/**
+ * Modifies a hot server to provide platform-specific functionality.
+ */
+export type HotServerModifier = (app: Express, projectRoot: string) => void;
 
 /**
  * A component compiler property descriptor.
@@ -85,7 +96,6 @@ export type CompilerTargetHandler = (
   localComponentNames: string[],
   namedComponentMap: NamedComponentMap,
   devMode: boolean,
-  devPort?: number,
 ) => void;
 
 /**

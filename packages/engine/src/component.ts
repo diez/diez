@@ -10,7 +10,6 @@ import {
   Tweenable,
   TweenSpecification,
 } from './api';
-import {getPatcher} from './platform';
 import {Serializer} from './serialization';
 import {interpolateNumbers} from './transitions';
 
@@ -33,7 +32,6 @@ const linearTween = (t: number) => t;
 
 interface EndtimeResolver<T> {
   resolve (): void;
-  reject (): void;
   endTime: number;
   keys: Set<keyof T>;
 }
@@ -102,7 +100,6 @@ export abstract class Component<T extends Indexable = any>
 
   constructor (
     state: Partial<T> = {},
-    private readonly patcher: Patcher = getPatcher(),
   ) {
     // Note how we explicitly case state as T. (We will soon also accept Expression<T>s at init time).
     // Our engine relies on runtime initialization with defaults in concrete implementations.
@@ -113,10 +110,10 @@ export abstract class Component<T extends Indexable = any>
   /**
    * Private patcher implementation.
    */
-  private patch () {
+  private patch (patcher: Patcher) {
     if (this.doPatch) {
       this.doPatch = false;
-      this.patcher(this.serializer.payload);
+      patcher(this.serializer.payload);
     }
   }
 
@@ -147,7 +144,7 @@ export abstract class Component<T extends Indexable = any>
   /**
    * Tickable interface. Ticks the clock at the provided time.
    */
-  tick (time: number) {
+  tick (time: number, onPatch?: Patcher) {
     this.time = time;
     this.eachChild((child) => child.tick(time));
     this.executeTweens();
@@ -159,8 +156,8 @@ export abstract class Component<T extends Indexable = any>
         this.endtimeResolvers.delete(endtimeResolver);
       }
     }
-    if (!this.host) {
-      this.patch();
+    if (!this.host && onPatch) {
+      this.patch(onPatch);
     }
   }
 
@@ -232,17 +229,17 @@ export abstract class Component<T extends Indexable = any>
       }
     }
 
-    // Check for any transitions in progress that were interrupted. Reject and dequeue them.
+    // Check for any transitions in progress that were interrupted. Resolve and dequeue them.
     const keys = Object.keys(state);
     for (const endtimeResolver of this.endtimeResolvers) {
       if (keys.filter((key) => endtimeResolver.keys.has(key)).length > 0) {
-        endtimeResolver.reject();
+        endtimeResolver.resolve();
         this.endtimeResolvers.delete(endtimeResolver);
       }
     }
 
-    return new Promise((resolve, reject) => {
-      this.endtimeResolvers.add({endTime, resolve, reject, keys: new Set(keys)});
+    return new Promise((resolve) => {
+      this.endtimeResolvers.add({endTime, resolve, keys: new Set(keys)});
     });
   }
 

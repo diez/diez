@@ -5,20 +5,57 @@ import {join, resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import {TemplateProvider} from '../api';
+import {HandlerProvider, HotServerModifier, WebpackConfigModifier} from '../api';
 import {getConfiguration} from './config';
 
-const registerWithProvider = (app: Express, projectRoot: string, provider: TemplateProvider) => {
+const registerWithProvider = (app: Express, projectRoot: string, provider: HandlerProvider) => {
   app.get(provider.path, provider.factory(projectRoot));
 };
 
 /**
- * The serve action starts a hot server for a live design session.
+ * Starts a hot server at the project root.
+ *
+ *
+ * @param projectRoot - The root of the project.
+ * @param targetName - The name of the compiler target, used to resolve custom handlers from .diezrc.
+ * @param componentEntry - The path to the module that we should serve at /component.js.
+ * @param port - The port on which we should serve hot.
+ * @param modifyWebpackConfig - Enables optional runtime forking of the Webpack configuration before it is applied.
+ * @param modifyServer - Enables optional runtime forking of the server configuration before it begins to listen.
  */
-export const serveHot = async (projectRoot: string, port: number) => {
+export const serveHot = async (
+  projectRoot: string,
+  targetName: string,
+  componentEntry: string,
+  port: number,
+  modifyWebpackConfig?: WebpackConfigModifier,
+  modifyServer?: HotServerModifier,
+) => {
   const app = express();
+  app.set('views', resolve(__dirname, '..', '..', 'views'));
+  if (modifyServer) {
+    modifyServer(app, projectRoot);
+  }
 
-  const webpackConfig = getConfiguration(projectRoot);
+  app.get('/components/:componentName', (request, response) => {
+    const {componentName} = request.params;
+    response.render('component', {componentName});
+  });
+
+  for (const [plugin, {handlers}] of await findPlugins()) {
+    if (!handlers || !handlers[targetName]) {
+      continue;
+    }
+
+    for (const path of handlers[targetName]) {
+      registerWithProvider(app, projectRoot, require(join(plugin, path)));
+    }
+  }
+
+  const webpackConfig = getConfiguration(projectRoot, componentEntry);
+  if (modifyWebpackConfig) {
+    modifyWebpackConfig(webpackConfig);
+  }
   const compiler = webpack(webpackConfig);
 
   app.use(webpackDevMiddleware(compiler, {
@@ -29,23 +66,6 @@ export const serveHot = async (projectRoot: string, port: number) => {
 
   app.engine('handlebars', expressHandlebars());
   app.set('view engine', 'handlebars');
-  app.set('views', resolve(__dirname, '..', '..', 'views'));
-
-  app.get('/components/:componentName', (request, response) => {
-    // TODO: handle missing information.
-    const {componentName} = request.params;
-    response.render('component', {componentName});
-  });
-
-  for (const [plugin, {providers}] of await findPlugins()) {
-    if (!providers || !providers.templates) {
-      continue;
-    }
-
-    for (const path of providers.templates) {
-      registerWithProvider(app, projectRoot, require(join(plugin, path)));
-    }
-  }
 
   // TODO: should this be configured or always a magic directory called "assets"?
   app.use('/assets', express.static(resolve(projectRoot, 'assets')));

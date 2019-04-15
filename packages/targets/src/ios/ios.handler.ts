@@ -1,5 +1,5 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
-import {CompilerTargetHandler, getBinding, NamedComponentMap} from '@diez/compiler';
+import {CompilerTargetHandler, getBinding, getHotPort, NamedComponentMap, serveHot} from '@diez/compiler';
 import {ConcreteComponent} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
@@ -192,7 +192,6 @@ export const iosHandler: CompilerTargetHandler = async (
   localComponentNames,
   namedComponentMap,
   devMode,
-  devPort,
 ) => {
   const componentModule = await loadComponentModule(projectRoot);
   const output: IosOutput = {
@@ -225,7 +224,21 @@ export const iosHandler: CompilerTargetHandler = async (
       // Noop.
     }
   }
-  writeSdk(output, destinationPath, devMode, hostname, devPort);
+
+  if (devMode) {
+    const devPort = await getHotPort();
+    await serveHot(
+      projectRoot,
+      'ios',
+      require.resolve('@diez/targets/lib/ios/ios.component'),
+      devPort,
+    );
+    writeSdk(output, destinationPath, true, hostname, devPort);
+    // TODO: watch for hot updates and update the SDK when things change.
+    // TODO: when we shut down, compile once in prod mode.
+  } else {
+    writeSdk(output, destinationPath, false, hostname);
+  }
 
   info(`Diez SDK installed locally at ${join(projectRoot, 'Diez')}.\n`);
 

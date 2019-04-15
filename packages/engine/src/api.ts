@@ -94,10 +94,10 @@ export interface Listening {
 export type Patcher = (payload: any) => void;
 
 /**
- * Tickable interfaces can tick an internal clock (TODO) with a specified time.
+ * Tickable interfaces can tick an internal clock with a specified time.
  */
 export interface Tickable {
-  tick (time: number): void;
+  tick (time: number, onPatch?: Patcher): void;
 }
 
 /**

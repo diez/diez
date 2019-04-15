@@ -31,5 +31,19 @@
     "@diez/designsystem:TextStyle": {
       "ios": "./lib/bindings/TextStyle/ios"
     }
+  },
+  "handlers": {
+    "ios": [
+      "./lib/handlers/haiku",
+      "./lib/handlers/svg"
+    ],
+    "android": [
+      "./lib/handlers/haiku",
+      "./lib/handlers/svg"
+    ],
+    "web": [
+      "./lib/handlers/haiku",
+      "./lib/handlers/svg"
+    ]
   }
 }

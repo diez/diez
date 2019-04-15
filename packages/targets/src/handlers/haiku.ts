@@ -1,9 +1,9 @@
-import {TemplateProvider} from '@diez/compiler';
+import {HandlerProvider} from '@diez/compiler';
 import {existsSync, readFile} from 'fs-extra';
 import {resolve} from 'path';
 import {viewRoot} from '.';
 
-const template: TemplateProvider = {
+const template: HandlerProvider = {
   path: '/haiku/(*)',
   factory: () => (request, response) => {
     let packagePath = '';

@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {execAsync, fatalError, findPlugins, warning} from '@diez/cli';
+import {execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
 import {execSync} from 'child_process';
 import {existsSync} from 'fs';
 import {readJsonSync} from 'fs-extra';
@@ -352,3 +352,8 @@ export const printWarnings = (targetComponents: NamedComponentMap) => {
     }
   }
 };
+
+/**
+ * Gets a hot port in the range 8080-8180 for hot serving Diez projects.
+ */
+export const getHotPort = async () => findOpenPort(getCandidatePortRange(8080, 100));

@@ -1,13 +1,13 @@
-import {ConcreteComponent, ConcreteComponentType} from '@diez/engine';
+import {ConcreteComponent, ConcreteComponentType, Patcher} from '@diez/engine';
 
-interface AdaptedWindow extends Window {
+interface WebWindow extends Window {
   tick (time: number): void;
   trigger (name: string, payload?: any): void;
   componentName: string;
   component: ConcreteComponent;
 }
 
-const adaptedWindow = window as AdaptedWindow;
+const adaptedWindow = window as WebWindow;
 
 const getComponentDefinition = async (): Promise<ConcreteComponentType> => {
   const componentFile = await import(`${'@'}`) as any;
@@ -24,5 +24,9 @@ if (module.hot) {
   adaptedWindow.component.dirty();
 })();
 
-adaptedWindow.tick = (time) => adaptedWindow.component && adaptedWindow.component.tick(time);
+// TODO: specify an exact target origin?
+const patcher: Patcher = (payload: any) => adaptedWindow.postMessage(JSON.stringify(payload), '*');
+
+adaptedWindow.tick = (time) => adaptedWindow.component && adaptedWindow.component.tick(time, patcher);
+
 adaptedWindow.trigger = (name, payload) => adaptedWindow.component && adaptedWindow.component.trigger(name, payload);

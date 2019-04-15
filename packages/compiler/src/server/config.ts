@@ -1,13 +1,16 @@
 import {join, relative} from 'path';
 import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from 'webpack';
 
-export const getConfiguration = (projectRoot: string): Configuration => ({
+/**
+ * Provides a hot webpack configuration for projects.
+ * @param projectRoot
+ */
+export const getConfiguration = (projectRoot: string, componentEntry: string): Configuration => ({
   entry: {
     component: [
       'webpack-hot-middleware/client',
-      require.resolve('@diez/compiler/lib/server/component'),
+      componentEntry,
     ],
-    // others…
   },
   context: projectRoot,
   mode: 'development',

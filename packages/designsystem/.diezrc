@@ -1,8 +1,0 @@
-{
-  "providers": {
-    "templates": [
-      "./lib/templates/haiku",
-      "./lib/templates/svg"
-    ]
-  }
-}

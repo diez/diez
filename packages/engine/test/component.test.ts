@@ -23,16 +23,15 @@ describe('component', () => {
         justbar: '',
         foobar: new FooString('bar'),
       },
-      patcher,
     );
 
-    component.tick(0);
-    expect(patcher.mock.calls.length).toBe(0);
+    component.tick(0, patcher);
+    expect(patcher).toBeCalledTimes(0);
     component.set({justbar: 'bar'});
-    expect(patcher.mock.calls.length).toBe(0);
-    component.tick(1);
-    expect(patcher.mock.calls.length).toBe(1);
-    expect(patcher.mock.calls[0][0]).toEqual({
+    expect(patcher).toBeCalledTimes(0);
+    component.tick(1, patcher);
+    expect(patcher).toBeCalledTimes(1);
+    expect(patcher).toHaveBeenNthCalledWith(1, {
       justbar: 'bar',
       foobar: 'foobar',
     });
@@ -98,19 +97,19 @@ describe('component', () => {
     }
 
     const patcher = jest.fn();
-    const component = new FooWrapper({}, patcher);
+    const component = new FooWrapper({});
     component.dirty();
-    component.tick(0);
-    expect(patcher.mock.calls.length).toBe(1);
-    expect(patcher.mock.calls[0][0]).toEqual({
+    component.tick(0, patcher);
+    expect(patcher).toBeCalledTimes(1);
+    expect(patcher).toHaveBeenNthCalledWith(1, {
       foo: {
         foobar: 'foobar',
       },
     });
     component.foo.set({justbar: 'bar'});
-    component.tick(1);
-    expect(patcher.mock.calls.length).toBe(2);
-    expect(patcher.mock.calls[1][0]).toEqual({
+    component.tick(1, patcher);
+    expect(patcher).toBeCalledTimes(2);
+    expect(patcher).toHaveBeenNthCalledWith(2, {
       foo: {
         justbar: 'bar',
         foobar: 'foobar',

@@ -43,10 +43,12 @@ export interface TargetBinding {
 export type DiezConfiguration = Partial<{
   providers: Partial<{
     commands: Iterable<string>;
-    templates: Iterable<string>;
     targets: Iterable<string>;
   }>;
   bindings?: {
     [componentHash: string]: TargetBinding;
+  };
+  handlers?: {
+    [targetName: string]: Iterable<string>;
   };
 }>;
