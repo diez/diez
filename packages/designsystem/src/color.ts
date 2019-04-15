@@ -1,4 +1,4 @@
-import {Component, HashMap, property} from '@livedesigner/engine';
+import {Component, HashMap, property} from '@diez/engine';
 
 /**
  * Provides simple hue-saturation-lightness-alpha color state.

@@ -1,3 +1,3 @@
-# `@livedesigner/designsystem`
+# `@diez/designsystem`
 
 TODO.

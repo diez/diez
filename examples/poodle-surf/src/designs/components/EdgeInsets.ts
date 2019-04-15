@@ -1,4 +1,4 @@
-import {Component, property} from '@livedesigner/engine';
+import {Component, property} from '@diez/engine';
 
 interface EdgeInsetsState {
   top: number;

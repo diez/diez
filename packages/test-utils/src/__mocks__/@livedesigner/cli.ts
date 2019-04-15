@@ -1,6 +1,6 @@
 import {mockExec} from '../../utils';
 
-const cli = jest.requireActual('@livedesigner/cli');
+const cli = jest.requireActual('@diez/cli');
 
 /**
  * Replaces execAsync with a mock.

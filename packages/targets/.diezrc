@@ -7,7 +7,7 @@
     ],
     "prefabs": {
       "ios": {
-        "@livedesigner/designsystem": {
+        "@diez/designsystem": {
           "Color": "./lib/prefabs/Color/ios",
           "File": "./lib/prefabs/File/ios",
           "FontRegistry": "./lib/prefabs/FontRegistry/ios",

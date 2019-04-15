@@ -1,4 +1,4 @@
-import {execAsync, isMacOS} from '@livedesigner/cli';
+import {execAsync, isMacOS} from '@diez/cli';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
 import {Exporter, ExporterFactory, ProgressReporter} from '.';

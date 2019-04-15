@@ -1,4 +1,4 @@
-import {Component, property} from '@livedesigner/engine';
+import {Component, property} from '@diez/engine';
 import {File} from './file';
 
 export interface HaikuState {

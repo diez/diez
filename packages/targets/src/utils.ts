@@ -1,4 +1,4 @@
-import {ComponentModule} from '@livedesigner/compiler';
+import {ComponentModule} from '@diez/compiler';
 import {tmpdir} from 'os';
 import {join, resolve} from 'path';
 import {v4} from 'uuid';

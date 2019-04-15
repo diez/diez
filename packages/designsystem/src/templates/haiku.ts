@@ -1,4 +1,4 @@
-import {TemplateProvider} from '@livedesigner/compiler';
+import {TemplateProvider} from '@diez/compiler';
 import {existsSync, readFile} from 'fs-extra';
 import {resolve} from 'path';
 import {viewRoot} from '.';

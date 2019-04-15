@@ -1,5 +1,5 @@
-import {Color, Palette} from '@livedesigner/designsystem';
-import {Component, expression, property, shared} from '@livedesigner/engine';
+import {Color, Palette} from '@diez/designsystem';
+import {Component, expression, property, shared} from '@diez/engine';
 
 class {{componentName}}Palette extends Component<Palette> {
   @shared pinkLightener!: number;

@@ -1,4 +1,4 @@
-import {FontRegistry} from '@livedesigner/designsystem';
+import {FontRegistry} from '@diez/designsystem';
 import {join} from 'path';
 import {IosPrefab} from '../../api';
 import {sourcesPath} from '../../utils';

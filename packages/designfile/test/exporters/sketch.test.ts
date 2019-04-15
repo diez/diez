@@ -1,10 +1,10 @@
-import * as cli from '@livedesigner/cli';
-import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData, mockExec, mockOsData} from '@livedesigner/test-utils';
+import * as cli from '@diez/cli';
+import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData, mockExec, mockOsData} from '@diez/test-utils';
 import {writeFile} from 'fs-extra';
 import {SketchExporter} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
-jest.mock('@livedesigner/cli');
+jest.mock('@diez/cli');
 jest.mock('os');
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';

@@ -1,5 +1,5 @@
-import {Color} from '@livedesigner/designsystem';
-import {Component, property} from '@livedesigner/engine';
+import {Color} from '@diez/designsystem';
+import {Component, property} from '@diez/engine';
 
 interface SimpleGradientState {
   startColor: Color;

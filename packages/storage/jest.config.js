@@ -1,4 +1,4 @@
-const {jestRoot} = require('@livedesigner/test-utils');
+const {jestRoot} = require('@diez/test-utils');
 
 module.exports = {
   roots: [

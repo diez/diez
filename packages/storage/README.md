@@ -1,3 +1,3 @@
-# `@livedesigner/storage`
+# `@diez/storage`
 
 TODO.

@@ -1,4 +1,4 @@
-import {findOpenPort} from '@livedesigner/cli';
+import {findOpenPort} from '@diez/cli';
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';

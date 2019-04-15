@@ -1,4 +1,4 @@
-import {findPlugins, info} from '@livedesigner/cli';
+import {findPlugins, info} from '@diez/cli';
 import express, {Express} from 'express';
 import expressHandlebars from 'express-handlebars';
 import {join, resolve} from 'path';

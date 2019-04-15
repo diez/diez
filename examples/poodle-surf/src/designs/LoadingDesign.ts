@@ -1,5 +1,5 @@
-import {Lottie} from '@livedesigner/designsystem';
-import {Component, property} from '@livedesigner/engine';
+import {Lottie} from '@diez/designsystem';
+import {Component, property} from '@diez/engine';
 import {palette} from './constants';
 
 enum LottieJsons {

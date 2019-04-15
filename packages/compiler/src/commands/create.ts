@@ -1,4 +1,4 @@
-import {CliCommandProvider} from '@livedesigner/cli';
+import {CliCommandProvider} from '@diez/cli';
 import {createProjectAction as action} from './create.action';
 
 const provider: CliCommandProvider = {

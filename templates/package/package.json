@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/REPLACEME",
+  "name": "@diez/REPLACEME",
   "main": "lib/index.js",
   "version": "VERSION",
   "description": "TODO: add description.",
@@ -17,7 +17,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@livedesigner/engine": "VERSION"
+    "@diez/engine": "VERSION"
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {devDependencies, diezVersion, fatalError, warning} from '@livedesigner/cli';
-import {outputTemplatePackage} from '@livedesigner/storage';
+import {devDependencies, diezVersion, fatalError, warning} from '@diez/cli';
+import {outputTemplatePackage} from '@diez/storage';
 import enquirer from 'enquirer';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import pascalCase from 'pascal-case';

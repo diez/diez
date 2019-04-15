@@ -1,4 +1,4 @@
-import {TextStyle} from '@livedesigner/designsystem';
+import {TextStyle} from '@diez/designsystem';
 import {join} from 'path';
 import {IosPrefab} from '../../api';
 import {sourcesPath} from '../../utils';

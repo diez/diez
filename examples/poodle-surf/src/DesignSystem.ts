@@ -1,4 +1,4 @@
-import {Component, property} from '@livedesigner/engine';
+import {Component, property} from '@diez/engine';
 import {LoadingDesign, NavigationTitleDesign, palette, ReportDesign, textStyles} from './designs';
 
 class Designs extends Component {

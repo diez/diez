@@ -1,4 +1,4 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@livedesigner/test-utils';
+import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
 import {writeFile} from 'fs-extra';
 import {join} from 'path';
 import * as ioUtils from '../../src/helpers/ioUtils';

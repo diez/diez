@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/playground",
+  "name": "@diez/playground",
   "main": "lib/index.js",
   "license": "MIT",
   "version": "1.0.0",
@@ -8,14 +8,14 @@
   },
   "dependencies": {
     "@haiku/taylor-testthang": "^0.0.2",
-    "@livedesigner/designsystem": "1.0.0-alpha0",
-    "@livedesigner/engine": "1.0.0-alpha0",
+    "@diez/designsystem": "1.0.0-alpha0",
+    "@diez/engine": "1.0.0-alpha0",
     "just-curves": "^0.2.0"
   },
   "devDependencies": {
-    "@livedesigner/cli": "1.0.0-alpha0",
-    "@livedesigner/compiler": "1.0.0-alpha0",
-    "@livedesigner/targets": "1.0.0-alpha0",
+    "@diez/cli": "1.0.0-alpha0",
+    "@diez/compiler": "1.0.0-alpha0",
+    "@diez/targets": "1.0.0-alpha0",
     "typescript": "^3.4.1"
   }
 }

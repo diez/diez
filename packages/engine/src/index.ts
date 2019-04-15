@@ -1,5 +1,5 @@
 /**
- * @livedesigner/engine API.
+ * @diez/engine API.
  *
  * All external APIs should be provided here.
  */

@@ -1,5 +1,5 @@
-import {Image} from '@livedesigner/designsystem';
-import {Component, property} from '@livedesigner/engine';
+import {Image} from '@diez/designsystem';
+import {Component, property} from '@diez/engine';
 import {ImageNames} from './assets';
 import {DayPartTimes} from './constants';
 

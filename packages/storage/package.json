@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/storage",
+  "name": "@diez/storage",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "The .",
@@ -17,7 +17,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
-    "@livedesigner/test-utils": "1.0.0-alpha0",
+    "@diez/test-utils": "1.0.0-alpha0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^23.3.13",
     "fs-walk": "^0.0.2",

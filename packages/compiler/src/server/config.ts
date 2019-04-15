@@ -5,7 +5,7 @@ export const getConfiguration = (projectRoot: string): Configuration => ({
   entry: {
     component: [
       'webpack-hot-middleware/client',
-      require.resolve('@livedesigner/compiler/lib/server/component'),
+      require.resolve('@diez/compiler/lib/server/component'),
     ],
     // others…
   },

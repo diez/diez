@@ -1,4 +1,4 @@
-import {mockFileSystem} from '@livedesigner/test-utils';
+import {mockFileSystem} from '@diez/test-utils';
 
 export default () => {
   return Object.keys(mockFileSystem).map((k) => {

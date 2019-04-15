@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {fatalError, findOpenPort, getCandidatePortRange, info} from '@livedesigner/cli';
+import {fatalError, findOpenPort, getCandidatePortRange, info} from '@diez/cli';
 import {join, resolve} from 'path';
 import {ClassDeclaration} from 'ts-morph';
 import {NamedComponentMap} from '../api';
@@ -39,13 +39,13 @@ export const compileAction = async ({output, target, dev}: CompileOptions) => {
   // Create a stub type file for typing the class
   const stubTypeFile = project.createSourceFile(
     'src/__stub.ts',
-    "import {Component} from '@livedesigner/engine';",
+    "import {Component} from '@diez/engine';",
   );
 
   const sourceFile = project.getSourceFileOrThrow(join('src', 'index.ts'));
 
   const checker = project.getTypeChecker();
-  const engineImports = stubTypeFile.getImportDeclarationOrThrow('@livedesigner/engine').getNamedImports();
+  const engineImports = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
   const componentDeclaration = checker.getTypeAtLocation(engineImports[0]).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration;
   info(`Unwrapping component types from ${resolve(projectRoot, 'src', 'index.ts')}...`);
   const foundComponents: string[] = [];

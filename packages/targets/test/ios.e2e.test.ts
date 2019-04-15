@@ -1,4 +1,4 @@
-import {registerExpectations} from '@livedesigner/test-utils';
+import {registerExpectations} from '@diez/test-utils';
 import {ensureDirSync} from 'fs-extra';
 import {join} from 'path';
 import {IosOutput, processComponentInstance, writeSdk} from '../src/ios/ios.handler';

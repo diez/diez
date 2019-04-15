@@ -1,4 +1,4 @@
-import {CompilerTargetProvider} from '@livedesigner/compiler';
+import {CompilerTargetProvider} from '@diez/compiler';
 import {iosHandler as handler} from './ios.handler';
 
 const target: CompilerTargetProvider = {

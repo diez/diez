@@ -1,4 +1,4 @@
-import {encodeFileSource, File} from '@livedesigner/designsystem';
+import {encodeFileSource, File} from '@diez/designsystem';
 import {join} from 'path';
 import {IosPrefab} from '../../api';
 import {sourcesPath} from '../../utils';

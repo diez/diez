@@ -25,11 +25,11 @@ export const generateDocs = async () => {
     }
 
     // Look for imports like:
-    //   import {foo, bar} from '@livedesigner/baz';
+    //   import {foo, bar} from '@diez/baz';
     const path = join(basedir, filename);
     const sourceFile = project.addExistingSourceFile(path);
     sourceFile.getImportDeclarations().forEach((declaration) => {
-      if (!declaration.getModuleSpecifierValue().startsWith('@livedesigner/')) {
+      if (!declaration.getModuleSpecifierValue().startsWith('@diez/')) {
         return;
       }
 

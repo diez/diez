@@ -1,3 +1,3 @@
-# `@livedesigner/targets`
+# `@diez/targets`
 
 TODO.

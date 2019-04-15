@@ -1,4 +1,4 @@
-import {ConcreteComponent, ConcreteComponentType} from '@livedesigner/engine';
+import {ConcreteComponent, ConcreteComponentType} from '@diez/engine';
 
 interface AdaptedWindow extends Window {
   tick (time: number): void;

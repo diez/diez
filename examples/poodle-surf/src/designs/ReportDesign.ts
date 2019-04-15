@@ -1,5 +1,5 @@
-import {Image} from '@livedesigner/designsystem';
-import {Component, property} from '@livedesigner/engine';
+import {Image} from '@diez/designsystem';
+import {Component, property} from '@diez/engine';
 import {ImageNames} from './assets';
 import {EdgeInsets} from './components/EdgeInsets';
 import {SimpleGradient} from './components/SimpleGradient';

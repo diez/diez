@@ -23,11 +23,11 @@ export const createPackage = async (name: string) => {
     packageName = (await enquirer.prompt<Answers>({
       type: 'input',
       name: 'packageName',
-      message: 'Enter package name (e.g. `foo` to create `@livedesigner/foo`).',
+      message: 'Enter package name (e.g. `foo` to create `@diez/foo`).',
     })).packageName;
   }
   const destination = join(root, 'packages', packageName);
-  console.log(chalk.blue(`Creating package @livedesigner/${packageName} in ${destination}...`));
+  console.log(chalk.blue(`Creating package @diez/${packageName} in ${destination}...`));
   await copy(templateLocation, destination);
   await replaceInFile(join(destination, 'README.md'), ['REPLACEME'], [packageName]);
   await replaceInFile(join(destination, 'package.json'), ['REPLACEME', 'VERSION'], [packageName, currentVersion]);

@@ -1,4 +1,4 @@
-import {Image} from '@livedesigner/designsystem';
+import {Image} from '@diez/designsystem';
 import {join} from 'path';
 import {IosPrefab} from '../../api';
 import {sourcesPath} from '../../utils';

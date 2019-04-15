@@ -1,4 +1,4 @@
-import {CompilerTargetHandler, NamedComponentMap} from '@livedesigner/compiler';
+import {CompilerTargetHandler, NamedComponentMap} from '@diez/compiler';
 
 /**
  * The canonical Android compiler target implementation.

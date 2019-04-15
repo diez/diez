@@ -1,3 +1,3 @@
-# `@livedesigner/test-utils`
+# `@diez/test-utils`
 
 TODO.

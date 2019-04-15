@@ -15,6 +15,6 @@ module.exports = {
     'json',
   ],
   moduleNameMapper: {
-    '@livedesigner/awesomepackage/(.*)': '<rootDir>/test/fixtures/@livedesigner/awesomepackage/$1',
+    '@diez/awesomepackage/(.*)': '<rootDir>/test/fixtures/@diez/awesomepackage/$1',
   },
 };

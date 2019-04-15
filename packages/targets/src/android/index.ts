@@ -1,4 +1,4 @@
-import {CompilerTargetProvider} from '@livedesigner/compiler';
+import {CompilerTargetProvider} from '@diez/compiler';
 import {androidHandler as handler} from './android.handler';
 
 const target: CompilerTargetProvider = {

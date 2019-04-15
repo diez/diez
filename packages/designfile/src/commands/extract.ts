@@ -1,4 +1,4 @@
-import {CliCommandProvider} from '@livedesigner/cli';
+import {CliCommandProvider} from '@diez/cli';
 import {extractAction as action} from './extract.action';
 
 const provider: CliCommandProvider = {

@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/engine",
+  "name": "@diez/engine",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "The Diez Engine.",

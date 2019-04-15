@@ -1,3 +1,3 @@
-# `@livedesigner/cli`
+# `@diez/cli`
 
 TODO.

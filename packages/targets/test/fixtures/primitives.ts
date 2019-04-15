@@ -1,5 +1,5 @@
-import {NamedComponentMap} from '@livedesigner/compiler';
-import {Component, property} from '@livedesigner/engine';
+import {NamedComponentMap} from '@diez/compiler';
+import {Component, property} from '@diez/engine';
 
 export class PrimitivesComponent extends Component {
   @property number = 10;

@@ -1,4 +1,4 @@
-import {execAsync} from '@livedesigner/cli';
+import {execAsync} from '@diez/cli';
 import {pathExists, writeFile} from 'fs-extra';
 import {extname, join, resolve} from 'path';
 import {Exporter, ExporterFactory, ProgressReporter} from '.';

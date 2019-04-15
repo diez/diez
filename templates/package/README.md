@@ -1,1 +1,1 @@
-# `@livedesigner/REPLACEME`
+# `@diez/REPLACEME`

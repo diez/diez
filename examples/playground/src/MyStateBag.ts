@@ -1,5 +1,5 @@
-import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@livedesigner/designsystem';
-import {Component, expression, method, property, shared} from '@livedesigner/engine';
+import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@diez/designsystem';
+import {Component, expression, method, property, shared} from '@diez/engine';
 import {easeInOutExpo} from 'just-curves';
 
 class MyPalette extends Component<Palette> {

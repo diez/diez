@@ -1,4 +1,4 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@livedesigner/test-utils';
+import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
 import {homedir} from 'os';
 import {join} from 'path';
 import {Registry} from '../src/registry';

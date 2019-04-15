@@ -1,4 +1,4 @@
-# `@livedesigner/engine`
+# `@diez/engine`
 
 The Diez engine.
 

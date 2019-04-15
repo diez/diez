@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/designfile",
+  "name": "@diez/designfile",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "Utilities to export assets from design files, currently supports Sketch, Illustrator and Figma documents.",
@@ -17,9 +17,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@livedesigner/cli": "1.0.0-alpha0",
-    "@livedesigner/engine": "1.0.0-alpha0",
-    "@livedesigner/storage": "1.0.0-alpha0",
+    "@diez/cli": "1.0.0-alpha0",
+    "@diez/engine": "1.0.0-alpha0",
+    "@diez/storage": "1.0.0-alpha0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
@@ -30,7 +30,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@livedesigner/test-utils": "1.0.0-alpha0",
+    "@diez/test-utils": "1.0.0-alpha0",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
     "@types/klaw-sync": "^6.0.0",

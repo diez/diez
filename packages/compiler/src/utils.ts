@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {execAsync, fatalError, findPlugins, warning} from '@livedesigner/cli';
+import {execAsync, fatalError, findPlugins, warning} from '@diez/cli';
 import {execSync} from 'child_process';
 import {existsSync} from 'fs';
 import {readJsonSync} from 'fs-extra';

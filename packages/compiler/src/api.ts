@@ -1,4 +1,4 @@
-import {ConcreteComponentType} from '@livedesigner/engine';
+import {ConcreteComponentType} from '@diez/engine';
 import {RequestHandler} from 'express';
 import {Type} from 'ts-morph';
 

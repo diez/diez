@@ -1,7 +1,7 @@
-import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@livedesigner/cli';
-import {CompilerTargetHandler, getPrefab, NamedComponentMap} from '@livedesigner/compiler';
-import {ConcreteComponent} from '@livedesigner/engine';
-import {outputTemplatePackage} from '@livedesigner/storage';
+import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
+import {CompilerTargetHandler, getPrefab, NamedComponentMap} from '@diez/compiler';
+import {ConcreteComponent} from '@diez/engine';
+import {outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';

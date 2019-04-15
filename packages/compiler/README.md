@@ -1,4 +1,4 @@
-# `@livedesigner/compiler`
+# `@diez/compiler`
 
 The compiler for Diez components.
 

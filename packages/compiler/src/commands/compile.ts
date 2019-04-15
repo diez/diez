@@ -1,4 +1,4 @@
-import {CliCommandProvider, fatalError} from '@livedesigner/cli';
+import {CliCommandProvider, fatalError} from '@diez/cli';
 import {compileAction as action} from './compile.action';
 
 const provider: CliCommandProvider = {

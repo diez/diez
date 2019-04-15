@@ -1,4 +1,4 @@
-import {cleanupMockCommandData, cleanupMockFileSystem, mockExec, mockFileSystem} from '@livedesigner/test-utils';
+import {cleanupMockCommandData, cleanupMockFileSystem, mockExec, mockFileSystem} from '@diez/test-utils';
 import {writeFile} from 'fs-extra';
 import {IllustratorExporter, illustratorExportScript} from '../../src/exporters/illustrator';
 
@@ -10,7 +10,7 @@ afterEach(() => {
 });
 
 jest.mock('fs-extra');
-jest.mock('@livedesigner/cli');
+jest.mock('@diez/cli');
 jest.mock('path');
 
 describe('Illustrator', () => {

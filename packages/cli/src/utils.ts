@@ -1,4 +1,4 @@
-import {DiezConfiguration} from '@livedesigner/engine';
+import {DiezConfiguration} from '@diez/engine';
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
 import {existsSync, readdir, readJsonSync, stat} from 'fs-extra';

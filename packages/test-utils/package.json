@@ -1,5 +1,5 @@
 {
-  "name": "@livedesigner/test-utils",
+  "name": "@diez/test-utils",
   "main": "lib/index.js",
   "version": "1.0.0-alpha0",
   "description": "TODO: add description.",

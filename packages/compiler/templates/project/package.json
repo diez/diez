@@ -3,12 +3,12 @@
   "main": "lib/index.js",
   "version": "1.0.0",
   "dependencies": {
-    "@livedesigner/engine": "{{diezVersion}}",
-    "@livedesigner/designsystem": "{{diezVersion}}"
+    "@diez/engine": "{{diezVersion}}",
+    "@diez/designsystem": "{{diezVersion}}"
   },
   "devDependencies": {
-    "@livedesigner/compiler": "{{diezVersion}}",
-    "@livedesigner/targets": "{{diezVersion}}",
+    "@diez/compiler": "{{diezVersion}}",
+    "@diez/targets": "{{diezVersion}}",
     "typescript": "{{typescriptVersion}}"
   }
 }

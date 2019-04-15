@@ -1,4 +1,4 @@
-import {SVG} from '@livedesigner/designsystem';
+import {SVG} from '@diez/designsystem';
 import {join} from 'path';
 import {IosPrefab} from '../../api';
 import {sourcesPath} from '../../utils';

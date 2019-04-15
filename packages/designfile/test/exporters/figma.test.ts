@@ -1,4 +1,4 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@livedesigner/test-utils';
+import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
 import {FigmaExporter, getSVGLinks} from '../../src/exporters/figma';
 
 jest.mock('fs-extra');

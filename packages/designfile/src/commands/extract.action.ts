@@ -1,5 +1,5 @@
-import {info, success} from '@livedesigner/cli';
-import {Registry} from '@livedesigner/storage';
+import {info, success} from '@diez/cli';
+import {Registry} from '@diez/storage';
 import {prompt} from 'enquirer';
 import {ExporterFactory} from '../exporters';
 import {FigmaExporter, getFigmaAccessToken} from '../exporters/figma';
