@@ -13,7 +13,7 @@ typealias Color = Int
 @JsonQualifier
 annotation class QualifiedColor
 
-data class WireColor(val h: Float, val s: Float, val l: Float, val a: Float) {}
+data class WireColor(val h: Float, val s: Float, val l: Float, val a: Float)
 
 class ColorAdapter {
     companion object {

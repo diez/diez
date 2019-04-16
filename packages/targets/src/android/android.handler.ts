@@ -1,4 +1,10 @@
 import {CompilerTargetHandler, getHotPort, serveHot} from '@diez/compiler';
+import {outputTemplatePackage} from '@diez/storage/lib';
+import {v4} from 'internal-ip';
+import {join} from 'path';
+import {sourcesPath} from '../utils';
+
+const coreAndroid = join(sourcesPath, 'android');
 
 /**
  * The canonical Android compiler target implementation.
@@ -12,6 +18,12 @@ export const androidHandler: CompilerTargetHandler = async (
 ) => {
   if (devMode) {
     const devPort = await getHotPort();
+    const tokens = {
+      devMode,
+      devPort,
+      hostname: await v4(),
+    };
+    outputTemplatePackage(join(coreAndroid, 'sdk'), join(destinationPath, 'diez'), tokens);
     await serveHot(
       projectRoot,
       'android',
