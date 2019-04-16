@@ -31,7 +31,7 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
   dependencies.add(newDependency);
 };
 
-const mergeBindingToOutput = (output: IosOutput, binding: IosBinding) => {
+const mergeBindingToOutput = (output: IosOutput, binding: IosBinding<any>) => {
   for (const bindingImport of binding.imports) {
     output.imports.add(bindingImport);
   }
@@ -78,7 +78,7 @@ export const processComponentInstance = async (
   }
 
   // Add sources etc. if we're looking at a binding.
-  const binding = await getBinding<IosBinding>('ios', targetComponent.source || '.', name);
+  const binding = await getBinding<IosBinding<any>>('ios', targetComponent.source || '.', name);
   if (binding) {
     mergeBindingToOutput(output, binding);
   }
@@ -100,7 +100,7 @@ export const processComponentInstance = async (
       }
 
       const propertyComponent = namedComponentMap.get(property.type)!;
-      const propertyBinding = await getBinding<IosBinding>('ios', propertyComponent.source || '.', property.type);
+      const propertyBinding = await getBinding<IosBinding<any>>('ios', propertyComponent.source || '.', property.type);
       if (propertyBinding) {
         spec.properties[property.name] = {
           type: property.type,

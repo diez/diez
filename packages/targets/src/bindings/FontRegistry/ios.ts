@@ -4,11 +4,11 @@ import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
-const binding: IosBinding = {
+const binding: IosBinding<FontRegistry> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'FontRegistry.swift')],
   imports: ['UIKit'],
   updateable: true,
-  initializer: (instance: FontRegistry) => `FontRegistry(withFiles: [
+  initializer: (instance) => `FontRegistry(withFiles: [
 ${instance.files.map((file) => `            ${fileInitializer!(file)},`).join('\n')}
         ])`,
 };

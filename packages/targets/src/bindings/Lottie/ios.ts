@@ -4,11 +4,11 @@ import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
-const binding: IosBinding = {
+const binding: IosBinding<Lottie> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'Lottie.swift')],
   imports: ['UIKit', 'Lottie'],
   updateable: true,
-  initializer: (instance: Lottie) =>
+  initializer: (instance) =>
     `Lottie(withFile: ${fileInitializer!(instance.file)})`,
   dependencies: [{
     cocoapods: {

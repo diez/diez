@@ -4,11 +4,11 @@ import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as colorInitializer} from '../Color/ios';
 
-const binding: IosBinding = {
+const binding: IosBinding<TextStyle> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'TextStyle.swift')],
   imports: ['UIKit'],
   updateable: true,
-  initializer: (instance: TextStyle) =>
+  initializer: (instance) =>
     `TextStyle(withFont: "${instance.font}", withFontSize: ${instance.fontSize}, ` +
     `withColor: ${colorInitializer!(instance.color)})`,
 };

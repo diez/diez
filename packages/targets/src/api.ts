@@ -1,3 +1,5 @@
+import {Component} from '@diez/engine';
+
 /**
  * Describes an iOS third party dependency.
  */
@@ -19,10 +21,10 @@ export interface IosDependency {
 /**
  * Describes an iOS binding.
  */
-export interface IosBinding {
+export interface IosBinding<T extends Component> {
   imports: string[];
   sources: string[];
   updateable: boolean;
   dependencies?: IosDependency[];
-  initializer? (instance: any): string;
+  initializer? (instance: T): string;
 }

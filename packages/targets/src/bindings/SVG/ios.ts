@@ -4,11 +4,11 @@ import {IosBinding} from '../../api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
-const binding: IosBinding = {
+const binding: IosBinding<SVG> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'SVG.swift')],
   imports: ['UIKit', 'WebKit'],
   updateable: true,
-  initializer: (instance: SVG) =>
+  initializer: (instance) =>
     `SVG(withFile: ${fileInitializer!(instance.file)})`,
 };
 
