@@ -1,9 +1,9 @@
 {
   "providers": {
     "targets": [
-      "./lib/ios",
-      "./lib/android",
-      "./lib/web"
+      "./lib/targets/ios",
+      "./lib/targets/android",
+      "./lib/targets/web"
     ]
   },
   "bindings": {

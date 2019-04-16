@@ -6,7 +6,7 @@ import {readJsonSync} from 'fs-extra';
 import {join, sep} from 'path';
 import {ClassDeclaration, Project, PropertyDeclaration, ts, Type, TypeChecker} from 'ts-morph';
 import {CompilerOptions, findConfigFile, sys} from 'typescript';
-import {CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, TargetComponent, TargetComponentWarnings} from './api';
+import {CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, TargetComponent} from './api';
 
 /**
  * Provides an async check for if we are equipped to use `yarn` for package management operations.

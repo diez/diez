@@ -15,7 +15,7 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "inlineSources": true,
     "sourceMap": true,
     "emitDecoratorMetadata": true,

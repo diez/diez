@@ -1,5 +1,3 @@
-import {Component} from '@diez/engine';
-
 /**
  * Describes an iOS third party dependency.
  */

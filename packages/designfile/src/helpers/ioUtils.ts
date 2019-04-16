@@ -3,7 +3,7 @@ import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {createServer} from 'http';
 import klawSync from 'klaw-sync';
 import open = require('open');
-import {platform, tmpdir} from 'os';
+import {tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
 import serverDestroy from 'server-destroy';
