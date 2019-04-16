@@ -14,11 +14,11 @@ interface CompileOptions {
 /**
  * The entry point for compilation.
  */
-export const compileAction = async ({output, target, dev}: CompileOptions) => {
+export const compileAction = async ({output, target: targetIn, dev}: CompileOptions) => {
+  const target = targetIn.toLowerCase();
   const targets = await getTargets();
-  const validTargets = Array.from(targets.keys());
-  if (!validTargets.includes(target)) {
-    fatalError(`Invalid target: ${target}. Valid targets are: ${validTargets.join(', ')}.`);
+  if (!targets.has(target)) {
+    fatalError(`Invalid target: ${target}. Valid targets are: ${Array.from(targets.keys()).join(', ')}.`);
   }
 
   const targetHandler = targets.get(target)!;

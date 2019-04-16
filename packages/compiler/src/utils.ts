@@ -62,7 +62,11 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
 
     for (const path of providers.targets) {
       const provider = require(join(plugin, path)) as CompilerTargetProvider;
-      targets.set(provider.name, provider.handler);
+      const providerName = provider.name.toLowerCase();
+      if (targets.has(providerName)) {
+        fatalError(`A target named ${providerName} is already registered.`);
+      }
+      targets.set(providerName, provider.handler);
     }
   }
 
