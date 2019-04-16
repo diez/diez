@@ -10,14 +10,6 @@ import {Configuration} from 'webpack';
 export type TemplateHandlerFactory = (projectRoot: string) => RequestHandler;
 
 /**
- * A generic interface for a compiler hot server handler.
- */
-export interface HandlerProvider {
-  path: string;
-  factory: TemplateHandlerFactory;
-}
-
-/**
  * Modifies a webpack configuration before hot serving to provide platform-specific functionality.
  */
 export type WebpackConfigModifier = (config: Configuration) => void;

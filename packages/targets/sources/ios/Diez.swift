@@ -41,7 +41,7 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         subscriber(component)
         wk.configuration.userContentController.add(self, name: "patch")
         if (environment.isDevelopment) {
-            let url = URL(string: "\(environment.serverUrl)/components/\(T.name)")!
+            let url = URL(string: "\(environment.serverUrl)components/\(T.name)")!
             wk.load(URLRequest(url: url))
         } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
             wk.load(URLRequest(url: url))

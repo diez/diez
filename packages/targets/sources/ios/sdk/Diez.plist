@@ -6,7 +6,7 @@
   {{#if devMode}}
   <true/>
   <key>SERVER_URL</key>
-  <string>http://{{{hostname}}}:{{{devPort}}}</string>
+  <string>http://{{{hostname}}}:{{{devPort}}}/</string>
   {{else}}
   <false/>
   {{/if}}

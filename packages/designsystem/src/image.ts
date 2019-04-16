@@ -1,5 +1,5 @@
 import {Component, property} from '@diez/engine';
-import {File} from './file';
+import {encodeFileSource, File} from './file';
 
 export interface ImageState {
   file: File;
@@ -23,17 +23,17 @@ export class Image extends Component<ImageState> {
     });
   }
 
-  @property file: File = new File();
+  @property file = new File();
 
-  @property width: number = 0;
+  @property width = 0;
 
-  @property height: number = 0;
+  @property height = 0;
 
-  @property scale: number = 1;
+  @property scale = 1;
 }
 
 export interface SVGState {
-  file: File;
+  src: string;
 }
 
 /**
@@ -42,5 +42,11 @@ export interface SVGState {
  * @noinheritdoc
  */
 export class SVG extends Component<SVGState> {
-  @property file: File = new File();
+  @property src = '';
+
+  serialize () {
+    return {
+      src: encodeFileSource(this.src),
+    };
+  }
 }

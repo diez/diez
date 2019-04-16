@@ -1,35 +1,30 @@
-import {findPlugins, info} from '@diez/cli';
-import express, {Express} from 'express';
+import {info} from '@diez/cli';
+import express from 'express';
 import expressHandlebars from 'express-handlebars';
-import {join, resolve} from 'path';
+import {resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import {HandlerProvider, HotServerModifier, WebpackConfigModifier} from '../api';
+import {HotServerModifier, WebpackConfigModifier} from '../api';
 import {getConfiguration} from './config';
-
-const registerWithProvider = (app: Express, projectRoot: string, provider: HandlerProvider) => {
-  app.get(provider.path, provider.factory(projectRoot));
-};
 
 /**
  * Starts a hot server at the project root.
  *
  *
  * @param projectRoot - The root of the project.
- * @param targetName - The name of the compiler target, used to resolve custom handlers from .diezrc.
  * @param componentEntry - The path to the module that we should serve at /component.js.
  * @param port - The port on which we should serve hot.
- * @param modifyWebpackConfig - Enables optional runtime forking of the Webpack configuration before it is applied.
  * @param modifyServer - Enables optional runtime forking of the server configuration before it begins to listen.
+ * @param modifyWebpackConfig - Enables optional runtime forking of the Webpack configuration before it is applied.
  */
 export const serveHot = async (
   projectRoot: string,
-  targetName: string,
   componentEntry: string,
   port: number,
-  modifyWebpackConfig?: WebpackConfigModifier,
+  staticRoot: string,
   modifyServer?: HotServerModifier,
+  modifyWebpackConfig?: WebpackConfigModifier,
 ) => {
   const app = express();
   app.set('views', resolve(__dirname, '..', '..', 'views'));
@@ -41,16 +36,6 @@ export const serveHot = async (
     const {componentName} = request.params;
     response.render('component', {componentName});
   });
-
-  for (const [plugin, {handlers}] of await findPlugins()) {
-    if (!handlers || !handlers[targetName]) {
-      continue;
-    }
-
-    for (const path of handlers[targetName]) {
-      registerWithProvider(app, projectRoot, require(join(plugin, path)));
-    }
-  }
 
   const webpackConfig = getConfiguration(projectRoot, componentEntry);
   if (modifyWebpackConfig) {
@@ -67,8 +52,7 @@ export const serveHot = async (
   app.engine('handlebars', expressHandlebars());
   app.set('view engine', 'handlebars');
 
-  // TODO: should this be configured or always a magic directory called "assets"?
-  app.use('/assets', express.static(resolve(projectRoot, 'assets')));
+  app.use(express.static(staticRoot));
 
   // TODO: get an open port programatically.
   app.listen(port, () => {

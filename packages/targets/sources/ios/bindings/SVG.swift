@@ -1,18 +1,25 @@
-public class SVG : NSObject, Decodable, Updatable {
-    var file: File
+public class SVG : NSObject, Codable, Updatable {
+    var src: String
+    private var file: File?
 
-    init(withFile file: File) {
-        self.file = file
+    private enum CodingKeys: String, CodingKey {
+        case src
+    }
+
+    init(withSrc src: String) {
+        self.src = src
+        self.file = File(withSrc: "\(src).html")
         super.init()
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
+        src = try container.decode(String.self, forKey: .src)
+        file = File(withSrc: "\(src).html")
     }
 
     public func embedSvg(inView view: UIView) {
-        guard let request = file.request() else {
+        guard let request = file?.request() else {
             print("unable to load SVG URL")
             return
         }

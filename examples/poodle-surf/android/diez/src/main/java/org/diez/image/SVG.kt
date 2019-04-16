@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.FrameLayout
 
-data class SVG(val file: File) {
+data class SVG(val src: String) {
     fun embedSvg(view: ViewGroup) {
+        val file = File("$src.html")
         val webview = WebView(view.context)
         webview.setBackgroundColor(Color.TRANSPARENT)
         webview.isVerticalScrollBarEnabled = false

@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 
 data class Haiku(val component: String) {
     private fun file(): File {
-        return File("/haiku/$component")
+        return File("haiku/$component.html")
     }
 
     @SuppressLint("SetJavaScriptEnabled")

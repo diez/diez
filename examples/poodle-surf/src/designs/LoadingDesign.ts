@@ -3,8 +3,8 @@ import {Component, property} from '@diez/engine';
 import {palette} from './constants';
 
 enum LottieJsons {
-  HangTen = '/assets/lottie/hang10.json',
-  LoadingPizza = '/assets/lottie/loading-pizza.json',
+  HangTen = 'assets/lottie/hang10.json',
+  LoadingPizza = 'assets/lottie/loading-pizza.json',
 }
 
 /**

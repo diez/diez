@@ -16,6 +16,9 @@ export const androidHandler: CompilerTargetHandler = async (
   namedComponentMap,
   devMode,
 ) => {
+  const sdkRoot = join(destinationPath, 'diez');
+  // FIXME: what is this really?
+  const staticRoot = join(sdkRoot, 'res');
   if (devMode) {
     const devPort = await getHotPort();
     const tokens = {
@@ -23,12 +26,12 @@ export const androidHandler: CompilerTargetHandler = async (
       devPort,
       hostname: await v4(),
     };
-    outputTemplatePackage(join(coreAndroid, 'sdk'), join(destinationPath, 'diez'), tokens);
+    outputTemplatePackage(join(coreAndroid, 'sdk'), sdkRoot, tokens);
     await serveHot(
       projectRoot,
-      'android',
       require.resolve('@diez/targets/lib/android/android.component'),
       devPort,
+      staticRoot,
     );
     // TODO: write SDK in dev mode.
     // TODO: watch for hot updates and update the SDK when things change.

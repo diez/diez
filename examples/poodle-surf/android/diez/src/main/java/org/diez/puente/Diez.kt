@@ -66,8 +66,8 @@ class Diez<T : StateBag>(var component: T) {
         webview.addJavascriptInterface(this, "puente")
         subscribe(subscriber)
         if (Environment.isDevelopment) {
-            webview.loadUrl("${Environment.serverUrl}/components/${component.name}")
-            Log.d("DIEZ", "Loading ${Environment.serverUrl}/components/${component.name}")
+            webview.loadUrl("${Environment.serverUrl}components/${component.name}")
+            Log.d("DIEZ", "Loading ${Environment.serverUrl}components/${component.name}")
         } else {
             // TODO: where is this really?
             webview.loadUrl("file:///android_asset/index.html")

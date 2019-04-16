@@ -14,9 +14,9 @@ export const webHandler: CompilerTargetHandler = async (
     const devPort = await getHotPort();
     await serveHot(
       projectRoot,
-      'web',
       require.resolve('@diez/targets/lib/web/web.component'),
       devPort,
+      'TODO',
     );
     // TODO: write SDK in dev mode.
     // TODO: watch for hot updates and update the SDK when things change.

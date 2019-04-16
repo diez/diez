@@ -19,35 +19,33 @@ export class MyStateBag extends Component {
   @property image = new Image({
     file: new File({
       // Try changing this to diez.jpg!
-      src: '/assets/images/haiku.jpg',
+      src: 'assets/images/haiku.jpg',
     }),
     width: 246,
     height: 246,
     scale: 3,
   });
 
-  @property svg = new SVG({
-    file: new File({src: '/assets/images/rat.svg'}),
-  });
+  @property svg = new SVG({src: 'assets/images/rat.svg'});
 
   @property lottie = new Lottie({
-    file: new File({src: '/assets/lottie/loading-pizza.json'}),
+    file: new File({src: 'assets/lottie/loading-pizza.json'}),
   });
 
   // Makes Android fonts available on iOS.
   @property fontRegistry = FontRegistry.fromFiles(
-    '/assets/fonts/Roboto-Black.ttf',
-    '/assets/fonts/Roboto-BlackItalic.ttf',
-    '/assets/fonts/Roboto-Bold.ttf',
-    '/assets/fonts/Roboto-BoldItalic.ttf',
-    '/assets/fonts/Roboto-Italic.ttf',
-    '/assets/fonts/Roboto-Light.ttf',
-    '/assets/fonts/Roboto-LightItalic.ttf',
-    '/assets/fonts/Roboto-Medium.ttf',
-    '/assets/fonts/Roboto-MediumItalic.ttf',
-    '/assets/fonts/Roboto-Regular.ttf',
-    '/assets/fonts/Roboto-Thin.ttf',
-    '/assets/fonts/Roboto-ThinItalic.ttf',
+    'assets/fonts/Roboto-Black.ttf',
+    'assets/fonts/Roboto-BlackItalic.ttf',
+    'assets/fonts/Roboto-Bold.ttf',
+    'assets/fonts/Roboto-BoldItalic.ttf',
+    'assets/fonts/Roboto-Italic.ttf',
+    'assets/fonts/Roboto-Light.ttf',
+    'assets/fonts/Roboto-LightItalic.ttf',
+    'assets/fonts/Roboto-Medium.ttf',
+    'assets/fonts/Roboto-MediumItalic.ttf',
+    'assets/fonts/Roboto-Regular.ttf',
+    'assets/fonts/Roboto-Thin.ttf',
+    'assets/fonts/Roboto-ThinItalic.ttf',
   );
 
   @property textStyle = new TextStyle({

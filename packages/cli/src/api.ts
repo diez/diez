@@ -48,7 +48,4 @@ export type DiezConfiguration = Partial<{
   bindings?: {
     [componentHash: string]: TargetBinding;
   };
-  handlers?: {
-    [targetName: string]: Iterable<string>;
-  };
 }>;

@@ -18,10 +18,8 @@ describe('image', () => {
 describe('svg', () => {
   test('basic functionality', () => {
     const src = 'blah.svg';
-    const image = new SVG({
-      file: new File({src}),
-    });
-    expect(image.file.src).toBe(src);
-    expect(image.serialize()).toEqual({file: {src}});
+    const image = new SVG({src});
+    expect(image.src).toBe(src);
+    expect(image.serialize()).toEqual({src});
   });
 });

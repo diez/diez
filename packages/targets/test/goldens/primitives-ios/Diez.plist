@@ -5,6 +5,6 @@
   <key>IS_DEVELOPMENT</key>
   <true/>
   <key>SERVER_URL</key>
-  <string>http://localhost:9001</string>
+  <string>http://foo.bar:9001/</string>
 </dict>
 </plist>

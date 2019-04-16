@@ -1,5 +1,5 @@
 public class File : NSObject, Codable {
-    var src: String
+    public var src: String
 
     private func fullyQualifiedUrl() -> String {
         // TODO: when we are not in development, we should load the file from a local bundle URL.

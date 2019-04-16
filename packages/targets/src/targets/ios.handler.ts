@@ -2,10 +2,10 @@ import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/
 import {CompilerTargetHandler, getBinding, getHotPort, NamedComponentMap, serveHot} from '@diez/compiler';
 import {ConcreteComponent} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
-import {readFileSync, writeFileSync} from 'fs-extra';
+import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
-import {join} from 'path';
-import {IosBinding, IosDependency} from '../api';
+import {dirname, join} from 'path';
+import {AssetBinding, IosBinding, IosDependency} from '../api';
 import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
 
 const coreIos = join(sourcesPath, 'ios');
@@ -18,6 +18,7 @@ export interface IosOutput {
   imports: Set<string>;
   sources: Set<string>;
   dependencies: Set<IosDependency>;
+  assetBindings: Map<string, AssetBinding>;
 }
 
 const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDependency) => {
@@ -63,23 +64,22 @@ interface IosComponentSpec {
  */
 export const processComponentInstance = async (
   instance: ConcreteComponent,
+  projectRoot: string,
   name: string,
   output: IosOutput,
   namedComponentMap: NamedComponentMap,
 ): Promise<boolean> => {
-  if (output.processedComponents.has(name)) {
-    return true;
-  }
-
   const targetComponent = namedComponentMap.get(name);
   if (!targetComponent) {
     warning(`Unable to find component definition for ${name}!`);
     return false;
   }
 
+  const isFirstPass = !output.processedComponents.has(name);
+
   // Add sources etc. if we're looking at a binding.
   const binding = await getBinding<IosBinding<any>>('ios', targetComponent.source || '.', name);
-  if (binding) {
+  if (binding && isFirstPass) {
     mergeBindingToOutput(output, binding);
   }
 
@@ -92,7 +92,10 @@ export const processComponentInstance = async (
 
     const value = instance.get(property.name);
     if (property.isComponent) {
-      if (!property.type || !await processComponentInstance(value, property.type, output, namedComponentMap)) {
+      if (
+        !property.type ||
+        !await processComponentInstance(value, projectRoot, property.type, output, namedComponentMap)
+      ) {
         if (targetComponent.warnings) {
           targetComponent.warnings.ambiguousTypes.add(property.name);
         }
@@ -107,6 +110,15 @@ export const processComponentInstance = async (
           initializer: propertyBinding.initializer ? propertyBinding.initializer(value) : `${property.type}()`,
           updateable: propertyBinding.updateable,
         };
+
+        if (propertyBinding.assetsBinder) {
+          try {
+            await propertyBinding.assetsBinder(value, projectRoot, output.assetBindings);
+          } catch (_) {
+            console.error(_);
+            // Noop.
+          }
+        }
       } else {
         // FIXME: as currently implemented, non-binding components can't take custom constructors.
         // This doesn't make sense as a restriction.
@@ -147,7 +159,7 @@ export const processComponentInstance = async (
     }
   }
 
-  if (!binding || !binding.sources.length) {
+  if (isFirstPass && (!binding || !binding.sources.length)) {
     const filename = getTempFileName();
     writeFileSync(
       filename,
@@ -166,7 +178,8 @@ export const processComponentInstance = async (
  */
 export const writeSdk = (
   output: IosOutput,
-  destinationPath: string,
+  sdkRoot: string,
+  staticRoot: string,
   devMode: boolean,
   hostname?: string,
   devPort?: number,
@@ -180,7 +193,19 @@ export const writeSdk = (
     sources: Array.from(output.sources).map((source) => readFileSync(source).toString()),
   };
 
-  outputTemplatePackage(join(coreIos, 'sdk'), join(destinationPath, 'Diez'), tokens);
+  removeSync(staticRoot);
+  for (const [path, binding] of output.assetBindings) {
+    const outputPath = join(staticRoot, path);
+    ensureDirSync(dirname(outputPath));
+    if (binding.copy) {
+      copySync(binding.contents as string, outputPath);
+      continue;
+    }
+
+    outputFileSync(outputPath, binding.contents);
+  }
+
+  outputTemplatePackage(join(coreIos, 'sdk'), sdkRoot, tokens);
 };
 
 /**
@@ -194,6 +219,8 @@ export const iosHandler: CompilerTargetHandler = async (
   devMode,
 ) => {
   const componentModule = await loadComponentModule(projectRoot);
+  const sdkRoot = join(destinationPath, 'Diez');
+  const staticRoot = join(sdkRoot, 'static');
   const output: IosOutput = {
     processedComponents: new Set(),
     imports: new Set(['Foundation', 'WebKit']),
@@ -203,6 +230,7 @@ export const iosHandler: CompilerTargetHandler = async (
       join(coreIos, 'Serialization.swift'),
     ]),
     dependencies: new Set(),
+    assetBindings: new Map(),
   };
 
   for (const componentName of localComponentNames) {
@@ -213,7 +241,7 @@ export const iosHandler: CompilerTargetHandler = async (
     }
 
     const componentInstance = new constructor();
-    await processComponentInstance(componentInstance, componentName, output, namedComponentMap);
+    await processComponentInstance(componentInstance, projectRoot, componentName, output, namedComponentMap);
   }
 
   let hostname = 'localhost';
@@ -229,15 +257,15 @@ export const iosHandler: CompilerTargetHandler = async (
     const devPort = await getHotPort();
     await serveHot(
       projectRoot,
-      'ios',
       require.resolve('@diez/targets/lib/ios/ios.component'),
       devPort,
+      staticRoot,
     );
-    writeSdk(output, destinationPath, true, hostname, devPort);
+    writeSdk(output, sdkRoot, staticRoot, true, hostname, devPort);
     // TODO: watch for hot updates and update the SDK when things change.
     // TODO: when we shut down, compile once in prod mode.
   } else {
-    writeSdk(output, destinationPath, false, hostname);
+    writeSdk(output, sdkRoot, staticRoot, false, hostname);
   }
 
   info(`Diez SDK installed locally at ${join(projectRoot, 'Diez')}.\n`);

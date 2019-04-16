@@ -22,6 +22,7 @@ public class Image : NSObject, Decodable, Updatable {
 
     public func image() throws -> UIImage? {
         guard let url = file.url() else {
+            print("noimage4u")
             return nil
         }
 

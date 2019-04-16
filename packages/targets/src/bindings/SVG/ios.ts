@@ -1,15 +1,16 @@
-import {SVG} from '@diez/designsystem';
+import {encodeFileSource, SVG} from '@diez/designsystem';
 import {join} from 'path';
 import {IosBinding} from '../../api';
+import {svgAssetBinder} from '../../asset-binders/svg';
 import {sourcesPath} from '../../utils';
-import {initializer as fileInitializer} from '../File/ios';
 
 const binding: IosBinding<SVG> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'SVG.swift')],
   imports: ['UIKit', 'WebKit'],
   updateable: true,
   initializer: (instance) =>
-    `SVG(withFile: ${fileInitializer!(instance.file)})`,
+    `SVG(withSrc: "${encodeFileSource(instance.src)}")`,
+  assetsBinder: svgAssetBinder,
 };
 
 export = binding;

@@ -11,7 +11,7 @@ public class Haiku : NSObject, Decodable, Updatable {
     }
 
     private func file() -> File {
-      return File(withSrc: "/haiku/\(component)")
+      return File(withSrc: "haiku/\(component).html")
     }
 
     private enum CodingKeys: String, CodingKey {
