@@ -3,7 +3,8 @@
   "main": "lib/index.js",
   "version": "1.0.0",
   "scripts": {
-    "run-ios": "diez compile -t ios -o ios -d"
+    "run-ios": "diez compile -t ios -o ios -d",
+    "run-android": "diez compile -t android -o android -d"
   },
   "dependencies": {
     "@diez/engine": "1.0.0-alpha0",

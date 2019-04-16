@@ -6,6 +6,7 @@ import org.diez.puente.Method
 import org.diez.puente.StateBag
 import org.diez.color.ColorAdapter
 import org.diez.color.QualifiedColor
+import org.diez.color.WireColor
 import org.diez.file.File
 import org.diez.haiku.Haiku
 import org.diez.image.Image
@@ -16,7 +17,7 @@ import org.diez.typography.TextStyle
 
 val colorAdapter = ColorAdapter()
 
-data class MyPalette(@QualifiedColor var hello: Color = ColorAdapter.hsla(floatArrayOf(0F, 1F, 0.5F, 1F)))
+data class MyPalette(@QualifiedColor var hello: Color = ColorAdapter.hsla(WireColor(0F, 1F, 0.5F, 1F)))
 
 data class MyStateBag(
     var palette: MyPalette = MyPalette(),
@@ -39,7 +40,7 @@ data class MyStateBag(
     var textStyle: TextStyle = TextStyle(
         "Helvetica",
         50F,
-        ColorAdapter.hsla(floatArrayOf(0F, 1F, 0.5F, 1F))
+        ColorAdapter.hsla(WireColor(0F, 1F, 0.5F, 1F))
     ),
     var haiku: Haiku = Haiku("@haiku/taylor-testthang"),
     var svg: SVG = SVG(File("/assets/images/rat.svg")),
