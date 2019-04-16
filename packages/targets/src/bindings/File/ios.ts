@@ -6,7 +6,7 @@ import {sourcesPath} from '../../utils';
 const binding: IosBinding = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'File.swift')],
   imports: ['Foundation'],
-  updateable: false,
+  updateable: true,
   initializer: (instance: File) => `File(withSrc: "${encodeFileSource(instance.src)}")`,
 };
 

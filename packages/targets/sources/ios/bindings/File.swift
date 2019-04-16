@@ -27,4 +27,25 @@ public class File : NSObject, Codable {
 
         return URLRequest(url: url)
     }
+
+    // TODO: update hash equality to also consider contents of the underlying file.
+    public override func isEqual(_ other: Any?) -> Bool {
+        guard let other = other as? File else {
+            return false
+        }
+        return src == other.src
+    }
+
+    public override var hash : Int {
+        var hasher = Hasher()
+        hasher.combine(src)
+        return hasher.finalize()
+    }
+}
+
+extension File : Updatable {
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        src = try container.decode(String.self, forKey: .src)
+    }
 }

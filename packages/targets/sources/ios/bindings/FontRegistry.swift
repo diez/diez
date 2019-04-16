@@ -1,5 +1,10 @@
-public class FontRegistry : NSObject, Decodable, Updatable {
+public class FontRegistry : NSObject, Codable {
     var files: [File]
+    var registeredFiles: Set<File> = []
+
+    private enum CodingKeys: String, CodingKey {
+        case files
+    }
 
     init(withFiles files: [File]) {
         self.files = files
@@ -7,15 +12,14 @@ public class FontRegistry : NSObject, Decodable, Updatable {
         self.registerFonts(withFiles: files)
     }
 
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        files = try container.decode([File].self, forKey: .files)
-        // TODO: diff files, only register the new ones
-        self.registerFonts(withFiles: files)
-    }
-
     private func registerFonts(withFiles files: [File]) {
         files.forEach{
+            if registeredFiles.contains($0) {
+                return
+            }
+
+            registeredFiles.insert($0)
+
             guard let url = $0.url() else {
                 return
             }
@@ -48,5 +52,14 @@ public class FontRegistry : NSObject, Decodable, Updatable {
                 return
             }
         }
+    }
+}
+
+extension FontRegistry : Updatable {
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        files = try container.decode([File].self, forKey: .files)
+        // TODO: diff files, only register the new ones
+        self.registerFonts(withFiles: files)
     }
 }
