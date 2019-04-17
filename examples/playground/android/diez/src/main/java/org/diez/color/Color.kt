@@ -1,4 +1,4 @@
-package ai.haiku.diez.color
+package org.diez.color
 
 import android.graphics.Color as CoreColor
 import android.support.v4.graphics.ColorUtils
@@ -13,12 +13,14 @@ typealias Color = Int
 @JsonQualifier
 annotation class QualifiedColor
 
+data class WireColor(val h: Float, val s: Float, val l: Float, val a: Float)
+
 class ColorAdapter {
     companion object {
-        fun hsla(serial: FloatArray) : Color {
-            val rgb = ColorUtils.HSLToColor(floatArrayOf(serial[0] * 360, serial[1], serial[2]))
+        fun hsla(serial: WireColor) : Color {
+            val rgb = ColorUtils.HSLToColor(floatArrayOf(serial.h * 360, serial.s, serial.l))
             return CoreColor.argb(
-                (serial[3] * 255).toInt(),
+                (serial.a * 255).toInt(),
                 CoreColor.red(rgb),
                 CoreColor.green(rgb),
                 CoreColor.blue(rgb)
@@ -27,15 +29,15 @@ class ColorAdapter {
     }
 
     @FromJson @QualifiedColor
-    fun fromJson(serial: FloatArray) : Color {
+    fun fromJson(serial: WireColor) : Color {
         return ColorAdapter.hsla(serial)
     }
 
     @ToJson
-    fun toJson(@QualifiedColor color: Color) : FloatArray {
+    fun toJson(@QualifiedColor color: Color) : WireColor {
         val out: FloatArray = floatArrayOf()
         ColorUtils.RGBToHSL(CoreColor.red(color), CoreColor.green(color), CoreColor.blue(color), out)
-        return floatArrayOf(
+        return WireColor(
             out[0],
             out[1],
             out[2],

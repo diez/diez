@@ -1,6 +1,6 @@
-package ai.haiku.diez.file
+package org.diez.file
 
-import ai.haiku.diez.puente.Environment
+import org.diez.puente.Environment
 import android.net.Uri
 import java.net.URL
 

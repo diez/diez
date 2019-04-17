@@ -1,9 +1,9 @@
-package ai.haiku.diez.typography
+package org.diez.typography
 
-import ai.haiku.diez.color.Color
-import ai.haiku.diez.color.QualifiedColor
+import org.diez.color.Color
+import org.diez.color.QualifiedColor
 import java.io.File as CoreFile
-import ai.haiku.diez.file.File
+import org.diez.file.File
 import android.graphics.Typeface
 import android.widget.TextView
 import com.jaredrummler.truetypeparser.TTFFile

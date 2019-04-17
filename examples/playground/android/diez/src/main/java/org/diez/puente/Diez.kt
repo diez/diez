@@ -1,10 +1,11 @@
-package ai.haiku.diez.puente
+package org.diez.puente
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.util.Log
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.JavascriptInterface
+import android.webkit.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi.Builder
@@ -41,7 +42,11 @@ class Diez<T : StateBag>(var component: T) {
     @JavascriptInterface
     fun patch(json: String) {
         // TODO: update instead of replacing!!!
-        component = adapter.fromJson(json)!!
+        try {
+            component = adapter.fromJson(json)!!
+        } catch (e: Exception) {
+            Log.e("DIEZ", e.toString())
+        }
         component.listen(fun(eventName, _) {
             @Suppress("SENSELESS_COMPARISON")
             if (webview == null) {
@@ -61,8 +66,8 @@ class Diez<T : StateBag>(var component: T) {
         webview.addJavascriptInterface(this, "puente")
         subscribe(subscriber)
         if (Environment.isDevelopment) {
-            print("${Environment.serverUrl}/components/${component.name}")
-            webview.loadUrl("${Environment.serverUrl}/components/${component.name}")
+            webview.loadUrl("${Environment.serverUrl}components/${component.name}")
+            Log.d("DIEZ", "Loading ${Environment.serverUrl}components/${component.name}")
         } else {
             // TODO: where is this really?
             webview.loadUrl("file:///android_asset/index.html")

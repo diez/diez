@@ -1,6 +1,6 @@
-package ai.haiku.diez.image
+package org.diez.image
 
-import ai.haiku.diez.file.File
+import org.diez.file.File
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Shader

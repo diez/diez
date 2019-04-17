@@ -1,10 +1,9 @@
 package ai.haiku.hellomystatebag
 
-import ai.haiku.diez.puente.Diez
-import ai.haiku.diez.components.MyStateBag
+import org.diez.puente.Diez
+import org.diez.components.MyStateBag
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,12 +26,5 @@ class MainActivity : AppCompatActivity() {
             diez.component.svg.embedSvg(ratSlot)
             diez.component.lottie.embedLottie(lottieSlot)
         }
-    }
-
-    override fun onTouchEvent(e: MotionEvent): Boolean {
-        if (e.action == MotionEvent.ACTION_DOWN) {
-            diez.component.tap()
-        }
-        return true
     }
 }

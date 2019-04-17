@@ -1,6 +1,6 @@
-package ai.haiku.diez.puente
+package org.diez.puente
 
-import ai.haiku.diez.R
+import org.diez.R
 import android.content.res.Resources
 
 data class EnvironmentSingleton(
