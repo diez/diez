@@ -9,26 +9,20 @@ const coreAndroid = join(sourcesPath, 'android');
 /**
  * The canonical Android compiler target implementation.
  */
-export const androidHandler: CompilerTargetHandler = async (
-  projectRoot,
-  destinationPath,
-  localComponentNames,
-  namedComponentMap,
-  devMode,
-) => {
-  const sdkRoot = join(destinationPath, 'diez');
+export const androidHandler: CompilerTargetHandler = async (program) => {
+  const sdkRoot = join(program.destinationPath, 'diez');
   // FIXME: what is this really?
   const staticRoot = join(sdkRoot, 'res');
-  if (devMode) {
+  if (program.devMode) {
     const devPort = await getHotPort();
     const tokens = {
-      devMode,
       devPort,
+      devMode: program.devMode,
       hostname: await v4(),
     };
     outputTemplatePackage(join(coreAndroid, 'sdk'), sdkRoot, tokens);
     await serveHot(
-      projectRoot,
+      program.projectRoot,
       require.resolve('@diez/targets/lib/android/android.component'),
       devPort,
       staticRoot,

@@ -1,5 +1,5 @@
 import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@diez/designsystem';
-import {Component, expression, method, property, shared} from '@diez/engine';
+import {Component, expression, Integer, method, property, shared} from '@diez/engine';
 import {easeInOutExpo} from 'just-curves';
 
 class MyPalette extends Component<Palette> {
@@ -15,6 +15,8 @@ export class MyStateBag extends Component {
   private name = 'Diez';
 
   @property copy = `Hello ${this.name}`;
+
+  @property numbers: Integer[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   @property image = new Image({
     file: new File({

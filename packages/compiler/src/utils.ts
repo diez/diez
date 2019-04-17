@@ -1,12 +1,12 @@
 /* tslint:disable:max-line-length */
-import {execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
+import {execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, info, warning} from '@diez/cli';
 import {execSync} from 'child_process';
 import {existsSync} from 'fs';
 import {readJsonSync} from 'fs-extra';
 import {join, sep} from 'path';
-import {ClassDeclaration, Project, PropertyDeclaration, ts, Type, TypeChecker} from 'ts-morph';
+import {ClassDeclaration, Project, PropertyDeclaration, ts, Type} from 'ts-morph';
 import {CompilerOptions, findConfigFile, sys} from 'typescript';
-import {CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, TargetComponent} from './api';
+import {CompilerProgram, CompilerTargetHandler, CompilerTargetProvider, NamedComponentMap, TargetComponent} from './api';
 
 /**
  * Provides an async check for if we are equipped to use `yarn` for package management operations.
@@ -198,6 +198,46 @@ export const getValidProject = (projectRoot: string): Project => {
 };
 
 /**
+ * Retrieves a valid program for a compiler run.
+ *
+ * @param projectRoot - The directory expected to contain a valid project.
+ * @param destinationPath - The output destination for the compiler.
+ * @param devMode - Whether the compiler is running in dev mode.
+ */
+export const getValidProgram = async (projectRoot: string, destinationPath: string, devMode: boolean): Promise<CompilerProgram> => {
+  info(`Validating project structure at ${projectRoot}...`);
+  const project = getValidProject(projectRoot);
+  info('Compiling TypeScript sources...');
+  const compilationSucceeded = await runPackageScript('tsc', await shouldUseYarn(), projectRoot);
+  if (!compilationSucceeded) {
+    fatalError('Unable to compile project.');
+  }
+
+  // Create a stub type file for typing the class
+  const stubTypeFile = project.createSourceFile(
+    'src/__stub.ts',
+    "import {Component, Integer, Double} from '@diez/engine';",
+  );
+
+  const checker = project.getTypeChecker();
+  const [componentImport, intImport, doubleImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
+  return {
+    checker,
+    project,
+    projectRoot,
+    destinationPath,
+    devMode,
+    targetComponents: new Map(),
+    componentDeclaration: checker.getTypeAtLocation(componentImport).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration,
+    types: {
+      int: intImport.getSymbolOrThrow().getDeclaredType(),
+      float: doubleImport.getSymbolOrThrow().getDeclaredType(),
+    },
+    localComponentNames: [],
+  };
+};
+
+/**
  * An internal map from filenames to component sources from node_modules.
  * @internal
  */
@@ -232,19 +272,12 @@ export const getNodeModulesSource = (filePath: string): string | undefined => {
 /**
  * Processes a component type and attaches it to a preconstructed target component map.
  *
- * @param checker - A typechecker for a valid project root.
  * @param type - The type to process.
- * @param targetComponents - A preconstructed target component map to update with the results of our processing.
- * @param componentDeclaration - A class declaration which should provide the base class for every component.
+ * @param program - The compiler program.
  *
  * @returns `true` if we were able to process the type as a component.
  */
-export const processType = (
-  checker: TypeChecker,
-  type: Type,
-  componentDeclaration: ClassDeclaration,
-  targetComponents: NamedComponentMap,
-): boolean => {
+export const processType = (type: Type, program: CompilerProgram): boolean => {
   const typeSymbol = type.getSymbol();
   if (!type.isObject() || !typeSymbol) {
     return false;
@@ -264,15 +297,19 @@ export const processType = (
   }
 
   if (
-    targetComponents.has(componentName)
+    program.targetComponents.has(componentName)
   ) {
-    if (targetComponents.get(componentName)!.type !== type) {
+    if (program.targetComponents.get(componentName)!.type !== type) {
       // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`…).
       warning(`Encountered a duplicate component name: ${componentName}. Please ensure no component names are duplicated.`);
       return false;
     }
 
     return true;
+  }
+
+  if (typeValue.getBaseClass() !== program.componentDeclaration) {
+    return false;
   }
 
   const newTarget: TargetComponent = {
@@ -284,15 +321,6 @@ export const processType = (
     },
   };
 
-  if (typeValue.getBaseClass() !== componentDeclaration) {
-    return false;
-  }
-
-  const sourceFile = typeValue.getSourceFile();
-  if (sourceFile.isInNodeModules()) {
-    newTarget.source = getNodeModulesSource(sourceFile.getFilePath());
-  }
-
   for (const typeMember of typeSymbol.getMembers()) {
     const valueDeclaration = typeMember.getValueDeclaration() as PropertyDeclaration;
     if (!valueDeclaration) {
@@ -300,31 +328,73 @@ export const processType = (
       continue;
     }
     const propertyName = valueDeclaration.getName();
-    const propertyType = checker.getTypeAtLocation(valueDeclaration);
-    if (propertyType.isString() || propertyType.isBoolean() || propertyType.isNumber() || propertyType.isEnum()) {
-      newTarget.properties.push({name: propertyName, isComponent: false});
+    let propertyType = program.checker.getTypeAtLocation(valueDeclaration);
+
+    // Process array type depth.
+    // TODO: support tuples and other iterables.
+    let depth = 0;
+    while (propertyType && propertyType.isArray()) {
+      depth++;
+      propertyType = propertyType.getArrayType()!;
+    }
+
+    if (!propertyType || propertyType.isUnknown() || propertyType.isAny()) {
+      if (newTarget.warnings) {
+        newTarget.warnings!.ambiguousTypes.add(propertyName);
+      }
       continue;
     }
 
-    if (newTarget.warnings && (propertyType.isUnknown() || propertyType.isAny())) {
-      newTarget.warnings.ambiguousTypes.add(propertyName);
+    if (propertyType.isString() || propertyType.isBoolean()) {
+      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: propertyType.getText()});
       continue;
     }
 
-    if (!processType(checker, propertyType, componentDeclaration, targetComponents)) {
+    if (propertyType === program.types.int) {
+      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: 'int'});
+      continue;
+    }
+
+    if (propertyType === program.types.float || propertyType.isNumber()) {
+      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: 'float'});
+      continue;
+    }
+
+    if (propertyType.isEnum()) {
+      // TODO: should we support numeric enums?
+      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: 'string'});
+      continue;
+    }
+
+    // TODO: deal with propertyType.isUnion().
+    if (propertyType.isUnion()) {
+      // The type system cannot tolerate non-primitive union types not handled above.
+      if (newTarget.warnings) {
+        newTarget.warnings!.ambiguousTypes.add(propertyName);
+      }
+      continue;
+    }
+
+    if (!processType(propertyType, program)) {
       continue;
     }
 
     const candidateSymbol = propertyType.getSymbolOrThrow();
 
     newTarget.properties.push({
+      depth,
       name: propertyName,
       isComponent: true,
       type: candidateSymbol.getName(),
     });
   }
 
-  targetComponents.set(componentName, newTarget);
+  const sourceFile = typeValue.getSourceFile();
+  if (sourceFile.isInNodeModules()) {
+    newTarget.source = getNodeModulesSource(sourceFile.getFilePath());
+  }
+
+  program.targetComponents.set(componentName, newTarget);
   return true;
 };
 
@@ -351,7 +421,7 @@ export const printWarnings = (targetComponents: NamedComponentMap) => {
 
     if (targetComponent.warnings.ambiguousTypes.size) {
       warning(
-        '  The following properties are of an unknown or invalid type. Please ensure your component definition complete type annotations.');
+        '  The following properties are of an unknown or invalid type. Please ensure your component definition includes complete type annotations.');
       targetComponent.warnings.ambiguousTypes.forEach((property) => warning(`  - ${property}`));
     }
   }

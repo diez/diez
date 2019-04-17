@@ -1,11 +1,20 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
-import {CompilerTargetHandler, getBinding, getHotPort, NamedComponentMap, serveHot} from '@diez/compiler';
+import {
+  CompilerProgram,
+  CompilerTargetHandler,
+  getBinding,
+  getHotPort,
+  MaybeNestedArray,
+  serveHot,
+  TargetComponent,
+  TargetProperty,
+} from '@diez/compiler';
 import {ConcreteComponent} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {dirname, join} from 'path';
-import {AssetBinding, IosBinding, IosDependency} from '../api';
+import {AssetBinding, IosBinding, IosComponentProperty, IosComponentSpec, IosDependency} from '../api';
 import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
 
 const coreIos = join(sourcesPath, 'ios');
@@ -14,6 +23,7 @@ const coreIos = join(sourcesPath, 'ios');
  * Describes the complete output for a transpiled iOS target.
  */
 export interface IosOutput {
+  program: CompilerProgram;
   processedComponents: Set<string>;
   imports: Set<string>;
   sources: Set<string>;
@@ -48,28 +58,124 @@ const mergeBindingToOutput = (output: IosOutput, binding: IosBinding<any>) => {
   }
 };
 
-interface IosComponentProperty {
-  type: string;
-  initializer: string;
-  updateable: boolean;
-}
+const collectComponentProperties = (
+  allProperties: (IosComponentProperty | undefined)[],
+): IosComponentProperty | undefined => {
+  const properties = allProperties.filter((property) => property !== undefined) as IosComponentProperty[];
+  const reference = properties[0];
+  if (!reference) {
+    return;
+  }
 
-interface IosComponentSpec {
-  componentName: string;
-  properties: {[name: string]: IosComponentProperty};
-}
+  return {
+    type: `[${reference.type}]`,
+    initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
+    updateable: reference.updateable,
+  };
+};
+
+const processComponentProperty = async (
+  property: TargetProperty,
+  instance: MaybeNestedArray<any>,
+  targetComponent: TargetComponent,
+  output: IosOutput,
+): Promise<IosComponentProperty | undefined> => {
+  if (Array.isArray(instance)) {
+    if (!property.depth) {
+      // This should never happen.
+      if (targetComponent.warnings) {
+        targetComponent.warnings.ambiguousTypes.add(property.name);
+        return;
+      }
+    }
+
+    return collectComponentProperties(await Promise.all(instance.map(async (child) => processComponentProperty(
+      property,
+      child,
+      targetComponent,
+      output,
+    ))));
+  }
+
+  if (property.isComponent) {
+    if (
+      !property.type ||
+      !await processComponentInstance(instance, property.type, output)
+    ) {
+      if (targetComponent.warnings) {
+        targetComponent.warnings.ambiguousTypes.add(property.name);
+      }
+      return;
+    }
+
+    const propertyComponent = output.program.targetComponents.get(property.type)!;
+    const propertyBinding = await getBinding<IosBinding<any>>('ios', propertyComponent.source || '.', property.type);
+    if (propertyBinding) {
+      if (propertyBinding.assetsBinder) {
+        try {
+          await propertyBinding.assetsBinder(instance, output.program.projectRoot, output.assetBindings);
+        } catch (_) {
+          console.error(_);
+          // Noop.
+        }
+      }
+
+      return {
+        type: property.type,
+        initializer: propertyBinding.initializer ? propertyBinding.initializer(instance) : `${property.type}()`,
+        updateable: propertyBinding.updateable,
+      };
+    }
+    // FIXME: as currently implemented, components without bindings can't take custom constructors.
+    // This doesn't make sense as a restriction.
+    return {
+      type: property.type,
+      initializer: `${property.type}(listener)`,
+      updateable: true,
+    };
+  }
+
+  switch (property.type) {
+    case 'string':
+      return {
+        type: 'String',
+        initializer: `"${instance}"`,
+        updateable: false,
+      };
+    case 'number':
+    case 'float':
+      return {
+        type: 'CGFloat',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    case 'int':
+      return {
+        type: 'Int',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    case 'boolean':
+      return {
+        type: 'Bool',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    default:
+      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
+      return;
+  }
+};
 
 /**
  * Processes a component instance and updates the provided outputs.
  */
 export const processComponentInstance = async (
   instance: ConcreteComponent,
-  projectRoot: string,
   name: string,
   output: IosOutput,
-  namedComponentMap: NamedComponentMap,
 ): Promise<boolean> => {
-  const targetComponent = namedComponentMap.get(name);
+  const targetComponent = output.program.targetComponents.get(name);
   if (!targetComponent) {
     warning(`Unable to find component definition for ${name}!`);
     return false;
@@ -87,75 +193,21 @@ export const processComponentInstance = async (
 
   for (const property of targetComponent.properties) {
     if (!instance.boundStates.get(property.name)) {
+      // We are looking at a property that is not a state.
+      // Sadly, we can't prevent these from falling through from the AST due to the fact that property decorators are
+      // not present in transpiled sources.
       continue;
     }
 
-    const value = instance.get(property.name);
-    if (property.isComponent) {
-      if (
-        !property.type ||
-        !await processComponentInstance(value, projectRoot, property.type, output, namedComponentMap)
-      ) {
-        if (targetComponent.warnings) {
-          targetComponent.warnings.ambiguousTypes.add(property.name);
-        }
-        continue;
-      }
+    const propertySpec = await processComponentProperty(
+      property,
+      instance.get(property.name),
+      targetComponent,
+      output,
+    );
 
-      const propertyComponent = namedComponentMap.get(property.type)!;
-      const propertyBinding = await getBinding<IosBinding<any>>('ios', propertyComponent.source || '.', property.type);
-      if (propertyBinding) {
-        spec.properties[property.name] = {
-          type: property.type,
-          initializer: propertyBinding.initializer ? propertyBinding.initializer(value) : `${property.type}()`,
-          updateable: propertyBinding.updateable,
-        };
-
-        if (propertyBinding.assetsBinder) {
-          try {
-            await propertyBinding.assetsBinder(value, projectRoot, output.assetBindings);
-          } catch (_) {
-            console.error(_);
-            // Noop.
-          }
-        }
-      } else {
-        // FIXME: as currently implemented, non-binding components can't take custom constructors.
-        // This doesn't make sense as a restriction.
-        spec.properties[property.name] = {
-          type: property.type,
-          initializer: `${property.type}(listener)`,
-          updateable: true,
-        };
-      }
-      continue;
-    }
-
-    switch (typeof value) {
-      case 'string':
-        spec.properties[property.name] = {
-          type: 'String',
-          initializer: `"${value}"`,
-          updateable: false,
-        };
-        break;
-      case 'number':
-        spec.properties[property.name] = {
-          type: 'CGFloat',
-          initializer: value.toString(),
-          updateable: false,
-        };
-        break;
-      case 'boolean':
-        spec.properties[property.name] = {
-          type: 'Bool',
-          initializer: value.toString(),
-          updateable: false,
-        };
-        break;
-      default:
-        warning(`Unknown non-component primitive value: ${value.toString()}`);
-        break;
+    if (propertySpec) {
+      spec.properties[property.name] = propertySpec;
     }
   }
 
@@ -211,17 +263,12 @@ export const writeSdk = (
 /**
  * The canonical iOS compiler target implementation.
  */
-export const iosHandler: CompilerTargetHandler = async (
-  projectRoot,
-  destinationPath,
-  localComponentNames,
-  namedComponentMap,
-  devMode,
-) => {
-  const componentModule = await loadComponentModule(projectRoot);
-  const sdkRoot = join(destinationPath, 'Diez');
+export const iosHandler: CompilerTargetHandler = async (program) => {
+  const componentModule = await loadComponentModule(program.projectRoot);
+  const sdkRoot = join(program.destinationPath, 'Diez');
   const staticRoot = join(sdkRoot, 'static');
   const output: IosOutput = {
+    program,
     processedComponents: new Set(),
     imports: new Set(['Foundation', 'WebKit']),
     sources: new Set([
@@ -233,15 +280,15 @@ export const iosHandler: CompilerTargetHandler = async (
     assetBindings: new Map(),
   };
 
-  for (const componentName of localComponentNames) {
+  for (const componentName of program.localComponentNames) {
     const constructor = componentModule[componentName];
     if (!constructor) {
-      warning(`Unable to resolve component instance from ${projectRoot}: ${componentName}.`);
+      warning(`Unable to resolve component instance from ${program.projectRoot}: ${componentName}.`);
       continue;
     }
 
     const componentInstance = new constructor();
-    await processComponentInstance(componentInstance, projectRoot, componentName, output, namedComponentMap);
+    await processComponentInstance(componentInstance, componentName, output);
   }
 
   let hostname = 'localhost';
@@ -253,10 +300,10 @@ export const iosHandler: CompilerTargetHandler = async (
     }
   }
 
-  if (devMode) {
+  if (program.devMode) {
     const devPort = await getHotPort();
     await serveHot(
-      projectRoot,
+      program.projectRoot,
       require.resolve('@diez/targets/lib/ios/ios.component'),
       devPort,
       staticRoot,
@@ -268,7 +315,7 @@ export const iosHandler: CompilerTargetHandler = async (
     writeSdk(output, sdkRoot, staticRoot, false, hostname);
   }
 
-  info(`Diez SDK installed locally at ${join(projectRoot, 'Diez')}.\n`);
+  info(`Diez SDK installed locally at ${join(program.projectRoot, 'Diez')}.\n`);
 
   // TODO: Check if the target is actually using CocoaPods; locate Podfile if they are.
   // TODO: Offer to add dependency to CocoaPods for the user, but don't force them to accept.
@@ -286,11 +333,11 @@ export const iosHandler: CompilerTargetHandler = async (
 import Diez
 
 class ViewController: UIViewController {
-  let diez = Diez<${localComponentNames[0]}>()
+  let diez = Diez<${program.localComponentNames[0]}>()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    diez.attach(self, subscriber: {(component: ${localComponentNames[0]}) in
+    diez.attach(self, subscriber: {(component: ${program.localComponentNames[0]}) in
       // ...
     })
   }

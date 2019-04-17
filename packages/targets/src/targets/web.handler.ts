@@ -3,17 +3,11 @@ import {CompilerTargetHandler, getHotPort, serveHot} from '@diez/compiler';
 /**
  * The canonical Web compiler target implementation.
  */
-export const webHandler: CompilerTargetHandler = async (
-  projectRoot,
-  destinationPath,
-  localComponentNames,
-  namedComponentMap,
-  devMode,
-) => {
-  if (devMode) {
+export const webHandler: CompilerTargetHandler = async (program) => {
+  if (program.devMode) {
     const devPort = await getHotPort();
     await serveHot(
-      projectRoot,
+      program.projectRoot,
       require.resolve('@diez/targets/lib/web/web.component'),
       devPort,
       'TODO',

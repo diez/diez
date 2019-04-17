@@ -1,6 +1,6 @@
 import {ConcreteComponentType} from '@diez/engine';
 import {Express, RequestHandler} from 'express';
-import {Type} from 'ts-morph';
+import {ClassDeclaration, Project, Type, TypeChecker} from 'ts-morph';
 import {Configuration} from 'webpack';
 
 /**
@@ -20,6 +20,16 @@ export type WebpackConfigModifier = (config: Configuration) => void;
 export type HotServerModifier = (app: Express, projectRoot: string) => void;
 
 /**
+ * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | …`.
+ */
+export interface NestedArray<T> extends Array<T | NestedArray<T>> {}
+
+/**
+ * Provides an arbitrarily nested array type with support for no nesting, i.e. `T | T[] | T[][] | …`.
+ */
+export type MaybeNestedArray<T> = T | NestedArray<T>;
+
+/**
  * A component compiler property descriptor.
  */
 export interface TargetProperty {
@@ -32,7 +42,11 @@ export interface TargetProperty {
    */
   isComponent: boolean;
   /**
-   * The unique type name, used only for component properties.
+   * The depth of the target property. This allows arbitrary-order list types.
+   */
+  depth: number;
+  /**
+   * The unique type name.
    */
   type?: string;
 }
@@ -82,13 +96,7 @@ export type NamedComponentMap = Map<string, TargetComponent>;
 /**
  * Compiler target handlers perform the actual work of compilation.
  */
-export type CompilerTargetHandler = (
-  projectRoot: string,
-  destinationPath: string,
-  localComponentNames: string[],
-  namedComponentMap: NamedComponentMap,
-  devMode: boolean,
-) => void;
+export type CompilerTargetHandler = (program: CompilerProgram) => void;
 
 /**
  * A generic interface for a compiler target.
@@ -103,4 +111,50 @@ export interface CompilerTargetProvider {
  */
 export interface ComponentModule {
   [key: string]: ConcreteComponentType;
+}
+
+/**
+ * A complete compiler program.
+ */
+export interface CompilerProgram {
+  /**
+   * A typechecker capable of resolving any known types.
+   */
+  checker: TypeChecker;
+  /**
+   * The source file providing the entry point for our compiler program.
+   */
+  project: Project;
+  /**
+   * The component declaration, which we can use to determine component-ness using the typechecker.
+   */
+  componentDeclaration: ClassDeclaration;
+  /**
+   * A collection of reserved types, used to resolve type ambiguities in key places.
+   */
+  types: {
+    int: Type;
+    float: Type;
+  };
+  /**
+   * A map of (unique!) component names to target component specifications. This is derived recursively
+   * and includes both prefabs from external modules and local components.
+   */
+  targetComponents: NamedComponentMap;
+  /**
+   * The names of local components encountered during compiler execution.
+   */
+  localComponentNames: string[];
+  /**
+   * The root of the project whose local components we should compile.
+   */
+  projectRoot: string;
+  /**
+   * The destination path of the project whose local components we should compile.
+   */
+  destinationPath: string;
+  /**
+   * Whether we are running the compiler in dev mode or not.
+   */
+  devMode: boolean;
 }

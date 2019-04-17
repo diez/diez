@@ -37,7 +37,7 @@ class ViewController: UIViewController {
 
         // Subscribe to component changes.
         diez.attach(self, subscriber: {(component: MyStateBag) in
-            self.label.text = component.copy
+            self.label.text = "\(component.copy). \(component.numbers[10])"
             component.textStyle.setTextStyle(forLabel: self.label)
             self.label.sizeToFit()
             self.label.textAlignment = .center

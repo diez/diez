@@ -1,9 +1,7 @@
 /* tslint:disable:max-line-length */
 import {fatalError, info} from '@diez/cli';
 import {join, resolve} from 'path';
-import {ClassDeclaration} from 'ts-morph';
-import {NamedComponentMap} from '../api';
-import {getTargets, getValidProject, printWarnings, processType, runPackageScript, shouldUseYarn} from '../utils';
+import {getTargets, getValidProgram, printWarnings, processType} from '../utils';
 
 interface CompileOptions {
   output: string;
@@ -23,31 +21,10 @@ export const compileAction = async ({output, target: targetIn, dev}: CompileOpti
 
   const targetHandler = targets.get(target)!;
 
-  const projectRoot = global.process.cwd();
-  const targetComponents: NamedComponentMap = new Map();
+  const program = await getValidProgram(global.process.cwd(), resolve(output), dev);
 
-  info(`Validating project structure at ${projectRoot}...`);
-  const project = getValidProject(projectRoot);
-  const useYarn = await shouldUseYarn();
-  info('Compiling TypeScript sources...');
-  const compilationSucceeded = await runPackageScript('tsc', useYarn, projectRoot);
-  if (!compilationSucceeded) {
-    fatalError('Unable to compile project.');
-  }
-
-  // Create a stub type file for typing the class
-  const stubTypeFile = project.createSourceFile(
-    'src/__stub.ts',
-    "import {Component} from '@diez/engine';",
-  );
-
-  const sourceFile = project.getSourceFileOrThrow(join('src', 'index.ts'));
-
-  const checker = project.getTypeChecker();
-  const engineImports = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
-  const componentDeclaration = checker.getTypeAtLocation(engineImports[0]).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration;
-  info(`Unwrapping component types from ${resolve(projectRoot, 'src', 'index.ts')}...`);
-  const foundComponents: string[] = [];
+  const sourceFile = program.project.getSourceFileOrThrow(join('src', 'index.ts'));
+  info(`Unwrapping component types from ${resolve(program.projectRoot, 'src', 'index.ts')}...`);
   for (const exportDeclaration of sourceFile.getExportDeclarations()) {
     for (const exportSpecifier of exportDeclaration.getNamedExports()) {
       const moduleName = exportDeclaration.getModuleSpecifierValue()!;
@@ -55,17 +32,17 @@ export const compileAction = async ({output, target: targetIn, dev}: CompileOpti
         continue;
       }
 
-      const type = checker.getTypeAtLocation(exportSpecifier);
-      if (processType(checker, type, componentDeclaration, targetComponents)) {
-        foundComponents.push(exportSpecifier.getName());
+      const type = program.checker.getTypeAtLocation(exportSpecifier);
+      if (processType(type, program)) {
+        program.localComponentNames.push(exportSpecifier.getName());
       }
     }
   }
 
-  if (!foundComponents.length) {
-    fatalError('No components found!');
+  if (!program.localComponentNames.length) {
+    fatalError('No local components found!');
   }
 
-  printWarnings(targetComponents);
-  await targetHandler(projectRoot, resolve(output), foundComponents, targetComponents, dev);
+  printWarnings(program.targetComponents);
+  await targetHandler(program);
 };

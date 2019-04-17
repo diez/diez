@@ -119,3 +119,21 @@ export type Formula<T extends AnySerializable> = (...args: any[]) => T;
 export interface ExpressionResolver {
   [key: string]: any;
 }
+
+/**
+ * @internal
+ *
+ * Since TypeScript doesn't provide proper Integer/Double types, we hack around this by making named types
+ * using a union of `number` and an empty enum.
+ */
+enum Nothing {}
+
+/**
+ * Typealias for integer numbers.
+ */
+export type Integer = number | Nothing;
+
+/**
+ * Typealias for double numbers.
+ */
+export type Float = number | Nothing;
