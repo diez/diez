@@ -11,14 +11,26 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
     private var subscribers: [(T) -> Void] = []
     private let wk: WKWebView
 
-    override public init() {
-        let wkIn = WKWebView(frame: .zero)
-        let componentIn = T({(_ eventName: String, payload: Any?) in
-            wkIn.evaluateJavaScript("trigger('\(eventName)')")
+    public init(_ view: UIView) {
+        let wk = WKWebView(frame: .zero)
+        component = T({(_ eventName: String, payload: Any?) in
+            wk.evaluateJavaScript("trigger('\(eventName)')")
         })
-        wk = wkIn
-        component = componentIn
+        self.wk = wk
         super.init()
+
+        wk.configuration.userContentController.add(self, name: "patch")
+        if (environment.isDevelopment) {
+            let url = URL(string: "\(environment.serverUrl)components/\(T.name)")!
+            wk.load(URLRequest(url: url))
+        } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
+            wk.load(URLRequest(url: url))
+        }
+
+        view.addSubview(wk)
+
+        let displayLink = CADisplayLink(target: self, selector: #selector(tick))
+        displayLink.add(to: .current, forMode: .common)
     }
 
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -36,23 +48,9 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
         } catch { print(error) }
     }
 
-    public func attach(_ parent: UIViewController, subscriber: @escaping (T) -> Void) {
+    public func attach(_ subscriber: @escaping (T) -> Void) {
         // Initially execute a synchronous call on our subscriber.
         subscriber(component)
-        wk.configuration.userContentController.add(self, name: "patch")
-        if (environment.isDevelopment) {
-            let url = URL(string: "\(environment.serverUrl)components/\(T.name)")!
-            wk.load(URLRequest(url: url))
-        } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
-            wk.load(URLRequest(url: url))
-        }
-        parent.view.addSubview(wk)
-        subscribe(subscriber)
-        let displayLink = CADisplayLink(target: self, selector: #selector(tick))
-        displayLink.add(to: .current, forMode: .common)
-    }
-
-    public func subscribe(_ subscriber: @escaping (T) -> Void) {
         subscribers.append(subscriber)
     }
 

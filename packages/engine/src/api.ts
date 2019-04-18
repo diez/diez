@@ -126,14 +126,15 @@ export interface ExpressionResolver {
  * Since TypeScript doesn't provide proper Integer/Double types, we hack around this by making named types
  * using a union of `number` and an empty enum.
  */
-enum Nothing {}
+enum AlwaysInt {}
+enum AlwaysFloat {}
 
 /**
  * Typealias for integer numbers.
  */
-export type Integer = number | Nothing;
+export type Integer = number | AlwaysInt;
 
 /**
  * Typealias for double numbers.
  */
-export type Float = number | Nothing;
+export type Float = number | AlwaysFloat;

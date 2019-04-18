@@ -216,11 +216,11 @@ export const getValidProgram = async (projectRoot: string, destinationPath: stri
   // Create a stub type file for typing the class
   const stubTypeFile = project.createSourceFile(
     'src/__stub.ts',
-    "import {Component, Integer, Double} from '@diez/engine';",
+    "import {Component, Integer, Float} from '@diez/engine';",
   );
 
   const checker = project.getTypeChecker();
-  const [componentImport, intImport, doubleImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
+  const [componentImport, intImport, floatImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
   return {
     checker,
     project,
@@ -231,7 +231,7 @@ export const getValidProgram = async (projectRoot: string, destinationPath: stri
     componentDeclaration: checker.getTypeAtLocation(componentImport).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration,
     types: {
       int: intImport.getSymbolOrThrow().getDeclaredType(),
-      float: doubleImport.getSymbolOrThrow().getDeclaredType(),
+      float: floatImport.getSymbolOrThrow().getDeclaredType(),
     },
     localComponentNames: [],
   };
@@ -362,7 +362,7 @@ export const processType = (type: Type, program: CompilerProgram): boolean => {
 
     if (propertyType.isEnum()) {
       // TODO: should we support numeric enums?
-      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: 'string'});
+      newTarget.properties.push({depth, name: propertyName, isComponent: false, type: 'enum'});
       continue;
     }
 

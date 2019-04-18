@@ -79,6 +79,41 @@ const collectComponentProperties = (
   };
 };
 
+const getPrimitive = (type: string, instance: any): IosComponentProperty | undefined => {
+  switch (type) {
+    case 'string':
+      return {
+        type: 'String',
+        initializer: `"${instance}"`,
+        updateable: false,
+      };
+    case 'number':
+    case 'float':
+      return {
+        type: 'CGFloat',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    case 'int':
+      return {
+        type: 'Int',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    case 'boolean':
+      return {
+        type: 'Bool',
+        initializer: instance.toString(),
+        updateable: false,
+      };
+    case 'enum':
+      return getPrimitive(typeof instance, instance);
+    default:
+      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+      return;
+  }
+};
+
 const processComponentProperty = async (
   property: TargetProperty,
   instance: MaybeNestedArray<any>,
@@ -140,36 +175,7 @@ const processComponentProperty = async (
     };
   }
 
-  switch (property.type) {
-    case 'string':
-      return {
-        type: 'String',
-        initializer: `"${instance}"`,
-        updateable: false,
-      };
-    case 'number':
-    case 'float':
-      return {
-        type: 'CGFloat',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case 'int':
-      return {
-        type: 'Int',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case 'boolean':
-      return {
-        type: 'Bool',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    default:
-      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
-      return;
-  }
+  return getPrimitive(property.type!, instance);
 };
 
 /**
