@@ -11,7 +11,7 @@ public class File: NSObject, Codable {
             : "TODO"
     }
 
-    public init(withSrc src: String) {
+    public init(src: String) {
         self.src = src
         super.init()
     }

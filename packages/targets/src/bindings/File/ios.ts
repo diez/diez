@@ -8,7 +8,7 @@ const binding: IosBinding<File> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'File.swift')],
   imports: ['Foundation'],
   updateable: true,
-  initializer: (instance) => `File(withSrc: "${encodeFileSource(instance.src)}")`,
+  initializer: (instance) => `File(src: "${encodeFileSource(instance.src)}")`,
   assetsBinder: fileAssetBinder,
 };
 

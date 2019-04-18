@@ -8,14 +8,14 @@ public class SVG: NSObject, Codable, Updatable {
 
     init(withSrc src: String) {
         self.src = src
-        self.file = File(withSrc: "\(src).html")
+        self.file = File(src: "\(src).html")
         super.init()
     }
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         src = try container.decode(String.self, forKey: .src)
-        file = File(withSrc: "\(src).html")
+        file = File(src: "\(src).html")
     }
 
     public func embedSvg(inView view: UIView) {
