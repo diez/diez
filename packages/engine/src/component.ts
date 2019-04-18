@@ -76,7 +76,7 @@ export abstract class Component<T extends Indexable = any>
   /**
    * Responsible for serializing against our mutable state container.
    */
-  private readonly serializer: Serializer<T>;
+  protected readonly serializer: Serializer<T>;
 
   /**
    * Responsible for tracking tween end resolutions.

@@ -1,4 +1,3 @@
-import {join} from 'path';
 import {File} from '../src';
 
 describe('File', () => {

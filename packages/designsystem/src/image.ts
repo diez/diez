@@ -33,7 +33,7 @@ export class Image extends Component<ImageState> {
 
   serialize () {
     return {
-      file: this.file,
+      file: this.file.serialize(),
       width: Math.round(this.width),
       height: Math.round(this.height),
       scale: this.scale,

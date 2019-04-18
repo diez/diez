@@ -1,4 +1,4 @@
-import {File, Haiku} from '../src';
+import {Haiku} from '../src';
 
 describe('haiku', () => {
   test('basic functionality', () => {

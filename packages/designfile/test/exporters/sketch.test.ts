@@ -1,4 +1,3 @@
-import * as cli from '@diez/cli';
 import {cleanupMockCommandData, cleanupMockFileSystem, cleanupMockOsData, mockExec, mockOsData} from '@diez/test-utils';
 import {writeFile} from 'fs-extra';
 import {SketchExporter} from '../../src/exporters/sketch';

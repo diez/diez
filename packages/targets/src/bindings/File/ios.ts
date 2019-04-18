@@ -1,7 +1,7 @@
 import {encodeFileSource, File} from '@diez/designsystem';
 import {join} from 'path';
-import {IosBinding} from '../../targets/ios.api';
 import {fileAssetBinder} from '../../asset-binders/file';
+import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<File> = {

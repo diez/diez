@@ -1,7 +1,7 @@
 import {Haiku} from '@diez/designsystem';
 import {join} from 'path';
-import {IosBinding} from '../../targets/ios.api';
 import {haikuAssetBinder} from '../../asset-binders/haiku';
+import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<Haiku> = {

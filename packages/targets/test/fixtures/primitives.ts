@@ -14,14 +14,20 @@ export const primitivesComponentMap: NamedComponentMap = new Map([[
       {
         name: 'number',
         isComponent: false,
+        type: 'number',
+        depth: 0,
       },
       {
         name: 'string',
         isComponent: false,
+        type: 'string',
+        depth: 0,
       },
       {
         name: 'boolean',
         isComponent: false,
+        type: 'boolean',
+        depth: 0,
       },
     ],
   },

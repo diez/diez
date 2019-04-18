@@ -1,7 +1,9 @@
+import {CompilerProgram} from '@diez/compiler';
 import {registerExpectations} from '@diez/test-utils';
 import {ensureDirSync} from 'fs-extra';
 import {join} from 'path';
-import {IosOutput, processComponentInstance, writeSdk} from '../src/targets/ios.handler';
+import {IosOutput} from '../src/targets/ios.api';
+import {processComponentInstance, writeSdk} from '../src/targets/ios.handler';
 import {getTempFileName} from '../src/utils';
 import {PrimitivesComponent, primitivesComponentMap} from './fixtures/primitives';
 
@@ -15,10 +17,13 @@ describe('index', () => {
       sources: new Set(),
       dependencies: new Set(),
       assetBindings: new Map(),
+      program: {
+        targetComponents: primitivesComponentMap,
+        projectRoot: '',
+      } as CompilerProgram,
     };
 
-    expect(await processComponentInstance(
-      new PrimitivesComponent(), '', 'PrimitivesComponent', output, primitivesComponentMap)).toBe(true);
+    expect(await processComponentInstance(new PrimitivesComponent(), 'PrimitivesComponent', output)).toBe(true);
     expect(Array.from(output.processedComponents)).toEqual(['PrimitivesComponent']);
     expect(output.imports.size).toBe(0);
     expect(output.dependencies.size).toBe(0);
