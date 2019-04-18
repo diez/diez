@@ -1,11 +1,10 @@
-import {info, success, warning} from '@diez/cli';
+import {info, success, warning, UnauthorizedRequestException} from '@diez/cli';
 import {Registry} from '@diez/storage';
 import {prompt} from 'enquirer';
 import {ExporterFactory} from '../exporters';
 import {FigmaExporter, getFigmaAccessToken} from '../exporters/figma';
 import {IllustratorExporter} from '../exporters/illustrator';
 import {SketchExporter} from '../exporters/sketch';
-import {UnauthorizedRequestException} from '../helpers/request';
 
 const findFactory = async (source: string): Promise<ExporterFactory> => {
   for (const factory of [FigmaExporter, IllustratorExporter, SketchExporter]) {

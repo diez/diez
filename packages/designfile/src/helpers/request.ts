@@ -1,8 +1,6 @@
 import {createWriteStream, unlink} from 'fs-extra';
 import request, {Headers} from 'request';
-import {makeTypedError} from 'typed-errors';
-
-export const UnauthorizedRequestException = makeTypedError('UnauthorizedRequestException');
+import {UnauthorizedRequestException} from '@diez/cli';
 
 export const performGetRequestWithBearerToken = <T>(uri: string, token: string): Promise<T> => {
   return performGetRequest<T>(uri, true, {Authorization: `Bearer ${token}`});
