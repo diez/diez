@@ -284,7 +284,7 @@ export const androidHandler: CompilerTargetHandler = async (program) => {
     const devPort = await getHotPort();
     await serveHot(
       program.projectRoot,
-      require.resolve('@diez/targets/lib/android/android.component'),
+      require.resolve('@diez/targets/lib/targets/android.component'),
       devPort,
       staticRoot,
     );

@@ -315,7 +315,7 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
     const devPort = await getHotPort();
     await serveHot(
       program.projectRoot,
-      require.resolve('@diez/targets/lib/ios/ios.component'),
+      require.resolve('@diez/targets/lib/targets/ios.component'),
       devPort,
       staticRoot,
     );

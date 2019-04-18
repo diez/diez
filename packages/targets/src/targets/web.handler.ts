@@ -8,7 +8,7 @@ export const webHandler: CompilerTargetHandler = async (program) => {
     const devPort = await getHotPort();
     await serveHot(
       program.projectRoot,
-      require.resolve('@diez/targets/lib/web/web.component'),
+      require.resolve('@diez/targets/lib/targets/web.component'),
       devPort,
       'TODO',
     );
