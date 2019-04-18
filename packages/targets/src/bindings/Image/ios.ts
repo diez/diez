@@ -1,6 +1,6 @@
 import {Image} from '@diez/designsystem';
 import {join} from 'path';
-import {IosBinding} from '../../api';
+import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 

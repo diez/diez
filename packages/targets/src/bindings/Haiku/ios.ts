@@ -1,6 +1,6 @@
 import {Haiku} from '@diez/designsystem';
 import {join} from 'path';
-import {IosBinding} from '../../api';
+import {IosBinding} from '../../targets/ios.api';
 import {haikuAssetBinder} from '../../asset-binders/haiku';
 import {sourcesPath} from '../../utils';
 

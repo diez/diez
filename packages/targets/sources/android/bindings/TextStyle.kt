@@ -1,11 +1,3 @@
-package org.diez.typography
-
-import org.diez.color.Color
-import org.diez.color.QualifiedColor
-import java.io.File as CoreFile
-import android.graphics.Typeface
-import android.widget.TextView
-
 data class TextStyle(val font: String, val fontSize: Float, @QualifiedColor val color: Color) {
     fun typeface(): Typeface {
         if (foreignFontCache.containsKey(font)) {

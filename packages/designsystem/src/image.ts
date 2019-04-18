@@ -30,6 +30,15 @@ export class Image extends Component<ImageState> {
   @property height = 0;
 
   @property scale = 1;
+
+  serialize () {
+    return {
+      file: this.file,
+      width: Math.round(this.width),
+      height: Math.round(this.height),
+      scale: this.scale,
+    };
+  }
 }
 
 export interface SVGState {

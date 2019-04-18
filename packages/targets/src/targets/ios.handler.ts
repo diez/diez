@@ -1,6 +1,5 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
 import {
-  CompilerProgram,
   CompilerTargetHandler,
   getBinding,
   getHotPort,
@@ -14,23 +13,19 @@ import {outputTemplatePackage} from '@diez/storage';
 import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {dirname, join} from 'path';
-import {AssetBinding, IosBinding, IosComponentProperty, IosComponentSpec, IosDependency} from '../api';
 import {getTempFileName, loadComponentModule, sourcesPath} from '../utils';
+import {IosBinding, IosComponentProperty, IosComponentSpec, IosDependency, IosOutput} from './ios.api';
 
+/**
+ * The root location for source files.
+ */
 const coreIos = join(sourcesPath, 'ios');
 
 /**
- * Describes the complete output for a transpiled iOS target.
+ * Merges a new dependency to the existing set of dependencies.
+ *
+ * @internal
  */
-export interface IosOutput {
-  program: CompilerProgram;
-  processedComponents: Set<string>;
-  imports: Set<string>;
-  sources: Set<string>;
-  dependencies: Set<IosDependency>;
-  assetBindings: Map<string, AssetBinding>;
-}
-
 const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDependency) => {
   for (const dependency of dependencies) {
     if (dependency.cocoapods.name === newDependency.cocoapods.name) {
@@ -42,6 +37,11 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
   dependencies.add(newDependency);
 };
 
+/**
+ * Merges an iOS binding to existing output.
+ *
+ * @internal
+ */
 const mergeBindingToOutput = (output: IosOutput, binding: IosBinding<any>) => {
   for (const bindingImport of binding.imports) {
     output.imports.add(bindingImport);
@@ -58,6 +58,11 @@ const mergeBindingToOutput = (output: IosOutput, binding: IosBinding<any>) => {
   }
 };
 
+/**
+ * Reducer for array component properties.
+ *
+ * Retypes `String` as `[String]` and consolidates initializers.
+ */
 const collectComponentProperties = (
   allProperties: (IosComponentProperty | undefined)[],
 ): IosComponentProperty | undefined => {
@@ -310,7 +315,7 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
     );
     writeSdk(output, sdkRoot, staticRoot, true, hostname, devPort);
     // TODO: watch for hot updates and update the SDK when things change.
-    // TODO: when we shut down, compile once in prod mode.
+    // TODO: when we shut down, compile once in prod mode?
   } else {
     writeSdk(output, sdkRoot, staticRoot, false, hostname);
   }

@@ -1,6 +1,6 @@
 import {encodeFileSource, SVG} from '@diez/designsystem';
 import {join} from 'path';
-import {IosBinding} from '../../api';
+import {IosBinding} from '../../targets/ios.api';
 import {svgAssetBinder} from '../../asset-binders/svg';
 import {sourcesPath} from '../../utils';
 
