@@ -1,4 +1,4 @@
-public class Lottie : NSObject, Decodable, Updatable {
+public class Lottie: NSObject, Decodable, Updatable {
     public var file: File
 
     init(withFile file: File) {

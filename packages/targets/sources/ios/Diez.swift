@@ -1,11 +1,11 @@
 public typealias Method = (String, Any?) -> Void
 
-public protocol StateBag : Decodable, Updatable {
+public protocol StateBag: Decodable, Updatable {
     init(_ listener: Method?)
     static var name: String { get }
 }
 
-public class Diez<T>: NSObject, WKScriptMessageHandler where T : StateBag {
+public class Diez<T>: NSObject, WKScriptMessageHandler where T: StateBag {
     public private(set) var component: T
     private let decoder = JSONDecoder()
     private var subscribers: [(T) -> Void] = []

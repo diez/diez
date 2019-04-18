@@ -1,4 +1,4 @@
-public class SVG : NSObject, Codable, Updatable {
+public class SVG: NSObject, Codable, Updatable {
     var src: String
     private var file: File?
 

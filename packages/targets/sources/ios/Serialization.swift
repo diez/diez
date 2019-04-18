@@ -110,7 +110,7 @@ class NestedSingleValueDecodingContainer<Key: CodingKey>: SingleValueDecodingCon
         return try container.decode(type, forKey: key)
     }
 
-    func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
+    func decode<T>(_ type: T.Type) throws -> T where T: Decodable {
         return try container.decode(type, forKey: key)
     }
 
@@ -123,19 +123,19 @@ class NestedDecoder<Key: CodingKey>: Decoder {
     let container: KeyedDecodingContainer<Key>
     let key: Key
 
-    init(from container: KeyedDecodingContainer<Key>, key: Key, userInfo: [CodingUserInfoKey : Any] = [:]) {
+    init(from container: KeyedDecodingContainer<Key>, key: Key, userInfo: [CodingUserInfoKey: Any] = [:]) {
         self.container = container
         self.key = key
         self.userInfo = userInfo
     }
 
-    var userInfo: [CodingUserInfoKey : Any]
+    var userInfo: [CodingUserInfoKey: Any]
 
     var codingPath: [CodingKey] {
         return container.codingPath
     }
 
-    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key: CodingKey {
         return try container.nestedContainer(keyedBy: type, forKey: key)
     }
 
@@ -149,7 +149,7 @@ class NestedDecoder<Key: CodingKey>: Decoder {
 }
 
 extension KeyedDecodingContainer {
-    public func update<T: Updatable>(_ value: inout T, forKey key: Key, userInfo: [CodingUserInfoKey : Any] = [:]) throws {
+    public func update<T: Updatable>(_ value: inout T, forKey key: Key, userInfo: [CodingUserInfoKey: Any] = [:]) throws {
         let nestedDecoder = NestedDecoder(from: self, key: key, userInfo: userInfo)
         try value.update(from: nestedDecoder)
     }

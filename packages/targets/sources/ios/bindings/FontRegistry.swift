@@ -1,4 +1,4 @@
-public class FontRegistry : NSObject, Codable {
+public class FontRegistry: NSObject, Codable {
     var files: [File]
     var registeredFiles: Set<File> = []
 
@@ -55,7 +55,7 @@ public class FontRegistry : NSObject, Codable {
     }
 }
 
-extension FontRegistry : Updatable {
+extension FontRegistry: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         files = try container.decode([File].self, forKey: .files)

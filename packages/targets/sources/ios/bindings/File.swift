@@ -1,4 +1,4 @@
-public class File : NSObject, Codable {
+public class File: NSObject, Codable {
     public var src: String
 
     private func fullyQualifiedUrl() -> String {
@@ -36,14 +36,14 @@ public class File : NSObject, Codable {
         return src == other.src
     }
 
-    public override var hash : Int {
+    public override var hash: Int {
         var hasher = Hasher()
         hasher.combine(src)
         return hasher.finalize()
     }
 }
 
-extension File : Updatable {
+extension File: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         src = try container.decode(String.self, forKey: .src)

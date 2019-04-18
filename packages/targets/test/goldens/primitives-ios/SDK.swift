@@ -1,5 +1,5 @@
 
-public final class PrimitivesComponent : NSObject, StateBag {
+public final class PrimitivesComponent: NSObject, StateBag {
     var listener: Method? = nil
     public var number: CGFloat
     public var string: String

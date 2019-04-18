@@ -1,6 +1,6 @@
 fileprivate let fallbackFont = "Helvetica"
 
-public class TextStyle : NSObject, Decodable, Updatable {
+public class TextStyle: NSObject, Decodable, Updatable {
     enum CodingKeys: String, CodingKey {
         case fontName = "font"
         case fontSize

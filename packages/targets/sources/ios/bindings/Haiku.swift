@@ -3,7 +3,7 @@ import WebKit
 
 // TODO: this should also be updatable.
 // TODO: this should also accept options.
-public class Haiku : NSObject, Decodable, Updatable {
+public class Haiku: NSObject, Decodable, Updatable {
     var component: String
 
     init(withComponent component: String) {

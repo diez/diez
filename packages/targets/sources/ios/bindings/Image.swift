@@ -1,4 +1,4 @@
-public class Image : NSObject, Decodable, Updatable {
+public class Image: NSObject, Decodable, Updatable {
     public var file: File
     var width: CGFloat
     var height: CGFloat

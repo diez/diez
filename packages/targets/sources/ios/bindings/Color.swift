@@ -1,4 +1,4 @@
-public class Color : NSObject, Decodable, Updatable {
+public class Color: NSObject, Decodable, Updatable {
     var h: CGFloat
     var s: CGFloat
     var l: CGFloat
