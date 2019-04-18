@@ -1,6 +1,6 @@
+import {UnauthorizedRequestException} from '@diez/cli';
 import {createWriteStream, unlink} from 'fs-extra';
 import request, {Headers} from 'request';
-import {UnauthorizedRequestException} from '@diez/cli';
 
 export const performGetRequestWithBearerToken = <T>(uri: string, token: string): Promise<T> => {
   return performGetRequest<T>(uri, true, {Authorization: `Bearer ${token}`});

@@ -1,4 +1,4 @@
-import {info, success, warning, UnauthorizedRequestException} from '@diez/cli';
+import {info, success, UnauthorizedRequestException, warning} from '@diez/cli';
 import {Registry} from '@diez/storage';
 import {prompt} from 'enquirer';
 import {ExporterFactory} from '../exporters';
