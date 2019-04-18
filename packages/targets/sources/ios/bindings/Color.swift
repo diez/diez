@@ -13,11 +13,9 @@ public class Color: NSObject, Decodable, Updatable {
     }
 
     public var color: UIColor {
-        get {
-            let brightness = l + s * min(l, 1 - l)
-            let saturation = (brightness == 0) ? 0 : 2 - 2 * l / brightness
-            return UIColor(hue: h, saturation: saturation, brightness: brightness, alpha: a)
-        }
+        let brightness = l + s * min(l, 1 - l)
+        let saturation = (brightness == 0) ? 0 : 2 - 2 * l / brightness
+        return UIColor(hue: h, saturation: saturation, brightness: brightness, alpha: a)
     }
 
     public init(hue: CGFloat, saturation: CGFloat, lightness: CGFloat, alpha: CGFloat) {
