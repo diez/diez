@@ -1,5 +1,8 @@
 import {createWriteStream, unlink} from 'fs-extra';
 import request, {Headers} from 'request';
+import {makeTypedError} from 'typed-errors';
+
+export const UnauthorizedRequestException = makeTypedError('UnauthorizedRequestException');
 
 export const performGetRequestWithBearerToken = <T>(uri: string, token: string): Promise<T> => {
   return performGetRequest<T>(uri, true, {Authorization: `Bearer ${token}`});
@@ -9,7 +12,11 @@ export const performGetRequest = <T>(uri: string, json = true, headers?: Headers
   return new Promise<T>((resolve, reject) => {
     request({uri, headers, json}, (error, response, body) => {
       if (error || response.statusCode !== 200) {
-        reject(new Error(error ? error.message : body.err));
+        if (response.statusCode === 403) {
+          reject(new UnauthorizedRequestException());
+        } else {
+          reject(new Error(error ? error.message : body.err));
+        }
       } else {
         resolve(body as T);
       }
