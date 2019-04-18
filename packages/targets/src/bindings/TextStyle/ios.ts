@@ -9,8 +9,8 @@ const binding: IosBinding<TextStyle> = {
   imports: ['UIKit'],
   updateable: true,
   initializer: (instance) =>
-    `TextStyle(withFont: "${instance.font}", withFontSize: ${instance.fontSize}, ` +
-    `withColor: ${colorInitializer!(instance.color)})`,
+    `TextStyle(fontName: "${instance.font}", fontSize: ${instance.fontSize}, ` +
+    `color: ${colorInitializer!(instance.color)})`,
 };
 
 export = binding;

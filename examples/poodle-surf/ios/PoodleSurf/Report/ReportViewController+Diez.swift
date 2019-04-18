@@ -25,8 +25,8 @@ extension ReportViewController {
     }
 
     private func apply(_ design: HeaderDesign, to view: ReportHeaderView) {
-        design.regionLabel.setTextStyle(forLabel: view.regionLabel)
-        design.placeLabel.setTextStyle(forLabel: view.placeLabel)
+        view.regionLabel.apply(design.regionLabel)
+        view.placeLabel.apply(design.placeLabel)
         view.pinIconImageView.image = try? design.mapPinIcon.image()
         view.locationImageView.strokeWidth = design.locationImage.strokeWidth
         view.locationImageView.strokeGradient = Gradient(design.locationImage.strokeGradient)
@@ -40,29 +40,29 @@ extension ReportViewController {
     private func apply(_ design: WaterTemperatureCardDesign, to view: TemperatureCardView) {
         view.horizontalSpacing = design.horizontalSpacing
         view.titleLabel.text = design.title
-        design.titleTextStyle.setTextStyle(forLabel: view.titleLabel)
+        view.titleLabel.apply(design.titleTextStyle)
         view.gradient = Gradient(design.gradient)
         apply(design.temperature, to: view.temperatureView)
         apply(design.wetsuit, to: view.wetsuitView)
     }
 
     private func apply(_ design: TemperatureDesign, to view: HorizontalImageLabelView) {
-        design.textStyle.setTextStyle(forLabel: view.label)
+        view.label.apply(design.textStyle)
         view.imageView.image = try? design.icon.image()
         view.spacing = design.iconSpacing
     }
 
     private func apply(_ design: WetsuitDesign, to view: HorizontalImageVerticalLabelsView) {
         view.topLabel.text = design.headerText
-        design.headerTextStyle.setTextStyle(forLabel: view.topLabel)
-        design.valueTextStyle.setTextStyle(forLabel: view.bottomLabel)
+        view.topLabel.apply(design.headerTextStyle)
+        view.bottomLabel.apply(design.valueTextStyle)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
     }
 
     private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
         view.titleLabel.text = design.title
-        design.titleTextStyle.setTextStyle(forLabel: view.titleLabel)
+        view.titleLabel.apply(design.titleTextStyle)
         view.gradient = Gradient(design.gradient)
         view.dayPartsHorizontalSpacing = design.dayPartsHorizontalSpacing
         view.separatorWidth = design.separatorWidth
@@ -76,9 +76,9 @@ extension ReportViewController {
     }
 
     private func apply(_ design: SharedDayPartDesign, to view: DayPartView) {
-        design.valueTextStyle.setTextStyle(forLabel: view.valueLabel)
-        design.unitTextStyle.setTextStyle(forLabel: view.unitLabel)
-        design.timeTextStyle.setTextStyle(forLabel: view.timeLabel)
+        view.valueLabel.apply(design.valueTextStyle)
+        view.unitLabel.apply(design.unitTextStyle)
+        view.timeLabel.apply(design.timeTextStyle)
         view.valueUnitSpacing = design.valueUnitSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
     }
@@ -90,7 +90,7 @@ extension ReportViewController {
     func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
         navigationBar.barTintColor = design.barTintColor.color
         view.label.text = design.title
-        design.textStyle.setTextStyle(forLabel: view.label)
+        view.label.apply(design.textStyle)
         view.imageView.image = try? design.icon.image()
     }
 }

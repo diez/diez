@@ -1,12 +1,18 @@
 fileprivate let fallbackFont = "Helvetica"
 
 public class TextStyle : NSObject, Decodable, Updatable {
-    var font: String
+    enum CodingKeys: String, CodingKey {
+        case fontName = "font"
+        case fontSize
+        case color
+    }
+
+    var fontName: String
     var fontSize: CGFloat
     var color: Color
 
-    init(withFont font: String, withFontSize fontSize: CGFloat, withColor color: Color) {
-        self.font = font
+    init(fontName: String, fontSize: CGFloat, color: Color) {
+        self.fontName = fontName
         self.fontSize = fontSize
         self.color = color
         super.init()
@@ -14,21 +20,37 @@ public class TextStyle : NSObject, Decodable, Updatable {
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        font = try container.decode(String.self, forKey: .font)
+        fontName = try container.decode(String.self, forKey: .fontName)
         fontSize = try container.decode(CGFloat.self, forKey: .fontSize)
         color = try container.decode(Color.self, forKey: .color)
     }
 
-    public func fontWithSize() -> UIFont {
-        guard let font = UIFont(name: font, size: fontSize) else {
+    public var font: UIFont {
+        guard let font = UIFont(name: fontName, size: fontSize) else {
             return UIFont(name: fallbackFont, size: fontSize)!
         }
 
         return font
     }
+}
 
-    public func setTextStyle(forLabel label: UILabel) {
-        label.font = fontWithSize()
-        label.textColor = color.color
+public extension UILabel {
+    func apply(_ textStyle: TextStyle) {
+      font = textStyle.font
+      textColor = textStyle.color.color
+    }
+}
+
+public extension UITextView {
+    func apply(_ textStyle: TextStyle) {
+      font = textStyle.font
+      textColor = textStyle.color.color
+    }
+}
+
+public extension UITextField {
+    func apply(_ textStyle: TextStyle) {
+      font = textStyle.font
+      textColor = textStyle.color.color
     }
 }
