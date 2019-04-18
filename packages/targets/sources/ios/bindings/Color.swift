@@ -20,10 +20,10 @@ public class Color : NSObject, Decodable, Updatable {
         }
     }
 
-    public init(withHue h: CGFloat, withSaturation s: CGFloat, withLightness l: CGFloat, withAlpha a: CGFloat) {
-        self.h = h
-        self.s = s
-        self.l = l
-        self.a = a
+    public init(hue: CGFloat, saturation: CGFloat, lightness: CGFloat, alpha: CGFloat) {
+        self.h = hue
+        self.s = saturation
+        self.l = lightness
+        self.a = alpha
     }
 }

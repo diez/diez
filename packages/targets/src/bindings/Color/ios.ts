@@ -10,7 +10,7 @@ const binding: IosBinding<Color> = {
   updateable: false,
   initializer: (instance) => {
     const {h, s, l, a} = instance.serialize();
-    return `Color(withHue: ${h}, withSaturation: ${s}, withLightness: ${l}, withAlpha: ${a})`;
+    return `Color(hue: ${h}, saturation: ${s}, lightness: ${l}, alpha: ${a})`;
   },
 };
 
