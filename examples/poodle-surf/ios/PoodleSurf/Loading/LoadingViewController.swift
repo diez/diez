@@ -11,9 +11,7 @@ import Diez
 import Lottie
 
 class LoadingViewController: UIViewController {
-    private lazy var diezDesignSystem: Diez<DesignSystem> = {
-        return Diez(view)
-    }()
+    private lazy var diez = Diez<DesignSystem>(view)
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -24,7 +22,7 @@ class LoadingViewController: UIViewController {
 
         applyFallbackStyle(to: loadingView)
 
-        diezDesignSystem.attach { [weak self] system in
+        diez.attach { [weak self] system in
             self?.apply(system)
         }
     }

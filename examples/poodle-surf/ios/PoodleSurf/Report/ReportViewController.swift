@@ -10,36 +10,20 @@ import UIKit
 import Diez
 
 class ReportViewController: UIViewController {
-    private lazy var diezDesignSystem: Diez<DesignSystem> = {
-        return Diez(view)
-    }()
-
-    private lazy var diezModelMocks: Diez<ModelMocks> = {
-        return Diez(view)
-    }()
+    private lazy var diez = Diez<DesignSystem>(view)
+    private var binder: ReportViewModelBinder?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.titleView = titleView
 
-        let model = ReportModel.makeExample()
-        let binder = ReportViewModelBinder(view: reportView)
-        binder.update(with: model)
+        binder = ReportViewModelBinder(view: reportView)
 
         applyFallbackStyleTo(reportView: reportView, titleView: titleView)
 
-        diezDesignSystem.attach { [weak self] system in
+        diez.attach { [weak self] system in
             self?.apply(system)
-        }
-
-        diezModelMocks.attach { mocks in
-            guard let model = ReportModel(mock: mocks.report) else {
-                print("Failed to create model from Diez mock.")
-                return
-            }
-
-            binder.update(with: model)
         }
     }
 

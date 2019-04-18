@@ -7,12 +7,27 @@
 //
 
 import UIKit
+import Diez
 
 class ReportViewModelBinder {
     let view: ReportView
+    private let diez: Diez<ModelMocks>
 
     init(view: ReportView) {
         self.view = view
+        diez = Diez(view)
+
+        let model = ReportModel.makeExample()
+        update(with: model)
+
+        diez.attach { [weak self] mocks in
+            guard let model = ReportModel(mock: mocks.report) else {
+                print("Failed to create model from Diez mock.")
+                return
+            }
+
+            self?.update(with: model)
+        }
     }
 
     func update(with model: ReportModel) {
