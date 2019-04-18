@@ -12,7 +12,7 @@ public class Lottie: NSObject, Decodable, Updatable {
     }
 
     public func view() -> LOTAnimationView? {
-        guard let url = file.url() else {
+        guard let url = file.url else {
             print("unable to load Lottie URL")
             return nil
         }

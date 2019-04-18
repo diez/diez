@@ -1,7 +1,7 @@
 public class File: NSObject, Codable {
-    public var src: String
+    var src: String
 
-    private func fullyQualifiedUrl() -> String {
+    private var fullyQualifiedURLString: String {
         // TODO: when we are not in development, we should load the file from a local bundle URL.
         // This will look something like: Bundle.main.url(forResource: "index", withExtension: "html")
         // except we will be loading from the framework bundle (not main). Probably this should be handled
@@ -16,12 +16,12 @@ public class File: NSObject, Codable {
         super.init()
     }
 
-    public func url() -> URL? {
-        return URL(string: fullyQualifiedUrl())
+    public var url: URL? {
+        return URL(string: fullyQualifiedURLString)
     }
 
-    public func request() -> URLRequest? {
-        guard let url = url() else {
+    public var request: URLRequest? {
+        guard let url = url else {
             return nil
         }
 
