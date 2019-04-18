@@ -1,9 +1,5 @@
 import commander, {Command} from 'commander';
 import {bootstrap} from '../src/cli';
-import {resolveFixtureModules, restoreModules} from './helpers';
-
-beforeAll(resolveFixtureModules);
-afterAll(restoreModules);
 
 describe('cli', () => {
   test('basic functionality', async () => {
