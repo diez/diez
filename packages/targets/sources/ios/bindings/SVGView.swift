@@ -23,6 +23,8 @@ public final class SVGView: UIView {
         webView.load(request)
     }
 
+    private let webView = WKWebView()
+
     private func setup() {
         webView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(webView)
@@ -33,8 +35,6 @@ public final class SVGView: UIView {
             webView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
-
-    private let webView = WKWebView()
 
     public override class var requiresConstraintBasedLayout: Bool { return true }
 }
