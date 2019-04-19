@@ -1,28 +1,8 @@
 import UIKit.UIView
 import WebKit
 
-// TODO: this should also be updatable.
 // TODO: this should also accept options.
-public class Haiku: NSObject, Decodable, Updatable {
-    var component: String
-
-    init(withComponent component: String) {
-        self.component = component
-    }
-
-    private func file() -> File {
-      return File(src: "haiku/\(component).html")
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case component
-    }
-
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        component = try container.decode(String.self, forKey: .component)
-    }
-
+public final class Haiku: NSObject, Decodable {
     public func embedHaiku(inView view: UIView) {
         guard let request = file().request() else {
             print("unable to load Haiku URL")
@@ -38,5 +18,26 @@ public class Haiku: NSObject, Decodable, Updatable {
         wk.backgroundColor = .clear
         wk.load(request)
         view.addSubview(wk)
+    }
+
+    var component: String
+
+    init(withComponent component: String) {
+        self.component = component
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case component
+    }
+
+    private func file() -> File {
+      return File(src: "haiku/\(component).html")
+    }
+}
+
+extension Haiku: Updatable {
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        component = try container.decode(String.self, forKey: .component)
     }
 }

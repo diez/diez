@@ -1,10 +1,6 @@
-public class FontRegistry: NSObject, Codable {
+public final class FontRegistry: NSObject, Decodable {
     var files: [File]
     var registeredFiles: Set<File> = []
-
-    private enum CodingKeys: String, CodingKey {
-        case files
-    }
 
     init(withFiles files: [File]) {
         self.files = files
@@ -12,8 +8,12 @@ public class FontRegistry: NSObject, Codable {
         self.registerFonts(withFiles: files)
     }
 
+    private enum CodingKeys: String, CodingKey {
+        case files
+    }
+
     private func registerFonts(withFiles files: [File]) {
-        files.forEach{
+        files.forEach {
             if registeredFiles.contains($0) {
                 return
             }
