@@ -12,6 +12,8 @@ import Lottie
 extension LoadingViewController {
     func applyFallbackStyle(to view: LoadingView) {
         view.backgroundColor = UIColor(red: 120/255, green: 207/255, blue: 253/255, alpha: 1)
-        view.setAnimationView(to: LOTAnimationView(name: "hang10"))
+        view.animationView.setAnimation(named: "hang10")
+        view.animationView.loopAnimation = true
+        view.animationView.play()
     }
 }

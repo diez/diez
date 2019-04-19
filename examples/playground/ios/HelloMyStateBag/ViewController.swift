@@ -7,7 +7,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var animationContainer: WKWebView!
     @IBOutlet weak var ratContainer: WKWebView!
-    @IBOutlet weak var lottieContainer: UIView!
+    @IBOutlet weak var lottieContainer: LOTAnimationView!
 
     private lazy var diez = Diez<MyStateBag>(view)
 
@@ -44,23 +44,8 @@ class ViewController: UIViewController {
 
             self.ratContainer.load(component.svg)
             self.animationContainer.load(component.haiku)
-            self.update(with: component.lottie)
+            self.lottieContainer.load(component.lottie)
         }
-    }
-
-    // TODO: Use a convenience extension on LOTAnimationView
-    private func update(with lottie: Lottie) {
-        animationContainer.subviews.forEach { $0.removeFromSuperview() }
-
-        guard let url = lottie.url else { return }
-
-        let animationView = LOTAnimationView(contentsOf: url)
-        animationView.loopAnimation = true
-        animationView.play()
-
-        animationView.frame = animationContainer.bounds
-        animationView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        animationContainer.addSubview(animationView)
     }
 
     @objc func handleSingleTap() {
