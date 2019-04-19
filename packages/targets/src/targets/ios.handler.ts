@@ -344,14 +344,14 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
 import Diez
 
 class ViewController: UIViewController {
-  let diez = Diez<${program.localComponentNames[0]}>()
+    private lazy var diez = Diez<${program.localComponentNames[0]}>(view)
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    diez.attach(self, subscriber: {(component: ${program.localComponentNames[0]}) in
-      // ...
-    })
-  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        diez.attach { [weak self] component in
+            // ...
+        }
+    }
 }
 `);
 };
