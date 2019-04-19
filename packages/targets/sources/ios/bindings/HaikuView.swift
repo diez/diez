@@ -17,6 +17,8 @@ public final class HaikuView: UIView {
             return
         }
 
+        // TODO: Warn user if NSAppTransportSecurity.NSAllowsLocalNetworking is not set to true in their Info.plist.
+
         webView.scrollView.isScrollEnabled = false
         webView.isOpaque = false
         webView.backgroundColor = .clear
