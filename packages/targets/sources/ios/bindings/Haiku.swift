@@ -27,17 +27,3 @@ extension Haiku: Updatable {
         component = try container.decode(String.self, forKey: .component)
     }
 }
-
-extension WKWebView {
-    public func load(_ haiku: Haiku) {
-        guard let request = haiku.file.request else {
-            print("unable to load Haiku URL")
-            return
-        }
-
-        scrollView.isScrollEnabled = false
-        isOpaque = false
-        backgroundColor = .clear
-        load(request)
-    }
-}

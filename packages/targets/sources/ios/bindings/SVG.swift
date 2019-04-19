@@ -24,17 +24,3 @@ extension SVG: Updatable {
         src = try container.decode(String.self, forKey: .src)
     }
 }
-
-extension WKWebView {
-    public func load(_ svg: SVG) {
-        guard let request = svg.file.request else {
-            print("unable to load SVG URL")
-            return
-        }
-
-        scrollView.isScrollEnabled = false
-        isOpaque = false
-        backgroundColor = .clear
-        load(request)
-    }
-}
