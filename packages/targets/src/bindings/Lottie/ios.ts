@@ -5,7 +5,10 @@ import {sourcesPath} from '../../utils';
 import {initializer as fileInitializer} from '../File/ios';
 
 const binding: IosBinding<Lottie> = {
-  sources: [join(sourcesPath, 'ios', 'bindings', 'Lottie.swift')],
+  sources: [
+    join(sourcesPath, 'ios', 'bindings', 'Lottie.swift'), 
+    join(sourcesPath, 'ios', 'bindings', 'Lottie+LOTAnimationView.swift'),
+  ],
   imports: ['UIKit', 'Lottie'],
   updateable: true,
   initializer: (instance) =>
