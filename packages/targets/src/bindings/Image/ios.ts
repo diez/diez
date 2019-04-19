@@ -9,8 +9,8 @@ const binding: IosBinding<Image> = {
   imports: ['UIKit'],
   updateable: true,
   initializer: (instance) =>
-    `Image(withFile: ${fileInitializer!(instance.file)}, withWidth: ${instance.width}, ` +
-    `withHeight: ${instance.height}, withScale: ${instance.scale})`,
+    `Image(file: ${fileInitializer!(instance.file)}, width: ${instance.width}, ` +
+    `height: ${instance.height}, scale: ${instance.scale})`,
 };
 
 export = binding;

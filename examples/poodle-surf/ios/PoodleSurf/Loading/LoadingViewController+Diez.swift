@@ -8,16 +8,18 @@
 
 import UIKit
 import Diez
+import Lottie
 
 extension LoadingViewController {
     func apply(_ design: LoadingDesign, to view: LoadingView) {
         view.backgroundColor = design.backgroundColor.color
 
-        guard let animationView = design.animation.view() else {
-            print("Failed to load lottie animation view.")
+        guard let url = design.animation.url else {
+            print("Failed to load lottie animation view url.")
             return
         }
 
+        let animationView = LOTAnimationView(contentsOf: url)
         view.setAnimationView(to: animationView)
     }
 }

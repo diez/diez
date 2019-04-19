@@ -9,7 +9,7 @@ const binding: IosBinding<SVG> = {
   imports: ['UIKit', 'WebKit'],
   updateable: true,
   initializer: (instance) =>
-    `SVG(withSrc: "${encodeFileSource(instance.src)}")`,
+    `SVG(src: "${encodeFileSource(instance.src)}")`,
   assetsBinder: svgAssetBinder,
 };
 

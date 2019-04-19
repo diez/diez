@@ -1,13 +1,15 @@
 import UIKit
 import Diez
+import WebKit
+import Lottie
 
 class ViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var animationContainer: UIView!
-    @IBOutlet weak var ratContainer: UIView!
+    @IBOutlet weak var animationContainer: WKWebView!
+    @IBOutlet weak var ratContainer: WKWebView!
     @IBOutlet weak var lottieContainer: UIView!
 
-    let diez = Diez<MyStateBag>()
+    private lazy var diez = Diez<MyStateBag>(view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,20 +32,35 @@ class ViewController: UIViewController {
         lottieContainer.autoresizesSubviews = true
         lottieContainer.backgroundColor = .clear
 
-        // TODO: allow these to update on changes in a sane way.
-        diez.component.haiku.embedHaiku(inView: animationContainer)
-        diez.component.svg.embedSvg(inView: ratContainer)
-        diez.component.lottie.embedLottie(inView: lottieContainer)
-
         // Subscribe to component changes.
-        diez.attach(self, subscriber: {(component: MyStateBag) in
+        diez.attach { [weak self] component in
+            guard let self = self else { return }
+
             self.label.text = "\(component.copy). \(component.numbers[10])"
-            component.textStyle.setTextStyle(forLabel: self.label)
-            self.label.sizeToFit()
-            self.label.textAlignment = .center
-            self.label.center = self.view.center
-            component.image.setBackground(forView: self.view)
-        })
+            self.label.apply(component.textStyle)
+            if let image = component.image.image {
+                self.view.backgroundColor = UIColor(patternImage: image)
+            }
+
+            self.ratContainer.load(component.svg)
+            self.animationContainer.load(component.haiku)
+            self.update(with: component.lottie)
+        }
+    }
+
+    // TODO: Use a convenience extension on LOTAnimationView
+    private func update(with lottie: Lottie) {
+        animationContainer.subviews.forEach { $0.removeFromSuperview() }
+
+        guard let url = lottie.url else { return }
+
+        let animationView = LOTAnimationView(contentsOf: url)
+        animationView.loopAnimation = true
+        animationView.play()
+
+        animationView.frame = animationContainer.bounds
+        animationView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        animationContainer.addSubview(animationView)
     }
 
     @objc func handleSingleTap() {

@@ -28,8 +28,8 @@ extension ReportModel {
 extension ReportModel.Location {
     init?(mock: LocationMock) {
         guard
-            let mapImageURL = mock.mapImage.file.url,
-            let bannerImageURL = mock.bannerImage.file.url else {
+            let mapImageURL = mock.mapImage.url,
+            let bannerImageURL = mock.bannerImage.url else {
                 return nil
         }
 
@@ -67,7 +67,7 @@ extension ReportModel.WindForecast {
 
 extension ReportModel.WindForecast.DayPart {
     init?(mock: WindDayPartMock) {
-        guard let directionImageURL = mock.direction.file.url else {
+        guard let directionImageURL = mock.direction.url else {
             return nil
         }
 

@@ -9,7 +9,7 @@ const binding: IosBinding<Lottie> = {
   imports: ['UIKit', 'Lottie'],
   updateable: true,
   initializer: (instance) =>
-    `Lottie(withFile: ${fileInitializer!(instance.file)})`,
+    `Lottie(file: ${fileInitializer!(instance.file)})`,
   dependencies: [{
     cocoapods: {
       name: 'lottie-ios',

@@ -2,7 +2,6 @@ public final class File: NSObject, Decodable {
     public var url: URL? {
         return URL(string: fullyQualifiedURLString)
     }
-
     public var request: URLRequest? {
         guard let url = url else {
             return nil

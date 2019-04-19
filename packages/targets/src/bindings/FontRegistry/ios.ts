@@ -8,7 +8,7 @@ const binding: IosBinding<FontRegistry> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'FontRegistry.swift')],
   imports: ['UIKit'],
   updateable: true,
-  initializer: (instance) => `FontRegistry(withFiles: [
+  initializer: (instance) => `FontRegistry(files: [
 ${instance.files.map((file) => `            ${fileInitializer!(file)},`).join('\n')}
         ])`,
 };

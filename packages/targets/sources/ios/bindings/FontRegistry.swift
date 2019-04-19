@@ -1,26 +1,27 @@
+// TODO: Make internal
 public final class FontRegistry: NSObject, Decodable {
     var files: [File]
     var registeredFiles: Set<File> = []
 
-    init(withFiles files: [File]) {
+    init(files: [File]) {
         self.files = files
         super.init()
-        self.registerFonts(withFiles: files)
+        self.registerFonts(with: files)
     }
 
     private enum CodingKeys: String, CodingKey {
         case files
     }
 
-    private func registerFonts(withFiles files: [File]) {
-        files.forEach {
-            if registeredFiles.contains($0) {
+    private func registerFonts(with files: [File]) {
+        files.forEach { file in
+            if registeredFiles.contains(file) {
                 return
             }
 
-            registeredFiles.insert($0)
+            registeredFiles.insert(file)
 
-            guard let url = $0.url() else {
+            guard let url = file.url else {
                 return
             }
 
@@ -60,6 +61,6 @@ extension FontRegistry: Updatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         files = try container.decode([File].self, forKey: .files)
         // TODO: diff files, only register the new ones
-        self.registerFonts(withFiles: files)
+        self.registerFonts(with: files)
     }
 }

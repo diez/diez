@@ -1,10 +1,10 @@
-fileprivate let fallbackFont = "Helvetica"
+public class TextStyle: NSObject, Decodable {
+    public var font: UIFont {
+        guard let font = UIFont(name: fontName, size: fontSize) else {
+            return UIFont(name: "Helvetica", size: fontSize)!
+        }
 
-public class TextStyle: NSObject, Decodable, Updatable {
-    enum CodingKeys: String, CodingKey {
-        case fontName = "font"
-        case fontSize
-        case color
+        return font
     }
 
     var fontName: String
@@ -18,39 +18,39 @@ public class TextStyle: NSObject, Decodable, Updatable {
         super.init()
     }
 
+    private enum CodingKeys: String, CodingKey {
+        case fontName = "font"
+        case fontSize
+        case color
+    }
+}
+
+extension TextStyle: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         fontName = try container.decode(String.self, forKey: .fontName)
         fontSize = try container.decode(CGFloat.self, forKey: .fontSize)
         color = try container.decode(Color.self, forKey: .color)
     }
-
-    public var font: UIFont {
-        guard let font = UIFont(name: fontName, size: fontSize) else {
-            return UIFont(name: fallbackFont, size: fontSize)!
-        }
-
-        return font
-    }
 }
 
 public extension UILabel {
     func apply(_ textStyle: TextStyle) {
-      font = textStyle.font
-      textColor = textStyle.color.color
+        font = textStyle.font
+        textColor = textStyle.color.color
     }
 }
 
 public extension UITextView {
     func apply(_ textStyle: TextStyle) {
-      font = textStyle.font
-      textColor = textStyle.color.color
+        font = textStyle.font
+        textColor = textStyle.color.color
     }
 }
 
 public extension UITextField {
     func apply(_ textStyle: TextStyle) {
-      font = textStyle.font
-      textColor = textStyle.color.color
+        font = textStyle.font
+        textColor = textStyle.color.color
     }
 }

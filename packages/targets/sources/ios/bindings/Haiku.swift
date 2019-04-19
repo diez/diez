@@ -3,24 +3,14 @@ import WebKit
 
 // TODO: this should also accept options.
 public final class Haiku: NSObject, Decodable {
-    public func embedHaiku(inView view: UIView) {
-        guard let request = file().request() else {
-            print("unable to load Haiku URL")
-            return
-        }
-
-        // TODO: keep a weak handle to this webview and update it on updates.
-        // TODO: implement a HaikuView metaclass.
-        let wk = WKWebView(frame: view.bounds)
-        wk.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        wk.scrollView.isScrollEnabled = false
-        wk.isOpaque = false
-        wk.backgroundColor = .clear
-        wk.load(request)
-        view.addSubview(wk)
+    public var url: URL? {
+        return file.url
     }
 
     var component: String
+    var file: File {
+      return File(src: "haiku/\(component).html")
+    }
 
     init(withComponent component: String) {
         self.component = component
@@ -29,15 +19,25 @@ public final class Haiku: NSObject, Decodable {
     private enum CodingKeys: String, CodingKey {
         case component
     }
-
-    private func file() -> File {
-      return File(src: "haiku/\(component).html")
-    }
 }
 
 extension Haiku: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         component = try container.decode(String.self, forKey: .component)
+    }
+}
+
+extension WKWebView {
+    public func load(_ haiku: Haiku) {
+        guard let request = haiku.file.request else {
+            print("unable to load Haiku URL")
+            return
+        }
+
+        scrollView.isScrollEnabled = false
+        isOpaque = false
+        backgroundColor = .clear
+        load(request)
     }
 }
