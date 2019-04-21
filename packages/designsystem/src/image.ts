@@ -1,4 +1,4 @@
-import {Component, property} from '@diez/engine';
+import {Component, Integer, property} from '@diez/engine';
 import {encodeFileSource, File} from './file';
 
 export interface ImageState {
@@ -25,9 +25,9 @@ export class Image extends Component<ImageState> {
 
   @property file = new File();
 
-  @property width = 0;
+  @property width: Integer = 0;
 
-  @property height = 0;
+  @property height: Integer = 0;
 
   @property scale = 1;
 

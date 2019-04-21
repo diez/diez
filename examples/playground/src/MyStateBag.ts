@@ -51,7 +51,7 @@ export class MyStateBag extends Component {
   );
 
   @property textStyle = new TextStyle({
-    font: IOSFonts.Helvetica,
+    fontName: IOSFonts.Helvetica,
     fontSize: 50,
     color: this.palette.hello,
   });

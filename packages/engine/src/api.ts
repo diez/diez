@@ -16,7 +16,7 @@ export type AnySerializable = Primitive | Serializable | {[property: string]: An
  * recursively serializable.
  */
 export interface Serializable {
-  serialize (): AnySerializable;
+  serialize (): any;
 }
 
 /**

@@ -1,7 +1,10 @@
 import {platform} from 'os';
 
+/**
+ * Provides a mock directory format for the mock filesystem.
+ */
 export interface MockDirectory {
-  [key: string]: string|MockDirectory;
+  [key: string]: string | MockDirectory;
 }
 
 /**

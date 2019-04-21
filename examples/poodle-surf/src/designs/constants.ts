@@ -10,7 +10,7 @@ class Palette extends Component {
   @property whiteA40 = Color.rgba(255, 255, 255, 0.4);
   @property black = Color.rgba(0, 0, 0, 1);
   @property gradient = new SimpleGradient({
-    startColor: this.pink,
+    startColor: this.blue,
     endColor: this.orange,
     startPointX: 0,
     startPointY: 0,
@@ -21,37 +21,37 @@ class Palette extends Component {
 
 class TextStyles extends Component {
   @property headerTitle = new TextStyle({
-    font: FontNames.defaultBold,
+    fontName: FontNames.defaultBold,
     fontSize: FontSizes.title,
     color: palette.black,
   });
   @property headerCaption = new TextStyle({
-    font: FontNames.default,
+    fontName: FontNames.default,
     fontSize: FontSizes.caption,
     color: palette.black,
   });
   @property cardTitle = new TextStyle({
-    font: FontNames.default,
+    fontName: FontNames.default,
     fontSize: FontSizes.cardTitle,
     color: palette.white,
   });
   @property value = new TextStyle({
-    font: FontNames.default,
+    fontName: FontNames.default,
     fontSize: FontSizes.value,
     color: palette.white,
   });
   @property unit = new TextStyle({
-    font: FontNames.default,
+    fontName: FontNames.default,
     fontSize: FontSizes.unit,
     color: palette.white,
   });
   @property caption = new TextStyle({
-    font: FontNames.default,
+    fontName: FontNames.default,
     fontSize: FontSizes.caption,
     color: palette.white,
   });
   @property captionHeader = new TextStyle({
-    font: FontNames.defaultBold,
+    fontName: FontNames.defaultBold,
     fontSize: FontSizes.caption,
     color: palette.white,
   });

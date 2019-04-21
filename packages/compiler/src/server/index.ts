@@ -44,7 +44,7 @@ export const serveHot = async (
   const compiler = webpack(webpackConfig);
 
   app.use(webpackDevMiddleware(compiler, {
-    publicPath: '/',
+    publicPath: '',
     logLevel: 'warn',
   }));
   app.use(webpackHotMiddleware(compiler));

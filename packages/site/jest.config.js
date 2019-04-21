@@ -9,4 +9,9 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'vue'],
   testRegex: '(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  globals: {
+    'vue-jest': {
+      babelConfig: false,
+    },
+  },
 };

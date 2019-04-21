@@ -1,36 +1,10 @@
-public class TextStyle: NSObject, Decodable {
+extension TextStyle {
     public var font: UIFont {
         guard let font = UIFont(name: fontName, size: fontSize) else {
-            return UIFont(name: "Helvetica", size: fontSize)!
+            return UIFont.systemFont(ofSize: fontSize)
         }
 
         return font
-    }
-
-    var fontName: String
-    var fontSize: CGFloat
-    var color: Color
-
-    init(fontName: String, fontSize: CGFloat, color: Color) {
-        self.fontName = fontName
-        self.fontSize = fontSize
-        self.color = color
-        super.init()
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case fontName = "font"
-        case fontSize
-        case color
-    }
-}
-
-extension TextStyle: Updatable {
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        fontName = try container.decode(String.self, forKey: .fontName)
-        fontSize = try container.decode(CGFloat.self, forKey: .fontSize)
-        color = try container.decode(Color.self, forKey: .color)
     }
 }
 

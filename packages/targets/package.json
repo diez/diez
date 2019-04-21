@@ -11,10 +11,11 @@
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
-    "test": "jest",
-    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
+    "test": "jest --runInBand",
+    "health": "jest --ci --runInBand -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
     "lint": "tslint -p . -t stylish",
-    "fix": "tslint -p . -t stylish --fix"
+    "fix": "tslint -p . -t stylish --fix",
+    "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
     "@diez/cli": "1.0.0-alpha0",
@@ -29,11 +30,13 @@
   },
   "devDependencies": {
     "@diez/test-utils": "1.0.0-alpha0",
-    "@types/jest": "^23.3.13",
+    "@types/jest": "^24.0.11",
+    "haiku-component": "file:./test/mocks/haiku-component",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
-    "jest": "^23.6.0",
+    "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
     "typescript": "^3.4.1"

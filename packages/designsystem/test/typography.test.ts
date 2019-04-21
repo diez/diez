@@ -17,10 +17,10 @@ describe('text style', () => {
     }
 
     const textStyle = new TextStyle<Fonts>({
-      font: Fonts.BloopMediumItalic,
+      fontName: Fonts.BloopMediumItalic,
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
     });
-    expect(textStyle.serialize()).toEqual({font: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
+    expect(textStyle.serialize()).toEqual({fontName: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
   });
 });

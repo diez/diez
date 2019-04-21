@@ -1,4 +1,4 @@
-import {extend, Extension} from 'expect';
+import {extend} from 'expect';
 import {existsSync, readFileSync} from 'fs';
 import {walkSync} from 'fs-walk';
 import {join, relative, resolve} from 'path';
@@ -60,5 +60,5 @@ const toMatchDirectory = (sourceDirectory: string, goldenDirectory: string) => {
  * Provides additional Jest expectations.
  */
 export const registerExpectations = () => {
-  extend({toMatchFile, toMatchDirectory} as unknown as Extension);
+  extend({toMatchFile, toMatchDirectory});
 };

@@ -1,5 +1,8 @@
+{{#if public}}
 public final class {{{componentName}}}: NSObject, StateBag {
-    var listener: Method? = nil
+{{else}}
+public final class {{{componentName}}}: NSObject, Decodable, Updatable {
+{{/if}}
     {{#each properties}}
     public var {{@key}}: {{this.type}}
     {{/each}}
@@ -10,14 +13,27 @@ public final class {{{componentName}}}: NSObject, StateBag {
         {{/each}}
     }
 
-    public init(_ listenerIn: Method?) {
-        listener = listenerIn
+    {{#if singleton}}
+    {{#if public}}public {{/if}}override init() {
         {{#each properties}}
         {{@key}} = {{{this.initializer}}}
         {{/each}}
     }
+    {{/if}}
 
+    init(
+        {{#each properties}}
+        {{@key}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+        {{/each}}
+    ) {
+        {{#each properties}}
+        self.{{@key}} = {{{@key}}}
+        {{/each}}
+    }
+
+    {{#if public}}
     public static let name = "{{{componentName}}}"
+    {{/if}}
 
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

@@ -1,3 +1,8 @@
 {
-  "extends": ["tslint-config-haiku"]
+  "extends": ["tslint-config-haiku"],
+  "linterOptions": {
+    "exclude": [
+      "src/__mocks__/**"
+    ]
+  }
 }

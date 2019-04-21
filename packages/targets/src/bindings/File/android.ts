@@ -6,10 +6,6 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<File> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'File.kt')],
-  imports: [
-    'android.net.Uri',
-    'java.net.URL  ',
-  ],
   initializer: (instance) => `File("${encodeFileSource(instance.src)}")`,
   assetsBinder: fileAssetBinder,
 };

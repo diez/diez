@@ -15,7 +15,7 @@ module.exports = {
     'json',
   ],
   moduleNameMapper: {
-    'starting-point(/.*)?': '<rootDir>/test/fixtures/starting-point$1',
-    'command-provider(/.*)?': '<rootDir>/test/fixtures/command-provider$1',
+    '^starting-point$': '<rootDir>/test/fixtures/starting-point',
+    '^command-provider$': '<rootDir>/test/fixtures/command-provider',
   },
 };

@@ -1,5 +1,10 @@
 {
   "extends": "./packages/tsconfig.packages.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "baseUrl": "./packages/cli"
+  },
   "include": [
     "scripts/**/*.ts",
     "packages/*/src/**/*.ts",

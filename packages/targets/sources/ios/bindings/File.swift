@@ -1,4 +1,4 @@
-public final class File: NSObject, Decodable {
+extension File {
     public var url: URL? {
         return URL(string: fullyQualifiedURLString)
     }
@@ -10,13 +10,6 @@ public final class File: NSObject, Decodable {
         return URLRequest(url: url)
     }
 
-    var src: String
-
-    init(src: String) {
-        self.src = src
-        super.init()
-    }
-
     private var fullyQualifiedURLString: String {
         // TODO: when we are not in development, we should load the file from a local bundle URL.
         // This will look something like: Bundle.main.url(forResource: "index", withExtension: "html")
@@ -25,13 +18,6 @@ public final class File: NSObject, Decodable {
         return environment.isDevelopment
             ? "\(environment.serverUrl)\(src)"
             : "TODO"
-    }
-}
-
-extension File: Updatable {
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        src = try container.decode(String.self, forKey: .src)
     }
 }
 

@@ -1,9 +1,9 @@
+import {AssetBinder} from '@diez/compiler';
 import {Haiku} from '@diez/designsystem';
 import {readFile} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';
 import {templateRoot} from '.';
-import {AssetBinder} from '../api';
 
 /**
  * An asset binder for the Haiku prefab.

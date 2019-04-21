@@ -1,6 +1,5 @@
-import {CompilerProgram} from '@diez/compiler';
+import {AssetBinder, TargetComponentSpec, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
-import {AssetBinder, AssetBinding} from '../api';
 
 /**
  * Describes an Android third party dependency.
@@ -15,8 +14,7 @@ export interface AndroidDependency {
 /**
  * Describes an Android binding.
  */
-export interface AndroidBinding<T extends Component> {
-  imports: string[];
+export interface AndroidBinding<T extends Component = any> {
   sources: string[];
   adapters?: string[];
   qualifier?: string;
@@ -26,31 +24,13 @@ export interface AndroidBinding<T extends Component> {
 }
 
 /**
- * Specifies an Android component property.
- */
-export interface AndroidComponentProperty {
-  type: string;
-  initializer: string;
-  updateable: boolean;
-}
-
-/**
  * Specifies an Android component.
  */
-export interface AndroidComponentSpec {
-  componentName: string;
-  properties: {[name: string]: AndroidComponentProperty};
+export interface AndroidComponentSpec extends TargetComponentSpec {
   adapters?: string[];
 }
 
 /**
  * Describes the complete output for a transpiled Android target.
  */
-export interface AndroidOutput {
-  program: CompilerProgram;
-  processedComponents: Set<string>;
-  imports: Set<string>;
-  sources: Set<string>;
-  dependencies: Set<AndroidDependency>;
-  assetBindings: Map<string, AssetBinding>;
-}
+export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBinding, AndroidComponentSpec> {}

@@ -37,7 +37,7 @@ const serialize = (value: any): AnySerializable => {
 export class Serializer<T> {
   constructor (private readonly state: T) {}
 
-  get payload (): AnySerializable {
-    return serialize(this.state);
+  get payload (): {[property: string]: AnySerializable} {
+    return serialize(this.state) as {[property: string]: AnySerializable};
   }
 }

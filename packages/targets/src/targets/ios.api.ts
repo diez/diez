@@ -1,6 +1,5 @@
-import {CompilerProgram} from '@diez/compiler';
+import {AssetBinder, PropertyType, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
-import {AssetBinder, AssetBinding} from '../api';
 
 /**
  * Describes an iOS third party dependency.
@@ -23,12 +22,11 @@ export interface IosDependency {
 /**
  * Describes an iOS binding.
  */
-export interface IosBinding<T extends Component> {
+export interface IosBinding<T extends Component = any> {
   imports: string[];
   sources: string[];
-  updateable: boolean;
+  skipGeneration?: boolean;
   dependencies?: IosDependency[];
-  initializer? (instance: T): string;
   assetsBinder?: AssetBinder<T>;
 }
 
@@ -36,27 +34,21 @@ export interface IosBinding<T extends Component> {
  * Specifies an iOS component property.
  */
 export interface IosComponentProperty {
-  type: string;
-  initializer: string;
+  type: PropertyType;
   updateable: boolean;
+  initializer: string;
 }
 
 /**
  * Specifies an iOS component.
  */
 export interface IosComponentSpec {
-  componentName: string;
+  componentName: PropertyType;
   properties: {[name: string]: IosComponentProperty};
+  public: boolean;
 }
 
 /**
  * Describes the complete output for a transpiled iOS target.
  */
-export interface IosOutput {
-  program: CompilerProgram;
-  processedComponents: Set<string>;
-  imports: Set<string>;
-  sources: Set<string>;
-  dependencies: Set<IosDependency>;
-  assetBindings: Map<string, AssetBinding>;
-}
+export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {}

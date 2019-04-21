@@ -6,13 +6,6 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<Haiku> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'Haiku.kt')],
-  imports: [
-    'android.annotation.SuppressLint',
-    'android.graphics.Color as CoreColor',
-    'android.view.ViewGroup',
-    'android.webkit.WebView',
-    'android.widget.FrameLayout',
-  ],
   initializer: (instance) => `Haiku("${instance.component}")`,
   assetsBinder: haikuAssetBinder,
 };

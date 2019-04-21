@@ -10,8 +10,6 @@ const binding: IosBinding<Haiku> = {
     join(sourcesPath, 'ios', 'bindings', 'HaikuView.swift'),
   ],
   imports: ['UIKit.UIView', 'WebKit'],
-  updateable: true,
-  initializer: (instance) => `Haiku(withComponent: "${instance.component}")`,
   assetsBinder: haikuAssetBinder,
 };
 

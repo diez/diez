@@ -1,37 +1,28 @@
-import {CompilerProgram} from '@diez/compiler';
 import {registerExpectations} from '@diez/test-utils';
-import {ensureDirSync} from 'fs-extra';
 import {join} from 'path';
-import {IosOutput} from '../src/targets/ios.api';
-import {processComponentInstance, writeSdk} from '../src/targets/ios.handler';
-import {getTempFileName} from '../src/utils';
-import {PrimitivesComponent, primitivesComponentMap} from './fixtures/primitives';
+import {
+  createIosCompilerForFixture,
+  createProgramForFixture,
+  getFixtures,
+  getGoldenRoot,
+} from './helpers';
 
-registerExpectations();
+beforeAll(() => {
+  // Allow 1 minute per test. Hopefully they don't actually take that long!
+  jest.setTimeout(6e5);
+  registerExpectations();
+});
 
-describe('index', () => {
-  test('primitives', async () => {
-    const output: IosOutput = {
-      processedComponents: new Set(),
-      imports: new Set(),
-      sources: new Set(),
-      dependencies: new Set(),
-      assetBindings: new Map(),
-      program: {
-        targetComponents: primitivesComponentMap,
-        projectRoot: '',
-      } as CompilerProgram,
-    };
-
-    expect(await processComponentInstance(new PrimitivesComponent(), 'PrimitivesComponent', output)).toBe(true);
-    expect(Array.from(output.processedComponents)).toEqual(['PrimitivesComponent']);
-    expect(output.imports.size).toBe(0);
-    expect(output.dependencies.size).toBe(0);
-
-    const sdkRoot = getTempFileName();
-    const staticRoot = join(sdkRoot, 'static');
-    ensureDirSync(sdkRoot);
-    writeSdk(output, sdkRoot, staticRoot, true, 'foo.bar', 9001);
-    expect(sdkRoot).toMatchDirectory(join(__dirname, 'goldens', 'primitives-ios'));
-  });
+describe('ios.e2e', () => {
+  for (const fixture of getFixtures()) {
+    test(`ios.e2e.${fixture}`, async () => {
+      // Resets modules to clear the require cache. Necessary because we reuse the stub project over and over.
+      jest.resetModules();
+      const program = await createProgramForFixture(fixture);
+      const compiler = await createIosCompilerForFixture(fixture, program);
+      await compiler.run();
+      await compiler.writeSdk('foo.bar', 9001);
+      expect(join(program.destinationPath, 'Diez')).toMatchDirectory(getGoldenRoot(fixture, 'ios'));
+    });
+  }
 });

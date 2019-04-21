@@ -1,7 +1,7 @@
+import {AssetBinder} from '@diez/compiler';
 import {File} from '@diez/designsystem';
 import {exists} from 'fs-extra';
 import {join} from 'path';
-import {AssetBinder} from '../api';
 
 /**
  * An simple copy asset binder for the File prefab.

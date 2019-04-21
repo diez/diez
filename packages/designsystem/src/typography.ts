@@ -22,7 +22,7 @@ export class FontRegistry extends Component<FontRegistryState> {
 }
 
 export interface TextStyleState<T> {
-  font: T | IOSFonts | AndroidFonts;
+  fontName: T | IOSFonts | AndroidFonts;
   fontSize: number;
   color: Color;
 }
@@ -33,7 +33,7 @@ export interface TextStyleState<T> {
  * @noinheritdoc
  */
 export class TextStyle<T = {}> extends Component<TextStyleState<T>> {
-  @property font = IOSFonts.Helvetica;
+  @property fontName = IOSFonts.Helvetica;
   @property fontSize = 12;
   @property color: Color = Color.hsla(0, 0, 0, 1);
 }

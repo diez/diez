@@ -1,4 +1,4 @@
-public final class Image: NSObject, Decodable {
+extension Image {
     public var url: URL? {
         return file.url
     }
@@ -14,28 +14,5 @@ public final class Image: NSObject, Decodable {
             print("Failed to get image data: \(error)")
             return nil
         }
-    }
-
-    var file: File
-    var width: CGFloat
-    var height: CGFloat
-    var scale: CGFloat
-
-    init(file: File, width: CGFloat, height: CGFloat, scale: CGFloat) {
-        self.file = file
-        self.width = width
-        self.height = height
-        self.scale = scale
-        super.init()
-    }
-}
-
-extension Image: Updatable {
-    public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        file = try container.decode(File.self, forKey: .file)
-        width = try container.decode(CGFloat.self, forKey: .width)
-        height = try container.decode(CGFloat.self, forKey: .height)
-        scale = try container.decode(CGFloat.self, forKey: .scale)
     }
 }

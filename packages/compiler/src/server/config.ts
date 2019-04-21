@@ -1,5 +1,5 @@
 import {join, relative} from 'path';
-import {Configuration, HotModuleReplacementPlugin, NoEmitOnErrorsPlugin} from 'webpack';
+import {Configuration, HotModuleReplacementPlugin} from 'webpack';
 
 /**
  * Provides a hot webpack configuration for projects.
@@ -14,18 +14,9 @@ export const getConfiguration = (projectRoot: string, componentEntry: string): C
   },
   context: projectRoot,
   mode: 'development',
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-      },
-    ],
-  },
   resolve: {
-    extensions: ['.ts', '.js'],
     alias: {
-      '@': join(relative(__dirname, projectRoot), 'src'),
+      '@': join(relative(__dirname, projectRoot), '.diez'),
     },
   },
   output: {
@@ -36,6 +27,5 @@ export const getConfiguration = (projectRoot: string, componentEntry: string): C
   devtool: 'source-map',
   plugins: [
     new HotModuleReplacementPlugin(),
-    new NoEmitOnErrorsPlugin(),
   ],
 });

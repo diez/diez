@@ -55,15 +55,14 @@ export const isMacOS = () => platform() === 'darwin';
  * @internal
  */
 const getDependencies = (
-  packageNameIn: string,
+  packageName: string,
   foundPackages: Map<string, {json: PackageJson, path: string}>): void => {
-  const packageName = packageNameIn === global.process.cwd() ? '.' : packageNameIn;
   if (foundPackages.has(packageName)) {
     return;
   }
 
   // FIXME: we shouldn't necessarily require `lib/` in the main package path.
-  const packagePath = require.resolve(packageNameIn).split('lib')[0];
+  const packagePath = require.resolve(packageName).split('lib')[0];
   const json = readJsonSync(join(packagePath, 'package.json'), {throws: false});
   if (!json) {
     return;

@@ -1,4 +1,5 @@
-import {ConcreteComponentType} from '@diez/engine';
+import {Component, ConcreteComponent, ConcreteComponentType} from '@diez/engine';
+import {EventEmitter} from 'events';
 import {Express, RequestHandler} from 'express';
 import {ClassDeclaration, Project, Type, TypeChecker} from 'ts-morph';
 import {Configuration} from 'webpack';
@@ -30,6 +31,23 @@ export interface NestedArray<T> extends Array<T | NestedArray<T>> {}
 export type MaybeNestedArray<T> = T | NestedArray<T>;
 
 /**
+ * Names of primitive types.
+ */
+export enum PrimitiveType {
+  Unknown = 0,
+  Boolean = 1,
+  String = 2,
+  Number = 3,
+  Float = 3,
+  Int = 4,
+}
+
+/**
+ * Provides addressable types for component properties.
+ */
+export type PropertyType = string | PrimitiveType;
+
+/**
  * A component compiler property descriptor.
  */
 export interface TargetProperty {
@@ -48,17 +66,13 @@ export interface TargetProperty {
   /**
    * The unique type name.
    */
-  type?: string;
+  type: PropertyType;
 }
 
 /**
  * Component-specific warnings which can be printed after a compiler run.
  */
 export interface TargetComponentWarnings {
-  /**
-   * Properties which are missing the @property decorator.
-   */
-  missingProperties: Set<string>;
   /**
    * Properties that have ambiguous/unresolved types.
    */
@@ -85,13 +99,13 @@ export interface TargetComponent {
   /**
    * Warnings encountered while attempting to compile this component.
    */
-  warnings?: TargetComponentWarnings;
+  warnings: TargetComponentWarnings;
 }
 
 /**
  * A named component map, provided as the main compiler input.
  */
-export type NamedComponentMap = Map<string, TargetComponent>;
+export type NamedComponentMap = Map<PropertyType, TargetComponent>;
 
 /**
  * Compiler target handlers perform the actual work of compilation.
@@ -114,9 +128,17 @@ export interface ComponentModule {
 }
 
 /**
+ * Collects reserved types.
+ */
+export interface PrimitiveTypes {
+  [PrimitiveType.Int]: Type;
+  [PrimitiveType.Float]: Type;
+}
+
+/**
  * A complete compiler program.
  */
-export interface CompilerProgram {
+export interface CompilerProgram extends EventEmitter {
   /**
    * A typechecker capable of resolving any known types.
    */
@@ -132,10 +154,7 @@ export interface CompilerProgram {
   /**
    * A collection of reserved types, used to resolve type ambiguities in key places.
    */
-  types: {
-    int: Type;
-    float: Type;
-  };
+  types: PrimitiveTypes;
   /**
    * A map of (unique!) component names to target component specifications. This is derived recursively
    * and includes both prefabs from external modules and local components.
@@ -144,7 +163,7 @@ export interface CompilerProgram {
   /**
    * The names of local components encountered during compiler execution.
    */
-  localComponentNames: string[];
+  localComponentNames: PropertyType[];
   /**
    * The root of the project whose local components we should compile.
    */
@@ -157,4 +176,76 @@ export interface CompilerProgram {
    * Whether we are running the compiler in dev mode or not.
    */
   devMode: boolean;
+}
+
+/**
+ * Provides a generic compile-time asset binding.
+ */
+export interface AssetBinding {
+  contents: string | Buffer;
+  copy?: boolean;
+}
+
+/**
+ * Provides 0 or more bindings from a component instance.
+ */
+export type AssetBinder<T extends Component> = (
+  instance: T,
+  projectRoot: string,
+  bindings: Map<string, AssetBinding>,
+) => Promise<void>;
+
+/**
+ * An enum for build events.
+ */
+export enum CompilerEvent {
+  /**
+   * Sent by the compiler after it has processed the TypeScript AST and successfully compiled.
+   */
+  Compiled = 'compiled',
+}
+
+/**
+ * Specifies a component property.
+ */
+export interface TargetComponentProperty {
+  type: PropertyType;
+  updateable: boolean;
+  initializer: string;
+}
+
+/**
+ * Specifies an entire component.
+ */
+export interface TargetComponentSpec<T = TargetComponentProperty> {
+  componentName: PropertyType;
+  properties: {[name: string]: T};
+  public: boolean;
+}
+
+/**
+ * Provides a ledger for a target spec, keeping track of both component specs and instances.
+ *
+ * Resolves ambiguity between singletons and reusable components.
+ */
+export interface TargetSpecLedger<Spec, Binding> {
+  spec: Spec;
+  instances: Set<ConcreteComponent>;
+  binding?: Binding;
+}
+
+/**
+ * Provides a base target output interface targets can extend as needed.
+ */
+export interface TargetOutput<
+  Dependency = {},
+  Binding = {},
+  Spec = TargetComponentSpec,
+> {
+  processedComponents: Map<PropertyType, TargetSpecLedger<Spec, Binding>>;
+  imports: Set<string>;
+  sources: Set<string>;
+  dependencies: Set<Dependency>;
+  assetBindings: Map<string, AssetBinding>;
+  sdkRoot: string;
 }
