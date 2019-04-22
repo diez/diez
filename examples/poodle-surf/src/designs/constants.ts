@@ -10,7 +10,7 @@ class Palette extends Component {
   @property whiteA40 = Color.rgba(255, 255, 255, 0.4);
   @property black = Color.rgba(0, 0, 0, 1);
   @property gradient = new SimpleGradient({
-    startColor: this.blue,
+    startColor: this.pink,
     endColor: this.orange,
     startPointX: 0,
     startPointY: 0,
