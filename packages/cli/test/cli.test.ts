@@ -1,9 +1,10 @@
 import commander, {Command} from 'commander';
+import {join} from 'path';
 import {bootstrap} from '../src/cli';
 
 describe('cli', () => {
   test('basic functionality', async () => {
-    await bootstrap('starting-point');
+    await bootstrap(join(__dirname, 'fixtures', 'starting-point'));
     const foobarCommand = commander.commands.find((command: Command) => command.name() === 'foobar');
     expect(foobarCommand).toBeDefined();
     expect(foobarCommand.description()).toBe('Do stuff.');

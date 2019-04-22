@@ -6,7 +6,6 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<Haiku> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'Haiku.kt')],
-  initializer: (instance) => `Haiku("${instance.component}")`,
   assetsBinder: haikuAssetBinder,
 };
 

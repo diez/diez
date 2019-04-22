@@ -9,14 +9,16 @@ import {
   TargetCompiler,
   TargetComponent,
   TargetComponentProperty,
+  TargetComponentSpec,
   TargetProperty,
 } from '@diez/compiler';
 import {outputTemplatePackage} from '@diez/storage/lib';
-import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync} from 'fs-extra';
+import {copySync, readFileSync, writeFileSync} from 'fs-extra';
+import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import {dirname, join} from 'path';
-import {isLocalType, sourcesPath} from '../utils';
-import {AndroidBinding, AndroidComponentSpec, AndroidDependency, AndroidOutput} from './android.api';
+import {basename, join} from 'path';
+import {getTempFileName, isLocalType, sourcesPath} from '../utils';
+import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
 /**
  * The root location for source files.
@@ -33,10 +35,14 @@ const coreAndroid = join(sourcesPath, 'android');
  * @internal
  */
 const getInitializer = (
-  spec: AndroidComponentSpec,
+  spec: TargetComponentSpec,
 ) => {
-  // TODO.
-  return `${spec.componentName}()`;
+  const propertyInitializers: string[] = [];
+  for (const name in spec.properties) {
+    propertyInitializers.push(spec.properties[name].initializer);
+  }
+
+  return `${spec.componentName}(${propertyInitializers.join(', ')})`;
 };
 
 /**
@@ -45,19 +51,33 @@ const getInitializer = (
  * @internal
  */
 const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: AndroidDependency) => {
-  // TODO: check for conflicts.
+  for (const dependency of dependencies) {
+    if (dependency.gradle.source === newDependency.gradle.source) {
+      // TODO: check for conflicts.
+      return;
+    }
+  }
+
   dependencies.add(newDependency);
 };
 
 /**
  * Reducer for array component properties.
- *
- * TODO: define what should actually happen here.
  */
 const collectComponentProperties = (
   allProperties: (TargetComponentProperty | undefined)[],
 ): TargetComponentProperty | undefined => {
-  return;
+  const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+  const reference = properties[0];
+  if (!reference) {
+    return;
+  }
+
+  return {
+    type: `Array<${reference.type}>`,
+    initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
+    updateable: reference.updateable,
+  };
 };
 
 const getPrimitive = (type: PropertyType, instance: any): TargetComponentProperty | undefined => {
@@ -98,7 +118,7 @@ const getPrimitive = (type: PropertyType, instance: any): TargetComponentPropert
  */
 export class AndroidCompiler extends TargetCompiler<
   AndroidOutput,
-  AndroidComponentSpec,
+  TargetComponentSpec,
   TargetComponentProperty,
   AndroidBinding
 > {
@@ -119,7 +139,7 @@ export class AndroidCompiler extends TargetCompiler<
    */
   protected mergeBindingToOutput (binding: AndroidBinding): void {
     for (const bindingSource of binding.sources) {
-      this.output.sources.add(bindingSource);
+      this.output.files.set(basename(bindingSource), bindingSource);
     }
 
     if (binding.dependencies) {
@@ -135,6 +155,10 @@ export class AndroidCompiler extends TargetCompiler<
   protected createOutput (sdkRoot: string) {
     return {
       sdkRoot,
+      files: new Map([
+        ['Diez.kt', join(coreAndroid, 'core', 'Diez.kt')],
+        ['Environment.kt', join(coreAndroid, 'core', 'Environment.kt')],
+      ]),
       processedComponents: new Map(),
       imports: new Set([]),
       sources: new Set([]),
@@ -161,7 +185,6 @@ export class AndroidCompiler extends TargetCompiler<
    * @abstract
    */
   clear () {
-    this.output.imports.clear();
     this.output.sources.clear();
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
@@ -223,27 +246,57 @@ export class AndroidCompiler extends TargetCompiler<
    * @abstract
    */
   async writeSdk (hostname?: string, devPort?: number) {
+    // Pass through to take note of our singletons.
+    const singletons = new Set<PropertyType>();
+    for (const [type, {instances, binding}] of this.output.processedComponents) {
+      // If a binding is provided, it's safe to assume we don't want to treat this object as a singleton, even if it is.
+      if (instances.size === 1 && !binding) {
+        singletons.add(type);
+      }
+    }
+
+    const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
+    for (const [type, {spec, binding}] of this.output.processedComponents) {
+      if (binding && binding.skipGeneration) {
+        this.mergeBindingToOutput(binding);
+        continue;
+      }
+
+      // For each singleton, replace it with its simple constructor.
+      for (const property of Object.values(spec.properties)) {
+        if (singletons.has(property.type)) {
+          property.initializer = `${property.type}()`;
+        }
+      }
+
+      const filename = getTempFileName();
+      this.output.sources.add(filename);
+      writeFileSync(
+        filename,
+        compile(componentTemplate)({
+          ...spec,
+          singleton: spec.public || singletons.has(type),
+        }),
+      );
+
+      if (binding) {
+        this.mergeBindingToOutput(binding);
+      }
+    }
+
+    for (const [filename, source] of this.output.files) {
+      copySync(source, join(this.output.sdkRoot, 'src', 'main', 'java', 'org', 'diez', filename));
+    }
+
     const tokens = {
       devPort,
       hostname,
       devMode: this.program.devMode,
       dependencies: Array.from(this.output.dependencies),
-      imports: Array.from(this.output.imports),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
     };
 
-    removeSync(this.staticRoot);
-    for (const [path, binding] of this.output.assetBindings) {
-      const outputPath = join(this.staticRoot, path);
-      ensureDirSync(dirname(outputPath));
-      if (binding.copy) {
-        copySync(binding.contents as string, outputPath);
-        continue;
-      }
-
-      outputFileSync(outputPath, binding.contents);
-    }
-
+    this.writeAssets();
     outputTemplatePackage(join(coreAndroid, 'sdk'), this.output.sdkRoot, tokens);
   }
 }
@@ -254,20 +307,22 @@ export class AndroidCompiler extends TargetCompiler<
 export const androidHandler: CompilerTargetHandler = async (program) => {
   const sdkRoot = join(program.destinationPath, 'diez');
   const compiler = new AndroidCompiler(program, sdkRoot);
-  await compiler.run();
 
   if (program.devMode) {
+    const hostname = await v4();
     const devPort = await getHotPort();
+    await compiler.runHot(async () => {
+      await compiler.writeSdk(hostname, devPort);
+    });
+
     await serveHot(
       program.projectRoot,
       require.resolve('@diez/targets/lib/targets/android.component'),
       devPort,
       compiler.staticRoot,
     );
-    await compiler.writeSdk(await v4(), devPort);
-    // TODO: watch for hot updates and update the SDK when things change.
-    // TODO: when we shut down, compile once in prod mode?
   } else {
+    await compiler.run();
     await compiler.writeSdk();
   }
 

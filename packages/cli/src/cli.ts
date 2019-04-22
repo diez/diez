@@ -1,9 +1,8 @@
 /* tslint:disable no-var-requires */
 import {args, command, help, on, parse, version} from 'commander';
-import {join} from 'path';
 import {CliCommandProvider} from './api';
 import {fatalError} from './reporting';
-import {diezVersion, findPlugins} from './utils';
+import {cliRequire, diezVersion, findPlugins} from './utils';
 
 version(diezVersion).name('diez');
 
@@ -55,7 +54,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
 
     try {
       for (const path of providers.commands) {
-        registerWithProvider(require(join(plugin, path)));
+        registerWithProvider(cliRequire(plugin, path));
       }
     } catch (error) {
       // Noop.
@@ -63,6 +62,9 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
   }
 };
 
+/**
+ * Starts the CLI program.
+ */
 export const run = async () => {
   await bootstrap();
   on('command:*', () => {

@@ -5,6 +5,7 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<FontRegistry> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'FontRegistry.kt')],
+  skipGeneration: true,
 };
 
 export = binding;

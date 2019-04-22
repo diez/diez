@@ -451,6 +451,7 @@ export abstract class TargetCompiler<
    */
   private async buildHot (writeSdkCommand: () => Promise<void>) {
     info('Rebuilding.');
+    this.output = this.createOutput(this.output.sdkRoot);
     await this.run();
     await writeSdkCommand();
     copySync(join(this.program.projectRoot, 'lib'), join(this.program.projectRoot, '.diez'));

@@ -51,4 +51,6 @@ export interface IosComponentSpec {
 /**
  * Describes the complete output for a transpiled iOS target.
  */
-export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {}
+export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {
+  imports: Set<string>;
+}

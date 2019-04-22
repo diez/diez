@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
+import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
 import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
@@ -61,7 +61,7 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
     }
 
     for (const path of providers.targets) {
-      const provider = require(join(plugin, path)) as CompilerTargetProvider;
+      const provider = cliRequire<CompilerTargetProvider>(plugin, path);
       const providerName = provider.name.toLowerCase();
       if (targets.has(providerName)) {
         fatalError(`A target named ${providerName} is already registered.`);
@@ -108,7 +108,7 @@ const getBindingLocation = async (
 
         bindingLocations.set(
           newHash,
-          join(plugin, bindings[componentHash][targetName]),
+          join(plugin === '.' ? global.process.cwd() : plugin, bindings[componentHash][targetName]),
         );
       }
     }

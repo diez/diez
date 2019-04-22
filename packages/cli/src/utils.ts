@@ -56,19 +56,21 @@ export const isMacOS = () => platform() === 'darwin';
  */
 const getDependencies = (
   packageName: string,
-  foundPackages: Map<string, {json: PackageJson, path: string}>): void => {
+  foundPackages: Map<string, {json: PackageJson, path: string}>,
+  isRootPackage = false,
+): void => {
   if (foundPackages.has(packageName)) {
     return;
   }
 
   // FIXME: we shouldn't necessarily require `lib/` in the main package path.
-  const packagePath = require.resolve(packageName).split('lib')[0];
+  const packagePath = isRootPackage ? packageName : require.resolve(packageName).split('lib')[0];
   const json = readJsonSync(join(packagePath, 'package.json'), {throws: false});
   if (!json) {
     return;
   }
 
-  foundPackages.set(packageName, {json, path: packagePath});
+  foundPackages.set(isRootPackage ? '.' : packageName, {json, path: packagePath});
 
   if (json.dependencies) {
     for (const name in json.dependencies) {
@@ -78,7 +80,7 @@ const getDependencies = (
     }
   }
 
-  if (json.devDependencies) {
+  if (isRootPackage && json.devDependencies) {
     for (const name in json.devDependencies) {
       try {
         getDependencies(name, foundPackages);
@@ -98,7 +100,7 @@ export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map
   }
 
   const foundPackages = new Map<string, {json: PackageJson, path: string}>();
-  getDependencies(rootPackageName, foundPackages);
+  getDependencies(rootPackageName, foundPackages, true);
 
   return new Promise((resolve) => {
     each<[string, {json: PackageJson, path: string}]>(
@@ -125,4 +127,15 @@ export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map
       },
     );
   });
+};
+
+/**
+ * Wrapped require to support CLI plugin infrastructure.
+ */
+export const cliRequire = <T = any>(plugin: string, path: string): T => {
+  if (plugin === '.') {
+    return require(join(global.process.cwd(), path));
+  }
+
+  return require(join(plugin, path));
 };

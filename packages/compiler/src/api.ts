@@ -243,7 +243,6 @@ export interface TargetOutput<
   Spec = TargetComponentSpec,
 > {
   processedComponents: Map<PropertyType, TargetSpecLedger<Spec, Binding>>;
-  imports: Set<string>;
   sources: Set<string>;
   dependencies: Set<Dependency>;
   assetBindings: Map<string, AssetBinding>;

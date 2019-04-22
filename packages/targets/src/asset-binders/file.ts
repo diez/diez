@@ -1,6 +1,6 @@
 import {AssetBinder} from '@diez/compiler';
 import {File} from '@diez/designsystem';
-import {exists} from 'fs-extra';
+import {stat} from 'fs-extra';
 import {join} from 'path';
 
 /**
@@ -9,8 +9,8 @@ import {join} from 'path';
 export const fileAssetBinder: AssetBinder<File> = async (instance, projectRoot, bindings) =>
   new Promise((resolve, reject) => {
     const source = join(projectRoot, instance.src);
-    exists(source, (fileExists) => {
-      if (!fileExists) {
+    stat(source, (statError, stats) => {
+      if (statError || !stats.isFile()) {
         return reject(new Error(`File at ${source} does not exist.`));
       }
 

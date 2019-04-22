@@ -5,7 +5,13 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<Lottie> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'Lottie.kt')],
-  dependencies: [],
+  dependencies: [{
+    gradle: {
+      name: 'lottie',
+      minVersion: '2.7.0',
+      source: 'com.airbnb.android:lottie',
+    },
+  }],
 };
 
 export = binding;

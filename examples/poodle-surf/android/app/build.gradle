@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "org.diez.poodlesurf"
+        applicationId "org.diez.examples.poodlesurf"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 1

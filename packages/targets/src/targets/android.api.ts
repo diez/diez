@@ -1,4 +1,4 @@
-import {AssetBinder, TargetComponentSpec, TargetOutput} from '@diez/compiler';
+import {AssetBinder, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 /**
@@ -8,7 +8,11 @@ export interface AndroidDependency {
   /**
    * @todo Define the shape of Carthage dependencies.
    */
-  gradle: {};
+  gradle: {
+    name: string;
+    minVersion: string;
+    source: string;
+  };
 }
 
 /**
@@ -16,21 +20,14 @@ export interface AndroidDependency {
  */
 export interface AndroidBinding<T extends Component = any> {
   sources: string[];
-  adapters?: string[];
-  qualifier?: string;
+  skipGeneration?: boolean;
   dependencies?: AndroidDependency[];
-  initializer? (instance: T): string;
   assetsBinder?: AssetBinder<T>;
-}
-
-/**
- * Specifies an Android component.
- */
-export interface AndroidComponentSpec extends TargetComponentSpec {
-  adapters?: string[];
 }
 
 /**
  * Describes the complete output for a transpiled Android target.
  */
-export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBinding, AndroidComponentSpec> {}
+export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBinding> {
+  files: Map<string, string>;
+}
