@@ -1,7 +1,7 @@
 {{#if public}}
-public final class {{{componentName}}}: NSObject, StateBag {
+@objc public final class {{{componentName}}}: NSObject, StateBag {
 {{else}}
-public final class {{{componentName}}}: NSObject, Decodable, Updatable {
+public final class {{{componentName}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
     public var {{@key}}: {{this.type}}
@@ -34,7 +34,9 @@ public final class {{{componentName}}}: NSObject, Decodable, Updatable {
     {{#if public}}
     public static let name = "{{{componentName}}}"
     {{/if}}
+}
 
+extension {{{componentName}}}: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         {{#each properties}}
@@ -46,3 +48,28 @@ public final class {{{componentName}}}: NSObject, Decodable, Updatable {
         {{/each}}
     }
 }
+
+extension {{{componentName}}}: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+{{#if public}}
+
+/// This is only intended to be used by Objective-C consumers. 
+/// In Swift use Diez<{{{componentName}}}>.
+@objc(Diez{{{componentName}}})
+public final class DiezBridged{{{componentName}}}: NSObject {
+    @objc public init(view: UIView) {
+        diez = Diez(view)
+
+        super.init()
+    }
+
+    @objc public func attach(_ subscriber: @escaping ({{{componentName}}}) -> Void) {
+        diez.attach(subscriber)
+    }
+
+    private let diez: Diez<{{{componentName}}}>
+}
+{{/if}}

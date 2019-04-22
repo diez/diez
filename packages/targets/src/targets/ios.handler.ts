@@ -167,6 +167,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, TargetComponentSpec, 
         join(coreIos, 'core', 'Diez.swift'),
         join(coreIos, 'core', 'Environment.swift'),
         join(coreIos, 'core', 'Serialization.swift'),
+        join(coreIos, 'core', 'ReflectedCustomStringConvertible.swift'),
       ]),
       dependencies: new Set(),
       assetBindings: new Map(),
@@ -199,18 +200,18 @@ export class IosCompiler extends TargetCompiler<IosOutput, TargetComponentSpec, 
     // TODO: Move this into a template.
     // TODO: components with bindings should yield their own documentation.
     code(`import UIKit
-  import Diez
+import Diez
 
-  class ViewController: UIViewController {
-      private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view)
+class ViewController: UIViewController {
+    private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view)
 
-      override func viewDidLoad() {
-          super.viewDidLoad()
-          diez.attach { [weak self] component in
-              // ...
-          }
-      }
-  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        diez.attach { [weak self] component in
+            // ...
+        }
+    }
+}
   `);
   }
 

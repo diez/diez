@@ -1,5 +1,5 @@
 
-public final class ChildComponent: NSObject, Decodable, Updatable {
+public final class ChildComponent: NSObject, Decodable {
     public var diez: CGFloat
 
     private enum CodingKeys: String, CodingKey {
@@ -16,14 +16,22 @@ public final class ChildComponent: NSObject, Decodable, Updatable {
         self.diez = diez
     }
 
+}
 
+extension ChildComponent: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         diez = try container.decode(CGFloat.self, forKey: .diez)
     }
 }
 
-public final class Primitives: NSObject, StateBag {
+extension ChildComponent: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
+@objc public final class Primitives: NSObject, StateBag {
     public var number: CGFloat
     public var integer: Int
     public var float: CGFloat
@@ -76,7 +84,9 @@ public final class Primitives: NSObject, StateBag {
     }
 
     public static let name = "Primitives"
+}
 
+extension Primitives: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         number = try container.decode(CGFloat.self, forKey: .number)
@@ -88,5 +98,28 @@ public final class Primitives: NSObject, StateBag {
         strings = try container.decode([[[String]]].self, forKey: .strings)
         try container.update(&child, forKey: .child)
     }
+}
+
+extension Primitives: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
+/// This is only intended to be used by Objective-C consumers. 
+/// In Swift use Diez<Primitives>.
+@objc(DiezPrimitives)
+public final class DiezBridgedPrimitives: NSObject {
+    @objc public init(view: UIView) {
+        diez = Diez(view)
+
+        super.init()
+    }
+
+    @objc public func attach(_ subscriber: @escaping (Primitives) -> Void) {
+        diez.attach(subscriber)
+    }
+
+    private let diez: Diez<Primitives>
 }
 

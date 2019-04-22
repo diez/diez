@@ -1,0 +1,9 @@
+platform :ios, '12.2'
+
+target 'PoodleSurfObjC' do
+  use_frameworks!
+
+  pod 'Diez', :path => '../ios/Diez'
+
+  pod 'lottie-ios', '2.5.2'
+end

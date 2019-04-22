@@ -1,0 +1,24 @@
+PODS:
+  - Diez (1.0.0-alpha0):
+    - lottie-ios (~> 2.5.2)
+  - lottie-ios (2.5.2)
+
+DEPENDENCIES:
+  - Diez (from `../ios/Diez`)
+  - lottie-ios (= 2.5.2)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - lottie-ios
+
+EXTERNAL SOURCES:
+  Diez:
+    :path: "../ios/Diez"
+
+SPEC CHECKSUMS:
+  Diez: 7a63235cd5da6d13c47bdd9a13774b2e9269428c
+  lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
+
+PODFILE CHECKSUM: 1026d05550ab2f00b347bae8bf5d7c9c35968981
+
+COCOAPODS: 1.6.1

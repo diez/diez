@@ -4,7 +4,7 @@ import WebKit
 import Lottie
 import UIKit.UIView
 
-public final class File: NSObject, Decodable, Updatable {
+public final class File: NSObject, Decodable {
     public var src: String
 
     private enum CodingKeys: String, CodingKey {
@@ -18,10 +18,18 @@ public final class File: NSObject, Decodable, Updatable {
         self.src = src
     }
 
+}
 
+extension File: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         src = try container.decode(String.self, forKey: .src)
+    }
+}
+
+extension File: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -71,7 +79,7 @@ extension File {
     }
 }
 
-public final class Image: NSObject, Decodable, Updatable {
+public final class Image: NSObject, Decodable {
     public var file: File
     public var width: Int
     public var height: Int
@@ -97,13 +105,21 @@ public final class Image: NSObject, Decodable, Updatable {
         self.scale = scale
     }
 
+}
 
+extension Image: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try container.update(&file, forKey: .file)
         width = try container.decode(Int.self, forKey: .width)
         height = try container.decode(Int.self, forKey: .height)
         scale = try container.decode(CGFloat.self, forKey: .scale)
+    }
+}
+
+extension Image: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -126,7 +142,7 @@ extension Image {
     }
 }
 
-public final class SVG: NSObject, Decodable, Updatable {
+public final class SVG: NSObject, Decodable {
     public var src: String
 
     private enum CodingKeys: String, CodingKey {
@@ -140,10 +156,18 @@ public final class SVG: NSObject, Decodable, Updatable {
         self.src = src
     }
 
+}
 
+extension SVG: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         src = try container.decode(String.self, forKey: .src)
+    }
+}
+
+extension SVG: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -200,7 +224,7 @@ public final class SVGView: UIView {
     public override class var requiresConstraintBasedLayout: Bool { return true }
 }
 
-public final class Lottie: NSObject, Decodable, Updatable {
+public final class Lottie: NSObject, Decodable {
     public var file: File
 
     private enum CodingKeys: String, CodingKey {
@@ -214,10 +238,18 @@ public final class Lottie: NSObject, Decodable, Updatable {
         self.file = file
     }
 
+}
 
+extension Lottie: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try container.update(&file, forKey: .file)
+    }
+}
+
+extension Lottie: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -378,7 +410,7 @@ extension FontRegistry: Updatable {
     }
 }
 
-public final class Color: NSObject, Decodable, Updatable {
+public final class Color: NSObject, Decodable {
     public var h: CGFloat
     public var s: CGFloat
     public var l: CGFloat
@@ -404,13 +436,21 @@ public final class Color: NSObject, Decodable, Updatable {
         self.a = a
     }
 
+}
 
+extension Color: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         h = try container.decode(CGFloat.self, forKey: .h)
         s = try container.decode(CGFloat.self, forKey: .s)
         l = try container.decode(CGFloat.self, forKey: .l)
         a = try container.decode(CGFloat.self, forKey: .a)
+    }
+}
+
+extension Color: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -422,7 +462,7 @@ extension Color {
     }
 }
 
-public final class TextStyle: NSObject, Decodable, Updatable {
+public final class TextStyle: NSObject, Decodable {
     public var fontName: String
     public var fontSize: CGFloat
     public var color: Color
@@ -444,12 +484,20 @@ public final class TextStyle: NSObject, Decodable, Updatable {
         self.color = color
     }
 
+}
 
+extension TextStyle: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         fontName = try container.decode(String.self, forKey: .fontName)
         fontSize = try container.decode(CGFloat.self, forKey: .fontSize)
         try container.update(&color, forKey: .color)
+    }
+}
+
+extension TextStyle: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -484,7 +532,7 @@ public extension UITextField {
     }
 }
 
-public final class Haiku: NSObject, Decodable, Updatable {
+public final class Haiku: NSObject, Decodable {
     public var component: String
 
     private enum CodingKeys: String, CodingKey {
@@ -498,10 +546,18 @@ public final class Haiku: NSObject, Decodable, Updatable {
         self.component = component
     }
 
+}
 
+extension Haiku: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         component = try container.decode(String.self, forKey: .component)
+    }
+}
+
+extension Haiku: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
     }
 }
 
@@ -559,7 +615,7 @@ public final class HaikuView: UIView {
     public override class var requiresConstraintBasedLayout: Bool { return true }
 }
 
-public final class Bindings: NSObject, StateBag {
+@objc public final class Bindings: NSObject, StateBag {
     public var image: Image
     public var svg: SVG
     public var lottie: Lottie
@@ -602,7 +658,9 @@ public final class Bindings: NSObject, StateBag {
     }
 
     public static let name = "Bindings"
+}
 
+extension Bindings: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try container.update(&image, forKey: .image)
@@ -612,5 +670,28 @@ public final class Bindings: NSObject, StateBag {
         try container.update(&textStyle, forKey: .textStyle)
         try container.update(&haiku, forKey: .haiku)
     }
+}
+
+extension Bindings: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
+/// This is only intended to be used by Objective-C consumers. 
+/// In Swift use Diez<Bindings>.
+@objc(DiezBindings)
+public final class DiezBridgedBindings: NSObject {
+    @objc public init(view: UIView) {
+        diez = Diez(view)
+
+        super.init()
+    }
+
+    @objc public func attach(_ subscriber: @escaping (Bindings) -> Void) {
+        diez.attach(subscriber)
+    }
+
+    private let diez: Diez<Bindings>
 }
 
