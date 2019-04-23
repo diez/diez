@@ -52,13 +52,47 @@ class DayPartView: UIView {
         set { valueStackView.layoutMargins = newValue }
     }
 
+    var iconWidth: CGFloat? {
+        get {
+            let constraintValue = iconWidthConstraint.isActive ? iconWidthConstraint.constant : 0
+            if constraintValue > 0 {
+                return constraintValue
+            }
+
+            return iconView.image?.size.width
+        }
+        set {
+            update(iconWidthConstraint, with: newValue)
+        }
+    }
+
+    var iconHeight: CGFloat? {
+        get {
+            let constraintValue = iconHeightConstraint.isActive ? iconHeightConstraint.constant : 0
+            if constraintValue > 0 {
+                return constraintValue
+            }
+
+            return iconView.image?.size.height
+        }
+        set {
+            update(iconHeightConstraint, with: newValue)
+        }
+    }
+
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let valueStackView: UIStackView
+    private var iconWidthConstraint: NSLayoutConstraint!
+    private var iconHeightConstraint: NSLayoutConstraint!
 
     private func setupLayout() {
         embed(outterStackView)
+
+        // Do not activate this constraint yet. Only activate if a value is set by a consumer.
+        iconWidthConstraint = iconView.widthAnchor.constraint(equalToConstant: 0)
+        iconHeightConstraint = iconView.heightAnchor.constraint(equalToConstant: 0)
     }
 
     private func configureViews() {
@@ -75,6 +109,21 @@ class DayPartView: UIView {
         valueLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         unitLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    }
+
+    /// If the newValue > 0, then the constraint will be made active and have its constant set to the new value.
+    /// If the newValue <= 0, then the constraint will be made inactive and its constant will be set to 0.
+    private func update(_ constraint: NSLayoutConstraint, with newValue: CGFloat?) {
+        guard
+            let newValue = newValue,
+            newValue > 0 else {
+                constraint.constant = 0
+                constraint.isActive = false
+                return
+        }
+
+        constraint.constant = newValue
+        constraint.isActive = true
     }
 
     @available(*, unavailable)

@@ -18,15 +18,8 @@ export class MyStateBag extends Component {
 
   @property numbers: Integer[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  @property image = new Image({
-    file: new File({
-      // Try changing this to diez.jpg!
-      src: 'assets/images/haiku.jpg',
-    }),
-    width: 246,
-    height: 246,
-    scale: 3,
-  });
+  // Try changing this to `assets/images/diez`!
+  @property image = Image.responsive('assets/images/haiku', 'jpg');
 
   @property svg = new SVG({src: 'assets/images/rat.svg'});
 

@@ -1,8 +1,11 @@
+import {File, Image} from '@diez/designsystem';
+
 /**
  * Provides images for the design system.
  */
-export enum ImageNames {
-  Icon = 'assets/images/Icon@3x.png',
-  MapPin = 'assets/images/Map Pin@3x.png',
-  Thermometer = 'assets/images/Thermometer@3x.png',
+export class Images {
+  static Icon = Image.responsive('assets/images/Icon', 'png');
+  static MapPin = Image.responsive('assets/images/Map Pin', 'png');
+  static Thermometer = Image.responsive('assets/images/Thermometer', 'png');
+  static Gear = Image.responsive('assets/images/Gear', 'png');
 }

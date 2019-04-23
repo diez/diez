@@ -13,8 +13,8 @@ extension ReportModel {
         let location = Location(
             region: "Santa Cruz, CA",
             place: "Natural Bridges State Park",
-            mapImage: UIImage.getURLForImage(named: "Santa Cruz Map")!,
-            bannerImage: UIImage.getURLForImage(named: "Santa Cruz Banner")!)
+            mapImage: ReportModel.url(forImageNamed: "Santa Cruz Map")!,
+            bannerImage: ReportModel.url(forImageNamed: "Santa Cruz Banner")!)
 
         let temperature = Temperature(
             formattedValue: "55°F",
@@ -30,22 +30,28 @@ extension ReportModel {
 
         return ReportModel(location: location, temperature: temperature, wind: wind, swell: swell, tide: tide)
     }
+
+    /// Returns the URL for the @3x png image with the provided name (found in the `mock/images` folder).
+    fileprivate static func url(forImageNamed name: String) -> URL? {
+        let bundle = Bundle.main
+        return bundle.url(forResource: "\(name)", withExtension: "png", subdirectory: "mock/images")
+    }
 }
 
 extension ReportModel.WindForecast {
     static func makeExample(earlyTime: String, middleTime: String, lateTime: String) -> ReportModel.WindForecast {
         let early = DayPart(
-            directionImage: UIImage.getURLForImage(named: "Direction - South West")!,
+            directionImage: ReportModel.url(forImageNamed: "Direction - South West")!,
             value: "4",
             time: earlyTime)
 
         let middle = DayPart(
-            directionImage: UIImage.getURLForImage(named: "Direction - South")!,
+            directionImage: ReportModel.url(forImageNamed: "Direction - South")!,
             value: "12",
             time:  middleTime)
 
         let late = DayPart(
-            directionImage: UIImage.getURLForImage(named: "Direction - North East")!,
+            directionImage: ReportModel.url(forImageNamed: "Direction - North East")!,
             value: "17",
             time: lateTime)
 

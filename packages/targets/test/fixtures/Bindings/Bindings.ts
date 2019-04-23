@@ -2,7 +2,7 @@ import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, SVG, TextStyle} fro
 import {Component, property} from '@diez/engine';
 
 export class Bindings extends Component {
-  @property image = Image.scaled('assets/image with spaces.jpg', 3, 246, 246);
+  @property image = Image.responsive('assets/image with spaces', 'jpg', 246, 246);
 
   @property svg = new SVG({src: 'assets/image.svg'});
 

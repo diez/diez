@@ -80,29 +80,33 @@ extension File {
 }
 
 public final class Image: NSObject, Decodable {
-    public var file: File
+    public var file1x: File
+    public var file2x: File
+    public var file3x: File
     public var width: Int
     public var height: Int
-    public var scale: CGFloat
 
     private enum CodingKeys: String, CodingKey {
-        case file
+        case file1x
+        case file2x
+        case file3x
         case width
         case height
-        case scale
     }
 
 
     init(
-        file: File,
+        file1x: File,
+        file2x: File,
+        file3x: File,
         width: Int,
-        height: Int,
-        scale: CGFloat
+        height: Int
     ) {
-        self.file = file
+        self.file1x = file1x
+        self.file2x = file2x
+        self.file3x = file3x
         self.width = width
         self.height = height
-        self.scale = scale
     }
 
 }
@@ -110,10 +114,11 @@ public final class Image: NSObject, Decodable {
 extension Image: Updatable {
     public func update(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        try container.update(&file, forKey: .file)
+        try container.update(&file1x, forKey: .file1x)
+        try container.update(&file2x, forKey: .file2x)
+        try container.update(&file3x, forKey: .file3x)
         width = try container.decode(Int.self, forKey: .width)
         height = try container.decode(Int.self, forKey: .height)
-        scale = try container.decode(CGFloat.self, forKey: .scale)
     }
 }
 
@@ -125,20 +130,42 @@ extension Image: ReflectedCustomStringConvertible {
 
 extension Image {
     public var url: URL? {
-        return file.url
+        return url(forScale: UIScreen.main.scale)
+    }
+    public var urlAt1x: URL? {
+        return file1x.url
+    }
+    public var urlAt2x: URL? {
+        return file2x.url
+    }
+    public var urlAt3x: URL? {
+        return file3x.url
     }
     public var image: UIImage? {
-        guard let url = url else {
-            return nil
-        }
+        return image(withScale: UIScreen.main.scale)
+    }
 
-        do {
-            let data = try Data(contentsOf: url)
-            return UIImage(data: data, scale: scale) 
-        } catch {
-            print("Failed to get image data: \(error)")
-            return nil
+    public func url(forScale scale: CGFloat) -> URL? {
+        switch round(scale) {
+        case 1: return file1x.url
+        case 2: return file2x.url
+        case 3: return file3x.url
+        default: return nil
         }
+    }
+
+    public func image(withScale scale: CGFloat) -> UIImage? {
+      guard let url = url(forScale: scale) else {
+          return nil
+      }
+
+      do {
+          let data = try Data(contentsOf: url)
+          return UIImage(data: data, scale: scale) 
+      } catch {
+          print("Failed to get image data: \(url) -\(error)")
+          return nil
+      }
     }
 }
 
@@ -633,7 +660,7 @@ public final class HaikuView: UIView {
     }
 
     public override init() {
-        image = Image(file: File(src: "assets/image%20with%20spaces.jpg"), width: 246, height: 246, scale: 3)
+        image = Image(file1x: File(src: "assets/image%20with%20spaces.jpg"), file2x: File(src: "assets/image%20with%20spaces%402x.jpg"), file3x: File(src: "assets/image%20with%20spaces%403x.jpg"), width: 246, height: 246)
         svg = SVG(src: "assets/image.svg")
         lottie = Lottie(file: File(src: "assets/lottie.json"))
         fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf")])

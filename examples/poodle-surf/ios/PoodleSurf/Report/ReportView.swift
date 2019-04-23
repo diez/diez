@@ -35,23 +35,26 @@ class ReportView: UIView {
     }
 
     private func setupLayout() {
+        var constraints: [NSLayoutConstraint] = []
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
-        NSLayoutConstraint.activate([
+        constraints += [
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.leftAnchor.constraint(equalTo: leftAnchor),
             scrollView.rightAnchor.constraint(equalTo: rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
+        ]
 
         outterStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(outterStackView)
-        NSLayoutConstraint.activate([
+        constraints += [
             outterStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             outterStackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
             outterStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             outterStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        ])
+        ]
+
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func configureViews() {

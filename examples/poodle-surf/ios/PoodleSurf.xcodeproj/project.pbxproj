@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE6225D341600F4B63F /* AppDelegate.swift */; };
 		46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE8225D341600F4B63F /* ReportViewController.swift */; };
-		46087BEE225D341800F4B63F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46087BED225D341800F4B63F /* Assets.xcassets */; };
 		46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46087BEF225D341800F4B63F /* LaunchScreen.storyboard */; };
 		46087BFA225D3F9900F4B63F /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BF9225D3F9900F4B63F /* ReportView.swift */; };
 		46087BFC225D419500F4B63F /* ReportHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BFB225D419500F4B63F /* ReportHeaderView.swift */; };
@@ -40,6 +39,8 @@
 		46087C5D22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */; };
 		46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */; };
 		46087C6122623D9400F4B63F /* LoadingViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */; };
+		46E14CA4226E38CF007938DA /* mock in Resources */ = {isa = PBXBuildFile; fileRef = 46E14CA3226E38CF007938DA /* mock */; };
+		46E14CA6226E3933007938DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E14CA5226E3933007938DA /* Assets.xcassets */; };
 		D036E2EDC4B2DFDD9B65F7E3 /* Pods_PoodleSurf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 004A5CE4D3AFF9FBB963C591 /* Pods_PoodleSurf.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +50,6 @@
 		46087BE3225D341600F4B63F /* PoodleSurf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoodleSurf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46087BE6225D341600F4B63F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46087BE8225D341600F4B63F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
-		46087BED225D341800F4B63F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46087BF0225D341800F4B63F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		46087BF2225D341800F4B63F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46087BF9225D3F9900F4B63F /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
@@ -81,6 +81,8 @@
 		46087C5C22623BD100F4B63F /* LoadingViewController+FallbackStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+FallbackStyle.swift"; sourceTree = "<group>"; };
 		46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportViewController+Diez.swift"; sourceTree = "<group>"; };
 		46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+Diez.swift"; sourceTree = "<group>"; };
+		46E14CA3226E38CF007938DA /* mock */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mock; sourceTree = "<group>"; };
+		46E14CA5226E3933007938DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1D82D16AD79B2D902C96B87 /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,10 +181,11 @@
 		46087C0F225D74C900F4B63F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				46087BED225D341800F4B63F /* Assets.xcassets */,
+				46E14CA5226E3933007938DA /* Assets.xcassets */,
 				46087BF2225D341800F4B63F /* Info.plist */,
-				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
 				46087C4A2260084000F4B63F /* hang10.json */,
+				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
+				46E14CA3226E38CF007938DA /* mock */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -298,7 +301,8 @@
 			files = (
 				46087C4B2260084000F4B63F /* hang10.json in Resources */,
 				46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */,
-				46087BEE225D341800F4B63F /* Assets.xcassets in Resources */,
+				46E14CA6226E3933007938DA /* Assets.xcassets in Resources */,
+				46E14CA4226E38CF007938DA /* mock in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

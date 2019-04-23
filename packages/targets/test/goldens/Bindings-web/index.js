@@ -37,10 +37,11 @@ Object.defineProperty(File.prototype, 'url', {
 
 class Image {
   constructor() {
-    this.file = new File({src: "assets/image%20with%20spaces.jpg"});
+    this.file1x = new File({src: "assets/image%20with%20spaces.jpg"});
+    this.file2x = new File({src: "assets/image%20with%20spaces%402x.jpg"});
+    this.file3x = new File({src: "assets/image%20with%20spaces%403x.jpg"});
     this.width = 246;
     this.height = 246;
-    this.scale = 3;
   }
 
   update (payload) {
@@ -48,10 +49,11 @@ class Image {
       return;
     }
 
-    this.file.update(payload.file);
+    this.file1x.update(payload.file1x);
+    this.file2x.update(payload.file2x);
+    this.file3x.update(payload.file3x);
     this.width = payload.width;
     this.height = payload.height;
-    this.scale = payload.scale;
   }
 }
 

@@ -3,10 +3,11 @@ export declare class File {
 }
 
 export declare class Image {
-  file: File;
+  file1x: File;
+  file2x: File;
+  file3x: File;
   width: number;
   height: number;
-  scale: number;
 }
 
 export declare class SVG {

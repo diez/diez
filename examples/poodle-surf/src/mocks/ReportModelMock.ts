@@ -1,13 +1,13 @@
-import {Image} from '@diez/designsystem';
+import {File} from '@diez/designsystem';
 import {Component, property} from '@diez/engine';
-import {ImageNames} from './assets';
+import {Images} from './assets';
 import {DayPartTimes} from './constants';
 
 class LocationMock extends Component {
   @property region = 'Santa Cruz, CA';
   @property place = 'Natural Bridges State Park';
-  @property mapImage = Image.scaled(ImageNames.SantaCruzMap, 3);
-  @property bannerImage = Image.scaled(ImageNames.SantaCruzBanner, 3);
+  @property mapImage = Images.SantaCruzMap;
+  @property bannerImage = Images.SantaCruzBanner;
 }
 
 class TemperatureMock extends Component {
@@ -16,30 +16,30 @@ class TemperatureMock extends Component {
 }
 
 interface WindDayPartMockState {
-  direction: Image;
+  direction: File;
   value: string;
   dayPart: string;
 }
 
 class WindDayPartMock extends Component<WindDayPartMockState> {
-  @property direction = Image.scaled(ImageNames.WindNorth, 3);
+  @property direction = Images.WindNorth;
   @property value = '';
   @property dayPart = '';
 }
 
 class WindMock extends Component {
   @property early = new WindDayPartMock({
-    direction: Image.scaled(ImageNames.WindSouthWest, 3),
+    direction: Images.WindSouthWest,
     value: '4',
     dayPart: DayPartTimes.early,
   });
   @property middle = new WindDayPartMock({
-    direction: Image.scaled(ImageNames.WindSouth, 3),
+    direction: Images.WindSouth,
     value: '12',
     dayPart: DayPartTimes.middle,
   });
   @property late = new WindDayPartMock({
-    direction: Image.scaled(ImageNames.WindNorthEast, 3),
+    direction: Images.WindNorthEast,
     value: '17',
     dayPart: DayPartTimes.late,
   });

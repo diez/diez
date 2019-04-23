@@ -4,10 +4,11 @@ data class File(
     val src: String
 )
 data class Image(
-    val file: File,
+    val file1x: File,
+    val file2x: File,
+    val file3x: File,
     val width: Int,
-    val height: Int,
-    val scale: Float
+    val height: Int
 )
 data class SVG(
     val src: String
@@ -30,7 +31,7 @@ data class Haiku(
     val component: String
 )
 data class Bindings(
-    val image: Image = Image(File("assets/image%20with%20spaces.jpg"), 246, 246, 3F),
+    val image: Image = Image(File("assets/image%20with%20spaces.jpg"), File("assets/image%20with%20spaces%402x.jpg"), File("assets/image%20with%20spaces%403x.jpg"), 246, 246),
     val svg: SVG = SVG("assets/image.svg"),
     val lottie: Lottie = Lottie(File("assets/lottie.json")),
     val fontRegistry: FontRegistry = FontRegistry(arrayOf<File>(File("assets/SomeFont.ttf"))),

@@ -98,6 +98,8 @@ extension ReportViewController {
         view.timeLabel.textColor = .white
         view.valueUnitSpacing = 5
         view.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        view.iconWidth = 78
+        view.iconHeight = 78
     }
 
     private func applyCardStyle(to view: CardViewDescribable) {

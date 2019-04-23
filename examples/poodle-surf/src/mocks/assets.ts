@@ -1,11 +1,13 @@
+import {File} from '@diez/designsystem';
+
 /**
  * Provides images for the mock system.
  */
-export enum ImageNames {
-  SantaCruzMap = 'assets/images/Santa Cruz Map@3x.png',
-  SantaCruzBanner = 'assets/images/Santa Cruz Banner@3x.png',
-  WindNorth = 'assets/images/Direction - North@3x.png',
-  WindSouthWest = 'assets/images/Direction - South West@3x.png',
-  WindSouth = 'assets/images/Direction - South@3x.png',
-  WindNorthEast = 'assets/images/Direction - North East@3x.png',
+export class Images {
+  static SantaCruzMap = new File({src: 'assets/images/Santa Cruz Map.png'});
+  static SantaCruzBanner = new File({src: 'assets/images/Santa Cruz Banner.png'});
+  static WindNorth = new File({src: 'assets/images/Direction - North.png'});
+  static WindSouthWest = new File({src: 'assets/images/Direction - South West.png'});
+  static WindSouth = new File({src: 'assets/images/Direction - South.png'});
+  static WindNorthEast = new File({src: 'assets/images/Direction - North East.png'});
 }

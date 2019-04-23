@@ -58,6 +58,7 @@ extension ReportViewController {
         view.bottomLabel.apply(design.valueTextStyle)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
+        view.imageView.image = design.icon.image
     }
 
     private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
@@ -75,12 +76,14 @@ extension ReportViewController {
         }
     }
 
-    private func apply(_ design: SharedDayPartDesign, to view: DayPartView) {
+    private func apply(_ design: DayPartDesign, to view: DayPartView) {
         view.valueLabel.apply(design.valueTextStyle)
         view.unitLabel.apply(design.unitTextStyle)
         view.timeLabel.apply(design.timeTextStyle)
         view.valueUnitSpacing = design.valueUnitSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
+        view.iconWidth = design.iconWidth
+        view.iconHeight = design.iconHeight
     }
 }
 

@@ -1,6 +1,6 @@
 import {Image} from '@diez/designsystem';
 import {Component, Float, property} from '@diez/engine';
-import {ImageNames} from './assets';
+import {Images} from './assets';
 import {EdgeInsets} from './components/EdgeInsets';
 import {SimpleGradient} from './components/SimpleGradient';
 import {LayoutValues, palette, textStyles} from './constants';
@@ -14,7 +14,7 @@ class LocationImageDesign extends Component {
 class HeaderDesign extends Component {
   @property regionLabel = textStyles.headerTitle;
   @property placeLabel = textStyles.headerCaption;
-  @property mapPinIcon = Image.scaled(ImageNames.MapPin, 3);
+  @property mapPinIcon = Images.MapPin;
   @property locationImage = new LocationImageDesign();
   @property bannerHeight = 149;
   @property labelsLayoutMargin = EdgeInsets.simple(
@@ -27,7 +27,7 @@ class HeaderDesign extends Component {
 
 class TemperatureDesign extends Component {
   @property textStyle = textStyles.value;
-  @property icon = Image.scaled(ImageNames.Thermometer, 3);
+  @property icon = Images.Thermometer;
   @property iconSpacing = LayoutValues.defaultSpacing;
 }
 
@@ -37,6 +37,7 @@ class WetsuitDesign extends Component {
   @property valueTextStyle = textStyles.caption;
   @property labelSpacing = LayoutValues.compactSpacing;
   @property iconSpacing = LayoutValues.defaultSpacing;
+  @property icon = Images.Gear;
 }
 
 class WaterTemperatureCardDesign extends Component {
@@ -48,19 +49,23 @@ class WaterTemperatureCardDesign extends Component {
   @property wetsuit = new WetsuitDesign();
 }
 
-class SharedDayPartDesign extends Component {
+const DayPartIconSize = 78;
+
+class DayPartDesign extends Component {
   @property valueTextStyle = textStyles.value;
   @property unitTextStyle = textStyles.unit;
   @property timeTextStyle = textStyles.caption;
   @property valueUnitSpacing = LayoutValues.compactSpacing;
   @property layoutMargins = new EdgeInsets();
+  @property iconWidth = DayPartIconSize;
+  @property iconHeight = DayPartIconSize;
 }
 
 interface ForecastCardDesignState {
   title: string;
   unit: string;
   gradient: SimpleGradient;
-  dayPart: SharedDayPartDesign;
+  dayPart: DayPartDesign;
   dayPartsHorizontalSpacing: number;
   dayPartVerticalSpacing: number;
   separatorWidth: number;
@@ -73,7 +78,7 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
   @property titleTextStyle = textStyles.cardTitle;
   @property unit = '';
   @property gradient = palette.gradient;
-  @property dayPart = new SharedDayPartDesign();
+  @property dayPart = new DayPartDesign();
   @property dayPartsHorizontalSpacing = LayoutValues.defaultMargin;
   @property dayPartVerticalSpacing = LayoutValues.looseMargin;
   @property separatorWidth = 1;

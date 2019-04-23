@@ -2,10 +2,11 @@ import {Component, Integer, property} from '@diez/engine';
 import {encodeFileSource, File} from './file';
 
 export interface ImageState {
-  file: File;
+  file1x: File;
+  file2x: File;
+  file3x: File;
   width: number;
   height: number;
-  scale: number;
 }
 
 /**
@@ -14,29 +15,33 @@ export interface ImageState {
  * @noinheritdoc
  */
 export class Image extends Component<ImageState> {
-  static scaled (src: string, scale: number, width = 0, height = 0) {
+  static responsive (basename: string, extension: string, width: number = 0, height: number = 0) {
     return new Image({
-      scale,
       width,
       height,
-      file: new File({src}),
+      file1x: new File({src: `${basename}.${extension}`}),
+      file2x: new File({src: `${basename}@2x.${extension}`}),
+      file3x: new File({src: `${basename}@3x.${extension}`}),
     });
   }
 
-  @property file = new File();
+  @property file1x = new File();
+
+  @property file2x = new File();
+
+  @property file3x = new File();
 
   @property width: Integer = 0;
 
   @property height: Integer = 0;
 
-  @property scale = 1;
-
   serialize () {
     return {
-      file: this.file.serialize(),
+      file1x: this.file1x.serialize(),
+      file2x: this.file2x.serialize(),
+      file3x: this.file3x.serialize(),
       width: Math.round(this.width),
       height: Math.round(this.height),
-      scale: this.scale,
     };
   }
 }
