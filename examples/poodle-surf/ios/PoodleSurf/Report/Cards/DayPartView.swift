@@ -92,7 +92,9 @@ class DayPartView: UIView {
 
         // Do not activate this constraint yet. Only activate if a value is set by a consumer.
         iconWidthConstraint = iconView.widthAnchor.constraint(equalToConstant: 0)
+        iconWidthConstraint.priority = .defaultHigh
         iconHeightConstraint = iconView.heightAnchor.constraint(equalToConstant: 0)
+        iconHeightConstraint.priority = .defaultHigh
     }
 
     private func configureViews() {
