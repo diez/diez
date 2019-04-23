@@ -8,6 +8,7 @@ $white: #fff;
 $gray100: #FBFAFD;
 $gray400: #F6F5FB;
 $gray700: #EAE6F6;
+$gray900: #79738F;
 $black: #000;
 
 $primary: $purple;
@@ -89,6 +90,10 @@ h3 {
     font-size: 1.7rem;
     line-height: 2.2rem;
   }
+}
+
+li {
+  margin-top: $spacingMD;
 }
 
 footer {
@@ -199,6 +204,17 @@ button, .button {
   }
 }
 
+.code-block {
+  @extend .card;
+  width: 67%;
+  padding: $spacingMD $spacingXL;
+  overflow: auto;
+  margin-top: $spacing2XL;
+  @include phone {
+    width: 100%;
+  }
+}
+
 .card-code {
   @extend .card;
   width: 100%;
@@ -234,4 +250,12 @@ button, .button {
   font-size: $smallText;
   font-weight: 700;
   margin-left: $spacingLG;
+}
+
+.note {
+  font-size: $smallText;
+  color: $gray900;
+  code {
+    font-weight: 400 !important;
+  }
 }

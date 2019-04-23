@@ -259,4 +259,4 @@ export class Diez {
     requestAnimationFrame(this.tick);
   }
 }`,
-}
+};

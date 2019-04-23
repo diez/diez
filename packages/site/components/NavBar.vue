@@ -5,18 +5,18 @@
     </div>
     <div class="nav" :class="{'hide' : isOpen}">
       <div class="holster">
-        <div class="logo">
+        <a href="/" class="logo">
           Diez
           <img width="34" src="@/assets/imgs/logo.svg"/>
-        </div>
+        </a>
         <div class="holster-right">
           <a href="https://github.com/diez/diez">Github</a>
           <a href="/docs">Docs</a>
           <a href="https://spectrum.chat/diez">Spectrum</a>
-          <a href="/docs/getting-started" class="button hide-on-mobile">Get Started</a>
+          <a href="/getting-started" class="button hide-on-mobile">Get Started</a>
           <a href="https://diez.substack.com/subscribe" class="show-on-mobile">Mailing List</a>
           <a href="http://twitter.com/dieznative" class="show-on-mobile">Twitter</a>
-          <a href="/docs/getting-started" class="show-on-mobile">Get Started</a>
+          <a href="/getting-started" class="show-on-mobile">Get Started</a>
           <div @click="toggleMenu" class="menu-icon show-on-mobile">
             <img v-show="!isOpen" width="25px" src="@/assets/icons/close.svg" alt="close">
           </div>
@@ -84,6 +84,7 @@ export default class NavBar extends Vue {
     font-weight: 900;
     font-size: 30px;
     display: flex;
+    padding-left: 0;
     align-items: center;
     @include tablet {    
       display: none;

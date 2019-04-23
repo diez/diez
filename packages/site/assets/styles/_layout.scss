@@ -70,6 +70,17 @@ $page-width: $sizing3XL;
   padding: 0 $spacingLG;
 }
 
+.one-quarter {
+  @extend .content-holster;
+  width: 25%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
 .one-third {
   @extend .content-holster;
   width: 33%;
@@ -92,6 +103,17 @@ $page-width: $sizing3XL;
 .two-thirds {
   @extend .content-holster;
   width: 67%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.three-quarters {
+  @extend .content-holster;
+  width: 75%;
   @include tablet-large {
     width: 50%;
   }
