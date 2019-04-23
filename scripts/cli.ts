@@ -1,4 +1,5 @@
 import commander from 'commander';
+import {buildExamples} from './commands/build-examples';
 import {clean} from './commands/clean';
 import {createPackage} from './commands/create-package';
 import {generateDocs} from './commands/generate-docs';
@@ -20,6 +21,12 @@ commander
   .command('clean')
   .description('Clean automatically generated files from workspaces.')
   .action(clean);
+
+commander
+  .command('build-examples')
+  .description('Build example projects.')
+  .option('--target <target>')
+  .action(buildExamples);
 
 if (!process.argv.slice(2).length) {
   commander.outputHelp();

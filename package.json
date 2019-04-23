@@ -30,6 +30,7 @@
     "typescript": "^3.4.1"
   },
   "scripts": {
+    "build-examples": "ts-node ./scripts/cli.ts build-examples",
     "create-package": "ts-node ./scripts/cli.ts create-package",
     "clean": "ts-node ./scripts/cli.ts clean",
     "docs": "ts-node ./scripts/cli.ts generate-docs",

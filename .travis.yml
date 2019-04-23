@@ -1,24 +1,40 @@
-branches:
-  only:
-  - master
-language: node_js
-node_js:
-- 10.15.3
-cache: yarn
+matrix:
+  include:
+  - language: node_js
+    cache: yarn
+    before_script:
+    - yarn global add codecov
+    script:
+    - yarn health --stream
+    - codecov
+  - language: android
+    jdk: oraclejdk8
+    android:
+      components:
+      - tools
+      - android-28
+      - build-tools-28.0.3
+    script:
+    - yarn build-examples --target android
+  - language: objective-c
+    osx_image: xcode10.2
+    script:
+    - yarn build-examples --target ios
 before_install:
+- curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+- nvm install 10.15.3
+- nvm alias default 10.15.3
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
 - nvm alias default 10.15.3
 - nvm use 10.15.3
 - export PATH="$HOME/.yarn/bin:$PATH"
-- yarn global add codecov
 install: yarn
-script:
-- yarn health --stream
-- codecov
+branches:
+  only:
+  - master
 notifications:
   slack:
     rooms:
       secure: lHgjVBn6CkVp4SUKJdHzuQss/G3ucXcfH5FOtiVKCEXTj0oWTC569QKs4uARWGRNKn4+t9HTtKIT7VUTfMLKNv6Zm4NYMvpDrESINXENFzZZu2cSPOJMxKgoownYmSj783bOGSb+QgwZmqbdbnuJ866gaTdjegO7WIUeO18EbbQ71I8c7PBzLXDvhnfKQihKixsvpr3vT9FB9YpTsPfiY2DhZSPR6StyT6ei0RCypCP2pGP0FXLW5zsNTM7cIJgL7BQy0zGhqbjfdg4+oheR5sBh8Q+sNZsihmBLT6ljgQ/LGTcQsQhC3B/EyimBnBebbnAahlwMYCb6Yg3y4frxVgW0jD7NEuJEu5DL7I+l2231nektzC0SVJYkfrBCKy445Z3t4JzVB+7lDXaRs2vVQMZjFMAaTHGbn7Lhp7+qefNHnmTOZwHABq5dT28WkUIpCRcoElyECg4XzfPd9qY7o2kLZ+TKVBKXRuL7vywNNdVmItY0KbRztOBxYYRSqSAaIK/NMXDOejiRFkSHTTCm0S1Oleey42wwV2czw8admWheWau+tQcVQAajFOCubey13W9k3lOvokLQZ3r9LfLcoYBaNwzO8yDaSlHAZNE3nSxmiL+mKm9n1QVTo+uDUaC4pgMLMlUcJV5QRoQpRzF6bJ0MOr08tnQB2X4AFdwnIuE=
     on_success: always
     on_failure: always
-    on_pull_requests: true

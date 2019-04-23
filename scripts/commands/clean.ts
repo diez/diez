@@ -1,7 +1,7 @@
 import {readJson, remove} from 'fs-extra';
-import {root} from "../internal/helpers";
 import glob from 'glob';
 import {join} from 'path';
+import {root} from '../internal/helpers';
 
 const filesToDelete = [
   'lib',
@@ -13,6 +13,9 @@ const filesToDelete = [
   '.DS_Store',
 ];
 
+/**
+ * Cleans packages.
+ */
 export const clean = async () => {
   const config = await readJson(join(root, 'package.json'));
   for (const workspace of config.workspaces) {

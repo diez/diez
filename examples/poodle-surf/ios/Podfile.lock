@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "./Diez"
 
 SPEC CHECKSUMS:
-  Diez: 2ef68b64efd5ae5548345f7228e9a2d7bdc85aa4
+  Diez: 7a63235cd5da6d13c47bdd9a13774b2e9269428c
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
 
 PODFILE CHECKSUM: 39916dff1cb8c5327fec4f4c158c5f7cc65286d5
