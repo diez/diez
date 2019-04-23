@@ -1,0 +1,39 @@
+class {{{componentName}}} {
+  {{#if singleton}}
+  constructor() {
+    {{#each properties}}
+    this.{{{@key}}} = {{{this.initializer}}};
+    {{/each}}
+  }
+  {{else}}
+  constructor({
+    {{#each properties}}
+    {{{@key}}}{{#unless @last}},{{/unless}}
+    {{/each}}
+  }) {
+    {{#each properties}}
+    this.{{{@key}}} = {{{@key}}};
+    {{/each}}
+  }
+  {{/if}}
+
+  update (payload) {
+    if (!payload) {
+      return;
+    }
+
+    {{#each properties}}
+    {{#if this.updateable}}
+    this.{{{@key}}}.update(payload.{{{@key}}});
+    {{else}}
+    this.{{{@key}}} = payload.{{{@key}}};
+    {{/if}}
+    {{/each}}
+  }
+}
+
+{{#if public}}
+{{{componentName}}}.name = '{{{componentName}}}';
+{{/if}}
+
+module.exports.{{{componentName}}} = {{{componentName}}};

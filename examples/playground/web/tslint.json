@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "tslint-config-haiku"
+  ],
+  "rules": {
+    "import-name": false,
+    "completed-docs": false
+  }
+}

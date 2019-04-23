@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "scripts": {
     "run-ios": "diez compile -t ios -o ios -d",
-    "run-android": "diez compile -t android -o android -d"
+    "run-android": "diez compile -t android -o android -d",
+    "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
     "@haiku/taylor-testthang": "^0.0.2",

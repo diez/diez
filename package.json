@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "examples/*"
+    "examples/*",
+    "examples/*/web"
   ],
   "version": "1.0.0-alpha0",
   "description": "Diez monorepo.",

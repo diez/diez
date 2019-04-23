@@ -17,7 +17,7 @@ import {copySync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, join} from 'path';
-import {getTempFileName, isLocalType, sourcesPath} from '../utils';
+import {getTempFileName, sourcesPath} from '../utils';
 import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
 /**
@@ -116,23 +116,11 @@ const getPrimitive = (type: PropertyType, instance: any): TargetComponentPropert
 /**
  * A compiler for iOS targets.
  */
-export class AndroidCompiler extends TargetCompiler<
-  AndroidOutput,
-  TargetComponentSpec,
-  TargetComponentProperty,
-  AndroidBinding
-> {
+export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBinding> {
   /**
    * @abstract
    */
   protected targetName = 'android';
-
-  /**
-   * @abstract
-   */
-  protected createSpec (type: PropertyType) {
-    return {componentName: type, properties: {}, public: isLocalType(type, this.program)};
-  }
 
   /**
    * @abstract
@@ -186,6 +174,7 @@ export class AndroidCompiler extends TargetCompiler<
    */
   clear () {
     this.output.sources.clear();
+    this.output.files.clear();
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
@@ -225,7 +214,7 @@ export class AndroidCompiler extends TargetCompiler<
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
           try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output.assetBindings);
+            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
           } catch (error) {
             warning(error);
           }

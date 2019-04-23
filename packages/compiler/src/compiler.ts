@@ -347,14 +347,11 @@ export class Compiler extends EventEmitter implements CompilerProgram {
  */
 export abstract class TargetCompiler<
   OutputType extends TargetOutput,
-  ComponentSpec extends TargetComponentSpec,
-  PropertySpec extends TargetComponentProperty,
   BindingType,
 > {
   protected abstract targetName: string;
   protected output: OutputType;
 
-  protected abstract createSpec (type: PropertyType): ComponentSpec;
   protected abstract mergeBindingToOutput (binding: BindingType): void;
   protected abstract createOutput (sdkRoot: string): OutputType;
   protected abstract async processComponentProperty (
@@ -362,7 +359,7 @@ export abstract class TargetCompiler<
     instance: MaybeNestedArray<any>,
     serializedInstance: MaybeNestedArray<any>,
     targetComponent: TargetComponent,
-  ): Promise<PropertySpec | undefined>;
+  ): Promise<TargetComponentProperty | undefined>;
 
   /**
    * The root where we should place static assets.
@@ -386,6 +383,13 @@ export abstract class TargetCompiler<
 
   constructor (protected program: CompilerProgram, sdkRoot: string) {
     this.output = this.createOutput(sdkRoot);
+  }
+
+  /**
+   * Generates a fresh component spec for a given type.
+   */
+  protected createSpec (type: PropertyType): TargetComponentSpec {
+    return {componentName: type, properties: {}, public: this.program.localComponentNames.includes(type)};
   }
 
   /**

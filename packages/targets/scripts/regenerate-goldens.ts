@@ -3,6 +3,7 @@ import {
   createAndroidCompilerForFixture,
   createIosCompilerForFixture,
   createProgramForFixture,
+  createWebCompilerForFixture,
   getFixtures,
   getGoldenRoot,
 } from '../test/helpers';
@@ -24,5 +25,12 @@ import {
     await androidCompiler.run();
     removeSync(androidGoldenRoot);
     await androidCompiler.writeSdk('foo.bar', 9001);
+
+    // Regenerates web goldens.
+    const webGoldenRoot = getGoldenRoot(fixture, 'web');
+    const webCompiler = await createWebCompilerForFixture(fixture, program, webGoldenRoot);
+    await webCompiler.run();
+    removeSync(webGoldenRoot);
+    await webCompiler.writeSdk('foo.bar', 9001);
   }
 })();

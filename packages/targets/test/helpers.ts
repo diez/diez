@@ -4,6 +4,7 @@ import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSy
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';
 import {IosCompiler} from '../src/targets/ios.handler';
+import {WebCompiler} from '../src/targets/web.handler';
 import {getTempFileName} from '../src/utils';
 
 const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
@@ -80,6 +81,21 @@ export const createAndroidCompilerForFixture = async (
   const program = programIn || await createProgramForFixture(fixture);
   const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
   const compiler = new AndroidCompiler(program, sdkRoot);
+  compiler.clear();
+  return compiler;
+};
+
+/**
+ * Creates Web output for a fixture.
+ */
+export const createWebCompilerForFixture = async (
+  fixture: string,
+  programIn?: CompilerProgram,
+  sdkRootIn?: string,
+): Promise<WebCompiler> => {
+  const program = programIn || await createProgramForFixture(fixture);
+  const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
+  const compiler = new WebCompiler(program, sdkRoot);
   compiler.clear();
   return compiler;
 };

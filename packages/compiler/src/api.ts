@@ -189,10 +189,13 @@ export interface AssetBinding {
 /**
  * Provides 0 or more bindings from a component instance.
  */
-export type AssetBinder<T extends Component> = (
-  instance: T,
+export type AssetBinder<
+  ComponentType extends Component,
+  OutputType = TargetOutput,
+> = (
+  instance: ComponentType,
   projectRoot: string,
-  bindings: Map<string, AssetBinding>,
+  output: OutputType,
 ) => Promise<void>;
 
 /**

@@ -5,9 +5,6 @@ import {Component} from '@diez/engine';
  * Describes an Android third party dependency.
  */
 export interface AndroidDependency {
-  /**
-   * @todo Define the shape of Carthage dependencies.
-   */
   gradle: {
     name: string;
     minVersion: string;

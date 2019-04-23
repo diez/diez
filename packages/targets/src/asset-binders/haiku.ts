@@ -14,7 +14,7 @@ import {templateRoot} from '.';
  * For example, for a component based on the component `@haiku/foo-bar`, a binding at `./haiku/@haiku/foo-bar.html`
  * will be created.
  */
-export const haikuAssetBinder: AssetBinder<Haiku> = async (instance, _, bindings) =>
+export const haikuAssetBinder: AssetBinder<Haiku> = async (instance, _, {assetBindings}) =>
   new Promise((resolve, reject) => {
     const standaloneIndexPath = require.resolve(instance.component).replace('index.js', 'index.standalone.js');
     readFile(standaloneIndexPath, (standaloneError, standaloneIndexContentBuffer) => {
@@ -32,7 +32,7 @@ export const haikuAssetBinder: AssetBinder<Haiku> = async (instance, _, bindings
           return reject(templateError);
         }
 
-        bindings.set(
+        assetBindings.set(
           `haiku/${instance.component}.html`,
           {
             contents: compile(templateContentsBuffer.toString())({standaloneIndexContent, adapterName: matches[1]}),

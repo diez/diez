@@ -1,0 +1,9 @@
+{{#if public}}
+export declare class {{{componentName}}} extends StateBag {
+{{else}}
+export declare class {{{componentName}}} {
+{{/if}}
+  {{#each properties}}
+  {{{@key}}}: {{this.type}};
+  {{/each}}
+}

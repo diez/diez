@@ -1,0 +1,3 @@
+{{#each declarations}}
+{{{this}}}
+{{/each}}

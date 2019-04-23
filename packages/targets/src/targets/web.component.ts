@@ -25,8 +25,16 @@ if (module.hot) {
 })();
 
 // TODO: specify an exact target origin?
-const patcher: Patcher = (payload: any) => adaptedWindow.postMessage(JSON.stringify(payload), '*');
+const patcher: Patcher = (payload: any) => {
+  return adaptedWindow.parent.postMessage(JSON.stringify(payload), '*');
+};
 
 adaptedWindow.tick = (time) => adaptedWindow.component && adaptedWindow.component.tick(time, patcher);
 
 adaptedWindow.trigger = (name, payload) => adaptedWindow.component && adaptedWindow.component.trigger(name, payload);
+
+adaptedWindow.addEventListener('message', (message) => {
+  if (message.data) {
+    adaptedWindow.tick(message.data);
+  }
+});

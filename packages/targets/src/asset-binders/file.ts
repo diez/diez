@@ -6,7 +6,7 @@ import {join} from 'path';
 /**
  * An simple copy asset binder for the File prefab.
  */
-export const fileAssetBinder: AssetBinder<File> = async (instance, projectRoot, bindings) =>
+export const fileAssetBinder: AssetBinder<File> = async (instance, projectRoot, {assetBindings}) =>
   new Promise((resolve, reject) => {
     const source = join(projectRoot, instance.src);
     stat(source, (statError, stats) => {
@@ -14,7 +14,7 @@ export const fileAssetBinder: AssetBinder<File> = async (instance, projectRoot, 
         return reject(new Error(`File at ${source} does not exist.`));
       }
 
-      bindings.set(
+      assetBindings.set(
         instance.src,
         {
           contents: source,

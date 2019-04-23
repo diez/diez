@@ -16,7 +16,7 @@ import {outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';
-import {getTempFileName, isLocalType, sourcesPath} from '../utils';
+import {getTempFileName, sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
 /**
@@ -123,18 +123,11 @@ const getInitializer = (
 /**
  * A compiler for iOS targets.
  */
-export class IosCompiler extends TargetCompiler<IosOutput, TargetComponentSpec, TargetComponentProperty, IosBinding> {
+export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   /**
    * @abstract
    */
   protected targetName = 'ios';
-
-  /**
-   * @abstract
-   */
-  protected createSpec (type: PropertyType) {
-    return {componentName: type, properties: {}, public: isLocalType(type, this.program)};
-  }
 
   /**
    * @abstract
@@ -260,7 +253,7 @@ class ViewController: UIViewController {
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
           try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output.assetBindings);
+            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
           } catch (error) {
             warning(error);
           }

@@ -11,7 +11,7 @@ import {templateRoot} from '.';
  * Given a Diez SVG component instance, registers an asset at the original location containing a mobile-friendly
  * SVG (wrapped as an HTML file).
  */
-export const svgAssetBinder: AssetBinder<SVG> = async (instance, projectRoot, bindings) =>
+export const svgAssetBinder: AssetBinder<SVG> = async (instance, projectRoot, {assetBindings}) =>
   new Promise((resolve, reject) => {
     readFile(join(projectRoot, instance.src), (svgError, svgContentsBuffer) => {
       if (svgError) {
@@ -23,7 +23,7 @@ export const svgAssetBinder: AssetBinder<SVG> = async (instance, projectRoot, bi
           return reject(templateError);
         }
 
-        bindings.set(
+        assetBindings.set(
           `${instance.src}.html`,
           {
             contents: compile(templateContentsBuffer.toString())({svgContents: svgContentsBuffer.toString()}),
