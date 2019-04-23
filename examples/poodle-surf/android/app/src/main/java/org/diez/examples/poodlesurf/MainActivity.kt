@@ -8,7 +8,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.graphics.drawable.GradientDrawable
 
 class MainActivity : AppCompatActivity() {
-    val diez = Diez(DesignSystem())
     val gd = GradientDrawable(
         GradientDrawable.Orientation.TOP_BOTTOM,
         intArrayOf(Color.BLACK, Color.WHITE)
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         gd.cornerRadius = 0f
         layout.background = gd
-        diez.attach(layout, fun(component) {
+        Diez(DesignSystem(), layout).attach(fun(component) {
             runOnUiThread {
                 text.setTextStyle(component.textStyles.headerTitle)
                 gd.colors = intArrayOf(component.palette.gradient.startColor.color, component.palette.gradient.endColor.color)

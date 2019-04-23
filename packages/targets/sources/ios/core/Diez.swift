@@ -18,14 +18,8 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T: StateBag {
         if (environment.isDevelopment) {
             let url = URL(string: "\(environment.serverUrl)components/\(T.name)")!
             webView.load(URLRequest(url: url))
-        } else if let url  = Bundle.main.url(forResource: "index", withExtension: "html") {
-            webView.load(URLRequest(url: url))
+            view.addSubview(webView)
         }
-
-        view.addSubview(webView)
-
-        let displayLink = CADisplayLink(target: self, selector: #selector(tick))
-        displayLink.add(to: .current, forMode: .common)
     }
 
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -57,9 +51,5 @@ public class Diez<T>: NSObject, WKScriptMessageHandler where T: StateBag {
         for subscriber in subscribers {
             subscriber(component)
         }
-    }
-
-    @objc private func tick() {
-        webView.evaluateJavaScript("tick(\(CACurrentMediaTime() * 1000))")
     }
 }

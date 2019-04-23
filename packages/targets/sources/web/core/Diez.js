@@ -1,36 +1,37 @@
 class Diez {
   constructor (componentType) {
-    this._iframe = document.createElement('iframe');
-    this._component = new componentType();
-    this.tick = this.tick.bind(this);
+    this.iframe = document.createElement('iframe');
+    this.component = new componentType();
+    this.subscribers = [];
   }
 
-  tick () {
-    if (this._iframe.contentWindow) {
-      this._iframe.contentWindow.postMessage(Date.now(), '*');
+  broadcast () {
+    for (const subscriber of this.subscribers) {
+      subscriber(this.component);
     }
-
-    requestAnimationFrame(this.tick);
   }
 
   subscribe (subscriber) {
-    if (this._iframe.contentWindow) {
+    this.subscribers.push(subscriber);
+  }
+
+  attach (subscriber) {
+    subscriber(this.component);
+    this.subscribe(subscriber);
+    if (this.iframe.contentWindow) {
       return;
     }
-
-    subscriber(this._component);
-    this._iframe.src = `${Environment.serverUrl}components/${this._component.constructor.name}`;
-    this._iframe.width = '0';
-    this._iframe.height = '0';
-    this._iframe.style.display = 'none';
-    document.body.appendChild(this._iframe);
+    this.iframe.src = `${Environment.serverUrl}components/${this.component.constructor.name}`;
+    this.iframe.width = '0';
+    this.iframe.height = '0';
+    this.iframe.style.display = 'none';
+    document.body.appendChild(this.iframe);
     window.addEventListener('message', (event) => {
       if (event.origin === Environment.serverUrl) {
-        this._component.update(JSON.parse(event.data));
-        subscriber(this._component);
+        this.component.update(JSON.parse(event.data));
+        this.broadcast();
       }
     });
-    requestAnimationFrame(this.tick);
   }
 }
 

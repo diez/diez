@@ -12,15 +12,23 @@ interface StateBag {
     val name : String
 }
 
-class Diez<T : StateBag>(var component: T) {
+class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
     val adapter : JsonAdapter<T>
     val subscribers = mutableListOf<(T) -> Unit>()
-    lateinit var webview : WebView
 
     init {
         val builder = Builder()
         builder.add(KotlinJsonAdapterFactory())
         adapter = builder.build().adapter(component.javaClass)
+        Environment.initialize(view.context.resources)
+        if (Environment.isDevelopment) {
+            val webview = WebView(view.context)
+            webview.settings.javaScriptEnabled = true
+            webview.addJavascriptInterface(this, "puente")
+            webview.loadUrl("${Environment.serverUrl}components/${component.name}")
+            Log.d("DIEZ", "Loading ${Environment.serverUrl}components/${component.name}")
+            view.addView(webview, ViewGroup.LayoutParams(0, 0))
+        }
     }
 
     @JavascriptInterface
@@ -35,25 +43,9 @@ class Diez<T : StateBag>(var component: T) {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    fun attach(view: ViewGroup, subscriber: (T) -> Unit) {
-        Environment.initialize(view.context.resources)
+    fun attach(subscriber: (T) -> Unit) {
         subscriber(component)
-        webview = WebView(view.context)
-        webview.settings.javaScriptEnabled = true
-        webview.addJavascriptInterface(this, "puente")
         subscribe(subscriber)
-        if (Environment.isDevelopment) {
-            webview.loadUrl("${Environment.serverUrl}components/${component.name}")
-            Log.d("DIEZ", "Loading ${Environment.serverUrl}components/${component.name}")
-        } else {
-            // TODO: where is this really?
-            webview.loadUrl("file:///android_asset/index.html")
-        }
-        view.viewTreeObserver.addOnDrawListener(fun() {
-            webview.evaluateJavascript("window.tick && window.tick(${System.currentTimeMillis()})", null)
-            view.invalidate()
-        })
-        view.addView(webview, ViewGroup.LayoutParams(0, 0))
     }
 
     fun subscribe(subscriber: (T) -> Unit) {

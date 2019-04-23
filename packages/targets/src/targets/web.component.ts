@@ -1,10 +1,7 @@
-import {ConcreteComponent, ConcreteComponentType, Patcher} from '@diez/engine';
+import {ConcreteComponentType} from '@diez/engine';
 
 interface WebWindow extends Window {
-  tick (time: number): void;
-  trigger (name: string, payload?: any): void;
   componentName: string;
-  component: ConcreteComponent;
 }
 
 const adaptedWindow = window as WebWindow;
@@ -20,21 +17,10 @@ if (module.hot) {
 
 (async () => {
   const constructor = await getComponentDefinition();
-  adaptedWindow.component = new constructor();
-  adaptedWindow.component.dirty();
+  const component = new constructor();
+  component.dirty();
+  component.tick(
+    Date.now(),
+    (payload) => adaptedWindow.parent.postMessage(JSON.stringify(payload), '*'),
+  );
 })();
-
-// TODO: specify an exact target origin?
-const patcher: Patcher = (payload: any) => {
-  return adaptedWindow.parent.postMessage(JSON.stringify(payload), '*');
-};
-
-adaptedWindow.tick = (time) => adaptedWindow.component && adaptedWindow.component.tick(time, patcher);
-
-adaptedWindow.trigger = (name, payload) => adaptedWindow.component && adaptedWindow.component.trigger(name, payload);
-
-adaptedWindow.addEventListener('message', (message) => {
-  if (message.data) {
-    adaptedWindow.tick(message.data);
-  }
-});

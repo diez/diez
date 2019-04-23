@@ -1,13 +1,10 @@
-import {ConcreteComponent, ConcreteComponentType, Patcher} from '@diez/engine';
+import {ConcreteComponentType, Patcher} from '@diez/engine';
 
 interface AndroidWindow extends Window {
   puente: {
     patch: Patcher;
   };
-  tick (time: number): void;
-  trigger (name: string, payload?: any): void;
   componentName: string;
-  component: ConcreteComponent;
 }
 
 const adaptedWindow = window as AndroidWindow;
@@ -23,12 +20,10 @@ if (module.hot) {
 
 (async () => {
   const constructor = await getComponentDefinition();
-  adaptedWindow.component = new constructor();
-  adaptedWindow.component.dirty();
+  const component = new constructor();
+  component.dirty();
+  component.tick(
+    Date.now(),
+    (payload) => adaptedWindow.puente.patch(JSON.stringify(payload)),
+  );
 })();
-
-const patcher: Patcher = (payload: any) => adaptedWindow.puente.patch(JSON.stringify(payload));
-
-adaptedWindow.tick = (time) => adaptedWindow.component && adaptedWindow.component.tick(time, patcher);
-
-adaptedWindow.trigger = (name, payload) => adaptedWindow.component && adaptedWindow.component.trigger(name, payload);

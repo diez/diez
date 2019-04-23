@@ -7,12 +7,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    val diez = Diez(MyStateBag())
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        diez.attach(layout, fun(component) {
+        Diez(MyStateBag(), layout).attach(fun(component) {
             runOnUiThread {
                 text.text = component.copy
                 text.setTextStyle(component.textStyle)

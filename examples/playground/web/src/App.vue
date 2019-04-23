@@ -17,7 +17,7 @@ export default class App extends Vue {
   private component!: MyStateBag;
 
   beforeMount () {
-    this.diez.subscribe((component: MyStateBag) => {
+    this.diez.attach((component: MyStateBag) => {
       this.component = component;
     });
   }
