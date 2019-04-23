@@ -1,9 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:400,400i,900');
+@import '@/assets/styles/_layout.scss';
 
 $purple: #5623EE;
-$primary: $purple ;
+$mauve: #A494D3;
+$mauve700: darken($mauve, 20%);
 $white: #fff;
+$gray100: #FBFAFD;
+$gray400: #F6F5FB;
+$gray700: #EAE6F6;
 $black: #000;
+
+$primary: $purple;
+$secondary: $mauve;
+$cardInsetShadow: $gray100;
+$cardColor: $gray400;
+$cardShadow: $gray700;
+
+$borderRadiusCard: 7px;
+$borderRadiusButton: 4px;
+
+$smallText: 16px;
 
 .page {
   -webkit-font-smoothing: antialiased;
@@ -14,8 +30,19 @@ $black: #000;
   font-size: 20px;
 }
 
-code {
+pre {
+  margin: 0;
+}
+
+code, .mono {
   font-family: 'Source Code Pro', monospace;
+  &.inline {
+    background-color: $cardColor;
+    border-radius: $borderRadiusCard;
+    padding: 0 $spacingSM;
+    font-weight: 700;
+    color: $mauve700;
+  }
 }
 
 a {
@@ -28,39 +55,80 @@ a {
   }
 }
 
+p {
+  line-height: 32px;
+}
+
 h1 {
   font-size: 4rem;
+  @include phone {
+    font-size: 3rem;
+  }
+}
+
+h2 {
+  font-size: 3rem;
+  &.ivan {
+    margin-top: -78px;
+    margin-bottom: 78px;
+    text-align: center;
+    @include phone {
+      margin: 0;
+    }
+  }
+   @include phone {
+    font-size: 2rem;
+  }
 }
 
 h3 {
   font-weight: 400;
   font-size: 2rem;
   line-height: 2.72rem;
+  @include phone {
+    font-size: 1.7rem;
+    line-height: 2.2rem;
+  }
+}
+
+footer {
+  background-color: $purple;
+  color: $white;
+  text-align: center;
+  padding: $spacing3XL $spacing3XL $sizingXS;
+  margin-top: $spacing3XL;
+  @include phone {
+    flex-direction: column;
+    a.button {
+      margin-top: $spacingLG !important;
+    }
+  }
 }
 
 button, .button {
+  display: inline-block;
   background-color: $primary;
   position: relative;
-	border-radius: 4px;
+	border-radius: $borderRadiusButton;
   border-bottom: 4px solid darken($primary, 40%);
-	padding: 11px 30px 9px;
-  margin: 0px 10px;
+  padding: 11px 30px 9px;
+  font-size: 20px;
   font-weight: 900;
 	font-family: 'Source Code Pro', monospace;
   letter-spacing: 1.4px;
 	color: $white;
 	text-decoration: none;	
-  transition: all 100ms;
+  transition: all 100ms;  
   outline: none;
   overflow: hidden;
   cursor: pointer;
   &:active {
     transform: translateY(4px);
-    border-bottom: 1px solid;
+    border-bottom: 4px solid transparent;
   }
   &:before {
     content: "";
-    background-color: rgba(255,255,255,0.09);
+    background-color: rgba(71, 32, 32, 0.07);
     height: 100%;
     width: 3em;
     display: block;
@@ -74,17 +142,96 @@ button, .button {
   &:hover {
     opacity: 1;
     &:before {
-      transform: skewX(-45deg) translateX(600%);
+      transform: skewX(-45deg) translateX(700%);
       transition: all 300ms ease-in;
     }
   }
-}
-
-.center {
-  text-align: center;
-  margin: 0 auto;
+  &.alt {
+    background-color: $white;
+    color: $black;
+    margin: 0 $spacingSM;
+    border-bottom: 4px solid $gray700;
+    &:active {
+      border-bottom: 4px solid transparent;
+  }
+  }
 }
 
 .muted {
-  opacity: .44
+  opacity: .57
+}
+
+.holster-tri-card {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12px;
+}
+
+.card {
+  border-radius: $borderRadiusCard;
+  background-color: $cardColor;
+  box-shadow: 0 5px 0 $cardShadow, inset 0 2px 0 $cardInsetShadow;
+  overflow: hidden;
+  &.third {
+    width: calc(33% - 24px);
+    margin: $spacingMD;
+    text-align: center;
+    font-weight: 700;
+    padding: $spacingLG;
+    @include tablet-large {
+      width: calc(50% - 24px);
+    }
+    img {
+      height: 60px;
+      width: 100%;
+      pointer-events: none;
+      margin: $spacingLG 0;
+    }
+    &.mono img {
+      height: 35px;
+    }
+  }
+  &.extensible {
+    background-color: $mauve;
+    color: $white;
+    box-shadow: 0 5px 0 $mauve700, inset 0 2px 0 $cardInsetShadow;
+    cursor: pointer;
+  }
+}
+
+.card-code {
+  @extend .card;
+  width: 100%;
+  height: $sizingLG;
+  margin-top: $spacingLG;
+  overflow: auto;
+  font-size: 15px;
+  @include phone {
+    font-size: 12px;
+  }
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: $spacingSM $spacingLG;
+  background-color: transparent;
+}
+
+.tab-links {
+  font-weight: 700;
+  font-size: $smallText;
+  border-radius: $borderRadiusButton;
+  padding: $spacingXS $spacingLG;
+  cursor: pointer;
+  &.active {
+    background-color: $mauve;
+    color: $white;
+  }
+}
+
+.small-text-indented {
+  font-size: $smallText;
+  font-weight: 700;
+  margin-left: $spacingLG;
 }

@@ -16,7 +16,8 @@
     "@nuxtjs/google-analytics": "^2.2.0",
     "modern-normalize": "^0.5.0",
     "nuxt": "^2.5.1",
-    "nuxt-property-decorator": "^2.1.3"
+    "nuxt-property-decorator": "^2.1.3",
+    "vue-highlightjs": "^1.3.3"
   },
   "devDependencies": {
     "@nuxt/typescript": "^2.5.1",

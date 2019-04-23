@@ -1,0 +1,30 @@
+<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient x1="26.599%" y1="74.3009842%" x2="73.8446667%" y2="50.5993244%" id="a">
+      <stop stop-color="#0095D5" offset="9.677%"/>
+      <stop stop-color="#238AD9" offset="30.07%"/>
+      <stop stop-color="#557BDE" offset="62.11%"/>
+      <stop stop-color="#7472E2" offset="86.43%"/>
+      <stop stop-color="#806EE3" offset="100%"/>
+    </linearGradient>
+    <linearGradient x1="19.1069273%" y1="37.1049231%" x2="66.0250263%" y2="-13.5538462%" id="b">
+      <stop stop-color="#0095D5" offset="11.83%"/>
+      <stop stop-color="#3C83DC" offset="41.78%"/>
+      <stop stop-color="#6D74E1" offset="69.62%"/>
+      <stop stop-color="#806EE3" offset="83.33%"/>
+    </linearGradient>
+    <linearGradient x1="-16.8361667%" y1="91.9396667%" x2="76.2191667%" y2="-1.1156667%" id="c">
+      <stop stop-color="#C757BC" offset="10.75%"/>
+      <stop stop-color="#D0609A" offset="21.38%"/>
+      <stop stop-color="#E1725C" offset="42.54%"/>
+      <stop stop-color="#EE7E2F" offset="60.48%"/>
+      <stop stop-color="#F58613" offset="74.3%"/>
+      <stop stop-color="#F88909" offset="82.32%"/>
+    </linearGradient>
+  </defs>
+  <g fill-rule="nonzero" fill="none">
+    <path fill="url(#a)" d="M0 60l30.1-30.1L60 60z"/>
+    <path fill="url(#b)" d="M0 0h30.1L0 32.5z"/>
+    <path fill="url(#c)" d="M30.1 0L0 31.7V60l30.1-30.1L60 0z"/>
+  </g>
+</svg>

@@ -13,21 +13,106 @@ $sizing2XS: 60px;
 $sizingXS: 100px;
 $sizingSM: 200px;
 $sizingMD: 300px;
-$sizingLG: 400px;
-$sizingXL: 600px;
+$sizingLG: 500px;
+$sizingXL: 640px;
 $sizing2XL: 860px;
 $sizing3XL: 1300px;
 
 $page-width: $sizing3XL;
 
+@mixin tablet-large {
+  @media (max-width: 1100px) { @content; }
+}
+
+@mixin tablet {
+  @media (max-width: $sizing2XL) { @content; }
+}
+
+@mixin phone {
+  @media (max-width: $sizingXL) { @content; }
+}
+
 .page {
   max-width: $page-width;
   margin: 0 auto;
-  padding: 40px;
+  padding: $spacing3XL;
   position: relative;
+  @include phone {
+    padding: $spacingSM;
+  }
+}
+
+.section {
+  margin: 0 auto $sizingXS;
 }
 
 .section-narrow {
+  @extend .section;
   max-width: $sizing2XL;
+}
+
+.section-split {
+  @extend .section;
+  display: flex;
+  align-items: center;
+  min-height: 500px;
+  @include tablet {
+    flex-direction: column;
+  }
+}
+
+.center {
+  text-align: center;
   margin: 0 auto;
+}
+
+.content-holster {
+  padding: 0 $spacingLG;
+}
+
+.one-third {
+  @extend .content-holster;
+  width: 33%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.half {
+  @extend .content-holster;
+  width: 50%;
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.two-thirds {
+  @extend .content-holster;
+  width: 67%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.button-following-text {
+  margin-top: $spacingLG
+}
+
+.staggered {
+  // margin-top: $sizingLG / 2;
+  @include tablet {
+    margin-top: $spacing3XL;
+  }
+}
+
+.mobile-reorder {
+  @include tablet {
+    order: 2;
+  }
 }
