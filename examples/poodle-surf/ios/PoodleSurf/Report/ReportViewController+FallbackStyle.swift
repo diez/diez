@@ -112,7 +112,7 @@ extension ReportViewController {
     }
 
     private func applyTitleStyle(to view: HorizontalImageLabelView) {
-        view.label.text = "PITTED"
+        view.label.text = "P o o d l e S u r f"
         view.label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         view.imageView.image = UIImage(named: "Icon")
         view.spacing = 10

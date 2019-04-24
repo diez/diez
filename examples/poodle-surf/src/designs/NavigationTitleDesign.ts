@@ -9,6 +9,6 @@ import {palette, textStyles} from './constants';
 export class NavigationTitleDesign extends Component {
   @property barTintColor = palette.white;
   @property icon = Images.Icon;
-  @property title = 'PITTED';
+  @property title = 'P o o d l e S u r f';
   @property textStyle = textStyles.headerTitle;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4602E76E2270BEBC00CD7745 /* poodle-surf.json in Resources */ = {isa = PBXBuildFile; fileRef = 4602E76D2270BEBC00CD7745 /* poodle-surf.json */; };
 		46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE6225D341600F4B63F /* AppDelegate.swift */; };
 		46087BE9225D341600F4B63F /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087BE8225D341600F4B63F /* ReportViewController.swift */; };
 		46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46087BEF225D341800F4B63F /* LaunchScreen.storyboard */; };
@@ -29,7 +30,6 @@
 		46087C45225FF79C00F4B63F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C44225FF79C00F4B63F /* GradientView.swift */; };
 		46087C47225FFC1800F4B63F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C46225FFC1800F4B63F /* Gradient.swift */; };
 		46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C48225FFC3000F4B63F /* Gradient+Example.swift */; };
-		46087C4B2260084000F4B63F /* hang10.json in Resources */ = {isa = PBXBuildFile; fileRef = 46087C4A2260084000F4B63F /* hang10.json */; };
 		46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */; };
 		46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */; };
 		46087C552261499000F4B63F /* Gradient+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C542261499000F4B63F /* Gradient+Diez.swift */; };
@@ -47,6 +47,7 @@
 /* Begin PBXFileReference section */
 		004A5CE4D3AFF9FBB963C591 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BFD8F1E5580F42C6E66AA0A /* Pods-PoodleSurf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.debug.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.debug.xcconfig"; sourceTree = "<group>"; };
+		4602E76D2270BEBC00CD7745 /* poodle-surf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "poodle-surf.json"; sourceTree = "<group>"; };
 		46087BE3225D341600F4B63F /* PoodleSurf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoodleSurf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46087BE6225D341600F4B63F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46087BE8225D341600F4B63F /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		46087C44225FF79C00F4B63F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		46087C46225FFC1800F4B63F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		46087C48225FFC3000F4B63F /* Gradient+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Example.swift"; sourceTree = "<group>"; };
-		46087C4A2260084000F4B63F /* hang10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hang10.json; sourceTree = "<group>"; };
 		46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewModelBinder.swift; sourceTree = "<group>"; };
 		46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Diez.swift"; sourceTree = "<group>"; };
 		46087C542261499000F4B63F /* Gradient+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Diez.swift"; sourceTree = "<group>"; };
@@ -183,9 +183,9 @@
 			children = (
 				46E14CA5226E3933007938DA /* Assets.xcassets */,
 				46087BF2225D341800F4B63F /* Info.plist */,
-				46087C4A2260084000F4B63F /* hang10.json */,
 				46087BEF225D341800F4B63F /* LaunchScreen.storyboard */,
 				46E14CA3226E38CF007938DA /* mock */,
+				4602E76D2270BEBC00CD7745 /* poodle-surf.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -299,7 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46087C4B2260084000F4B63F /* hang10.json in Resources */,
+				4602E76E2270BEBC00CD7745 /* poodle-surf.json in Resources */,
 				46087BF1225D341800F4B63F /* LaunchScreen.storyboard in Resources */,
 				46E14CA6226E3933007938DA /* Assets.xcassets in Resources */,
 				46E14CA4226E38CF007938DA /* mock in Resources */,
