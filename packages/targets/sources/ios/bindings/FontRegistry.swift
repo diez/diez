@@ -26,15 +26,9 @@ public final class FontRegistry: NSObject, Decodable {
             }
 
             do {
-                let data = try Data(contentsOf: url)
+                let data = try Data(contentsOf: url) as CFData
 
-                guard let cfData = (data.withUnsafeBytes {(bytes: UnsafePointer<UInt8>) in
-                    return CFDataCreate(kCFAllocatorDefault, bytes, data.count)
-                }) else {
-                    return
-                }
-
-                guard let dataProvider = CGDataProvider(data: cfData) else {
+                guard let dataProvider = CGDataProvider(data: data) else {
                     return
                 }
 
