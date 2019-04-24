@@ -1,7 +1,6 @@
 import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {
-  createProgramForFixture,
   createWebCompilerForFixture,
   getFixtures,
   getGoldenRoot,
@@ -18,11 +17,10 @@ describe('web.e2e', () => {
     test(`web.e2e.${fixture}`, async () => {
       // Resets modules to clear the require cache. Necessary because we reuse the stub project over and over.
       jest.resetModules();
-      const program = await createProgramForFixture(fixture);
-      const compiler = await createWebCompilerForFixture(fixture, program);
+      const compiler = await createWebCompilerForFixture(fixture);
       await compiler.run();
       await compiler.writeSdk('foo.bar', 9001);
-      expect(join(program.destinationPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'web'));
+      expect(join(compiler.program.destinationPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'web'));
     });
   }
 });

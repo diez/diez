@@ -2,7 +2,6 @@ import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {
   createIosCompilerForFixture,
-  createProgramForFixture,
   getFixtures,
   getGoldenRoot,
 } from './helpers';
@@ -18,11 +17,10 @@ describe('ios.e2e', () => {
     test(`ios.e2e.${fixture}`, async () => {
       // Resets modules to clear the require cache. Necessary because we reuse the stub project over and over.
       jest.resetModules();
-      const program = await createProgramForFixture(fixture);
-      const compiler = await createIosCompilerForFixture(fixture, program);
+      const compiler = await createIosCompilerForFixture(fixture);
       await compiler.run();
       await compiler.writeSdk('foo.bar', 9001);
-      expect(join(program.destinationPath, 'Diez')).toMatchDirectory(getGoldenRoot(fixture, 'ios'));
+      expect(join(compiler.program.destinationPath, 'Diez')).toMatchDirectory(getGoldenRoot(fixture, 'ios'));
     });
   }
 });

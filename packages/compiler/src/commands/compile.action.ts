@@ -22,7 +22,7 @@ export const compileAction = async ({output, target: targetIn, dev}: CompileOpti
 
   const targetHandler = targets.get(target)!;
 
-  const program = new Compiler(global.process.cwd(), resolve(output), dev);
+  const program = new Compiler(global.process.cwd(), resolve(output), target, dev);
   if (!program.localComponentNames.length) {
     fatalError('No local components found!');
   }

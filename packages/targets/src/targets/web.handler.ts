@@ -1,16 +1,11 @@
 import {warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
-  getBinding,
-  getHotPort,
   PrimitiveType,
   PropertyType,
-  serveHot,
   TargetCompiler,
-  TargetComponent,
   TargetComponentProperty,
   TargetComponentSpec,
-  TargetProperty,
 } from '@diez/compiler';
 import {outputTemplatePackage} from '@diez/storage/lib';
 import {readFileSync, writeFileSync} from 'fs-extra';
@@ -26,24 +21,6 @@ import {WebBinding, WebDependency, WebOutput} from './web.api';
  * @internal
  */
 const coreWeb = join(sourcesPath, 'web');
-
-/**
- * Retrieves an initializer based on a spec.
- *
- * Via recursion, produces output like `new ComponentType({fieldName: "fileValue", child: new ChildType()})`.
- *
- * @internal
- */
-const getInitializer = (
-  spec: TargetComponentSpec,
-) => {
-  const propertyInitializers: string[] = [];
-  for (const name in spec.properties) {
-    propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
-  }
-
-  return `new ${spec.componentName}({${propertyInitializers.join(', ')}})`;
-};
 
 /**
  * Merges a new dependency to the existing set of dependencies.
@@ -62,60 +39,84 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 };
 
 /**
- * Reducer for array component properties.
- */
-const collectComponentProperties = (
-  allProperties: (TargetComponentProperty | undefined)[],
-): TargetComponentProperty | undefined => {
-  const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
-  const reference = properties[0];
-  if (!reference) {
-    return;
-  }
-
-  return {
-    type: `${reference.type}[]`,
-    initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-    updateable: reference.updateable,
-  };
-};
-
-const getPrimitive = (type: PropertyType, instance: any): TargetComponentProperty | undefined => {
-  switch (type) {
-    case PrimitiveType.String:
-      return {
-        type: 'string',
-        initializer: `"${instance}"`,
-        updateable: false,
-      };
-    case PrimitiveType.Number:
-    case PrimitiveType.Float:
-    case PrimitiveType.Int:
-      return {
-        type: 'number',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case PrimitiveType.Boolean:
-      return {
-        type: 'boolean',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    default:
-      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
-      return;
-  }
-};
-
-/**
- * A compiler for iOS targets.
+ * A compiler for web targets.
  */
 export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
-  protected targetName = 'web';
+  async hostname () {
+    return await v4();
+  }
+
+  /**
+   * @abstract
+   */
+  get hotComponent () {
+    return require.resolve('@diez/targets/lib/targets/web.component');
+  }
+
+  /**
+   * @abstract
+   */
+  protected collectComponentProperties (
+    allProperties: (TargetComponentProperty | undefined)[],
+  ): TargetComponentProperty | undefined {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+    const reference = properties[0];
+    if (!reference) {
+      return;
+    }
+
+    return {
+      type: `${reference.type}[]`,
+      initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
+      updateable: reference.updateable,
+    };
+  }
+
+  /**
+   * @abstract
+   */
+  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+    const propertyInitializers: string[] = [];
+    for (const name in spec.properties) {
+      propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
+    }
+
+    return `new ${spec.componentName}({${propertyInitializers.join(', ')}})`;
+  }
+
+  /**
+   * @abstract
+   */
+  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
+    switch (type) {
+      case PrimitiveType.String:
+        return {
+          type: 'string',
+          initializer: `"${instance}"`,
+          updateable: false,
+        };
+      case PrimitiveType.Number:
+      case PrimitiveType.Float:
+      case PrimitiveType.Int:
+        return {
+          type: 'number',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      case PrimitiveType.Boolean:
+        return {
+          type: 'boolean',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      default:
+        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        return;
+    }
+  }
 
   /**
    * @abstract
@@ -180,57 +181,6 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
-  }
-
-  /**
-   * @abstract
-   */
-  protected async processComponentProperty (
-    property: TargetProperty,
-    instance: any,
-    serializedInstance: any,
-    targetComponent: TargetComponent,
-  ): Promise<TargetComponentProperty | undefined> {
-    if (Array.isArray(instance)) {
-      if (!property.depth) {
-        // This should never happen.
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      return collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
-        this.processComponentProperty(property, child, serializedInstance[index], targetComponent),
-      )));
-    }
-
-    if (property.isComponent) {
-      const componentSpec = await this.processComponentInstance(instance, property.type);
-      if (!componentSpec) {
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      const propertyComponent = this.program.targetComponents.get(property.type)!;
-      const propertyBinding = await getBinding<WebBinding>(
-        this.targetName, propertyComponent.source || '.', property.type);
-      if (propertyBinding) {
-        if (propertyBinding.assetsBinder) {
-          try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
-          } catch (error) {
-            warning(error);
-          }
-        }
-      }
-
-      return {
-        type: property.type,
-        updateable: true,
-        initializer: getInitializer(componentSpec),
-      };
-    }
-
-    return getPrimitive(property.type, serializedInstance);
   }
 
   /**
@@ -302,29 +252,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 }
 
 /**
- * The canonical Web compiler target implementation.
+ * Handles web target compilation.
  */
 export const webHandler: CompilerTargetHandler = async (program) => {
-  const sdkRoot = join(program.destinationPath, 'diez');
-  const compiler = new WebCompiler(program, sdkRoot);
-
-  if (program.devMode) {
-    const hostname = await v4();
-    const devPort = await getHotPort();
-    await compiler.runHot(async () => {
-      await compiler.writeSdk(hostname, devPort);
-    });
-
-    await serveHot(
-      program.projectRoot,
-      require.resolve('@diez/targets/lib/targets/web.component'),
-      devPort,
-      compiler.staticRoot,
-    );
-  } else {
-    await compiler.run();
-    await compiler.writeSdk();
-  }
-
-  compiler.printUsageInstructions();
+  await new WebCompiler(program, join(program.destinationPath, 'diez')).start();
 };

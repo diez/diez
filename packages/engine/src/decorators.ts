@@ -1,3 +1,4 @@
+import {PropertyOptions} from './api';
 import {Component} from './component';
 
 /**
@@ -8,8 +9,8 @@ export const shared = (target: Component, key: string) => {
   Object.defineProperty(target, key, {
     get () {
       // Yield the value from our host if it is provided.
-      if (this.host && this.host[key]) {
-        return this.host[key];
+      if (this.host && this.host.has(key)) {
+        return this.host.get(key);
       }
 
       // Allow potential errors to fall through with a null return.
@@ -18,14 +19,10 @@ export const shared = (target: Component, key: string) => {
     set () {
       throw new Error('Do not set @shared values directly.');
     },
-  });
+  } as ThisType<Component>);
 };
 
-/**
- * `@property` decorator. Inspired by VueJS, this decorator replaces explicitly assigned properties
- * with getters/setters that delegate down to the state container.
- */
-export const property = (target: Component, key: string) => {
+const actualProperty = (target: Component, key: string, options: Partial<PropertyOptions> = {}) => {
   Object.defineProperty(target, key, {
     get () {
       return this.get(key);
@@ -39,7 +36,7 @@ export const property = (target: Component, key: string) => {
         this.set({[key]: data});
       }
 
-      this.boundStates.set(key, true);
+      this.boundStates.set(key, options);
 
       // Important: if we detect that a data value is actually an expression, make sure it knows
       // to auto-resolve state names against itself unless otherwise specified.
@@ -49,6 +46,21 @@ export const property = (target: Component, key: string) => {
     },
   } as ThisType<Component>);
 };
+
+export function property (target: Component, key: string): void;
+export function property (options: Partial<PropertyOptions>): (target: Component, key: string) => void;
+
+/**
+ * `@property` decorator. Inspired by VueJS, this decorator replaces explicitly assigned properties
+ * with getters/setters that delegate down to the state container.
+ */
+export function property (targetOrOptions: Partial<PropertyOptions> | Component, maybeKey?: string) {
+  if (maybeKey) {
+    return actualProperty(targetOrOptions as Component, maybeKey);
+  }
+
+  return (target: Component, key: string) => actualProperty(target, key, targetOrOptions as Partial<PropertyOptions>);
+}
 
 /**
  * `@method` decorator. Late-binds methods to a class prototype by name key.

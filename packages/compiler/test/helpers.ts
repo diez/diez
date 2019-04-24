@@ -1,6 +1,7 @@
 import {existsSync, readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {Compiler} from '../src/compiler';
+import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
+import {Compiler, TargetCompiler} from '../src/compiler';
 import {createProject} from '../src/utils';
 
 const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
@@ -25,5 +26,76 @@ export const createProgramForFixture = async (fixture: string) => {
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  return new Compiler(stubProjectRoot, '/dev/null');
+  return new Compiler(stubProjectRoot, '/dev/null', 'test');
 };
+
+/**
+ * A test target compiler.
+ */
+export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBinding> {
+  staticRoot = 'static';
+  hotComponent = 'hot-component';
+
+  async hostname () {
+    return 'foo.bar';
+  }
+
+  protected mergeBindingToOutput (binding: TargetBinding): void {
+    for (const source in binding.sources) {
+      this.output.sources.add(source);
+    }
+  }
+
+  protected createOutput (sdkRoot: string): TargetOutput {
+    return {
+      sdkRoot,
+      processedComponents: new Map(),
+      sources: new Set(),
+      dependencies: new Set(),
+      assetBindings: new Map(),
+    };
+  }
+
+  protected collectComponentProperties (
+    allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined {
+    const properties = allProperties as TargetComponentProperty[];
+    return {
+      type: `Array<${properties[0].type}>`,
+      initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
+      updateable: properties[0].updateable,
+    };
+  }
+
+  protected getInitializer (spec: TargetComponentSpec): string {
+    const propertyInitializers: string[] = [];
+    for (const name in spec.properties) {
+      propertyInitializers.push(spec.properties[name].initializer);
+    }
+
+    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+  }
+
+  protected getPrimitive (type: PropertyType, instance: any) {
+    return {
+      type,
+      initializer: instance.toString(),
+      updateable: false,
+    };
+  }
+
+  printUsageInstructionsMock = jest.fn();
+  printUsageInstructions () {
+    this.printUsageInstructionsMock();
+  }
+
+  clearMock = jest.fn();
+  clear () {
+    this.clearMock();
+  }
+
+  writeSdkMock = jest.fn();
+  writeSdk (hostname?: string | undefined, devPort?: number | undefined) {
+    this.writeSdkMock(hostname, devPort);
+    return Promise.resolve();
+  }
+}

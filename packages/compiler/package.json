@@ -8,11 +8,12 @@
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"
   },
+  "typings": "lib/index.d.ts",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
-    "test": "jest",
-    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
+    "test": "jest --runInBand",
+    "health": "jest --ci --runInBand -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix"
   },

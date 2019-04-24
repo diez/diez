@@ -6,8 +6,9 @@ import {copySync, ensureDirSync, existsSync, outputFileSync, readJsonSync, remov
 import {dirname, join, resolve} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
 import {CompilerOptions, createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, getPreEmitDiagnostics, isClassDeclaration, Program, sys} from 'typescript';
-import {CompilerEvent, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
-import {getBinding, getNodeModulesSource, loadComponentModule, purgeRequireCache} from './utils';
+import {CompilerEvent, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
+import {serveHot} from './server';
+import {getBinding, getHotPort, getNodeModulesSource, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
@@ -291,6 +292,7 @@ export class Compiler extends EventEmitter implements CompilerProgram {
   constructor (
     readonly projectRoot: string,
     readonly destinationPath: string,
+    readonly target: string,
     public devMode: boolean = false,
   ) {
     super();
@@ -341,30 +343,61 @@ export class Compiler extends EventEmitter implements CompilerProgram {
  * An abstract class wrapping the basic functions of a target compiler.
  *
  * @typeparam OutputType - The type of target output we build during the compilation process.
- * @typeparam ComponentSpec - The shape of components in our target.
- * @typeparam PropertySpec - The shape of properties in our target.
  * @typeparam BindingType - The shape of asset bindings in our target.
  */
 export abstract class TargetCompiler<
   OutputType extends TargetOutput,
-  BindingType,
+  BindingType extends TargetBinding<any, OutputType>,
 > {
-  protected abstract targetName: string;
-  protected output: OutputType;
+  /**
+   * The output we should collect to write an SDK.
+   */
+  output: OutputType;
 
+  /**
+   * Updates a output based on the contents of bindings.
+   */
   protected abstract mergeBindingToOutput (binding: BindingType): void;
+
+  /**
+   * Creates fresh output.
+   */
   protected abstract createOutput (sdkRoot: string): OutputType;
-  protected abstract async processComponentProperty (
-    property: TargetProperty,
-    instance: MaybeNestedArray<any>,
-    serializedInstance: MaybeNestedArray<any>,
-    targetComponent: TargetComponent,
-  ): Promise<TargetComponentProperty | undefined>;
+
+  /**
+   * Collects and consolidates component properties of a list type in the semantics of the target type.
+   *
+   * For example, this method might turn `["foo", "bar"]` into `new ArrayList<String>(){{ add("foo"); add("bar"); }}`
+   * for a Java target.
+   */
+  protected abstract collectComponentProperties (allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined;
+
+  /**
+   * Gets the target-specific initializer for a given target component spec.
+   *
+   * This might look like `"foo"` for a primitive type, or `new ComponentType()` for a component.
+   */
+  protected abstract getInitializer (spec: TargetComponentSpec): string;
+
+  /**
+   * Gets the target-specific spec for given primitive component type.
+   */
+  protected abstract getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined;
 
   /**
    * The root where we should place static assets.
    */
   abstract staticRoot: string;
+
+  /**
+   * The hostname for hot serving.
+   */
+  abstract hostname (): Promise<string>;
+
+  /**
+   * The component path for hot serving.
+   */
+  abstract hotComponent: string;
 
   /**
    * Prints usage instructions.
@@ -381,7 +414,7 @@ export abstract class TargetCompiler<
    */
   abstract async writeSdk (hostname?: string, devPort?: number): Promise<void>;
 
-  constructor (protected program: CompilerProgram, sdkRoot: string) {
+  constructor (readonly program: CompilerProgram, sdkRoot: string) {
     this.output = this.createOutput(sdkRoot);
   }
 
@@ -390,6 +423,57 @@ export abstract class TargetCompiler<
    */
   protected createSpec (type: PropertyType): TargetComponentSpec {
     return {componentName: type, properties: {}, public: this.program.localComponentNames.includes(type)};
+  }
+
+  /**
+   * Recursively processes a component property.
+   */
+  protected async processComponentProperty (
+    property: TargetProperty,
+    instance: MaybeNestedArray<any>,
+    serializedInstance: MaybeNestedArray<any>,
+    targetComponent: TargetComponent,
+  ): Promise<TargetComponentProperty | undefined> {
+    if (Array.isArray(instance)) {
+      if (!property.depth) {
+        // This should never happen.
+        targetComponent.warnings.ambiguousTypes.add(property.name);
+        return;
+      }
+
+      return this.collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
+        this.processComponentProperty(property, child, serializedInstance[index], targetComponent),
+      )));
+    }
+
+    if (property.isComponent) {
+      const componentSpec = await this.processComponentInstance(instance, property.type);
+      if (!componentSpec) {
+        targetComponent.warnings.ambiguousTypes.add(property.name);
+        return;
+      }
+
+      const propertyComponent = this.program.targetComponents.get(property.type)!;
+      const propertyBinding = await getBinding<BindingType>(
+        this.program.target, propertyComponent.source || '.', property.type);
+      if (propertyBinding) {
+        if (propertyBinding.assetsBinder) {
+          try {
+            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
+          } catch (error) {
+            warning(error);
+          }
+        }
+      }
+
+      return {
+        type: property.type,
+        updateable: true,
+        initializer: this.getInitializer(componentSpec),
+      };
+    }
+
+    return this.getPrimitive(property.type, serializedInstance);
   }
 
   /**
@@ -405,10 +489,9 @@ export abstract class TargetCompiler<
     const spec = this.createSpec(name);
 
     for (const property of targetComponent.properties) {
-      if (!instance.boundStates.get(property.name)) {
-        // We are looking at a property that is not a state.
-        // Sadly, we can't prevent these from falling through from the AST due to the fact that property decorators are
-        // not present in transpiled sources.
+      const propertyOptions = instance.boundStates.get(property.name);
+      if (!propertyOptions || (propertyOptions.targets && !propertyOptions.targets.includes(this.program.target))) {
+        // We are looking at a property that is either not a state or explicitly excluded by the host.
         continue;
       }
 
@@ -425,7 +508,7 @@ export abstract class TargetCompiler<
     }
 
     if (!this.output.processedComponents.has(name)) {
-      const binding = await getBinding<BindingType>(this.targetName, targetComponent.source || '.', name);
+      const binding = await getBinding<BindingType>(this.program.target, targetComponent.source || '.', name);
       this.output.processedComponents.set(name, {spec, binding, instances: new Set()});
     }
 
@@ -434,6 +517,11 @@ export abstract class TargetCompiler<
     return spec;
   }
 
+  /**
+   * Runs the compilation routine, processing all local components and populating output based on the results.
+   *
+   * The compilation routine is not guaranteed to be idempotent, which is the reason `buildHot` resets output before running.
+   */
   async run () {
     // Important: reset the require cache before each run.
     purgeRequireCache(require.resolve(this.program.projectRoot));
@@ -448,6 +536,31 @@ export abstract class TargetCompiler<
       const componentInstance = new constructor();
       await this.processComponentInstance(componentInstance, componentName);
     }
+  }
+
+  /**
+   * Starts the compiler. In dev mode, this will start a server with hot module reloading and continuously rebuild the SDK;
+   * in production mode, this will write an SDK once and exit.
+   */
+  async start () {
+    if (this.program.devMode) {
+      const devPort = await getHotPort();
+      await this.runHot(async () => {
+        this.writeSdk(await this.hostname(), devPort);
+      });
+
+      await serveHot(
+        this.program.projectRoot,
+        this.hotComponent,
+        devPort,
+        this.staticRoot,
+      );
+    } else {
+      await this.run();
+      await this.writeSdk();
+    }
+
+    this.printUsageInstructions();
   }
 
   /**

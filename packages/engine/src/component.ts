@@ -3,6 +3,7 @@ import {
   Listeners,
   Listening,
   Patcher,
+  PropertyOptions,
   Serializable,
   Stateful,
   Tickable,
@@ -96,7 +97,7 @@ export abstract class Component<T extends Indexable = any>
   /**
    * A map of bound state names.
    */
-  readonly boundStates = new Map<string, boolean>();
+  readonly boundStates = new Map<string, Partial<PropertyOptions>>();
 
   constructor (
     state: Partial<T> = {},
@@ -166,6 +167,13 @@ export abstract class Component<T extends Indexable = any>
    */
   get<K extends keyof T> (key: K): T[K] {
     return this.state[key];
+  }
+
+  /**
+   * Stateful<T> interface. Retrieves a state value.
+   */
+  has (key: keyof T) {
+    return this.state.hasOwnProperty(key);
   }
 
   /**

@@ -1,4 +1,4 @@
-import {AssetBinder, TargetOutput} from '@diez/compiler';
+import {TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 /**
@@ -14,12 +14,9 @@ export interface WebDependency {
 /**
  * Describes an Web binding.
  */
-export interface WebBinding<T extends Component = any> {
-  sources: string[];
+export interface WebBinding<T extends Component = any> extends TargetBinding<T, WebOutput> {
   declarations?: string[];
-  skipGeneration?: boolean;
   dependencies?: WebDependency[];
-  assetsBinder?: AssetBinder<T, WebOutput>;
 }
 
 /**

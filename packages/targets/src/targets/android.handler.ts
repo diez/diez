@@ -1,16 +1,11 @@
 import {warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
-  getBinding,
-  getHotPort,
   PrimitiveType,
   PropertyType,
-  serveHot,
   TargetCompiler,
-  TargetComponent,
   TargetComponentProperty,
   TargetComponentSpec,
-  TargetProperty,
 } from '@diez/compiler';
 import {outputTemplatePackage} from '@diez/storage/lib';
 import {copySync, readFileSync, writeFileSync} from 'fs-extra';
@@ -26,24 +21,6 @@ import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
  * @internal
  */
 const coreAndroid = join(sourcesPath, 'android');
-
-/**
- * Retrieves an initializer based on a spec.
- *
- * Via recursion, produces output like `ComponentType(fieldName: "fileValue", child: ChildType())`.
- *
- * @internal
- */
-const getInitializer = (
-  spec: TargetComponentSpec,
-) => {
-  const propertyInitializers: string[] = [];
-  for (const name in spec.properties) {
-    propertyInitializers.push(spec.properties[name].initializer);
-  }
-
-  return `${spec.componentName}(${propertyInitializers.join(', ')})`;
-};
 
 /**
  * Merges a new dependency to the existing set of dependencies.
@@ -62,66 +39,92 @@ const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: An
 };
 
 /**
- * Reducer for array component properties.
- */
-const collectComponentProperties = (
-  allProperties: (TargetComponentProperty | undefined)[],
-): TargetComponentProperty | undefined => {
-  const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
-  const reference = properties[0];
-  if (!reference) {
-    return;
-  }
-
-  return {
-    type: `Array<${reference.type}>`,
-    initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
-    updateable: reference.updateable,
-  };
-};
-
-const getPrimitive = (type: PropertyType, instance: any): TargetComponentProperty | undefined => {
-  switch (type) {
-    case PrimitiveType.String:
-      return {
-        type: 'String',
-        initializer: `"${instance}"`,
-        updateable: false,
-      };
-    case PrimitiveType.Number:
-    case PrimitiveType.Float:
-      return {
-        type: 'Float',
-        initializer: `${instance.toString()}F`,
-        updateable: false,
-      };
-    case PrimitiveType.Int:
-      return {
-        type: 'Int',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case PrimitiveType.Boolean:
-      return {
-        type: 'Boolean',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    default:
-      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
-      return;
-  }
-};
-
-/**
- * A compiler for iOS targets.
+ * A compiler for Android targets.
  */
 export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBinding> {
   /**
    * @abstract
    */
-  protected targetName = 'android';
+  async hostname () {
+    return await v4();
+  }
 
+  /**
+   * @abstract
+   */
+  get hotComponent () {
+    return require.resolve('@diez/targets/lib/targets/android.component');
+  }
+
+  /**
+   * Retrieves an initializer based on a spec.
+   *
+   * Via recursion, produces output like `ComponentType(fieldName: "fileValue", child: ChildType())`.
+   *
+   * @abstract
+   */
+  protected collectComponentProperties (
+    allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+    const reference = properties[0];
+    if (!reference) {
+      return;
+    }
+
+    return {
+      type: `Array<${reference.type}>`,
+      initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
+      updateable: reference.updateable,
+    };
+  }
+
+  /**
+   * @abstract
+   */
+  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+    const propertyInitializers: string[] = [];
+    for (const name in spec.properties) {
+      propertyInitializers.push(spec.properties[name].initializer);
+    }
+
+    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+  }
+
+  /**
+   * @abstract
+   */
+  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
+    switch (type) {
+      case PrimitiveType.String:
+        return {
+          type: 'String',
+          initializer: `"${instance}"`,
+          updateable: false,
+        };
+      case PrimitiveType.Number:
+      case PrimitiveType.Float:
+        return {
+          type: 'Float',
+          initializer: `${instance.toString()}F`,
+          updateable: false,
+        };
+      case PrimitiveType.Int:
+        return {
+          type: 'Int',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      case PrimitiveType.Boolean:
+        return {
+          type: 'Boolean',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      default:
+        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        return;
+    }
+  }
   /**
    * @abstract
    */
@@ -178,57 +181,6 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
-  }
-
-  /**
-   * @abstract
-   */
-  protected async processComponentProperty (
-    property: TargetProperty,
-    instance: any,
-    serializedInstance: any,
-    targetComponent: TargetComponent,
-  ): Promise<TargetComponentProperty | undefined> {
-    if (Array.isArray(instance)) {
-      if (!property.depth) {
-        // This should never happen.
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      return collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
-        this.processComponentProperty(property, child, serializedInstance[index], targetComponent),
-      )));
-    }
-
-    if (property.isComponent) {
-      const componentSpec = await this.processComponentInstance(instance, property.type);
-      if (!componentSpec) {
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      const propertyComponent = this.program.targetComponents.get(property.type)!;
-      const propertyBinding = await getBinding<AndroidBinding>(
-        this.targetName, propertyComponent.source || '.', property.type);
-      if (propertyBinding) {
-        if (propertyBinding.assetsBinder) {
-          try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
-          } catch (error) {
-            warning(error);
-          }
-        }
-      }
-
-      return {
-        type: property.type,
-        updateable: true,
-        initializer: getInitializer(componentSpec),
-      };
-    }
-
-    return getPrimitive(property.type, serializedInstance);
   }
 
   /**
@@ -291,29 +243,8 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
 }
 
 /**
- * The canonical Android compiler target implementation.
+ * Handles Android target compilation.
  */
 export const androidHandler: CompilerTargetHandler = async (program) => {
-  const sdkRoot = join(program.destinationPath, 'diez');
-  const compiler = new AndroidCompiler(program, sdkRoot);
-
-  if (program.devMode) {
-    const hostname = await v4();
-    const devPort = await getHotPort();
-    await compiler.runHot(async () => {
-      await compiler.writeSdk(hostname, devPort);
-    });
-
-    await serveHot(
-      program.projectRoot,
-      require.resolve('@diez/targets/lib/targets/android.component'),
-      devPort,
-      compiler.staticRoot,
-    );
-  } else {
-    await compiler.run();
-    await compiler.writeSdk();
-  }
-
-  compiler.printUsageInstructions();
+  await new AndroidCompiler(program, join(program.destinationPath, 'diez')).start();
 };

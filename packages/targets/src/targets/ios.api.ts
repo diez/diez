@@ -1,4 +1,4 @@
-import {AssetBinder, PropertyType, TargetOutput} from '@diez/compiler';
+import {PropertyType, TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 /**
@@ -22,12 +22,9 @@ export interface IosDependency {
 /**
  * Describes an iOS binding.
  */
-export interface IosBinding<T extends Component = any> {
+export interface IosBinding<T extends Component = any> extends TargetBinding<T> {
   imports: string[];
-  sources: string[];
-  skipGeneration?: boolean;
   dependencies?: IosDependency[];
-  assetsBinder?: AssetBinder<T>;
 }
 
 /**

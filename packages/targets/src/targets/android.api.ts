@@ -1,4 +1,4 @@
-import {AssetBinder, TargetOutput} from '@diez/compiler';
+import {TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 /**
@@ -15,11 +15,8 @@ export interface AndroidDependency {
 /**
  * Describes an Android binding.
  */
-export interface AndroidBinding<T extends Component = any> {
-  sources: string[];
-  skipGeneration?: boolean;
+export interface AndroidBinding<T extends Component = any> extends TargetBinding<T> {
   dependencies?: AndroidDependency[];
-  assetsBinder?: AssetBinder<T>;
 }
 
 /**

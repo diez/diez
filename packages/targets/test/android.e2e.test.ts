@@ -2,7 +2,6 @@ import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {
   createAndroidCompilerForFixture,
-  createProgramForFixture,
   getFixtures,
   getGoldenRoot,
 } from './helpers';
@@ -18,11 +17,10 @@ describe('android.e2e', () => {
     test(`android.e2e.${fixture}`, async () => {
       // Resets modules to clear the require cache. Necessary because we reuse the stub project over and over.
       jest.resetModules();
-      const program = await createProgramForFixture(fixture);
-      const compiler = await createAndroidCompilerForFixture(fixture, program);
+      const compiler = await createAndroidCompilerForFixture(fixture);
       await compiler.run();
       await compiler.writeSdk('foo.bar', 9001);
-      expect(join(program.destinationPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'android'));
+      expect(join(compiler.program.destinationPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'android'));
     });
   }
 });

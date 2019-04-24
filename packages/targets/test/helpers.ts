@@ -1,4 +1,4 @@
-import {Compiler, CompilerProgram, createProject} from '@diez/compiler';
+import {Compiler, createProject} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -30,9 +30,11 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
 };
 
 /**
- * Generates a program for the specified fixtures.
+ * Generates a program for the specified fixture and target.
+ *
+ * @internal
  */
-export const createProgramForFixture = async (fixture: string) => {
+const createProgramForFixture = async (fixture: string, target: string) => {
   if (!existsSync(stubProjectRoot)) {
     await createProject('stub', workspaceExamplesRoot);
   }
@@ -49,7 +51,7 @@ export const createProgramForFixture = async (fixture: string) => {
 
   const destination = getTempFileName();
   ensureDirSync(destination);
-  const program = new Compiler(stubProjectRoot, destination);
+  const program = new Compiler(stubProjectRoot, destination, target);
   // Turn on dev mode after the fact so we don't start a dev server.
   program.devMode = true;
   return program;
@@ -60,10 +62,9 @@ export const createProgramForFixture = async (fixture: string) => {
  */
 export const createIosCompilerForFixture = async (
   fixture: string,
-  programIn?: CompilerProgram,
   sdkRootIn?: string,
 ): Promise<IosCompiler> => {
-  const program = programIn || await createProgramForFixture(fixture);
+  const program = await createProgramForFixture(fixture, 'ios');
   const sdkRoot = sdkRootIn || join(program.destinationPath, 'Diez');
   const compiler = new IosCompiler(program, sdkRoot);
   compiler.clear();
@@ -75,10 +76,9 @@ export const createIosCompilerForFixture = async (
  */
 export const createAndroidCompilerForFixture = async (
   fixture: string,
-  programIn?: CompilerProgram,
   sdkRootIn?: string,
 ): Promise<AndroidCompiler> => {
-  const program = programIn || await createProgramForFixture(fixture);
+  const program = await createProgramForFixture(fixture, 'android');
   const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
   const compiler = new AndroidCompiler(program, sdkRoot);
   compiler.clear();
@@ -90,10 +90,9 @@ export const createAndroidCompilerForFixture = async (
  */
 export const createWebCompilerForFixture = async (
   fixture: string,
-  programIn?: CompilerProgram,
   sdkRootIn?: string,
 ): Promise<WebCompiler> => {
-  const program = programIn || await createProgramForFixture(fixture);
+  const program = await createProgramForFixture(fixture, 'web');
   const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
   const compiler = new WebCompiler(program, sdkRoot);
   compiler.clear();

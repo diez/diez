@@ -176,6 +176,10 @@ export interface CompilerProgram extends EventEmitter {
    * Whether we are running the compiler in dev mode or not.
    */
   devMode: boolean;
+  /**
+   * The name of the target we are compiling for.
+   */
+  target: string;
 }
 
 /**
@@ -250,4 +254,16 @@ export interface TargetOutput<
   dependencies: Set<Dependency>;
   assetBindings: Map<string, AssetBinding>;
   sdkRoot: string;
+}
+
+/**
+ * Provides a base binding interface targets can extend as needed.
+ */
+export interface TargetBinding<
+  T extends Component = any,
+  OutputType = TargetOutput,
+> {
+  sources: string[];
+  skipGeneration?: boolean;
+  assetsBinder?: AssetBinder<T, OutputType>;
 }

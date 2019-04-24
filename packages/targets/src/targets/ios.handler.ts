@@ -1,20 +1,16 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
-  getBinding,
-  getHotPort,
   PrimitiveType,
   PropertyType,
-  serveHot,
   TargetCompiler,
-  TargetComponent,
   TargetComponentProperty,
   TargetComponentSpec,
-  TargetProperty,
 } from '@diez/compiler';
 import {outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
+import {v4} from 'internal-ip';
 import {join} from 'path';
 import {getTempFileName, sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
@@ -43,92 +39,98 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
 };
 
 /**
- * Reducer for array component properties.
- *
- * Retypes `String` as `[String]` and consolidates initializers.
- *
- * @internal
- */
-const collectComponentProperties = (
-  allProperties: (TargetComponentProperty | undefined)[],
-): TargetComponentProperty | undefined => {
-  const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
-  const reference = properties[0];
-  if (!reference) {
-    return;
-  }
-
-  return {
-    type: `[${reference.type}]`,
-    initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-    updateable: reference.updateable,
-  };
-};
-
-/**
- * Resolves a primitive tpe to its correct property.
- *
- * @internal
- */
-const getPrimitive = (type: PropertyType, instance: any): TargetComponentProperty | undefined => {
-  switch (type) {
-    case PrimitiveType.String:
-      return {
-        type: 'String',
-        initializer: `"${instance}"`,
-        updateable: false,
-      };
-    case PrimitiveType.Float:
-    case PrimitiveType.Number:
-      return {
-        type: 'CGFloat',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case PrimitiveType.Int:
-      return {
-        type: 'Int',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    case PrimitiveType.Boolean:
-      return {
-        type: 'Bool',
-        initializer: instance.toString(),
-        updateable: false,
-      };
-    default:
-      warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
-      return;
-  }
-};
-
-/**
- * Retrieves an initializer based on a spec.
- *
- * Via recursion, produces output like `ComponentType(fieldName: "fileValue", child: ChildType())`.
- *
- * @internal
- */
-const getInitializer = (
-  spec: TargetComponentSpec,
-) => {
-  const propertyInitializers: string[] = [];
-  for (const name in spec.properties) {
-    propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
-  }
-  return `${spec.componentName}(${propertyInitializers.join(', ')})`;
-};
-
-/**
  * A compiler for iOS targets.
  */
 export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   /**
    * @abstract
    */
-  protected targetName = 'ios';
+  async hostname () {
+    try {
+      return `${await execAsync('scutil --get LocalHostName')}.local`;
+    } catch (_) {
+      return await v4();
+    }
+  }
 
+  /**
+   * @abstract
+   */
+  get hotComponent () {
+    return require.resolve('@diez/targets/lib/targets/ios.component');
+  }
+
+  /**
+   * Reducer for array component properties.
+   *
+   * Retypes `String` as `[String]` and consolidates initializers.
+   *
+   * @abstract
+   */
+  protected collectComponentProperties (allProperties: (TargetComponentProperty | undefined)[]) {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+    const reference = properties[0];
+    if (!reference) {
+      return;
+    }
+
+    return {
+      type: `[${reference.type}]`,
+      initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
+      updateable: reference.updateable,
+    };
+  }
+
+  /**
+   * Retrieves an initializer based on a spec.
+   *
+   * Via recursion, produces output like `ComponentType(fieldName: "fileValue", child: ChildType())`.
+   *
+   * @abstract
+   */
+  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+    const propertyInitializers: string[] = [];
+    for (const name in spec.properties) {
+      propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
+    }
+    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+  }
+
+  /**
+   * @abstract
+   */
+  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
+    switch (type) {
+      case PrimitiveType.String:
+        return {
+          type: 'String',
+          initializer: `"${instance}"`,
+          updateable: false,
+        };
+      case PrimitiveType.Float:
+      case PrimitiveType.Number:
+        return {
+          type: 'CGFloat',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      case PrimitiveType.Int:
+        return {
+          type: 'Int',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      case PrimitiveType.Boolean:
+        return {
+          type: 'Bool',
+          initializer: instance.toString(),
+          updateable: false,
+        };
+      default:
+        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        return;
+    }
+  }
   /**
    * @abstract
    */
@@ -222,57 +224,6 @@ class ViewController: UIViewController {
   /**
    * @abstract
    */
-  protected async processComponentProperty (
-    property: TargetProperty,
-    instance: any,
-    serializedInstance: any,
-    targetComponent: TargetComponent,
-  ): Promise<TargetComponentProperty | undefined> {
-    if (Array.isArray(instance)) {
-      if (!property.depth) {
-        // This should never happen.
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      return collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
-        this.processComponentProperty(property, child, serializedInstance[index], targetComponent),
-      )));
-    }
-
-    if (property.isComponent) {
-      const componentSpec = await this.processComponentInstance(instance, property.type);
-      if (!componentSpec) {
-        targetComponent.warnings.ambiguousTypes.add(property.name);
-        return;
-      }
-
-      const propertyComponent = this.program.targetComponents.get(property.type)!;
-      const propertyBinding = await getBinding<IosBinding>(
-        this.targetName, propertyComponent.source || '.', property.type);
-      if (propertyBinding) {
-        if (propertyBinding.assetsBinder) {
-          try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
-          } catch (error) {
-            warning(error);
-          }
-        }
-      }
-
-      return {
-        type: property.type,
-        updateable: true,
-        initializer: getInitializer(componentSpec),
-      };
-    }
-
-    return getPrimitive(property.type, serializedInstance);
-  }
-
-  /**
-   * @abstract
-   */
   async writeSdk (hostname?: string, devPort?: number) {
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
@@ -327,39 +278,12 @@ class ViewController: UIViewController {
 }
 
 /**
- * The canonical iOS compiler target implementation.
+ * Handles iOS target compilation.
  */
 export const iosHandler: CompilerTargetHandler = async (program) => {
-  const sdkRoot = join(program.destinationPath, 'Diez');
-  const compiler = new IosCompiler(program, sdkRoot);
-
-  if (program.devMode) {
-    let hostname = 'localhost';
-    if (isMacOS()) {
-      try {
-        hostname = `${await execAsync('scutil --get LocalHostName')}.local`;
-      } catch (_) {
-        // Noop.
-      }
-    }
-
-    const devPort = await getHotPort();
-
-    await compiler.runHot(async () => {
-      await compiler.writeSdk(hostname, devPort);
-    });
-
-    await serveHot(
-      program.projectRoot,
-      require.resolve('@diez/targets/lib/targets/ios.component'),
-      devPort,
-      compiler.staticRoot,
-    );
-    // TODO: when we shut down, compile once in prod mode?
-  } else {
-    await compiler.run();
-    await compiler.writeSdk();
+  if (!isMacOS()) {
+    throw new Error('--target ios can only be built on macOS.');
   }
 
-  compiler.printUsageInstructions();
+  await new IosCompiler(program, join(program.destinationPath, 'Diez')).start();
 };

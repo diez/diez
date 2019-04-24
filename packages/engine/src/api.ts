@@ -1,3 +1,5 @@
+/* tslint:disable:no-empty-interface */
+
 /**
  * Primitive types. These can always be serialized over the wire without intervention.
  */
@@ -32,6 +34,7 @@ export interface Indexable {
 export interface Stateful<T extends Indexable> {
   get<K extends keyof T> (key: K): T[K];
   set (state: Partial<T>): void;
+  has (key: keyof T): boolean;
 }
 
 /**
@@ -138,3 +141,10 @@ export type Integer = number | AlwaysInt;
  * Typealias for double numbers.
  */
 export type Float = number | AlwaysFloat;
+
+/**
+ * An expandable interface for property options.
+ */
+export interface PropertyOptions {
+  never: never;
+}
