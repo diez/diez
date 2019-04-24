@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "run-ios": "diez compile -t ios -o ios -d",
+    "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
     "run-android": "diez compile -t android -o android -d"
   },
   "dependencies": {

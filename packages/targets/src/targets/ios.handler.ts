@@ -161,6 +161,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       sources: new Set([
         join(coreIos, 'core', 'Diez.swift'),
         join(coreIos, 'core', 'Environment.swift'),
+        join(coreIos, 'core', 'Bundle+Environment.swift'),
         join(coreIos, 'core', 'Serialization.swift'),
         join(coreIos, 'core', 'ReflectedCustomStringConvertible.swift'),
       ]),
@@ -234,6 +235,11 @@ class ViewController: UIViewController {
       }
     }
 
+    const hasStaticAssets = this.output.assetBindings.size > 0;
+    if (hasStaticAssets) {
+      this.output.sources.add(join(coreIos, 'core', 'Bundle+Static.swift'));
+    }
+
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       if (binding && binding.skipGeneration) {
@@ -266,6 +272,7 @@ class ViewController: UIViewController {
     const tokens = {
       devPort,
       hostname,
+      hasStaticAssets,
       devMode: this.program.devMode,
       dependencies: Array.from(this.output.dependencies),
       imports: Array.from(this.output.imports),

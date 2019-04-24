@@ -1,6 +1,10 @@
 extension File {
     public var url: URL? {
-        return URL(string: fullyQualifiedURLString)
+        if environment.isDevelopment {
+            return URL(string: "\(environment.serverUrl)\(src)")
+        }
+
+        return Bundle.diezResources?.url(forFile: self)
     }
     public var request: URLRequest? {
         guard let url = url else {
@@ -8,16 +12,6 @@ extension File {
         }
 
         return URLRequest(url: url)
-    }
-
-    private var fullyQualifiedURLString: String {
-        // TODO: when we are not in development, we should load the file from a local bundle URL.
-        // This will look something like: Bundle.main.url(forResource: "index", withExtension: "html")
-        // except we will be loading from the framework bundle (not main). Probably this should be handled
-        // inside class Environment {...}.
-        return environment.isDevelopment
-            ? "\(environment.serverUrl)\(src)"
-            : "TODO"
     }
 }
 

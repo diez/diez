@@ -19,4 +19,7 @@ Pod::Spec.new do |s|
   s.source_files = 'SDK.swift', 'Diez.plist'
   s.framework = 'UIKit', 'WebKit'
   # TODO: s.ios.source_files and s.ios.framework for iOS, s.osx.* for macOS, and so on
+  s.resource_bundles = {
+    'Static' => ['static/**']
+  }
 end

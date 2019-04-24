@@ -5,7 +5,10 @@ import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<File> = {
-  sources: [join(sourcesPath, 'ios', 'bindings', 'File.swift')],
+  sources: [
+    join(sourcesPath, 'ios', 'bindings', 'Bundle+File.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'File.swift'),
+  ],
   imports: ['Foundation'],
   assetsBinder: fileAssetBinder,
 };

@@ -6,6 +6,8 @@ import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<Haiku> = {
   sources: [
+    join(sourcesPath, 'ios', 'bindings', 'Bundle+File.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'File.swift'),
     join(sourcesPath, 'ios', 'bindings', 'Haiku.swift'),
     join(sourcesPath, 'ios', 'bindings', 'HaikuView.swift'),
   ],
