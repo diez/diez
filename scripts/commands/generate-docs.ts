@@ -3,7 +3,7 @@ import {Stats} from 'fs-extra';
 import {walkSync} from 'fs-walk';
 import {extname, join, relative, sep} from 'path';
 import {Project} from 'ts-morph';
-import {root, run} from '../internal/helpers';
+import {assertNotWatching, root, run} from '../internal/helpers';
 
 const packageRoot = join(root, 'packages');
 
@@ -11,6 +11,7 @@ const packageRoot = join(root, 'packages');
  * Generates docs. We need to rewrite cross-linked imports in order to have them link correctly in the monorepo.
  */
 export const generateDocs = async () => {
+  assertNotWatching();
   const gitChanges = run('git diff packages', root, 'pipe');
   if (gitChanges && gitChanges.toString()) {
     console.log(chalk.red('Found untracked Git changes in packages/. Stash them before generating docs.'));
@@ -28,9 +29,9 @@ export const generateDocs = async () => {
     //   import {foo, bar} from '@diez/baz';
     const path = join(basedir, filename);
     const sourceFile = project.addExistingSourceFile(path);
-    sourceFile.getImportDeclarations().forEach((declaration) => {
+    for (const declaration of sourceFile.getImportDeclarations()) {
       if (!declaration.getModuleSpecifierValue().startsWith('@diez/')) {
-        return;
+        continue;
       }
 
       // Rewrite the first import path component as the relative location so typedoc can resolve it.
@@ -40,7 +41,17 @@ export const generateDocs = async () => {
       importPathComponents[2] = 'src';
 
       declaration.setModuleSpecifier(importPathComponents.join('/'));
-    });
+    }
+
+    for (const namespace of sourceFile.getNamespaces()) {
+      if (!namespace.getName().startsWith("'@diez/")) {
+        continue;
+      }
+
+      const pathComponents = namespace.getName().replace(/'/g, '').replace('lib', 'src').split('/');
+      pathComponents[0] = relative(basedir, packageRoot);
+      namespace.getNameNodes()[0].replaceWithText(`'${pathComponents.join('/')}'`);
+    }
   });
 
   await project.save();

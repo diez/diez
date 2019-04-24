@@ -1,14 +1,43 @@
+/* tslint:disable:no-var-requires max-line-length */
+import chalk from 'chalk';
 import {execSync, StdioOptions} from 'child_process';
-import {readFile, writeFile} from 'fs-extra';
+import {existsSync, readFile, writeFile} from 'fs-extra';
 import {join} from 'path';
 
-// tslint:disable-next-line:no-var-requires
+/**
+ * The current version of the package.
+ */
 export const currentVersion = require(join('..', '..', 'package.json')).version;
 
+/**
+ * The root of the monorepo.
+ */
 export const root = global.process.cwd();
 
+/**
+ * Runs the provided command synchronously.
+ */
 export const run = (command: string, cwd = root, stdio: StdioOptions = 'inherit') => execSync(command, {cwd, stdio});
 
+/**
+ * The location of the watchfile indicating a watch is active.
+ */
+export const watchMutex = join(root, '.watching');
+
+/**
+ * Checks if the watch mutex is active, and fails if it is.
+ */
+export const assertNotWatching = () => {
+  if (existsSync(watchMutex)) {
+    console.log(chalk.red('It appears that `yarn watch` is active; for your own safety, you cannot run this command with an active watcher.'));
+    console.log(chalk.red('If this is an error, please manually remove `.watching` from the monorepo root and try again.'));
+    global.process.exit(1);
+  }
+};
+
+/**
+ * Replaces a list of patterns in a given file.
+ */
 export const replaceInFile = (filename: string, search: string[], replace: string[]) =>
   readFile(filename).then((data) => {
     let contents = data.toString();

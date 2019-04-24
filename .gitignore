@@ -9,3 +9,4 @@ checkstyle-result.xml
 *.xcuserstate
 *.xcuserdatad
 *.tsbuildinfo
+.watching
