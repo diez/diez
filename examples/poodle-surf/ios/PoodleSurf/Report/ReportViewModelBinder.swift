@@ -15,7 +15,7 @@ class ReportViewModelBinder {
 
     init(view: ReportView) {
         self.view = view
-        diez = Diez(view)
+        diez = Diez(view: view)
 
         let model = ReportModel.makeExample()
         update(with: model)

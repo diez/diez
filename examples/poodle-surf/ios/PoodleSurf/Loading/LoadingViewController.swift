@@ -11,7 +11,7 @@ import Diez
 import Lottie
 
 class LoadingViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view)
+    private lazy var diez = Diez<DesignSystem>(view: view)
 
     init() {
         super.init(nibName: nil, bundle: nil)

@@ -708,7 +708,7 @@ extension Bindings: ReflectedCustomStringConvertible {
 @objc(DiezBindings)
 public final class DiezBridgedBindings: NSObject {
     @objc public init(view: UIView) {
-        diez = Diez(view)
+        diez = Diez(view: view)
 
         super.init()
     }

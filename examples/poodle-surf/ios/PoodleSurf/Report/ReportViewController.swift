@@ -10,7 +10,7 @@ import UIKit
 import Diez
 
 class ReportViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view)
+    private lazy var diez = Diez<DesignSystem>(view: view)
     private var binder: ReportViewModelBinder?
 
     override func viewDidLoad() {

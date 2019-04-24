@@ -111,7 +111,7 @@ extension Primitives: ReflectedCustomStringConvertible {
 @objc(DiezPrimitives)
 public final class DiezBridgedPrimitives: NSObject {
     @objc public init(view: UIView) {
-        diez = Diez(view)
+        diez = Diez(view: view)
 
         super.init()
     }

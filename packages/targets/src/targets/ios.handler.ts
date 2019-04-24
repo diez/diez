@@ -199,7 +199,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
 import Diez
 
 class ViewController: UIViewController {
-    private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view)
+    private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view: view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
