@@ -1,4 +1,4 @@
-import {Image} from '@diez/designsystem';
+import {Image, TextStyle} from '@diez/designsystem';
 import {Component, Float, property} from '@diez/engine';
 import {Images} from './assets';
 import {EdgeInsets} from './components/EdgeInsets';
@@ -25,6 +25,29 @@ class HeaderDesign extends Component {
   @property labelsSpacing = LayoutValues.compactSpacing;
 }
 
+interface SharedCardDesignState {
+  title: string;
+  titleTextStyle: TextStyle;
+  titleContentSpacing: number;
+  gradient: SimpleGradient;
+  layoutMargins: EdgeInsets;
+  cornerRadius: number;
+}
+
+class SharedCardDesign extends Component<SharedCardDesignState> {
+  @property title = '';
+  @property titleTextStyle = textStyles.cardTitle;
+  @property titleContentSpacing = LayoutValues.defaultMargin;
+  @property gradient = palette.gradient;
+  @property layoutMargins = new EdgeInsets({
+    top: LayoutValues.defaultMargin,
+    bottom: LayoutValues.looseMargin,
+    left: LayoutValues.defaultMargin,
+    right: LayoutValues.defaultMargin,
+  });
+  @property cornerRadius = 5;
+}
+
 class TemperatureDesign extends Component {
   @property textStyle = textStyles.value;
   @property icon = Images.Thermometer;
@@ -41,9 +64,9 @@ class WetsuitDesign extends Component {
 }
 
 class WaterTemperatureCardDesign extends Component {
-  @property title = 'Water temperature';
-  @property titleTextStyle = textStyles.cardTitle;
-  @property gradient = palette.gradient;
+  @property shared = new SharedCardDesign({
+    title: 'Water temperature',
+  });
   @property horizontalSpacing = LayoutValues.defaultMargin;
   @property temperature = new TemperatureDesign();
   @property wetsuit = new WetsuitDesign();
@@ -62,10 +85,9 @@ class DayPartDesign extends Component {
 }
 
 interface ForecastCardDesignState {
-  title: string;
-  unit: string;
-  gradient: SimpleGradient;
+  shared: SharedCardDesign;
   dayPart: DayPartDesign;
+  unit: string;
   dayPartsHorizontalSpacing: number;
   dayPartVerticalSpacing: number;
   separatorWidth: number;
@@ -74,10 +96,8 @@ interface ForecastCardDesignState {
 }
 
 class ForecastCardDesign extends Component<ForecastCardDesignState> {
-  @property title = '';
-  @property titleTextStyle = textStyles.cardTitle;
+  @property shared = new SharedCardDesign();
   @property unit = '';
-  @property gradient = palette.gradient;
   @property dayPart = new DayPartDesign();
   @property dayPartsHorizontalSpacing = LayoutValues.defaultMargin;
   @property dayPartVerticalSpacing = LayoutValues.looseMargin;
@@ -96,7 +116,9 @@ export class ReportDesign extends Component {
   @property header = new HeaderDesign();
   @property waterTemperature = new WaterTemperatureCardDesign();
   @property wind = new ForecastCardDesign({
-    title: 'Wind',
+    shared: new SharedCardDesign({
+      title: 'Wind',
+    }),
     unit: 'mph',
     dayPartVerticalSpacing: LayoutValues.defaultSpacing,
     valueUnitMargins: new EdgeInsets({
@@ -104,11 +126,15 @@ export class ReportDesign extends Component {
     }),
   });
   @property swell = new ForecastCardDesign({
-    title: 'Swell',
+    shared: new SharedCardDesign({
+      title: 'Swell',
+    }),
     unit: 'ft',
   });
   @property tide = new ForecastCardDesign({
-    title: 'Tide',
+    shared: new SharedCardDesign({
+      title: 'Tide',
+    }),
     unit: 'ft',
   });
 }

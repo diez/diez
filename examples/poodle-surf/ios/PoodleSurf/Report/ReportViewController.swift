@@ -20,8 +20,6 @@ class ReportViewController: UIViewController {
 
         binder = ReportViewModelBinder(view: reportView)
 
-        applyFallbackStyleTo(reportView: reportView, titleView: titleView)
-
         diez.attach { [weak self] system in
             self?.apply(system)
         }

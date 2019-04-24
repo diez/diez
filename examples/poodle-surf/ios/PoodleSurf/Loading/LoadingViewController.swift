@@ -20,8 +20,6 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        applyFallbackStyle(to: loadingView)
-
         diez.attach { [weak self] system in
             self?.apply(system)
         }

@@ -17,9 +17,6 @@ class ReportViewModelBinder {
         self.view = view
         diez = Diez(view: view)
 
-        let model = ReportModel.makeExample()
-        update(with: model)
-
         diez.attach { [weak self] mocks in
             guard let model = ReportModel(mock: mocks.report) else {
                 print("Failed to create model from Diez mock.")

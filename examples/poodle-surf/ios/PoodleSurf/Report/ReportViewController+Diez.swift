@@ -38,10 +38,8 @@ extension ReportViewController {
     }
 
     private func apply(_ design: WaterTemperatureCardDesign, to view: TemperatureCardView) {
+        apply(design.shared, to: view)
         view.horizontalSpacing = design.horizontalSpacing
-        view.titleLabel.text = design.title
-        view.titleLabel.apply(design.titleTextStyle)
-        view.gradient = Gradient(design.gradient)
         apply(design.temperature, to: view.temperatureView)
         apply(design.wetsuit, to: view.wetsuitView)
     }
@@ -62,9 +60,7 @@ extension ReportViewController {
     }
 
     private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
-        view.titleLabel.text = design.title
-        view.titleLabel.apply(design.titleTextStyle)
-        view.gradient = Gradient(design.gradient)
+        apply(design.shared, to: view)
         view.dayPartsHorizontalSpacing = design.dayPartsHorizontalSpacing
         view.separatorWidth = design.separatorWidth
         view.separators.forEach { $0.backgroundColor = design.separatorColor.color }
@@ -74,6 +70,15 @@ extension ReportViewController {
             dayPart.verticalSpacing = design.dayPartVerticalSpacing
             apply(design.dayPart, to: dayPart)
         }
+    }
+
+    private func apply(_ design: SharedCardDesign, to view: CardViewDescribable) {
+        view.titleLabel.text = design.title
+        view.titleLabel.apply(design.titleTextStyle)
+        view.titleContentSpacing = design.titleContentSpacing
+        view.gradient = Gradient(design.gradient)
+        view.layoutMargins = UIEdgeInsets(design.layoutMargins)
+        view.cornerRadius = design.cornerRadius
     }
 
     private func apply(_ design: DayPartDesign, to view: DayPartView) {
@@ -95,5 +100,6 @@ extension ReportViewController {
         view.label.text = design.title
         view.label.apply(design.textStyle)
         view.imageView.image = design.icon.image
+        view.spacing = design.iconToTitleSpacing
     }
 }
