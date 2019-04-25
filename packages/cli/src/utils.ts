@@ -3,7 +3,7 @@ import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
 import {existsSync, readJsonSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
-import {join} from 'path';
+import {dirname, join} from 'path';
 import {DiezConfiguration} from './api';
 
 // tslint:disable-next-line:no-var-requires
@@ -50,6 +50,17 @@ export const execAsync = (command: string, options?: ExecOptions) => new Promise
 export const isMacOS = () => platform() === 'darwin';
 
 /**
+ * @internal
+ */
+const getPackageJsonPath = (packageName: string) => {
+  try {
+    return require.resolve(join(packageName, 'package.json'));
+  } catch (_) {
+    return undefined;
+  }
+};
+
+/**
  * Recursively resolve dependencies for a given package name.
  *
  * @internal
@@ -63,9 +74,13 @@ const getDependencies = (
     return;
   }
 
-  // FIXME: we shouldn't necessarily require `lib/` in the main package path.
-  const packagePath = isRootPackage ? packageName : require.resolve(packageName).split('lib')[0];
-  const json = readJsonSync(join(packagePath, 'package.json'), {throws: false});
+  const packageJsonPath = getPackageJsonPath(packageName);
+  if (!packageJsonPath) {
+    return;
+  }
+
+  const packagePath = dirname(packageJsonPath);
+  const json = readJsonSync(packageJsonPath, {throws: false});
   if (!json) {
     return;
   }
