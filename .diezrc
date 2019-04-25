@@ -1,0 +1,12 @@
+{
+  "providers": {
+    "commands": [
+      "./scripts/commands/build-examples",
+      "./scripts/commands/create-package",
+      "./scripts/commands/generate-docs",
+      "./scripts/commands/health",
+      "./scripts/commands/minify-sources",
+      "./scripts/commands/watch"
+    ]
+  }
+}

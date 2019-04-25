@@ -5,7 +5,7 @@ matrix:
     before_script:
     - yarn global add codecov
     script:
-    - yarn health --stream
+    - yarn health
     - codecov
   - language: android
     jdk: oraclejdk8

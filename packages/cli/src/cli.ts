@@ -52,12 +52,12 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
       continue;
     }
 
-    try {
-      for (const path of providers.commands) {
+    for (const path of providers.commands) {
+      try {
         registerWithProvider(cliRequire(plugin, path));
+      } catch (error) {
+        // Noop.
       }
-    } catch (error) {
-      // Noop.
     }
   }
 };

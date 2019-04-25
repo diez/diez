@@ -9,6 +9,23 @@ const fileContentsMatch = (sourceFile: string, goldenFile: string) =>
   readFileSync(sourceFile).toString() === readFileSync(goldenFile).toString();
 
 /**
+ * Expectation that a file exists.
+ */
+const toExist = (sourceFile: string) => {
+  if (existsSync(sourceFile)) {
+    return {
+      message: () => `expected ${sourceFile} not to exist`,
+      pass: true,
+    };
+  }
+
+  return {
+    message: () => `expected ${sourceFile} to exist`,
+    pass: false,
+  };
+};
+
+/**
  * Expectation that files have the same contents.
  */
 const toMatchFile = (sourceFile: string, goldenFile: string) => {
@@ -60,5 +77,9 @@ const toMatchDirectory = (sourceDirectory: string, goldenDirectory: string) => {
  * Provides additional Jest expectations.
  */
 export const registerExpectations = () => {
-  extend({toMatchFile, toMatchDirectory});
+  extend({
+    toExist,
+    toMatchFile,
+    toMatchDirectory,
+  });
 };

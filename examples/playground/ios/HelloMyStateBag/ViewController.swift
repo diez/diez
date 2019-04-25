@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var svgView: SVGView!
     @IBOutlet weak var lottieView: LOTAnimationView!
 
-    private lazy var diez = Diez<MyStateBag>(view)
+    private lazy var diez = Diez<MyStateBag>(view: view)
 
     override func viewDidLoad() {
         super.viewDidLoad()

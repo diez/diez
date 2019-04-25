@@ -7,55 +7,56 @@ import {assertNotWatching, root, run} from '../internal/helpers';
 
 const packageRoot = join(root, 'packages');
 
-/**
- * Generates docs. We need to rewrite cross-linked imports in order to have them link correctly in the monorepo.
- */
-export const generateDocs = async () => {
-  assertNotWatching();
-  const gitChanges = run('git diff packages', root, 'pipe');
-  if (gitChanges && gitChanges.toString()) {
-    console.log(chalk.red('Found untracked Git changes in packages/. Stash them before generating docs.'));
-    process.exit(1);
-  }
-
-  const project = new Project();
-
-  walkSync(join(root, 'packages'), (basedir: string, filename: string, stats: Stats) => {
-    if (!stats.isFile() || extname(filename) !== '.ts' || !basedir.includes(`${sep}src`)) {
-      return;
+export = {
+  name: 'generate-docs',
+  description: 'Generates docs.',
+  action: async () => {
+    assertNotWatching();
+    const gitChanges = run('git diff packages', root, 'pipe');
+    if (gitChanges && gitChanges.toString()) {
+      console.log(chalk.red('Found untracked Git changes in packages/. Stash them before generating docs.'));
+      process.exit(1);
     }
 
-    // Look for imports like:
-    //   import {foo, bar} from '@diez/baz';
-    const path = join(basedir, filename);
-    const sourceFile = project.addExistingSourceFile(path);
-    for (const declaration of sourceFile.getImportDeclarations()) {
-      if (!declaration.getModuleSpecifierValue().startsWith('@diez/')) {
-        continue;
+    const project = new Project();
+
+    walkSync(join(root, 'packages'), (basedir: string, filename: string, stats: Stats) => {
+      if (!stats.isFile() || extname(filename) !== '.ts' || !basedir.includes(`${sep}src`)) {
+        return;
       }
 
-      // Rewrite the first import path component as the relative location so typedoc can resolve it.
-      // Rewrite the third (which might not exist) to resolve source files specifically.
-      const importPathComponents = declaration.getModuleSpecifierValue().split('/');
-      importPathComponents[0] = relative(basedir, packageRoot);
-      importPathComponents[2] = 'src';
+      // Look for imports like:
+      //   import {foo, bar} from '@diez/baz';
+      const path = join(basedir, filename);
+      const sourceFile = project.addExistingSourceFile(path);
+      for (const declaration of sourceFile.getImportDeclarations()) {
+        if (!declaration.getModuleSpecifierValue().startsWith('@diez/')) {
+          continue;
+        }
 
-      declaration.setModuleSpecifier(importPathComponents.join('/'));
-    }
+        // Rewrite the first import path component as the relative location so typedoc can resolve it.
+        // Rewrite the third (which might not exist) to resolve source files specifically.
+        const importPathComponents = declaration.getModuleSpecifierValue().split('/');
+        importPathComponents[0] = relative(basedir, packageRoot);
+        importPathComponents[2] = 'src';
 
-    for (const namespace of sourceFile.getNamespaces()) {
-      if (!namespace.getName().startsWith("'@diez/")) {
-        continue;
+        declaration.setModuleSpecifier(importPathComponents.join('/'));
       }
 
-      const pathComponents = namespace.getName().replace(/'/g, '').replace('lib', 'src').split('/');
-      pathComponents[0] = relative(basedir, packageRoot);
-      namespace.getNameNodes()[0].replaceWithText(`'${pathComponents.join('/')}'`);
-    }
-  });
+      for (const namespace of sourceFile.getNamespaces()) {
+        if (!namespace.getName().startsWith("'@diez/")) {
+          continue;
+        }
 
-  await project.save();
+        const pathComponents = namespace.getName().replace(/'/g, '').replace('types', 'src').split('/');
+        pathComponents[0] = relative(basedir, packageRoot);
+        namespace.getNameNodes()[0].replaceWithText(`'${pathComponents.join('/')}'`);
+      }
+    });
 
-  run('yarn typedoc');
-  run('git checkout packages');
+    await project.save();
+
+    run('yarn typedoc');
+    run('git checkout packages');
+  },
 };

@@ -1,4 +1,4 @@
-import {Compiler, createProject} from '@diez/compiler';
+import {Compiler} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -35,16 +35,13 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
  * @internal
  */
 const createProgramForFixture = async (fixture: string, target: string) => {
-  if (!existsSync(stubProjectRoot)) {
-    await createProject('stub', workspaceExamplesRoot);
-  }
-
   removeSync(join(stubProjectRoot, 'assets'));
 
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
+
   if (existsSync(join(fixturesRoot, fixture, 'assets'))) {
     copySync(join(fixturesRoot, fixture, 'assets'), join(stubProjectRoot, 'assets'));
   }

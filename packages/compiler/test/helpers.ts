@@ -1,10 +1,13 @@
-import {existsSync, readdirSync, readFileSync, writeFileSync} from 'fs-extra';
+import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
 import {Compiler, TargetCompiler} from '../src/compiler';
-import {createProject} from '../src/utils';
 
-const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
+/**
+ * The root for workspace examples.
+ */
+export const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
+
 const fixturesRoot = join(__dirname, 'fixtures');
 const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
 
@@ -17,10 +20,6 @@ export const getFixtures = () => readdirSync(fixturesRoot);
  * Generates a program for the specified fixtures.
  */
 export const createProgramForFixture = async (fixture: string) => {
-  if (!existsSync(stubProjectRoot)) {
-    await createProject('stub', workspaceExamplesRoot);
-  }
-
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),

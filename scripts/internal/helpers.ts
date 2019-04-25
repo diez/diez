@@ -5,14 +5,14 @@ import {existsSync, readFile, writeFile} from 'fs-extra';
 import {join} from 'path';
 
 /**
- * The current version of the package.
- */
-export const currentVersion = require(join('..', '..', 'package.json')).version;
-
-/**
  * The root of the monorepo.
  */
 export const root = global.process.cwd();
+
+/**
+ * The current version of the package.
+ */
+export const currentVersion = require(join(root, 'packages', 'engine', 'package.json')).version;
 
 /**
  * Runs the provided command synchronously.
