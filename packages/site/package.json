@@ -1,6 +1,7 @@
 {
   "name": "@diez/site",
-  "version": "1.0.0-alpha0",
+  "version": "1.0.0-beta.0",
+  "private": true,
   "description": "The official website for Diez.js https://diezjs.org",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",

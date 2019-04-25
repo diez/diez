@@ -1,13 +1,16 @@
 {
   "name": "@diez/engine",
   "main": "lib/index.js",
-  "version": "1.0.0-alpha0",
-  "description": "The Diez Engine.",
+  "version": "1.0.0-beta.0",
+  "description": "The Diez engine.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
   },
+  "homepage": "https://diez.org",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",

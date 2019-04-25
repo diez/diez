@@ -7,7 +7,7 @@ import {
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
-import {outputTemplatePackage} from '@diez/storage/lib';
+import {outputTemplatePackage} from '@diez/storage';
 import {copySync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';

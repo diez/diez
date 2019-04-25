@@ -1,13 +1,16 @@
 {
   "name": "@diez/cli",
   "main": "lib/index.js",
-  "version": "1.0.0-alpha0",
+  "version": "1.0.0-beta.0",
   "description": "The Diez command line interface.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
   },
+  "homepage": "https://diez.org",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
@@ -17,7 +20,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
-    "@diez/engine": "1.0.0-alpha0",
+    "@diez/engine": "^1.0.0-beta.0",
     "@types/async": "^2.4.1",
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
@@ -38,8 +41,8 @@
     "commander": "^2.19.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
-    "typed-errors": "^1.1.0",
-    "server-destroy": "^1.0.1"
+    "server-destroy": "^1.0.1",
+    "typed-errors": "^1.1.0"
   },
   "bin": {
     "diez": "./bin/diez"

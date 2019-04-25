@@ -1,8 +1,9 @@
 {
-  "name": "@diez/playground",
+  "name": "playground",
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
+  "private": true,
   "scripts": {
     "run-ios": "diez compile -t ios -o ios -d",
     "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
@@ -10,15 +11,15 @@
     "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
+    "@diez/designsystem": "^1.0.0-beta.0",
+    "@diez/engine": "^1.0.0-beta.0",
     "@haiku/taylor-testthang": "^0.0.2",
-    "@diez/designsystem": "1.0.0-alpha0",
-    "@diez/engine": "1.0.0-alpha0",
     "just-curves": "^0.2.0"
   },
   "devDependencies": {
-    "@diez/cli": "1.0.0-alpha0",
-    "@diez/compiler": "1.0.0-alpha0",
-    "@diez/targets": "1.0.0-alpha0",
+    "@diez/cli": "^1.0.0-beta.0",
+    "@diez/compiler": "^1.0.0-beta.0",
+    "@diez/targets": "^1.0.0-beta.0",
     "typescript": "^3.4.1"
   }
 }

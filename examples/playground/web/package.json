@@ -1,6 +1,6 @@
 {
-  "name": "@diez/playground-web",
-  "version": "1.0.0-alpha0",
+  "name": "playground-web",
+  "version": "1.0.0-beta.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,8 +8,8 @@
     "fix": "vue-cli-service lint *.js"
   },
   "dependencies": {
-    "vue": "^2.6.6",
     "diez": "link:./diez",
+    "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^8.0.0"
   },

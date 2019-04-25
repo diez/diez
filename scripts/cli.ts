@@ -3,6 +3,7 @@ import {buildExamples} from './commands/build-examples';
 import {clean} from './commands/clean';
 import {createPackage} from './commands/create-package';
 import {generateDocs} from './commands/generate-docs';
+import {minifySources} from './commands/minify-sources';
 import {watch} from './commands/watch';
 import {currentVersion} from './internal/helpers';
 
@@ -12,6 +13,11 @@ commander
   .command('watch')
   .description('Watches TypeScript sources in the monorepo and automatically compiles changes.')
   .action(watch);
+
+commander
+  .command('minify-sources')
+  .description('Minifies sources as a prepack step.')
+  .action(minifySources);
 
 commander
   .command('create-package [registry]')

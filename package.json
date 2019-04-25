@@ -6,7 +6,7 @@
     "examples/*",
     "examples/*/web"
   ],
-  "version": "1.0.0-alpha0",
+  "version": "10.10.10",
   "description": "Diez monorepo.",
   "license": "Proprietary",
   "devDependencies": {
@@ -14,6 +14,7 @@
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^5.0.4",
+    "@types/uglify-es": "^3.0.0",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "enquirer": "^2.3.0",
@@ -27,7 +28,8 @@
     "tslint-config-haiku": "^1.0.20",
     "typedoc": "^0.14.2",
     "typedoc-plugin-no-inherit": "^1.1.6",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.1",
+    "uglify-es": "^3.3.9"
   },
   "scripts": {
     "build-examples": "yarn cli build-examples",
@@ -41,7 +43,9 @@
     "lint": "lerna run lint --no-bail",
     "postinstall": "yarn compile",
     "test": "lerna run test --no-bail",
-    "watch": "yarn cli watch"
+    "watch": "yarn cli watch",
+    "prepublishOnly": "yarn clean",
+    "prepack": "yarn cli minify-sources"
   },
   "resolutions": {
     "istanbul-api": "^2.0.0"

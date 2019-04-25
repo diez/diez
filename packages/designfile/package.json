@@ -1,13 +1,16 @@
 {
   "name": "@diez/designfile",
   "main": "lib/index.js",
-  "version": "1.0.0-alpha0",
-  "description": "Utilities to export assets from design files, currently supports Sketch, Illustrator and Figma documents.",
+  "version": "1.0.0-beta.0",
+  "description": "Utilities to extract assets from design files with support for Sketch, Illustrator, and Figma.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
   },
+  "homepage": "https://diez.org",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
@@ -17,9 +20,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli": "1.0.0-alpha0",
-    "@diez/engine": "1.0.0-alpha0",
-    "@diez/storage": "1.0.0-alpha0",
+    "@diez/cli": "^1.0.0-beta.0",
+    "@diez/engine": "^1.0.0-beta.0",
+    "@diez/storage": "^1.0.0-beta.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
@@ -30,7 +33,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@diez/test-utils": "1.0.0-alpha0",
+    "@diez/test-utils": "^1.0.0-beta.0",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^24.0.11",
     "@types/klaw-sync": "^6.0.0",

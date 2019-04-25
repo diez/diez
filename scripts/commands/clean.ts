@@ -5,6 +5,7 @@ import {assertNotWatching, root, run} from '../internal/helpers';
 
 const packageFilesToDelete = [
   'lib',
+  'types',
   'tsconfig.tsbuildinfo',
   'yarn-error.log',
   'test-result.tap',
@@ -18,8 +19,8 @@ const packageFilesToDelete = [
  */
 export const clean = async () => {
   assertNotWatching();
-  const config = await readJson(join(root, 'package.json'));
-  for (const workspace of config.workspaces) {
+  const config = await readJson(join(root, 'lerna.json'));
+  for (const workspace of config.packages) {
     // Intentionally adding a `/` to the workspace path to tell `glob`
     // that we only want to match directories
     const matches = glob.sync(`${workspace}/`, {root});

@@ -3,7 +3,7 @@ export * from './compiler';
 export * from './utils';
 export * from './server';
 
-declare module '@diez/engine/lib/api' {
+declare module '@diez/engine/types/api' {
   /**
    * Extends PropertyOptions for the compiler.
    */

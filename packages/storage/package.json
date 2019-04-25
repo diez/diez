@@ -1,13 +1,16 @@
 {
   "name": "@diez/storage",
   "main": "lib/index.js",
-  "version": "1.0.0-alpha0",
-  "description": "The .",
+  "version": "1.0.0-beta.0",
+  "description": "Filesystem helpers and utilities for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
   },
+  "homepage": "https://diez.org",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
@@ -17,11 +20,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
-    "@diez/test-utils": "1.0.0-alpha0",
+    "@diez/test-utils": "^1.0.0-beta.0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^24.0.11",
-    "fs-walk": "^0.0.2",
-    "handlebars": "^4.1.1",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
@@ -31,6 +32,8 @@
     "typescript": "^3.4.1"
   },
   "dependencies": {
-    "fs-extra": "^7.0.1"
+    "handlebars": "^4.1.1",
+    "fs-extra": "^7.0.1",
+    "fs-walk": "^0.0.2"
   }
 }

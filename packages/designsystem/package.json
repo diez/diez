@@ -1,13 +1,16 @@
 {
   "name": "@diez/designsystem",
   "main": "lib/index.js",
-  "version": "1.0.0-alpha0",
-  "description": "TODO: add description.",
+  "version": "1.0.0-beta.0",
+  "description": "Components for building a design system with Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
   },
+  "homepage": "https://diez.org",
   "scripts": {
     "compile": "tsc",
     "watch": "tsc --watch",
@@ -17,7 +20,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/engine": "1.0.0-alpha0",
+    "@diez/engine": "^1.0.0-beta.0",
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {

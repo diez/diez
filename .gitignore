@@ -10,3 +10,4 @@ checkstyle-result.xml
 *.xcuserdatad
 *.tsbuildinfo
 .watching
+lerna-debug.log
