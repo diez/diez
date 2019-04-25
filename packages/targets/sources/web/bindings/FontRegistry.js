@@ -6,8 +6,7 @@ const FontFormats = {
   svg: 'svg',
 };
 
-// This class has special post-construct hooks so it should skip generation.
-export class FontRegistry {
+class FontRegistry {
 
   constructor ({files} = {files: []}) {
     const styleEl = document.createElement('style');

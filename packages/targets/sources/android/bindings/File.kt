@@ -3,6 +3,10 @@ package org.diez
 import android.net.Uri
 import java.net.URL
 
+data class File(
+    val src: String
+)
+
 val File.canonicalURL: String
     get() {
         if (Environment.isDevelopment) {

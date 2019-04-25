@@ -12,8 +12,8 @@ public final class {{{componentName}}}: NSObject, Decodable {
         case {{@key}}
         {{/each}}
     }
-
     {{#if singleton}}
+
     {{#if public}}public {{/if}}override init() {
         {{#each properties}}
         {{@key}} = {{{this.initializer}}}
@@ -30,8 +30,8 @@ public final class {{{componentName}}}: NSObject, Decodable {
         self.{{@key}} = {{{@key}}}
         {{/each}}
     }
-
     {{#if public}}
+
     public static let name = "{{{componentName}}}"
     {{/if}}
 }

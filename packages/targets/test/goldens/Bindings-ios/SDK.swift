@@ -21,7 +21,6 @@ public final class File: NSObject, Decodable {
     ) {
         self.src = src
     }
-
 }
 
 extension File: Updatable {
@@ -34,12 +33,6 @@ extension File: Updatable {
 extension File: ReflectedCustomStringConvertible {
     public override var description: String {
         return reflectedDescription
-    }
-}
-
-extension Bundle {
-    func url(forFile file: File) -> URL? {
-        return url(forResource: file.src.removingPercentEncoding, withExtension: nil)
     }
 }
 
@@ -83,6 +76,12 @@ extension File {
     }
 }
 
+extension Bundle {
+    func url(forFile file: File) -> URL? {
+        return url(forResource: file.src.removingPercentEncoding, withExtension: nil)
+    }
+}
+
 public final class Image: NSObject, Decodable {
     public var file1x: File
     public var file2x: File
@@ -98,7 +97,6 @@ public final class Image: NSObject, Decodable {
         case height
     }
 
-
     init(
         file1x: File,
         file2x: File,
@@ -112,7 +110,6 @@ public final class Image: NSObject, Decodable {
         self.width = width
         self.height = height
     }
-
 }
 
 extension Image: Updatable {
@@ -180,13 +177,11 @@ public final class SVG: NSObject, Decodable {
         case src
     }
 
-
     init(
         src: String
     ) {
         self.src = src
     }
-
 }
 
 extension SVG: Updatable {
@@ -262,13 +257,11 @@ public final class Lottie: NSObject, Decodable {
         case file
     }
 
-
     init(
         file: File
     ) {
         self.file = file
     }
-
 }
 
 extension Lottie: Updatable {
@@ -448,7 +441,6 @@ public final class Color: NSObject, Decodable {
         case a
     }
 
-
     init(
         h: CGFloat,
         s: CGFloat,
@@ -460,7 +452,6 @@ public final class Color: NSObject, Decodable {
         self.l = l
         self.a = a
     }
-
 }
 
 extension Color: Updatable {
@@ -498,7 +489,6 @@ public final class TextStyle: NSObject, Decodable {
         case color
     }
 
-
     init(
         fontName: String,
         fontSize: CGFloat,
@@ -508,7 +498,6 @@ public final class TextStyle: NSObject, Decodable {
         self.fontSize = fontSize
         self.color = color
     }
-
 }
 
 extension TextStyle: Updatable {
@@ -564,13 +553,11 @@ public final class Haiku: NSObject, Decodable {
         case component
     }
 
-
     init(
         component: String
     ) {
         self.component = component
     }
-
 }
 
 extension Haiku: Updatable {

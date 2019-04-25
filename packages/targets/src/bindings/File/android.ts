@@ -6,6 +6,7 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<File> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'File.kt')],
+  skipGeneration: true,
   assetsBinder: fileAssetBinder,
 };
 

@@ -1,4 +1,5 @@
 import {info} from '@diez/cli';
+import cors from 'cors';
 import express from 'express';
 import expressHandlebars from 'express-handlebars';
 import {resolve} from 'path';
@@ -48,6 +49,7 @@ export const serveHot = async (
     logLevel: 'warn',
   }));
   app.use(webpackHotMiddleware(compiler));
+  app.use(cors());
 
   app.engine('handlebars', expressHandlebars());
   app.set('view engine', 'handlebars');

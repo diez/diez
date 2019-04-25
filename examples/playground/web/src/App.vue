@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <img :src="component.image.file.url">
+    <img :src="component.image.url">
     <h1 :style="{color: component.palette.hello, fontFamily: 'Roboto-Black'}">{{ component.copy }}</h1>
     <p :style="component.textStyle">Text style!</p>
-    <iframe :src="component.haiku.url"></iframe>
+    <div ref="haiku"></div>
+    <div ref="lottie"></div>
   </div>
 </template>
 
@@ -20,6 +21,11 @@ export default class App extends Vue {
     this.diez.attach((component: MyStateBag) => {
       this.component = component;
     });
+  }
+
+  mounted () {
+    this.component.haiku.mount(this.$refs.haiku);
+    this.component.lottie.mount(this.$refs.lottie);
   }
 }
 </script>

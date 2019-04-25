@@ -33,7 +33,15 @@ const buildIos = () => {
 };
 
 const buildWeb = () => {
-  // TODO.
+  glob(join(root, 'examples', '*', 'web'), (_, matches) => {
+    for (const webRoot of matches) {
+      const diezRoot = resolve(webRoot, '..');
+      console.log(chalk.blue(`Building for web: ${basename(diezRoot)}`));
+      run('yarn diez compile -t web -o web', diezRoot);
+      run('yarn', webRoot);
+      run('yarn build', webRoot);
+    }
+  });
 };
 
 export = {

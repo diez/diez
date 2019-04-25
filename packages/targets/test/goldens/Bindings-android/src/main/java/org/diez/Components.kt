@@ -1,8 +1,5 @@
 package org.diez
 
-data class File(
-    val src: String
-)
 data class Image(
     val file1x: File,
     val file2x: File,

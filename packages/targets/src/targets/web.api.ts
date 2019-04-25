@@ -24,4 +24,5 @@ export interface WebBinding<T extends Component = any> extends TargetBinding<T, 
  */
 export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   declarations: Set<string>;
+  declarationImports: Set<string>;
 }

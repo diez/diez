@@ -1,3 +1,31 @@
+public final class File: NSObject, Decodable {
+    public var src: String
+
+    private enum CodingKeys: String, CodingKey {
+        case src
+    }
+
+
+    init(
+        src: String
+    ) {
+        self.src = src
+    }
+}
+
+extension File: Updatable {
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        src = try container.decode(String.self, forKey: .src)
+    }
+}
+
+extension File: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
 extension File {
     public var url: URL? {
         if environment.isDevelopment {

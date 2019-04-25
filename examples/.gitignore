@@ -1,4 +1,8 @@
 */ios/Diez
 */android/diez
-*/web/diez
+*/web/diez/index.d.ts
+*/web/diez/index.js
+*/web/diez/index.js
+*/web/diez/static/
+*/web/diez/yarn.lock
 stub/

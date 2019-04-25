@@ -2,5 +2,10 @@
   "name": "diez",
   "version": "0.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+  {{#each dependencies}}
+    "{{{this.packageJson.name}}}": "{{{this.packageJson.versionConstraint}}}"{{#unless @last}},{{/unless}}
+  {{/each}}
+  }
 }

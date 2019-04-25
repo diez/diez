@@ -459,7 +459,7 @@ export abstract class TargetCompiler<
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
           try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output);
+            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output, componentSpec);
           } catch (error) {
             warning(error);
           }
@@ -467,7 +467,7 @@ export abstract class TargetCompiler<
       }
 
       return {
-        type: property.type,
+        type: componentSpec.componentName,
         updateable: true,
         initializer: this.getInitializer(componentSpec),
       };

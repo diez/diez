@@ -5,7 +5,10 @@ import {AndroidBinding} from '../../targets/android.api';
 import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<Haiku> = {
-  sources: [join(sourcesPath, 'android', 'bindings', 'Haiku.kt')],
+  sources: [
+    join(sourcesPath, 'android', 'bindings', 'File.kt'),
+    join(sourcesPath, 'android', 'bindings', 'Haiku.kt'),
+  ],
   assetsBinder: haikuAssetBinder,
 };
 

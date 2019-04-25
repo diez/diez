@@ -29,6 +29,7 @@
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
     "internal-ip": "^4.3.0",
+    "pascal-case": "^2.0.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

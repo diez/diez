@@ -18,6 +18,7 @@
     "@diez/cli": "^1.0.0-beta.0",
     "@diez/engine": "^1.0.0-beta.0",
     "@diez/storage": "^1.0.0-beta.0",
+    "cors": "^2.8.5",
     "enquirer": "^2.3.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@diez/test-utils": "^1.0.0-beta.0",
+    "@types/cors": "^2.8.4",
     "@types/express": "^4.16.1",
     "@types/express-handlebars": "^0.0.30",
     "@types/jest": "^24.0.11",

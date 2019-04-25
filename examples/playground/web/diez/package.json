@@ -2,5 +2,9 @@
   "name": "diez",
   "version": "0.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lottie-web": "^5.5.2",
+    "@haiku/taylor-testthang": "0.0.2"
+  }
 }

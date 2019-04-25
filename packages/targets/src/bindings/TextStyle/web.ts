@@ -1,9 +1,9 @@
-import {File} from '@diez/designsystem';
+import {TextStyle} from '@diez/designsystem';
 import {join} from 'path';
 import {WebBinding} from '../../targets/web.api';
 import {sourcesPath} from '../../utils';
 
-const binding: WebBinding<File> = {
+const binding: WebBinding<TextStyle> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'TextStyle.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'TextStyle.d.ts')],
 };

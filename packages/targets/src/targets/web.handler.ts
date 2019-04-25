@@ -153,6 +153,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       declarations: new Set([
         join(coreWeb, 'core', 'Diez.d.ts'),
       ]),
+      declarationImports: new Set(),
       dependencies: new Set(),
       assetBindings: new Map(),
     };
@@ -244,6 +245,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
       declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),
+      declarationImports: Array.from(this.output.declarationImports),
     };
 
     this.writeAssets();

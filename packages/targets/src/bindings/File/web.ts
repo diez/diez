@@ -7,6 +7,7 @@ import {sourcesPath} from '../../utils';
 const binding: WebBinding<File> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'File.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'File.d.ts')],
+  skipGeneration: true,
   assetsBinder: fileAssetBinder,
 };
 

@@ -15,7 +15,6 @@ public final class ChildComponent: NSObject, Decodable {
     ) {
         self.diez = diez
     }
-
 }
 
 extension ChildComponent: Updatable {

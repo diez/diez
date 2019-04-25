@@ -200,6 +200,7 @@ export type AssetBinder<
   instance: ComponentType,
   projectRoot: string,
   output: OutputType,
+  spec: TargetComponentSpec,
 ) => Promise<void>;
 
 /**

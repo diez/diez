@@ -6,9 +6,7 @@ const Environment = {
 module.exports = {};
 
 class File {
-  constructor({
-    src
-  }) {
+  constructor({src}) {
     this.src = src;
   }
 
@@ -21,27 +19,34 @@ class File {
   }
 }
 
+Object.defineProperties(File.prototype, {
+  url: {
+    get () {
+      if (Environment.isDevelopment) {
+        return `${Environment.serverUrl}${this.src}`;
+      }
 
-module.exports.File = File;
-
-Object.defineProperty(File.prototype, 'url', {
-  get () {
-    if (Environment.isDevelopment) {
-      return `${Environment.serverUrl}${this.src}`;
-    }
-
-    // TODO: figure out how this should actually work.
-    return this.src;
+      // TODO: figure out how this should actually work.
+      return this.src;
+    },
   },
 });
 
+module.exports.File = File;
+
 class Image {
-  constructor() {
-    this.file1x = new File({src: "assets/image%20with%20spaces.jpg"});
-    this.file2x = new File({src: "assets/image%20with%20spaces%402x.jpg"});
-    this.file3x = new File({src: "assets/image%20with%20spaces%403x.jpg"});
-    this.width = 246;
-    this.height = 246;
+  constructor({
+    file1x,
+    file2x,
+    file3x,
+    width,
+    height
+  }) {
+    this.file1x = file1x;
+    this.file2x = file2x;
+    this.file3x = file3x;
+    this.width = width;
+    this.height = height;
   }
 
   update (payload) {
@@ -60,9 +65,28 @@ class Image {
 
 module.exports.Image = Image;
 
+Object.defineProperties(Image.prototype, {
+  url: {
+    get () {
+      switch (Math.ceil(window.devicePixelRatio)) {
+        case 1:
+          return this.file1x.url;
+        case 2:
+          return this.file2x.url;
+        case 3:
+          return this.file3x.url;
+        default:
+          return this.file2x.url;
+      }
+    },
+  },
+});
+
 class SVG {
-  constructor() {
-    this.src = "assets/image.svg";
+  constructor({
+    src
+  }) {
+    this.src = src;
   }
 
   update (payload) {
@@ -77,9 +101,24 @@ class SVG {
 
 module.exports.SVG = SVG;
 
+Object.defineProperties(SVG.prototype, {
+  file: {
+    get () {
+      return new File({src: this.src});
+    },
+  },
+  url: {
+    get () {
+      return this.file.url;
+    },
+  },
+});
+
 class Lottie {
-  constructor() {
-    this.file = new File({src: "assets/lottie.json"});
+  constructor({
+    file
+  }) {
+    this.file = file;
   }
 
   update (payload) {
@@ -94,9 +133,44 @@ class Lottie {
 
 module.exports.Lottie = Lottie;
 
+const lottie = require('lottie-web');
+
+Object.defineProperties(Lottie.prototype, {
+  url: {
+    get () {
+      return this.file.url;
+    },
+  },
+});
+
+Lottie.prototype.mount = function (ref) {
+  lottie.loadAnimation({
+    container: ref,
+    path: this.url,
+    // TODO: configuration "autoplay".
+    autoplay: true,
+    // TODO: configuration "loop".
+    loop: true,
+  });
+};
+
+const FontFormats = {
+  eot: 'embedded-opentype',
+  woff: 'woff',
+  woff2: 'woff2',
+  ttf: 'truetype',
+  svg: 'svg',
+};
+
 class FontRegistry {
-  constructor() {
-    this.files = [new File({src: "assets/SomeFont.ttf"})];
+
+  constructor ({files} = {files: []}) {
+    const styleEl = document.createElement('style');
+    document.head.appendChild(styleEl);
+    this.styleSheet = styleEl.sheet;
+    this.files = files;
+    this.cache = new Set(); // @internal
+    this.registerFonts(); // @internal
   }
 
   update (payload) {
@@ -104,12 +178,35 @@ class FontRegistry {
       return;
     }
 
-    this.files.update(payload.files);
+    if (payload.files !== undefined) {
+      this.files = payload.files;
+    }
+
+    this.registerFonts();
+  }
+
+  // @internal
+  registerFonts () {
+    for (const file of this.files) {
+      if (this.cache.has(file.src)) {
+        continue;
+      }
+
+      const parsedFile = file.src.split('/').pop();
+      if (parsedFile) {
+        const [name, format] = parsedFile.split('.');
+        const rule = `
+          @font-face {
+            font-family: '${name}';
+            src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
+          }`;
+
+        this.styleSheet.insertRule(rule);
+      }
+      this.cache.add(file.src);
+    }
   }
 }
-
-
-module.exports.FontRegistry = FontRegistry;
 
 class Color {
   constructor({
@@ -168,13 +265,15 @@ class TextStyle {
 
 module.exports.TextStyle = TextStyle;
 
-Object.defineProperty(TextStyle.prototype, 'css', {
-  get () {
-    return {
-      fontFamily: this.fontName,
-      fontSize: `${this.fontSize}px`,
-      color: this.color.toString(),
-    };
+Object.defineProperties(TextStyle.prototype, {
+  css: {
+    get () {
+      return {
+        fontFamily: this.fontName,
+        fontSize: `${this.fontSize}px`,
+        color: this.color.toString(),
+      };
+    },
   },
 });
 
@@ -185,31 +284,32 @@ TextStyle.prototype.applyStyle = function (ref) {
   ref.style.color = css.color;
 };
 
-class Haiku {
-  constructor() {
-    this.component = "haiku-component";
+class HaikuComponent {
+  constructor () {
+    try {
+      this.adapter = require('haiku-component');
+    } catch (_) {
+      console.error('Unable to load component: haiku-component.');
+    }
   }
 
-  update (payload) {
-    if (!payload) {
-      return;
+  mount(ref) {
+    if (this.adapter) {
+      return this.adapter(ref);
     }
-
-    this.component = payload.component;
   }
 }
 
-
-module.exports.Haiku = Haiku;
+module.exports.HaikuComponent = HaikuComponent;
 
 class Bindings {
   constructor() {
-    this.image = new Image();
-    this.svg = new SVG();
-    this.lottie = new Lottie();
-    this.fontRegistry = new FontRegistry();
+    this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces%402x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces%403x.jpg"}), width: 246, height: 246});
+    this.svg = new SVG({src: "assets/image.svg"});
+    this.lottie = new Lottie({file: new File({src: "assets/lottie.json"})});
+    this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf"})]});
     this.textStyle = new TextStyle({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
-    this.haiku = new Haiku();
+    this.haiku = new HaikuComponent({});
   }
 
   update (payload) {

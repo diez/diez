@@ -1,10 +1,12 @@
-Object.defineProperty(TextStyle.prototype, 'css', {
-  get () {
-    return {
-      fontFamily: this.fontName,
-      fontSize: `${this.fontSize}px`,
-      color: this.color.toString(),
-    };
+Object.defineProperties(TextStyle.prototype, {
+  css: {
+    get () {
+      return {
+        fontFamily: this.fontName,
+        fontSize: `${this.fontSize}px`,
+        color: this.color.toString(),
+      };
+    },
   },
 });
 
