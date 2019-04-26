@@ -1,3 +1,6 @@
+/**
+ An error that occurred when attempting to load a `Lottie` object in a `LOTAnimationView`.
+ */
 public enum LottieError: Error, CustomDebugStringConvertible {
     case invalidURL
     case requestFailed(Error?)
@@ -20,11 +23,26 @@ public enum LottieError: Error, CustomDebugStringConvertible {
 }
 
 extension LOTAnimationView {
+    /**
+     A closure to be called when loading a `Lottie` animation has completed.
+     */
     public typealias LoadCompletion = (Result<Void, LottieError>) -> Void
 
-    // TODO: Should this be synchronous when resource is local?
+    /**
+     Loads the provided `Lottie` animation.
+
+     - Parameters:
+       - lottie: The `Lottie` animation to be loaded.
+       - session: The `URLSession` to be used when fetching the resource.
+       - completion: A closure to be called when the load operation has completed.
+
+     - Returns: The `URLSessionDataTask` used to fetch the asset, or `nil` if the 
+       [Lottie.url](x-source-tag://Lottie.url) is `nil`.
+     */
     @discardableResult
     public func load(_ lottie: Lottie, session: URLSession = .shared, completion: LoadCompletion? = nil) -> URLSessionDataTask? {
+        // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
+        // TODO: Should this be synchronous when resource is local?
         // TODO: Remove debug logging?
         let completion: LoadCompletion? = { result in
             switch result {

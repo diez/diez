@@ -1,3 +1,6 @@
+/**
+ A view responsible for rendering a Haiku animation.
+ */
 public final class HaikuView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -11,7 +14,11 @@ public final class HaikuView: UIView {
         setup()
     }
 
+    /**
+     Loads the provided `Haiku`.
+     */
     public func load(_ haiku: Haiku) {
+        // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = haiku.file.request else {
             print("unable to load Haiku URL")
             return

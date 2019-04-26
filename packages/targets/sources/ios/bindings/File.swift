@@ -27,6 +27,20 @@ extension File: ReflectedCustomStringConvertible {
 }
 
 extension File {
+    /**
+     - Tag: File.url
+
+     The `URL` of the resource the file is referencing.
+
+     When in [development mode](x-source-tag://Diez), this will be a `URL` to resource on the Diez server.
+
+     When not in [development mode](x-source-tag://Diez), this will be a `URL` pointing to the resource on the
+     filesystem (within the SDK's asset bundle).
+
+     - Note: This `URL` will only be `nil` if there is an issue parsing the `URL` when in 
+       [development mode](x-source-tag://Diez). This should never be `nil` when not in 
+       [development mode](x-source-tag://Diez).
+     */
     public var url: URL? {
         if environment.isDevelopment {
             return URL(string: "\(environment.serverUrl)\(src)")
@@ -34,6 +48,14 @@ extension File {
 
         return Bundle.diezResources?.url(forFile: self)
     }
+
+    /**
+     A `URLRequest` to the provided file.
+
+     Uses the [url](x-source-tag://File.url) to create the request.
+
+     - See: [url](x-source-tag://File.url) 
+     */
     public var request: URLRequest? {
         guard let url = url else {
             return nil

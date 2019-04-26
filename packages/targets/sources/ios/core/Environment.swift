@@ -1,5 +1,5 @@
-public class Environment: NSObject {
-    fileprivate var infoDict: NSDictionary {
+private class Environment: NSObject {
+    var infoDict: NSDictionary {
         get {
             if let path = Bundle(for: type(of: self)).path(forResource: "Diez", ofType: "plist") {
               return NSDictionary(contentsOfFile: path)!
@@ -22,5 +22,4 @@ public class Environment: NSObject {
     }
 }
 
-// Global singleton.
-let environment = Environment()
+private let environment = Environment()

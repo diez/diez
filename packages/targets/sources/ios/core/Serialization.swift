@@ -1,5 +1,8 @@
 // All credit to: https://stablekernel.com/understanding-extending-swift-4-codable/
 
+/**
+ Describes an model that can be updated from a `Decoder`.
+ */
 public protocol Updatable {
     mutating func update(from decoder: Decoder) throws
 }
