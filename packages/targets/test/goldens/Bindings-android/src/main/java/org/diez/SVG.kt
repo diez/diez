@@ -14,6 +14,6 @@ class SVGView(context: Context, attrs: AttributeSet) : WebView(context, attrs) {
 
     fun load(svg: SVG) {
         val file = File("${svg.src}.html")
-        this.loadUrl(file.canonicalURL)
+        this.loadUrl(file.websafeURL)
     }
 }

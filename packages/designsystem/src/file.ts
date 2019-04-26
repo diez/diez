@@ -6,11 +6,6 @@ export interface FileState {
 }
 
 /**
- * Encodes a file source for serialization and other purposes.
- */
-export const encodeFileSource = (src: string) => src.split('/').map(encodeURIComponent).join('/');
-
-/**
  * TODO.
  *
  * @noinheritdoc
@@ -32,7 +27,7 @@ export class File extends Component<FileState> {
 
   serialize () {
     return {
-      src: encodeFileSource(this.src),
+      src: encodeURI(this.src),
     };
   }
 }

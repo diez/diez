@@ -9,7 +9,10 @@ import com.airbnb.lottie.LottieListener
 import com.airbnb.lottie.LottieDrawable
 
 fun LottieAnimationView.load(lottie: Lottie) {
-    val task = LottieCompositionFactory.fromUrl(this.context, lottie.file.canonicalURL)
+    val task = when(Environment.isDevelopment) {
+        true -> LottieCompositionFactory.fromUrl(context, lottie.file.canonicalURL)
+        else -> LottieCompositionFactory.fromRawRes(context, lottie.file.resourceId)
+    }
     val lottieView = this
     task.addListener(object: LottieListener<LottieComposition> {
         override fun onResult(result: LottieComposition) {

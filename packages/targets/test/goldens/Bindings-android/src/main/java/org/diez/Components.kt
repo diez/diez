@@ -28,7 +28,7 @@ data class Haiku(
     val component: String
 )
 data class Bindings(
-    val image: Image = Image(File("assets/image%20with%20spaces.jpg"), File("assets/image%20with%20spaces%402x.jpg"), File("assets/image%20with%20spaces%403x.jpg"), 246, 246),
+    val image: Image = Image(File("assets/image%20with%20spaces.jpg"), File("assets/image%20with%20spaces@2x.jpg"), File("assets/image%20with%20spaces@3x.jpg"), 246, 246),
     val svg: SVG = SVG("assets/image.svg"),
     val lottie: Lottie = Lottie(File("assets/lottie.json")),
     val fontRegistry: FontRegistry = FontRegistry(arrayOf<File>(File("assets/SomeFont.ttf"))),

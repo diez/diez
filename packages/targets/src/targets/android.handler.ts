@@ -8,10 +8,10 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {outputTemplatePackage} from '@diez/storage';
-import {copySync, readFileSync, writeFileSync} from 'fs-extra';
+import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import {basename, join} from 'path';
+import {basename, dirname, join} from 'path';
 import {getTempFileName, sourcesPath} from '../utils';
 import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
@@ -162,7 +162,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   get staticRoot () {
-    return join(this.output.sdkRoot, 'src', 'main', 'assets');
+    return join(this.output.sdkRoot, 'src', 'main', 'res', 'raw');
   }
 
   /**
@@ -181,6 +181,23 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
+  }
+
+  /**
+   * Overrides asset writeout so we can write raw resources.
+   */
+  writeAssets () {
+    removeSync(this.staticRoot);
+    for (const [path, binding] of this.output.assetBindings) {
+      const outputPath = join(this.staticRoot, encodeURI(path).toLowerCase().replace(/[^a-z0-9_]/g, '_'));
+      ensureDirSync(dirname(outputPath));
+      if (binding.copy) {
+        copySync(binding.contents as string, outputPath);
+        continue;
+      }
+
+      outputFileSync(outputPath, binding.contents);
+    }
   }
 
   /**

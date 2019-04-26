@@ -304,7 +304,7 @@ module.exports.HaikuComponent = HaikuComponent;
 
 class Bindings {
   constructor() {
-    this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces%402x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces%403x.jpg"}), width: 246, height: 246});
+    this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg"}), width: 246, height: 246});
     this.svg = new SVG({src: "assets/image.svg"});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json"})});
     this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf"})]});

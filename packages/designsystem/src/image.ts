@@ -1,5 +1,5 @@
 import {Component, Integer, property} from '@diez/engine';
-import {encodeFileSource, File} from './file';
+import {File} from './file';
 
 export interface ImageState {
   file1x: File;
@@ -60,7 +60,7 @@ export class SVG extends Component<SVGState> {
 
   serialize () {
     return {
-      src: encodeFileSource(this.src),
+      src: encodeURI(this.src),
     };
   }
 }

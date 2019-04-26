@@ -20,7 +20,7 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
         val builder = Builder()
         builder.add(KotlinJsonAdapterFactory())
         adapter = builder.build().adapter(component.javaClass)
-        Environment.initialize(view.context.resources)
+        Environment.initialize(view.context)
         if (Environment.isDevelopment) {
             val webview = WebView(view.context)
             webview.settings.javaScriptEnabled = true

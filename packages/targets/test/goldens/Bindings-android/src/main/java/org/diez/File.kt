@@ -7,15 +7,38 @@ data class File(
     val src: String
 )
 
-val File.canonicalURL: String
+private val fileReplacer = """[^a-z0-9_]""".toRegex()
+
+private val File.resourcePath: String
+    get() {
+        return "raw/${fileReplacer.replace(src.toLowerCase(), "_")}"
+    }
+
+internal val File.resourceId: Int
+    get() {
+        return Environment.resources.getIdentifier(
+            fileReplacer.replace(src, "_"),
+            "raw",
+            Environment.packageName
+        )
+    }
+
+internal val File.canonicalURL: String
     get() {
         if (Environment.isDevelopment) {
-            return "${Environment.serverUrl}${src}"
+            return "${Environment.serverUrl}$src"
         }
 
-        // TODO: when we are not in development, we should load the file from a local bundle URL.
-        // This will probably look something like: file:///android_asset/diez/path/to/asset.extension
-        return "TODO"
+        return "android.resource://${Environment.packageName}/$resourcePath"
+    }
+
+internal val File.websafeURL: String
+    get() {
+        if (Environment.isDevelopment) {
+            return canonicalURL
+        }
+
+        return "file:///android_res/$resourcePath"
     }
 
 val File.uri: Uri

@@ -8,6 +8,7 @@
     "run-ios": "diez compile -t ios -o ios -d",
     "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
     "run-android": "diez compile -t android -o android -d",
+    "build-android": "diez compile -t android -o android",
     "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {

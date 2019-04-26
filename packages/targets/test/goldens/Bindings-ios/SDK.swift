@@ -645,7 +645,7 @@ public final class HaikuView: UIView {
     }
 
     public override init() {
-        image = Image(file1x: File(src: "assets/image%20with%20spaces.jpg"), file2x: File(src: "assets/image%20with%20spaces%402x.jpg"), file3x: File(src: "assets/image%20with%20spaces%403x.jpg"), width: 246, height: 246)
+        image = Image(file1x: File(src: "assets/image%20with%20spaces.jpg"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg"), width: 246, height: 246)
         svg = SVG(src: "assets/image.svg")
         lottie = Lottie(file: File(src: "assets/lottie.json"))
         fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf")])

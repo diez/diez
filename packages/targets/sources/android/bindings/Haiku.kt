@@ -19,6 +19,6 @@ class HaikuView(context: Context, attrs: AttributeSet) : WebView(context, attrs)
     }
 
     fun load(haiku: Haiku) {
-        this.loadUrl(haiku.file.canonicalURL)
+        this.loadUrl(haiku.file.websafeURL)
     }
 }
