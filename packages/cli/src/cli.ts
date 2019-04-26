@@ -1,7 +1,9 @@
 /* tslint:disable no-var-requires */
 import {args, command, help, on, parse, version} from 'commander';
+import packageJson from 'package-json';
+import semver from 'semver';
 import {CliCommandProvider} from './api';
-import {fatalError} from './reporting';
+import {fatalError, warning} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
 version(diezVersion).name('diez');
@@ -46,6 +48,15 @@ const registerWithProvider = (provider: CliCommandProvider) => {
  * Bootstraps all available CLI commands based on local package dependencies.
  */
 export const bootstrap = async (rootPackageName = global.process.cwd()) => {
+  try {
+    const {version: latestVersion} = await packageJson('@diez/engine');
+    if (semver.gt(latestVersion as string, diezVersion)) {
+      warning('You are using an out-of-date version of Diez. Please upgrade to the latest version!');
+    }
+  } catch (_) {
+    warning('Unable to check if Diez is up to date. Are you connected to the Internet?');
+  }
+
   const plugins = await findPlugins(rootPackageName);
   for (const [plugin, {providers}] of plugins) {
     if (!providers || !providers.commands) {
