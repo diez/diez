@@ -6,6 +6,7 @@ public final class {{{componentName}}}: NSObject, Decodable {
     {{#each properties}}
     public var {{@key}}: {{this.type}}
     {{/each}}
+    {{#if hasProperties}}
 
     private enum CodingKeys: String, CodingKey {
         {{#each properties}}
@@ -30,6 +31,9 @@ public final class {{{componentName}}}: NSObject, Decodable {
         self.{{@key}} = {{{@key}}}
         {{/each}}
     }
+    {{else}}
+    public override init() {}
+    {{/if}}
     {{#if public}}
 
     public static let name = "{{{componentName}}}"

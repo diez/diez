@@ -22,6 +22,21 @@ class ChildComponent {
 
 module.exports.ChildComponent = ChildComponent;
 
+class EmptyComponent {
+  constructor() {
+  }
+
+  update (payload) {
+    if (!payload) {
+      return;
+    }
+
+  }
+}
+
+
+module.exports.EmptyComponent = EmptyComponent;
+
 class Primitives {
   constructor() {
     this.number = 10;
@@ -32,6 +47,7 @@ class Primitives {
     this.integers = [[1, 2], [3, 4], [5]];
     this.strings = [[["6"], ["7"]], [["8"], ["9"]], [["10"]]];
     this.child = new ChildComponent();
+    this.emptyChild = new EmptyComponent();
   }
 
   update (payload) {
@@ -47,6 +63,7 @@ class Primitives {
     this.integers = payload.integers;
     this.strings = payload.strings;
     this.child.update(payload.child);
+    this.emptyChild.update(payload.emptyChild);
   }
 }
 

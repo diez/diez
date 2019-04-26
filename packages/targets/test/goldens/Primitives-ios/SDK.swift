@@ -30,6 +30,22 @@ extension ChildComponent: ReflectedCustomStringConvertible {
     }
 }
 
+public final class EmptyComponent: NSObject, Decodable {
+    public override init() {}
+}
+
+extension EmptyComponent: Updatable {
+    public func update(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+    }
+}
+
+extension EmptyComponent: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
 @objc public final class Primitives: NSObject, StateBag {
     public var number: CGFloat
     public var integer: Int
@@ -39,6 +55,7 @@ extension ChildComponent: ReflectedCustomStringConvertible {
     public var integers: [[CGFloat]]
     public var strings: [[[String]]]
     public var child: ChildComponent
+    public var emptyChild: EmptyComponent
 
     private enum CodingKeys: String, CodingKey {
         case number
@@ -49,6 +66,7 @@ extension ChildComponent: ReflectedCustomStringConvertible {
         case integers
         case strings
         case child
+        case emptyChild
     }
 
     public override init() {
@@ -60,6 +78,7 @@ extension ChildComponent: ReflectedCustomStringConvertible {
         integers = [[1, 2], [3, 4], [5]]
         strings = [[["6"], ["7"]], [["8"], ["9"]], [["10"]]]
         child = ChildComponent()
+        emptyChild = EmptyComponent()
     }
 
     init(
@@ -70,7 +89,8 @@ extension ChildComponent: ReflectedCustomStringConvertible {
         boolean: Bool,
         integers: [[CGFloat]],
         strings: [[[String]]],
-        child: ChildComponent
+        child: ChildComponent,
+        emptyChild: EmptyComponent
     ) {
         self.number = number
         self.integer = integer
@@ -80,6 +100,7 @@ extension ChildComponent: ReflectedCustomStringConvertible {
         self.integers = integers
         self.strings = strings
         self.child = child
+        self.emptyChild = emptyChild
     }
 
     public static let name = "Primitives"
@@ -96,6 +117,7 @@ extension Primitives: Updatable {
         integers = try container.decode([[CGFloat]].self, forKey: .integers)
         strings = try container.decode([[[String]]].self, forKey: .strings)
         try container.update(&child, forKey: .child)
+        try container.update(&emptyChild, forKey: .emptyChild)
     }
 }
 

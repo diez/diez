@@ -2,6 +2,9 @@ export declare class ChildComponent {
   diez: number;
 }
 
+export declare class EmptyComponent {
+}
+
 export declare class Primitives extends StateBag {
   number: number;
   integer: number;
@@ -11,5 +14,6 @@ export declare class Primitives extends StateBag {
   integers: number[][];
   strings: string[][][];
   child: ChildComponent;
+  emptyChild: EmptyComponent;
 }
 

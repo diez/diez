@@ -8,6 +8,8 @@ class ChildComponent extends Component<ChildComponentState> {
   @property diez = 0;
 }
 
+class EmptyComponent extends Component {}
+
 export class Primitives extends Component {
   @property number = 10;
   @property integer: Integer = 10;
@@ -21,4 +23,6 @@ export class Primitives extends Component {
 
   // This child component should override the default value.
   @property child = new ChildComponent({diez: 10});
+
+  @property emptyChild = new EmptyComponent();
 }

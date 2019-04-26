@@ -261,6 +261,7 @@ class ViewController: UIViewController {
         compile(componentTemplate)({
           ...spec,
           singleton: spec.public || singletons.has(type),
+          hasProperties: Object.keys(spec.properties).length > 0,
         }),
       );
 
