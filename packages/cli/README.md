@@ -1,3 +1,54 @@
 # `@diez/cli`
 
-TODO.
+This package provides the core functionality of the extensible Diez command line interface.
+
+Diez configurations, which can be specified either in `package.json` using the special `"diez"` key or in a dedicated `.diezrc` file, can extend the command line functionality in various ways, registering commands, compiler targets, and more.
+
+A `CliCommandProvider` can be implemented in a Diez package like this:
+
+```
+// src/commands/command.ts
+import {CliCommandProvider} from '@diez/cli';
+
+const provider: CliCommandProvider = {
+  action,
+  name: 'command',
+  description: 'Command description',
+  options: [
+    {
+      shortName: 'o',
+      longName: 'option',
+      valueName: 'optionValue',
+      description: 'Some option.',
+    },
+  ],
+};
+
+export = provider;
+```
+
+A custom provider such can be registered in `package-name/package.json`:
+
+```
+{
+  "name": "package-name",
+  ...,
+  "diez": {
+    "providers": {
+      "commands": ["./lib/commands/command"]
+    }
+  }
+}
+```
+
+or in `package-name/.diezrc`:
+
+```
+{
+  "providers": {
+    "commands": ["./lib/commands/command"]
+  }
+}
+```
+
+The resulting command can be invoked with: `diez command --option [-o] <optionValue>`.

@@ -1,11 +1,9 @@
-import {File, Lottie} from '../src';
+import {Lottie} from '../src/lottie';
 
 describe('lottie', () => {
   test('basic functionality', () => {
-    const src = 'blah.svg';
-    const image = new Lottie({
-      file: new File({src}),
-    });
+    const src = 'lottie.json';
+    const image = Lottie.fromJson(src);
     expect(image.file.src).toBe(src);
     expect(image.serialize()).toEqual({file: {src}});
   });

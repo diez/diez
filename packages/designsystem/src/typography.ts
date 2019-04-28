@@ -2,18 +2,35 @@ import {Component, property} from '@diez/engine';
 import {Color} from './color';
 import {File} from './file';
 
+/**
+ * Font registry state.
+ * @ignore
+ */
 export interface FontRegistryState {
   files: File[];
 }
 
 /**
- * TODO.
+ * Enables cross-platform registration of font resources in TrueType format (`.ttf`).
+ *
+ * Platform bindings are expected to operate behind the hood, parsing the referenced font files and making them
+ * available to the local typography system.
  *
  * @noinheritdoc
  */
 export class FontRegistry extends Component<FontRegistryState> {
   @property files: File[] = [];
 
+  /**
+   * Example usage:
+   *
+   * ```
+   * @property registry = FontRegistry.fromFiles(
+   *   'assets/fonts/FontName.ttf',
+   *   'assets/fonts/FontName-Bold.ttf',
+   * );
+   * ```
+   */
   static fromFiles (...files: string[]) {
     return new this({
       files: files.map((src) => new File({src})),
@@ -21,6 +38,10 @@ export class FontRegistry extends Component<FontRegistryState> {
   }
 }
 
+/**
+ * Text style state.
+ * @ignore
+ */
 export interface TextStyleState<T> {
   fontName: T | IOSFonts | AndroidFonts;
   fontSize: number;
@@ -28,7 +49,8 @@ export interface TextStyleState<T> {
 }
 
 /**
- * TODO.
+ * Describes a text style including specification of a font name (understood to specify both a font face and a font
+ * weight) as well as a font size in device-local units and a font color.
  *
  * @noinheritdoc
  */
@@ -38,6 +60,9 @@ export class TextStyle<T = {}> extends Component<TextStyleState<T>> {
   @property color: Color = Color.hsla(0, 0, 0, 1);
 }
 
+/**
+ * As a convenience, this enumeration provides the names of all the core fonts supported on iOS.
+ */
 export enum IOSFonts {
   CopperplateLight = 'Copperplate-Light',
   Copperplate = 'Copperplate',
@@ -305,6 +330,9 @@ export enum IOSFonts {
   DINCondensedBold = 'DINCondensed-Bold',
 }
 
+/**
+ * As a convenience, this enumeration provides the names of all the core fonts supported on Android.
+ */
 export enum AndroidFonts {
   RobotoThin = 'Roboto-Thin',
   RobotoThinItalic = 'Roboto-ThinItalic',

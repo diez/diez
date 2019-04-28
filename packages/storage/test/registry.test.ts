@@ -14,5 +14,8 @@ describe('Registry', () => {
     expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{"figmaAccessToken":"supersecret"}');
 
     expect(await Registry.get('figmaAccessToken')).toBe('supersecret');
+
+    await Registry.delete('figmaAccessToken');
+    expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{}');
   });
 });

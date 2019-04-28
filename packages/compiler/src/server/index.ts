@@ -6,7 +6,6 @@ import {resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import {HotServerModifier, WebpackConfigModifier} from '../api';
 import {getConfiguration} from './config';
 
 /**
@@ -24,14 +23,9 @@ export const serveHot = async (
   componentEntry: string,
   port: number,
   staticRoot: string,
-  modifyServer?: HotServerModifier,
-  modifyWebpackConfig?: WebpackConfigModifier,
 ) => {
   const app = express();
   app.set('views', resolve(__dirname, '..', '..', 'views'));
-  if (modifyServer) {
-    modifyServer(app, projectRoot);
-  }
 
   app.get('/components/:componentName', (request, response) => {
     const {componentName} = request.params;
@@ -39,9 +33,6 @@ export const serveHot = async (
   });
 
   const webpackConfig = getConfiguration(projectRoot, componentEntry);
-  if (modifyWebpackConfig) {
-    modifyWebpackConfig(webpackConfig);
-  }
   const compiler = webpack(webpackConfig);
 
   app.use(webpackDevMiddleware(compiler, {

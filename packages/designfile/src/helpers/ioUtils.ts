@@ -46,7 +46,6 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
       try {
         if (request) {
           const {searchParams: qs} = new URL(request.url!, `http:localhost:${port}`);
-          resolve({code: qs.get('code')!, state: qs.get('state')!});
           // TODO: improve the redirect location of this handshake.
           response.writeHead(302, {
             Location: 'https://www.haiku.ai/',
@@ -61,6 +60,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
               // Noop.
             }
           }
+          resolve({code: qs.get('code')!, state: qs.get('state')!});
         }
       } catch (error) {
         reject(error);

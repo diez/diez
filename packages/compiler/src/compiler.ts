@@ -5,29 +5,61 @@ import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, readJsonSync, removeSync} from 'fs-extra';
 import {dirname, join, resolve} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
-import {CompilerOptions, createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, getPreEmitDiagnostics, isClassDeclaration, Program, sys} from 'typescript';
+import {CompilerOptions, createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, getPreEmitDiagnostics, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
 import {CompilerEvent, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, getNodeModulesSource, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
+ * @noinheritdoc
  */
-export class Compiler extends EventEmitter implements CompilerProgram {
+export class Program extends EventEmitter implements CompilerProgram {
   private readonly diagnosticsHost: FormatDiagnosticsHost = {
     getCurrentDirectory: sys.getCurrentDirectory,
     getNewLine: () => sys.newLine,
     getCanonicalFileName: (name) => name,
   };
 
+  /**
+   * @ignore
+   */
   readonly tsConfigFilePath: string;
+
+  /**
+   * @ignore
+   */
   readonly project: Project;
+
+  /**
+   * @ignore
+   */
   readonly checker: TypeChecker;
+
+  /**
+   * @ignore
+   */
   readonly targetComponents: NamedComponentMap;
+
+  /**
+   * @ignore
+   */
   readonly componentDeclaration: ClassDeclaration;
+
+  /**
+   * @ignore
+   */
   readonly localComponentNames: PropertyType[];
+
+  /**
+   * @ignore
+   */
   readonly types: PrimitiveTypes;
-  private program: Program;
+
+  /**
+   * @ignore
+   */
+  private program: TypescriptProgram;
 
   private validateProject () {
     const mainFilePath = join(this.projectRoot, 'src', 'index.ts');
@@ -57,7 +89,7 @@ export class Compiler extends EventEmitter implements CompilerProgram {
   }
 
   /**
-   * Returns the primitive type of an enum type.
+   * Returns the primitive type of an enum type. In the case of heterogeneous enums, returns "unknown" type.
    */
   private getEnumType (declaration: EnumDeclaration): PrimitiveType {
     const memberValues = declaration.getMembers().map((member) => this.checker.getConstantValue(member));
@@ -220,6 +252,9 @@ export class Compiler extends EventEmitter implements CompilerProgram {
     return true;
   }
 
+  /**
+   * Runs the compiler and emits to isteners.
+   */
   private run (throwOnErrors = false) {
     if (throwOnErrors) {
       const diagnostics = getPreEmitDiagnostics(this.program);
@@ -245,6 +280,9 @@ export class Compiler extends EventEmitter implements CompilerProgram {
     this.emit(CompilerEvent.Compiled);
   }
 
+  /**
+   * Actually compiles the project, emitting JS source files for runtime compilation.
+   */
   private compile () {
     info('Compiling project…');
     const emitResult = this.program.emit();
@@ -254,6 +292,9 @@ export class Compiler extends EventEmitter implements CompilerProgram {
     }
   }
 
+  /**
+   * Pretty prints TypeScript diagnostics.
+   */
   private printDiagnostics (diagnostics: Diagnostic | ReadonlyArray<Diagnostic>) {
     if (Array.isArray(diagnostics)) {
       if (!diagnostics.length) {
@@ -267,6 +308,9 @@ export class Compiler extends EventEmitter implements CompilerProgram {
     this.printDiagnostics([diagnostics] as ReadonlyArray<Diagnostic>);
   }
 
+  /**
+   * Starts a TypeScript server in watch mode, similar to `tsc --watch` but with more control over when sources are emitted.
+   */
   private watch () {
     const host = createWatchCompilerHost(
       this.tsConfigFilePath,
@@ -286,8 +330,15 @@ export class Compiler extends EventEmitter implements CompilerProgram {
         this.run();
       }
     };
-    createWatchProgram(host);
+
+    this.close = (createWatchProgram(host) as unknown as FileWatcher).close;
   }
+
+  /**
+   * In dev mode, this method is replaced with a command that stops watching files and shuts the server down.
+   * @ignore
+   */
+  close () {}
 
   constructor (
     readonly projectRoot: string,
@@ -341,6 +392,10 @@ export class Compiler extends EventEmitter implements CompilerProgram {
 
 /**
  * An abstract class wrapping the basic functions of a target compiler.
+ *
+ * Although this class may provide useful time-saving abstractions, it is by no means a requirement to use
+ * [[TargetCompiler]] when building a "compiler for a target"—the only thing a [[CompilerTargetProvider]] is guaranteed
+ * to receive is an instance of a [[CompilerProgram]].
  *
  * @typeparam OutputType - The type of target output we build during the compilation process.
  * @typeparam BindingType - The shape of asset bindings in our target.
@@ -410,7 +465,7 @@ export abstract class TargetCompiler<
   abstract clear (): void;
 
   /**
-   * Writes the transpiled SDK for an optional hot hostname and dev port.
+   * Writes the transpiled SDK to disk.
    */
   abstract async writeSdk (hostname?: string, devPort?: number): Promise<void>;
 
@@ -576,8 +631,10 @@ export abstract class TargetCompiler<
 
   /**
    * Runs hot, listening for compile events.
+   *
+   * @internal
    */
-  async runHot (writeSdkCommand: () => Promise<void>) {
+  private async runHot (writeSdkCommand: () => Promise<void>) {
     this.program.on(CompilerEvent.Compiled, async () => {
       await this.buildHot(writeSdkCommand);
     });

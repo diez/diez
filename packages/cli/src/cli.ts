@@ -45,7 +45,8 @@ const registerWithProvider = (provider: CliCommandProvider) => {
 };
 
 /**
- * Bootstraps all available CLI commands based on local package dependencies.
+ * Bootstraps all available CLI commands based on local package dependencies by scanning for `"diez"` keys
+ * in `package.json` and `.diezrc` files.
  */
 export const bootstrap = async (rootPackageName = global.process.cwd()) => {
   try {
@@ -67,7 +68,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
       try {
         registerWithProvider(cliRequire(plugin, path));
       } catch (error) {
-        // Noop.
+        warning('An invalid command provider was specified in the Diez configuration.');
       }
     }
   }
@@ -75,14 +76,17 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
 
 /**
  * Starts the CLI program.
+ * @ignore
  */
 export const run = async () => {
   await bootstrap();
+  // istanbul ignore next
   on('command:*', () => {
     help();
   });
 
   parse(process.argv);
+  // istanbul ignore if
   if (!args.length) {
     help();
   }

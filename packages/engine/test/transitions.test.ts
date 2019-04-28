@@ -5,6 +5,9 @@ describe('transitions', () => {
     const linearCurve = (t: number) => t;
     const sineCurve = (t: number) => Math.sin(Math.PI / 2 * t);
 
+    expect(interpolateNumbers(0, 0, 0, 0, 0, linearCurve)).toBe(0);
+    expect(interpolateNumbers(0, 0, 0, 100, 0, linearCurve)).toBe(0);
+
     expect(interpolateNumbers(0, 100, 0, 100, 0, linearCurve)).toBe(0);
     expect(interpolateNumbers(0, 100, 0, 100, 50, linearCurve)).toBe(50);
     expect(interpolateNumbers(0, 100, 0, 100, 100, linearCurve)).toBe(100);

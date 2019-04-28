@@ -11,3 +11,4 @@ checkstyle-result.xml
 *.tsbuildinfo
 .watching
 lerna-debug.log
+coverage/

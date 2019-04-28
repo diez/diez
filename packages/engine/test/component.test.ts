@@ -1,4 +1,7 @@
-import {Component, expression, method, property, Serializable, shared} from '../src';
+import {Serializable} from '../src/api';
+import {Component} from '../src/component';
+import {method, property, shared} from '../src/decorators';
+import {expression} from '../src/expression';
 
 class FooString implements Serializable {
   constructor (private readonly input: string) {}
@@ -176,6 +179,23 @@ describe('component', () => {
     expect(component.foobar.substr(0, 6).split('')).toEqual(['f', 'o', 'o', 'b', 'a', 'r']);
   });
 
+  test('expression component serialization', () => {
+    class Child extends Component {
+      @property a = 'a';
+    }
+
+    class Parent extends Component {
+      @property child = new Child();
+      @property alsoChild = expression<Child>((child: Child) => child);
+    }
+
+    const component = new Parent();
+    expect(component.serialize()).toEqual({
+      child: {a: 'a'},
+      alsoChild: {a: 'a'},
+    });
+  });
+
   test('can use shared bindings to evaluate expressions from child components', () => {
     interface AdderState {
       sum: number;
@@ -263,5 +283,31 @@ describe('component', () => {
 
     // Note how we can use `sum` like a number, even though it's an expression!
     expect(component.adder.sum.toFixed(3)).toBe('13.000');
+  });
+
+  test('invalid shared usage', () => {
+    class InvalidAssignment extends Component {
+      @shared a = 12;
+    }
+
+    expect(() => new InvalidAssignment()).toThrow();
+
+    class InvalidReference extends Component {
+      @shared a!: number;
+
+      @property b = expression<number>((a: number) => a);
+    }
+
+    expect(() => (new InvalidReference()).serialize()).toThrow();
+  });
+
+  test('property options', () => {
+    class Options extends Component {
+      // @ts-ignore
+      @property({foo: 'bar'}) foo = 'bar';
+    }
+
+    const options = new Options();
+    expect(options.boundStates.get('foo')).toEqual({foo: 'bar'});
   });
 });

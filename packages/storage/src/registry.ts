@@ -6,6 +6,9 @@ import {join} from 'path';
  * All the configuration values we can expect to find in the Registry.
  */
 export interface Configuration {
+  /**
+   * @todo Move this configuration value to be augmented in `@diez/designfile`.
+   */
   figmaAccessToken: string;
 }
 

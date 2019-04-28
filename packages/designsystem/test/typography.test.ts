@@ -1,11 +1,10 @@
-import {Color, File, FontRegistry, TextStyle} from '../src';
+import {Color} from '../src/color';
+import {FontRegistry, TextStyle} from '../src/typography';
 
 describe('font registry', () => {
   test('basic functionality', () => {
     const src = 'bloop.ttf';
-    const font = new FontRegistry({
-      files: [new File({src})],
-    });
+    const font = FontRegistry.fromFiles(src);
     expect(font.serialize()).toEqual({files: [{src: 'bloop.ttf'}]});
   });
 });
@@ -21,6 +20,8 @@ describe('text style', () => {
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
     });
-    expect(textStyle.serialize()).toEqual({fontName: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
+
+    expect(textStyle.serialize()).toEqual({
+      fontName: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
   });
 });

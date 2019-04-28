@@ -14,6 +14,7 @@ interface Answers {
 
 /**
  * The entry point for project generation.
+ * @ignore
  */
 export const createProjectAction = async (_: {}, projectName: string) => {
   if (projectName) {

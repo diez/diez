@@ -9,5 +9,9 @@
     "scripts/**/*.ts",
     "packages/*/src/**/*.ts",
     "packages/types/*"
+  ],
+  "exclude": [
+    "packages/designfile/**",
+    "packages/test-utils/**"
   ]
 }

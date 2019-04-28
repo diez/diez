@@ -1,6 +1,9 @@
+const {jestRoot} = require('@diez/test-utils');
+
 module.exports = {
   roots: [
     '<rootDir>/test',
+    jestRoot,
   ],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',

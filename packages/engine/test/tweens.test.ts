@@ -1,4 +1,5 @@
-import {Component, method, property} from '../src';
+import {Component} from '../src/component';
+import {method, property} from '../src/decorators';
 
 interface FooState {
   aNumber: number;
@@ -31,6 +32,10 @@ class Bar extends Component<BarState> {
       {duration: 1000},
     );
   }
+
+  @method async doSomethingTrivial () {
+    await this.tween({myNumber: 3}, {duration: 0});
+  }
 }
 
 const component = new Bar();
@@ -42,6 +47,7 @@ describe('tweens', () => {
   // in a subsequent test.
   test('simple numeric tween', () => {
     component.tick(0); // Start the clock at 0.
+    component.doSomethingTrivial();
     expect(component.serialize()).toEqual({myNumber: 3, foo: {aNumber: 1, anotherNumber: 2}});
      // Tick 1000 units, but without any tweens firing. Expected: unchanged.
     component.tick(1000);

@@ -3,7 +3,7 @@ import {Configuration, HotModuleReplacementPlugin} from 'webpack';
 
 /**
  * Provides a hot webpack configuration for projects.
- * @param projectRoot
+ * @ignore
  */
 export const getConfiguration = (projectRoot: string, componentEntry: string): Configuration => ({
   entry: {

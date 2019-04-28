@@ -1,5 +1,5 @@
 {
   "name": "command-provider",
   "version": "10.10.10",
-  "main": "lib/index.js"
+  "main": "index.js"
 }

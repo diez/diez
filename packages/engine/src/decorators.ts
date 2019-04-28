@@ -4,6 +4,7 @@ import {Component} from './component';
 /**
  * `@shared` decorator. Enables one-way data binding from a host component to its children, suitable for use in
  * expressions.
+ * @ignore
  */
 export const shared = (target: Component, key: string) => {
   Object.defineProperty(target, key, {
@@ -13,8 +14,7 @@ export const shared = (target: Component, key: string) => {
         return this.host.get(key);
       }
 
-      // Allow potential errors to fall through with a null return.
-      return null;
+      throw new Error(`Shared property ${key} is not present on host.`);
     },
     set () {
       throw new Error('Do not set @shared values directly.');
@@ -22,6 +22,20 @@ export const shared = (target: Component, key: string) => {
   } as ThisType<Component>);
 };
 
+/**
+ * `@method` decorator. Late-binds methods to a class prototype by name key.
+ * @ignore
+ */
+export const method = (target: any, key: string, descriptor: any) => {
+  if (!target.listeners) {
+    target.listeners = {};
+  }
+  target.listeners[key] = descriptor.value;
+};
+
+/**
+ * @internal
+ */
 const actualProperty = (target: Component, key: string, options: Partial<PropertyOptions> = {}) => {
   Object.defineProperty(target, key, {
     get () {
@@ -51,8 +65,16 @@ export function property (target: Component, key: string): void;
 export function property (options: Partial<PropertyOptions>): (target: Component, key: string) => void;
 
 /**
- * `@property` decorator. Inspired by VueJS, this decorator replaces explicitly assigned properties
+ * `@property` decorator. Inspired by the VueJS compiler, this decorator replaces explicitly assigned properties
  * with getters/setters that delegate down to the state container.
+ *
+ * `@property` can be invoked with additional options for enhanced functionality.
+ *
+ * ```
+ * class DesignSystem extends Component {
+ *   @property({key: 'value'}) foo = 'bar';
+ * }
+ * ```
  */
 export function property (targetOrOptions: Partial<PropertyOptions> | Component, maybeKey?: string) {
   if (maybeKey) {
@@ -61,13 +83,3 @@ export function property (targetOrOptions: Partial<PropertyOptions> | Component,
 
   return (target: Component, key: string) => actualProperty(target, key, targetOrOptions as Partial<PropertyOptions>);
 }
-
-/**
- * `@method` decorator. Late-binds methods to a class prototype by name key.
- */
-export const method = (target: any, key: string, descriptor: any) => {
-  if (!target.listeners) {
-    target.listeners = {};
-  }
-  target.listeners[key] = descriptor.value;
-};

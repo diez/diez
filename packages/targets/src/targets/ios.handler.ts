@@ -1,6 +1,7 @@
 import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
+  getTempFileName,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
@@ -12,7 +13,7 @@ import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {getTempFileName, sourcesPath} from '../utils';
+import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
 /**
@@ -40,6 +41,7 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
 
 /**
  * A compiler for iOS targets.
+ * @ignore
  */
 export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   /**
@@ -287,6 +289,7 @@ class ViewController: UIViewController {
 
 /**
  * Handles iOS target compilation.
+ * @ignore
  */
 export const iosHandler: CompilerTargetHandler = async (program) => {
   if (!isMacOS()) {

@@ -32,11 +32,15 @@ const serialize = (value: any): AnySerializable => {
 /**
  * Generically typed serializer for a given state shape.
  *
- * TODO: track dirty state and use an internal cache so we don't have to reserialize values that haven't changed.
+ * @typeparam T - The type of state we are expected to serialize.
  */
 export class Serializer<T> {
   constructor (private readonly state: T) {}
 
+  /**
+   * @ignore
+   * @todo - track dirty state and use an internal cache so we don't have to reserialize values that haven't changed.
+   */
   get payload (): {[property: string]: AnySerializable} {
     return serialize(this.state) as {[property: string]: AnySerializable};
   }

@@ -46,6 +46,7 @@ export abstract class Component<T extends Indexable = any>
   implements Stateful<T>, Tweenable<T>, Listening, Tickable, Serializable {
   /**
    * Important: this flag instructs the hosting system we are a component instance.
+   * @ignore
    */
   static isComponent = true;
 
@@ -56,21 +57,23 @@ export abstract class Component<T extends Indexable = any>
 
   /**
    * A registry of tweens.
+   * @ignore
    */
   tweens = new Map<keyof T, Tween>();
 
   /**
-   * Humble, readonly state container.
+   * A humble, readonly state container.
    */
   protected readonly state: T;
 
   /**
-   * The (nullable) component that is hosting us.
+   * The (nullable) component that may be hosting us.
    */
   host?: Component<any>;
 
   /**
    * Initialized via decorators.
+   * @ignore
    */
   listeners?: Listeners;
 
@@ -81,11 +84,13 @@ export abstract class Component<T extends Indexable = any>
 
   /**
    * Responsible for tracking tween end resolutions.
+   * @ignore
    */
   private readonly endtimeResolvers = new Set<EndtimeResolver<T>>();
 
   /**
    * The internal timekeeping mechanism for this component.
+   * @ignore
    */
   time = 0;
 
@@ -95,7 +100,8 @@ export abstract class Component<T extends Indexable = any>
   private doPatch = false;
 
   /**
-   * A map of bound state names.
+   * A map of bound state names to associated property options. Created with the [[property]] decorator.
+   * @ignore
    */
   readonly boundStates = new Map<string, Partial<PropertyOptions>>();
 
@@ -108,9 +114,6 @@ export abstract class Component<T extends Indexable = any>
     this.serializer = new Serializer<T>(this.state);
   }
 
-  /**
-   * Private patcher implementation.
-   */
   private patch (patcher: Patcher) {
     if (this.doPatch) {
       this.doPatch = false;
@@ -118,7 +121,7 @@ export abstract class Component<T extends Indexable = any>
     }
   }
 
-  eachChild (handler: (child: Component<any>) => void) {
+  private eachChild (handler: (child: Component<any>) => void) {
     this.children.forEach(handler);
   }
 
@@ -144,6 +147,7 @@ export abstract class Component<T extends Indexable = any>
 
   /**
    * Tickable interface. Ticks the clock at the provided time.
+   * @ignore
    */
   tick (time: number, onPatch?: Patcher) {
     this.time = time;
@@ -200,6 +204,7 @@ export abstract class Component<T extends Indexable = any>
 
   /**
    * Tweenable<T> interface. Schedule state updates for the duration of the tween.
+   * @ignore
    */
   tween (state: Partial<T>, spec: TweenSpecification): Promise<void> {
     if (spec.duration === 0) {
@@ -278,6 +283,7 @@ export abstract class Component<T extends Indexable = any>
 
   /**
    * Listening interface. Fires the event listener for a given event name and payload type.
+   * @ignore
    */
   trigger<D> (name: string, payload?: D) {
     if (!this.listeners || !this.listeners[name]) {
@@ -290,10 +296,12 @@ export abstract class Component<T extends Indexable = any>
 
 /**
  * A concrete component, used for typing.
+ * @ignore
  */
 export class ConcreteComponent extends Component<any> {}
 
 /**
  * A concrete component type, used for typing.
+ * @ignore
  */
 export type ConcreteComponentType = typeof ConcreteComponent;

@@ -11,11 +11,13 @@ const packageJson = require(join('..', 'package.json'));
 
 /**
  * The development dependencies of this package.
+ * @ignore
  */
 export const devDependencies: {[key: string]: string} = packageJson.devDependencies;
 
 /**
  * The version of this package. Used for synchronizing Diez versions.
+ * @ignore
  */
 export const diezVersion: string = packageJson.version;
 
@@ -46,6 +48,7 @@ export const execAsync = (command: string, options?: ExecOptions) => new Promise
 
 /**
  * Returns true iff we are on the macOS platform.
+ * @ignore
  */
 export const isMacOS = () => platform() === 'darwin';
 
@@ -56,6 +59,7 @@ const getPackageJsonPath = (packageName: string) => {
   try {
     return require.resolve(join(packageName, 'package.json'));
   } catch (_) {
+    // istanbul ignore next
     return undefined;
   }
 };
@@ -70,17 +74,20 @@ const getDependencies = (
   foundPackages: Map<string, {json: PackageJson, path: string}>,
   isRootPackage = false,
 ): void => {
+  // istanbul ignore if
   if (foundPackages.has(packageName)) {
     return;
   }
 
   const packageJsonPath = getPackageJsonPath(packageName);
+  // istanbul ignore if
   if (!packageJsonPath) {
     return;
   }
 
   const packagePath = dirname(packageJsonPath);
   const json = readJsonSync(packageJsonPath, {throws: false});
+  // istanbul ignore if
   if (!json) {
     return;
   }
@@ -105,8 +112,7 @@ const getDependencies = (
 };
 
 /**
- * Loops through all dependencies to locate Diez plugins, and returns a map of module names to Diez plugin
- * configurations.
+ * Loops through all dependencies to locate Diez plugins, and returns a map of module names to [[DiezConfiguration]]s.
  */
 export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map<string, DiezConfiguration>> => {
   // Use our cache if it's populated.
@@ -146,6 +152,7 @@ export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map
 
 /**
  * Wrapped require to support CLI plugin infrastructure.
+ * @ignore
  */
 export const cliRequire = <T = any>(plugin: string, path: string): T => {
   if (plugin === '.') {

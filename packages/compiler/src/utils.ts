@@ -3,15 +3,18 @@ import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpe
 import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
+import {tmpdir} from 'os';
 import pascalCase = require('pascal-case');
 import {basename, dirname, join, resolve, sep} from 'path';
+import {v4} from 'uuid';
 import validateNpmPackageName from 'validate-npm-package-name';
 import {CompilerTargetHandler, CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType} from './api';
 
 /**
  * Provides an async check for if we are equipped to use `yarn` for package management operations.
+ * @internal
  */
-export const shouldUseYarn = async () => {
+const shouldUseYarn = async () => {
   try {
     await execAsync('yarnpkg --version');
     return true;
@@ -21,18 +24,24 @@ export const shouldUseYarn = async () => {
 };
 
 /**
+ * Provides a unique temporary filename.
+ * @ignore
+ */
+export const getTempFileName = () => join(tmpdir(), v4());
+
+/**
  * Provides an async check for if we are equipped to use `npm` in the current root as fallback for package management
  * operations.
  *
  * @todo Fill in this method body.
  * @see {@link https://github.com/facebook/create-react-app/blob/7864ba3/packages/create-react-app/createReactApp.js#L826}.
  */
-export const canUseNpm = async (root: string) => Promise.resolve(true);
+const canUseNpm = async (root: string) => Promise.resolve(true);
 
 /**
  * Run a package script.
  */
-export const runPackageScript = async (command: string, useYarn: boolean, cwd: string) =>
+const runPackageScript = async (command: string, useYarn: boolean, cwd: string) =>
   new Promise<boolean>((resolvePromise) => {
     try {
       execSync(`${useYarn ? 'yarn' : 'npm run'} ${command}`, {cwd, stdio: 'inherit'});
@@ -48,7 +57,7 @@ export const runPackageScript = async (command: string, useYarn: boolean, cwd: s
 const targets = new Map<string, CompilerTargetHandler>();
 
 /**
- * Retrieves the set of available targets.
+ * Retrieves the set of available targets for the compiler.
  */
 export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> => {
   if (targets.size > 0) {
@@ -73,13 +82,10 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
   return targets;
 };
 
-/**
- * @internal
- */
 const hashComponent = (source: string, componentName: PropertyType) => `${source}:${componentName}`;
 const hashBinding = (target: string, source: string, componentName: PropertyType) => `${target}|${hashComponent(source, componentName)}`;
-
 const bindingLocations = new Map<string, string>();
+const resolvedBindings = new Map<string, any>();
 
 /**
  * @internal
@@ -118,12 +124,9 @@ const getBindingLocation = async (
 };
 
 /**
- * @internal
- */
-const resolvedBindings = new Map<string, any>();
-
-/**
  * Retrieves a binding for a given target and component source.
+ *
+ * @typeparam T - The [[TargetBinding]] we are attempting to load.
  */
 export const getBinding = async <T>(
   target: string,
@@ -159,6 +162,7 @@ const nodeModulesSourceMap = new Map<string, string>();
 
 /**
  * Caches and returns a component's source from node_modules, based on its file path.
+ * @ignore
  */
 export const getNodeModulesSource = (filePath: string): string | undefined => {
   if (nodeModulesSourceMap.has(filePath)) {
@@ -185,6 +189,7 @@ export const getNodeModulesSource = (filePath: string): string | undefined => {
 
 /**
  * Prints all warnings encountered while processing a target component.
+ * @ignore
  */
 export const printWarnings = (targetComponents: NamedComponentMap) => {
   for (const [name, targetComponent] of targetComponents) {
@@ -201,6 +206,7 @@ export const printWarnings = (targetComponents: NamedComponentMap) => {
 
 /**
  * Gets a hot port in the range 8080-8180 for hot serving Diez projects.
+ * @ignore
  */
 export const getHotPort = async () => findOpenPort(getCandidatePortRange(8080, 100));
 
@@ -230,8 +236,6 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
 
 /**
  * Validates that a package name is valid and nonconflicting.
- *
- * @internal
  */
 const validatePackageName = (packageName: string) => {
   const validationResult = validateNpmPackageName(packageName);
@@ -255,6 +259,7 @@ const validatePackageName = (packageName: string) => {
 
 /**
  * Creates a project with the given name in the specified current working directory.
+ * @ignore
  */
 export const createProject = async (packageName: string, cwd = process.cwd()) => {
   validatePackageName(packageName);
@@ -282,11 +287,13 @@ export const createProject = async (packageName: string, cwd = process.cwd()) =>
  * Loads and returns a component module asynchronously.
  *
  * @param projectRoot - The root of the project providing a component module.
+ * @ignore
  */
 export const loadComponentModule = async (projectRoot: string): Promise<ComponentModule> => await import(projectRoot);
 
 /**
  * Purges the require cache for a path. Used during hot module reloading to ensure pristine parses.
+ * @ignore
  */
 export const purgeRequireCache = (path: string, prefix?: string) => {
   const modulePrefix = prefix || dirname(path);

@@ -21,6 +21,8 @@ If it keeps failing, you can try to [manually install the Simulator image][1].
 
 ![screen shot 2019-01-30 at 10 02 10](https://user-images.githubusercontent.com/4419992/51982933-24950e80-2476-11e9-8634-39481abc95dd.jpg)
 
+6. For Xcode, CocoaPods is required for some functionality. Run `sudo gem install cocoapods` to install CocoaPods.
+
 
 ## Android
 

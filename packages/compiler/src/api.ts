@@ -1,37 +1,28 @@
 import {Component, ConcreteComponent, ConcreteComponentType} from '@diez/engine';
 import {EventEmitter} from 'events';
-import {Express, RequestHandler} from 'express';
 import {ClassDeclaration, Project, Type, TypeChecker} from 'ts-morph';
-import {Configuration} from 'webpack';
-
-/**
- * A template handler factory, which receives a web project root and returns a suitable
- * request handler for serving assets from a template.
- */
-export type TemplateHandlerFactory = (projectRoot: string) => RequestHandler;
-
-/**
- * Modifies a webpack configuration before hot serving to provide platform-specific functionality.
- */
-export type WebpackConfigModifier = (config: Configuration) => void;
-
-/**
- * Modifies a hot server to provide platform-specific functionality.
- */
-export type HotServerModifier = (app: Express, projectRoot: string) => void;
 
 /**
  * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | …`.
+ *
+ * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
+ *                primitive type or [[Component]].
  */
 export interface NestedArray<T> extends Array<T | NestedArray<T>> {}
 
 /**
- * Provides an arbitrarily nested array type with support for no nesting, i.e. `T | T[] | T[][] | …`.
+ * Provides an arbitrarily nested array type with support for 0 or more levels of nesting, i.e. `T | T[] | T[][] | …`.
+ *
+ * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
+ *                primitive type or [[Component]].
  */
 export type MaybeNestedArray<T> = T | NestedArray<T>;
 
 /**
- * Names of primitive types.
+ * Names of supported primitive types.
+ *
+ * The enum members are typically checked during postpressing when implementing the abstract [[getPrimitive]] method
+ * in a [[TargetCompiler]] extension.
  */
 export enum PrimitiveType {
   Unknown = 0,
@@ -44,6 +35,8 @@ export enum PrimitiveType {
 
 /**
  * Provides addressable types for component properties.
+ *
+ * Strings represent globally unique component names, and the integer enum type [[PrimitiveType]] represents all others.
  */
 export type PropertyType = string | PrimitiveType;
 
@@ -108,7 +101,7 @@ export interface TargetComponent {
 export type NamedComponentMap = Map<PropertyType, TargetComponent>;
 
 /**
- * Compiler target handlers perform the actual work of compilation.
+ * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
  */
 export type CompilerTargetHandler = (program: CompilerProgram) => void;
 
@@ -122,6 +115,7 @@ export interface CompilerTargetProvider {
 
 /**
  * The expected shape of a component module.
+ * @ignore
  */
 export interface ComponentModule {
   [key: string]: ConcreteComponentType;
@@ -129,6 +123,7 @@ export interface ComponentModule {
 
 /**
  * Collects reserved types.
+ * @ignore
  */
 export interface PrimitiveTypes {
   [PrimitiveType.Int]: Type;
@@ -137,6 +132,7 @@ export interface PrimitiveTypes {
 
 /**
  * A complete compiler program.
+ * @noinheritdoc
  */
 export interface CompilerProgram extends EventEmitter {
   /**
@@ -186,7 +182,14 @@ export interface CompilerProgram extends EventEmitter {
  * Provides a generic compile-time asset binding.
  */
 export interface AssetBinding {
+  /**
+   * The contents of the bound asset.
+   */
   contents: string | Buffer;
+  /**
+   * If `true`, `contents` is expected to hold the path of a source file or a buffered reader instead of a source
+   * string.
+   */
   copy?: boolean;
 }
 
@@ -205,6 +208,7 @@ export type AssetBinder<
 
 /**
  * An enum for build events.
+ * @ignore
  */
 export enum CompilerEvent {
   /**
@@ -258,7 +262,7 @@ export interface TargetOutput<
 }
 
 /**
- * Provides a base binding interface targets can extend as needed.
+ * Provides a base binding interfaces for target compilers can extend as needed.
  */
 export interface TargetBinding<
   T extends Component = any,

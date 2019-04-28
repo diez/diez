@@ -1,11 +1,12 @@
 import {warning} from '@diez/cli';
+import {getTempFileName} from '@diez/compiler';
 import {Haiku} from '@diez/designsystem';
 import {outputFileSync, readFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import pascalCase from 'pascal-case';
 import {join} from 'path';
 import {WebBinding} from '../../targets/web.api';
-import {getTempFileName, sourcesPath} from '../../utils';
+import {sourcesPath} from '../../utils';
 
 /**
  * This "metabinding" does all the heavy lifting in in assets binder.

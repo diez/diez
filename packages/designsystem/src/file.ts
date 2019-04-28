@@ -1,30 +1,27 @@
 import {Component, property} from '@diez/engine';
-import {basename, dirname, extname} from 'path';
 
+/**
+ * File state.
+ * @ignore
+ */
 export interface FileState {
   src: string;
 }
 
 /**
- * TODO.
+ * Provides a container for referencing local assets, which can be bridged by target compilers to embed images, SVGs,
+ * and more. This component is used internally by [[Image]], [[FontRegistry]], and [[SVG]].
+ *
+ * Usage: `@property file = new File({src: 'assets/images/file.jpg'});`.
  *
  * @noinheritdoc
  */
 export class File extends Component<FileState> {
   @property src: string = '';
 
-  get basename () {
-    return basename(this.src);
-  }
-
-  get extension () {
-    return extname(this.src).slice(1);
-  }
-
-  get directory () {
-    return dirname(this.src);
-  }
-
+  /**
+   * @ignore
+   */
   serialize () {
     return {
       src: encodeURI(this.src),

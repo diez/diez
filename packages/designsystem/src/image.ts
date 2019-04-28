@@ -1,6 +1,10 @@
 import {Component, Integer, property} from '@diez/engine';
 import {File} from './file';
 
+/**
+ * Responsive image state.
+ * @ignore
+ */
 export interface ImageState {
   file1x: File;
   file2x: File;
@@ -10,11 +14,27 @@ export interface ImageState {
 }
 
 /**
- * TODO.
+ * Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
+ * accordance with best practices. Images should provide pixel ratios for standard, retina@2x, and retina@3x devices.
  *
  * @noinheritdoc
  */
 export class Image extends Component<ImageState> {
+  /**
+   * Yields a responsive image according to the convention that files should be located in the same directory using the
+   * same filename prefix. For example:
+   *
+   * ```
+   * assets/
+   * ├── filename.png
+   * ├── filename@2x.png
+   * └── filename@3x.png
+   * ```
+   *
+   * can be specified with:
+   *
+   * `@property image = Image.responsive('assets/filename', 'png');`
+   */
   static responsive (basename: string, extension: string, width: number = 0, height: number = 0) {
     return new Image({
       width,
@@ -35,6 +55,9 @@ export class Image extends Component<ImageState> {
 
   @property height: Integer = 0;
 
+  /**
+   * @ignore
+   */
   serialize () {
     return {
       file1x: this.file1x.serialize(),
@@ -46,12 +69,16 @@ export class Image extends Component<ImageState> {
   }
 }
 
+/**
+ * SVG state.
+ * @ignore
+ */
 export interface SVGState {
   src: string;
 }
 
 /**
- * TODO.
+ * Provides an abstraction for SVG vector images. With bindings, this component can embed SVGs in multiple platforms.
  *
  * @noinheritdoc
  */

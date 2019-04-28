@@ -4,10 +4,10 @@ import {compile} from 'handlebars';
 import {join, relative, resolve} from 'path';
 
 /**
- * Templatizes an entire directory using handlebars, then outputs
- * @param templateRoot - The root in which we should start
- * @param outputRoot
- * @param tokens
+ * Templatizes an entire directory using [handlebars](https://handlebarsjs.com), then outputs the results to the
+ * requested output root.
+ *
+ * Files and filenames are both parsed and rewritten based on replacement tokens.
  */
 export const outputTemplatePackage = (templateRoot: string, outputRoot: string, tokens: any) => {
   walkSync(templateRoot, (basedir, filename, stats) => {

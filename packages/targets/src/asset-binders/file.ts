@@ -4,7 +4,7 @@ import {stat} from 'fs-extra';
 import {join} from 'path';
 
 /**
- * An simple copy asset binder for the File prefab.
+ * An simple "copy asset" binder for the File prefab.
  */
 export const fileAssetBinder: AssetBinder<File> = async (instance, projectRoot, {assetBindings}) =>
   new Promise((resolve, reject) => {

@@ -42,7 +42,9 @@ export const mkdirp = (dirpath: string) => {
 
 export const pathExists = (path: string) => mockFileSystem[path] !== undefined;
 
-export const unlink = () => {
+export const unlink = (path: string, callback: () => void) => {
+  delete mockFileSystem[path];
+  setImmediate(callback);
   return true;
 };
 

@@ -1,6 +1,7 @@
 import {warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
+  getTempFileName,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
@@ -12,7 +13,7 @@ import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {getTempFileName, sourcesPath} from '../utils';
+import {sourcesPath} from '../utils';
 import {WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
@@ -40,6 +41,7 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 
 /**
  * A compiler for web targets.
+ * @ignore
  */
 export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
@@ -255,6 +257,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 
 /**
  * Handles web target compilation.
+ * @ignore
  */
 export const webHandler: CompilerTargetHandler = async (program) => {
   await new WebCompiler(program, join(program.destinationPath, 'diez')).start();

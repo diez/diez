@@ -1,7 +1,7 @@
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
-import {Compiler, TargetCompiler} from '../src/compiler';
+import {Program, TargetCompiler} from '../src/compiler';
 
 /**
  * The root for workspace examples.
@@ -19,13 +19,13 @@ export const getFixtures = () => readdirSync(fixturesRoot);
 /**
  * Generates a program for the specified fixtures.
  */
-export const createProgramForFixture = async (fixture: string) => {
+export const createProgramForFixture = async (fixture: string, destinationPath = '/dev/null', devMode = false) => {
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  return new Compiler(stubProjectRoot, '/dev/null', 'test');
+  return new Program(stubProjectRoot, destinationPath, 'test', devMode);
 };
 
 /**

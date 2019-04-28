@@ -27,12 +27,14 @@ const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
 
 /**
  * Generates a candidate port range, based on a start port number and target port count.
+ * @ignore
  */
 export const getCandidatePortRange = (startPort: number, portCount: number): number[] =>
   Array.from(Array(portCount).keys()).map((key) => key + startPort);
 
 /**
  * Finds an open port from a range of potential ports.
+ * @ignore
  */
 export const findOpenPort = async (ports: number[]): Promise<number> => {
   const server = createServer();

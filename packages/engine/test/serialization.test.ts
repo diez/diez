@@ -13,18 +13,18 @@ describe('serialization', () => {
   test('payload', () => {
     interface SerializableState {
       justbar: string;
-      foobar: FooString;
+      foobar: FooString[];
     }
 
     const state: SerializableState = {
       justbar: 'bar',
-      foobar: new FooString('bar'),
+      foobar: [new FooString('bar')],
     };
 
     const serializer = new Serializer<SerializableState>(state);
     expect(serializer.payload).toEqual({
       justbar: 'bar',
-      foobar: 'foobar',
+      foobar: ['foobar'],
     });
   });
 });

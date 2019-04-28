@@ -1,6 +1,7 @@
 import {warning} from '@diez/cli';
 import {
   CompilerTargetHandler,
+  getTempFileName,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
@@ -12,7 +13,7 @@ import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, write
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, dirname, join} from 'path';
-import {getTempFileName, sourcesPath} from '../utils';
+import {sourcesPath} from '../utils';
 import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
 /**
@@ -40,6 +41,8 @@ const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: An
 
 /**
  * A compiler for Android targets.
+ * @noinheritdoc
+ * @ignore
  */
 export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBinding> {
   /**
@@ -262,6 +265,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
 
 /**
  * Handles Android target compilation.
+ * @ignore
  */
 export const androidHandler: CompilerTargetHandler = async (program) => {
   await new AndroidCompiler(program, join(program.destinationPath, 'diez')).start();

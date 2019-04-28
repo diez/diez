@@ -1,7 +1,7 @@
 /* tslint:disable:max-line-length */
 import {fatalError} from '@diez/cli';
 import {resolve} from 'path';
-import {Compiler} from '../compiler';
+import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
 
 interface CompileOptions {
@@ -12,6 +12,7 @@ interface CompileOptions {
 
 /**
  * The entry point for compilation.
+ * @ignore
  */
 export const compileAction = async ({output, target: targetIn, dev}: CompileOptions) => {
   const target = targetIn.toLowerCase();
@@ -22,7 +23,7 @@ export const compileAction = async ({output, target: targetIn, dev}: CompileOpti
 
   const targetHandler = targets.get(target)!;
 
-  const program = new Compiler(global.process.cwd(), resolve(output), target, dev);
+  const program = new Program(global.process.cwd(), resolve(output), target, dev);
   if (!program.localComponentNames.length) {
     fatalError('No local components found!');
   }

@@ -1,8 +1,11 @@
 {
   "name": "starting-point",
   "version": "10.10.10",
-  "main": "lib/index.js",
+  "main": "index.js",
   "dependencies": {
     "command-provider": "10.10.10"
+  },
+  "devDependencies": {
+    "irrelevant-package": "10.10.10"
   }
 }

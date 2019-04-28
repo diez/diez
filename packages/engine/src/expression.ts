@@ -65,6 +65,7 @@ class Expression<T extends AnySerializable> implements Serializable {
  * to the "derived" `T` instance for typing purposes.
  *
  * See `component.test.ts` for examples.
+ * @ignore
  */
 export const expression = <T extends AnySerializable>(
   formula: Formula<T>,

@@ -1,11 +1,10 @@
-import {Compiler} from '@diez/compiler';
+import {getTempFileName, Program} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';
 import {IosCompiler} from '../src/targets/ios.handler';
 import {WebCompiler} from '../src/targets/web.handler';
-import {getTempFileName} from '../src/utils';
 
 const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
 const fixturesRoot = join(__dirname, 'fixtures');
@@ -48,7 +47,7 @@ const createProgramForFixture = async (fixture: string, target: string) => {
 
   const destination = getTempFileName();
   ensureDirSync(destination);
-  const program = new Compiler(stubProjectRoot, destination, target);
+  const program = new Program(stubProjectRoot, destination, target);
   // Turn on dev mode after the fact so we don't start a dev server.
   program.devMode = true;
   return program;

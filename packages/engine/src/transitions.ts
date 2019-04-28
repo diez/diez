@@ -26,6 +26,7 @@ const progression = (v0: number, v1: number, progress: number) => {
 
 /**
  * Simple interpolator between numbers.
+ * @ignore
  */
 export const interpolateNumbers = (v0: number, v1: number, t0: number, t1: number, t: number, curve: Curve): number =>
   progression(v0, v1, curve(normalizedProgress(t0, t1, t)));

@@ -1,18 +1,12 @@
 import {join} from 'path';
-import {File, Image, SVG} from '../src';
+import {Image, SVG} from '../src/image';
 
 describe('image', () => {
   test('basic functionality', () => {
-    const src1x = join('path', 'to', 'image1x.jpg');
-    const src2x = join('path', 'to', 'image2x.jpg');
-    const src3x = join('path', 'to', 'image3x.jpg');
-    const image = new Image({
-      file1x: new File({src: src1x}),
-      file2x: new File({src: src2x}),
-      file3x: new File({src: src3x}),
-      width: 640,
-      height: 480,
-    });
+    const src1x = join('path', 'to', 'image.jpg');
+    const src2x = join('path', 'to', 'image@2x.jpg');
+    const src3x = join('path', 'to', 'image@3x.jpg');
+    const image = Image.responsive(join('path', 'to', 'image'), 'jpg', 640, 480);
     expect(image.file1x.src).toBe(src1x);
     expect(image.file2x.src).toBe(src2x);
     expect(image.file3x.src).toBe(src3x);

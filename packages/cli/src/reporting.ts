@@ -1,8 +1,8 @@
+/* istanbul ignore file */
 import chalk from 'chalk';
 
 /**
  * Reports a fatal error and exits.
- * @param message
  */
 export const fatalError = (message: string) => {
   if (message) {
@@ -12,8 +12,7 @@ export const fatalError = (message: string) => {
 };
 
 /**
- * Logs a success message and exit.
- * @param message
+ * Logs a success message and exits.
  */
 export const success = (message: string) => {
   console.log(chalk.green(message));
@@ -35,12 +34,12 @@ export const warning = (message: string) => {
 };
 
 /**
- * Yields an inline code snippet.
+ * Logs an inline code snippet.
  */
 export const inlineCodeSnippet = (message: string) => chalk.green(message);
 
 /**
- * Yields a code snippet.
+ * Logs a code snippet.
  */
 export const code = (message: string) => {
   console.log(
