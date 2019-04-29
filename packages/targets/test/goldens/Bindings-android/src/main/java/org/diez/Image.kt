@@ -1,46 +1,143 @@
 package org.diez
 
-import android.content.Context
+import android.graphics.BitmapFactory
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import android.net.Uri
+import android.widget.ImageView
+import android.widget.TextView
 
-fun Image.uri(density: Float): Uri? {
-    return when (Math.round(density)) {
-        1 -> file1x.uri
-        2 -> file2x.uri
-        3 -> file3x.uri
-        else -> null
+var ImageView.image: Image?
+    set(image) {
+        if (image == null) {
+            return
+        }
+
+        if (Environment.isDevelopment) {
+            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+                    setImageDrawable(drawable)
+                }
+            })
+            return
+        }
+
+        setImageDrawable(image.drawableFromRawResource)
     }
+    get() {
+        return null
+    }
+
+var ImageView.file: File?
+    set(file) {
+        if (file == null) {
+            return
+        }
+
+        if (Environment.isDevelopment) {
+            Glide.with(this.context).load(file.url).into(object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+                    setImageDrawable(drawable)
+                }
+            })
+            return
+        }
+
+        setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(file.resourceId)))
+    }
+    get() {
+        return null
+    }
+
+var TextView.leftDrawable: Image?
+    set(image) {
+        if (image == null) {
+            return
+        }
+
+        if (Environment.isDevelopment) {
+            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+                    setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+                }
+            })
+            return
+        }
+
+        setCompoundDrawablesWithIntrinsicBounds(image.drawableFromRawResource, null, null, null)
+    }
+    get() {
+        return null
+    }
+
+var Toolbar.icon: Image?
+    set(image) {
+        if (image == null) {
+            return
+        }
+        if (Environment.isDevelopment) {
+            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+                    navigationIcon = drawable
+                }
+            })
+        }
+
+        navigationIcon = image.drawableFromRawResource
+    }
+    get() {
+        return null
+    }
+
+var View.backgroundImage : Image?
+    set(image) {
+        if (image == null) {
+            return
+        }
+
+        if (Environment.isDevelopment) {
+            val view = this
+            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+                    (drawable as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+                    view.background = drawable
+                }
+            })
+            return
+        }
+
+        this.background = image.drawableFromRawResource
+    }
+    get() {
+        return null
+    }
+
+private val Image.correctDensityFile: File
+    get () {
+        val density = Environment.resources.displayMetrics.density.toDouble()
+        return when (Math.ceil(density)) {
+            1.0 -> file1x
+            2.0 -> file2x
+            else -> file3x
+        }
+    }
+
+private val Image.resourceId: Int
+    get () {
+        return this.correctDensityFile.resourceId
+    }
+
+private fun getFromNetwork(image: Image, view: View, callback: SimpleTarget<Drawable>) {
+    Glide.with(view.context).load(image.correctDensityFile.url).into(callback)
 }
 
-private fun Image.glide(context: Context, scale: Float): RequestBuilder<Drawable>? {
-    val uri = uri(scale)
-    if (uri != null) {
-        return Glide.with(context).load(uri)
-    }
 
-    return null
-}
-
-fun View.setBackgroundImage(image: Image) {
-    val density = this.context.resources.displayMetrics.density
-    val glide = image.glide(this.context, density)
-    if (glide != null) {
-        // TODO: do not depend on Glide's optimizations to avoid reloading the image every time. Implement smart caching.
-        val view = this
-        glide.into(object :
-            SimpleTarget<Drawable>() {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                (resource as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
-                view.background = resource
-            }
-        })
+private val Image.drawableFromRawResource: Drawable?
+    get () {
+        return Drawable.createFromStream(Environment.resources.openRawResource(this.resourceId), null)
     }
-}

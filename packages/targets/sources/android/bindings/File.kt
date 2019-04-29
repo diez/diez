@@ -17,7 +17,7 @@ private val File.resourcePath: String
 internal val File.resourceId: Int
     get() {
         return Environment.resources.getIdentifier(
-            fileReplacer.replace(src, "_"),
+            fileReplacer.replace(src.toLowerCase(), "_"),
             "raw",
             Environment.packageName
         )

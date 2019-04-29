@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         Diez(MyStateBag(), layout).attach(fun(component) {
             runOnUiThread {
                 text.text = component.copy
-                text.setTextStyle(component.textStyle)
-                view.setBackgroundImage(component.image)
+                text.textStyle = component.textStyle
+                view.backgroundImage = component.image
                 this.haikuView.load(component.haiku)
                 this.svgView.load(component.svg)
                 this.lottieView.load(component.lottie)

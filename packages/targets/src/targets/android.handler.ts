@@ -165,6 +165,10 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   get staticRoot () {
+    if (this.program.devMode) {
+      return join(this.output.sdkRoot, 'src', 'main', 'assets');
+    }
+
     return join(this.output.sdkRoot, 'src', 'main', 'res', 'raw');
   }
 
@@ -190,6 +194,11 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * Overrides asset writeout so we can write raw resources.
    */
   writeAssets () {
+    if (this.program.devMode) {
+      super.writeAssets();
+      return;
+    }
+
     removeSync(this.staticRoot);
     for (const [path, binding] of this.output.assetBindings) {
       const outputPath = join(this.staticRoot, encodeURI(path).toLowerCase().replace(/[^a-z0-9_]/g, '_'));
