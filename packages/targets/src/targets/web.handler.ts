@@ -40,6 +40,19 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 };
 
 /**
+ * Tries to guess the name of the host package.
+ *
+ * @internal
+ */
+const guessHostPackageName = (destinationPath: string) => {
+  try {
+    return require(join(destinationPath, 'package.json')).name;
+  } catch (e) {
+    return '';
+  }
+};
+
+/**
  * A compiler for web targets.
  * @ignore
  */
@@ -243,6 +256,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     const tokens = {
       devPort,
       hostname,
+      hostPackageName: guessHostPackageName(this.program.destinationPath),
       devMode: this.program.devMode,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
