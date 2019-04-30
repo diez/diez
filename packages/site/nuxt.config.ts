@@ -17,11 +17,30 @@ export default {
   },
   css: [
     'modern-normalize/modern-normalize.css',
+    'highlight.js/styles/github.css',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {
       id: 'UA-REPLACE-ME',
     }],
   ],
-  build: {},
+  hooks: {
+    generate: {
+      page (page) {
+        const highlight = require('highlight.js');
+        const {Examples} = require('./assets/examples');
+        const position = page.html.indexOf('</body>');
+        let out = '';
+
+        if (Examples[page.route]) {
+          Object.keys(Examples[page.route]).forEach((example) => {
+            const h = highlight.highlight(example, Examples[page.route][example]);
+            out += `<script type="text/template" id="${example}">${h.value}</script>`;
+          });
+
+          page.html = page.html.substring(0, position) + out + page.html.substring(position);
+        }
+      },
+    },
+  },
 };

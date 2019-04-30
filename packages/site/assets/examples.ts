@@ -1,5 +1,7 @@
 export const Examples = {
-  typescript: `class MyPalette extends Component<Palette> {
+  '/':{
+    typescript: `
+class MyPalette extends Component<Palette> {
   @shared helloRValue!: number;
   @property hello = expression<Color>((helloRValue: number) => Color.rgba(helloRValue, 0, 0, 1));
 }
@@ -80,7 +82,8 @@ export class MyStateBag extends Component {
   }
 }
   `,
-  kotlin: `package ai.haiku.hellomystatebag
+    kotlin: `
+package ai.haiku.hellomystatebag
 
 import ai.haiku.diez.puente.Diez
 import ai.haiku.diez.components.MyStateBag
@@ -118,7 +121,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 }`,
-  swift: `import UIKit
+    swift: `
+import UIKit
 import Diez
 
 class ViewController: UIViewController {
@@ -170,7 +174,8 @@ class ViewController: UIViewController {
         // TODO: self.diez.component.tap()
     }
 }`,
-  javascript: `import {Environment} from './Environment';
+    javascript: `
+import {Environment} from './Environment';
 import {Color} from './sources/color/Color';
 import {Haiku} from './sources/haiku/Haiku';
 import {Image} from './sources/image/Image';
@@ -259,4 +264,5 @@ export class Diez {
     requestAnimationFrame(this.tick);
   }
 }`,
+  },
 };

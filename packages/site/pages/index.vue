@@ -30,7 +30,7 @@
           <h2>Your design system’s source of truth</h2>
           <span class="small-text-indented">(In TypeScript)</span>
           <div class="card-code">
-            <pre v-highlightjs="examples.typescript">
+            <pre>
               <code class="typescript"></code>
             </pre>
           </div>
@@ -55,11 +55,7 @@
             </span>
           </div>
           <div class="card-code">
-            <pre v-highlightjs>
-              <code v-show="activeExample === 'swift'" class="swift">{{examples.swift}}</code>
-              <code v-show="activeExample === 'kotlin'" class="kotlin">{{examples.kotlin}}</code>
-              <code v-show="activeExample === 'javascript'" class="javascript">{{examples.javascript}}</code>
-            </pre>
+            <pre><TemplatedCode :template="activeExample"></TemplatedCode></pre>
           </div>
         </div>
       </section>
@@ -138,19 +134,17 @@
 <script lang="ts">
 import {Examples} from '@/assets/examples';
 import NavBar from '@/components/NavBar.vue';
+import TemplatedCode from '@/components/TemplatedCode.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
-import VueHighlightJS from 'vue-highlightjs';
-
-Vue.use(VueHighlightJS);
 
 @Component({
-  components: {NavBar},
+  components: {NavBar, TemplatedCode},
 })
 export default class extends Vue {
   private examples = Examples;
   private activeExample = 'swift';
 
-  updateExample (newExample) {
+  updateExample (newExample: string) {
     this.activeExample = newExample;
   }
 }
