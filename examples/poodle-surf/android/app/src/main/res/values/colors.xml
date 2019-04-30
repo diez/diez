@@ -1,11 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFF</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="text_black">#000</color>
-    <color name="text_white">#FFF</color>
-    <color name="text_black_light">#444</color>
-    <color name="divider">#AAFFFFFF</color>
-    <color name="white">#FFF</color>
 </resources>
