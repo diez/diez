@@ -1,10 +1,11 @@
+@objc(DEZ{{{componentName}}})
 {{#if public}}
-@objc public final class {{{componentName}}}: NSObject, StateBag {
+public final class {{{componentName}}}: NSObject, StateBag {
 {{else}}
 public final class {{{componentName}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
-    public var {{@key}}: {{this.type}}
+    @objc public var {{@key}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
 
@@ -62,7 +63,8 @@ extension {{{componentName}}}: ReflectedCustomStringConvertible {
 
 /// This is only intended to be used by Objective-C consumers. 
 /// In Swift use Diez<{{{componentName}}}>.
-@objc(Diez{{{componentName}}})
+@available(swift, obsoleted: 0.0.1)
+@objc(DEZDiez{{{componentName}}})
 public final class DiezBridged{{{componentName}}}: NSObject {
     @objc public init(view: UIView) {
         diez = Diez(view: view)

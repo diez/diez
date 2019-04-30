@@ -1,6 +1,7 @@
 
+@objc(DEZChildComponent)
 public final class ChildComponent: NSObject, Decodable {
-    public var diez: CGFloat
+    @objc public var diez: CGFloat
 
     private enum CodingKeys: String, CodingKey {
         case diez
@@ -30,6 +31,7 @@ extension ChildComponent: ReflectedCustomStringConvertible {
     }
 }
 
+@objc(DEZEmptyComponent)
 public final class EmptyComponent: NSObject, Decodable {
     public override init() {}
 }
@@ -46,16 +48,17 @@ extension EmptyComponent: ReflectedCustomStringConvertible {
     }
 }
 
-@objc public final class Primitives: NSObject, StateBag {
-    public var number: CGFloat
-    public var integer: Int
-    public var float: CGFloat
-    public var string: String
-    public var boolean: Bool
-    public var integers: [[CGFloat]]
-    public var strings: [[[String]]]
-    public var child: ChildComponent
-    public var emptyChild: EmptyComponent
+@objc(DEZPrimitives)
+public final class Primitives: NSObject, StateBag {
+    @objc public var number: CGFloat
+    @objc public var integer: Int
+    @objc public var float: CGFloat
+    @objc public var string: String
+    @objc public var boolean: Bool
+    @objc public var integers: [[CGFloat]]
+    @objc public var strings: [[[String]]]
+    @objc public var child: ChildComponent
+    @objc public var emptyChild: EmptyComponent
 
     private enum CodingKeys: String, CodingKey {
         case number
@@ -129,7 +132,8 @@ extension Primitives: ReflectedCustomStringConvertible {
 
 /// This is only intended to be used by Objective-C consumers. 
 /// In Swift use Diez<Primitives>.
-@objc(DiezPrimitives)
+@available(swift, obsoleted: 0.0.1)
+@objc(DEZDiezPrimitives)
 public final class DiezBridgedPrimitives: NSObject {
     @objc public init(view: UIView) {
         diez = Diez(view: view)

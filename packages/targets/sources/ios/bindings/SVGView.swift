@@ -1,6 +1,7 @@
 /**
  A view responsible for rendering an SVG.
  */
+@objc(DEZSVGView)
 public final class SVGView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,6 +19,7 @@ public final class SVGView: UIView {
     /**
      Loads the provided `SVG`.
      */
+    @objc(loadSVG:)
     public func load(_ svg: SVG) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = svg.file.request else {

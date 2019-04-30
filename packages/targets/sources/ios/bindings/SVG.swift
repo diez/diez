@@ -4,7 +4,7 @@ extension SVG {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    public var url: URL? {
+    @objc public var url: URL? {
         return file.url
     }
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ViewController ()
 
-@property (nonatomic, nullable) DiezDesignSystem *diez;
+@property (nonatomic, nullable) DEZDiezDesignSystem *diez;
 
 @end
 
@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.diez = [[DiezDesignSystem alloc] initWithView:self.view];
+    self.diez = [[DEZDiezDesignSystem alloc] initWithView:self.view];
 
-    [self.diez attach:^(DesignSystem *component) {
+    [self.diez attach:^(DEZDesignSystem *component) {
         NSLog(@"Received component update:\n%@", component);
     }];
 }

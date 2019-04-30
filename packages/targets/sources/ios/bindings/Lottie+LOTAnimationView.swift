@@ -29,6 +29,8 @@ extension LOTAnimationView {
     public typealias LoadCompletion = (Result<Void, LottieError>) -> Void
 
     /**
+     - Tag: LOTAnimationView.loadLottieSessionCompletion
+
      Loads the provided `Lottie` animation.
 
      - Parameters:
@@ -96,6 +98,25 @@ extension LOTAnimationView {
             }
         } catch {
             DispatchQueue.main.async { completion?(.failure(.deserializationError(data, error)))}
+        }
+    }
+
+    /**
+     The Objective-C equivalent of load(:session:completion:).
+
+     - See: [load(:session:completion:)](x-source-tag://LOTAnimationView.loadLottieSessionCompletion)
+     */
+    @available(swift, obsoleted: 0.0.1)
+    @discardableResult
+    @objc(dez_loadLottie:withSession:completion:)
+    public func load(_ lottie: Lottie, session: URLSession = .shared, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) -> URLSessionDataTask? {
+        return load(lottie, session: session) { result in
+            switch result {
+            case .success:
+                completion?(true, nil)
+            case .failure(let error):
+                completion?(false, error as NSError)
+            }
         }
     }
 }

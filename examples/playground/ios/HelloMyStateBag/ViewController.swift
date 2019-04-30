@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         diez.attach { [weak self] component in
             guard let self = self else { return }
 
-            self.label.text = "\(component.copy). \(component.numbers[10])"
+            self.label.text = "\(component.text). \(component.numbers[10])"
             self.label.apply(component.textStyle)
             if let image = component.image.image {
                 self.view.backgroundColor = UIColor(patternImage: image)

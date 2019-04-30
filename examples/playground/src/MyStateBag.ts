@@ -14,7 +14,7 @@ export class MyStateBag extends Component {
 
   private name = 'Diez';
 
-  @property copy = `Hello ${this.name}`;
+  @property text = `Hello ${this.name}`;
 
   @property numbers: Integer[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 

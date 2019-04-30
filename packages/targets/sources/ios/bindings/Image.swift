@@ -4,7 +4,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */ 
-    public var url: URL? {
+    @objc public var url: URL? {
         return url(forScale: UIScreen.main.scale)
     }
 
@@ -15,7 +15,7 @@ extension Image {
        - The @1x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt1x: URL? {
+    @objc public var urlAt1x: URL? {
         return file1x.url
     }
 
@@ -26,7 +26,7 @@ extension Image {
        - The @2x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt2x: URL? {
+    @objc public var urlAt2x: URL? {
         return file2x.url
     }
 
@@ -37,7 +37,7 @@ extension Image {
        - The @3x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt3x: URL? {
+    @objc public var urlAt3x: URL? {
         return file3x.url
     }
 
@@ -46,7 +46,7 @@ extension Image {
 
      - See: [image(withScale:)](x-source-tag://Image.imageWithScale)
      */
-    public var image: UIImage? {
+    @objc public var image: UIImage? {
         return image(withScale: UIScreen.main.scale)
     }
 
@@ -65,6 +65,7 @@ extension Image {
 
      - Returns: The `URL` of the image at the provided scale, or nil.
      */ 
+    @objc(urlForScale:)
     public func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
         case 1: return file1x.url
@@ -86,6 +87,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */
+    @objc(imageForScale:)
     public func image(withScale scale: CGFloat) -> UIImage? {
       guard let url = url(forScale: scale) else {
           return nil

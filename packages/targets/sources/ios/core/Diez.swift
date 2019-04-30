@@ -1,5 +1,3 @@
-public typealias Method = (String, Any?) -> Void
-
 /**
  - Tag: StateBag
 

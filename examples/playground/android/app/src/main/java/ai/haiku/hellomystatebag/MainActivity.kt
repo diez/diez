@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Diez(MyStateBag(), layout).attach(fun(component) {
             runOnUiThread {
-                text.text = component.copy
+                text.text = component.text
                 text.textStyle = component.textStyle
                 view.backgroundImage = component.image
                 this.haikuView.load(component.haiku)

@@ -104,12 +104,13 @@ extension Bundle {
     }
 }
 
+@objc(DEZImage)
 public final class Image: NSObject, Decodable {
-    public var file1x: File
-    public var file2x: File
-    public var file3x: File
-    public var width: Int
-    public var height: Int
+    @objc public var file1x: File
+    @objc public var file2x: File
+    @objc public var file3x: File
+    @objc public var width: Int
+    @objc public var height: Int
 
     private enum CodingKeys: String, CodingKey {
         case file1x
@@ -157,7 +158,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */ 
-    public var url: URL? {
+    @objc public var url: URL? {
         return url(forScale: UIScreen.main.scale)
     }
 
@@ -168,7 +169,7 @@ extension Image {
        - The @1x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt1x: URL? {
+    @objc public var urlAt1x: URL? {
         return file1x.url
     }
 
@@ -179,7 +180,7 @@ extension Image {
        - The @2x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt2x: URL? {
+    @objc public var urlAt2x: URL? {
         return file2x.url
     }
 
@@ -190,7 +191,7 @@ extension Image {
        - The @3x image asset does not exist
        - The `URL` failed to resolve
      */
-    public var urlAt3x: URL? {
+    @objc public var urlAt3x: URL? {
         return file3x.url
     }
 
@@ -199,7 +200,7 @@ extension Image {
 
      - See: [image(withScale:)](x-source-tag://Image.imageWithScale)
      */
-    public var image: UIImage? {
+    @objc public var image: UIImage? {
         return image(withScale: UIScreen.main.scale)
     }
 
@@ -218,6 +219,7 @@ extension Image {
 
      - Returns: The `URL` of the image at the provided scale, or nil.
      */ 
+    @objc(urlForScale:)
     public func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
         case 1: return file1x.url
@@ -239,6 +241,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */
+    @objc(imageForScale:)
     public func image(withScale scale: CGFloat) -> UIImage? {
       guard let url = url(forScale: scale) else {
           return nil
@@ -254,8 +257,9 @@ extension Image {
     }
 }
 
+@objc(DEZSVG)
 public final class SVG: NSObject, Decodable {
-    public var src: String
+    @objc public var src: String
 
     private enum CodingKeys: String, CodingKey {
         case src
@@ -287,7 +291,7 @@ extension SVG {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    public var url: URL? {
+    @objc public var url: URL? {
         return file.url
     }
 
@@ -299,6 +303,7 @@ extension SVG {
 /**
  A view responsible for rendering an SVG.
  */
+@objc(DEZSVGView)
 public final class SVGView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -316,6 +321,7 @@ public final class SVGView: UIView {
     /**
      Loads the provided `SVG`.
      */
+    @objc(loadSVG:)
     public func load(_ svg: SVG) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = svg.file.request else {
@@ -347,8 +353,9 @@ public final class SVGView: UIView {
     public override class var requiresConstraintBasedLayout: Bool { return true }
 }
 
+@objc(DEZLottie)
 public final class Lottie: NSObject, Decodable {
-    public var file: File
+    @objc public var file: File
 
     private enum CodingKeys: String, CodingKey {
         case file
@@ -382,7 +389,7 @@ extension Lottie {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    public var url: URL? {
+    @objc public var url: URL? {
         return file.url
     }
 }
@@ -418,6 +425,8 @@ extension LOTAnimationView {
     public typealias LoadCompletion = (Result<Void, LottieError>) -> Void
 
     /**
+     - Tag: LOTAnimationView.loadLottieSessionCompletion
+
      Loads the provided `Lottie` animation.
 
      - Parameters:
@@ -487,6 +496,25 @@ extension LOTAnimationView {
             DispatchQueue.main.async { completion?(.failure(.deserializationError(data, error)))}
         }
     }
+
+    /**
+     The Objective-C equivalent of load(:session:completion:).
+
+     - See: [load(:session:completion:)](x-source-tag://LOTAnimationView.loadLottieSessionCompletion)
+     */
+    @available(swift, obsoleted: 0.0.1)
+    @discardableResult
+    @objc(dez_loadLottie:withSession:completion:)
+    public func load(_ lottie: Lottie, session: URLSession = .shared, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) -> URLSessionDataTask? {
+        return load(lottie, session: session) { result in
+            switch result {
+            case .success:
+                completion?(true, nil)
+            case .failure(let error):
+                completion?(false, error as NSError)
+            }
+        }
+    }
 }
 
 // TODO: Make internal
@@ -550,11 +578,12 @@ extension FontRegistry: Updatable {
     }
 }
 
+@objc(DEZColor)
 public final class Color: NSObject, Decodable {
-    public var h: CGFloat
-    public var s: CGFloat
-    public var l: CGFloat
-    public var a: CGFloat
+    @objc public var h: CGFloat
+    @objc public var s: CGFloat
+    @objc public var l: CGFloat
+    @objc public var a: CGFloat
 
     private enum CodingKeys: String, CodingKey {
         case h
@@ -596,17 +625,18 @@ extension Color {
     /**
      A `UIColor` representation of the color.
      */
-    public var color: UIColor {
+    @objc public var color: UIColor {
         let brightness = l + s * min(l, 1 - l)
         let saturation = (brightness == 0) ? 0 : 2 - 2 * l / brightness
         return UIColor(hue: h, saturation: saturation, brightness: brightness, alpha: a)
     }
 }
 
+@objc(DEZTextStyle)
 public final class TextStyle: NSObject, Decodable {
-    public var fontName: String
-    public var fontSize: CGFloat
-    public var color: Color
+    @objc public var fontName: String
+    @objc public var fontSize: CGFloat
+    @objc public var color: Color
 
     private enum CodingKeys: String, CodingKey {
         case fontName
@@ -646,7 +676,7 @@ extension TextStyle {
 
      - Note: If the font fails to load this will fallback to the `UIFont.systemFont(ofSize:)`.
      */
-    public var font: UIFont {
+    @objc public var font: UIFont {
         guard let font = UIFont(name: fontName, size: fontSize) else {
             // TODO: Should this instead return nil? Update doc comment if this changes.
             return UIFont.systemFont(ofSize: fontSize)
@@ -657,6 +687,7 @@ extension TextStyle {
 }
 
 public extension UILabel {
+    @objc(dez_applyTextStyle:)
     func apply(_ textStyle: TextStyle) {
         font = textStyle.font
         textColor = textStyle.color.color
@@ -664,6 +695,7 @@ public extension UILabel {
 }
 
 public extension UITextView {
+    @objc(dez_applyTextStyle:)
     func apply(_ textStyle: TextStyle) {
         font = textStyle.font
         textColor = textStyle.color.color
@@ -671,14 +703,16 @@ public extension UITextView {
 }
 
 public extension UITextField {
+    @objc(dez_applyTextStyle:)
     func apply(_ textStyle: TextStyle) {
         font = textStyle.font
         textColor = textStyle.color.color
     }
 }
 
+@objc(DEZHaiku)
 public final class Haiku: NSObject, Decodable {
-    public var component: String
+    @objc public var component: String
 
     private enum CodingKeys: String, CodingKey {
         case component
@@ -711,7 +745,7 @@ extension Haiku {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    public var url: URL? {
+    @objc public var url: URL? {
         return file.url
     }
 
@@ -723,6 +757,7 @@ extension Haiku {
 /**
  A view responsible for rendering a Haiku animation.
  */
+@objc(DEZHaikuView)
 public final class HaikuView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -739,6 +774,7 @@ public final class HaikuView: UIView {
     /**
      Loads the provided `Haiku`.
      */
+    @objc(loadHaiku:)
     public func load(_ haiku: Haiku) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = haiku.file.request else {
@@ -770,13 +806,14 @@ public final class HaikuView: UIView {
     public override class var requiresConstraintBasedLayout: Bool { return true }
 }
 
-@objc public final class Bindings: NSObject, StateBag {
-    public var image: Image
-    public var svg: SVG
-    public var lottie: Lottie
-    public var fontRegistry: FontRegistry
-    public var textStyle: TextStyle
-    public var haiku: Haiku
+@objc(DEZBindings)
+public final class Bindings: NSObject, StateBag {
+    @objc public var image: Image
+    @objc public var svg: SVG
+    @objc public var lottie: Lottie
+    @objc public var fontRegistry: FontRegistry
+    @objc public var textStyle: TextStyle
+    @objc public var haiku: Haiku
 
     private enum CodingKeys: String, CodingKey {
         case image
@@ -835,7 +872,8 @@ extension Bindings: ReflectedCustomStringConvertible {
 
 /// This is only intended to be used by Objective-C consumers. 
 /// In Swift use Diez<Bindings>.
-@objc(DiezBindings)
+@available(swift, obsoleted: 0.0.1)
+@objc(DEZDiezBindings)
 public final class DiezBridgedBindings: NSObject {
     @objc public init(view: UIView) {
         diez = Diez(view: view)
