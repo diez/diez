@@ -6,7 +6,8 @@
   "scripts": {
     "run-ios": "diez compile -t ios -o ios -d",
     "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
-    "run-android": "diez compile -t android -o android -d"
+    "run-android": "diez compile -t android -o android -d",
+    "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
     "@diez/designsystem": "^1.0.0-beta.0",
@@ -15,6 +16,6 @@
   "devDependencies": {
     "@diez/compiler": "^1.0.0-beta.0",
     "@diez/targets": "^1.0.0-beta.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.5"
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img :src="component.image.url">
-    <h1 :style="{color: component.palette.hello, fontFamily: 'Roboto-Black'}">{{ component.copy }}</h1>
+    <h1 :style="{color: component.palette.hello, fontFamily: 'Roboto-Black'}">{{ component.text }}</h1>
     <p :style="component.textStyle">Text style!</p>
     <div ref="haiku"></div>
     <div ref="lottie"></div>
