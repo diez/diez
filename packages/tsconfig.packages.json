@@ -16,6 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "preserveWatchOutput": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "newLine": "lf"

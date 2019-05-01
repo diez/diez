@@ -19,13 +19,13 @@ export const getFixtures = () => readdirSync(fixturesRoot);
 /**
  * Generates a program for the specified fixtures.
  */
-export const createProgramForFixture = async (fixture: string, destinationPath = '/dev/null', devMode = false) => {
+export const createProgramForFixture = async (fixture: string, outputPath = '/dev/null', devMode = false) => {
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  return new Program(stubProjectRoot, destinationPath, 'test', devMode);
+  return new Program(stubProjectRoot, {outputPath, devMode, target: 'test'});
 };
 
 /**

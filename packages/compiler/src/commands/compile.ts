@@ -1,4 +1,5 @@
 import {CliCommandProvider, fatalError} from '@diez/cli';
+import {getTargets} from '../utils';
 import {compileAction as action} from './compile.action';
 
 const provider: CliCommandProvider = {
@@ -9,31 +10,45 @@ const provider: CliCommandProvider = {
     {
       shortName: 't',
       longName: 'target',
-      valueName: 'targetName',
-      description: 'The name of the compiler target.',
-      validator: (value) => {
-        if (!value) {
-          fatalError('--target is a required flag.');
+      valueName: 'target',
+      validator: async ({target}) => {
+        if (!target) {
+          fatalError('--target is required.');
+        }
+
+        const targets = await getTargets();
+
+        if (!targets.has(target.toString().toLowerCase())) {
+          fatalError(`Invalid target: ${target}. See --help for options.`);
         }
       },
     },
     {
       shortName: 'o',
-      longName: 'output',
-      valueName: 'pathToCodebase',
+      longName: 'outputPath',
+      valueName: '/path/to/codebase',
       description: 'The path to your target codebase.',
-      validator: (value) => {
-        if (!value) {
-          fatalError('--output is a required flag.');
+      validator: async ({outputPath}) => {
+        if (!outputPath) {
+          fatalError('--outputPath is a required flag.');
         }
       },
     },
     {
       shortName: 'd',
-      longName: 'dev',
+      longName: 'devMode',
       description: 'If set, runs the compiler in dev mode.',
     },
   ],
+  preinstall: async () => {
+    const targets = await getTargets();
+    const targetOption = provider.options![0];
+    const indentation = `${' '.repeat(40)} - `;
+    targetOption.description = 'The following targets are supported: ';
+    for (const [name] of targets) {
+      targetOption.description += `\n${indentation}${name}`;
+    }
+  },
 };
 
 export = provider;

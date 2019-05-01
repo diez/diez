@@ -8,4 +8,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* first Diez beta release
+* first Diez beta release ([97bb558](https://github.com/diez/diez/commit/97bb558))

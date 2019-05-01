@@ -1,6 +1,29 @@
 import {Component, ConcreteComponent, ConcreteComponentType} from '@diez/engine';
 import {EventEmitter} from 'events';
-import {ClassDeclaration, Project, Type, TypeChecker} from 'ts-morph';
+import {Type} from 'ts-morph';
+
+declare module '@diez/cli/types/api' {
+  /**
+   * Extends FullDiezConfiguration for the compiler.
+   */
+  export interface FullDiezConfiguration {
+    /**
+     * Bindings, which associate a namespaced component to a [[TargetBinding]].
+     */
+    bindings?: {
+      [componentHash: string]: TargetBinding;
+    };
+  }
+}
+
+/**
+ * Flag-based compiler options, which can be augmented by targets as needed.
+ */
+export interface CompilerOptions {
+  outputPath: string;
+  target: string;
+  devMode?: boolean;
+}
 
 /**
  * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | …`.
@@ -136,22 +159,6 @@ export interface PrimitiveTypes {
  */
 export interface CompilerProgram extends EventEmitter {
   /**
-   * A typechecker capable of resolving any known types.
-   */
-  checker: TypeChecker;
-  /**
-   * The source file providing the entry point for our compiler program.
-   */
-  project: Project;
-  /**
-   * The component declaration, which we can use to determine component-ness using the typechecker.
-   */
-  componentDeclaration: ClassDeclaration;
-  /**
-   * A collection of reserved types, used to resolve type ambiguities in key places.
-   */
-  types: PrimitiveTypes;
-  /**
    * A map of (unique!) component names to target component specifications. This is derived recursively
    * and includes both prefabs from external modules and local components.
    */
@@ -165,17 +172,24 @@ export interface CompilerProgram extends EventEmitter {
    */
   projectRoot: string;
   /**
-   * The destination path of the project whose local components we should compile.
+   * Our compiler options.
    */
-  destinationPath: string;
+  options: CompilerOptions;
   /**
-   * Whether we are running the compiler in dev mode or not.
+   * Where we should emit source code.
+   * @ignore
    */
-  devMode: boolean;
+  emitRoot: string;
   /**
-   * The name of the target we are compiling for.
+   * Where we should emit hot code.
+   * @ignore
    */
-  target: string;
+  hotRoot: string;
+  /**
+   * The hot build start time.
+   * @ignore
+   */
+  hotBuildStartTime: number;
 }
 
 /**

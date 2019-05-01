@@ -2,11 +2,12 @@
 import {info, warning} from '@diez/cli';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
-import {copySync, ensureDirSync, existsSync, outputFileSync, readJsonSync, removeSync} from 'fs-extra';
-import {dirname, join, resolve} from 'path';
+import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync} from 'fs-extra';
+import {dirname, join, relative, resolve} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
-import {CompilerOptions, createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, getPreEmitDiagnostics, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
-import {CompilerEvent, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
+import {v4} from 'uuid';
+import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, getNodeModulesSource, loadComponentModule, purgeRequireCache} from './utils';
 
@@ -22,29 +23,34 @@ export class Program extends EventEmitter implements CompilerProgram {
   };
 
   /**
-   * @ignore
+   * The path to our TS config.
    */
-  readonly tsConfigFilePath: string;
+  private readonly tsConfigFilePath: string;
+
+  /**
+   * The wrapped TypeScript project.
+   */
+  private readonly project: Project;
+
+  /**
+   * A typechecker capable of resolving any known types.
+   */
+  private readonly checker: TypeChecker;
+
+  /**
+   * The component declaration, which we can use to determine component-ness using the typechecker.
+   */
+  private readonly componentDeclaration: ClassDeclaration;
+
+  /**
+   * The active TypeScript program.
+   */
+  private program: TypescriptProgram;
 
   /**
    * @ignore
    */
-  readonly project: Project;
-
-  /**
-   * @ignore
-   */
-  readonly checker: TypeChecker;
-
-  /**
-   * @ignore
-   */
-  readonly targetComponents: NamedComponentMap;
-
-  /**
-   * @ignore
-   */
-  readonly componentDeclaration: ClassDeclaration;
+  private readonly types: PrimitiveTypes;
 
   /**
    * @ignore
@@ -54,37 +60,33 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * @ignore
    */
-  readonly types: PrimitiveTypes;
+  readonly targetComponents: NamedComponentMap;
 
   /**
    * @ignore
    */
-  private program: TypescriptProgram;
+  readonly emitRoot: string;
+
+  /**
+   * @ignore
+   */
+  readonly hotRoot: string = '';
+
+  /**
+   * @ignore
+   */
+  hotBuildStartTime = 0;
 
   private validateProject () {
     const mainFilePath = join(this.projectRoot, 'src', 'index.ts');
-    const packageJsonFilePath = join(this.projectRoot, 'package.json');
     if (!existsSync(mainFilePath)) {
       throw new Error(`Unable to proceed: no main file found at ${mainFilePath}`);
     }
-    if (!existsSync(packageJsonFilePath)) {
-      throw new Error(`Unable to proceed: no package.json file found at ${packageJsonFilePath}`);
-    }
 
-    const tsConfig = readJsonSync(this.tsConfigFilePath, {throws: false}) as {compilerOptions: CompilerOptions};
-    if (
-      !tsConfig ||
-      !tsConfig.compilerOptions ||
-      tsConfig.compilerOptions.rootDir !== 'src' ||
-      tsConfig.compilerOptions.outDir !== 'lib'
-    ) {
+    const rootDir = this.project.getCompilerOptions().rootDir;
+    if (!rootDir || relative(this.projectRoot, rootDir) !== 'src') {
       throw new Error(
-        `Unable to proceed: TypeScript configuration at ${this.tsConfigFilePath} does not compile from src/ to lib/. Please fix the TypeScript configuration and try again.`);
-    }
-
-    const packageJson = readJsonSync(packageJsonFilePath, {throws: false});
-    if (!packageJson || packageJson.main !== 'lib/index.js') {
-      throw new Error(`Unable to proceed: the package configuration at ${packageJsonFilePath} does not use lib/index.js as an entry point. Please fix the package configuration and try again.`);
+        `Unable to proceed: TypeScript configuration at ${this.tsConfigFilePath} does not compile from src/. Please fix the TypeScript configuration and try again.`);
     }
   }
 
@@ -256,17 +258,15 @@ export class Program extends EventEmitter implements CompilerProgram {
    * Runs the compiler and emits to isteners.
    */
   private run (throwOnErrors = false) {
-    if (throwOnErrors) {
-      const diagnostics = getPreEmitDiagnostics(this.program);
-      if (diagnostics.length) {
-        this.printDiagnostics(diagnostics);
-        throw new Error('Unable to compile project!');
-      }
-    }
-
     this.targetComponents.clear();
     this.localComponentNames.length = 0;
-    this.compile();
+    if (!this.compile()) {
+      if (throwOnErrors) {
+        throw new Error('Unable to compile project!');
+      }
+
+      return;
+    }
 
     const sourceFile = this.project.getSourceFileOrThrow(join(this.projectRoot, 'src', 'index.ts'));
     info(`Unwrapping component types from ${resolve(this.projectRoot, 'src', 'index.ts')}...`);
@@ -287,9 +287,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     info('Compiling project…');
     const emitResult = this.program.emit();
     this.printDiagnostics(emitResult.diagnostics);
-    if (emitResult.emittedFiles) {
-      info(`Compiled: ${emitResult.emittedFiles.join(', ')}.`);
-    }
+    return emitResult.diagnostics.length === 0;
   }
 
   /**
@@ -313,22 +311,36 @@ export class Program extends EventEmitter implements CompilerProgram {
    */
   private watch () {
     const host = createWatchCompilerHost(
-      this.tsConfigFilePath,
-      {},
+      this.program.getRootFileNames() as string[],
+      Object.assign(
+        this.program.getCompilerOptions(),
+        {
+          // Enabling this option greatly speeds up builds.
+          skipLibCheck: true,
+          // See https://github.com/Microsoft/TypeScript/issues/7363.
+          suppressOutputPathCheck: true,
+          // Instead of emitting invalid state, we should bail on compilation.
+          noEmitOnError: true,
+          // Write out to the expected directory.
+          outDir: this.emitRoot,
+        },
+      ),
       sys,
-      createSemanticDiagnosticsBuilderProgram,
+      createAbstractBuilder,
       (diagnostic) => this.printDiagnostics(diagnostic),
       (diagnostic) => this.printDiagnostics(diagnostic),
     );
 
+    // Skip watch status change notifications.
+    host.onWatchStatusChange = () => {
+      this.hotBuildStartTime = Date.now();
+    };
+
+    let throwOnErrors = true;
     host.afterProgramCreate = (watchProgram) => {
       this.program = watchProgram.getProgram();
-      const diagnostics = getPreEmitDiagnostics(this.program);
-      if (diagnostics.length) {
-        this.printDiagnostics(diagnostics);
-      } else {
-        this.run();
-      }
+      this.run(throwOnErrors);
+      throwOnErrors = false;
     };
 
     this.close = (createWatchProgram(host) as unknown as FileWatcher).close;
@@ -342,9 +354,7 @@ export class Program extends EventEmitter implements CompilerProgram {
 
   constructor (
     readonly projectRoot: string,
-    readonly destinationPath: string,
-    readonly target: string,
-    public devMode: boolean = false,
+    readonly options: CompilerOptions,
   ) {
     super();
 
@@ -355,16 +365,24 @@ export class Program extends EventEmitter implements CompilerProgram {
       throw new Error('Unable to proceed: TypeScript configuration not found.');
     }
 
-    this.validateProject();
-
     try {
       this.project = new Project({tsConfigFilePath: this.tsConfigFilePath});
     } catch (e) {
       throw new Error(`Found an invalid TypeScript configuration at ${this.tsConfigFilePath}. Please check its contents and try again.`);
     }
 
+    this.validateProject();
+
     this.program = this.project.getProgram().compilerObject;
     this.checker = this.project.getTypeChecker();
+
+    if (options.devMode) {
+      this.emitRoot = join(projectRoot, '.diez', v4());
+      this.hotRoot = join(projectRoot, '.diez', v4());
+    } else {
+      const compilerOptions = this.project.getCompilerOptions();
+      this.emitRoot = compilerOptions.outDir || compilerOptions.rootDir!;
+    }
 
     // Create a stub type file for typing the Component class and number primitives.
     const stubTypeFile = this.project.createSourceFile(
@@ -382,10 +400,10 @@ export class Program extends EventEmitter implements CompilerProgram {
 
     this.localComponentNames = [];
 
-    if (this.devMode) {
+    if (options.devMode) {
       this.watch();
     } else {
-      this.run(true);
+      this.run();
     }
   }
 }
@@ -465,6 +483,11 @@ export abstract class TargetCompiler<
   abstract clear (): void;
 
   /**
+   * Whether or not we have built once.
+   */
+  protected hasBuiltOnce = false;
+
+  /**
    * Writes the transpiled SDK to disk.
    */
   abstract async writeSdk (hostname?: string, devPort?: number): Promise<void>;
@@ -510,7 +533,7 @@ export abstract class TargetCompiler<
 
       const propertyComponent = this.program.targetComponents.get(property.type)!;
       const propertyBinding = await getBinding<BindingType>(
-        this.program.target, propertyComponent.source || '.', property.type);
+        this.program.options.target, propertyComponent.source || '.', property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
           try {
@@ -545,7 +568,7 @@ export abstract class TargetCompiler<
 
     for (const property of targetComponent.properties) {
       const propertyOptions = instance.boundStates.get(property.name);
-      if (!propertyOptions || (propertyOptions.targets && !propertyOptions.targets.includes(this.program.target))) {
+      if (!propertyOptions || (propertyOptions.targets && !propertyOptions.targets.includes(this.program.options.target))) {
         // We are looking at a property that is either not a state or explicitly excluded by the host.
         continue;
       }
@@ -563,7 +586,7 @@ export abstract class TargetCompiler<
     }
 
     if (!this.output.processedComponents.has(name)) {
-      const binding = await getBinding<BindingType>(this.program.target, targetComponent.source || '.', name);
+      const binding = await getBinding<BindingType>(this.program.options.target, targetComponent.source || '.', name);
       this.output.processedComponents.set(name, {spec, binding, instances: new Set()});
     }
 
@@ -579,8 +602,8 @@ export abstract class TargetCompiler<
    */
   async run () {
     // Important: reset the require cache before each run.
-    purgeRequireCache(require.resolve(this.program.projectRoot));
-    const componentModule = await loadComponentModule(this.program.projectRoot);
+    purgeRequireCache(require.resolve(this.program.emitRoot));
+    const componentModule = await loadComponentModule(this.program.emitRoot);
     for (const componentName of this.program.localComponentNames) {
       const constructor = componentModule[componentName];
       if (!constructor) {
@@ -598,14 +621,14 @@ export abstract class TargetCompiler<
    * in production mode, this will write an SDK once and exit.
    */
   async start () {
-    if (this.program.devMode) {
-      const devPort = await getHotPort();
+    if (this.program.options.devMode) {
+      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
       await this.runHot(async () => {
-        this.writeSdk(await this.hostname(), devPort);
+        this.writeSdk(hostname, devPort);
       });
 
       await serveHot(
-        this.program.projectRoot,
+        this.program,
         this.hotComponent,
         devPort,
         this.staticRoot,
@@ -622,11 +645,10 @@ export abstract class TargetCompiler<
    * @internal
    */
   private async buildHot (writeSdkCommand: () => Promise<void>) {
-    info('Rebuilding.');
     this.output = this.createOutput(this.output.sdkRoot);
     await this.run();
     await writeSdkCommand();
-    copySync(join(this.program.projectRoot, 'lib'), join(this.program.projectRoot, '.diez'));
+    copySync(this.program.emitRoot, this.program.hotRoot);
   }
 
   /**
@@ -641,6 +663,7 @@ export abstract class TargetCompiler<
 
     // Write the SDK once before we start listening.
     await this.buildHot(writeSdkCommand);
+    this.hasBuiltOnce = true;
   }
 
   /**

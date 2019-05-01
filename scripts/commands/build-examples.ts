@@ -37,7 +37,7 @@ const buildWeb = () => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
       console.log(chalk.blue(`Building for web: ${basename(diezRoot)}`));
-      run('yarn diez compile -t web -o web', diezRoot);
+      run('yarn diez compile -t web -o web --baseUrl /diez --staticRoot web/public/diez', diezRoot);
       run('yarn', webRoot);
       run('yarn build', webRoot);
     }

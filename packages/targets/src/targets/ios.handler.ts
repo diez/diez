@@ -225,9 +225,27 @@ class ViewController: UIViewController {
   }
 
   /**
+   * Rebinds assets, but skips the remainder of SDK regeneration. Prevents useless overwrites for an already built app.
+   */
+  private rebindAssets () {
+    for (const {binding} of this.output.processedComponents.values()) {
+      if (binding) {
+        this.mergeBindingToOutput(binding);
+      }
+    }
+
+    this.writeAssets();
+  }
+
+  /**
    * @abstract
    */
   async writeSdk (hostname?: string, devPort?: number) {
+    if (this.hasBuiltOnce) {
+      this.rebindAssets();
+      return;
+    }
+
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -276,7 +294,7 @@ class ViewController: UIViewController {
       devPort,
       hostname,
       hasStaticAssets,
-      devMode: this.program.devMode,
+      devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       imports: Array.from(this.output.imports),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
@@ -296,5 +314,5 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
     throw new Error('--target ios can only be built on macOS.');
   }
 
-  await new IosCompiler(program, join(program.destinationPath, 'Diez')).start();
+  await new IosCompiler(program, join(program.options.outputPath, 'Diez')).start();
 };

@@ -20,7 +20,7 @@ describe('android.e2e', () => {
       const compiler = await createAndroidCompilerForFixture(fixture);
       await compiler.run();
       await compiler.writeSdk('foo.bar', 9001);
-      expect(join(compiler.program.destinationPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'android'));
+      expect(join(compiler.program.options.outputPath, 'diez')).toMatchDirectory(getGoldenRoot(fixture, 'android'));
     });
   }
 });

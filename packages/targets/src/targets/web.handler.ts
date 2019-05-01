@@ -256,8 +256,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     const tokens = {
       devPort,
       hostname,
-      hostPackageName: guessHostPackageName(this.program.destinationPath),
-      devMode: this.program.devMode,
+      hostPackageName: guessHostPackageName(this.program.options.outputPath),
+      devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
       declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),
@@ -274,5 +274,5 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
  * @ignore
  */
 export const webHandler: CompilerTargetHandler = async (program) => {
-  await new WebCompiler(program, join(program.destinationPath, 'diez')).start();
+  await new WebCompiler(program, join(program.options.outputPath, 'diez')).start();
 };

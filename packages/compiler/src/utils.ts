@@ -8,7 +8,7 @@ import pascalCase = require('pascal-case');
 import {basename, dirname, join, resolve, sep} from 'path';
 import {v4} from 'uuid';
 import validateNpmPackageName from 'validate-npm-package-name';
-import {CompilerTargetHandler, CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType} from './api';
+import {CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType} from './api';
 
 /**
  * Provides an async check for if we are equipped to use `yarn` for package management operations.
@@ -54,12 +54,12 @@ const runPackageScript = async (command: string, useYarn: boolean, cwd: string) 
 /**
  * @internal
  */
-const targets = new Map<string, CompilerTargetHandler>();
+const targets = new Map<string, CompilerTargetProvider>();
 
 /**
  * Retrieves the set of available targets for the compiler.
  */
-export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> => {
+export const getTargets = async (): Promise<Map<string, CompilerTargetProvider>> => {
   if (targets.size > 0) {
     return targets;
   }
@@ -75,7 +75,7 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetHandler>> 
       if (targets.has(providerName)) {
         fatalError(`A target named ${providerName} is already registered.`);
       }
-      targets.set(providerName, provider.handler);
+      targets.set(providerName, provider);
     }
   }
 

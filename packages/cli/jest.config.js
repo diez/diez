@@ -20,5 +20,6 @@ module.exports = {
   moduleNameMapper: {
     '^starting-point$': '<rootDir>/test/fixtures/starting-point',
     '^command-provider$': '<rootDir>/test/fixtures/command-provider',
+    '^command-extender$': '<rootDir>/test/fixtures/command-extender',
   },
 };

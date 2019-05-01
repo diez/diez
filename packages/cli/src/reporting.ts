@@ -4,19 +4,19 @@ import chalk from 'chalk';
 /**
  * Reports a fatal error and exits.
  */
-export const fatalError = (message: string) => {
+export const fatalError = (message: string): never => {
   if (message) {
     console.log(chalk.red(message));
   }
-  process.exit(1);
+  return process.exit(1);
 };
 
 /**
  * Logs a success message and exits.
  */
-export const success = (message: string) => {
+export const success = (message: string): never => {
   console.log(chalk.green(message));
-  process.exit(0);
+  return process.exit(0);
 };
 
 /**

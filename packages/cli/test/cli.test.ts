@@ -2,7 +2,7 @@ import {assignMock} from '@diez/test-utils';
 import commander, {Command} from 'commander';
 import {join} from 'path';
 import {bootstrap, run} from '../src/cli';
-import {mockAction, mockBooleanValidator, mockStringValidator} from './fixtures/mocks';
+import {mockAction, mockBooleanValidator, mockPreinstall, mockStringValidator} from './fixtures/mocks';
 
 beforeEach(() => {
   assignMock(process, 'exit');
@@ -42,7 +42,8 @@ describe('cli', () => {
       expect.anything(),
       expect.anything(),
     );
-    expect(mockStringValidator).toHaveBeenCalledWith('foo');
-    expect(mockBooleanValidator).toHaveBeenCalledWith(true);
+    expect(mockStringValidator).toHaveBeenCalledWith(expect.objectContaining({stringParam: 'foo'}));
+    expect(mockBooleanValidator).toHaveBeenCalledWith(expect.objectContaining({booleanParam: true}));
+    expect(mockPreinstall).toHaveBeenCalled();
   });
 });

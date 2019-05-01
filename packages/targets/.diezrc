@@ -4,6 +4,9 @@
       "./lib/targets/ios",
       "./lib/targets/android",
       "./lib/targets/web"
+    ],
+    "extensions": [
+      "./lib/targets/web.extensions"
     ]
   },
   "bindings": {

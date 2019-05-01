@@ -15,31 +15,20 @@ afterEach(() => {
 
 describe('compiler errors', () => {
   test('invalid program', () => {
-    const expectThrow = () => expect(() => new Program(tempLocation, '/dev/null', 'foo')).toThrow();
-    expectThrow();
+    const makeComponent = () => new Program(tempLocation, {outputPath: '/dev/null', target: 'foo'});
+    expect(makeComponent).toThrow();
 
     writeFileSync(join(tempLocation, 'tsconfig.json'), '');
-    expectThrow();
+    expect(makeComponent).toThrow();
 
     writeFileSync(join(tempLocation, 'src', 'index.ts'), '');
-    expectThrow();
+    expect(makeComponent).toThrow();
 
     writeFileSync(
       join(tempLocation, 'tsconfig.json'),
-      JSON.stringify({compilerOptions: {rootDir: 'src', outDir: 'dist'}}),
+      JSON.stringify({compilerOptions: {rootDir: 'src'}}),
     );
-    expectThrow();
 
-    writeFileSync(join(tempLocation, 'package.json'), JSON.stringify({main: 'dist/index.js'}));
-    expectThrow();
-
-    writeFileSync(
-      join(tempLocation, 'tsconfig.json'),
-      JSON.stringify({compilerOptions: {rootDir: 'src', outDir: 'lib'}}),
-    );
-    expectThrow();
-
-    writeFileSync(join(tempLocation, 'package.json'), JSON.stringify({main: 'lib/index.js'}));
-    expect(() => new Program(tempLocation, '/dev/null', 'foo')).not.toThrow();
+    expect(makeComponent).not.toThrow();
   });
 });

@@ -6,6 +6,7 @@ import {resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import {CompilerProgram} from '../api';
 import {getConfiguration} from './config';
 
 /**
@@ -19,7 +20,7 @@ import {getConfiguration} from './config';
  * @param modifyWebpackConfig - Enables optional runtime forking of the Webpack configuration before it is applied.
  */
 export const serveHot = async (
-  projectRoot: string,
+  program: CompilerProgram,
   componentEntry: string,
   port: number,
   staticRoot: string,
@@ -32,14 +33,29 @@ export const serveHot = async (
     response.render('component', {componentName});
   });
 
-  const webpackConfig = getConfiguration(projectRoot, componentEntry);
+  const webpackConfig = getConfiguration(program, componentEntry);
   const compiler = webpack(webpackConfig);
 
   app.use(webpackDevMiddleware(compiler, {
     publicPath: '',
     logLevel: 'warn',
   }));
-  app.use(webpackHotMiddleware(compiler));
+
+  app.use(webpackHotMiddleware(compiler, {log: false}));
+
+  let lastHash = '';
+  compiler.hooks.done.tap('@diez/compiler', ({hash, endTime}) => {
+    if (!hash || !endTime) {
+      return;
+    }
+
+    if (lastHash !== hash) {
+      const buildTime = endTime - program.hotBuildStartTime;
+      info(`Built in ${buildTime}ms.`);
+      lastHash = hash;
+    }
+  });
+
   app.use(cors());
 
   app.engine('handlebars', expressHandlebars());

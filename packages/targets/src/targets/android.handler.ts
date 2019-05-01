@@ -165,7 +165,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   get staticRoot () {
-    if (this.program.devMode) {
+    if (this.program.options.devMode) {
       return join(this.output.sdkRoot, 'src', 'main', 'assets');
     }
 
@@ -194,7 +194,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * Overrides asset writeout so we can write raw resources.
    */
   writeAssets () {
-    if (this.program.devMode) {
+    if (this.program.options.devMode) {
       super.writeAssets();
       return;
     }
@@ -213,9 +213,27 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
   }
 
   /**
+   * Rebinds assets, but skips the remainder of SDK regeneration. Prevents useless overwrites for an already built app.
+   */
+  private rebindAssets () {
+    for (const {binding} of this.output.processedComponents.values()) {
+      if (binding) {
+        this.mergeBindingToOutput(binding);
+      }
+    }
+
+    this.writeAssets();
+  }
+
+  /**
    * @abstract
    */
   async writeSdk (hostname?: string, devPort?: number) {
+    if (this.hasBuiltOnce) {
+      this.rebindAssets();
+      return;
+    }
+
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -262,7 +280,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
     const tokens = {
       devPort,
       hostname,
-      devMode: this.program.devMode,
+      devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
     };
@@ -277,5 +295,5 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
  * @ignore
  */
 export const androidHandler: CompilerTargetHandler = async (program) => {
-  await new AndroidCompiler(program, join(program.destinationPath, 'diez')).start();
+  await new AndroidCompiler(program, join(program.options.outputPath, 'diez')).start();
 };

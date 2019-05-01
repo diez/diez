@@ -1,3 +1,5 @@
+import {Command} from 'commander';
+
 /**
  * A CLI action. Receives the arguments of a CLI command.
  */
@@ -7,7 +9,16 @@ export type CliAction = (command: any, ...args: string[]) => void;
  * A generic interface for a CLI command option validator. Options can be either a boolean
  * (for flags like `--option`) or a string (for flags like `--option <option-value>`).
  */
-export type CliOptionValidator = (value: string | boolean) => void;
+export type CliOptionValidator = (commandFlags: any) => Promise<void>;
+
+/**
+ * Provides a ledger for registered commands and their validators.
+ * @ignore
+ */
+export interface ValidatedCommand {
+  command: Command;
+  validators: CliOptionValidator[];
+}
 
 /**
  * A generic interface for a CLI command option.
@@ -20,9 +31,9 @@ export interface CliCommandOption {
   /**
    * The description for the command option. Printed when the associated command is run with `--help`.
    */
-  description: string;
+  description?: string;
   /**
-   * An optional, one-character option alias. e.g. `-d` for `--dev`. Should be specified without the leading dash.
+   * An optional, one-character option alias. e.g. `-d` for `--devMode`. Should be specified without the leading dash.
    */
   shortName?: string;
   /**
@@ -46,16 +57,61 @@ export interface CliCommandProvider {
    */
   name: string;
   /**
+   * The action that should be executed when the command is invoked by name.
+   */
+  action: CliAction;
+  /**
    * The command description.
    */
   description: string;
+  /**
+   * A set of options the command should receive. These are passed into the action as properties
+   * of the first argument.
+   */
+  options?: CliCommandOption[];
+  /**
+   * An optional pre-registration hook to modify the command before it's bootstrapped.
+   */
+  preinstall?: (provider?: CliCommandProvider) => Promise<void>;
+}
+
+/**
+ * Provides a generic interface for a CLI command.
+ */
+export interface CliCommandProvider {
+  /**
+   * The name of the command.
+   */
+  name: string;
   /**
    * The action that should be executed when the command is invoked by name.
    */
   action: CliAction;
   /**
+   * The command description.
+   */
+  description: string;
+  /**
    * A set of options the command should receive. These are passed into the action as properties
    * of the first argument.
+   */
+  options?: CliCommandOption[];
+  /**
+   * An optional pre-registration hook to modify the command before it's bootstrapped.
+   */
+  preinstall?: (provider?: CliCommandProvider) => Promise<void>;
+}
+
+/**
+ * Provides a generic interface for a CLI command extension.
+ */
+export interface CliCommandExtension {
+  /**
+   * The name of the command to extend.
+   */
+  name: string;
+  /**
+   * A set of _additional_ options the command should receive.
    */
   options?: CliCommandOption[];
 }
@@ -68,23 +124,23 @@ export interface TargetBinding {
 }
 
 /**
- * A Diez configuration, which can be provided by a module either as the `"diez"` key in `package.json` or in a separate
- * `.diezrc` file located at the project root.
- *
- * See [here](https://github.com/diez/diez/blob/master/packages/targets/.diezrc) for an example.
+ * The full Diez configuration.
  */
-export type DiezConfiguration = Partial<{
+export interface FullDiezConfiguration {
   /**
    * Paths to local providers associated
    */
   providers: Partial<{
     commands: Iterable<string>;
+    extensions: Iterable<string>;
     targets: Iterable<string>;
   }>;
-  /**
-   * Bindings, which associate a namespaced component to a [[TargetBinding]].
-   */
-  bindings?: {
-    [componentHash: string]: TargetBinding;
-  };
-}>;
+}
+
+/**
+ * A Diez configuration, which can be provided by a module either as the `"diez"` key in `package.json` or in a separate
+ * `.diezrc` file located at the project root.
+ *
+ * See [here](https://github.com/diez/diez/blob/master/packages/targets/.diezrc) for an example.
+ */
+export type DiezConfiguration = Partial<FullDiezConfiguration>;

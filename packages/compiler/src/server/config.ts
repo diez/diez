@@ -1,26 +1,27 @@
 import {join, relative} from 'path';
 import {Configuration, HotModuleReplacementPlugin} from 'webpack';
+import {CompilerProgram} from '../api';
 
 /**
  * Provides a hot webpack configuration for projects.
  * @ignore
  */
-export const getConfiguration = (projectRoot: string, componentEntry: string): Configuration => ({
+export const getConfiguration = (program: CompilerProgram, componentEntry: string): Configuration => ({
   entry: {
     component: [
       'webpack-hot-middleware/client',
       componentEntry,
     ],
   },
-  context: projectRoot,
+  context: program.projectRoot,
   mode: 'development',
   resolve: {
     alias: {
-      '@': join(relative(__dirname, projectRoot), '.diez'),
+      '@': relative(__dirname, program.hotRoot),
     },
   },
   output: {
-    path: join(projectRoot, 'dist'),
+    path: join(program.projectRoot, 'dist'),
     filename: '[name].js',
     publicPath : '/',
   },

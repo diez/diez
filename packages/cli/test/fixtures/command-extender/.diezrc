@@ -1,0 +1,8 @@
+{
+  "providers": {
+    "extensions": [
+      "./foobar-extension.js",
+      "./unused-extension.js"
+    ]
+  }
+}

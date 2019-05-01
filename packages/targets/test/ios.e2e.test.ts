@@ -20,7 +20,7 @@ describe('ios.e2e', () => {
       const compiler = await createIosCompilerForFixture(fixture);
       await compiler.run();
       await compiler.writeSdk('foo.bar', 9001);
-      expect(join(compiler.program.destinationPath, 'Diez')).toMatchDirectory(getGoldenRoot(fixture, 'ios'));
+      expect(join(compiler.program.options.outputPath, 'Diez')).toMatchDirectory(getGoldenRoot(fixture, 'ios'));
     });
   }
 });

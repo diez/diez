@@ -1,33 +1,30 @@
 /* tslint:disable:max-line-length */
 import {fatalError} from '@diez/cli';
 import {resolve} from 'path';
+import {CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
-
-interface CompileOptions {
-  output: string;
-  target: string;
-  dev: boolean;
-}
 
 /**
  * The entry point for compilation.
  * @ignore
  */
-export const compileAction = async ({output, target: targetIn, dev}: CompileOptions) => {
-  const target = targetIn.toLowerCase();
-  const targets = await getTargets();
-  if (!targets.has(target)) {
-    fatalError(`Invalid target: ${target}. Valid targets are: ${Array.from(targets.keys()).join(', ')}.`);
+export const compileAction = async (options: CompilerOptions) => {
+  options.target = options.target.toLowerCase();
+  const targetProvider = (await getTargets()).get(options.target);
+
+  if (!targetProvider) {
+    // This should never happen.
+    return fatalError(`Invalid target: ${options.target}. See --help for options.`);
   }
 
-  const targetHandler = targets.get(target)!;
+  options.outputPath = resolve(options.outputPath);
 
-  const program = new Program(global.process.cwd(), resolve(output), target, dev);
+  const program = new Program(global.process.cwd(), options);
   if (!program.localComponentNames.length) {
-    fatalError('No local components found!');
+    return fatalError('No local components found!');
   }
 
   printWarnings(program.targetComponents);
-  await targetHandler(program);
+  return await targetProvider.handler(program);
 };

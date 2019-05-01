@@ -1,5 +1,10 @@
 {
   "providers": {
-    "commands": ["./does/not/exist"]
+    "commands": [
+      "./does/not/exist"
+    ],
+    "extensions": [
+      "./does/not/exist"
+    ]
   }
 }

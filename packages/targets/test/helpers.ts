@@ -47,9 +47,9 @@ const createProgramForFixture = async (fixture: string, target: string) => {
 
   const destination = getTempFileName();
   ensureDirSync(destination);
-  const program = new Program(stubProjectRoot, destination, target);
+  const program = new Program(stubProjectRoot, {target, outputPath: destination});
   // Turn on dev mode after the fact so we don't start a dev server.
-  program.devMode = true;
+  program.options.devMode = true;
   return program;
 };
 
@@ -61,7 +61,7 @@ export const createIosCompilerForFixture = async (
   sdkRootIn?: string,
 ): Promise<IosCompiler> => {
   const program = await createProgramForFixture(fixture, 'ios');
-  const sdkRoot = sdkRootIn || join(program.destinationPath, 'Diez');
+  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'Diez');
   const compiler = new IosCompiler(program, sdkRoot);
   compiler.clear();
   return compiler;
@@ -75,7 +75,7 @@ export const createAndroidCompilerForFixture = async (
   sdkRootIn?: string,
 ): Promise<AndroidCompiler> => {
   const program = await createProgramForFixture(fixture, 'android');
-  const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
+  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'diez');
   const compiler = new AndroidCompiler(program, sdkRoot);
   compiler.clear();
   return compiler;
@@ -89,7 +89,7 @@ export const createWebCompilerForFixture = async (
   sdkRootIn?: string,
 ): Promise<WebCompiler> => {
   const program = await createProgramForFixture(fixture, 'web');
-  const sdkRoot = sdkRootIn || join(program.destinationPath, 'diez');
+  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'diez');
   const compiler = new WebCompiler(program, sdkRoot);
   compiler.clear();
   return compiler;

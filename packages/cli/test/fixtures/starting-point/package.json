@@ -6,6 +6,7 @@
     "command-provider": "10.10.10"
   },
   "devDependencies": {
-    "irrelevant-package": "10.10.10"
+    "irrelevant-package": "10.10.10",
+    "command-extender": "10.10.10"
   }
 }
