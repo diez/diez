@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
+import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
 import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
 import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';

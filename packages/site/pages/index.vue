@@ -103,7 +103,7 @@
         <div class="half">
           <h2>Designed for extensibility</h2>
           <p><strong>Diez is open source</strong> and able to be extended as you see fit. <strong>Diez ships with a small collection of prefabs</strong> which are building block components that have multiple-definitions, which enable to you to definite your design system’s components and then compile across platforms.</p>
-          <p>For example, when you declare a <code class="inline">Color</code> in your TypeScript source and then run <code class="inline">diez compile</code>, our compiler runs through the component tree and draws out iOS definitions for the iOS build, the Kotlin definitions for the Android build, etc. </p>
+          <p>For example, when you declare a <code class="inline">Color</code> in your TypeScript source and then run <code class="inline">diez-cli compile</code>, our compiler runs through the component tree and draws out iOS definitions for the iOS build, the Kotlin definitions for the Android build, etc. </p>
         </div>
       </section>
 

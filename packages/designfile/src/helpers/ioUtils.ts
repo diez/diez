@@ -1,4 +1,4 @@
-import {execAsync, isMacOS} from '@diez/cli';
+import {execAsync, isMacOS} from '@diez/cli-core';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {createServer} from 'http';
 import klawSync from 'klaw-sync';

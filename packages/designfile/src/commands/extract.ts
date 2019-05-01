@@ -1,4 +1,4 @@
-import {CliCommandProvider} from '@diez/cli';
+import {CliCommandProvider} from '@diez/cli-core';
 import {extractAction as action} from './extract.action';
 
 const provider: CliCommandProvider = {

@@ -3,12 +3,10 @@
   "main": "lib/index.js",
   "version": "1.0.0",
   "dependencies": {
-    "@diez/engine": "{{diezVersion}}",
-    "@diez/designsystem": "{{diezVersion}}"
+    "@diez/engine": "^{{diezVersion}}",
+    "@diez/designsystem": "^{{diezVersion}}"
   },
   "devDependencies": {
-    "@diez/compiler": "{{diezVersion}}",
-    "@diez/targets": "{{diezVersion}}",
-    "typescript": "{{typescriptVersion}}"
+    "diez-cli": "^{{diezVersion}}"
   }
 }

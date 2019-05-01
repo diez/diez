@@ -2,7 +2,7 @@ import {cleanupMockCommandData, cleanupMockOsData, mockExec, mockOsData} from '@
 import {RequestListener} from 'http';
 import {getOAuthCodeFromBrowser, locateBinaryMacOS} from '../src/helpers/ioUtils';
 
-jest.mock('@diez/cli');
+jest.mock('@diez/cli-core');
 jest.mock('open');
 jest.mock('os');
 

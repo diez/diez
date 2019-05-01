@@ -1,4 +1,4 @@
-import {CliCommandExtension, fatalError, warning} from '@diez/cli';
+import {CliCommandExtension, fatalError, warning} from '@diez/cli-core';
 
 const extension: CliCommandExtension = {
   name: 'compile',

@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {info, warning} from '@diez/cli';
+import {info, warning} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync} from 'fs-extra';

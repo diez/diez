@@ -2,7 +2,7 @@ import {Component, ConcreteComponent, ConcreteComponentType} from '@diez/engine'
 import {EventEmitter} from 'events';
 import {Type} from 'ts-morph';
 
-declare module '@diez/cli/types/api' {
+declare module '@diez/cli-core/types/api' {
   /**
    * Extends FullDiezConfiguration for the compiler.
    */
@@ -124,7 +124,7 @@ export interface TargetComponent {
 export type NamedComponentMap = Map<PropertyType, TargetComponent>;
 
 /**
- * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
+ * Compiler target handlers perform the actual work of compilation, and are triggered with `diez-cli compile`.
  */
 export type CompilerTargetHandler = (program: CompilerProgram) => void;
 

@@ -1,4 +1,4 @@
-import {findOpenPort} from '@diez/cli';
+import {findOpenPort} from '@diez/cli-core';
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';

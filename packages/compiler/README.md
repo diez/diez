@@ -1,6 +1,6 @@
 # `@diez/compiler`
 
-This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compile` registers the CLI commands `diez create <package-name>`, which creates a new package with the given package name, and `diez compile --target <target-name> --output <output-destination>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) to the specified location.
+This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compile` registers the CLI commands `diez-cli create <package-name>`, which creates a new package with the given package name, and `diez-cli --target <target-name> --outputPath <output-destination>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) to the specified location.
 
 The compiler itself has very few requirements; it is expecting to be run against a TypeScript project of this approximate shape:
 
@@ -12,7 +12,7 @@ project-root
 └── tsconfig.json
 ```
 
-Additionally, the compiler expects the TypeScript configuration is set up to compile from `src/` to `lib/`, and that the main file of the module is located at `lib/index.js` after compilation. This constraint may be loosened in the future, but for now, `diez create` sets up a project with this structure for you.
+Additionally, the compiler expects the TypeScript configuration is set up to compile from `src/` to `lib/`, and that the main file of the module is located at `lib/index.js` after compilation. This constraint may be loosened in the future, but for now, `diez-cli create` sets up a project with this structure for you.
 
 At compile time, the compiler first parses the TypeScript AST of every component exported in `src/index.ts`, and recursively parses its component properties. For example, given these contents:
 

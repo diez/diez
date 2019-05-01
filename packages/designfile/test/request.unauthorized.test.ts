@@ -1,4 +1,4 @@
-import {UnauthorizedRequestException} from '@diez/cli';
+import {UnauthorizedRequestException} from '@diez/cli-core';
 import {performGetRequest} from '../src/helpers/request';
 
 jest.mock('request', () => (_: never, callback: any) => {

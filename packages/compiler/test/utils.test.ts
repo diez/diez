@@ -1,4 +1,4 @@
-import {findPlugins} from '@diez/cli';
+import {findPlugins} from '@diez/cli-core';
 import {getTargets} from '../src/utils';
 
 describe('utils', () => {

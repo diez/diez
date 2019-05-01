@@ -1,4 +1,4 @@
-import {execAsync} from '@diez/cli';
+import {execAsync} from '@diez/cli-core';
 import {pathExists, writeFile} from 'fs-extra';
 import {extname, join, resolve} from 'path';
 import {Exporter, ExporterFactory, Reporters} from '.';

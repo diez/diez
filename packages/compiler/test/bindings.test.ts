@@ -1,4 +1,4 @@
-import {findPlugins} from '@diez/cli';
+import {findPlugins} from '@diez/cli-core';
 import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {getTempFileName} from '../src/utils';

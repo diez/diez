@@ -1,4 +1,4 @@
-import {warning} from '@diez/cli';
+import {warning} from '@diez/cli-core';
 import {getTempFileName} from '@diez/compiler';
 import {Haiku} from '@diez/designsystem';
 import {outputFileSync, readFileSync} from 'fs-extra';

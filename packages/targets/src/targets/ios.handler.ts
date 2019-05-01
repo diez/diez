@@ -1,4 +1,4 @@
-import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli';
+import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   getTempFileName,

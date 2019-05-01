@@ -1,6 +1,6 @@
 import {mockExec} from '../../utils';
 
-const cli = jest.requireActual('@diez/cli');
+const cli = jest.requireActual('@diez/cli-core');
 
 /**
  * Replaces execAsync with a mock.

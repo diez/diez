@@ -10,7 +10,7 @@ afterEach(() => {
 });
 
 jest.mock('fs-extra');
-jest.mock('@diez/cli');
+jest.mock('@diez/cli-core');
 jest.mock('path');
 
 describe('Illustrator', () => {

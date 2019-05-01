@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {fatalError} from '@diez/cli';
+import {fatalError} from '@diez/cli-core';
 import {resolve} from 'path';
 import {CompilerOptions} from '../api';
 import {Program} from '../compiler';

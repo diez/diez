@@ -3,7 +3,7 @@ import {writeFile} from 'fs-extra';
 import {SketchExporter} from '../../src/exporters/sketch';
 
 jest.mock('fs-extra');
-jest.mock('@diez/cli');
+jest.mock('@diez/cli-core');
 jest.mock('os');
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';

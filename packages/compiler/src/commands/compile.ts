@@ -1,4 +1,4 @@
-import {CliCommandProvider, fatalError} from '@diez/cli';
+import {CliCommandProvider, fatalError} from '@diez/cli-core';
 import {getTargets} from '../utils';
 import {compileAction as action} from './compile.action';
 

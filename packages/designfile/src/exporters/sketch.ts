@@ -1,4 +1,4 @@
-import {execAsync, isMacOS} from '@diez/cli';
+import {execAsync, isMacOS} from '@diez/cli-core';
 import {pathExists} from 'fs-extra';
 import {extname, join} from 'path';
 import {Exporter, ExporterFactory, Reporters} from '.';

@@ -1,4 +1,4 @@
-import {UnauthorizedRequestException} from '@diez/cli';
+import {UnauthorizedRequestException} from '@diez/cli-core';
 import {createWriteStream, unlink} from 'fs-extra';
 import request, {Headers} from 'request';
 

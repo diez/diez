@@ -1,5 +1,5 @@
 {
-  "name": "diez",
+  "name": "@diez/mono",
   "private": true,
   "workspaces": [
     "packages/*",
@@ -10,9 +10,7 @@
   "description": "Diez monorepo.",
   "license": "Proprietary",
   "devDependencies": {
-    "@diez/cli": "1.0.0-beta.0",
-    "@diez/compiler": "1.0.0-beta.0",
-    "@diez/targets": "1.0.0-beta.0",
+    "diez-cli": "1.0.0-beta.0",
     "@strictsoftware/typedoc-plugin-monorepo": "^0.2.1",
     "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^5.0.4",
@@ -33,21 +31,21 @@
     "uglify-es": "^3.3.9"
   },
   "scripts": {
-    "build-examples": "yarn diez build-examples",
+    "build-examples": "yarn diez-cli build-examples",
     "clean": "./scripts/clean.sh",
-    "create-example": "yarn diez create-example",
-    "create-package": "yarn diez create-package",
-    "diez": "ts-node ./node_modules/.bin/diez",
-    "docs": "yarn diez generate-docs",
+    "create-example": "yarn diez-cli create-example",
+    "create-package": "yarn diez-cli create-package",
+    "diez-cli": "ts-node ./node_modules/.bin/diez-cli",
+    "docs": "yarn diez-cli generate-docs",
     "compile": "lerna run compile",
     "fix": "lerna run fix --no-bail",
-    "health": "yarn diez health",
+    "health": "yarn diez-cli health",
     "lint": "lerna run lint --no-bail",
     "postinstall": "yarn compile",
     "test": "lerna run test",
-    "watch": "yarn diez watch",
+    "watch": "yarn diez-cli watch",
     "prepublishOnly": "yarn clean",
-    "prepack": "yarn diez minify-sources"
+    "prepack": "yarn diez-cli minify-sources"
   },
   "resolutions": {
     "istanbul-api": "^2.0.0"

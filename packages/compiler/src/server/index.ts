@@ -1,4 +1,4 @@
-import {info} from '@diez/cli';
+import {info} from '@diez/cli-core';
 import cors from 'cors';
 import express from 'express';
 import expressHandlebars from 'express-handlebars';

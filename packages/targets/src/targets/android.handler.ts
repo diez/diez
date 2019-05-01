@@ -1,4 +1,4 @@
-import {warning} from '@diez/cli';
+import {warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   getTempFileName,

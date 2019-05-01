@@ -21,7 +21,7 @@
     "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
-    "@diez/cli": "^1.0.0-beta.0",
+    "@diez/cli-core": "^1.0.0-beta.0",
     "@diez/compiler": "^1.0.0-beta.0",
     "@diez/designsystem": "^1.0.0-beta.0",
     "@diez/engine": "^1.0.0-beta.0",

@@ -9,13 +9,14 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
-    "typescript": "^3.4.5",
     "poodle-surf-web-diez": "link:./diez"
+  },
+  "devDependencies": {
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

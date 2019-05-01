@@ -1,4 +1,4 @@
-import {CliCommandProvider} from '@diez/cli';
+import {CliCommandProvider} from '@diez/cli-core';
 import {createProjectAction as action} from './create.action';
 
 const provider: CliCommandProvider = {
