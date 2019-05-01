@@ -35,5 +35,6 @@ The following commands are available in all subpackages, as well as in the monor
 ## Monorepo-specific commands
 
  - `yarn create-package` - creates a package and registers it with `lerna`. This command will create a new TypeScript package in `packages/` in the `@diez` namespace with a dependency on `@diez/engine`.
+ - `yarn create-example` - creates an example project in `examples/`.
  - `yarn docs` - generates the latest version of API docs in `./api`.
  - `yarn build-examples --target [ios|android|web]` - programatically build all example projects for a given platform.

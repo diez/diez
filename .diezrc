@@ -2,6 +2,7 @@
   "providers": {
     "commands": [
       "./scripts/commands/build-examples",
+      "./scripts/commands/create-example",
       "./scripts/commands/create-package",
       "./scripts/commands/generate-docs",
       "./scripts/commands/health",

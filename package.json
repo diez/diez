@@ -35,6 +35,7 @@
   "scripts": {
     "build-examples": "yarn diez build-examples",
     "clean": "./scripts/clean.sh",
+    "create-example": "yarn diez create-example",
     "create-package": "yarn diez create-package",
     "diez": "ts-node ./node_modules/.bin/diez",
     "docs": "yarn diez generate-docs",
