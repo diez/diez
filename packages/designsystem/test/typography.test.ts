@@ -15,7 +15,7 @@ describe('text style', () => {
       BloopMediumItalic = 'BloopMediumItalic',
     }
 
-    const textStyle = new TextStyle<Fonts>({
+    const textStyle = new TextStyle({
       fontName: Fonts.BloopMediumItalic,
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),

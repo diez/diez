@@ -2,7 +2,7 @@
 import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli';
 import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
-import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
+import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {tmpdir} from 'os';
 import pascalCase = require('pascal-case');
 import {basename, dirname, join, resolve, sep} from 'path';
@@ -268,7 +268,7 @@ export const createProject = async (packageName: string, cwd = process.cwd()) =>
   const root = resolve(cwd, basename(packageName));
   await validateProjectRoot(root, useYarn);
 
-  const templateRoot = resolve(__dirname, '..', 'templates', 'project');
+  const templateRoot = resolve(__dirname, '..', 'templates');
   const tokens = {
     packageName,
     diezVersion,
@@ -276,7 +276,8 @@ export const createProject = async (packageName: string, cwd = process.cwd()) =>
     componentName: pascalCase(basename(packageName)),
   };
 
-  outputTemplatePackage(templateRoot, root, tokens);
+  outputTemplatePackage(join(templateRoot, 'project'), root, tokens);
+  copySync(join(templateRoot, 'assets'), join(root, 'assets'));
 
   await runPackageScript('install', useYarn, root);
   // TODO: finalize template project.

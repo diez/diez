@@ -42,8 +42,8 @@ export class FontRegistry extends Component<FontRegistryState> {
  * Text style state.
  * @ignore
  */
-export interface TextStyleState<T> {
-  fontName: T | IOSFonts | AndroidFonts;
+export interface TextStyleState<T = {}> {
+  fontName: string | T;
   fontSize: number;
   color: Color;
 }
@@ -54,7 +54,7 @@ export interface TextStyleState<T> {
  *
  * @noinheritdoc
  */
-export class TextStyle<T = {}> extends Component<TextStyleState<T>> {
+export class TextStyle extends Component<TextStyleState> {
   @property fontName = IOSFonts.Helvetica;
   @property fontSize = 12;
   @property color: Color = Color.hsla(0, 0, 0, 1);

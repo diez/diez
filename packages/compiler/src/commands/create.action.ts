@@ -19,6 +19,7 @@ interface Answers {
 export const createProjectAction = async (_: {}, projectName: string) => {
   if (projectName) {
     createProject(projectName);
+    return;
   }
 
   createProject((await enquirer.prompt<Answers>({

@@ -10,6 +10,8 @@
   "description": "Diez monorepo.",
   "license": "Proprietary",
   "devDependencies": {
+    "@diez/cli": "1.0.0-beta.0",
+    "@diez/compiler": "1.0.0-beta.0",
     "@strictsoftware/typedoc-plugin-monorepo": "^0.2.1",
     "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^5.0.4",
@@ -30,20 +32,20 @@
     "uglify-es": "^3.3.9"
   },
   "scripts": {
-    "build-examples": "yarn cli build-examples",
+    "build-examples": "yarn diez build-examples",
     "clean": "./scripts/clean.sh",
-    "cli": "ts-node ./node_modules/.bin/diez",
-    "create-package": "yarn cli create-package",
-    "docs": "yarn cli generate-docs",
+    "create-package": "yarn diez create-package",
+    "diez": "ts-node ./node_modules/.bin/diez",
+    "docs": "yarn diez generate-docs",
     "compile": "lerna run compile",
     "fix": "lerna run fix --no-bail",
-    "health": "yarn cli health",
+    "health": "yarn diez health",
     "lint": "lerna run lint --no-bail",
     "postinstall": "yarn compile",
     "test": "lerna run test",
-    "watch": "yarn cli watch",
+    "watch": "yarn diez watch",
     "prepublishOnly": "yarn clean",
-    "prepack": "yarn cli minify-sources"
+    "prepack": "yarn diez minify-sources"
   },
   "resolutions": {
     "istanbul-api": "^2.0.0"
