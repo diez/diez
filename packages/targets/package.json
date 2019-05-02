@@ -1,7 +1,7 @@
 {
   "name": "@diez/targets",
   "main": "lib/index.js",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.3",
   "description": "Diez compiler targets for various platforms.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -21,18 +21,18 @@
     "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
-    "@diez/cli-core": "^1.0.0-beta.0",
-    "@diez/compiler": "^1.0.0-beta.0",
-    "@diez/designsystem": "^1.0.0-beta.0",
-    "@diez/engine": "^1.0.0-beta.0",
-    "@diez/storage": "^1.0.0-beta.0",
+    "@diez/cli-core": "^1.0.0-beta.3",
+    "@diez/compiler": "^1.0.0-beta.3",
+    "@diez/designsystem": "^1.0.0-beta.3",
+    "@diez/engine": "^1.0.0-beta.3",
+    "@diez/storage": "^1.0.0-beta.3",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
     "internal-ip": "^4.3.0",
     "pascal-case": "^2.0.1"
   },
   "devDependencies": {
-    "@diez/test-utils": "^1.0.0-beta.0",
+    "@diez/test-utils": "^1.0.0-beta.3",
     "@types/jest": "^24.0.11",
     "haiku-component": "file:./test/mocks/haiku-component",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",

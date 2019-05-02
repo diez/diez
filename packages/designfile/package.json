@@ -1,7 +1,7 @@
 {
   "name": "@diez/designfile",
   "main": "lib/index.js",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.3",
   "description": "Utilities to extract assets from design files with support for Sketch, Illustrator, and Figma.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -20,9 +20,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^1.0.0-beta.0",
-    "@diez/engine": "^1.0.0-beta.0",
-    "@diez/storage": "^1.0.0-beta.0",
+    "@diez/cli-core": "^1.0.0-beta.3",
+    "@diez/engine": "^1.0.0-beta.3",
+    "@diez/storage": "^1.0.0-beta.3",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
@@ -33,7 +33,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@diez/test-utils": "^1.0.0-beta.0",
+    "@diez/test-utils": "^1.0.0-beta.3",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^24.0.11",
     "@types/klaw-sync": "^6.0.0",

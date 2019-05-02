@@ -8,15 +8,5 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
+* **examples:** add Lorem Ipsum example project ([#59](https://github.com/diez/diez/issues/59)) ([ddb3904](https://github.com/diez/diez/commit/ddb3904))
 * add a standalone CLI package ([#60](https://github.com/diez/diez/issues/60)) ([118c690](https://github.com/diez/diez/commit/118c690))
-
-
-
-
-
-# 1.0.0-beta.0 (2019-04-25)
-
-
-### Features
-
-* first Diez beta release

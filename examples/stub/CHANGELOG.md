@@ -8,21 +8,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* bundle static assets as raw resources in diez Android SDK ([#46](https://github.com/diez/diez/issues/46)) ([2127a6b](https://github.com/diez/diez/commit/2127a6b))
-* **examples:** added PoodleSurf example for web ([#54](https://github.com/diez/diez/issues/54)) ([0eedd0c](https://github.com/diez/diez/commit/0eedd0c))
+* add a standalone CLI package ([#60](https://github.com/diez/diez/issues/60)) ([118c690](https://github.com/diez/diez/commit/118c690))
 
 
 ### Performance Improvements
 
 * 5-10x performance improvement on hot reloading ([#58](https://github.com/diez/diez/issues/58)) ([f29f65e](https://github.com/diez/diez/commit/f29f65e))
-
-
-
-
-
-# 1.0.0-beta.0 (2019-04-25)
-
-
-### Features
-
-* first Diez beta release

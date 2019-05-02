@@ -1,15 +1,15 @@
 {
   "name": "poodle-surf-web",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.3",
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/react": "16.8.14",
     "@types/react-dom": "16.8.4",
+    "poodle-surf-web-diez": "link:./diez",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0",
-    "poodle-surf-web-diez": "link:./diez"
+    "react-scripts": "3.0.0"
   },
   "devDependencies": {
     "typescript": "^3.4.5"

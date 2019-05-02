@@ -1,7 +1,7 @@
 {
   "name": "@diez/compiler",
   "main": "lib/index.js",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.3",
   "description": "The Diez compiler and related functionality.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -15,9 +15,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^1.0.0-beta.0",
-    "@diez/engine": "^1.0.0-beta.0",
-    "@diez/storage": "^1.0.0-beta.0",
+    "@diez/cli-core": "^1.0.0-beta.3",
+    "@diez/engine": "^1.0.0-beta.3",
+    "@diez/storage": "^1.0.0-beta.3",
     "cors": "^2.8.5",
     "enquirer": "^2.3.0",
     "express": "^4.16.4",
@@ -33,7 +33,7 @@
     "webpack-hot-middleware": "^2.24.3"
   },
   "devDependencies": {
-    "@diez/test-utils": "^1.0.0-beta.0",
+    "@diez/test-utils": "^1.0.0-beta.3",
     "@types/cors": "^2.8.4",
     "@types/express": "^4.16.1",
     "@types/express-handlebars": "^0.0.30",
