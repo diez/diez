@@ -1,8 +1,5 @@
 {
   "name": "diez-cli",
-  "publishConfig": {
-    "access": "restricted"
-  },
   "version": "1.0.0-beta.0",
   "description": "The entry point for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
