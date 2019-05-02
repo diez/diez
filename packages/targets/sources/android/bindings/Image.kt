@@ -80,12 +80,14 @@ var Toolbar.icon: Image?
         if (image == null) {
             return
         }
+
         if (Environment.isDevelopment) {
             getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     navigationIcon = drawable
                 }
             })
+            return
         }
 
         navigationIcon = image.drawableFromRawResource
