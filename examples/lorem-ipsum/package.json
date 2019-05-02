@@ -2,12 +2,12 @@
   "name": "lorem-ipsum",
   "private": true,
   "main": "lib/index.js",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "dependencies": {
-    "@diez/designsystem": "^1.0.0-beta.3",
-    "@diez/engine": "^1.0.0-beta.3"
+    "@diez/designsystem": "^1.0.0-beta.4",
+    "@diez/engine": "^1.0.0-beta.4"
   },
   "devDependencies": {
-    "diez-cli": "^1.0.0-beta.3"
+    "diez-cli": "^1.0.0-beta.4"
   }
 }
