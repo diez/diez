@@ -46,9 +46,9 @@ export = {
     packageJson.devDependencies['diez-cli'] = version;
     writeJsonSync(packageJsonPath, packageJson, {spaces: 2});
     run('git add package.json');
-    run(`git commit -m 'release: ${version}'`);
+    run(`git commit -m 'prerelease: ${version}'`);
 
     // Create the release with Lerna.
-    run(`yarn lerna publish ${version} --github-release --conventional-commits --amend --yes`);
+    run(`yarn lerna publish ${version} --github-release --conventional-commits --yes`);
   },
 };
