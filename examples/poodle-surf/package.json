@@ -1,7 +1,7 @@
 {
   "name": "poodle-surf",
   "main": "lib/index.js",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "private": true,
   "scripts": {
     "run-ios": "diez-cli compile -t ios -o ios -d",
@@ -12,10 +12,10 @@
     "build-web": "diez compile -t web -o web --baseUrl /ds/ --staticRoot web/public/ds && cd web && yarn build"
   },
   "dependencies": {
-    "@diez/designsystem": "^1.0.0-beta.4",
-    "@diez/engine": "^1.0.0-beta.4"
+    "@diez/designsystem": "^1.0.0-beta.5",
+    "@diez/engine": "^1.0.0-beta.5"
   },
   "devDependencies": {
-    "diez-cli": "^1.0.0-beta.4"
+    "diez-cli": "^1.0.0-beta.5"
   }
 }
