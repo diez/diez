@@ -31,6 +31,7 @@ export = {
       fatalError('Unable to run AWS S3 commands. `aws` is either not installed or missing privileges.');
     }
 
+    run('yarn clean');
     const docs = runQuiet('yarn docs');
     if (docs.includes('Error:')) {
       fatalError('Generating docs produced an error. Please fix the issue and try again.');
