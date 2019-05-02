@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import {fatalError} from '@diez/cli-core';
 import {outputFileSync, readFileSync} from 'fs-extra';
 import glob from 'glob';
 import {join} from 'path';
@@ -24,7 +24,7 @@ export = {
 
       if (minified.error) {
         minificationError = true;
-        console.log(chalk.red(`Unable to minify ${filePath}!`));
+        fatalError(`Unable to minify ${filePath}!`);
       }
 
       outputFileSync(filePath, minified.code);

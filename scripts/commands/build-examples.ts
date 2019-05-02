@@ -1,4 +1,5 @@
 /* tslint:disable:max-line-length */
+import {fatalError} from '@diez/cli-core';
 import chalk from 'chalk';
 import glob from 'glob';
 import {basename, join, resolve} from 'path';
@@ -55,8 +56,7 @@ export = {
   }],
   action: async ({target}: Flags) => {
     if (!target) {
-      console.log(chalk.red('--target is required.'));
-      process.exit(1);
+      fatalError('--target is required.');
     }
 
     switch (target) {

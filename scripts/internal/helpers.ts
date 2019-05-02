@@ -20,6 +20,11 @@ export const currentVersion = require(join(root, 'packages', 'engine', 'package.
 export const run = (command: string, cwd = root, stdio: StdioOptions = 'inherit') => execSync(command, {cwd, stdio});
 
 /**
+ * Runs the provided command synchronously in band.
+ */
+export const runQuiet = (command: string, cwd = root) => execSync(command, {cwd, stdio: 'pipe'}).toString().trim();
+
+/**
  * The location of the watchfile indicating a watch is active.
  */
 export const watchMutex = join(root, '.watching');

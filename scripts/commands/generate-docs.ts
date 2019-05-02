@@ -1,9 +1,9 @@
-import chalk from 'chalk';
+import {fatalError} from '@diez/cli-core';
 import {Stats} from 'fs-extra';
 import {walkSync} from 'fs-walk';
 import {extname, join, relative, sep} from 'path';
 import {Project} from 'ts-morph';
-import {assertNotWatching, root, run} from '../internal/helpers';
+import {assertNotWatching, root, run, runQuiet} from '../internal/helpers';
 
 const packageRoot = join(root, 'packages');
 
@@ -12,10 +12,9 @@ export = {
   description: 'Generates docs.',
   action: async () => {
     assertNotWatching();
-    const gitChanges = run('git diff packages', root, 'pipe');
-    if (gitChanges && gitChanges.toString()) {
-      console.log(chalk.red('Found untracked Git changes in packages/. Stash them before generating docs.'));
-      process.exit(1);
+    const gitChanges = runQuiet('git diff packages');
+    if (gitChanges) {
+      fatalError('Found untracked Git changes in packages/. Stash them before generating docs.');
     }
 
     const project = new Project();

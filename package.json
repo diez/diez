@@ -42,6 +42,7 @@
     "health": "yarn diez-cli health",
     "lint": "lerna run lint --no-bail",
     "postinstall": "yarn compile",
+    "release": "yarn diez-cli release",
     "test": "lerna run test",
     "watch": "yarn diez-cli watch",
     "prepublishOnly": "yarn clean",

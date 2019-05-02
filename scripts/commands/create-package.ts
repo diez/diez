@@ -1,3 +1,4 @@
+import {fatalError} from '@diez/cli-core';
 import chalk from 'chalk';
 import enquirer from 'enquirer';
 import {copy, existsSync} from 'fs-extra';
@@ -10,8 +11,7 @@ export = {
   action: async () => {
     const templateLocation = join(root, 'templates', 'package');
     if (!existsSync(templateLocation)) {
-      console.log(chalk.red(`Unable to location template project in ${templateLocation}. Aborting.`));
-      return;
+      fatalError(`Unable to location template project in ${templateLocation}. Aborting.`);
     }
 
     interface Answers {
