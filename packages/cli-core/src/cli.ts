@@ -6,7 +6,7 @@ import {CliCommandExtension, CliCommandOption, CliCommandProvider, CliOptionVali
 import {fatalError, warning} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
-version(diezVersion).name('diez');
+version(diezVersion).name('diez-cli');
 
 /**
  * Registers a list of options with a command.
@@ -99,7 +99,7 @@ const registerWithProviders = async (
  * Bootstraps all available CLI commands based on local package dependencies by scanning for `"diez"` keys
  * in `package.json` and `.diezrc` files.
  */
-export const bootstrap = async (rootPackageName = global.process.cwd()) => {
+export const bootstrap = async (rootPackageName = global.process.cwd(), bootstrapRoot?: string) => {
   try {
     const {version: latestVersion} = await packageJson('@diez/engine');
     if (semver.gt(latestVersion as string, diezVersion)) {
@@ -109,7 +109,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
     warning('Unable to check if Diez is up to date. Are you connected to the Internet?');
   }
 
-  const plugins = await findPlugins(rootPackageName);
+  const plugins = await findPlugins(rootPackageName, bootstrapRoot);
   const registeredCommands = new Map<string, ValidatedCommand>();
   const deferredExtensions: CliCommandExtension[] = [];
   for (const [plugin, {providers}] of plugins) {
@@ -145,8 +145,8 @@ export const bootstrap = async (rootPackageName = global.process.cwd()) => {
  * Starts the CLI program.
  * @ignore
  */
-export const run = async () => {
-  await bootstrap();
+export const run = async (bootstrapRoot?: string) => {
+  await bootstrap(global.process.cwd(), bootstrapRoot);
   // istanbul ignore next
   on('command:*', () => {
     help();

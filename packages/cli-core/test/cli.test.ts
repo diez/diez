@@ -21,11 +21,11 @@ jest.mock('package-json', () => {
 
 describe('cli', () => {
   test('command registration', async () => {
-    await bootstrap(join(__dirname, 'fixtures', 'starting-point'));
+    await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
     const foobarCommand = commander.commands.find((command: Command) => command.name() === 'foobar');
     expect(foobarCommand).toBeDefined();
     expect(foobarCommand.description()).toBe('Do stuff.');
-    expect(foobarCommand.parent.name()).toBe('diez');
+    expect(foobarCommand.parent.name()).toBe('diez-cli');
     expect(foobarCommand.parent.parent).toBeUndefined();
   });
 

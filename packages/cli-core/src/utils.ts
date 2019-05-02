@@ -114,7 +114,10 @@ const getDependencies = (
 /**
  * Loops through all dependencies to locate Diez plugins, and returns a map of module names to [[DiezConfiguration]]s.
  */
-export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map<string, DiezConfiguration>> => {
+export const findPlugins = (
+  rootPackageName = global.process.cwd(),
+  bootstrapRoot?: string,
+): Promise<Map<string, DiezConfiguration>> => {
   // Use our cache if it's populated.
   if (plugins.size) {
     return Promise.resolve(plugins);
@@ -122,6 +125,9 @@ export const findPlugins = (rootPackageName = global.process.cwd()): Promise<Map
 
   const foundPackages = new Map<string, {json: PackageJson, path: string}>();
   getDependencies(rootPackageName, foundPackages, true);
+  if (bootstrapRoot) {
+    getDependencies(bootstrapRoot, foundPackages);
+  }
 
   return new Promise((resolve) => {
     each<[string, {json: PackageJson, path: string}]>(
