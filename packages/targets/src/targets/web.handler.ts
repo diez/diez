@@ -178,7 +178,11 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   get staticRoot () {
-    return join(this.output.sdkRoot, 'static');
+    if (this.program.options.devMode) {
+      return join(this.output.sdkRoot, 'static');
+    }
+
+    return this.program.options.staticRoot || '/';
   }
 
   /**
@@ -256,6 +260,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     const tokens = {
       devPort,
       hostname,
+      baseUrl: this.program.options.baseUrl,
       hostPackageName: guessHostPackageName(this.program.options.outputPath),
       devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),

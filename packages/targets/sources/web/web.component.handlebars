@@ -1,6 +1,6 @@
 class {{{componentName}}} {
   {{#if singleton}}
-  constructor() {
+  constructor () {
     {{#each properties}}
     this.{{{@key}}} = {{{this.initializer}}};
     {{/each}}

@@ -6,7 +6,7 @@ const Environment = {
 module.exports = {};
 
 class ChildComponent {
-  constructor() {
+  constructor () {
     this.diez = 10;
   }
 
@@ -23,7 +23,7 @@ class ChildComponent {
 module.exports.ChildComponent = ChildComponent;
 
 class EmptyComponent {
-  constructor() {
+  constructor () {
   }
 
   update (payload) {
@@ -38,7 +38,7 @@ class EmptyComponent {
 module.exports.EmptyComponent = EmptyComponent;
 
 class Primitives {
-  constructor() {
+  constructor () {
     this.number = 10;
     this.integer = 10;
     this.float = 10;

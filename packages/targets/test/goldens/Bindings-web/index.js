@@ -6,7 +6,7 @@ const Environment = {
 module.exports = {};
 
 class File {
-  constructor({src}) {
+  constructor ({src}) {
     this.src = src;
   }
 
@@ -22,12 +22,7 @@ class File {
 Object.defineProperties(File.prototype, {
   url: {
     get () {
-      if (Environment.isDevelopment) {
-        return `${Environment.serverUrl}${this.src}`;
-      }
-
-      // TODO: figure out how this should actually work.
-      return this.src;
+      return `${Environment.serverUrl}${this.src}`;
     },
   },
 });
@@ -303,7 +298,7 @@ class HaikuComponent {
 module.exports.HaikuComponent = HaikuComponent;
 
 class Bindings {
-  constructor() {
+  constructor () {
     this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg"}), width: 246, height: 246});
     this.svg = new SVG({src: "assets/image.svg"});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json"})});
