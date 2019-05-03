@@ -10,7 +10,7 @@ interface Flags {
 }
 
 const buildAndroid = () => {
-  glob(join(root, 'examples', '*', 'android'), (_, matches) => {
+  glob(join(root, 'examples', '*', '{android,android-java}'), (_, matches) => {
     for (const androidRoot of matches) {
       const diezRoot = resolve(androidRoot, '..');
       console.log(chalk.blue(`Building for Android: ${basename(diezRoot)}`));

@@ -1,4 +1,4 @@
-import {warning} from '@diez/cli-core';
+import {code, info, inlineCodeSnippet, warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   getTempFileName,
@@ -176,7 +176,37 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   printUsageInstructions () {
-    // TODO.
+    const diez = inlineCodeSnippet('Diez');
+    const component = this.program.localComponentNames[0];
+    info(`Diez SDK installed locally at ${join(this.program.projectRoot, 'diez')}.\n`);
+
+    info(`You can register the local module in ${inlineCodeSnippet('settings.gradle')} like so:`);
+    code(`include ':app', ':diez'
+project(':diez').projectDir = new File(\"\${new File(\".\").absolutePath}/diez\")
+`);
+
+    info(`Then you can depend on ${diez} in ${inlineCodeSnippet('build.gradle')}:`);
+    code(`implementation project(':diez')
+`);
+
+    info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
+
+    code(`import org.diez.*
+
+class MainActivity … {
+  override fun onCreate(…) {
+    // …
+    Diez(
+      ${component}(),
+      viewGroup
+    ).attach(fun(component) {
+      runOnUiThread {
+          // …
+      }
+    })
+  }
+}
+`);
   }
 
   /**
