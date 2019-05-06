@@ -9,6 +9,7 @@
             <a href="#installation">Installation</a>
             <a href="#usage">Usage</a>
             <a href="/docs">Docs</a>
+            <a href="/glossary">Glossary</a>
           </div>
         </div>
         <div class="three-quarters">
@@ -74,6 +75,12 @@ export default class GettingStarted extends Vue {
   }
 
   h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h3  {
+    padding-top: 68px;
     margin-top: 0;
   }
 

@@ -9,7 +9,7 @@ $gray100: #FBFAFD;
 $gray400: #F6F5FB;
 $gray700: #EAE6F6;
 $gray900: #79738F;
-$black: #000;
+$black: #000010;
 
 $primary: $purple;
 $secondary: $mauve;
@@ -22,7 +22,7 @@ $borderRadiusButton: 4px;
 
 $smallText: 16px;
 
-.page {
+.page, .navbar, #faq {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -39,7 +39,7 @@ code, .mono {
   font-family: 'Source Code Pro', monospace;
   &.inline {
     background-color: $cardColor;
-    border-radius: $borderRadiusCard;
+    border-radius: $borderRadiusButton;
     padding: 0 $spacingSM;
     font-weight: 700;
     color: $mauve700;
@@ -52,11 +52,14 @@ a {
   font-weight: 900;
   transition: opacity 140ms ease-out;
   &:hover {
-    opacity: .76;
+    text-decoration: underline;
+  }
+  &.on-primary {
+    color: $black;
   }
 }
 
-p {
+p, li {
   line-height: 32px;
 }
 
@@ -71,7 +74,6 @@ h2 {
   font-size: 3rem;
   &.ivan {
     margin-top: -78px;
-    margin-bottom: 78px;
     text-align: center;
     @include phone {
       margin: 0;
@@ -146,6 +148,7 @@ button, .button {
   }
   &:hover {
     opacity: 1;
+    text-decoration: none;
     &:before {
       transform: skewX(-45deg) translateX(700%);
       transition: all 300ms ease-in;
@@ -201,6 +204,9 @@ button, .button {
     color: $white;
     box-shadow: 0 5px 0 $mauve700, inset 0 2px 0 $cardInsetShadow;
     cursor: pointer;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
 

@@ -33,17 +33,16 @@ $page-width: $sizing3XL;
 }
 
 .page {
-  max-width: $page-width;
-  margin: 0 auto;
-  padding: $spacing3XL;
   position: relative;
-  @include phone {
-    padding: $spacingSM;
-  }
 }
 
 .section {
+  padding: $spacing3XL;
   margin: 0 auto $sizingXS;
+  max-width: $page-width;
+  @include phone {
+    padding: $spacingSM;
+  }
 }
 
 .section-narrow {
@@ -56,6 +55,7 @@ $page-width: $sizing3XL;
   display: flex;
   align-items: center;
   min-height: 500px;
+  flex-wrap: wrap;
   @include tablet {
     flex-direction: column;
   }

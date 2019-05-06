@@ -4,7 +4,7 @@
       <NavBar></NavBar>
       <section class="hero section-narrow">
         <h1>Keep your design system in sync with your code</h1>
-        <h3>Diez is the design system compiler — for developers creating custom workflows around design systems</h3>
+        <h3>Diez is a dev tool for creating and maintaining cross-platform design systems (iOS, Android, Web)</h3>
         <div class="cta-holster">
           <span class="muted">License: MIT</span>
           <a href="https://github.com/diez/diez">GitHub</a>
@@ -13,13 +13,16 @@
       </section>
 
       <section id="demo" class="section-split">
-        <div class="one-third mobile-reorder">
-          <p>Diez can be the source of truth to unify your design tokens, assets, across all of your platforms.</p>
-          <p>The beauty of this system is seeing your updates propagate through all of your applications. This power is underscored by Diez's built-in live reloading.</p>
-          <a class="button button-following-text">View Example Apps</a>
+        <div class="half mobile-reorder">
+          <p>Diez enables a single <strong>source of truth</strong> for your <NuxtLink to="/glossary#pds">production design system</NuxtLink>'s tokens and assets for use across all your team's targeted platforms.</p>
+          <p>The beauty of this system is the ability to see updates to your production design system compile and propagate to all your applications. This power is underscored by Diez's built-in <NuxtLink to="/glossary#hot-mode">hot updating</NuxtLink>.</p>
+          <a href="https://github.com/diez/diez/examples" class="button button-following-text">View Example Apps</a>
         </div>
-        <div class="two-thirds">
-          <div class="video-holster">
+        <div class="half">
+          <!-- Temporarily replacing video section until we have demo filmed -->
+          <img src="@/assets/imgs/temp_apps.jpg" alt="Image" style="width: 100%;" >
+          <!-- hidden for now. remove 'temp-hide' class when demo is ready -->
+          <div class="video-holster temp-hide">
             <iframe class="video" src="https://www.youtube.com/embed/Y5ckCAUVOn0?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
@@ -63,8 +66,10 @@
       <section id="cross-platform" class="section-split">
         <div class="half">
           <h2>Compiles cross-platform</h2>
-          <p>Sometime in 2018 many of us began to wonder what's the point of a company-wide design system if it doesn’t actually power your applications. That's why we design Diez to work on the major platforms.</p>
-          <p>Diez has been created with platform interop in mind from the beginning. Additional ergonomic adapters for web will be coming soon (Vue, React, Angular 2.0).</p>
+          <p>We believe that the best future for design systems is to become <NuxtLink to="/glossary#pds">production design systems</NuxtLink> — and <em>actually</em> power applications rather than serving as mere reference style guides.</p>
+          <p>With this vision at the forefront we designed Diez to compile native code for all major platforms. Additional ergonomic adapters for web will be coming soon (Vue, React, Angular, Sass, CSS).</p>
+          <p>Read more about cross-platform compilation <a href="#cross-platform-explained">here</a>.</p>
+
         </div>
         <div class="half">
           <div class="holster-tri-card">
@@ -73,7 +78,7 @@
             <div class="card third"><img src="@/assets/imgs/javascript.svg" alt="JavaScript">JavaScript</div>
             <div class="card third"><img src="@/assets/imgs/objc.svg" alt="Objective-C">Objective-C</div>
             <div class="card third"><img src="@/assets/imgs/java.svg" alt="Java">Java</div>
-            <a href="/docs/extensible" class="card third extensible"><img src="@/assets/icons/plus.svg" alt="Extensible">Extensible</a>
+            <a href="#extensibility-explained" class="card third extensible"><img src="@/assets/icons/plus.svg" alt="Extensible">Extensible</a>
           </div>
         </div>
       </section>
@@ -97,31 +102,27 @@
               <span class="muted">&lt;</span>Image<span class="muted">/&gt;</span></div>
             <div class="card third mono"><img src="@/assets/icons/animation.svg" alt="Animation">
               <span class="muted">&lt;</span>Animation<span class="muted">/&gt;</span></div>
-            <a href="/docs/extensible" class="card third mono extensible"><img src="@/assets/icons/plus.svg" alt="Extensible">Extensible</a>
+            <a href="#extensibility-explained" class="card third mono extensible"><img src="@/assets/icons/plus.svg" alt="Extensible">Extensible</a>
           </div>
         </div>
         <div class="half">
           <h2>Designed for extensibility</h2>
-          <p><strong>Diez is open source</strong> and able to be extended as you see fit. <strong>Diez ships with a small collection of prefabs</strong> which are building block components that have multiple-definitions, which enable to you to definite your design system’s components and then compile across platforms.</p>
-          <p>For example, when you declare a <code class="inline">Color</code> in your TypeScript source and then run <code class="inline">diez-cli compile</code>, our compiler runs through the component tree and draws out iOS definitions for the iOS build, the Kotlin definitions for the Android build, etc. </p>
+          <p><strong>Diez is open source</strong> and designed to be extended as you see fit. Diez ships with a small collection of <NuxtLink to="/glossary#prefabs">prefabs</NuxtLink>, which enable to you to define your design system’s <NuxtLink to="/glossary#primitives">primitives</NuxtLink> and compile SDKs for each of your supported platforms.</p>
+          <p>For example, when you declare a <code class="inline">Color</code> in your TypeScript source and then run <code class="inline">diez compile</code>, our compiler runs through the component tree and draws out iOS definitions for the iOS build, the Kotlin definitions for the Android build, etc. </p>
+          <p>Read more about how Diez is designed for extensiblity <a href="#extensibility-explained">here</a>.</p>
         </div>
       </section>
 
       <section id="roadmap">
         <img width="100%" src="@/assets/imgs/temp_roadmap.jpg" alt="roadmap">
         <h2 class="ivan">Diez's future</h2>
-        <div class="section-narrow center">
-          <p>Diez's ambition curently outweighs its utility by an honest margin. While we're excited to demonstrate its novelty and power, we're also hoping you'll help us guide it forward.</p>
-          <a class="button button-following-text">Visit Roadmap</a>
-          <!-- <ul>
-            <p>Its principles:</p>
-            <li>Remain open: No walled gardens</li>
-            <li>Remain unopinionated</li>
-            <li>Prioritize pristine developer experience</li>
-          </ul> -->
+        <div class="section-narrow center bottom-spacer">
+          <p>While we're excited to demonstrate Diez's novelty and power, we're also hoping you'll help us guide it forward and shape its future.</p>
+          <a href="https://github.com/diez/diez/projects/1" class="button button-following-text">Visit Roadmap</a>
         </div>
       </section>
     </div>
+    <FAQ/>
     <footer id="footer">
       <h2>Stay Connected</h2>
       <a href="https://spectrum.chat/diez" target="_blank" class="button alt">Spectrum</a>
@@ -134,11 +135,12 @@
 <script lang="ts">
 import {Examples} from '@/assets/examples';
 import NavBar from '@/components/NavBar.vue';
+import FAQ from '@/components/FAQ.vue';
 import TemplatedCode from '@/components/TemplatedCode.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
 
 @Component({
-  components: {NavBar, TemplatedCode},
+  components: {NavBar, TemplatedCode, FAQ},
 })
 export default class extends Vue {
   private examples = Examples;
@@ -174,10 +176,6 @@ export default class extends Vue {
     margin-bottom: 0;
   }
 
-  #roadmap img {
-    display: none;
-  }
-
   .cta-holster {
     margin-top: $spacingXS;
     display: flex;
@@ -201,4 +199,11 @@ export default class extends Vue {
     height: 100%;
   }
 
+  .temp-hide {
+    display: none;
+  }
+
+  .bottom-spacer {
+    margin-bottom: $sizingXS;
+  }
 </style>
