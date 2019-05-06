@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Prop} from 'nuxt-property-decorator';
+import {Component, Prop, Vue} from 'nuxt-property-decorator';
 
 @Component
 export default class TemplatedCode extends Vue {
-  @Prop(String) template!: string
+  @Prop(String) template!: string;
 
   mounted () {
     this.fetchTemplate();

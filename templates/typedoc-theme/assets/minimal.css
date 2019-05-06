@@ -603,10 +603,10 @@ ul.tsd-descriptions > li > :last-child > :last-child > :last-child {
     width: 17px;
     height: 17px;
     margin: 0 3px 2px 0;
-    background-image:  url('images/icons.png');}
+    background-image:  url('/images/icons.png');}
     @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
       .tsd-kind-icon:before {
-        background-image: url('images/icons@2x.png');
+        background-image: url('/images/icons@2x.png');
         background-size: 238px 204px; } }
 
 .tsd-signature.tsd-kind-icon:before {
@@ -1649,17 +1649,17 @@ pre {
     .tsd-breadcrumb li:after {
       content: ' / '; }
 
-html.minimal .container {
+.external-diez-docs-root.minimal .container {
   margin: 0; }
 
-html.minimal .container-main {
+.external-diez-docs-root.minimal .container-main {
   padding-top: 10px;
   padding-bottom: 0; }
 
-html.minimal .content-wrap {
+.external-diez-docs-root.minimal .content-wrap {
   padding-left: 300px; }
 
-html.minimal .tsd-navigation {
+.external-diez-docs-root.minimal .tsd-navigation {
   position: fixed !important;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -1673,29 +1673,29 @@ html.minimal .tsd-navigation {
   padding: 0 20px 20px;
   margin: 0; }
 
-html.minimal .tsd-member .tsd-member {
+.external-diez-docs-root.minimal .tsd-member .tsd-member {
   margin-left: 0; }
 
-html.minimal .tsd-page-toolbar {
+.external-diez-docs-root.minimal .tsd-page-toolbar {
   position: fixed;
   z-index: 2; }
 
-html.minimal #tsd-filter .tsd-filter-group {
+.external-diez-docs-root.minimal #tsd-filter .tsd-filter-group {
   right: 0;
   transform: none; }
 
-html.minimal footer {
+.external-diez-docs-root.minimal footer {
   background-color: transparent; }
-  html.minimal footer .container {
+  .external-diez-docs-root.minimal footer .container {
     padding: 0; }
 
-html.minimal .tsd-generator {
+.external-diez-docs-root.minimal .tsd-generator {
   padding: 0; }
 
 @media (max-width: 900px) {
-  html.minimal .tsd-navigation {
+  .external-diez-docs-root.minimal .tsd-navigation {
     display: none; }
-  html.minimal .content-wrap {
+  .external-diez-docs-root.minimal .content-wrap {
     padding-left: 0; } }
 
 dl.tsd-comment-tags {

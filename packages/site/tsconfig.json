@@ -16,6 +16,7 @@
     "noImplicitAny": false,
     "noEmit": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "~/*": [
         "./*"

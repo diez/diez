@@ -134,8 +134,8 @@
 
 <script lang="ts">
 import {Examples} from '@/assets/examples';
-import NavBar from '@/components/NavBar.vue';
 import FAQ from '@/components/FAQ.vue';
+import NavBar from '@/components/NavBar.vue';
 import TemplatedCode from '@/components/TemplatedCode.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
 

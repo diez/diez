@@ -1,7 +1,9 @@
 export default {
-  env: {},
+  env: {
+    docsURL: 'https://dfftd09smb2r2.cloudfront.net',
+  },
   head: {
-    title: 'Diezjs - The cross-platform design system compiler',
+    title: 'Diez - The cross-platform design system compiler',
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -18,12 +20,22 @@ export default {
   css: [
     'modern-normalize/modern-normalize.css',
     'highlight.js/styles/github.css',
+    '../../templates/typedoc-theme/assets/minimal.css',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {
       id: 'UA-REPLACE-ME',
     }],
   ],
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'docs-*',
+        path: '/docs/:version/*',
+        component: resolve(__dirname, 'pages/docs.vue'),
+      });
+    },
+  },
   hooks: {
     generate: {
       page (page) {
