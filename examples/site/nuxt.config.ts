@@ -23,7 +23,7 @@ export default {
   ],
   modules: [
     ['@nuxtjs/google-analytics', {
-      id: 'UA-REPLACE-ME',
+      id: 'UA-90094131-5',
     }],
   ],
   router: {
