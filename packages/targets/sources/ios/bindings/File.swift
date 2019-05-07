@@ -15,8 +15,8 @@ public final class File: NSObject, Decodable {
 
 extension File: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        src = try container.decode(String.self, forKey: .src)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &src, forKey: .src)
     }
 }
 

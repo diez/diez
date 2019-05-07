@@ -20,8 +20,8 @@ public final class ChildComponent: NSObject, Decodable {
 
 extension ChildComponent: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        diez = try container.decode(CGFloat.self, forKey: .diez)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &diez, forKey: .diez)
     }
 }
 
@@ -38,7 +38,7 @@ public final class EmptyComponent: NSObject, Decodable {
 
 extension EmptyComponent: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
     }
 }
 
@@ -111,16 +111,16 @@ public final class Primitives: NSObject, StateBag {
 
 extension Primitives: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        number = try container.decode(CGFloat.self, forKey: .number)
-        integer = try container.decode(Int.self, forKey: .integer)
-        float = try container.decode(CGFloat.self, forKey: .float)
-        string = try container.decode(String.self, forKey: .string)
-        boolean = try container.decode(Bool.self, forKey: .boolean)
-        integers = try container.decode([[CGFloat]].self, forKey: .integers)
-        strings = try container.decode([[[String]]].self, forKey: .strings)
-        try container.update(&child, forKey: .child)
-        try container.update(&emptyChild, forKey: .emptyChild)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &number, forKey: .number)
+        try container.update(value: &integer, forKey: .integer)
+        try container.update(value: &float, forKey: .float)
+        try container.update(value: &string, forKey: .string)
+        try container.update(value: &boolean, forKey: .boolean)
+        try container.update(value: &integers, forKey: .integers)
+        try container.update(value: &strings, forKey: .strings)
+        try container.update(updatable: &child, forKey: .child)
+        try container.update(updatable: &emptyChild, forKey: .emptyChild)
     }
 }
 

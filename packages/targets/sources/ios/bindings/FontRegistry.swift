@@ -52,8 +52,8 @@ public final class FontRegistry: NSObject, Decodable {
 
 extension FontRegistry: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        files = try container.decode([File].self, forKey: .files)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &files, forKey: .files)
         // TODO: diff files, only register the new ones
         self.registerFonts(with: files)
     }

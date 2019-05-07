@@ -152,8 +152,26 @@ class NestedDecoder<Key: CodingKey>: Decoder {
 }
 
 extension KeyedDecodingContainer {
-    public func update<T: Updatable>(_ value: inout T, forKey key: Key, userInfo: [CodingUserInfoKey: Any] = [:]) throws {
+    public func update<T: Updatable>(updatable: inout T, forKey key: Key, userInfo: [CodingUserInfoKey: Any] = [:]) throws {
         let nestedDecoder = NestedDecoder(from: self, key: key, userInfo: userInfo)
-        try value.update(from: nestedDecoder)
+        try updatable.update(from: nestedDecoder)
+    }
+
+    public func update<T: Decodable>(value: inout T, forKey key: Key, userInfo: [CodingUserInfoKey: Any] = [:]) throws {
+        guard let decodedValue = try decodeIfPresent(type(of: value), forKey: key) else { return }
+
+        value = decodedValue
+    }
+}
+
+extension Decoder {
+    public func containerIfPresent<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key>? where Key : CodingKey {
+        do {
+            return try container(keyedBy: type)
+        } catch DecodingError.keyNotFound {
+            return nil
+        } catch {
+            throw error
+        }
     }
 }

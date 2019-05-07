@@ -1,7 +1,7 @@
 import {Image} from '@diez/designsystem';
 import {Component, property} from '@diez/engine';
 import {Images} from './assets';
-import {palette, textStyles, LayoutValues} from './constants';
+import {LayoutValues, palette, textStyles} from './constants';
 
 /**
  * The navigation title design.

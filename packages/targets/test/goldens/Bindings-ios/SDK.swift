@@ -25,8 +25,8 @@ public final class File: NSObject, Decodable {
 
 extension File: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        src = try container.decode(String.self, forKey: .src)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &src, forKey: .src)
     }
 }
 
@@ -137,12 +137,12 @@ public final class Image: NSObject, Decodable {
 
 extension Image: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        try container.update(&file1x, forKey: .file1x)
-        try container.update(&file2x, forKey: .file2x)
-        try container.update(&file3x, forKey: .file3x)
-        width = try container.decode(Int.self, forKey: .width)
-        height = try container.decode(Int.self, forKey: .height)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(updatable: &file1x, forKey: .file1x)
+        try container.update(updatable: &file2x, forKey: .file2x)
+        try container.update(updatable: &file3x, forKey: .file3x)
+        try container.update(value: &width, forKey: .width)
+        try container.update(value: &height, forKey: .height)
     }
 }
 
@@ -274,8 +274,8 @@ public final class SVG: NSObject, Decodable {
 
 extension SVG: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        src = try container.decode(String.self, forKey: .src)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &src, forKey: .src)
     }
 }
 
@@ -370,8 +370,8 @@ public final class Lottie: NSObject, Decodable {
 
 extension Lottie: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        try container.update(&file, forKey: .file)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(updatable: &file, forKey: .file)
     }
 }
 
@@ -571,8 +571,8 @@ public final class FontRegistry: NSObject, Decodable {
 
 extension FontRegistry: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        files = try container.decode([File].self, forKey: .files)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &files, forKey: .files)
         // TODO: diff files, only register the new ones
         self.registerFonts(with: files)
     }
@@ -607,11 +607,11 @@ public final class Color: NSObject, Decodable {
 
 extension Color: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        h = try container.decode(CGFloat.self, forKey: .h)
-        s = try container.decode(CGFloat.self, forKey: .s)
-        l = try container.decode(CGFloat.self, forKey: .l)
-        a = try container.decode(CGFloat.self, forKey: .a)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &h, forKey: .h)
+        try container.update(value: &s, forKey: .s)
+        try container.update(value: &l, forKey: .l)
+        try container.update(value: &a, forKey: .a)
     }
 }
 
@@ -657,10 +657,10 @@ public final class TextStyle: NSObject, Decodable {
 
 extension TextStyle: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        fontName = try container.decode(String.self, forKey: .fontName)
-        fontSize = try container.decode(CGFloat.self, forKey: .fontSize)
-        try container.update(&color, forKey: .color)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &fontName, forKey: .fontName)
+        try container.update(value: &fontSize, forKey: .fontSize)
+        try container.update(updatable: &color, forKey: .color)
     }
 }
 
@@ -727,8 +727,8 @@ public final class Haiku: NSObject, Decodable {
 
 extension Haiku: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        component = try container.decode(String.self, forKey: .component)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &component, forKey: .component)
     }
 }
 
@@ -854,13 +854,13 @@ public final class Bindings: NSObject, StateBag {
 
 extension Bindings: Updatable {
     public func update(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        try container.update(&image, forKey: .image)
-        try container.update(&svg, forKey: .svg)
-        try container.update(&lottie, forKey: .lottie)
-        try container.update(&fontRegistry, forKey: .fontRegistry)
-        try container.update(&textStyle, forKey: .textStyle)
-        try container.update(&haiku, forKey: .haiku)
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(updatable: &image, forKey: .image)
+        try container.update(updatable: &svg, forKey: .svg)
+        try container.update(updatable: &lottie, forKey: .lottie)
+        try container.update(updatable: &fontRegistry, forKey: .fontRegistry)
+        try container.update(updatable: &textStyle, forKey: .textStyle)
+        try container.update(updatable: &haiku, forKey: .haiku)
     }
 }
 
