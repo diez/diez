@@ -10,7 +10,7 @@ export interface LottieState {
 }
 
 /**
- * Provides an abstraction for a [Lottie](https://airbnb.io/lottie/#/) animations.
+ * Provides an abstraction for [Lottie](https://airbnb.io/lottie/#/) animations.
  *
  * @noinheritdoc
  */

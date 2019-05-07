@@ -29,7 +29,7 @@ export const diezVersion: string = packageJson.version;
 const plugins = new Map<string, DiezConfiguration>();
 
 /**
- * A Promise-wrapped child_process.exec.
+ * A Promise-wrapped `child_process.exec`.
  * @param command - The command to run, with space-separated arguments.
  * @param options - The child_process.exec options.
  */

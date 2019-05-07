@@ -68,7 +68,7 @@ export function property (options: Partial<PropertyOptions>): (target: Component
  * `@property` decorator. Inspired by the VueJS compiler, this decorator replaces explicitly assigned properties
  * with getters/setters that delegate down to the state container.
  *
- * `@property` can be invoked with additional options for enhanced functionality.
+ * This decorator can be invoked with additional options for enhanced functionality.
  *
  * ```
  * class DesignSystem extends Component {

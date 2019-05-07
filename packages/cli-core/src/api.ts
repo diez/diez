@@ -76,33 +76,6 @@ export interface CliCommandProvider {
 }
 
 /**
- * Provides a generic interface for a CLI command.
- */
-export interface CliCommandProvider {
-  /**
-   * The name of the command.
-   */
-  name: string;
-  /**
-   * The action that should be executed when the command is invoked by name.
-   */
-  action: CliAction;
-  /**
-   * The command description.
-   */
-  description: string;
-  /**
-   * A set of options the command should receive. These are passed into the action as properties
-   * of the first argument.
-   */
-  options?: CliCommandOption[];
-  /**
-   * An optional pre-registration hook to modify the command before it's bootstrapped.
-   */
-  preinstall?: (provider?: CliCommandProvider) => Promise<void>;
-}
-
-/**
  * Provides a generic interface for a CLI command extension.
  */
 export interface CliCommandExtension {
