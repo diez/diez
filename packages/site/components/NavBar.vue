@@ -10,7 +10,6 @@
           <img width="34" src="@/assets/imgs/logo.svg"/>
         </NuxtLink>
         <div class="holster-right">
-          <DocVersionSelect v-show="$route.name === 'docs-*'" />
           <a href="https://github.com/diez/diez">Github</a>
           <NuxtLink to="/docs">Docs</NuxtLink>
           <NuxtLink to="/#faq" @click.native="scrollToSelector('#faq')" >FAQ</NuxtLink>
@@ -30,14 +29,9 @@
 </template>
 
 <script lang="ts">
-import DocVersionSelect from '@/components/DocVersionSelect.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
 
-@Component({
-  components: {
-    DocVersionSelect,
-  },
-})
+@Component
 export default class NavBar extends Vue {
   private isOpen = true;
 

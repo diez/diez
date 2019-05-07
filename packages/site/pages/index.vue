@@ -33,9 +33,7 @@
           <h2>Your design system’s source of truth</h2>
           <span class="small-text-indented">(In TypeScript)</span>
           <div class="card-code">
-            <pre>
-              <code class="typescript"></code>
-            </pre>
+            <TemplatedCode template="typescript"></TemplatedCode>
           </div>
         </div>
         <div class="half staggered">
@@ -58,7 +56,7 @@
             </span>
           </div>
           <div class="card-code">
-            <pre><TemplatedCode :template="activeExample"></TemplatedCode></pre>
+            <TemplatedCode :template="activeExample"></TemplatedCode>
           </div>
         </div>
       </section>

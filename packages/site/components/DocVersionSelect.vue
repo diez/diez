@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <label>Select an API version</label>
+  <div class="version-select">
     <select @change="versionChanged">
       <option
         v-for="version in versionHistory"
@@ -31,7 +30,13 @@ export default class DocVersionSelect extends Vue {
   }
 
   versionChanged (event: any) {
-    this.$router.push(`/docs/${event.target.value}/`);
+    this.$router.push(`/docs/${event.target.value}/index.html`);
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.version-select {
+  margin: 80px 0 0 18px;
+}
+</style>

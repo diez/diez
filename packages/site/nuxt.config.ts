@@ -1,6 +1,6 @@
 export default {
   env: {
-    docsURL: 'https://dfftd09smb2r2.cloudfront.net',
+    docsURL: '/_api',
   },
   head: {
     title: 'Diez - The cross-platform design system compiler',
@@ -20,7 +20,6 @@ export default {
   css: [
     'modern-normalize/modern-normalize.css',
     'highlight.js/styles/github.css',
-    '../../templates/typedoc-theme/assets/minimal.css',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {

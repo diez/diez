@@ -37,7 +37,7 @@ export = {
       fatalError('Generating docs produced an error. Please fix the issue and try again.');
     }
 
-    run(`aws s3 cp api s3://diez-docs/${version} --recursive`);
+    run(`aws s3 sync api s3://diez-docs/${version}`);
     run('aws s3 sync api s3://diez-docs/latest');
 
     // Manually bump the monorepo package.json version of `diez-cli`.

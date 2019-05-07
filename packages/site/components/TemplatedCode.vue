@@ -1,7 +1,6 @@
+
 <template>
-  <pre>
-    <code ref="content" :lang="template"></code>
-  </pre>
+  <pre><code ref="content" :lang="template"></code></pre>
 </template>
 
 <script lang="ts">
