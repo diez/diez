@@ -1,0 +1,55 @@
+{
+  "name": "@diez/sources",
+  "main": "lib/index.js",
+  "version": "1.0.0-beta.5",
+  "description": "Utilities and metaprogramming extensions for design sources.",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "Proprietary",
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
+  },
+  "homepage": "https://diez.org",
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
+    "lint": "tslint -p . -t stylish",
+    "fix": "tslint -p . -t stylish --fix"
+  },
+  "dependencies": {
+    "@diez/cli-core": "^1.0.0-beta.5",
+    "@diez/generation": "^1.0.0-beta.5",
+    "@diez/storage": "^1.0.0-beta.5",
+    "async": "^2.6.2",
+    "chokidar": "^3.0.0",
+    "fs-extra": "^7.0.1",
+    "fs-walk": "^0.0.2",
+    "open": "^6.0.0",
+    "pngjs": "^3.3.3",
+    "request": "^2.88.0",
+    "server-destroy": "^1.0.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@diez/test-utils": "^1.0.0-beta.5",
+    "@types/color-string": "^1.5.0",
+    "@types/fs-extra": "^5.0.4",
+    "@types/jest": "^24.0.11",
+    "@types/open": "^6.0.0",
+    "@types/pngjs": "^3.3.2",
+    "@types/request": "^2.48.1",
+    "@types/server-destroy": "^1.0.0",
+    "@types/uuid": "^3.4.4",
+    "istanbul-reporter-cobertura-haiku": "^1.0.4",
+    "jest": "^24.7.1",
+    "jest-tap-reporter": "^1.9.0",
+    "stream-mock": "^1.2.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.15.0",
+    "tslint-config-haiku": "^1.0.20",
+    "typescript": "^3.4.5"
+  }
+}

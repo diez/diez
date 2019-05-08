@@ -12,6 +12,7 @@
   "dependencies": {
     "@diez/cli-core": "^1.0.0-beta.5",
     "@diez/compiler": "^1.0.0-beta.5",
+    "@diez/sources": "^1.0.0-beta.5",
     "@diez/targets": "^1.0.0-beta.5",
     "typescript": "^3.4.5"
   },

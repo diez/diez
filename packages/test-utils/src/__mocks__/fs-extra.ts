@@ -25,6 +25,11 @@ export const emptyDir = (dirpath: string) => {
   mockFileSystem[dirpath] = 'FOLDER';
 };
 
+export const removeSync = (path: string) => {
+  emptyDir(path);
+  delete mockFileSystem[path];
+};
+
 export const mkdirp = (dirpath: string) => {
   const segments = dirpath.slice(1).split('/');
   let dirCursor = dirpath[0];

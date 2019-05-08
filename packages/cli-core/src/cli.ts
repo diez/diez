@@ -101,7 +101,7 @@ const registerWithProviders = async (
  */
 export const bootstrap = async (rootPackageName = global.process.cwd(), bootstrapRoot?: string) => {
   try {
-    const {version: latestVersion} = await packageJson('@diez/engine');
+    const {version: latestVersion} = await packageJson('@diez/cli-core');
     if (semver.gt(latestVersion as string, diezVersion)) {
       warning('You are using an out-of-date version of Diez. Please upgrade to the latest version!');
     }

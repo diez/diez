@@ -27,7 +27,7 @@ export const cleanupMockFileSystem = () => {
 };
 
 /**
- * Factory for our mock exec singleton.
+ * A mock singleton for `execAsync`.
  */
 export const mockExec = getMock();
 
@@ -37,6 +37,16 @@ export const mockExec = getMock();
 export const cleanupMockCommandData = () => {
   mockExec.mockReset();
 };
+
+/**
+ * A mock singleton for `codegenDesignSystem`.
+ */
+export const mockCodegen = getMock();
+
+/**
+ * A mock singleton for `locateFont`.
+ */
+export const mockLocateFont = getMock();
 
 /**
  * Tracks mock platform data.

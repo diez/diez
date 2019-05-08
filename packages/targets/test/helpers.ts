@@ -1,4 +1,4 @@
-import {getTempFileName, Program} from '@diez/compiler';
+import {getTempFileName, Program, projectCache} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -34,6 +34,7 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
  * @internal
  */
 const createProgramForFixture = async (fixture: string, target: string) => {
+  projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
   writeFileSync(

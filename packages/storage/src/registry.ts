@@ -1,23 +1,14 @@
 import {mkdirp, pathExists, readJson, writeJson} from 'fs-extra';
 import {homedir} from 'os';
 import {join} from 'path';
-
-/**
- * All the configuration values we can expect to find in the Registry.
- */
-export interface Configuration {
-  /**
-   * @todo Move this configuration value to be augmented in `@diez/designfile`.
-   */
-  figmaAccessToken: string;
-}
+import {DiezRegistryOptions} from './api';
 
 const diezRootPath = join(homedir(), '.diez');
 const registryPath = join(diezRootPath, 'registry.json');
 
 const ensureDiezRoot = () => mkdirp(diezRootPath);
 
-const getRegistry = async (): Promise<Partial<Configuration>> => {
+const getRegistry = async (): Promise<Partial<DiezRegistryOptions>> => {
   await ensureDiezRoot();
   if (!await pathExists(registryPath)) {
     await writeJson(registryPath, {});
@@ -26,7 +17,7 @@ const getRegistry = async (): Promise<Partial<Configuration>> => {
   return await readJson(registryPath);
 };
 
-const setRegistry = async (configuration: Partial<Configuration>) => {
+const setRegistry = async (configuration: Partial<DiezRegistryOptions>) => {
   await ensureDiezRoot();
   await writeJson(registryPath, configuration);
 };
@@ -35,23 +26,23 @@ const setRegistry = async (configuration: Partial<Configuration>) => {
  * A registry implementation with private details and async static accessors for reading/writing configuration values.
  */
 export class Registry {
-  private configuration: Partial<Configuration> = {};
+  private configuration: Partial<DiezRegistryOptions> = {};
   private static instance?: Registry;
 
   private async flush () {
     setRegistry(this.configuration);
   }
 
-  private get (key: keyof Configuration) {
+  private get (key: keyof DiezRegistryOptions) {
     return this.configuration[key];
   }
 
-  private async set (key: keyof Configuration, value: any) {
+  private async set (key: keyof DiezRegistryOptions, value: any) {
     this.configuration[key] = value;
     await this.flush();
   }
 
-  private async delete (key: keyof Configuration) {
+  private async delete (key: keyof DiezRegistryOptions) {
     delete this.configuration[key];
     await this.flush();
   }
@@ -67,7 +58,7 @@ export class Registry {
    * Gets a configuration value by key.
    * @param key The Configuration key requested.
    */
-  static async get<T = string> (key: keyof Configuration): Promise<T | undefined> {
+  static async get<T = string> (key: keyof DiezRegistryOptions): Promise<T | undefined> {
     await this.initialize();
     return this.instance!.get(key) as T | undefined;
   }
@@ -77,7 +68,7 @@ export class Registry {
    * @param key The Configuration key to set.
    * @param value The Configuration key-value.
    */
-  static async set (key: keyof Configuration, value: any) {
+  static async set (key: keyof DiezRegistryOptions, value: any) {
     await this.initialize();
     await this.instance!.set(key, value);
   }
@@ -86,7 +77,7 @@ export class Registry {
    * Deletes a configuration value by key.
    * @param key The Configuration key to delete.
    */
-  static async delete (key: keyof Configuration) {
+  static async delete (key: keyof DiezRegistryOptions) {
     await this.initialize();
     await this.instance!.delete(key);
   }

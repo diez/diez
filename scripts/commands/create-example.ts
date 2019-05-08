@@ -1,5 +1,6 @@
 import {createProject} from '@diez/compiler';
 import enquirer from 'enquirer';
+import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
 import {root} from '../internal/helpers';
 
@@ -18,5 +19,9 @@ export = {
     })).exampleName;
 
     await createProject(exampleName, join(root, 'examples'));
+    const packageJsonPath = join(root, 'examples', exampleName, 'package.json');
+    const packageJson = readJsonSync(packageJsonPath);
+    packageJson.private = true;
+    writeJsonSync(packageJsonPath, packageJson, {spaces: 2});
   },
 };

@@ -4,8 +4,10 @@ import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
 import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {tmpdir} from 'os';
-import pascalCase = require('pascal-case');
+import pascalCase from 'pascal-case';
 import {basename, dirname, join, resolve, sep} from 'path';
+import {Project} from 'ts-morph';
+import {findConfigFile, sys} from 'typescript';
 import {v4} from 'uuid';
 import validateNpmPackageName from 'validate-npm-package-name';
 import {CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType} from './api';
@@ -21,6 +23,35 @@ const shouldUseYarn = async () => {
   } catch (_) {
     return false;
   }
+};
+
+/**
+ * Shared singleton for retrieving Projects.
+ *
+ * Exported for testing purposes only.
+ * @internal
+ * @ignore
+ */
+export const projectCache = new Map<string, Project>();
+
+/**
+ * Retrieves a Project from a project root.
+ * @ignore
+ */
+export const getProject = (projectRoot: string) => {
+  if (projectCache.has(projectRoot)) {
+    return projectCache.get(projectRoot)!;
+  }
+
+  const tsConfigFilePath = findConfigFile(projectRoot, sys.fileExists, 'tsconfig.json')!;
+
+  if (!tsConfigFilePath) {
+    throw new Error('Unable to proceed: TypeScript configuration not found.');
+  }
+
+  const project = new Project({tsConfigFilePath});
+  projectCache.set(projectRoot, project);
+  return project;
 };
 
 /**

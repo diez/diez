@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                   DESC
   s.license = 'MIT'
   s.author = 'Diez'
-  s.homepage = 'https://diezjs.org'
+  s.homepage = 'https://diez.org'
   s.source = { :git => 'https://github.com/diez/diez' }
   # TODO: What are these, actually?
   s.platforms = { :ios => '12.1' }

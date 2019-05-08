@@ -6,6 +6,7 @@ export const resolve = (dir: string) => {
 };
 
 export const extname = originalPath.extname;
+export const basename = originalPath.basename;
 export const join = originalPath.join;
 export const sep = originalPath.sep;
 

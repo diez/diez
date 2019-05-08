@@ -7,10 +7,14 @@ import {assertNotWatching, root, run, runQuiet} from '../internal/helpers';
 
 const packageRoot = join(root, 'packages');
 
+interface GenerateDocsOptions {
+  theme: string;
+}
+
 export = {
   name: 'generate-docs',
   description: 'Generates docs.',
-  action: async () => {
+  action: async ({theme}: GenerateDocsOptions) => {
     assertNotWatching();
     const gitChanges = runQuiet('git diff packages');
     if (gitChanges) {
@@ -55,7 +59,13 @@ export = {
 
     await project.save();
 
-    run('yarn typedoc');
+    run(theme ? `yarn typedoc --theme ${theme}` : 'yarn typedoc');
     run('git checkout packages');
   },
+  options: [
+    {
+      longName: 'theme',
+      valueName: 'themeName',
+    },
+  ],
 };

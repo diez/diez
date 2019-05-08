@@ -5,11 +5,11 @@ import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync} from 'fs-extra';
 import {dirname, join, relative, resolve} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, findConfigFile, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
 import {v4} from 'uuid';
 import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {getBinding, getHotPort, getNodeModulesSource, loadComponentModule, purgeRequireCache} from './utils';
+import {getBinding, getHotPort, getNodeModulesSource, getProject, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
@@ -21,11 +21,6 @@ export class Program extends EventEmitter implements CompilerProgram {
     getNewLine: () => sys.newLine,
     getCanonicalFileName: (name) => name,
   };
-
-  /**
-   * The path to our TS config.
-   */
-  private readonly tsConfigFilePath: string;
 
   /**
    * The wrapped TypeScript project.
@@ -86,7 +81,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     const rootDir = this.project.getCompilerOptions().rootDir;
     if (!rootDir || relative(this.projectRoot, rootDir) !== 'src') {
       throw new Error(
-        `Unable to proceed: TypeScript configuration at ${this.tsConfigFilePath} does not compile from src/. Please fix the TypeScript configuration and try again.`);
+        'Unable to proceed: TypeScript configuration at does not compile from src/. Please fix the TypeScript configuration and try again.');
     }
   }
 
@@ -359,16 +354,11 @@ export class Program extends EventEmitter implements CompilerProgram {
     super();
 
     info(`Validating project structure at ${projectRoot}...`);
-    this.tsConfigFilePath = findConfigFile(projectRoot, sys.fileExists, 'tsconfig.json')!;
-
-    if (!this.tsConfigFilePath) {
-      throw new Error('Unable to proceed: TypeScript configuration not found.');
-    }
 
     try {
-      this.project = new Project({tsConfigFilePath: this.tsConfigFilePath});
+      this.project = getProject(projectRoot);
     } catch (e) {
-      throw new Error(`Found an invalid TypeScript configuration at ${this.tsConfigFilePath}. Please check its contents and try again.`);
+      throw new Error('Unable to load TypeScript project. Please try again.');
     }
 
     this.validateProject();
@@ -386,8 +376,9 @@ export class Program extends EventEmitter implements CompilerProgram {
 
     // Create a stub type file for typing the Component class and number primitives.
     const stubTypeFile = this.project.createSourceFile(
-      'src/__stub.ts',
+      join('src', '__stub.ts'),
       "import {Component, Integer, Float} from '@diez/engine';",
+      {overwrite: true},
     );
 
     const [componentImport, intImport, floatImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();

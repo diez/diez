@@ -1,6 +1,6 @@
-# diezjs.org
+# diez.org
 
-The official website for Diez.js
+The official website for Diez.
 
 ## Getting started
 

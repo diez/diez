@@ -7,15 +7,21 @@ jest.mock('fs-extra');
 
 afterEach(cleanupMockFileSystem);
 
+declare module '../src/api' {
+  interface DiezRegistryOptions {
+    foo: string;
+  }
+}
+
 describe('Registry', () => {
   test('basic functionality', async () => {
-    await Registry.set('figmaAccessToken', 'supersecret');
+    await Registry.set('foo', 'bar');
     expect(mockFileSystem[join(homedir(), '.diez')]).toBe('FOLDER');
-    expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{"figmaAccessToken":"supersecret"}');
+    expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{"foo":"bar"}');
 
-    expect(await Registry.get('figmaAccessToken')).toBe('supersecret');
+    expect(await Registry.get('foo')).toBe('bar');
 
-    await Registry.delete('figmaAccessToken');
+    await Registry.delete('foo');
     expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{}');
   });
 });
