@@ -27,8 +27,9 @@ export = {
 
     try {
       runQuiet('aws s3 ls s3://diez-docs');
+      runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_DISTRIBUTION}`);
     } catch (e) {
-      fatalError('Unable to run AWS S3 commands. `aws` is either not installed or missing privileges.');
+      fatalError('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
     }
 
     run('yarn clean');
@@ -37,16 +38,28 @@ export = {
       fatalError('Generating docs produced an error. Please fix the issue and try again.');
     }
 
-    run(`aws s3 sync api s3://diez-docs/${version}`);
-    run('aws s3 sync api s3://diez-docs/latest');
+    const siteRoot = join(root, 'examples', 'site');
+    const versionsPath = join(siteRoot, 'data', 'diez-versions.json');
+    const versions = readJsonSync(versionsPath);
+    if (versions.length) {
+      versions[0] = {version: versions[0].version, name: versions[0].version};
+    }
+    versions.unshift({version, name: `latest (${version})`});
+    writeJsonSync(versionsPath, versions, {spaces: 2});
+    run('yarn build', siteRoot);
 
     // Manually bump the monorepo package.json version of `diez`.
     const packageJsonPath = join(root, 'package.json');
     const packageJson = readJsonSync(packageJsonPath);
-    packageJson.devDependencies['diez'] = version;
+    packageJson.devDependencies.diez = version;
     writeJsonSync(packageJsonPath, packageJson, {spaces: 2});
-    run('git add package.json');
+    run(`git add package.json ${versionsPath}`);
     run(`git commit -m 'prerelease: ${version}'`);
+
+    run(`aws s3 sync api s3://diez-docs/${version}`);
+    run('aws s3 sync api s3://diez-docs/latest');
+    run('aws s3 sync dist s3://diez-www', siteRoot);
+    run(`aws cloudfront create-invalidation --distribution-id=${process.env.DIEZ_DISTRIBUTION} --paths "/*"`);
 
     // Create the release with Lerna.
     run(`yarn lerna publish ${version} --github-release --conventional-commits --yes`);
