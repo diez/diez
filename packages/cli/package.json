@@ -1,6 +1,6 @@
 {
   "name": "diez",
-  "version": "1.0.0-beta.5",
+  "version": "10.0.0-alpha.0",
   "description": "The entry point for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -10,10 +10,10 @@
   },
   "homepage": "https://diez.org",
   "dependencies": {
-    "@diez/cli-core": "^1.0.0-beta.5",
-    "@diez/compiler": "^1.0.0-beta.5",
-    "@diez/sources": "^1.0.0-beta.5",
-    "@diez/targets": "^1.0.0-beta.5",
+    "@diez/cli-core": "^10.0.0-alpha.0",
+    "@diez/compiler": "^10.0.0-alpha.0",
+    "@diez/sources": "^10.0.0-alpha.0",
+    "@diez/targets": "^10.0.0-alpha.0",
     "typescript": "^3.4.5"
   },
   "bin": {

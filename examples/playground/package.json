@@ -2,7 +2,7 @@
   "name": "playground",
   "main": "lib/index.js",
   "license": "MIT",
-  "version": "1.0.0-beta.5",
+  "version": "10.0.0-alpha.0",
   "private": true,
   "scripts": {
     "run-ios": "diez compile -t ios -o ios -d",
@@ -12,12 +12,12 @@
     "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
-    "@diez/designsystem": "^1.0.0-beta.5",
-    "@diez/engine": "^1.0.0-beta.5",
+    "@diez/designsystem": "^10.0.0-alpha.0",
+    "@diez/engine": "^10.0.0-alpha.0",
     "@haiku/taylor-testthang": "^0.0.2",
     "just-curves": "^0.2.0"
   },
   "devDependencies": {
-    "diez": "^1.0.0-beta.5"
+    "diez": "^10.0.0-alpha.0"
   }
 }

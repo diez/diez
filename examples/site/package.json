@@ -1,6 +1,6 @@
 {
   "name": "diez-site",
-  "version": "1.0.0-beta.5",
+  "version": "10.0.0-alpha.0",
   "private": true,
   "description": "The Diez website - https://diez.org",
   "author": "The Haiku Team <contact@haiku.ai>",
@@ -23,6 +23,8 @@
   "devDependencies": {
     "@nuxt/typescript": "^2.5.1",
     "@types/jest": "^24.0.11",
+    "@vue/cli-plugin-typescript": "^3.5.0",
+    "@vue/cli-service": "^3.5.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^6.26.3",
     "highlight.js": "^9.15.6",
@@ -34,8 +36,6 @@
     "ts-jest": "^24.0.2",
     "tslint-config-haiku": "^1.0.20",
     "vue-jest": "^3.0.4",
-    "vue-loader": "15.0.0",
-    "@vue/cli-plugin-typescript": "^3.5.0",
-    "@vue/cli-service": "^3.5.0"
+    "vue-loader": "15.0.0"
   }
 }

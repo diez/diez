@@ -1,7 +1,7 @@
 {
   "name": "@diez/designsystem",
   "main": "lib/index.js",
-  "version": "1.0.0-beta.5",
+  "version": "10.0.0-alpha.0",
   "description": "Components for building a design system with Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -20,7 +20,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/engine": "^1.0.0-beta.5",
+    "@diez/engine": "^10.0.0-alpha.0",
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {
