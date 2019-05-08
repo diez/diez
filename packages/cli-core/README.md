@@ -51,4 +51,4 @@ or in `package-name/.diezrc`:
 }
 ```
 
-The resulting command can be invoked with: `diez-cli command --option [-o] <optionValue>`.
+The resulting command can be invoked with: `diez command --option [-o] <optionValue>`.

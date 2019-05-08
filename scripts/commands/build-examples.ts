@@ -14,7 +14,7 @@ const buildAndroid = () => {
     for (const androidRoot of matches) {
       const diezRoot = resolve(androidRoot, '..');
       console.log(chalk.blue(`Building for Android: ${basename(diezRoot)}`));
-      run('yarn diez-cli compile -t android -o android', diezRoot);
+      run('yarn diez compile -t android -o android', diezRoot);
       run('./gradlew build', androidRoot);
     }
   });
@@ -26,7 +26,7 @@ const buildIos = () => {
       const iosRoot = resolve(iosWorkspace, '..');
       const diezRoot = resolve(iosRoot, '..');
       console.log(chalk.blue(`Building for iOS: ${basename(diezRoot)}`));
-      run('yarn diez-cli compile -t ios -o ios', diezRoot);
+      run('yarn diez compile -t ios -o ios', diezRoot);
       run('pod install', iosRoot);
       run(`xcodebuild -workspace ${basename(iosWorkspace)} -scheme ${basename(iosWorkspace, '.xcworkspace')} -sdk iphonesimulator | xcpretty -t; test \${PIPESTATUS[0]} -eq 0`, iosRoot);
     }
@@ -38,7 +38,7 @@ const buildWeb = () => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
       console.log(chalk.blue(`Building for web: ${basename(diezRoot)}`));
-      run('yarn diez-cli compile -t web -o web --baseUrl /diez --staticRoot web/public/diez', diezRoot);
+      run('yarn diez compile -t web -o web --baseUrl /diez --staticRoot web/public/diez', diezRoot);
       run('yarn', webRoot);
       run('yarn build', webRoot);
     }

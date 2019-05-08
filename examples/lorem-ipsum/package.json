@@ -8,6 +8,6 @@
     "@diez/engine": "^1.0.0-beta.5"
   },
   "devDependencies": {
-    "diez-cli": "^1.0.0-beta.5"
+    "diez": "^1.0.0-beta.5"
   }
 }

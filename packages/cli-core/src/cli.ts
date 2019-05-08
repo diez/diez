@@ -6,7 +6,7 @@ import {CliCommandExtension, CliCommandOption, CliCommandProvider, CliOptionVali
 import {fatalError, warning} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
-version(diezVersion).name('diez-cli');
+version(diezVersion).name('diez');
 
 /**
  * Registers a list of options with a command.

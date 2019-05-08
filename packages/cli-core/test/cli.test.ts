@@ -25,7 +25,7 @@ describe('cli', () => {
     const foobarCommand = commander.commands.find((command: Command) => command.name() === 'foobar');
     expect(foobarCommand).toBeDefined();
     expect(foobarCommand.description()).toBe('Do stuff.');
-    expect(foobarCommand.parent.name()).toBe('diez-cli');
+    expect(foobarCommand.parent.name()).toBe('diez');
     expect(foobarCommand.parent.parent).toBeUndefined();
   });
 

@@ -7,6 +7,6 @@
     "@diez/designsystem": "^{{diezVersion}}"
   },
   "devDependencies": {
-    "diez-cli": "^{{diezVersion}}"
+    "diez": "^{{diezVersion}}"
   }
 }

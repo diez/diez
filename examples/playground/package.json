@@ -5,11 +5,11 @@
   "version": "1.0.0-beta.5",
   "private": true,
   "scripts": {
-    "run-ios": "diez-cli compile -t ios -o ios -d",
-    "build-ios": "diez-cli compile -t ios -o ios && cd ios && pod install",
-    "run-android": "diez-cli compile -t android -o android -d",
-    "build-android": "diez-cli compile -t android -o android",
-    "run-web": "diez-cli compile -t web -o web -d"
+    "run-ios": "diez compile -t ios -o ios -d",
+    "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
+    "run-android": "diez compile -t android -o android -d",
+    "build-android": "diez compile -t android -o android",
+    "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
     "@diez/designsystem": "^1.0.0-beta.5",
@@ -18,6 +18,6 @@
     "just-curves": "^0.2.0"
   },
   "devDependencies": {
-    "diez-cli": "^1.0.0-beta.5"
+    "diez": "^1.0.0-beta.5"
   }
 }

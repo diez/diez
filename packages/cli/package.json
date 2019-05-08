@@ -1,5 +1,5 @@
 {
-  "name": "diez-cli",
+  "name": "diez",
   "version": "1.0.0-beta.5",
   "description": "The entry point for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
@@ -17,6 +17,6 @@
     "typescript": "^3.4.5"
   },
   "bin": {
-    "diez-cli": "./bin/diez-cli"
+    "diez": "./bin/diez"
   }
 }

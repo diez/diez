@@ -40,10 +40,10 @@ export = {
     run(`aws s3 sync api s3://diez-docs/${version}`);
     run('aws s3 sync api s3://diez-docs/latest');
 
-    // Manually bump the monorepo package.json version of `diez-cli`.
+    // Manually bump the monorepo package.json version of `diez`.
     const packageJsonPath = join(root, 'package.json');
     const packageJson = readJsonSync(packageJsonPath);
-    packageJson.devDependencies['diez-cli'] = version;
+    packageJson.devDependencies['diez'] = version;
     writeJsonSync(packageJsonPath, packageJson, {spaces: 2});
     run('git add package.json');
     run(`git commit -m 'prerelease: ${version}'`);
