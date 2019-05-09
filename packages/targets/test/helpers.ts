@@ -1,4 +1,4 @@
-import {getTempFileName, Program, projectCache} from '@diez/compiler';
+import {CompilerOptions, getTempFileName, Program, projectCache} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -33,7 +33,7 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
  *
  * @internal
  */
-const createProgramForFixture = async (fixture: string, target: string) => {
+const createProgramForFixture = async (fixture: string, target: string, options?: Partial<CompilerOptions>) => {
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
@@ -48,7 +48,7 @@ const createProgramForFixture = async (fixture: string, target: string) => {
 
   const destination = getTempFileName();
   ensureDirSync(destination);
-  const program = new Program(stubProjectRoot, {target, outputPath: destination});
+  const program = new Program(stubProjectRoot, {target, outputPath: destination, ...options});
   // Turn on dev mode after the fact so we don't start a dev server.
   program.options.devMode = true;
   return program;
@@ -61,7 +61,7 @@ export const createIosCompilerForFixture = async (
   fixture: string,
   sdkRootIn?: string,
 ): Promise<IosCompiler> => {
-  const program = await createProgramForFixture(fixture, 'ios');
+  const program = await createProgramForFixture(fixture, 'ios', {cocoapods: true, carthage: true});
   const sdkRoot = sdkRootIn || join(program.options.outputPath, 'Diez');
   const compiler = new IosCompiler(program, sdkRoot);
   compiler.clear();

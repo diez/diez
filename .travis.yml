@@ -1,13 +1,20 @@
 matrix:
   include:
-  - language: node_js
+  - name: Core
+    language: objective-c
+    osx_image: xcode10.2
     cache: yarn
     before_script:
     - yarn global add codecov
     script:
     - yarn health
     - codecov
-  - language: android
+    addons:
+      homebrew:
+        packages:
+        - xcodegen
+  - name: Android Examples
+    language: android
     jdk: oraclejdk8
     android:
       components:
@@ -16,10 +23,15 @@ matrix:
       - build-tools-28.0.3
     script:
     - yarn build-examples --target android
-  - language: objective-c
+  - name: iOS Examples
+    language: objective-c
     osx_image: xcode10.2
     script:
     - yarn build-examples --target ios
+    addons:
+      homebrew:
+        packages:
+        - xcodegen
 before_install:
 - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 - nvm install 10.15.3

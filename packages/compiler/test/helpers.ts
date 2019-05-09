@@ -32,6 +32,16 @@ export const createProgramForFixture = async (fixture: string, outputPath = '/de
  * A test target compiler.
  */
 export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBinding> {
+  protected async validateOptions () {
+    // Noop.
+    return;
+  }
+
+  mockWriteHotUrlMutex = jest.fn();
+  protected writeHotUrlMutex (hostname: string, devPort: number) {
+    this.mockWriteHotUrlMutex(hostname, devPort);
+  }
+
   staticRoot = 'static';
   hotComponent = 'hot-component';
 

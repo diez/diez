@@ -12,20 +12,9 @@
 		21D3ADA5220230C600118420 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA3220230C600118420 /* Main.storyboard */; };
 		21D3ADA7220230C600118420 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA6220230C600118420 /* Assets.xcassets */; };
 		21D3ADAA220230C600118420 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA8220230C600118420 /* LaunchScreen.storyboard */; };
-		21D3ADB5220230C600118420 /* HelloMyStateBagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D3ADB4220230C600118420 /* HelloMyStateBagTests.swift */; };
-		BDF5CE55BEC7E8F4E1E92472 /* Pods_HelloMyStateBagTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54C02FF76D6FB62DA22B385 /* Pods_HelloMyStateBagTests.framework */; };
-		BE6629A7D441065CB4AF8901 /* Pods_HelloMyStateBag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4455D859E5194352E962B7DB /* Pods_HelloMyStateBag.framework */; };
+		4668B5D8227B9F9600BB9213 /* Diez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668B5D6227B9F9600BB9213 /* Diez.framework */; };
+		4668B5D9227B9F9600BB9213 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668B5D7227B9F9600BB9213 /* Lottie.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		21D3ADB1220230C600118420 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 21D3AD94220230C500118420 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 21D3AD9B220230C600118420;
-			remoteInfo = HelloMyStateBag;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		214EE4D6220BBD540058E6BE /* Embed Frameworks */ = {
@@ -41,9 +30,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		12CA19CD69DE2D0BDAABC9A6 /* Pods-HelloMyStateBag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyStateBag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag.debug.xcconfig"; sourceTree = "<group>"; };
-		21034874221E1F7100CC55FA /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		21034876221E1F9A00CC55FA /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Lottie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D3AD9C220230C600118420 /* HelloMyStateBag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloMyStateBag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D3AD9F220230C600118420 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21D3ADA1220230C600118420 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,14 +37,8 @@
 		21D3ADA6220230C600118420 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21D3ADA9220230C600118420 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21D3ADAB220230C600118420 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		21D3ADB0220230C600118420 /* HelloMyStateBagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloMyStateBagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		21D3ADB4220230C600118420 /* HelloMyStateBagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloMyStateBagTests.swift; sourceTree = "<group>"; };
-		21D3ADB6220230C600118420 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2626C317A8F4A112FC629770 /* Pods-HelloMyStateBag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyStateBag.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag.release.xcconfig"; sourceTree = "<group>"; };
-		4455D859E5194352E962B7DB /* Pods_HelloMyStateBag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HelloMyStateBag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A44ADEA599FE032B36CD4C78 /* Pods-HelloMyStateBagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyStateBagTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyStateBagTests/Pods-HelloMyStateBagTests.release.xcconfig"; sourceTree = "<group>"; };
-		B54C02FF76D6FB62DA22B385 /* Pods_HelloMyStateBagTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HelloMyStateBagTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CAF767BC1FA61A66A3EAA458 /* Pods-HelloMyStateBagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloMyStateBagTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HelloMyStateBagTests/Pods-HelloMyStateBagTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4668B5D6227B9F9600BB9213 /* Diez.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diez.framework; path = Carthage/Build/iOS/Diez.framework; sourceTree = "<group>"; };
+		4668B5D7227B9F9600BB9213 /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,40 +46,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE6629A7D441065CB4AF8901 /* Pods_HelloMyStateBag.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		21D3ADAD220230C600118420 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BDF5CE55BEC7E8F4E1E92472 /* Pods_HelloMyStateBagTests.framework in Frameworks */,
+				4668B5D8227B9F9600BB9213 /* Diez.framework in Frameworks */,
+				4668B5D9227B9F9600BB9213 /* Lottie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		214EE4BE220BB43C0058E6BE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				21034876221E1F9A00CC55FA /* Lottie.framework */,
-				21034874221E1F7100CC55FA /* Lottie.framework */,
-				4455D859E5194352E962B7DB /* Pods_HelloMyStateBag.framework */,
-				B54C02FF76D6FB62DA22B385 /* Pods_HelloMyStateBagTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		21D3AD93220230C500118420 = {
 			isa = PBXGroup;
 			children = (
 				21D3AD9E220230C600118420 /* HelloMyStateBag */,
-				21D3ADB3220230C600118420 /* HelloMyStateBagTests */,
+				4668B5D4227B9F6700BB9213 /* Carthage */,
 				21D3AD9D220230C600118420 /* Products */,
-				214EE4BE220BB43C0058E6BE /* Frameworks */,
-				F1CD3D5A4DF516FF94FC9D71 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,7 +67,6 @@
 			isa = PBXGroup;
 			children = (
 				21D3AD9C220230C600118420 /* HelloMyStateBag.app */,
-				21D3ADB0220230C600118420 /* HelloMyStateBagTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,24 +84,21 @@
 			path = HelloMyStateBag;
 			sourceTree = "<group>";
 		};
-		21D3ADB3220230C600118420 /* HelloMyStateBagTests */ = {
+		4668B5D4227B9F6700BB9213 /* Carthage */ = {
 			isa = PBXGroup;
 			children = (
-				21D3ADB4220230C600118420 /* HelloMyStateBagTests.swift */,
-				21D3ADB6220230C600118420 /* Info.plist */,
+				4668B5D5227B9F6D00BB9213 /* iOS */,
 			);
-			path = HelloMyStateBagTests;
+			name = Carthage;
 			sourceTree = "<group>";
 		};
-		F1CD3D5A4DF516FF94FC9D71 /* Pods */ = {
+		4668B5D5227B9F6D00BB9213 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				12CA19CD69DE2D0BDAABC9A6 /* Pods-HelloMyStateBag.debug.xcconfig */,
-				2626C317A8F4A112FC629770 /* Pods-HelloMyStateBag.release.xcconfig */,
-				CAF767BC1FA61A66A3EAA458 /* Pods-HelloMyStateBagTests.debug.xcconfig */,
-				A44ADEA599FE032B36CD4C78 /* Pods-HelloMyStateBagTests.release.xcconfig */,
+				4668B5D6227B9F9600BB9213 /* Diez.framework */,
+				4668B5D7227B9F9600BB9213 /* Lottie.framework */,
 			);
-			name = Pods;
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,12 +108,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21D3ADB9220230C600118420 /* Build configuration list for PBXNativeTarget "HelloMyStateBag" */;
 			buildPhases = (
-				44A0E903C3ABA3DF4B9BA8CF /* [CP] Check Pods Manifest.lock */,
 				21D3AD98220230C600118420 /* Sources */,
 				21D3AD99220230C600118420 /* Frameworks */,
 				21D3AD9A220230C600118420 /* Resources */,
 				214EE4D6220BBD540058E6BE /* Embed Frameworks */,
-				637D91679FAF416E94E3D1A4 /* [CP] Embed Pods Frameworks */,
+				4668B5DB227B9FC600BB9213 /* Copy Carthage Frameworks */,
+				4668B5DF227CCFD200BB9213 /* Enable Development Mode */,
 			);
 			buildRules = (
 			);
@@ -167,25 +123,6 @@
 			productName = HelloMyStateBag;
 			productReference = 21D3AD9C220230C600118420 /* HelloMyStateBag.app */;
 			productType = "com.apple.product-type.application";
-		};
-		21D3ADAF220230C600118420 /* HelloMyStateBagTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 21D3ADBC220230C600118420 /* Build configuration list for PBXNativeTarget "HelloMyStateBagTests" */;
-			buildPhases = (
-				952551D9B4C1568329F04D43 /* [CP] Check Pods Manifest.lock */,
-				21D3ADAC220230C600118420 /* Sources */,
-				21D3ADAD220230C600118420 /* Frameworks */,
-				21D3ADAE220230C600118420 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				21D3ADB2220230C600118420 /* PBXTargetDependency */,
-			);
-			name = HelloMyStateBagTests;
-			productName = HelloMyStateBagTests;
-			productReference = 21D3ADB0220230C600118420 /* HelloMyStateBagTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -200,11 +137,6 @@
 					21D3AD9B220230C600118420 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
-					};
-					21D3ADAF220230C600118420 = {
-						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1020;
-						TestTargetID = 21D3AD9B220230C600118420;
 					};
 				};
 			};
@@ -222,7 +154,6 @@
 			projectRoot = "";
 			targets = (
 				21D3AD9B220230C600118420 /* HelloMyStateBag */,
-				21D3ADAF220230C600118420 /* HelloMyStateBagTests */,
 			);
 		};
 /* End PBXProject section */
@@ -238,17 +169,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		21D3ADAE220230C600118420 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		44A0E903C3ABA3DF4B9BA8CF /* [CP] Check Pods Manifest.lock */ = {
+		4668B5DB227B9FC600BB9213 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,21 +180,21 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"$(SRCROOT)/Carthage/Build/iOS/Diez.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Lottie.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "Copy Carthage Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HelloMyStateBag-checkManifestLockResult.txt",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Diez.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
-		637D91679FAF416E94E3D1A4 /* [CP] Embed Pods Frameworks */ = {
+		4668B5DF227CCFD200BB9213 /* Enable Development Mode */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -278,43 +202,15 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Diez/Diez.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "Enable Development Mode";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Diez.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HelloMyStateBag/Pods-HelloMyStateBag-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		952551D9B4C1568329F04D43 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HelloMyStateBagTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "$SRCROOT/scripts/update-plist.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -328,23 +224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		21D3ADAC220230C600118420 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				21D3ADB5220230C600118420 /* HelloMyStateBagTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		21D3ADB2220230C600118420 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 21D3AD9B220230C600118420 /* HelloMyStateBag */;
-			targetProxy = 21D3ADB1220230C600118420 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		21D3ADA3220230C600118420 /* Main.storyboard */ = {
@@ -486,7 +366,6 @@
 		};
 		21D3ADBA220230C600118420 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12CA19CD69DE2D0BDAABC9A6 /* Pods-HelloMyStateBag.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -494,6 +373,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = HelloMyStateBag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -509,7 +389,6 @@
 		};
 		21D3ADBB220230C600118420 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2626C317A8F4A112FC629770 /* Pods-HelloMyStateBag.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -517,6 +396,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = HelloMyStateBag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -527,50 +407,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		21D3ADBD220230C600118420 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CAF767BC1FA61A66A3EAA458 /* Pods-HelloMyStateBagTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZSZ4K2U5UH;
-				INFOPLIST_FILE = HelloMyStateBagTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.haiku.HelloMyStateBagTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelloMyStateBag.app/HelloMyStateBag";
-			};
-			name = Debug;
-		};
-		21D3ADBE220230C600118420 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A44ADEA599FE032B36CD4C78 /* Pods-HelloMyStateBagTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZSZ4K2U5UH;
-				INFOPLIST_FILE = HelloMyStateBagTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.haiku.HelloMyStateBagTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelloMyStateBag.app/HelloMyStateBag";
 			};
 			name = Release;
 		};
@@ -591,15 +427,6 @@
 			buildConfigurations = (
 				21D3ADBA220230C600118420 /* Debug */,
 				21D3ADBB220230C600118420 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		21D3ADBC220230C600118420 /* Build configuration list for PBXNativeTarget "HelloMyStateBagTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				21D3ADBD220230C600118420 /* Debug */,
-				21D3ADBE220230C600118420 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

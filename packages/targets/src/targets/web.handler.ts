@@ -60,6 +60,17 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
+  protected async validateOptions () {
+    if (this.program.options.devMode) {
+      if (!this.program.options.baseUrl || !this.program.options.staticRoot) {
+        throw new Error('--baseUrl and --staticRoot are required in hot mode.');
+      }
+    }
+  }
+
+  /**
+   * @abstract
+   */
   async hostname () {
     return await v4();
   }

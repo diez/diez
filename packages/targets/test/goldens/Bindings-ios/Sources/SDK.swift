@@ -53,7 +53,8 @@ extension File {
      */
     public var url: URL? {
         if environment.isDevelopment {
-            return URL(string: "\(environment.serverUrl)\(src)")
+            let relativeURLComponents = URLComponents(string: src)
+            return relativeURLComponents?.url(relativeTo: environment.serverURL)
         }
 
         return Bundle.diezResources?.url(forFile: self)
@@ -456,8 +457,6 @@ extension LOTAnimationView {
             completion?(.failure(.invalidURL))
             return nil
         }
-
-        print(url)
 
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
             self?.loadWith(data: data, response: response, error: error, completion: completion)

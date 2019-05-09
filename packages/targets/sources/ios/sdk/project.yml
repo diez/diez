@@ -1,0 +1,33 @@
+name: Diez
+options:
+  bundleIdPrefix: com.diez
+targets:
+  Diez:
+    type: framework
+    platform: iOS
+    sources: 
+      - Sources
+    info: 
+      path: Sources/Diez/Info.plist
+    {{#if hasDependenciesOrStaticAssets}}
+    dependencies:
+      {{#if hasStaticAssets}}
+      - target: Static
+        embed: true
+      {{/if}}
+      {{#each dependencies}}
+      - carthage: "{{{this.carthage.name}}}"
+        findFrameworks: true
+      {{/each}}
+    {{/if}}
+    scheme: {} # Generates the shared scheme
+  {{#if hasStaticAssets}}
+  Static:
+    type: bundle
+    platform: iOS
+    sources:
+      {{#each assetFolderPaths}}
+      - path: "{{{this}}}"
+        type: folder
+      {{/each}}
+  {{/if}}

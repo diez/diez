@@ -117,6 +117,7 @@
 				46E14C70226A7146007938DA /* Frameworks */,
 				46E14C71226A7146007938DA /* Resources */,
 				AC09C07F6B10FE43EE40EE07 /* [CP] Embed Pods Frameworks */,
+				4668B5DD227CCF8300BB9213 /* Enable Development Mode */,
 			);
 			buildRules = (
 			);
@@ -173,6 +174,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4668B5DD227CCF8300BB9213 /* Enable Development Mode */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Enable Development Mode";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/scripts/update-plist.sh\n";
+		};
 		AC09C07F6B10FE43EE40EE07 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

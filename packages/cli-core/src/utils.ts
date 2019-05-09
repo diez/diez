@@ -167,3 +167,16 @@ export const cliRequire = <T = any>(plugin: string, path: string): T => {
 
   return require(join(plugin, path));
 };
+
+/**
+ * Provides an async check for whether we can run a command from the command line.
+ *
+ * Resolves `true` iff the command both runs and produces output.
+ */
+export const canRunCommand = async (command: string) => {
+  try {
+    return !!(await execAsync(command));
+  } catch (_) {
+    return false;
+  }
+};

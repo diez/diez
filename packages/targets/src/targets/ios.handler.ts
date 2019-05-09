@@ -1,4 +1,4 @@
-import {code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli-core';
+import {canRunCommand, code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   getTempFileName,
@@ -34,16 +34,49 @@ const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDep
       // TODO: check for conflicts.
       return;
     }
+
+    if (dependency.carthage.name === newDependency.carthage.name) {
+      // TODO: check for conflicts.
+      return;
+    }
   }
 
   dependencies.add(newDependency);
 };
+
+const xcodegenInstallationMessage = (message: string) => `${message}
+
+You can install XcodeGen using HomeBrew:
+
+  brew install xcodegen
+
+See https://github.com/yonaskolb/XcodeGen#installing for all installation options.`;
 
 /**
  * A compiler for iOS targets.
  * @ignore
  */
 export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
+  /**
+   * @abstract
+   */
+  protected async validateOptions () {
+    const hasXcodeGen = await canRunCommand('xcodegen --help');
+
+    if (hasXcodeGen) {
+      // Nothing special is needed if XcodeGen is already installed.
+      return;
+    }
+
+    if (this.program.options.carthage) {
+      throw new Error(xcodegenInstallationMessage(
+        '--carthage requires XcodeGen in order to generate an Xcode project.'));
+    } else if (!this.program.options.cocoapods) {
+      throw new Error(xcodegenInstallationMessage(
+        '--target=ios without --cocoapods requires XcodeGen in order to generate an Xcode project.'));
+    }
+  }
+
   /**
    * @abstract
    */
@@ -185,12 +218,19 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   printUsageInstructions () {
     info(`Diez SDK installed locally at ${join(this.program.projectRoot, 'Diez')}.\n`);
 
-    // TODO: Check if the target is actually using CocoaPods; locate Podfile if they are.
-    // TODO: Offer to add dependency to CocoaPods for the user, but don't force them to accept.
-    // Check if they already have a pod dependency.
-    info(`You can depend on the Diez SDK in your ${inlineCodeSnippet('Podfile')} like so:`);
-    code('pod \'Diez\', :path => \'./Diez\'\n');
-    info(`Don't forget to run ${inlineCodeSnippet('pod install')} after updating your CocoaPods dependencies!\n`);
+    if (this.program.options.cocoapods) {
+      info(`You can depend on the Diez SDK in your ${inlineCodeSnippet('Podfile')} during development like so:`);
+      code('pod \'Diez\', :path => \'/path/to/Diez\'\n');
+      info(`Don't forget to run ${inlineCodeSnippet('pod install')} after updating your CocoaPods dependencies!\n`);
+    }
+
+    if (this.program.options.carthage) {
+      info('You can depend on the Diez SDK in your application by hosting the generated SDK on GitHub and updating ');
+      info(`your ${inlineCodeSnippet('Cartfile')} like so:`);
+      code('github "Organization/Diez" "master"\n');
+      info(`where ${inlineCodeSnippet('Organization/Diez')} is your generated SDK's GitHub repository.`);
+      info(`Don't forget to run ${inlineCodeSnippet('carthage update')} after updating your Cartfile!\n`);
+    }
 
     // TODO: Check if the target is actually using Swift.
     info(`You can use ${inlineCodeSnippet('Diez')} to bootstrap any of the components defined in your project.\n`);
@@ -235,6 +275,30 @@ class ViewController: UIViewController {
     }
 
     this.writeAssets();
+  }
+
+  /**
+   * Retrieves a contextual blacklist based on options.
+   */
+  private get blacklist () {
+    const blacklist = new Set<string>();
+
+    if (!this.program.options.cocoapods) {
+      // No need for Diez.podspec unless the user has requested CocoaPods support.
+      blacklist.add('Diez.podspec');
+    }
+
+    if (!this.program.options.carthage) {
+      // No need for Cartfile unless the user has requested Carthage support.
+      blacklist.add('Cartfile');
+
+      if (this.program.options.cocoapods) {
+        // No need for project generation at all if the user has requested CocoaPods support.
+        blacklist.add('project.yml');
+      }
+    }
+
+    return blacklist;
   }
 
   /**
@@ -290,10 +354,18 @@ class ViewController: UIViewController {
       }
     }
 
+    const hasDependencies =  this.output.dependencies.size > 0;
+    const hasDependenciesOrStaticAssets =  hasDependencies || hasStaticAssets;
+
+    const assetBindingKeys = Array.from(this.output.assetBindings.keys());
+    const assetFolderPaths = new Set(assetBindingKeys.map((path: string) => `static/${path.split('/')[0]}`));
+
     const tokens = {
       devPort,
       hostname,
       hasStaticAssets,
+      hasDependenciesOrStaticAssets,
+      assetFolderPaths: Array.from(assetFolderPaths),
       devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       imports: Array.from(this.output.imports),
@@ -301,7 +373,14 @@ class ViewController: UIViewController {
     };
 
     this.writeAssets();
-    outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens);
+
+    outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens, this.blacklist);
+
+    // Always generate a project when the user has not opted in to CocoaPods support, or when the user has explicitly
+    // opted in to Carthage support.
+    if (!this.program.options.cocoapods || this.program.options.carthage) {
+      await execAsync('xcodegen generate', {cwd: this.output.sdkRoot});
+    }
   }
 }
 

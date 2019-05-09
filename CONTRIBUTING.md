@@ -13,7 +13,7 @@ The Diez monorepo is built with NodeJS `10.15.3` and Yarn `1.15.2`. The followin
  - Install dependencies and compile sources:
    `yarn`
 
-To set up mobile development IDEs for native development, see [macOS instructions](docs/ide-setup-macos.md) here.
+You will also need to follow the [macOS instructions](docs/ide-setup-macos.md) to ensure that all of the examples and tests can run.
 
 ## Contributing code
 

@@ -2,7 +2,7 @@
 import {info, warning} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
-import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync} from 'fs-extra';
+import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative, resolve} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
@@ -429,6 +429,11 @@ export abstract class TargetCompiler<
   protected abstract createOutput (sdkRoot: string): OutputType;
 
   /**
+   * Validates compiler options.
+   */
+  protected abstract validateOptions (): Promise<void>;
+
+  /**
    * Collects and consolidates component properties of a list type in the semantics of the target type.
    *
    * For example, this method might turn `["foo", "bar"]` into `new ArrayList<String>(){{ add("foo"); add("bar"); }}`
@@ -608,12 +613,45 @@ export abstract class TargetCompiler<
   }
 
   /**
+   * A hot URL mutex clients can look for.
+   */
+  private get hotUrlMutex () {
+    return join(this.program.projectRoot, '.diez', `${this.program.options.target}-hot-url`);
+  }
+
+  /**
+   * Cleans up the hot URL mutex for the next session.
+   */
+  private cleanupHotUrlMutex = () => {
+    removeSync(this.hotUrlMutex);
+    process.exit(0);
+  };
+
+  /**
+   * Writes the hot URL mutex once.
+   */
+  protected writeHotUrlMutex (hostname: string, devPort: number) {
+    if (existsSync(this.hotUrlMutex)) {
+      throw new Error(`Found existing hot URL at ${this.hotUrlMutex}. If this is an error, please manually remove the file.`);
+    }
+
+    writeFileSync(this.hotUrlMutex, `http://${hostname}:${devPort}`);
+    global.process.once('exit', this.cleanupHotUrlMutex);
+    global.process.once('SIGINT', this.cleanupHotUrlMutex);
+    global.process.once('SIGHUP', this.cleanupHotUrlMutex);
+    global.process.once('SIGQUIT', this.cleanupHotUrlMutex);
+    global.process.once('SIGTSTP', this.cleanupHotUrlMutex);
+  }
+
+  /**
    * Starts the compiler. In dev mode, this will start a server with hot module reloading and continuously rebuild the SDK;
    * in production mode, this will write an SDK once and exit.
    */
   async start () {
+    await this.validateOptions();
     if (this.program.options.devMode) {
       const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
+      this.writeHotUrlMutex(hostname, devPort);
       await this.runHot(async () => {
         this.writeSdk(hostname, devPort);
       });

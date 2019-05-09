@@ -24,5 +24,6 @@ describe('hot server', () => {
     const compiler = new TestTargetCompiler(program, '/dev/null');
     await compiler.start();
     program.close();
+    expect(compiler.mockWriteHotUrlMutex).toHaveBeenCalled();
   });
 });

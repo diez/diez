@@ -1,23 +1,20 @@
 private class Environment: NSObject {
-    var infoDict: NSDictionary {
-        get {
-            if let path = Bundle(for: type(of: self)).path(forResource: "Diez", ofType: "plist") {
-              return NSDictionary(contentsOfFile: path)!
-            }
-
-            fatalError("Configuration not found")
-        }
-    }
-
     var isDevelopment: Bool {
         get {
-            return infoDict["IS_DEVELOPMENT"] as! Bool
+            let isDevelopment = Bundle.main.infoDictionary?["DiezIsDevelopmentEnabled"] as? Bool
+            return isDevelopment ?? false
         }
     }
 
-    var serverUrl: String {
+    var serverURL: URL {
         get {
-            return infoDict["SERVER_URL"] as! String
+            guard 
+                let serverURLString = Bundle.main.infoDictionary?["DiezServerURL"] as? String,
+                let serverURL = URL(string: serverURLString) else {
+                    return URL(string: "http://localhost:8080")!
+            }
+
+            return serverURL
         }
     }
 }

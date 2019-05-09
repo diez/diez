@@ -1,0 +1,12 @@
+name: Diez
+options:
+  bundleIdPrefix: com.diez
+targets:
+  Diez:
+    type: framework
+    platform: iOS
+    sources: 
+      - Sources
+    info: 
+      path: Sources/Diez/Info.plist
+    scheme: {} # Generates the shared scheme

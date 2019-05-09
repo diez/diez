@@ -1,6 +1,7 @@
 /* tslint:disable:max-line-length */
 import {fatalError} from '@diez/cli-core';
 import chalk from 'chalk';
+import {readJSONSync} from 'fs-extra';
 import glob from 'glob';
 import {basename, join, resolve} from 'path';
 import {root, run} from '../internal/helpers';
@@ -21,14 +22,15 @@ const buildAndroid = () => {
 };
 
 const buildIos = () => {
-  glob(join(root, 'examples', '*', 'ios', '*.xcworkspace'), (_, matches) => {
-    for (const iosWorkspace of matches) {
-      const iosRoot = resolve(iosWorkspace, '..');
-      const diezRoot = resolve(iosRoot, '..');
+  glob(join(root, 'examples', '*'), (_, matches) => {
+    for (const diezRoot of matches) {
       console.log(chalk.blue(`Building for iOS: ${basename(diezRoot)}`));
-      run('yarn diez compile -t ios -o ios', diezRoot);
-      run('pod install', iosRoot);
-      run(`xcodebuild -workspace ${basename(iosWorkspace)} -scheme ${basename(iosWorkspace, '.xcworkspace')} -sdk iphonesimulator | xcpretty -t; test \${PIPESTATUS[0]} -eq 0`, iosRoot);
+      const packageJson = readJSONSync(join(diezRoot, 'package.json'), {throws: false});
+      if (!packageJson || !packageJson.scripts || !packageJson.scripts['build-ios-ci']) {
+        console.log(chalk.blue(`Skipping ${basename(diezRoot)} because no build-ios-ci script was provided.`));
+        continue;
+      }
+      run('yarn build-ios-ci', diezRoot);
     }
   });
 };

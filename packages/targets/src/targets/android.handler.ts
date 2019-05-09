@@ -48,6 +48,13 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
   /**
    * @abstract
    */
+  protected async validateOptions () {
+    // Noop; validation of options is not currently required for Android.
+  }
+
+  /**
+   * @abstract
+   */
   async hostname () {
     return await v4();
   }

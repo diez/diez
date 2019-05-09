@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {cliRequire, devDependencies, diezVersion, execAsync, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
+import {canRunCommand, cliRequire, devDependencies, diezVersion, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
 import {outputTemplatePackage} from '@diez/storage';
 import {execSync} from 'child_process';
 import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';
@@ -16,14 +16,7 @@ import {CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType
  * Provides an async check for if we are equipped to use `yarn` for package management operations.
  * @internal
  */
-const shouldUseYarn = async () => {
-  try {
-    await execAsync('yarnpkg --version');
-    return true;
-  } catch (_) {
-    return false;
-  }
-};
+const shouldUseYarn = () => canRunCommand('yarnpkg --version');
 
 /**
  * Shared singleton for retrieving Projects.
@@ -68,19 +61,6 @@ export const getTempFileName = () => join(tmpdir(), v4());
  * @see {@link https://github.com/facebook/create-react-app/blob/7864ba3/packages/create-react-app/createReactApp.js#L826}.
  */
 const canUseNpm = async (root: string) => Promise.resolve(true);
-
-/**
- * Run a package script.
- */
-const runPackageScript = async (command: string, useYarn: boolean, cwd: string) =>
-  new Promise<boolean>((resolvePromise) => {
-    try {
-      execSync(`${useYarn ? 'yarn' : 'npm run'} ${command}`, {cwd, stdio: 'inherit'});
-      resolvePromise(true);
-    } catch (e) {
-      resolvePromise(false);
-    }
-  });
 
 /**
  * @internal
@@ -310,8 +290,11 @@ export const createProject = async (packageName: string, cwd = process.cwd()) =>
   outputTemplatePackage(join(templateRoot, 'project'), root, tokens);
   copySync(join(templateRoot, 'assets'), join(root, 'assets'));
 
-  await runPackageScript('install', useYarn, root);
-  // TODO: finalize template project.
+  if (useYarn) {
+    await execSync('yarn install', {cwd: root});
+  } else {
+    await execSync('npm install', {cwd: root});
+  }
   // TODO: print instructions.
 };
 

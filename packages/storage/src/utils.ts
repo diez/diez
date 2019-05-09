@@ -9,9 +9,14 @@ import {join, relative, resolve} from 'path';
  *
  * Files and filenames are both parsed and rewritten based on replacement tokens.
  */
-export const outputTemplatePackage = (templateRoot: string, outputRoot: string, tokens: any) => {
+export const outputTemplatePackage = (
+  templateRoot: string,
+  outputRoot: string,
+  tokens: any,
+  blacklist: Set<string> = new Set(),
+) => {
   walkSync(templateRoot, (basedir, filename, stats) => {
-    if (!stats.isFile()) {
+    if (!stats.isFile() || blacklist.has(filename)) {
       return;
     }
 

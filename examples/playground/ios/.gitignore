@@ -1,3 +1,4 @@
 Index/
 Build/
-Pods/
+Carthage/Build/
+Carthage/Checkouts/

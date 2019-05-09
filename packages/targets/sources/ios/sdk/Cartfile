@@ -1,0 +1,3 @@
+{{#each dependencies}}
+github "{{{this.carthage.github}}}" {{{this.carthage.versionConstraint}}}
+{{/each}}

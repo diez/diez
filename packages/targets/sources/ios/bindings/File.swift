@@ -43,7 +43,8 @@ extension File {
      */
     public var url: URL? {
         if environment.isDevelopment {
-            return URL(string: "\(environment.serverUrl)\(src)")
+            let relativeURLComponents = URLComponents(string: src)
+            return relativeURLComponents?.url(relativeTo: environment.serverURL)
         }
 
         return Bundle.diezResources?.url(forFile: self)

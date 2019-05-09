@@ -42,5 +42,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>DiezIsDevelopmentEnabled</key>
+	<true/>
 </dict>
 </plist>

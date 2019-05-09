@@ -61,8 +61,6 @@ extension LOTAnimationView {
             return nil
         }
 
-        print(url)
-
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
             self?.loadWith(data: data, response: response, error: error, completion: completion)
         }

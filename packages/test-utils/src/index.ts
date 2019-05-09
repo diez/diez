@@ -17,7 +17,7 @@ declare global {
     interface Matchers<R> {
       toExist (): R;
       toMatchFile (goldenFile: string): R;
-      toMatchDirectory (goldenDirectory: string): R;
+      toMatchDirectory (goldenDirectory: string, blacklist?: Set<string>): R;
     }
   }
 }

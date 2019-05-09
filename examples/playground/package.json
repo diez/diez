@@ -5,8 +5,9 @@
   "version": "10.0.0-alpha.0",
   "private": true,
   "scripts": {
-    "run-ios": "diez compile -t ios -o ios -d",
-    "build-ios": "diez compile -t ios -o ios && cd ios && pod install",
+    "run-ios": "diez compile -t ios -o ios -d --carthage",
+    "build-ios": "./scripts/carthage-install.sh",
+    "build-ios-ci": "./scripts/build-ios-ci.sh",
     "run-android": "diez compile -t android -o android -d",
     "build-android": "diez compile -t android -o android",
     "run-web": "diez compile -t web -o web -d"

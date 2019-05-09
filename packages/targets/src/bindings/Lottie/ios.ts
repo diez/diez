@@ -14,8 +14,11 @@ const binding: IosBinding<Lottie> = {
       name: 'lottie-ios',
       versionConstraint: '~> 2.5.2',
     },
-    carthage: {},
-    vanilla: {},
+    carthage: {
+      name: 'Lottie',
+      github: 'airbnb/lottie-ios',
+      versionConstraint: '~> 2.5.2',
+    },
   }],
 };
 

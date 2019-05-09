@@ -21,7 +21,11 @@ If it keeps failing, you can try to [manually install the Simulator image][1].
 
 ![screen shot 2019-01-30 at 10 02 10](https://user-images.githubusercontent.com/4419992/51982933-24950e80-2476-11e9-8634-39481abc95dd.jpg)
 
-6. For Xcode, CocoaPods is required for some functionality. Run `sudo gem install cocoapods` to install CocoaPods.
+6. [XcodeGen](https://www.github.com/yonaskolb/XcodeGen) is required in order to build/run some of the examples. See installation options [here](https://github.com/yonaskolb/XcodeGen#installing).
+
+7. [Carthage](https://github.com/Carthage/Carthage) is required in order to build/run some of the examples. See installation options [here](https://github.com/Carthage/Carthage#installing-carthage).
+
+8. [CocoaPods](https://github.com/CocoaPods/CocoaPods) is required in order to build/run some of the examples. See installation options [here](https://guides.cocoapods.org/using/getting-started.html#getting-started).
 
 
 ## Android

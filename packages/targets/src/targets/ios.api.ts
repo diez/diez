@@ -1,6 +1,16 @@
 import {PropertyType, TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
+declare module '@diez/compiler/types/api' {
+  /**
+   * Extends CompilerOptions for web.
+   */
+  export interface CompilerOptions {
+    cocoapods?: boolean;
+    carthage?: boolean;
+  }
+}
+
 /**
  * Describes an iOS third party dependency.
  */
@@ -9,14 +19,11 @@ export interface IosDependency {
     name: string;
     versionConstraint: string;
   };
-  /**
-   * @todo Define the shape of Carthage dependencies.
-   */
-  carthage: {};
-  /**
-   * @todo Define the shape of vanilla dependencies.
-   */
-  vanilla: {};
+  carthage: {
+    name: string;
+    github: string;
+    versionConstraint: string;
+  };
 }
 
 /**

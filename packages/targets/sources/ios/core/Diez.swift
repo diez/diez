@@ -13,8 +13,8 @@ public protocol StateBag: Decodable, Updatable {
 
  The class responsible for registering for updates to components.
 
- When the value of `IS_DEVELOPMENT` is set to `YES` in the `Diez.plist` found in the SDK's generated source directory,
- Diez will run in development mode.
+ When the value of `DiezIsDevelopmentEnabled` is set to `YES` in the application's `Info.plist` found in the SDK's 
+ generated source directory, Diez will run in development mode.
 
  When in development mode, this class will instantiate a `WKWebView` that is used to communicate with the Diez server 
  to provide component updates as they are made on the server.
@@ -106,7 +106,9 @@ private class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: State
         super.init()
 
         webView.configuration.userContentController.add(self, name: MessageName.patch.rawValue)
-        let url = URL(string: "\(environment.serverUrl)components/\(T.name)")!
+        let url = environment.serverURL
+            .appendingPathComponent("components")
+            .appendingPathComponent(T.name)
         webView.load(URLRequest(url: url))
         view.addSubview(webView)
     }
