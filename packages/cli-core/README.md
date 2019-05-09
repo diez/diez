@@ -2,7 +2,7 @@
 
 This package provides the core functionality of the extensible Diez command line interface.
 
-Diez configurations, which can be specified either in `package.json` using the special `"diez"` key or in a dedicated `.diezrc` file, can extend the command line functionality in various ways, registering commands, compiler targets, and more.
+Diez configurations, which can be specified either in `package.json` using the special `"diez"` key or in a dedicated `.diezrc` file, can extend the command line functionality in various ways, including registering compiler targets and providing entire new commands.
 
 A `CliCommandProvider` can be implemented in a Diez package like this:
 
@@ -27,7 +27,7 @@ const provider: CliCommandProvider = {
 export = provider;
 ```
 
-A custom provider such can be registered in `package-name/package.json`:
+A custom command provider can be registered in `package-name/package.json`:
 
 ```
 {
