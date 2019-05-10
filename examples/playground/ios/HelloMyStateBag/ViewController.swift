@@ -15,18 +15,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Subscribe to component changes.
-        diez.attach { [weak self] component in
-            guard let self = self else { return }
-
-            self.label.text = "\(component.text). \(component.numbers[10])"
-            self.label.apply(component.textStyle)
-            if let image = component.image.image {
-                self.view.backgroundColor = UIColor(patternImage: image)
+        diez.attach { [weak self] result in
+            switch result {
+            case .success(let component):
+                self?.apply(component)
+            case .failure(let error):
+                print(error)
             }
-
-            self.svgView.load(component.svg)
-            self.haikuView.load(component.haiku)
-            self.lottieView.load(component.lottie)
         }
+    }
+
+    private func apply(_ component: MyStateBag) {
+        label.text = "\(component.text). \(component.numbers[10])"
+        label.apply(component.textStyle)
+        if let image = component.image.image {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
+
+        svgView.load(component.svg)
+        haikuView.load(component.haiku)
+        lottieView.load(component.lottie)
     }
 }

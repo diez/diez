@@ -20,8 +20,13 @@ class ReportViewController: UIViewController {
 
         binder = ReportViewModelBinder(view: reportView)
 
-        diez.attach { [weak self] system in
-            self?.apply(system)
+        diez.attach { [weak self] result in
+            switch result {
+            case .success(let system):
+                self?.apply(system)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 

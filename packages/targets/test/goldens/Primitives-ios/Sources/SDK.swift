@@ -141,8 +141,25 @@ public final class DiezBridgedPrimitives: NSObject {
         super.init()
     }
 
-    @objc public func attach(_ subscriber: @escaping (Primitives) -> Void) {
-        diez.attach(subscriber)
+    /**
+     Registers the provided block for updates to the Primitives.
+
+     The provided closure is called synchronously when this function is called.
+     
+     If in [development mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
+     component.
+
+     - Parameter subscriber: The block to be called when the component updates.
+     */
+    @objc public func attach(_ subscriber: @escaping (Primitives?, NSError?) -> Void) {
+        diez.attach { result in
+            switch result {
+            case .success(let component):
+                subscriber(component, nil)
+            case .failure(let error):
+                subscriber(nil, error.asNSError)
+            }
+        }
     }
 
     private let diez: Diez<Primitives>

@@ -89,16 +89,12 @@ extension Image {
      */
     @objc(imageForScale:)
     public func image(withScale scale: CGFloat) -> UIImage? {
-      guard let url = url(forScale: scale) else {
-          return nil
-      }
+        guard
+            let url = url(forScale: scale),
+            let data = try? Data(contentsOf: url) else {
+                return nil
+        }
 
-      do {
-          let data = try Data(contentsOf: url)
-          return UIImage(data: data, scale: scale) 
-      } catch {
-          print("Failed to get image data: \(url) -\(error)")
-          return nil
-      }
+        return UIImage(data: data, scale: scale)
     }
 }

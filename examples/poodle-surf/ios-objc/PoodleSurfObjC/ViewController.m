@@ -25,7 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.diez = [[DEZDiezDesignSystem alloc] initWithView:self.view];
 
-    [self.diez attach:^(DEZDesignSystem *component) {
+    [self.diez attach:^(DEZDesignSystem  *component, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"%@", error.localizedDescription);
+            return;
+        }
+
         NSLog(@"Received component update:\n%@", component);
     }];
 }

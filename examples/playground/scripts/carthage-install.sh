@@ -16,5 +16,5 @@ pushd ios
 
   echo "git \"file://${LOCAL_REPO}\" \"master\"" > "Cartfile"
 
-  carthage update --platform ios
+  carthage update --cache-builds --platform ios
 popd

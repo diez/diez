@@ -20,8 +20,14 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        diez.attach { [weak self] system in
-            self?.apply(system)
+        diez.attach { [weak self] result in
+            switch result {
+            case .success(let design):
+                self?.apply(design)
+            case .failure(let error):
+                print(error)
+                self?.apply(error.partiallyUpdatedComponent)
+            }
         }
     }
 

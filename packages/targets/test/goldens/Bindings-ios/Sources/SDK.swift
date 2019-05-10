@@ -244,17 +244,13 @@ extension Image {
      */
     @objc(imageForScale:)
     public func image(withScale scale: CGFloat) -> UIImage? {
-      guard let url = url(forScale: scale) else {
-          return nil
-      }
+        guard
+            let url = url(forScale: scale),
+            let data = try? Data(contentsOf: url) else {
+                return nil
+        }
 
-      do {
-          let data = try Data(contentsOf: url)
-          return UIImage(data: data, scale: scale) 
-      } catch {
-          print("Failed to get image data: \(url) -\(error)")
-          return nil
-      }
+        return UIImage(data: data, scale: scale)
     }
 }
 
@@ -442,17 +438,6 @@ extension LOTAnimationView {
     public func load(_ lottie: Lottie, session: URLSession = .shared, completion: LoadCompletion? = nil) -> URLSessionDataTask? {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         // TODO: Should this be synchronous when resource is local?
-        // TODO: Remove debug logging?
-        let completion: LoadCompletion? = { result in
-            switch result {
-            case .failure(let error):
-                print(error.debugDescription)
-            default: break
-            }
-
-            completion?(result)
-        }
-
         guard let url = lottie.url else {
             completion?(.failure(.invalidURL))
             return nil
@@ -539,31 +524,15 @@ public final class FontRegistry: NSObject, Decodable {
 
             registeredFiles.insert(file)
 
-            guard let url = file.url else {
-                return
+            guard
+                let url = file.url,
+                let data = try? Data(contentsOf: url) as CFData,
+                let dataProvider = CGDataProvider(data: data),
+                let cgFont = CGFont(dataProvider) else {
+                    return
             }
 
-            do {
-                let data = try Data(contentsOf: url) as CFData
-
-                guard let dataProvider = CGDataProvider(data: data) else {
-                    return
-                }
-
-                guard let cgFont = CGFont(dataProvider) else {
-                    return
-                }
-
-                var error: Unmanaged<CFError>?
-                guard CTFontManagerRegisterGraphicsFont(cgFont, &error) else {
-                    print("unable to register font")
-                    return
-                }
-            } catch {
-                print("unable to load font data")
-                print(error)
-                return
-            }
+            CTFontManagerRegisterGraphicsFont(cgFont, nil)
         }
     }
 }
@@ -777,7 +746,6 @@ public final class HaikuView: UIView {
     public func load(_ haiku: Haiku) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = haiku.file.request else {
-            print("unable to load Haiku URL")
             return
         }
 
@@ -880,8 +848,25 @@ public final class DiezBridgedBindings: NSObject {
         super.init()
     }
 
-    @objc public func attach(_ subscriber: @escaping (Bindings) -> Void) {
-        diez.attach(subscriber)
+    /**
+     Registers the provided block for updates to the Bindings.
+
+     The provided closure is called synchronously when this function is called.
+     
+     If in [development mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
+     component.
+
+     - Parameter subscriber: The block to be called when the component updates.
+     */
+    @objc public func attach(_ subscriber: @escaping (Bindings?, NSError?) -> Void) {
+        diez.attach { result in
+            switch result {
+            case .success(let component):
+                subscriber(component, nil)
+            case .failure(let error):
+                subscriber(nil, error.asNSError)
+            }
+        }
     }
 
     private let diez: Diez<Bindings>

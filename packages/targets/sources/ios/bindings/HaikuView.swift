@@ -22,7 +22,6 @@ public final class HaikuView: UIView {
     public func load(_ haiku: Haiku) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         guard let request = haiku.file.request else {
-            print("unable to load Haiku URL")
             return
         }
 

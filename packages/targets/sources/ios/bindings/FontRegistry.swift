@@ -21,31 +21,15 @@ public final class FontRegistry: NSObject, Decodable {
 
             registeredFiles.insert(file)
 
-            guard let url = file.url else {
-                return
+            guard
+                let url = file.url,
+                let data = try? Data(contentsOf: url) as CFData,
+                let dataProvider = CGDataProvider(data: data),
+                let cgFont = CGFont(dataProvider) else {
+                    return
             }
 
-            do {
-                let data = try Data(contentsOf: url) as CFData
-
-                guard let dataProvider = CGDataProvider(data: data) else {
-                    return
-                }
-
-                guard let cgFont = CGFont(dataProvider) else {
-                    return
-                }
-
-                var error: Unmanaged<CFError>?
-                guard CTFontManagerRegisterGraphicsFont(cgFont, &error) else {
-                    print("unable to register font")
-                    return
-                }
-            } catch {
-                print("unable to load font data")
-                print(error)
-                return
-            }
+            CTFontManagerRegisterGraphicsFont(cgFont, nil)
         }
     }
 }

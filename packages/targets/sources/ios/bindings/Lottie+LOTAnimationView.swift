@@ -45,17 +45,6 @@ extension LOTAnimationView {
     public func load(_ lottie: Lottie, session: URLSession = .shared, completion: LoadCompletion? = nil) -> URLSessionDataTask? {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
         // TODO: Should this be synchronous when resource is local?
-        // TODO: Remove debug logging?
-        let completion: LoadCompletion? = { result in
-            switch result {
-            case .failure(let error):
-                print(error.debugDescription)
-            default: break
-            }
-
-            completion?(result)
-        }
-
         guard let url = lottie.url else {
             completion?(.failure(.invalidURL))
             return nil

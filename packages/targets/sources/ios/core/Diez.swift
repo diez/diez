@@ -26,14 +26,7 @@ public protocol StateBag: Decodable, Updatable {
    future.
  */
 public class Diez<T>: NSObject where T: StateBag {
-    /**
-     - Tag: Diez.component
-
-     The component that is being observed.
-
-     This property will be updated as changes are observed when in [development mode](x-source-tag://Diez).
-     */
-    public private(set) var component: T
+    private var component: T
 
     /**
      - Parameter view: When in [development mode](x-source-tag://Diez), this view will have a visually empty 
@@ -58,8 +51,54 @@ public class Diez<T>: NSObject where T: StateBag {
         updateObserver?.delegate = self
     }
 
+    /// An error that occurs when receiving updates form the design server.
+    public struct AttachError: Error {
+        /// The type of error that occured.
+        public enum ErrorType {
+            /// The context in which the decoding error occurred.
+            public struct DecodingErrorContext {
+                /// The name of the property that failed to decode.
+                public let propertyName: String
+
+                /// A description of what went wrong, for debugging purposes.
+                public let debugDescription: String
+            }
+
+            /**
+             An indication that a value could not be decoded because it was the incorrect type.
+
+             As an associated value, this case contains the context for debugging.
+             */
+            case typeMismatch(DecodingErrorContext)
+
+            /**
+             An indication that the data is corrupted or otherwise invalid.
+
+             As an associated value, this case contains the context for debugging.
+             */
+            case dataCorrupted(DecodingErrorContext)
+
+            /**
+             An indication that an unrecognized error has occured.
+             */
+            case unrecognized
+        }
+
+        /// The type of error that occured.
+        public let errorType: ErrorType
+
+        /// The partially updated component.
+        public let partiallyUpdatedComponent: T
+
+        /// The underlying error which caused this error, if any.
+        public let underlyingError: Error?
+    }
+
+    public typealias AttachResult = Result<T, AttachError>
+    public typealias AttachSubscription = (AttachResult) -> Void
+
     /**
-     Registers the provided closure for updates to the [component](x-source-tag://Diez.component).
+     Registers the provided closure for updates to the component of type `T`.
 
      The provided closure is called synchronously when this function is called.
      
@@ -68,29 +107,117 @@ public class Diez<T>: NSObject where T: StateBag {
 
      - Parameter subscriber: The closure to be called when the component updates.
      */
-    public func attach(_ subscriber: @escaping (T) -> Void) {
+    public func attach(_ subscriber: @escaping AttachSubscription) {
         // Initially execute a synchronous call on our subscriber.
-        subscriber(component)
+        subscriber(.success(component))
         subscribers.append(subscriber)
     }
 
     private let decoder = JSONDecoder()
-    private var subscribers: [(T) -> Void] = []
+    private var subscribers: [AttachSubscription] = []
     private let updateObserver: UpdateObserver<T>?
 
-    private func broadcast() {
+    private func broadcast(_ result: AttachResult) {
         for subscriber in subscribers {
-            subscriber(component)
+            subscriber(result)
         }
     }
 }
 
 extension Diez: UpdateObserverDelegate {
-    func update(with body: String) {
+    fileprivate func update(with body: String) {
+        let result = resultForUpdate(with: body)
+        broadcast(result)
+    }
+
+    private func resultForUpdate(with body: String) -> AttachResult {
         do {
             try decoder.update(&component, from: Data(body.utf8))
-            broadcast()
-        } catch { print(error) }
+            return .success(component)
+        } catch {
+            guard let decodingError = error as? DecodingError else {
+                let attachError = AttachError(
+                    errorType: .unrecognized,
+                    partiallyUpdatedComponent: component,
+                    underlyingError: error
+                )
+                return .failure(attachError)
+            }
+
+            let attachError = AttachError(
+                errorType: AttachError.ErrorType(decodingError),
+                partiallyUpdatedComponent: component,
+                underlyingError: error
+            )
+            return .failure(attachError)
+        }
+    }
+}
+
+private extension Diez.AttachError.ErrorType.DecodingErrorContext {
+    init(context: DecodingError.Context) {
+        let propertyName = context.codingPath.map { $0.stringValue }.joined(separator: ".")
+        self.init(
+            propertyName: propertyName,
+            debugDescription: context.debugDescription
+        )
+    }
+}
+
+private extension Diez.AttachError.ErrorType {
+    static func propertyName(from codingPath: [CodingKey]) -> String {
+        return codingPath.map { $0.stringValue }.joined(separator: ".")
+    }
+}
+
+private extension Diez.AttachError.ErrorType {
+    init(_ underlyingError: DecodingError) {
+        switch underlyingError {
+        case .typeMismatch(_, let context):
+            let context = DecodingErrorContext(context: context)
+            self = .typeMismatch(context)
+        case .valueNotFound(_, let context):
+            let context = DecodingErrorContext(context: context)
+            self = .typeMismatch(context)
+        case .dataCorrupted(let context):
+            let context = DecodingErrorContext(context: context)
+            self = .dataCorrupted(context)
+        case .keyNotFound:
+            // This should have been caught and ignored upstream.
+            self = .unrecognized
+        @unknown default:
+            self = .unrecognized
+        }
+    }
+}
+
+private extension Diez.AttachError {
+    var asNSError: NSError {
+        let error = self as NSError
+        var userInfo = error.userInfo
+        userInfo[NSLocalizedDescriptionKey] = debugDescription
+
+        return NSError(domain: error.domain, code: error.code, userInfo: userInfo)
+    }
+}
+
+extension Diez.AttachError: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self.errorType {
+        case .typeMismatch(let context):
+            return "Type mismatch for property named \"\(context.propertyName)\": \(context.debugDescription)"
+        case .dataCorrupted(let context):
+            return "Data corrupted for property named: \(context.propertyName): \(context.debugDescription)"
+        case .unrecognized:
+            let suffix: String = {
+                guard let error = underlyingError else {
+                    return "."
+                }
+
+                return ": \(error)"
+            }()
+            return "An unrecognized error has occured\(suffix)"
+        }
     }
 }
 
@@ -115,7 +242,6 @@ private class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: State
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let name = MessageName(rawValue: message.name) else {
-            print("unknown message: " + message.name)
             return
         }
 
