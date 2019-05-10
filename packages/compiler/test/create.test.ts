@@ -8,6 +8,8 @@ import {workspaceExamplesRoot} from './helpers';
 const myProjectRoot = join(workspaceExamplesRoot, 'my-project');
 
 beforeAll(() => {
+  // Allow 1 minute per test. Hopefully they don't actually take that long!
+  jest.setTimeout(6e5);
   registerExpectations();
   removeSync(myProjectRoot);
 });

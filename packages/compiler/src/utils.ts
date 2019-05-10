@@ -5,7 +5,7 @@ import {execSync} from 'child_process';
 import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {tmpdir} from 'os';
 import pascalCase from 'pascal-case';
-import {basename, dirname, join, resolve, sep} from 'path';
+import {basename, dirname, join, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
 import {v4} from 'uuid';
@@ -179,7 +179,7 @@ export const getNodeModulesSource = (filePath: string): string | undefined => {
   if (nodeModulesSourceMap.has(filePath)) {
     return nodeModulesSourceMap.get(filePath);
   }
-  const [maybeNamespace, maybePackageName] = filePath.replace(new RegExp(`^.*node_modules${sep}?`), '').split('/');
+  const [maybeNamespace, maybePackageName] = filePath.replace(new RegExp('^.*node_modules/?'), '').split('/');
   try {
     // Check for a namespaced import.
     const candidateNamespaced = `${maybeNamespace}/${maybePackageName}`;
