@@ -21,6 +21,8 @@ export const compileAction = async (options: CompilerOptions) => {
   options.outputPath = resolve(options.outputPath);
 
   const program = new Program(global.process.cwd(), options);
+  await program.start();
+
   if (!program.localComponentNames.length) {
     return fatalError('No local components found!');
   }

@@ -49,6 +49,7 @@ const createProgramForFixture = async (fixture: string, target: string, options?
   const destination = getTempFileName();
   ensureDirSync(destination);
   const program = new Program(stubProjectRoot, {target, outputPath: destination, ...options});
+  await program.start();
   // Turn on dev mode after the fact so we don't start a dev server.
   program.options.devMode = true;
   return program;

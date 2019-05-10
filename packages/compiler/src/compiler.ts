@@ -50,7 +50,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * @ignore
    */
-  readonly localComponentNames: PropertyType[];
+  readonly localComponentNames: PropertyType[] = [];
 
   /**
    * @ignore
@@ -194,7 +194,7 @@ export class Program extends EventEmitter implements CompilerProgram {
       let depth = 0;
       while (propertyType && propertyType.isArray()) {
         depth++;
-        propertyType = propertyType.getArrayType()!;
+        propertyType = propertyType.getArrayElementType()!;
       }
 
       if (!propertyType || propertyType.isUnknown() || propertyType.isAny()) {
@@ -250,12 +250,23 @@ export class Program extends EventEmitter implements CompilerProgram {
   }
 
   /**
+   * Starts the program.
+   */
+  async start () {
+    if (this.options.devMode) {
+      this.watch();
+    } else {
+      await this.run();
+    }
+  }
+
+  /**
    * Runs the compiler and emits to isteners.
    */
-  private run (throwOnErrors = false) {
+  private async run (throwOnErrors = false) {
     this.targetComponents.clear();
     this.localComponentNames.length = 0;
-    if (!this.compile()) {
+    if (!await this.compile()) {
       if (throwOnErrors) {
         throw new Error('Unable to compile project!');
       }
@@ -265,10 +276,12 @@ export class Program extends EventEmitter implements CompilerProgram {
 
     const sourceFile = this.project.getSourceFileOrThrow(join(this.projectRoot, 'src', 'index.ts'));
     info(`Unwrapping component types from ${resolve(this.projectRoot, 'src', 'index.ts')}...`);
-    for (const exportDeclaration of sourceFile.getExportedDeclarations()) {
-      const type = this.checker.getTypeAtLocation(exportDeclaration);
-      if (this.processType(type)) {
-        this.localComponentNames.push(type.getSymbolOrThrow().getName());
+    for (const exportedDeclarations of sourceFile.getExportedDeclarations().values()) {
+      for (const exportDeclaration of exportedDeclarations) {
+        const type = this.checker.getTypeAtLocation(exportDeclaration);
+        if (this.processType(type)) {
+          this.localComponentNames.push(type.getSymbolOrThrow().getName());
+        }
       }
     }
 
@@ -278,9 +291,9 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * Actually compiles the project, emitting JS source files for runtime compilation.
    */
-  private compile () {
+  private async compile () {
     info('Compiling project…');
-    const emitResult = this.program.emit();
+    const emitResult = await this.program.emit();
     this.printDiagnostics(emitResult.diagnostics);
     return emitResult.diagnostics.length === 0;
   }
@@ -388,14 +401,6 @@ export class Program extends EventEmitter implements CompilerProgram {
       [PrimitiveType.Int]: intImport.getSymbolOrThrow().getDeclaredType(),
       [PrimitiveType.Float]: floatImport.getSymbolOrThrow().getDeclaredType(),
     };
-
-    this.localComponentNames = [];
-
-    if (options.devMode) {
-      this.watch();
-    } else {
-      this.run();
-    }
   }
 }
 

@@ -27,10 +27,10 @@ describe('create project', () => {
     const project = new Project({tsConfigFilePath});
     const typeChecker = project.getTypeChecker();
     const sourceFile = project.getSourceFileOrThrow(join(myProjectRoot, 'src', 'index.ts'));
-    const exported = sourceFile.getExportedDeclarations();
+    const exported = Array.from(sourceFile.getExportedDeclarations().values());
     expect(exported.length).toBe(1);
     const exportedType = typeChecker
-      .getTypeAtLocation(exported[0])
+      .getTypeAtLocation(exported[0][0])
       .getSymbolOrThrow()
       .getValueDeclarationOrThrow() as ClassDeclaration;
     expect(exportedType.getName()).toBe('MyProjectDesignSystem');

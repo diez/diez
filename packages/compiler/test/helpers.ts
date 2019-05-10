@@ -25,7 +25,9 @@ export const createProgramForFixture = async (fixture: string, outputPath = '/de
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  return new Program(stubProjectRoot, {outputPath, devMode, target: 'test'});
+  const program = new Program(stubProjectRoot, {outputPath, devMode, target: 'test'});
+  await program.start();
+  return program;
 };
 
 /**
