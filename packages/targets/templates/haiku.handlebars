@@ -11,9 +11,9 @@
     {{{standaloneIndexContent}}}
     document.addEventListener('DOMContentLoaded', () => {
       {{{adapterName}}}(document.getElementById('mount'), {
-        // TODO: support runtime parameters.
         sizing: 'contain',
-        loop: true
+        loop: {{loop}},
+        autoplay: {{autoplay}}
       });
     });
   </script>

@@ -46,6 +46,8 @@ const binding: WebBinding<Haiku> = {
     const tokens = {
       componentName,
       haikuComponent: instance.component,
+      loop: instance.loop,
+      autoplay: instance.autoplay,
     };
     outputFileSync(
       sourceFileName,

@@ -3,7 +3,7 @@
   "version": "10.0.0-alpha.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "fix": "vue-cli-service lint *.js"
   },

@@ -35,7 +35,12 @@ export const haikuAssetBinder: AssetBinder<Haiku> = async (instance, _, {assetBi
         assetBindings.set(
           `haiku/${instance.component}.html`,
           {
-            contents: compile(templateContentsBuffer.toString())({standaloneIndexContent, adapterName: matches[1]}),
+            contents: compile(templateContentsBuffer.toString())({
+              standaloneIndexContent,
+              adapterName: matches[1],
+              loop: instance.loop,
+              autoplay: instance.autoplay,
+            }),
           },
         );
 

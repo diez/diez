@@ -12,9 +12,7 @@ Lottie.prototype.mount = function (ref) {
   lottie.loadAnimation({
     container: ref,
     path: this.url,
-    // TODO: configuration "autoplay".
-    autoplay: true,
-    // TODO: configuration "loop".
-    loop: true,
+    autoplay: this.autoplay,
+    loop: this.loop,
   });
 };

@@ -353,15 +353,23 @@ public final class SVGView: UIView {
 @objc(DEZLottie)
 public final class Lottie: NSObject, Decodable {
     @objc public var file: File
+    @objc public var loop: Bool
+    @objc public var autoplay: Bool
 
     private enum CodingKeys: String, CodingKey {
         case file
+        case loop
+        case autoplay
     }
 
     init(
-        file: File
+        file: File,
+        loop: Bool,
+        autoplay: Bool
     ) {
         self.file = file
+        self.loop = loop
+        self.autoplay = autoplay
     }
 }
 
@@ -369,6 +377,8 @@ extension Lottie: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(updatable: &file, forKey: .file)
+        try container.update(value: &loop, forKey: .loop)
+        try container.update(value: &autoplay, forKey: .autoplay)
     }
 }
 
@@ -444,7 +454,7 @@ extension LOTAnimationView {
         }
 
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
-            self?.loadWith(data: data, response: response, error: error, completion: completion)
+            self?.loadWith(data: data, lottie: lottie, response: response, error: error, completion: completion)
         }
 
         task.resume()
@@ -452,7 +462,7 @@ extension LOTAnimationView {
         return task
     }
 
-    private func loadWith(data: Data?, response: URLResponse?, error: Error?, completion: LoadCompletion?) {
+    private func loadWith(data: Data?, lottie: Lottie, response: URLResponse?, error: Error?, completion: LoadCompletion?) {
         guard let data = data else {
             DispatchQueue.main.async { completion?(.failure(.requestFailed(error))) }
             return
@@ -470,8 +480,13 @@ extension LOTAnimationView {
                 // TODO: Use bundle for referenced assets?
                 self.setAnimation(json: json)
 
-                // TODO: Use configuration.
-                self.loopAnimation = true
+                self.loopAnimation = lottie.loop
+
+                guard lottie.autoplay else {
+                    completion?(.success(()))
+                    return
+                }
+
                 self.play { _ in
                     completion?(.success(()))
                 }
@@ -681,15 +696,23 @@ public extension UITextField {
 @objc(DEZHaiku)
 public final class Haiku: NSObject, Decodable {
     @objc public var component: String
+    @objc public var loop: Bool
+    @objc public var autoplay: Bool
 
     private enum CodingKeys: String, CodingKey {
         case component
+        case loop
+        case autoplay
     }
 
     init(
-        component: String
+        component: String,
+        loop: Bool,
+        autoplay: Bool
     ) {
         self.component = component
+        self.loop = loop
+        self.autoplay = autoplay
     }
 }
 
@@ -697,6 +720,8 @@ extension Haiku: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(value: &component, forKey: .component)
+        try container.update(value: &loop, forKey: .loop)
+        try container.update(value: &autoplay, forKey: .autoplay)
     }
 }
 
@@ -794,10 +819,10 @@ public final class Bindings: NSObject, StateBag {
     public override init() {
         image = Image(file1x: File(src: "assets/image%20with%20spaces.jpg"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg"), width: 246, height: 246)
         svg = SVG(src: "assets/image.svg")
-        lottie = Lottie(file: File(src: "assets/lottie.json"))
+        lottie = Lottie(file: File(src: "assets/lottie.json"), loop: true, autoplay: true)
         fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf")])
         textStyle = TextStyle(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
-        haiku = Haiku(component: "haiku-component")
+        haiku = Haiku(component: "haiku-component", loop: true, autoplay: true)
     }
 
     init(

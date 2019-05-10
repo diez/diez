@@ -10,7 +10,10 @@ class {{{componentName}}} {
 
   mount(ref) {
     if (this.adapter) {
-      return this.adapter(ref);
+      return this.adapter(ref, {
+        loop: {{loop}},
+        autoplay: {{autoplay}}
+      });
     }
   }
 }

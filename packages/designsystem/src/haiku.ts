@@ -6,7 +6,8 @@ import {Component, property} from '@diez/engine';
  */
 export interface HaikuState {
   component: string;
-  // TODO: add support for Haiku options.
+  loop: boolean;
+  autoplay: boolean;
 }
 
 /**
@@ -18,4 +19,6 @@ export interface HaikuState {
  */
 export class Haiku extends Component<HaikuState> {
   @property component = '';
+  @property loop = true;
+  @property autoplay = true;
 }

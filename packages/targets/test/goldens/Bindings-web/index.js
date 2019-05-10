@@ -111,9 +111,13 @@ Object.defineProperties(SVG.prototype, {
 
 class Lottie {
   constructor({
-    file
+    file,
+    loop,
+    autoplay
   }) {
     this.file = file;
+    this.loop = loop;
+    this.autoplay = autoplay;
   }
 
   update (payload) {
@@ -122,6 +126,8 @@ class Lottie {
     }
 
     this.file.update(payload.file);
+    this.loop = payload.loop;
+    this.autoplay = payload.autoplay;
   }
 }
 
@@ -142,10 +148,8 @@ Lottie.prototype.mount = function (ref) {
   lottie.loadAnimation({
     container: ref,
     path: this.url,
-    // TODO: configuration "autoplay".
-    autoplay: true,
-    // TODO: configuration "loop".
-    loop: true,
+    autoplay: this.autoplay,
+    loop: this.loop,
   });
 };
 
@@ -290,7 +294,10 @@ class HaikuComponent {
 
   mount(ref) {
     if (this.adapter) {
-      return this.adapter(ref);
+      return this.adapter(ref, {
+        loop: true,
+        autoplay: true
+      });
     }
   }
 }
@@ -301,7 +308,7 @@ class Bindings {
   constructor () {
     this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg"}), width: 246, height: 246});
     this.svg = new SVG({src: "assets/image.svg"});
-    this.lottie = new Lottie({file: new File({src: "assets/lottie.json"})});
+    this.lottie = new Lottie({file: new File({src: "assets/lottie.json"}), loop: true, autoplay: true});
     this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf"})]});
     this.textStyle = new TextStyle({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
     this.haiku = new HaikuComponent({});

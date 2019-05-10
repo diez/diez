@@ -51,7 +51,7 @@ extension LOTAnimationView {
         }
 
         let task = session.dataTask(with: url) { [weak self] (data, response, error) in
-            self?.loadWith(data: data, response: response, error: error, completion: completion)
+            self?.loadWith(data: data, lottie: lottie, response: response, error: error, completion: completion)
         }
 
         task.resume()
@@ -59,7 +59,7 @@ extension LOTAnimationView {
         return task
     }
 
-    private func loadWith(data: Data?, response: URLResponse?, error: Error?, completion: LoadCompletion?) {
+    private func loadWith(data: Data?, lottie: Lottie, response: URLResponse?, error: Error?, completion: LoadCompletion?) {
         guard let data = data else {
             DispatchQueue.main.async { completion?(.failure(.requestFailed(error))) }
             return
@@ -77,8 +77,13 @@ extension LOTAnimationView {
                 // TODO: Use bundle for referenced assets?
                 self.setAnimation(json: json)
 
-                // TODO: Use configuration.
-                self.loopAnimation = true
+                self.loopAnimation = lottie.loop
+
+                guard lottie.autoplay else {
+                    completion?(.success(()))
+                    return
+                }
+
                 self.play { _ in
                     completion?(.success(()))
                 }

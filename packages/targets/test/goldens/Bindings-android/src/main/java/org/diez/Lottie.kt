@@ -16,11 +16,11 @@ fun LottieAnimationView.load(lottie: Lottie) {
     val lottieView = this
     task.addListener(object: LottieListener<LottieComposition> {
         override fun onResult(result: LottieComposition) {
-            // TODO: configuration "loop".
-            lottieView.repeatCount = LottieDrawable.INFINITE
+            lottieView.repeatCount = if (lottie.loop) LottieDrawable.INFINITE else 0
             lottieView.setComposition(result)
-            // TODO: configuration "autoplay".
-            lottieView.playAnimation()
+            if (lottie.autoplay) {
+              lottieView.playAnimation()
+            }
             lottieView.layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
