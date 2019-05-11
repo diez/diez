@@ -97,6 +97,13 @@ export interface TargetBinding {
 }
 
 /**
+ * Config-style default command options for `.diezrc`.
+ */
+export interface CliDefaultOptions {
+  [command: string]: any;
+}
+
+/**
  * The full Diez configuration.
  */
 export interface FullDiezConfiguration {
@@ -108,6 +115,7 @@ export interface FullDiezConfiguration {
     extensions: Iterable<string>;
     targets: Iterable<string>;
   }>;
+  commandOptions: CliDefaultOptions;
 }
 
 /**

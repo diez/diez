@@ -2,7 +2,14 @@
 import {args, command, help, on, parse, version} from 'commander';
 import packageJson from 'package-json';
 import semver from 'semver';
-import {CliCommandExtension, CliCommandOption, CliCommandProvider, CliOptionValidator, ValidatedCommand} from './api';
+import {
+  CliCommandExtension,
+  CliCommandOption,
+  CliCommandProvider,
+  CliDefaultOptions,
+  CliOptionValidator,
+  ValidatedCommand,
+} from './api';
 import {fatalError, warning} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
@@ -35,7 +42,7 @@ const registerOptions = (validatedCommand: ValidatedCommand, options?: CliComman
  * Registers a command from its provider.
  * @internal
  */
-const registerWithProvider = async (provider: CliCommandProvider) => {
+const registerWithProvider = async (provider: CliCommandProvider, defaultOptions?: any) => {
   if (provider.preinstall) {
     await provider.preinstall();
   }
@@ -44,10 +51,11 @@ const registerWithProvider = async (provider: CliCommandProvider) => {
 
   const registeredCommand = command(provider.name).action(async (...options: any[]) => {
     try {
+      const commandWithDefaults = Object.assign({}, defaultOptions, registeredCommand);
       for (const validator of validators) {
-        await validator(registeredCommand);
+        await validator(commandWithDefaults);
       }
-      await provider.action.call(undefined, registeredCommand, ...options);
+      await provider.action.call(undefined, commandWithDefaults, ...options);
     } catch (error) {
       fatalError(error.message);
     }
@@ -74,6 +82,7 @@ const registerWithProvider = async (provider: CliCommandProvider) => {
 const registerWithProviders = async (
   registry: Map<string, ValidatedCommand>,
   plugin: string,
+  options: CliDefaultOptions,
   providers?: Iterable<string>,
 ) => {
   if (!providers) {
@@ -88,7 +97,7 @@ const registerWithProviders = async (
         continue;
       }
 
-      registry.set(provider.name, await registerWithProvider(provider));
+      registry.set(provider.name, await registerWithProvider(provider, options[provider.name]));
     } catch (error) {
       warning(`An invalid command provider was specified at ${path}.`);
     }
@@ -112,12 +121,16 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
   const plugins = await findPlugins(rootPackageName, bootstrapRoot);
   const registeredCommands = new Map<string, ValidatedCommand>();
   const deferredExtensions: CliCommandExtension[] = [];
+  const options: CliDefaultOptions = {};
+  if (plugins.has('.')) {
+    Object.assign(options, plugins.get('.')!.commandOptions);
+  }
   for (const [plugin, {providers}] of plugins) {
     if (!providers) {
       continue;
     }
 
-    await registerWithProviders(registeredCommands, plugin, providers.commands);
+    await registerWithProviders(registeredCommands, plugin, options, providers.commands);
 
     if (!providers.extensions) {
       continue;

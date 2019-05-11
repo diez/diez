@@ -6,5 +6,11 @@
     "extensions": [
       "./does/not/exist"
     ]
+  },
+  "commandOptions": {
+    "foobar": {
+      "booleanParam": true,
+      "stringParam": "baz"
+    }
   }
 }

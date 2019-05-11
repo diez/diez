@@ -30,7 +30,9 @@ describe('cli', () => {
   });
 
   test('command e2e', async () => {
-    process.argv = ['node', 'diez', 'foobar', '--stringParam', 'foo', '--booleanParam'];
+    // "booleanParam": true is provided in `.diezrc` of ./fixtures/starting-point
+    // "stringParam": "baz" is provided in `.diezrc`, but overridden at calltime
+    process.argv = ['node', 'diez', 'foobar', '--stringParam', 'foo'];
     mockAction.mockRejectedValueOnce('<fake error>');
     await run();
     expect(mockAction).toHaveBeenCalled();

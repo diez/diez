@@ -1,6 +1,6 @@
 import {cleanupMockOsData, mockOsData} from '@diez/test-utils';
 import {join} from 'path';
-import {execAsync, findPlugins, isMacOS} from '../src/utils';
+import {canRunCommand, execAsync, findPlugins, isMacOS} from '../src/utils';
 
 jest.mock('os');
 jest.unmock('fs-extra');
@@ -17,7 +17,9 @@ describe('utils', () => {
 
   test('execAsync', async () => {
     await expect(execAsync('nonexistentcommand')).rejects.toThrow();
+    expect(await canRunCommand('nonexistentcommand')).toBe(false);
     expect(await execAsync('echo " foobar "')).toBe('foobar');
+    expect(await canRunCommand('echo " foobar "')).toBe(true);
   });
 
   test('isMacOS', async () => {
