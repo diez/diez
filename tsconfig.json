@@ -7,8 +7,7 @@
   },
   "include": [
     "scripts/**/*.ts",
-    "packages/*/src/**/*.ts",
-    "packages/types/*"
+    "packages/*/src/**/*.ts"
   ],
   "exclude": [
     "packages/test-utils/**"

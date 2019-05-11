@@ -8,8 +8,6 @@
     "incremental": true,
     "target": "ESNext",
     "module": "commonjs",
-    "baseUrl": "./",
-    "paths": {"*": ["../types/*"]},
     "lib": ["esnext", "dom"],
     "esModuleInterop": true,
     "strict": true,

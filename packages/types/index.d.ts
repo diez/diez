@@ -1,3 +1,25 @@
+declare module 'fs-walk' {
+  import {Stats} from 'fs';
+
+  function walkSync(
+    path: string,
+    callback: (basedir: string, filename: string, stats: Stats) => void,
+  ): void;
+
+  export {walkSync};
+}
+
+declare module 'semver' {
+  export function gt(a: string, b: string): boolean;
+  export function gte(a: string, b: string): boolean;
+}
+
+declare module 'typed-errors' {
+  function makeTypedError(name: string): ErrorConstructor;
+
+  export {makeTypedError};
+}
+
 declare module 'validate-npm-package-name' {
   interface Result {
     // Whether the package name is valid in the current npm registry.
