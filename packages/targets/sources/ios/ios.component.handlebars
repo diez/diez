@@ -5,7 +5,7 @@ public final class {{{componentName}}}: NSObject, StateBag {
 public final class {{{componentName}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
-    @objc public var {{@key}}: {{this.type}}
+    @objc public internal(set) var {{@key}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
 

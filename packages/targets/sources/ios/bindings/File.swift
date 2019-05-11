@@ -1,5 +1,5 @@
 public final class File: NSObject, Decodable {
-    public var src: String
+    public internal(set) var src: String
 
     private enum CodingKeys: String, CodingKey {
         case src

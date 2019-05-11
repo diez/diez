@@ -9,7 +9,7 @@ extension Bundle {
 }
 
 public final class File: NSObject, Decodable {
-    public var src: String
+    public internal(set) var src: String
 
     private enum CodingKeys: String, CodingKey {
         case src
@@ -107,11 +107,11 @@ extension Bundle {
 
 @objc(DEZImage)
 public final class Image: NSObject, Decodable {
-    @objc public var file1x: File
-    @objc public var file2x: File
-    @objc public var file3x: File
-    @objc public var width: Int
-    @objc public var height: Int
+    @objc public internal(set) var file1x: File
+    @objc public internal(set) var file2x: File
+    @objc public internal(set) var file3x: File
+    @objc public internal(set) var width: Int
+    @objc public internal(set) var height: Int
 
     private enum CodingKeys: String, CodingKey {
         case file1x
@@ -256,7 +256,7 @@ extension Image {
 
 @objc(DEZSVG)
 public final class SVG: NSObject, Decodable {
-    @objc public var src: String
+    @objc public internal(set) var src: String
 
     private enum CodingKeys: String, CodingKey {
         case src
@@ -352,9 +352,9 @@ public final class SVGView: UIView {
 
 @objc(DEZLottie)
 public final class Lottie: NSObject, Decodable {
-    @objc public var file: File
-    @objc public var loop: Bool
-    @objc public var autoplay: Bool
+    @objc public internal(set) var file: File
+    @objc public internal(set) var loop: Bool
+    @objc public internal(set) var autoplay: Bool
 
     private enum CodingKeys: String, CodingKey {
         case file
@@ -563,10 +563,10 @@ extension FontRegistry: Updatable {
 
 @objc(DEZColor)
 public final class Color: NSObject, Decodable {
-    @objc public var h: CGFloat
-    @objc public var s: CGFloat
-    @objc public var l: CGFloat
-    @objc public var a: CGFloat
+    @objc public internal(set) var h: CGFloat
+    @objc public internal(set) var s: CGFloat
+    @objc public internal(set) var l: CGFloat
+    @objc public internal(set) var a: CGFloat
 
     private enum CodingKeys: String, CodingKey {
         case h
@@ -617,9 +617,9 @@ extension Color {
 
 @objc(DEZTextStyle)
 public final class TextStyle: NSObject, Decodable {
-    @objc public var fontName: String
-    @objc public var fontSize: CGFloat
-    @objc public var color: Color
+    @objc public internal(set) var fontName: String
+    @objc public internal(set) var fontSize: CGFloat
+    @objc public internal(set) var color: Color
 
     private enum CodingKeys: String, CodingKey {
         case fontName
@@ -695,9 +695,9 @@ public extension UITextField {
 
 @objc(DEZHaiku)
 public final class Haiku: NSObject, Decodable {
-    @objc public var component: String
-    @objc public var loop: Bool
-    @objc public var autoplay: Bool
+    @objc public internal(set) var component: String
+    @objc public internal(set) var loop: Bool
+    @objc public internal(set) var autoplay: Bool
 
     private enum CodingKeys: String, CodingKey {
         case component
@@ -800,12 +800,12 @@ public final class HaikuView: UIView {
 
 @objc(DEZBindings)
 public final class Bindings: NSObject, StateBag {
-    @objc public var image: Image
-    @objc public var svg: SVG
-    @objc public var lottie: Lottie
-    @objc public var fontRegistry: FontRegistry
-    @objc public var textStyle: TextStyle
-    @objc public var haiku: Haiku
+    @objc public internal(set) var image: Image
+    @objc public internal(set) var svg: SVG
+    @objc public internal(set) var lottie: Lottie
+    @objc public internal(set) var fontRegistry: FontRegistry
+    @objc public internal(set) var textStyle: TextStyle
+    @objc public internal(set) var haiku: Haiku
 
     private enum CodingKeys: String, CodingKey {
         case image

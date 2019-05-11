@@ -1,7 +1,7 @@
 
 @objc(DEZChildComponent)
 public final class ChildComponent: NSObject, Decodable {
-    @objc public var diez: CGFloat
+    @objc public internal(set) var diez: CGFloat
 
     private enum CodingKeys: String, CodingKey {
         case diez
@@ -50,15 +50,15 @@ extension EmptyComponent: ReflectedCustomStringConvertible {
 
 @objc(DEZPrimitives)
 public final class Primitives: NSObject, StateBag {
-    @objc public var number: CGFloat
-    @objc public var integer: Int
-    @objc public var float: CGFloat
-    @objc public var string: String
-    @objc public var boolean: Bool
-    @objc public var integers: [[CGFloat]]
-    @objc public var strings: [[[String]]]
-    @objc public var child: ChildComponent
-    @objc public var emptyChild: EmptyComponent
+    @objc public internal(set) var number: CGFloat
+    @objc public internal(set) var integer: Int
+    @objc public internal(set) var float: CGFloat
+    @objc public internal(set) var string: String
+    @objc public internal(set) var boolean: Bool
+    @objc public internal(set) var integers: [[CGFloat]]
+    @objc public internal(set) var strings: [[[String]]]
+    @objc public internal(set) var child: ChildComponent
+    @objc public internal(set) var emptyChild: EmptyComponent
 
     private enum CodingKeys: String, CodingKey {
         case number
