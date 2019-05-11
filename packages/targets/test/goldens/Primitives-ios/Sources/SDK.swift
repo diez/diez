@@ -145,7 +145,7 @@ public final class DiezBridgedPrimitives: NSObject {
      Registers the provided block for updates to the Primitives.
 
      The provided closure is called synchronously when this function is called.
-     
+
      If in [development mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
      component.
 
