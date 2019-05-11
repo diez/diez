@@ -31,7 +31,8 @@
           <h3 id="headless">Headless Components</h3>
           <p>It's common to think of components in a visual context, as things that snap together in a UI. We think of components more simply as bearers of state. And because we're not dealing with rendering context, we call them <strong>headless</strong> components.</p>
           <h3 id="prefabs">Prefab Components</h3>
-          <p><strong>Prefab</strong> components are components that come from our library. They're used as building blocks for consistently expressing design primitives within your design system. You can build your own prefabs for your team, and also contribute prefabs back to the mainline as well.</p>
+          <p><strong>Prefab</strong> components are the subset of <a href="#reusable">reusable components</a> that have been open-sourced to the community. They serve as building blocks for consistently expressing common types of <a href="#primitives">design primitives</a> in order for you to compose your <a href="#pds">production design system</a>.
+          <p>Diez ships with a useful collection of <strong>prefabs</strong> but you can build your own to suit your needs (and optionally contribute them back to the mainline).</p>
           <p>A guide for building your own prefabs will be coming soon. Ping us in <a href="https://spectrum.chat/diez">the community</a> if you need some help.</p>
           <h3 id="reusable">Reusable Components</h3>
           <p><strong>Reusable</strong> components are user-defined components. This type of component has an interface that defines how it can be constructed. The interface provides typings which will enable auto-complete within your IDE that shows you what your components' pieces are called and what types of properties they can receive.</p>
