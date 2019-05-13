@@ -1,7 +1,7 @@
 /* tslint:disable:max-line-length */
 import {canRunCommand, cliRequire, devDependencies, diezVersion, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
 import {outputTemplatePackage} from '@diez/storage';
-import {execSync} from 'child_process';
+import {execSync, spawnSync} from 'child_process';
 import {copySync, ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {tmpdir} from 'os';
 import pascalCase from 'pascal-case';
@@ -57,10 +57,37 @@ export const getTempFileName = () => join(tmpdir(), v4());
  * Provides an async check for if we are equipped to use `npm` in the current root as fallback for package management
  * operations.
  *
- * @todo Fill in this method body.
+ * @ignore
  * @see {@link https://github.com/facebook/create-react-app/blob/7864ba3/packages/create-react-app/createReactApp.js#L826}.
  */
-const canUseNpm = async (root: string) => Promise.resolve(true);
+export const canUseNpm = async (root: string) => {
+  let childOutput = null;
+  try {
+    // Note: intentionally using `spawn` over `exec` since
+    // some scenarios doesn't reproduce otherwise.
+    // `npm config list` is the only reliable way I could find
+    // to reproduce the wrong path. Just printing process.cwd()
+    // in a Node process was not enough.
+    childOutput = spawnSync('npm', ['config', 'list']).output.join('');
+  } catch (_) {
+    // Something went wrong spawning node.
+    // Not great, but it means we can't do this check.
+    return true;
+  }
+  if (typeof childOutput !== 'string') {
+    return true;
+  }
+
+  // `npm config list` output includes the following line:
+  // "; cwd = C:\path\to\current\dir" (unquoted)
+  const matches = childOutput.match(/^; cwd = (.*)$/m);
+  if (matches === null) {
+    // Fail gracefully. They could remove it.
+    return true;
+  }
+
+  return matches[1] === root;
+};
 
 /**
  * @internal
