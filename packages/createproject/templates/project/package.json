@@ -1,0 +1,16 @@
+{
+  "name": "{{packageName}}",
+  "main": "lib/index.js",
+  "version": "1.0.0",
+  "dependencies": {
+    "@diez/engine": "^{{diezVersion}}",
+    "@diez/prefabs": "^{{diezVersion}}"
+  },
+  "devDependencies": {
+    "@diez/compiler": "^{{diezVersion}}",
+    "@diez/sources": "^{{diezVersion}}",
+    "@diez/targets": "^{{diezVersion}}",
+    "diez": "^{{diezVersion}}",
+    "typescript": "{{typescriptVersion}}"
+  }
+}

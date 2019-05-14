@@ -1,4 +1,4 @@
-import {cleanupMockOsData, mockOsData} from '../src/utils';
+import {cleanupMockOsData, mockOsData} from '../src/mocks/os';
 
 describe('os mock', () => {
   test('basic functionality', () => {

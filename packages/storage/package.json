@@ -23,13 +23,16 @@
     "@diez/test-utils": "^10.0.0-alpha.0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^24.0.11",
+    "@types/node-fetch": "^2.3.3",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
+    "node-fetch": "^2.5.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "uuid": "^3.3.2"
   },
   "dependencies": {
     "fs-extra": "^7.0.1",

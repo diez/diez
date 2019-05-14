@@ -2,18 +2,22 @@ import {
   cleanupMockCommandData,
   cleanupMockFileSystem,
   cleanupMockOsData,
+  mockCliCoreFactory,
   mockCodegen,
   mockExec,
+  mockFsExtraFactory,
+  mockGenerationFactory,
   mockLocateFont,
   mockOsData,
+  mockOsFactory,
 } from '@diez/test-utils';
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
+jest.doMock('@diez/generation', mockGenerationFactory);
+jest.doMock('os', mockOsFactory);
+jest.doMock('fs-extra', mockFsExtraFactory);
+
 import {writeFile} from 'fs-extra';
 import {SketchExporter} from '../../src/exporters/sketch';
-
-jest.mock('@diez/cli-core');
-jest.mock('@diez/generation');
-jest.mock('fs-extra');
-jest.mock('os');
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 beforeEach(() => {

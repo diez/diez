@@ -11,10 +11,7 @@
   "homepage": "https://diez.org",
   "dependencies": {
     "@diez/cli-core": "^10.0.0-alpha.0",
-    "@diez/compiler": "^10.0.0-alpha.0",
-    "@diez/sources": "^10.0.0-alpha.0",
-    "@diez/targets": "^10.0.0-alpha.0",
-    "typescript": "^3.4.5"
+    "@diez/createproject": "^10.0.0-alpha.0"
   },
   "bin": {
     "diez": "./bin/diez"

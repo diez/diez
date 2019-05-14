@@ -1,5 +1,5 @@
 {
-  "name": "@diez/designsystem",
+  "name": "@diez/prefabs",
   "main": "lib/index.js",
   "version": "10.0.0-alpha.0",
   "description": "Components for building a design system with Diez.",
@@ -24,6 +24,7 @@
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {
+    "@diez/test-utils": "^10.0.0-alpha.0",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

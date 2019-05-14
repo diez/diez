@@ -1,4 +1,4 @@
-import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@diez/designsystem';
+import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@diez/prefabs';
 import {Component, expression, Integer, method, property, shared} from '@diez/engine';
 import {easeInOutExpo} from 'just-curves';
 

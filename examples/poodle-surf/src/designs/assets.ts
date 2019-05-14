@@ -1,4 +1,4 @@
-import {File, Image} from '@diez/designsystem';
+import {File, Image} from '@diez/prefabs';
 
 /**
  * Provides images for the design system.

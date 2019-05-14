@@ -1,4 +1,6 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
+import {cleanupMockFileSystem, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
+jest.doMock('fs-extra', mockFsExtraFactory);
+
 import {writeFile} from 'fs-extra';
 import {join} from 'path';
 import {ImageFormats} from '../src/api';
@@ -12,7 +14,6 @@ import {
   sanitizeFileName,
 } from '../src/utils';
 
-jest.mock('fs-extra');
 jest.mock('fs-walk');
 jest.mock('open');
 

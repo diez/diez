@@ -1,4 +1,4 @@
-import {createProject} from '@diez/compiler';
+import {createProject} from '@diez/createproject';
 import enquirer from 'enquirer';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';

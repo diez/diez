@@ -196,7 +196,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
 
   if (designSystemImports.size) {
     sourceFile.addImportDeclaration({
-      moduleSpecifier: '@diez/designsystem',
+      moduleSpecifier: '@diez/prefabs',
       namedImports: Array.from(designSystemImports).sort().map((name) => ({name})),
     });
   }

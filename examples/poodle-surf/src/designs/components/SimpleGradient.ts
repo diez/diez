@@ -1,4 +1,4 @@
-import {Color} from '@diez/designsystem';
+import {Color} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 
 interface SimpleGradientState {

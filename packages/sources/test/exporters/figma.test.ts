@@ -1,7 +1,8 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
+import {cleanupMockFileSystem, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
+jest.doMock('fs-extra', mockFsExtraFactory);
+
 import {FigmaExporter, getSVGLinks} from '../../src/exporters/figma';
 
-jest.mock('fs-extra');
 jest.mock('request');
 
 const figma = FigmaExporter.create('mock-token');

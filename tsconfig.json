@@ -10,6 +10,7 @@
     "packages/*/src/**/*.ts"
   ],
   "exclude": [
+    "packages/createproject/**",
     "packages/test-utils/**"
   ]
 }

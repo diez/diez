@@ -1,4 +1,4 @@
-import {Image, TextStyle} from '@diez/designsystem';
+import {Image, TextStyle} from '@diez/prefabs';
 import {Component, Float, property} from '@diez/engine';
 import {Images} from './assets';
 import {EdgeInsets} from './components/EdgeInsets';

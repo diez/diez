@@ -1,4 +1,4 @@
-import {Lottie} from '@diez/designsystem';
+import {Lottie} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {palette} from './constants';
 

@@ -1,4 +1,4 @@
-import {Lottie} from '@diez/designsystem';
+import {Lottie} from '@diez/prefabs';
 import {join} from 'path';
 import {AndroidBinding} from '../../targets/android.api';
 import {sourcesPath} from '../../utils';

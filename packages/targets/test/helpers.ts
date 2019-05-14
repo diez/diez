@@ -1,5 +1,6 @@
-import {CompilerOptions, getTempFileName, Program, projectCache} from '@diez/compiler';
+import {CompilerOptions, Program, projectCache} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
+import {getTempFileName} from '@diez/storage';
 import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';

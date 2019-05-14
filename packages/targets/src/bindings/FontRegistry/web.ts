@@ -1,4 +1,4 @@
-import {FontRegistry} from '@diez/designsystem';
+import {FontRegistry} from '@diez/prefabs';
 import {join} from 'path';
 import {WebBinding} from '../../targets/web.api';
 import {sourcesPath} from '../../utils';

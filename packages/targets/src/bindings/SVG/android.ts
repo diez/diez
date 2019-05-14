@@ -1,4 +1,4 @@
-import {SVG} from '@diez/designsystem';
+import {SVG} from '@diez/prefabs';
 import {join} from 'path';
 import {svgAssetBinder} from '../../asset-binders/svg';
 import {AndroidBinding} from '../../targets/android.api';

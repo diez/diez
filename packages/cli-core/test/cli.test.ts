@@ -8,8 +8,6 @@ beforeEach(() => {
   assignMock(process, 'exit');
 });
 
-jest.unmock('fs-extra');
-
 jest.mock('package-json', () => {
   const mock = jest.fn();
   // Covers all nag scenarios.

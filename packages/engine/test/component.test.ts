@@ -131,13 +131,13 @@ describe('component', () => {
     const component = new Foo();
     component.trigger<string>('hello', 'hello');
 
-    expect(helloFn.mock.calls.length).toBe(1);
-    expect(helloFn.mock.calls[0][0]).toBe('hello');
+    expect(helloFn).toHaveBeenCalledTimes(1);
+    expect(helloFn).toHaveBeenCalledWith('hello');
     component.trigger<string>('goodbye', 'noop');
-    expect(helloFn.mock.calls.length).toBe(1);
+    expect(helloFn).toHaveBeenCalledTimes(1);
     component.trigger<string>('hello', 'hello again!');
-    expect(helloFn.mock.calls.length).toBe(2);
-    expect(helloFn.mock.calls[1][0]).toBe('hello again!');
+    expect(helloFn).toHaveBeenCalledTimes(2);
+    expect(helloFn).toHaveBeenCalledWith('hello again!');
   });
 
   test('can provide expressions that proxy to their returned values', () => {

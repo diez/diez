@@ -1,4 +1,4 @@
-import {TextStyle} from '@diez/designsystem';
+import {TextStyle} from '@diez/prefabs';
 import {join} from 'path';
 import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';

@@ -1,4 +1,4 @@
-import {File} from '@diez/designsystem';
+import {File} from '@diez/prefabs';
 
 /**
  * Provides images for the mock system.

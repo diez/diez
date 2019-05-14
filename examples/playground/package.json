@@ -13,12 +13,16 @@
     "run-web": "diez compile -t web -o web -d"
   },
   "dependencies": {
-    "@diez/designsystem": "^10.0.0-alpha.0",
+    "@diez/prefabs": "^10.0.0-alpha.0",
     "@diez/engine": "^10.0.0-alpha.0",
     "@haiku/taylor-testthang": "^0.0.2",
     "just-curves": "^0.2.0"
   },
   "devDependencies": {
-    "diez": "^10.0.0-alpha.0"
+    "@diez/compiler": "^10.0.0-alpha.0",
+    "@diez/sources": "^10.0.0-alpha.0",
+    "@diez/targets": "^10.0.0-alpha.0",
+    "diez": "^10.0.0-alpha.0",
+    "typescript": "^3.4.5"
   }
 }

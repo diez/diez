@@ -11,42 +11,42 @@
     ]
   },
   "bindings": {
-    "@diez/designsystem:Color": {
+    "@diez/prefabs:Color": {
       "ios": "./lib/bindings/Color/ios",
       "android": "./lib/bindings/Color/android",
       "web": "./lib/bindings/Color/web"
     },
-    "@diez/designsystem:File": {
+    "@diez/prefabs:File": {
       "ios": "./lib/bindings/File/ios",
       "android": "./lib/bindings/File/android",
       "web": "./lib/bindings/File/web"
     },
-    "@diez/designsystem:FontRegistry": {
+    "@diez/prefabs:FontRegistry": {
       "ios": "./lib/bindings/FontRegistry/ios",
       "android": "./lib/bindings/FontRegistry/android",
       "web": "./lib/bindings/FontRegistry/web"
     },
-    "@diez/designsystem:Haiku": {
+    "@diez/prefabs:Haiku": {
       "ios": "./lib/bindings/Haiku/ios",
       "android": "./lib/bindings/Haiku/android",
       "web": "./lib/bindings/Haiku/web"
     },
-    "@diez/designsystem:Image": {
+    "@diez/prefabs:Image": {
       "ios": "./lib/bindings/Image/ios",
       "android": "./lib/bindings/Image/android",
       "web": "./lib/bindings/Image/web"
     },
-    "@diez/designsystem:Lottie": {
+    "@diez/prefabs:Lottie": {
       "ios": "./lib/bindings/Lottie/ios",
       "android": "./lib/bindings/Lottie/android",
       "web": "./lib/bindings/Lottie/web"
     },
-    "@diez/designsystem:SVG": {
+    "@diez/prefabs:SVG": {
       "ios": "./lib/bindings/SVG/ios",
       "android": "./lib/bindings/SVG/android",
       "web": "./lib/bindings/SVG/web"
     },
-    "@diez/designsystem:TextStyle": {
+    "@diez/prefabs:TextStyle": {
       "ios": "./lib/bindings/TextStyle/ios",
       "android": "./lib/bindings/TextStyle/android",
       "web": "./lib/bindings/TextStyle/web"

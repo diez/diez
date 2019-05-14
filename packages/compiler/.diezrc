@@ -1,8 +1,7 @@
 {
   "providers": {
     "commands": [
-      "./lib/commands/compile",
-      "./lib/commands/create"
+      "./lib/commands/compile"
     ]
   }
 }

@@ -1,4 +1,4 @@
-import {File} from '@diez/designsystem';
+import {File} from '@diez/prefabs';
 import {join} from 'path';
 import {fileAssetBinder} from '../../asset-binders/file';
 import {AndroidBinding} from '../../targets/android.api';

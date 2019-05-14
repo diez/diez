@@ -1,12 +1,13 @@
-import {cleanupMockCommandData, cleanupMockOsData, mockExec, mockOsData} from '@diez/test-utils';
+import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockExec, mockOsData, mockOsFactory} from '@diez/test-utils';
+jest.doMock('os', mockOsFactory);
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
+
 import {RequestListener} from 'http';
 import {getFigmaAccessToken} from '../src/exporters/figma';
 import {locateBinaryMacOS} from '../src/utils';
 import {getOAuthCodeFromBrowser} from '../src/utils.network';
 
-jest.mock('@diez/cli-core');
 jest.mock('open');
-jest.mock('os');
 
 afterEach(() => {
   cleanupMockOsData();

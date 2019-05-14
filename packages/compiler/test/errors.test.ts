@@ -1,7 +1,8 @@
+import {getTempFileName} from '@diez/storage';
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {Program} from '../src/compiler';
-import {getTempFileName, projectCache} from '../src/utils';
+import {projectCache} from '../src/utils';
 
 const tempLocation = getTempFileName();
 

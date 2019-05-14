@@ -1,5 +1,17 @@
-import {emptyDir, mkdirp, pathExists, readFile, readJson, writeFile, writeJson} from '../src/__mocks__/fs-extra';
-import {cleanupMockFileSystem} from '../src/utils';
+import {cleanupMockFileSystem, mockFsExtraFactory} from '../src/mocks/fs-extra';
+
+const {
+  createWriteStream,
+  emptyDir,
+  mkdirp,
+  pathExists,
+  readFile,
+  readJson,
+  removeSync,
+  unlink,
+  writeFile,
+  writeJson,
+} = mockFsExtraFactory();
 
 afterEach(cleanupMockFileSystem);
 
@@ -24,10 +36,25 @@ describe('fs-extra mock', () => {
     expect(pathExists('/foo/bar/baz')).toBe(true);
     expect(pathExists('/foo/bar/baz/bat')).toBe(false);
     expect(() => readFile('/foo/bar/baz/bat')).toThrow();
+    removeSync('/foo/bar/baz');
+    expect(pathExists('/foo/bar/baz')).toBe(false);
 
     writeJson('/foo/bar/baz/bat', {foo: 'bar', whoops: () => {}});
     expect(pathExists('/foo/bar/baz/bat')).toBe(true);
     // The function cannot be JSON encoded, so it is erased.
     expect(readJson('/foo/bar/baz/bat')).toEqual({foo: 'bar'});
+
+    const callback = jest.fn();
+    unlink('/foo/bar/baz/bat', callback);
+    expect(pathExists('/foo/bar/baz/bat')).toBe(false);
+    setImmediate(() => {
+      expect(callback).toHaveBeenCalled();
+    });
+
+    const stream = createWriteStream('/foo/bar/baz/bat');
+    expect(pathExists('/foo/bar/baz/bat')).toBe(false);
+    stream.close();
+    expect(pathExists('/foo/bar/baz/bat')).toBe(true);
+    expect(readFile('/foo/bar/baz/bat')).toBe('mockcontent');
   });
 });

@@ -1,6 +1,6 @@
+import {getTempFileName} from '@diez/storage';
 import {writeFileSync} from 'fs-extra';
 import {TargetBinding} from '../../../src/api';
-import {getTempFileName} from '../../../src/utils';
 import {BoundComponent} from './Bindings';
 
 const binding: TargetBinding<BoundComponent> = {

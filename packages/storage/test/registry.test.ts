@@ -1,9 +1,9 @@
-import {cleanupMockFileSystem, mockFileSystem} from '@diez/test-utils';
+import {cleanupMockFileSystem, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
+jest.doMock('fs-extra', mockFsExtraFactory);
+
 import {homedir} from 'os';
 import {join} from 'path';
 import {Registry} from '../src/registry';
-
-jest.mock('fs-extra');
 
 afterEach(cleanupMockFileSystem);
 

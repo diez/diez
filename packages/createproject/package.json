@@ -1,0 +1,44 @@
+{
+  "name": "@diez/createproject",
+  "main": "lib/index.js",
+  "version": "10.0.0-alpha.0",
+  "description": "Project creation for Diez",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "Proprietary",
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
+  },
+  "homepage": "https://diez.org",
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
+    "lint": "tslint -p . -t stylish",
+    "fix": "tslint -p . -t stylish --fix"
+  },
+  "dependencies": {
+    "@diez/cli-core": "^10.0.0-alpha.0",
+    "@diez/storage": "^10.0.0-alpha.0",
+    "enquirer": "^2.3.0",
+    "fs-extra": "^7.0.1",
+    "pascal-case": "^2.0.1",
+    "tar": "^4.4.8",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {
+    "@diez/test-utils": "^10.0.0-alpha.0",
+    "@types/jest": "^24.0.11",
+    "@types/tar": "^4.0.0",
+    "istanbul-reporter-cobertura-haiku": "^1.0.4",
+    "jest": "^24.7.1",
+    "jest-tap-reporter": "^1.9.0",
+    "ts-jest": "^24.0.2",
+    "ts-morph": "^2.1.0",
+    "tslint": "^5.15.0",
+    "tslint-config-haiku": "^1.0.20",
+    "typescript": "^3.4.5"
+  }
+}

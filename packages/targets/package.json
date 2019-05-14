@@ -23,7 +23,7 @@
   "dependencies": {
     "@diez/cli-core": "^10.0.0-alpha.0",
     "@diez/compiler": "^10.0.0-alpha.0",
-    "@diez/designsystem": "^10.0.0-alpha.0",
+    "@diez/prefabs": "^10.0.0-alpha.0",
     "@diez/engine": "^10.0.0-alpha.0",
     "@diez/storage": "^10.0.0-alpha.0",
     "fs-extra": "^7.0.1",

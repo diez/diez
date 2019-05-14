@@ -1,5 +1,5 @@
 import {AssetBinder} from '@diez/compiler';
-import {Haiku} from '@diez/designsystem';
+import {Haiku} from '@diez/prefabs';
 import {readFile} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';

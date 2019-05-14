@@ -1,4 +1,4 @@
-import {FontRegistry} from '@diez/designsystem';
+import {FontRegistry} from '@diez/prefabs';
 import {join} from 'path';
 import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';

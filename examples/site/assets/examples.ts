@@ -1,6 +1,6 @@
 export const Examples = {
   '/': {
-    typescript: `import {Color, TextStyle} from '@diez/designsystem';
+    typescript: `import {Color, TextStyle} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 
 class Palette extends Component {

@@ -1,4 +1,4 @@
-import {Color, FontRegistry, Image, Lottie, TextStyle} from '@diez/designsystem';
+import {Color, FontRegistry, Image, Lottie, TextStyle} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Margin} from './custom-components/Margin';
 
@@ -24,7 +24,7 @@ const palette = new Palette();
 
 /**
  * All of rich language features of TypeScript are at your disposal; for example, you can use an
- * enum to keep track of your font names. `@diez/designsystem` already provides enums for the
+ * enum to keep track of your font names. `@diez/prefabs` already provides enums for the
  * built-in fonts for iOS and Android.
  */
 enum MyFonts {

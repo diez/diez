@@ -1,4 +1,4 @@
-import {Haiku} from '@diez/designsystem';
+import {Haiku} from '@diez/prefabs';
 import {join} from 'path';
 import {haikuAssetBinder} from '../../asset-binders/haiku';
 import {AndroidBinding} from '../../targets/android.api';

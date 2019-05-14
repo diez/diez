@@ -1,5 +1,5 @@
 import {AssetBinder} from '@diez/compiler';
-import {SVG} from '@diez/designsystem';
+import {SVG} from '@diez/prefabs';
 import {readFile} from 'fs-extra';
 import {compile} from 'handlebars';
 import {join} from 'path';

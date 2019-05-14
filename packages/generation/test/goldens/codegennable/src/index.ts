@@ -1,4 +1,4 @@
-import { Color, FontRegistry, TextStyle } from "@diez/designsystem";
+import { Color, FontRegistry, TextStyle } from "@diez/prefabs";
 import { Component, property } from "@diez/engine";
 
 class MyDesignSystemPalette extends Component {

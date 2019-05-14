@@ -1,9 +1,8 @@
-import {cleanupMockOsData, mockOsData} from '@diez/test-utils';
+import {cleanupMockOsData, mockOsData, mockOsFactory} from '@diez/test-utils';
+jest.doMock('os', mockOsFactory);
+
 import {join} from 'path';
 import {canRunCommand, execAsync, findPlugins, isMacOS} from '../src/utils';
-
-jest.mock('os');
-jest.unmock('fs-extra');
 
 beforeEach(() => {
   cleanupMockOsData();

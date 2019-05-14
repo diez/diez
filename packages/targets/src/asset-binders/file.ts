@@ -1,5 +1,5 @@
 import {AssetBinder} from '@diez/compiler';
-import {File} from '@diez/designsystem';
+import {File} from '@diez/prefabs';
 import {stat} from 'fs-extra';
 import {join} from 'path';
 

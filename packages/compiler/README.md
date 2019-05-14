@@ -1,6 +1,6 @@
 # `@diez/compiler`
 
-This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compile` registers the CLI commands `diez create <package-name>`, which creates a new package with the given package name, and `diez --target <target-name> --outputPath <output-destination>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) to the specified location.
+This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compile` registers the CLI command `diez compile --target <target-name> --outputPath <output-destination>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) to the specified location.
 
 The compiler itself has very few requirements; it is expecting to be run against a TypeScript project of this approximate shape:
 
@@ -18,7 +18,7 @@ At compile time, the compiler first parses the TypeScript AST of every component
 
 ```
 import {Component, property} from '@diez/engine';
-import {Color} from '@diez/designsystem';
+import {Color} from '@diez/prefabs';
 
 class Palette extends Component {
   @property red = Color.rgb(255, 0, 0);

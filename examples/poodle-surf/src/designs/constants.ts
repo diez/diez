@@ -1,4 +1,4 @@
-import {Color, IOSFonts, TextStyle} from '@diez/designsystem';
+import {Color, IOSFonts, TextStyle} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {SimpleGradient} from './components/SimpleGradient';
 

@@ -1,7 +1,10 @@
 import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {walkSync} from 'fs-walk';
 import {compile} from 'handlebars';
+import nodeFetch from 'node-fetch';
+import {tmpdir} from 'os';
 import {join, relative, resolve} from 'path';
+import {v4} from 'uuid';
 
 /**
  * Templatizes an entire directory using [handlebars](https://handlebarsjs.com), then outputs the results to the
@@ -30,4 +33,17 @@ export const outputTemplatePackage = (
       compile(readFileSync(resolve(basedir, filename)).toString())(tokens),
     );
   });
+};
+
+/**
+ * Provides a unique temporary filename.
+ */
+export const getTempFileName = () => join(tmpdir(), v4());
+
+/**
+ * Downloads a file to a temporary location.
+ */
+export const downloadStream = async (url: string) => {
+  const response = await nodeFetch(url);
+  return response.body;
 };

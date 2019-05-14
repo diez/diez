@@ -1,4 +1,7 @@
-import {cleanupMockCommandData, cleanupMockFileSystem, mockExec, mockFileSystem} from '@diez/test-utils';
+import {cleanupMockCommandData, cleanupMockFileSystem, mockCliCoreFactory, mockExec, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
+jest.doMock('fs-extra', mockFsExtraFactory);
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
+
 import {writeFile} from 'fs-extra';
 import {IllustratorExporter, illustratorExportScript} from '../../src/exporters/illustrator';
 
@@ -9,9 +12,12 @@ afterEach(() => {
   cleanupMockCommandData();
 });
 
-jest.mock('fs-extra');
-jest.mock('@diez/cli-core');
-jest.mock('path');
+jest.mock('path', () => ({
+  ...jest.requireActual('path'),
+  resolve (dir: string) {
+    return dir;
+  },
+}));
 
 describe('Illustrator', () => {
   describe('canParse', () => {

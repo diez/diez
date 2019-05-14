@@ -1,4 +1,4 @@
-import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, SVG, TextStyle} from '@diez/designsystem';
+import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, SVG, TextStyle} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 
 export class Bindings extends Component {

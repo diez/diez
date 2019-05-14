@@ -1,4 +1,4 @@
-import {cleanupMockCommandData, mockExec} from '../src/utils';
+import {cleanupMockCommandData, mockExec} from '../src/mocks/@diez/cli-core';
 
 describe('child_process mock', () => {
   test('basic functionality', () => {

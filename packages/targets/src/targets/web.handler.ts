@@ -1,14 +1,13 @@
 import {warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
-  getTempFileName,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
-import {outputTemplatePackage} from '@diez/storage';
+import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';

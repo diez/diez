@@ -1,8 +1,8 @@
-import {cleanupMockCommandData, cleanupMockOsData, mockExec, mockOsData} from '@diez/test-utils';
-import {locateFont} from '../src/typography';
+import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockExec, mockOsData, mockOsFactory} from '@diez/test-utils';
+jest.doMock('os', mockOsFactory);
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
 
-jest.mock('os');
-jest.mock('@diez/cli-core');
+import {locateFont} from '../src/typography';
 
 afterEach(() => {
   cleanupMockCommandData();

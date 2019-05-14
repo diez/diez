@@ -1,4 +1,4 @@
-import {Image} from '@diez/designsystem';
+import {Image} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Images} from './assets';
 import {LayoutValues, palette, textStyles} from './constants';

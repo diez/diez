@@ -1,11 +1,10 @@
-import {getTempFileName} from '@diez/compiler';
+import {getTempFileName} from '@diez/storage';
 import {registerExpectations} from '@diez/test-utils';
 import {copySync} from 'fs-extra';
 import {join, resolve} from 'path';
 import {codegenDesignSystem, createDesignSystemSpec} from '../src/utils';
 
 registerExpectations();
-jest.unmock('fs-extra');
 
 describe('codegen.e2e', () => {
   test('generates the expected code', async () => {

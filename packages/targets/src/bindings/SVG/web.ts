@@ -1,4 +1,4 @@
-import {SVG} from '@diez/designsystem';
+import {SVG} from '@diez/prefabs';
 import {join} from 'path';
 import {WebBinding} from '../../targets/web.api';
 import {sourcesPath} from '../../utils';

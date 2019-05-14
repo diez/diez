@@ -1,4 +1,4 @@
-import {File} from '@diez/designsystem';
+import {File} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Images} from './assets';
 import {DayPartTimes} from './constants';
