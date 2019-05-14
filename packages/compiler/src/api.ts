@@ -261,6 +261,11 @@ export interface TargetSpecLedger<Spec, Binding> {
 }
 
 /**
+ * A map of relative asset paths to their compile-time bindings.
+ */
+export type AssetBindings = Map<string, AssetBinding>;
+
+/**
  * Provides a base target output interface targets can extend as needed.
  */
 export interface TargetOutput<
@@ -271,7 +276,7 @@ export interface TargetOutput<
   processedComponents: Map<PropertyType, TargetSpecLedger<Spec, Binding>>;
   sources: Set<string>;
   dependencies: Set<Dependency>;
-  assetBindings: Map<string, AssetBinding>;
+  assetBindings: AssetBindings;
   sdkRoot: string;
 }
 

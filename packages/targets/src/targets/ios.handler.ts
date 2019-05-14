@@ -201,6 +201,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       ]),
       dependencies: new Set(),
       assetBindings: new Map(),
+      bundleIdPrefix: 'com.diez',
     };
   }
 
@@ -357,14 +358,26 @@ class ViewController: UIViewController {
     const hasDependenciesOrStaticAssets =  hasDependencies || hasStaticAssets;
 
     const assetBindingKeys = Array.from(this.output.assetBindings.keys());
-    const assetFolderPaths = new Set(assetBindingKeys.map((path: string) => `static/${path.split('/')[0]}`));
+    const assetCatalogPaths: Set<string> = new Set();
+    const assetFolderPaths: Set<string> = new Set();
+    for (const path of assetBindingKeys) {
+      const root = path.split('/')[0];
+      const staticRoot = join('static', root);
+      if (root.endsWith('.xcassets')) {
+        assetCatalogPaths.add(staticRoot);
+      } else {
+        assetFolderPaths.add(staticRoot);
+      }
+    }
 
     const tokens = {
       devPort,
       hostname,
-      hasStaticAssets,
       hasDependenciesOrStaticAssets,
+      hasStaticAssets,
+      assetCatalogPaths: Array.from(assetCatalogPaths),
       assetFolderPaths: Array.from(assetFolderPaths),
+      bundleIdPrefix: this.output.bundleIdPrefix,
       devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       imports: Array.from(this.output.imports),

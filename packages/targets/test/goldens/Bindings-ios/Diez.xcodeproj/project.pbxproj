@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5810C3472985A6827CC8633F39203989 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 8B5AF703E057C8DD51F4335A3BD7A9E7 /* assets */; };
+		79B0807182AEDFEDDD036C439D53B75D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11DAF29B549CCF5DDF8F298C8F9FCE18 /* Images.xcassets */; };
 		8E31FEE64382B125F1A0EC06354858F7 /* SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B495A657870634718E77EA03DBAF1ED /* SDK.swift */; };
 		954190C1A4D218EA4813CBF96DC07CA1 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF96216AFF38BFEA620303B81014430 /* Lottie.framework */; };
 		956453318C481B18AE8BA33B4BAC6014 /* haiku in Resources */ = {isa = PBXBuildFile; fileRef = 97AA9FE3EF35DAD9BCB78582ED0831EF /* haiku */; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11DAF29B549CCF5DDF8F298C8F9FCE18 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		65B4099780A95FC5D834739AD0627700 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B495A657870634718E77EA03DBAF1ED /* SDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDK.swift; sourceTree = "<group>"; };
 		8B5AF703E057C8DD51F4335A3BD7A9E7 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = static/assets; sourceTree = SOURCE_ROOT; };
@@ -103,9 +105,18 @@
 				8B5AF703E057C8DD51F4335A3BD7A9E7 /* assets */,
 				97AA9FE3EF35DAD9BCB78582ED0831EF /* haiku */,
 				23638E71D835E761DD3EAB2AEA99DCBA /* Sources */,
+				D9C1A695A568D47A6979F5497C39B2C8 /* static */,
 				5CCDD2EBA45A59222F374CCED81720D3 /* Frameworks */,
 				4B60BB9FAB1EE0D1940F81F7BA83109A /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		D9C1A695A568D47A6979F5497C39B2C8 /* static */ = {
+			isa = PBXGroup;
+			children = (
+				11DAF29B549CCF5DDF8F298C8F9FCE18 /* Images.xcassets */,
+			);
+			path = static;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79B0807182AEDFEDDD036C439D53B75D /* Images.xcassets in Resources */,
 				5810C3472985A6827CC8633F39203989 /* assets in Resources */,
 				956453318C481B18AE8BA33B4BAC6014 /* haiku in Resources */,
 			);
@@ -220,6 +232,7 @@
 		2EDBDD12776DD0DEEB332244315154EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "static/Resources-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.diez.Static;
 				SDKROOT = iphoneos;
@@ -388,6 +401,7 @@
 		E2ED648FE67A5AD900BAA1F22F9A90DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "static/Resources-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.diez.Static;
 				SDKROOT = iphoneos;

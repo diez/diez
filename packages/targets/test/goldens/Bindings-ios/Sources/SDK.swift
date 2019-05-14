@@ -197,12 +197,23 @@ extension Image {
     }
 
     /**
-     Calls [image(withScale:)](x-source-tag://Image.imageWithScale) with `UIScreen.main.scale`.
+     An image of the appropriate scale if it exits.
 
-     - See: [image(withScale:)](x-source-tag://Image.imageWithScale)
+     When in [development mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale) 
+     with `UIScreen.main.scale`.
+     
+     When not in [development mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
     @objc public var image: UIImage? {
-        return image(withScale: UIScreen.main.scale)
+        if environment.isDevelopment {
+            return image(withScale: UIScreen.main.scale)
+        }
+
+        guard let name = (file1x.src as NSString).deletingPathExtension.removingPercentEncoding else {
+            return nil
+        }
+
+        return UIImage(named: name, in: Bundle.diezResources, compatibleWith: nil)
     }
 
     /**

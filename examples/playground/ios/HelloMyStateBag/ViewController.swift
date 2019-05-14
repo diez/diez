@@ -31,7 +31,6 @@ class ViewController: UIViewController {
         if let image = component.image.image {
             view.backgroundColor = UIColor(patternImage: image)
         }
-
         svgView.load(component.svg)
         haikuView.load(component.haiku)
         lottieView.load(component.lottie)

@@ -18,8 +18,11 @@ targets:
   Static:
     type: bundle
     platform: iOS
+    info: 
+      path: static/Resources-Info.plist
     sources:
       - path: "static/assets"
         type: folder
       - path: "static/haiku"
         type: folder
+      - "static/Images.xcassets"

@@ -1,0 +1,9 @@
+{
+  "info": {
+    "version": 1,
+    "author": "com.diez.Static"
+  },
+  "properties": {
+    "provides-namespace": true
+  }
+}

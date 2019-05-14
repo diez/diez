@@ -1,6 +1,6 @@
 name: Diez
 options:
-  bundleIdPrefix: com.diez
+  bundleIdPrefix: {{{bundleIdPrefix}}}
 targets:
   Diez:
     type: framework
@@ -25,9 +25,14 @@ targets:
   Static:
     type: bundle
     platform: iOS
+    info: 
+      path: static/Resources-Info.plist
     sources:
       {{#each assetFolderPaths}}
       - path: "{{{this}}}"
         type: folder
+      {{/each}}
+      {{#each assetCatalogPaths}}
+      - "{{{this}}}"
       {{/each}}
   {{/if}}
