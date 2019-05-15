@@ -29,7 +29,7 @@ export interface IosDependency {
 /**
  * Describes an iOS binding.
  */
-export interface IosBinding<T extends Component = any, OutputType = IosOutput> extends TargetBinding<T, OutputType> {
+export interface IosBinding<T extends Component = Component> extends TargetBinding<T, IosOutput> {
   imports: string[];
   dependencies?: IosDependency[];
 }

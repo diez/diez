@@ -24,7 +24,7 @@ export interface WebDependency {
 /**
  * Describes an Web binding.
  */
-export interface WebBinding<T extends Component = any> extends TargetBinding<T, WebOutput> {
+export interface WebBinding<T extends Component = Component> extends TargetBinding<T, WebOutput> {
   declarations?: string[];
   dependencies?: WebDependency[];
 }

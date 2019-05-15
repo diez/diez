@@ -284,7 +284,7 @@ export interface TargetOutput<
  * Provides a base binding interfaces for target compilers can extend as needed.
  */
 export interface TargetBinding<
-  T extends Component = any,
+  T extends Component = Component,
   OutputType = TargetOutput,
 > {
   sources: string[];

@@ -160,7 +160,7 @@ export const findPlugins = (
  * Wrapped require to support CLI plugin infrastructure.
  * @ignore
  */
-export const cliRequire = <T = any>(plugin: string, path: string): T => {
+export const cliRequire = <T>(plugin: string, path: string): T => {
   if (plugin === '.') {
     return require(join(global.process.cwd(), path));
   }

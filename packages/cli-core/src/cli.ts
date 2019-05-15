@@ -91,7 +91,7 @@ const registerWithProviders = async (
 
   for (const path of providers) {
     try {
-      const provider = cliRequire(plugin, path) as CliCommandProvider;
+      const provider = cliRequire<CliCommandProvider>(plugin, path);
       if (registry.has(provider.name)) {
         warning(`Ignoring attempt to reregister command ${provider.name}.`);
         continue;
@@ -138,7 +138,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
 
     for (const path of providers.extensions) {
       try {
-        deferredExtensions.push(cliRequire(plugin, path));
+        deferredExtensions.push(cliRequire<CliCommandExtension>(plugin, path));
       } catch (error) {
         warning(`An invalid command extension was specified at ${path}.`);
       }

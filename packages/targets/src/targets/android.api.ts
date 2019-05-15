@@ -15,7 +15,7 @@ export interface AndroidDependency {
 /**
  * Describes an Android binding.
  */
-export interface AndroidBinding<T extends Component = any> extends TargetBinding<T> {
+export interface AndroidBinding<T extends Component = Component> extends TargetBinding<T, AndroidOutput> {
   dependencies?: AndroidDependency[];
 }
 
