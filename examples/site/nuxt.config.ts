@@ -54,4 +54,7 @@ export default {
       },
     },
   },
+  loading: {
+    color: '#5623EE',
+  },
 };

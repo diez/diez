@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import versionHistory from '@/data/diez-versions.json';
-import {Component, Prop, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'nuxt-property-decorator';
 
 @Component
 export default class DocVersionSelect extends Vue {

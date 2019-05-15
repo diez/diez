@@ -23,7 +23,7 @@ import {Route} from 'vue-router';
   },
 })
 export default class Docs extends Vue {
-  content = 'Loading...';
+  content = '';
   $route!: Route;
 
   created () {
@@ -35,6 +35,10 @@ export default class Docs extends Vue {
       return;
     }
 
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
+
     // if no version provided, redirect to /latest
     if (!this.$route.params.version) {
       this.$router.push('/docs/latest/index.html');
@@ -44,9 +48,11 @@ export default class Docs extends Vue {
       // if no path provided, go to index
       const path = this.$route.params.pathMatch || 'index.html';
       const res = await fetch(`${process.env.docsURL}/${this.$route.params.version}/${path}`);
+      this.$nuxt.$loading.finish();
       this.content = res.ok ? await res.text() : 'There was an error loading the article. Please try again later.';
     } catch {
       this.content = 'There was an error loading the article. Please try again later.';
+      this.$nuxt.$loading.finish();
     }
   }
 }
