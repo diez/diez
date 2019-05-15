@@ -39,8 +39,7 @@ public class Diez<T>: NSObject where T: StateBag {
     public init(view: UIView) {
         component = T()
 
-        if environment.isDevelopment {
-            // TODO: Warn user if NSAppTransportSecurity.NSAllowsLocalNetworking is not set to true in their Info.plist.
+        if environment.isDevelopment && Bundle.main.allowsLocalNetworking {
             updateObserver = UpdateObserver(view: view)
         } else {
             updateObserver = nil
@@ -79,6 +78,12 @@ public class Diez<T>: NSObject where T: StateBag {
             case dataCorrupted(DecodingErrorContext)
 
             /**
+             An indication that the application's Info.plist does not have NSAllowsLocalNetworking set to true under the
+             NSAppTransportSecurity key.
+             */
+            case appTransportSecurityFailure
+
+            /**
              An indication that an unrecognized error has occured.
              */
             case unrecognized
@@ -108,6 +113,15 @@ public class Diez<T>: NSObject where T: StateBag {
      - Parameter subscriber: The closure to be called when the component updates.
      */
     public func attach(_ subscriber: @escaping AttachSubscription) {
+        if environment.isDevelopment && !Bundle.main.allowsLocalNetworking {
+            let error = AttachError(
+                errorType: .appTransportSecurityFailure,
+                partiallyUpdatedComponent: component,
+                underlyingError: nil)
+            subscriber(.failure(error))
+            return;
+        }
+
         // Initially execute a synchronous call on our subscriber.
         subscriber(.success(component))
         subscribers.append(subscriber)
@@ -208,6 +222,16 @@ extension Diez.AttachError: CustomDebugStringConvertible {
             return "Type mismatch for property named \"\(context.propertyName)\": \(context.debugDescription)"
         case .dataCorrupted(let context):
             return "Data corrupted for property named: \(context.propertyName): \(context.debugDescription)"
+        case .appTransportSecurityFailure:
+            return """
+            The NSAllowsLocalNetworking key must be set to true under NSAllowsLocalNetworking in the main bundle's Info.plist to use development mode.
+            For example:
+            <key>NSAppTransportSecurity</key>
+            <dict>
+            <key>NSAllowsLocalNetworking</key>
+            <true/>
+            </dict>
+            """
         case .unrecognized:
             let suffix: String = {
                 guard let error = underlyingError else {
@@ -258,4 +282,16 @@ private class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: State
     }
 
     private let webView: WKWebView
+}
+
+extension Bundle {
+    var allowsLocalNetworking: Bool {
+        guard
+            let appTransportSecurity = Bundle.main.infoDictionary?["NSAppTransportSecurity"] as? [String: Any],
+            let allowsLocalNetworking = appTransportSecurity["NSAllowsLocalNetworking"] as? Bool else {
+                return false
+        }
+
+        return allowsLocalNetworking
+    }
 }
