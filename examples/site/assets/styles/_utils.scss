@@ -55,8 +55,8 @@ $source-code-pro: 'Source Code Pro', monospace;
   @media (max-width: $sizingXL) { @content; }
 }
 
-@mixin font-family ($family...) {
-  font-family: nth($family, 1);
+@mixin font-family ($family) {
+  font-family: nth($family, 2);
 
   .fonts-loaded & {
     font-family: $family;
