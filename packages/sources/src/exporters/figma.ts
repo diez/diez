@@ -21,10 +21,11 @@ const figmaDefaultFilename = 'Untitled';
 const importBatchSize = 100;
 
 /**
- * We may want to consider allowing users of this library to use a different Figma app than the one we provide.
+ * See [http://github.com/diez/diez/tree/master/services/oauth](services/oauth) for the implementation of the OAuth 2.0
+ * handshake broker.
  */
-const defaultFigmaClientId = 'dVkwfl8RBD91688fwCq9Da';
-const defaultTokenExchangeUrl = 'https://figma-token-exchange.haiku.ai';
+const figmaClientId = 'dVkwfl8RBD91688fwCq9Da';
+const figmaTokenExchangeUrl = 'https://oauth.diez.org/figma';
 
 const enum ValidType {
   Slice = 'SLICE',
@@ -192,7 +193,7 @@ export const getFigmaAccessToken = async (): Promise<string> => {
   const state = v4();
   const redirectUri = `http://localhost:${port}`;
   const authParams = new URLSearchParams([
-      ['client_id', defaultFigmaClientId],
+      ['client_id', figmaClientId],
       ['redirect_uri', redirectUri],
       ['scope', 'file_read'],
       ['state', state],
@@ -209,7 +210,7 @@ export const getFigmaAccessToken = async (): Promise<string> => {
       ['redirect_uri', redirectUri],
   ]);
   const {access_token} = await performGetRequest<{access_token: string}>(
-    `${defaultTokenExchangeUrl}?${tokenExchangeParams.toString()}`,
+    `${figmaTokenExchangeUrl}?${tokenExchangeParams.toString()}`,
     );
 
   return access_token;

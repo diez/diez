@@ -82,7 +82,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
           const {searchParams: qs} = new URL(serverRequest.url!, `http:localhost:${port}`);
           // TODO: improve the redirect location of this handshake.
           response.writeHead(302, {
-            Location: 'https://www.haiku.ai/',
+            Location: 'https://diez.org/figma-auth',
           });
           response.end();
           server.destroy();

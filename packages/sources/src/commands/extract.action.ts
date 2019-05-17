@@ -1,7 +1,7 @@
 import {findPlugins, info, warning} from '@diez/cli-core';
 import {queue} from 'async';
 import {watch} from 'chokidar';
-import {readdirSync} from 'fs-extra';
+import {ensureDirSync, readdirSync} from 'fs-extra';
 import {join, resolve} from 'path';
 import {ExporterInput} from '../api';
 import {performExtraction} from '../exporters';
@@ -59,6 +59,7 @@ export const syncAction = async ({hot}: SyncOptions) => {
   configuration.assets = resolve(projectRoot, configuration.assets);
   configuration.code = resolve(projectRoot, configuration.code);
 
+  ensureDirSync(configuration.sources);
   const sources = readdirSync(configuration.sources)
     .map((designFile) => join(configuration.sources, designFile))
     .concat(configuration.services);

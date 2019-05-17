@@ -1,0 +1,39 @@
+service: oauth
+frameworkVersion: ">=1.28.0 <2.0.0"
+plugins:
+  - serverless-domain-manager
+custom:
+  domainNames:
+    prod: oauth.diez.org
+  figmaClientId:
+    prod: ${env:DIEZ_FIGMA_CLIENT_ID}
+  figmaClientSecret:
+    prod: ${env:DIEZ_FIGMA_CLIENT_SECRET}
+  figmaTokenExchangeEndpoint:
+    prod: https://www.figma.com/api/oauth/token
+  customDomain:
+    hostedZoneId: ${env:DIEZ_HOSTED_ZONE_ID}
+    domainName: ${self:custom.domainNames.${opt:stage}}
+    certificateName: diez.org
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${opt:stage, "prod"}
+  region: us-east-1
+  environment:
+    CLIENT_ID: ${self:custom.figmaClientId.${opt:stage}}
+    CLIENT_SECRET: ${self:custom.figmaClientSecret.${opt:stage}}
+    TOKEN_EXCHANGE_ENDPOINT: ${self:custom.figmaTokenExchangeEndpoint.${opt:stage}}
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+functions:
+  figma:
+    handler: bin/figma
+    events:
+      - http:
+          path: figma
+          method: get

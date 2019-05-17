@@ -15,7 +15,7 @@ export interface DiezRegistryOptions {
 /**
  * A diagnostic payload for Diez analytics.
  *
- * See [here](https://github.com/diez/diez/tree/master/packages/analytics) for how this is used.
+ * See [here](https://github.com/diez/diez/tree/master/services/analytics) for how this is used.
  */
 export interface DiezDiagnostics {
   uuid: string;
