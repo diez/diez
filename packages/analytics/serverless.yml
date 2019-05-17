@@ -1,0 +1,35 @@
+service: analytics
+frameworkVersion: ">=1.28.0 <2.0.0"
+plugins:
+  - serverless-domain-manager
+custom:
+  domainNames:
+    dev: analytics-dev.diez.org
+    prod: analytics.diez.org
+  amplitudeApiKeys:
+    dev: ${env:DIEZ_AMPLITUDE_API_KEY_DEV}
+    prod: ${env:DIEZ_AMPLITUDE_API_KEY_PROD}
+  customDomain:
+    hostedZoneId: ${env:DIEZ_HOSTED_ZONE_ID}
+    domainName: ${self:custom.domainNames.${opt:stage}}
+    certificateName: diez.org
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${opt:stage, "dev"}
+  region: us-east-1
+  environment:
+    AMPLITUDE_API_KEY: ${self:custom.amplitudeApiKeys.${opt:stage}}
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+functions:
+  ping:
+    handler: bin/ping
+    events:
+      - http:
+          path: ping
+          method: post

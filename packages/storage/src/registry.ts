@@ -19,7 +19,7 @@ const getRegistry = async (): Promise<Partial<DiezRegistryOptions>> => {
 
 const setRegistry = async (configuration: Partial<DiezRegistryOptions>) => {
   await ensureDiezRoot();
-  await writeJson(registryPath, configuration);
+  return writeJson(registryPath, configuration, {spaces: 2});
 };
 
 /**
@@ -37,8 +37,8 @@ export class Registry {
     return this.configuration[key];
   }
 
-  private async set (key: keyof DiezRegistryOptions, value: any) {
-    this.configuration[key] = value;
+  private async set (values: Partial<DiezRegistryOptions>) {
+    Object.assign(this.configuration, values);
     await this.flush();
   }
 
@@ -68,9 +68,9 @@ export class Registry {
    * @param key The Configuration key to set.
    * @param value The Configuration key-value.
    */
-  static async set (key: keyof DiezRegistryOptions, value: any) {
+  static async set (values: Partial<DiezRegistryOptions>) {
     await this.initialize();
-    await this.instance!.set(key, value);
+    await this.instance!.set(values);
   }
 
   /**
@@ -80,5 +80,12 @@ export class Registry {
   static async delete (key: keyof DiezRegistryOptions) {
     await this.initialize();
     await this.instance!.delete(key);
+  }
+
+  /**
+   * Resets the in-memory registry.
+   */
+  static reset () {
+    this.instance = undefined;
   }
 }

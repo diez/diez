@@ -8,6 +8,8 @@ beforeEach(() => {
   assignMock(process, 'exit');
 });
 
+jest.mock('@diez/storage');
+
 jest.mock('package-json', () => {
   const mock = jest.fn();
   // Covers all nag scenarios.

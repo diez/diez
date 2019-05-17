@@ -1,5 +1,4 @@
-import {fatalError} from '@diez/cli-core';
-import chalk from 'chalk';
+import {fatalError, info} from '@diez/cli-core';
 import enquirer from 'enquirer';
 import {copy, existsSync} from 'fs-extra';
 import {join} from 'path';
@@ -25,7 +24,7 @@ export = {
     })).packageName;
 
     const destination = join(root, 'packages', packageName);
-    console.log(chalk.blue(`Creating package @diez/${packageName} in ${destination}...`));
+    info(`Creating package @diez/${packageName} in ${destination}...`);
     await copy(templateLocation, destination);
     await replaceInFile(join(destination, 'README.md'), ['REPLACEME'], [packageName]);
     await replaceInFile(join(destination, 'package.json'), ['REPLACEME', 'VERSION'], [packageName, currentVersion]);

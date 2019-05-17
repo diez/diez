@@ -23,5 +23,12 @@ if [ -e examples/stub/src/index.ts ]; then
   rm examples/stub/src/index.ts
 fi
 
+while test $# -gt 0; do
+  case "$1" in
+    --no-install)
+      exit 0
+  esac
+done
+
 # Run yarn to sync dependencies and regenerate files.
 yarn

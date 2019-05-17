@@ -49,6 +49,7 @@
     "prepack": "yarn diez minify-sources"
   },
   "resolutions": {
-    "istanbul-api": "^2.0.0"
+    "istanbul-api": "^2.0.0",
+    "typescript": "^3.4.5"
   }
 }

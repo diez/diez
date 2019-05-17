@@ -2,7 +2,7 @@
   "name": "@diez/storage",
   "main": "lib/index.js",
   "version": "10.0.0-alpha.0",
-  "description": "Filesystem helpers and utilities for Diez.",
+  "description": "Storage helpers and utilities for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
   "typings": "types/index.d.ts",

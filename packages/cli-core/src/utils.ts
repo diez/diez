@@ -1,10 +1,11 @@
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
-import {existsSync, readJsonSync} from 'fs-extra';
+import {existsSync, readFileSync} from 'fs';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {dirname, join} from 'path';
 import {DiezConfiguration} from './api';
+import {warning} from './reporting';
 
 // tslint:disable-next-line:no-var-requires
 const packageJson = require(join('..', 'package.json'));
@@ -86,11 +87,7 @@ const getDependencies = (
   }
 
   const packagePath = dirname(packageJsonPath);
-  const json = readJsonSync(packageJsonPath, {throws: false});
-  // istanbul ignore if
-  if (!json) {
-    return;
-  }
+  const json = require(packageJsonPath);
 
   foundPackages.set(isRootPackage ? '.' : packageName, {json, path: packagePath});
 
@@ -135,12 +132,15 @@ export const findPlugins = (
       ([packageName, {json, path}], next) => {
         const configuration = (json.diez || {}) as DiezConfiguration;
         const diezRcPath = join(path, '.diezrc');
-        if (existsSync(diezRcPath)) {
-          // TODO: support alternative formats (e.g. YAML) here.
-          const rcConfiguration = readJsonSync(diezRcPath, {throws: false});
-          if (rcConfiguration) {
-            Object.assign(configuration, rcConfiguration);
-          }
+        if (!existsSync(diezRcPath)) {
+          return next();
+        }
+
+        try {
+          const rcConfiguration = JSON.parse(readFileSync(diezRcPath).toString());
+          Object.assign(configuration, rcConfiguration);
+        } catch (error) {
+          warning(`Found invalid .diezrc at ${diezRcPath}`);
         }
 
         if (Object.keys(configuration).length) {

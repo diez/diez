@@ -1,5 +1,5 @@
 /* tslint:disable:no-var-requires max-line-length */
-import chalk from 'chalk';
+import {fatalError} from '@diez/cli-core';
 import {execSync, StdioOptions} from 'child_process';
 import {existsSync, readFile, writeFile} from 'fs-extra';
 import {join} from 'path';
@@ -34,9 +34,9 @@ export const watchMutex = join(root, '.watching');
  */
 export const assertNotWatching = () => {
   if (existsSync(watchMutex)) {
-    console.log(chalk.red('It appears that `yarn watch` is active; for your own safety, you cannot run this command with an active watcher.'));
-    console.log(chalk.red('If this is an error, please manually remove `.watching` from the monorepo root and try again.'));
-    global.process.exit(1);
+    fatalError(`It appears that yarn watch is active; for your own safety, you cannot run this command with an active watcher.
+
+If this is an error, please manually remove .watching from the monorepo root and try again.`);
   }
 };
 

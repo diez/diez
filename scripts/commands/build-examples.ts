@@ -1,6 +1,5 @@
 /* tslint:disable:max-line-length */
-import {fatalError} from '@diez/cli-core';
-import chalk from 'chalk';
+import {fatalError, info} from '@diez/cli-core';
 import {readJSONSync} from 'fs-extra';
 import glob from 'glob';
 import {basename, join, resolve} from 'path';
@@ -14,7 +13,7 @@ const buildAndroid = () => {
   glob(join(root, 'examples', '*', '{android,android-java}'), (_, matches) => {
     for (const androidRoot of matches) {
       const diezRoot = resolve(androidRoot, '..');
-      console.log(chalk.blue(`Building for Android: ${basename(diezRoot)}`));
+      info(`Building for Android: ${basename(diezRoot)}`);
       run('yarn diez compile -t android -o android', diezRoot);
       run('./gradlew build', androidRoot);
     }
@@ -24,10 +23,10 @@ const buildAndroid = () => {
 const buildIos = () => {
   glob(join(root, 'examples', '*'), (_, matches) => {
     for (const diezRoot of matches) {
-      console.log(chalk.blue(`Building for iOS: ${basename(diezRoot)}`));
+      info(`Building for iOS: ${basename(diezRoot)}`);
       const packageJson = readJSONSync(join(diezRoot, 'package.json'), {throws: false});
       if (!packageJson || !packageJson.scripts || !packageJson.scripts['build-ios-ci']) {
-        console.log(chalk.blue(`Skipping ${basename(diezRoot)} because no build-ios-ci script was provided.`));
+        info(`Skipping ${basename(diezRoot)} because no build-ios-ci script was provided.`);
         continue;
       }
       run('yarn build-ios-ci', diezRoot);
@@ -39,7 +38,7 @@ const buildWeb = () => {
   glob(join(root, 'examples', '*', 'web'), (_, matches) => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
-      console.log(chalk.blue(`Building for web: ${basename(diezRoot)}`));
+      info(`Building for web: ${basename(diezRoot)}`);
       run('yarn diez compile -t web -o web --baseUrl /diez --staticRoot web/public/diez', diezRoot);
       run('yarn', webRoot);
       run('yarn build', webRoot);

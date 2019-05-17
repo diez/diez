@@ -15,7 +15,7 @@ declare module '../src/api' {
 
 describe('Registry', () => {
   test('basic functionality', async () => {
-    await Registry.set('foo', 'bar');
+    await Registry.set({foo: 'bar'});
     expect(mockFileSystem[join(homedir(), '.diez')]).toBe('FOLDER');
     expect(mockFileSystem[join(homedir(), '.diez', 'registry.json')]).toBe('{"foo":"bar"}');
 

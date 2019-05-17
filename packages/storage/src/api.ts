@@ -3,7 +3,27 @@
  */
 export interface DiezRegistryOptions {
   /**
-   * @ignore
+   * The unique identifier for this device.
    */
-  never: never;
+  uuid: string;
+  /**
+   * Whether or not analytics are enabled.
+   */
+  analyticsEnabled: boolean;
+}
+
+/**
+ * A diagnostic payload for Diez analytics.
+ *
+ * See [here](https://github.com/diez/diez/tree/master/packages/analytics) for how this is used.
+ */
+export interface DiezDiagnostics {
+  uuid: string;
+  eventType: string;
+  properties: {
+    platform: NodeJS.Platform;
+    arch: string;
+    diezVersion: string;
+    nodeVersion: string;
+  };
 }

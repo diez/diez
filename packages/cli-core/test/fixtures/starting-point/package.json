@@ -6,7 +6,9 @@
     "command-provider": "10.10.10"
   },
   "devDependencies": {
+    "broken-package": "10.10.10",
     "irrelevant-package": "10.10.10",
-    "command-extender": "10.10.10"
+    "command-extender": "10.10.10",
+    "not-diez-package": "10.10.10"
   }
 }

@@ -1,4 +1,6 @@
 /* tslint:disable no-var-requires */
+import {emitDiagnostics, enableAnalytics, Registry} from '@diez/storage';
+import chalk from 'chalk';
 import {args, command, help, on, parse, version} from 'commander';
 import packageJson from 'package-json';
 import semver from 'semver';
@@ -10,10 +12,19 @@ import {
   CliOptionValidator,
   ValidatedCommand,
 } from './api';
-import {fatalError, warning} from './reporting';
+import {fatalError, info, warning} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
 version(diezVersion).name('diez');
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      // Captured once at startup in case the value is mutated after starting up.
+      doNotTrack: boolean;
+    }
+  }
+}
 
 /**
  * Registers a list of options with a command.
@@ -159,6 +170,25 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
  * @ignore
  */
 export const run = async (bootstrapRoot?: string) => {
+  const analyticsEnabled = await Registry.get('analyticsEnabled');
+  global.doNotTrack = !analyticsEnabled;
+  if (analyticsEnabled === undefined) {
+    console.log(chalk.underline('Anonymous aggregate analytics:'));
+    info(`
+Diez collects diagnostic and usage data each time you use the CLI using an
+anonymous, randomly generated ID. We use these data to help improve our
+services.
+
+By default, anonymous aggregate analytics will be activated the next time you
+run a Diez command. Learn more about what data we collect and how to opt out
+here: https://diez.org/analytics`);
+    await enableAnalytics();
+  }
+
+  if (!global.doNotTrack) {
+    emitDiagnostics('activity', diezVersion);
+  }
+
   await bootstrap(global.process.cwd(), bootstrapRoot);
   // istanbul ignore next
   on('command:*', () => {

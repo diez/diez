@@ -34,7 +34,7 @@ export const performExtraction = async (
     if (!figmaAccessToken) {
       info('Figma authentication required.');
       figmaAccessToken = await getFigmaAccessToken();
-      await Registry.set('figmaAccessToken', figmaAccessToken);
+      await Registry.set({figmaAccessToken});
     }
     constructorArgs.push(figmaAccessToken as string);
   }
