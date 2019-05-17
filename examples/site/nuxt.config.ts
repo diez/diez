@@ -1,3 +1,5 @@
+import fontLoader from './helpers/font-loader';
+
 export default {
   env: {
     docsURL: '/_api',
@@ -15,17 +17,33 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:400,400i,900&display=swap',
+      },
     ],
+    script: [{
+      vmid: 'font-loader',
+      type: 'application/javascript',
+      innerHTML: fontLoader,
+    }],
+    __dangerouslyDisableSanitizers: ['script'],
   },
   css: [
     'modern-normalize/modern-normalize.css',
     'highlight.js/styles/github.css',
+    '@/assets/styles/_shared.scss',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {
       id: 'UA-90094131-5',
     }],
+    '@bazzite/nuxt-optimized-images',
   ],
+  optimizedImages: {
+    optimizeImages: true,
+  },
   router: {
     extendRoutes (routes, resolve) {
       routes.push({

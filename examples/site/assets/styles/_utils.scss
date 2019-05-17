@@ -1,0 +1,64 @@
+// SPACINGS
+$spacing2XS: 2px;
+$spacingXS: 4px;
+$spacingSM: 8px;
+$spacingMD: 12px;
+$spacingLG: 18px;
+$spacingXL: 24px;
+$spacing2XL: 32px;
+$spacing3XL: 44px;
+
+// SIZINGS
+$sizing2XS: 60px;
+$sizingXS: 100px;
+$sizingSM: 200px;
+$sizingMD: 300px;
+$sizingLG: 500px;
+$sizingXL: 640px;
+$sizing2XL: 860px;
+$sizing3XL: 1300px;
+
+$page-width: $sizing3XL;
+
+$purple: #5623EE;
+$mauve: #A494D3;
+$mauve700: darken($mauve, 20%);
+$white: #fff;
+$gray100: #FBFAFD;
+$gray400: #F6F5FB;
+$gray700: #EAE6F6;
+$gray900: #79738F;
+$black: #000010;
+
+$primary: $purple;
+$secondary: $mauve;
+$cardInsetShadow: $gray100;
+$cardColor: $gray400;
+$cardShadow: $gray700;
+
+$borderRadiusCard: 7px;
+$borderRadiusButton: 4px;
+
+$smallText: 16px;
+$source-sans-pro: 'Source Sans Pro', sans-serif;
+$source-code-pro: 'Source Code Pro', monospace;
+
+@mixin tablet-large {
+  @media (max-width: 1100px) { @content; }
+}
+
+@mixin tablet {
+  @media (max-width: $sizing2XL) { @content; }
+}
+
+@mixin phone {
+  @media (max-width: $sizingXL) { @content; }
+}
+
+@mixin font-family ($family...) {
+  font-family: nth($family, 1);
+
+  .fonts-loaded & {
+    font-family: $family;
+  }
+}

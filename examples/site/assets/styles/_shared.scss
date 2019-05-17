@@ -1,32 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,900|Source+Sans+Pro:400,400i,900');
-@import '@/assets/styles/_layout.scss';
+@import './utils';
+@import './layout';
 
-$purple: #5623EE;
-$mauve: #A494D3;
-$mauve700: darken($mauve, 20%);
-$white: #fff;
-$gray100: #FBFAFD;
-$gray400: #F6F5FB;
-$gray700: #EAE6F6;
-$gray900: #79738F;
-$black: #000010;
+html {
+  opacity: 0;
 
-$primary: $purple;
-$secondary: $mauve;
-$cardInsetShadow: $gray100;
-$cardColor: $gray400;
-$cardShadow: $gray700;
-
-$borderRadiusCard: 7px;
-$borderRadiusButton: 4px;
-
-$smallText: 16px;
+  &.fonts-loaded,
+  &.fonts-failed {
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+  }
+}
 
 .page, .navbar, #faq {
+  @include font-family($source-sans-pro);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
   font-size: 20px;
 }
@@ -36,7 +25,7 @@ pre {
 }
 
 code, .mono {
-  font-family: 'Source Code Pro', monospace;
+  @include font-family($source-code-pro);
   &.inline {
     background-color: $cardColor;
     border-radius: $borderRadiusButton;
@@ -113,6 +102,7 @@ footer {
 }
 
 button, .button {
+  @include font-family($source-code-pro);
   display: inline-block;
   background-color: $primary;
   position: relative;
@@ -121,7 +111,6 @@ button, .button {
   padding: 11px 30px 9px;
   font-size: 20px;
   font-weight: 900;
-	font-family: 'Source Code Pro', monospace;
   letter-spacing: 1.4px;
 	color: $white;
 	text-decoration: none;
@@ -223,7 +212,7 @@ button, .button {
 
 .card-code {
   @extend .card;
-  font-family: 'Source Code Pro', monospace;
+  @include font-family($source-code-pro);
   padding: $spacingLG;
   width: 100%;
   height: $sizingLG;

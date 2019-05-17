@@ -145,8 +145,7 @@ export default class NavBar extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/_shared.scss';
-  @import '@/assets/styles/_layout.scss';
+  @import '@/assets/styles/_utils.scss';
 
   a {
     background-color: rgba($white, .12);

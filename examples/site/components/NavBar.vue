@@ -52,8 +52,7 @@ export default class NavBar extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/_shared.scss';
-  @import '@/assets/styles/_layout.scss';
+  @import '@/assets/styles/_utils.scss';
 
   .nav {
     position: fixed;
@@ -90,7 +89,7 @@ export default class NavBar extends Vue {
   }
 
   .logo {
-    font-family: 'Source Code Pro', monospace;
+    @include font-family ($source-code-pro);
     font-weight: 900;
     font-size: 30px;
     display: flex;
@@ -101,7 +100,7 @@ export default class NavBar extends Vue {
     }
   }
 
-  a {
+  a:not(.button) {
     padding: 0 $spacingLG;
     color: $black;
     @include tablet {

@@ -1,36 +1,4 @@
-// SPACINGS
-$spacing2XS: 2px;
-$spacingXS: 4px;
-$spacingSM: 8px;
-$spacingMD: 12px;
-$spacingLG: 18px;
-$spacingXL: 24px;
-$spacing2XL: 32px;
-$spacing3XL: 44px;
-
-// SIZINGS
-$sizing2XS: 60px;
-$sizingXS: 100px;
-$sizingSM: 200px;
-$sizingMD: 300px;
-$sizingLG: 500px;
-$sizingXL: 640px;
-$sizing2XL: 860px;
-$sizing3XL: 1300px;
-
-$page-width: $sizing3XL;
-
-@mixin tablet-large {
-  @media (max-width: 1100px) { @content; }
-}
-
-@mixin tablet {
-  @media (max-width: $sizing2XL) { @content; }
-}
-
-@mixin phone {
-  @media (max-width: $sizingXL) { @content; }
-}
+@import './utils';
 
 .page {
   position: relative;

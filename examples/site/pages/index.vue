@@ -21,8 +21,12 @@
         <div class="half">
           <!-- Temporarily replacing video section until we have demo filmed -->
           <img src="@/assets/imgs/temp_apps.jpg" alt="Image" style="width: 100%;" >
-          <!-- hidden for now. remove 'temp-hide' class when demo is ready -->
-          <div class="video-holster temp-hide">
+          <!--
+            TODO: hidden for now. remove 'v-if' conditional when demo is ready
+            TODO: loading the video by default means loading all the YouTube assets in the iframe, ideally we should
+            display an image that loads the iframe only if the user clicks on the image.
+          -->
+          <div class="video-holster" v-if="false">
             <iframe class="video" src="https://www.youtube.com/embed/Y5ckCAUVOn0?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
@@ -151,8 +155,7 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/_shared.scss';
-  @import '@/assets/styles/_layout.scss';
+  @import '@/assets/styles/_utils.scss';
 
   .hero {
     height: 75vh;
@@ -195,10 +198,6 @@ export default class extends Vue {
     left: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .temp-hide {
-    display: none;
   }
 
   .bottom-spacer {

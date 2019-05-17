@@ -64,8 +64,7 @@ export default class Glossary extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/_shared.scss';
-  @import '@/assets/styles/_layout.scss';
+  @import '@/assets/styles/_utils.scss';
 
   section {
     margin-top: $sizingXS !important;
@@ -93,7 +92,7 @@ export default class Glossary extends Vue {
     align-self: flex-start;
     height: 100%;
   }
-  
+
   .nav-wrap {
     position: fixed;
     top: 200;
