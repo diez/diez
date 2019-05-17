@@ -172,7 +172,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
 export const run = async (bootstrapRoot?: string) => {
   const analyticsEnabled = await Registry.get('analyticsEnabled');
   global.doNotTrack = !analyticsEnabled;
-  if (analyticsEnabled === undefined) {
+  if (analyticsEnabled === undefined && !process.argv.includes('analytics')) {
     console.log(chalk.underline('Anonymous aggregate analytics:'));
     info(`
 Diez collects diagnostic and usage data each time you use the CLI using an
