@@ -65,6 +65,7 @@ export default class GettingStarted extends Vue {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_utils.scss';
+  @import '@/assets/styles/_shared.scss';
 
   section {
     margin-top: $sizingXS !important;

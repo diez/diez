@@ -54,6 +54,10 @@ export default class NavBar extends Vue {
 <style lang="scss" scoped>
   @import '@/assets/styles/_utils.scss';
 
+  .navbar {
+    @include navfont();
+  }
+
   .nav {
     position: fixed;
     top: 0;
@@ -100,6 +104,10 @@ export default class NavBar extends Vue {
     }
   }
 
+  a {
+    @include link();
+  }
+
   a:not(.button) {
     padding: 0 $spacingLG;
     color: $black;
@@ -110,6 +118,7 @@ export default class NavBar extends Vue {
   }
 
   .button {
+    @include button();
     margin-left: $spacingLG;
   }
 

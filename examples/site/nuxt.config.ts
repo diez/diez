@@ -33,7 +33,6 @@ export default {
   css: [
     'modern-normalize/modern-normalize.css',
     'highlight.js/styles/github.css',
-    '@/assets/styles/_shared.scss',
   ],
   modules: [
     ['@nuxtjs/google-analytics', {

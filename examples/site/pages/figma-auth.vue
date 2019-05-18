@@ -22,6 +22,7 @@ export default class FigmaAuth extends Vue {
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/styles/_shared.scss';
 
   h1 {
     text-align: center;

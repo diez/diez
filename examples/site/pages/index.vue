@@ -155,6 +155,7 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/styles/_shared.scss';
   @import '@/assets/styles/_utils.scss';
 
   .hero {
@@ -175,6 +176,20 @@ export default class extends Vue {
 
   h1 {
     margin-bottom: 0;
+  }
+
+  footer {
+    background-color: $purple;
+    color: $white;
+    text-align: center;
+    padding: $spacing3XL $spacing3XL $sizingXS;
+    margin-top: $spacing3XL;
+    @include phone {
+      flex-direction: column;
+      a.button {
+        margin-top: $spacingLG !important;
+      }
+    }
   }
 
   .cta-holster {

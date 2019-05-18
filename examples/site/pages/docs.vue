@@ -59,6 +59,7 @@ export default class Docs extends Vue {
 </script>
 
 <style lang="scss">
+  @import '@/assets/styles/_layout.scss';
   @import '@/assets/styles/_typedoc.scss';
 
   .doc-embed-wrap {
