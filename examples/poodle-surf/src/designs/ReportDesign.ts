@@ -18,11 +18,11 @@ class HeaderDesign extends Component {
   @property locationImage = new LocationImageDesign();
   @property bannerHeight = 149;
   @property labelsLayoutMargin = EdgeInsets.simple(
-    LayoutValues.compactMargin,
-    LayoutValues.defaultMargin,
+    LayoutValues.CompactMargin,
+    LayoutValues.DefaultMargin,
   );
-  @property pinIconToLabelSpacing = LayoutValues.defaultSpacing;
-  @property labelsSpacing = LayoutValues.compactSpacing;
+  @property pinIconToLabelSpacing = LayoutValues.DefaultSpacing;
+  @property labelsSpacing = LayoutValues.CompactSpacing;
 }
 
 interface SharedCardDesignState {
@@ -37,13 +37,13 @@ interface SharedCardDesignState {
 class SharedCardDesign extends Component<SharedCardDesignState> {
   @property title = '';
   @property titleTextStyle = textStyles.cardTitle;
-  @property titleContentSpacing = LayoutValues.defaultMargin;
+  @property titleContentSpacing = LayoutValues.DefaultMargin;
   @property gradient = palette.gradient;
   @property layoutMargins = new EdgeInsets({
-    top: LayoutValues.defaultMargin,
-    bottom: LayoutValues.looseMargin,
-    left: LayoutValues.defaultMargin,
-    right: LayoutValues.defaultMargin,
+    top: LayoutValues.DefaultMargin,
+    bottom: LayoutValues.LooseMargin,
+    left: LayoutValues.DefaultMargin,
+    right: LayoutValues.DefaultMargin,
   });
   @property cornerRadius = 5;
 }
@@ -51,15 +51,15 @@ class SharedCardDesign extends Component<SharedCardDesignState> {
 class TemperatureDesign extends Component {
   @property textStyle = textStyles.value;
   @property icon = Images.Thermometer;
-  @property iconSpacing = LayoutValues.defaultSpacing;
+  @property iconSpacing = LayoutValues.DefaultSpacing;
 }
 
 class WetsuitDesign extends Component {
   @property headerText = 'Recommended';
   @property headerTextStyle = textStyles.captionHeader;
   @property valueTextStyle = textStyles.caption;
-  @property labelSpacing = LayoutValues.compactSpacing;
-  @property iconSpacing = LayoutValues.defaultSpacing;
+  @property labelSpacing = LayoutValues.CompactSpacing;
+  @property iconSpacing = LayoutValues.DefaultSpacing;
   @property icon = Images.Gear;
 }
 
@@ -67,7 +67,7 @@ class WaterTemperatureCardDesign extends Component {
   @property shared = new SharedCardDesign({
     title: 'Water temperature',
   });
-  @property horizontalSpacing = LayoutValues.defaultMargin;
+  @property horizontalSpacing = LayoutValues.DefaultMargin;
   @property temperature = new TemperatureDesign();
   @property wetsuit = new WetsuitDesign();
 }
@@ -78,7 +78,7 @@ class DayPartDesign extends Component {
   @property valueTextStyle = textStyles.value;
   @property unitTextStyle = textStyles.unit;
   @property timeTextStyle = textStyles.caption;
-  @property valueUnitSpacing = LayoutValues.compactSpacing;
+  @property valueUnitSpacing = LayoutValues.CompactSpacing;
   @property layoutMargins = new EdgeInsets();
   @property iconWidth = DayPartIconSize;
   @property iconHeight = DayPartIconSize;
@@ -99,8 +99,8 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
   @property shared = new SharedCardDesign();
   @property unit = '';
   @property dayPart = new DayPartDesign();
-  @property dayPartsHorizontalSpacing = LayoutValues.defaultMargin;
-  @property dayPartVerticalSpacing = LayoutValues.looseMargin;
+  @property dayPartsHorizontalSpacing = LayoutValues.DefaultMargin;
+  @property dayPartVerticalSpacing = LayoutValues.LooseMargin;
   @property separatorWidth = 1;
   @property separatorColor = palette.whiteA40;
   @property valueUnitMargins = new EdgeInsets();
@@ -111,8 +111,8 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
  */
 export class ReportDesign extends Component {
   @property backgroundColor = palette.white;
-  @property contentLayoutMargins = EdgeInsets.simple(LayoutValues.defaultMargin);
-  @property contentSpacing = LayoutValues.defaultMargin;
+  @property contentLayoutMargins = EdgeInsets.simple(LayoutValues.DefaultMargin);
+  @property contentSpacing = LayoutValues.DefaultMargin;
   @property header = new HeaderDesign();
   @property waterTemperature = new WaterTemperatureCardDesign();
   @property wind = new ForecastCardDesign({
@@ -120,9 +120,9 @@ export class ReportDesign extends Component {
       title: 'Wind',
     }),
     unit: 'mph',
-    dayPartVerticalSpacing: LayoutValues.defaultSpacing,
+    dayPartVerticalSpacing: LayoutValues.DefaultSpacing,
     valueUnitMargins: new EdgeInsets({
-      top: LayoutValues.defaultMargin,
+      top: LayoutValues.DefaultMargin,
     }),
   });
   @property swell = new ForecastCardDesign({

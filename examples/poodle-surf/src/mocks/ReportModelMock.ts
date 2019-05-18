@@ -31,17 +31,17 @@ class WindMock extends Component {
   @property early = new WindDayPartMock({
     direction: Images.WindSouthWest,
     value: '4',
-    dayPart: DayPartTimes.early,
+    dayPart: DayPartTimes.Early,
   });
   @property middle = new WindDayPartMock({
     direction: Images.WindSouth,
     value: '12',
-    dayPart: DayPartTimes.middle,
+    dayPart: DayPartTimes.Middle,
   });
   @property late = new WindDayPartMock({
     direction: Images.WindNorthEast,
     value: '17',
-    dayPart: DayPartTimes.late,
+    dayPart: DayPartTimes.Late,
   });
 }
 
@@ -77,29 +77,29 @@ export class ReportModelMock extends Component {
   @property swell = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '6.3',
-      dayPart: DayPartTimes.early,
+      dayPart: DayPartTimes.Early,
     }),
     middle: new ForecastDayPartMock({
       value: '6',
-      dayPart: DayPartTimes.middle,
+      dayPart: DayPartTimes.Middle,
     }),
     late: new ForecastDayPartMock({
       value: '6.5',
-      dayPart: DayPartTimes.late,
+      dayPart: DayPartTimes.Late,
     }),
   });
   @property tide = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '5',
-      dayPart: DayPartTimes.early,
+      dayPart: DayPartTimes.Early,
     }),
     middle: new ForecastDayPartMock({
       value: '0.5',
-      dayPart: DayPartTimes.middle,
+      dayPart: DayPartTimes.Middle,
     }),
     late: new ForecastDayPartMock({
       value: '4',
-      dayPart: DayPartTimes.late,
+      dayPart: DayPartTimes.Late,
     }),
   });
 }

@@ -11,5 +11,5 @@ export class NavigationTitleDesign extends Component {
   @property icon = Images.Icon;
   @property title = 'P o o d l e S u r f';
   @property textStyle = textStyles.headerTitle;
-  @property iconToTitleSpacing = LayoutValues.defaultSpacing;
+  @property iconToTitleSpacing = LayoutValues.DefaultSpacing;
 }

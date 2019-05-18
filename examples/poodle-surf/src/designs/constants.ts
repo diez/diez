@@ -1,4 +1,4 @@
-import {Color, IOSFonts, TextStyle} from '@diez/prefabs';
+import {Color, IOSFonts, TextStyle, FontRegistry} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {SimpleGradient} from './components/SimpleGradient';
 
@@ -19,40 +19,64 @@ class Palette extends Component {
   });
 }
 
+enum FontNames {
+  Nunito ='Nunito-Regular',
+  NunitoBlack ='Nunito-Black',
+  NunitoBold ='Nunito-Bold',
+  NunitoExtraBold ='Nunito-ExtraBold',
+  NunitoExtraLight ='Nunito-ExtraLight',
+  NunitoLight ='Nunito-Light',
+  NunitoMedium ='Nunito-Medium',
+  NunitoSemiBold ='Nunito-SemiBold',
+}
+
+enum FontRoles {
+  Default = FontNames.Nunito,
+  DefaultBold = FontNames.NunitoBold,
+}
+
+enum FontSizes {
+  Title = 20,
+  CardTitle = 14,
+  Caption = 12,
+  Value = 30,
+  Unit = 16,
+}
+
 class TextStyles extends Component {
   @property headerTitle = new TextStyle({
-    fontName: FontNames.defaultBold,
-    fontSize: FontSizes.title,
+    fontName: FontRoles.DefaultBold,
+    fontSize: FontSizes.Title,
     color: palette.black,
   });
   @property headerCaption = new TextStyle({
-    fontName: FontNames.default,
-    fontSize: FontSizes.caption,
+    fontName: FontRoles.Default,
+    fontSize: FontSizes.Caption,
     color: palette.black,
   });
   @property cardTitle = new TextStyle({
-    fontName: FontNames.default,
-    fontSize: FontSizes.cardTitle,
+    fontName: FontRoles.Default,
+    fontSize: FontSizes.CardTitle,
     color: palette.white,
   });
   @property value = new TextStyle({
-    fontName: FontNames.default,
-    fontSize: FontSizes.value,
+    fontName: FontRoles.Default,
+    fontSize: FontSizes.Value,
     color: palette.white,
   });
   @property unit = new TextStyle({
-    fontName: FontNames.default,
-    fontSize: FontSizes.unit,
+    fontName: FontRoles.Default,
+    fontSize: FontSizes.Unit,
     color: palette.white,
   });
   @property caption = new TextStyle({
-    fontName: FontNames.default,
-    fontSize: FontSizes.caption,
+    fontName: FontRoles.Default,
+    fontSize: FontSizes.Caption,
     color: palette.white,
   });
   @property captionHeader = new TextStyle({
-    fontName: FontNames.defaultBold,
-    fontSize: FontSizes.caption,
+    fontName: FontRoles.DefaultBold,
+    fontSize: FontSizes.Caption,
     color: palette.white,
   });
 }
@@ -61,31 +85,26 @@ class TextStyles extends Component {
  * Provides shared layout values used throughout the design system.
  */
 export enum LayoutValues {
-  defaultMargin = 20,
-  compactMargin = 15,
-  looseMargin = 30,
-  defaultSpacing = 10,
-  compactSpacing = 5,
+  DefaultMargin = 20,
+  CompactMargin = 15,
+  LooseMargin = 30,
+  DefaultSpacing = 10,
+  CompactSpacing = 5,
 }
 
 /**
- * Provides shared font defaults.
+ * A registry of all of the design's fonts.
  */
-export enum FontNames {
-  default = IOSFonts.Helvetica,
-  defaultBold = IOSFonts.HelveticaBold,
-}
-
-/**
- * Provides shared font sizes.
- */
-export enum FontSizes {
-  title = 20,
-  cardTitle = 14,
-  caption = 12,
-  value = 30,
-  unit = 16,
-}
+export const fontRegistry = FontRegistry.fromFiles(
+  'assets/fonts/Nunito-Black.ttf',
+  'assets/fonts/Nunito-Bold.ttf',
+  'assets/fonts/Nunito-ExtraBold.ttf',
+  'assets/fonts/Nunito-ExtraLight.ttf',
+  'assets/fonts/Nunito-Light.ttf',
+  'assets/fonts/Nunito-Medium.ttf',
+  'assets/fonts/Nunito-Regular.ttf',
+  'assets/fonts/Nunito-SemiBold.ttf',
+);
 
 /**
  * A palette singleton, used throughout the design system.
