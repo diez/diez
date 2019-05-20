@@ -1,3 +1,6 @@
+import {writeFileSync} from 'fs-extra';
+import {join} from 'path';
+import {CompilerEvent} from '../src';
 import {createProgramForFixture, TestTargetCompiler} from './helpers';
 
 jest.mock('webpack-hot-middleware', () => () => {});
@@ -18,12 +21,39 @@ jest.mock('express', () => {
 });
 
 describe('hot server', () => {
-  test('e2e', async () => {
+  test('hot e2e', async () => {
     // This test actually starts a hot TypeScript server, ensuring the steps we take to start the hot server are safe.
-    const program = await createProgramForFixture('Filtered', '/dev/null', true);
-    const compiler = new TestTargetCompiler(program, '/dev/null');
-    await compiler.start();
-    program.close();
-    expect(compiler.mockWriteHotUrlMutex).toHaveBeenCalled();
+    const program = await createProgramForFixture('Filtered', true);
+
+    return new Promise((resolve) => {
+      program.once(CompilerEvent.Compiled, async () => {
+        const compiler = new TestTargetCompiler(program);
+        await compiler.start();
+        expect(compiler.mockWriteHotUrlMutex).toHaveBeenCalled();
+
+        // Wait for next failure.
+        program.once(CompilerEvent.Error, () => {
+          // Wait for next success.
+          program.once(CompilerEvent.Compiled, () => {
+            program.close();
+            resolve();
+          });
+
+          // Write valid TypeScript to the project root.
+          writeFileSync(
+            join(program.projectRoot, 'src', 'index.ts'),
+            'const diez = 10;',
+          );
+        });
+
+        // Write invalid TypeScript to the project root.
+        writeFileSync(
+          join(program.projectRoot, 'src', 'index.ts'),
+          'const diez = √100;',
+        );
+      });
+
+      program.watch();
+    });
   });
 });

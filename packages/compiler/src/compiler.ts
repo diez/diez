@@ -3,7 +3,8 @@ import {info, warning} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
-import {dirname, join, relative, resolve} from 'path';
+import noCase from 'no-case';
+import {dirname, join, relative} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
 import {v4} from 'uuid';
@@ -250,20 +251,9 @@ export class Program extends EventEmitter implements CompilerProgram {
   }
 
   /**
-   * Starts the program.
+   * Runs the compiler and emits to listeners.
    */
-  async start () {
-    if (this.options.devMode) {
-      this.watch();
-    } else {
-      await this.run();
-    }
-  }
-
-  /**
-   * Runs the compiler and emits to isteners.
-   */
-  private async run (throwOnErrors = false) {
+  async run (throwOnErrors = true) {
     this.targetComponents.clear();
     this.localComponentNames.length = 0;
     if (!await this.compile()) {
@@ -271,11 +261,11 @@ export class Program extends EventEmitter implements CompilerProgram {
         throw new Error('Unable to compile project!');
       }
 
+      this.emit(CompilerEvent.Error);
       return;
     }
 
     const sourceFile = this.project.getSourceFileOrThrow(join(this.projectRoot, 'src', 'index.ts'));
-    info(`Unwrapping component types from ${resolve(this.projectRoot, 'src', 'index.ts')}...`);
     for (const exportedDeclarations of sourceFile.getExportedDeclarations().values()) {
       for (const exportDeclaration of exportedDeclarations) {
         const type = this.checker.getTypeAtLocation(exportDeclaration);
@@ -317,7 +307,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * Starts a TypeScript server in watch mode, similar to `tsc --watch` but with more control over when sources are emitted.
    */
-  private watch () {
+  watch () {
     const host = createWatchCompilerHost(
       this.program.getRootFileNames() as string[],
       Object.assign(
@@ -344,11 +334,9 @@ export class Program extends EventEmitter implements CompilerProgram {
       this.hotBuildStartTime = Date.now();
     };
 
-    let throwOnErrors = true;
     host.afterProgramCreate = (watchProgram) => {
       this.program = watchProgram.getProgram();
-      this.run(throwOnErrors);
-      throwOnErrors = false;
+      this.run(false);
     };
 
     this.close = (createWatchProgram(host) as unknown as FileWatcher).close;
@@ -363,6 +351,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   constructor (
     readonly projectRoot: string,
     readonly options: CompilerOptions,
+    readonly hot = false,
   ) {
     super();
 
@@ -379,7 +368,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     this.program = this.project.getProgram().compilerObject;
     this.checker = this.project.getTypeChecker();
 
-    if (options.devMode) {
+    if (hot) {
       this.emitRoot = join(projectRoot, '.diez', v4());
       this.hotRoot = join(projectRoot, '.diez', v4());
     } else {
@@ -403,6 +392,18 @@ export class Program extends EventEmitter implements CompilerProgram {
     };
   }
 }
+
+/**
+ * Infers package name from the project root.
+ * @internal
+ */
+const inferProjectName = (projectName: string) => {
+  try {
+    return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
+  } catch {
+    return 'design-system';
+  }
+};
 
 /**
  * An abstract class wrapping the basic functions of a target compiler.
@@ -431,7 +432,7 @@ export abstract class TargetCompiler<
   /**
    * Creates fresh output.
    */
-  protected abstract createOutput (sdkRoot: string): OutputType;
+  protected abstract createOutput (sdkRoot: string, projectName: string): OutputType;
 
   /**
    * Validates compiler options.
@@ -464,9 +465,21 @@ export abstract class TargetCompiler<
   abstract staticRoot: string;
 
   /**
+   * The root where we should serve static content in hot mode.
+   */
+  private get hotStaticRoot () {
+    return join(this.program.projectRoot, '.diez', `${this.program.options.target}-assets`);
+  }
+
+  /**
    * The hostname for hot serving.
    */
   abstract hostname (): Promise<string>;
+
+  /**
+   * The name of the package we should provide.
+   */
+  abstract moduleName: string;
 
   /**
    * The component path for hot serving.
@@ -484,17 +497,21 @@ export abstract class TargetCompiler<
   abstract clear (): void;
 
   /**
-   * Whether or not we have built once.
-   */
-  protected hasBuiltOnce = false;
-
-  /**
    * Writes the transpiled SDK to disk.
    */
-  abstract async writeSdk (hostname?: string, devPort?: number): Promise<void>;
+  abstract async writeSdk (): Promise<void>;
 
-  constructor (readonly program: CompilerProgram, sdkRoot: string) {
-    this.output = this.createOutput(sdkRoot);
+  constructor (readonly program: CompilerProgram) {
+    const projectName = inferProjectName(program.projectRoot);
+    this.output = this.createOutput(
+      join(program.projectRoot, 'build', `diez-${projectName}-${program.options.target}`),
+      projectName,
+    );
+
+    if (!program.hot) {
+      removeSync(this.output.sdkRoot);
+      ensureDirSync(this.output.sdkRoot);
+    }
   }
 
   /**
@@ -654,59 +671,50 @@ export abstract class TargetCompiler<
    */
   async start () {
     await this.validateOptions();
-    if (this.program.options.devMode) {
-      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
+    if (this.program.hot) {
+      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname(), this.buildHot()]);
       this.writeHotUrlMutex(hostname, devPort);
-      await this.runHot(async () => {
-        this.writeSdk(hostname, devPort);
-      });
-
-      await serveHot(
+      serveHot(
         this.program,
         this.hotComponent,
         devPort,
-        this.staticRoot,
+        this.hotStaticRoot,
       );
+
+      // Important: only handle one Compiled event at a time to prevent races.
+      this.program.on(CompilerEvent.Compiled, async () => {
+        await this.buildHot();
+      });
     } else {
       await this.run();
       await this.writeSdk();
+      this.printUsageInstructions();
     }
-
-    this.printUsageInstructions();
   }
 
   /**
    * @internal
    */
-  private async buildHot (writeSdkCommand: () => Promise<void>) {
-    this.output = this.createOutput(this.output.sdkRoot);
+  private async buildHot () {
+    this.output = this.createOutput(this.output.sdkRoot, this.output.projectName);
     await this.run();
-    await writeSdkCommand();
+    for (const {binding} of this.output.processedComponents.values()) {
+      if (binding) {
+        this.mergeBindingToOutput(binding as BindingType);
+      }
+    }
+    await this.writeAssets();
     copySync(this.program.emitRoot, this.program.hotRoot);
-  }
-
-  /**
-   * Runs hot, listening for compile events.
-   *
-   * @internal
-   */
-  private async runHot (writeSdkCommand: () => Promise<void>) {
-    this.program.on(CompilerEvent.Compiled, async () => {
-      await this.buildHot(writeSdkCommand);
-    });
-
-    // Write the SDK once before we start listening.
-    await this.buildHot(writeSdkCommand);
-    this.hasBuiltOnce = true;
   }
 
   /**
    * Writes out bound assets from the target compiler's asset bindings.
    */
   writeAssets () {
-    removeSync(this.staticRoot);
+    const staticRoot = this.program.hot ? this.hotStaticRoot : this.staticRoot;
+    removeSync(staticRoot);
     for (const [path, binding] of this.output.assetBindings) {
-      const outputPath = join(this.staticRoot, path);
+      const outputPath = join(staticRoot, path);
       ensureDirSync(dirname(outputPath));
       if (binding.copy) {
         copySync(binding.contents as string, outputPath);

@@ -1,4 +1,4 @@
-import {DayPartDesign} from 'poodle-surf-web-diez';
+import {DayPartDesign} from 'diez-poodle-surf';
 import * as React from 'react';
 
 interface ColumnProps {

@@ -1,5 +1,6 @@
-import {removeSync} from 'fs-extra';
+import {copySync, removeSync} from 'fs-extra';
 import {
+  buildRoot,
   createAndroidCompilerForFixture,
   createIosCompilerForFixture,
   createWebCompilerForFixture,
@@ -7,27 +8,27 @@ import {
   getGoldenRoot,
 } from '../test/helpers';
 
+removeSync(buildRoot);
 (async () => {
   for (const fixture of getFixtures()) {
+    const goldenRoot = getGoldenRoot(fixture);
+    removeSync(goldenRoot);
+
     // Regenerates iOS goldens.
-    const iosGoldenRoot = getGoldenRoot(fixture, 'ios');
-    const iosCompiler = await createIosCompilerForFixture(fixture, iosGoldenRoot);
+    const iosCompiler = await createIosCompilerForFixture(fixture);
     await iosCompiler.run();
-    removeSync(iosGoldenRoot);
-    await iosCompiler.writeSdk('foo.bar', 9001);
+    await iosCompiler.writeSdk();
 
     // Regenerates Android goldens.
-    const androidGoldenRoot = getGoldenRoot(fixture, 'android');
-    const androidCompiler = await createAndroidCompilerForFixture(fixture, androidGoldenRoot);
+    const androidCompiler = await createAndroidCompilerForFixture(fixture);
     await androidCompiler.run();
-    removeSync(androidGoldenRoot);
-    await androidCompiler.writeSdk('foo.bar', 9001);
+    await androidCompiler.writeSdk();
 
     // Regenerates web goldens.
-    const webGoldenRoot = getGoldenRoot(fixture, 'web');
-    const webCompiler = await createWebCompilerForFixture(fixture, webGoldenRoot);
+    const webCompiler = await createWebCompilerForFixture(fixture);
     await webCompiler.run();
-    removeSync(webGoldenRoot);
-    await webCompiler.writeSdk('foo.bar', 9001);
+    await webCompiler.writeSdk();
+
+    copySync(buildRoot, goldenRoot);
   }
 })();

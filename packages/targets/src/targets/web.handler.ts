@@ -1,4 +1,4 @@
-import {warning} from '@diez/cli-core';
+import {code, info, inlineCodeSnippet, warning} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   PrimitiveType,
@@ -39,19 +39,6 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 };
 
 /**
- * Tries to guess the name of the host package.
- *
- * @internal
- */
-const guessHostPackageName = (destinationPath: string) => {
-  try {
-    return require(join(destinationPath, 'package.json')).name;
-  } catch (e) {
-    return '';
-  }
-};
-
-/**
  * A compiler for web targets.
  * @ignore
  */
@@ -60,11 +47,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   protected async validateOptions () {
-    if (this.program.options.devMode) {
-      if (!this.program.options.baseUrl || !this.program.options.staticRoot) {
-        throw new Error('--baseUrl and --staticRoot are required in hot mode.');
-      }
-    }
+    // Noop.
   }
 
   /**
@@ -72,6 +55,13 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    */
   async hostname () {
     return await v4();
+  }
+
+  /**
+   * @abstract
+   */
+  get moduleName () {
+    return `diez-${this.output.projectName}`;
   }
 
   /**
@@ -167,9 +157,10 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
-  protected createOutput (sdkRoot: string) {
+  protected createOutput (sdkRoot: string, projectName: string) {
     return {
       sdkRoot,
+      projectName,
       processedComponents: new Map(),
       imports: new Set([]),
       sources: new Set([
@@ -188,18 +179,32 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   get staticRoot () {
-    if (this.program.options.devMode) {
-      return join(this.output.sdkRoot, 'static');
-    }
-
-    return this.program.options.staticRoot || '/';
+    return join(this.output.sdkRoot, 'static');
   }
 
   /**
    * @abstract
    */
   printUsageInstructions () {
-    // TODO.
+    const diez = inlineCodeSnippet('Diez');
+    const component = this.program.localComponentNames[0];
+    info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
+
+    info(`You can depend on ${diez} in ${inlineCodeSnippet('package.json')}:`);
+    code(`{
+  "dependencies": {
+    "${this.moduleName}": "*"
+  }
+}
+`);
+
+    info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
+
+    code(`
+new Diez(${component}).attach((component) => {
+  // ...
+});
+`);
   }
 
   /**
@@ -216,7 +221,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
-  async writeSdk (hostname?: string, devPort?: number) {
+  async writeSdk () {
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -268,11 +273,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     }
 
     const tokens = {
-      devPort,
-      hostname,
-      baseUrl: this.program.options.baseUrl,
-      hostPackageName: guessHostPackageName(this.program.options.outputPath),
-      devMode: !!this.program.options.devMode,
+      moduleName: this.moduleName,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
       declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),
@@ -289,5 +290,5 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
  * @ignore
  */
 export const webHandler: CompilerTargetHandler = async (program) => {
-  await new WebCompiler(program, join(program.options.outputPath, 'diez')).start();
+  await new WebCompiler(program).start();
 };

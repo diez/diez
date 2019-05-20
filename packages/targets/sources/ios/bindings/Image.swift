@@ -3,7 +3,7 @@ extension Image {
      Calls [url(forScale:)](x-source-tag://Image.urlForScale) with `UIScreen.main.scale`.
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
-     */ 
+     */
     @objc public var url: URL? {
         return url(forScale: UIScreen.main.scale)
     }
@@ -44,13 +44,13 @@ extension Image {
     /**
      An image of the appropriate scale if it exits.
 
-     When in [development mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale) 
+     When in [hot mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale)
      with `UIScreen.main.scale`.
-     
-     When not in [development mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
+
+     When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
     @objc public var image: UIImage? {
-        if environment.isDevelopment {
+        if environment.isHot {
             return image(withScale: UIScreen.main.scale)
         }
 
@@ -69,13 +69,13 @@ extension Image {
      The returned `URL` will only be `nil` if:
        - The provided scale does not round to 1, 2, or 3
        - The `URL` for the image at the provided scale does not exist
-       - Diez is in [development mode](x-source-tag://Diez) and the `URL` failed to resolve
+       - Diez is in [hot mode](x-source-tag://Diez) and the `URL` failed to resolve
 
      - Parameter scale: The scale of the image to request which is rounded to the nearest `Int` value before resolving
        the `URL`. This typically corresponds to the `UIScreen.main.scale`.
 
      - Returns: The `URL` of the image at the provided scale, or nil.
-     */ 
+     */
     @objc(urlForScale:)
     public func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
@@ -93,8 +93,8 @@ extension Image {
      Gets an appropriately scaled `UIImage` if it exists.
 
      - Note: This operation is performed synchronously using the [url(forScale:)](x-source-tag://Image.urlForScale) and
-       will block the thread while the image is fetched. This should only be an issue in 
-       [development mode](x-source-tag://Diez) when the image may not be resolved from the SDK's bundle.
+       will block the thread while the image is fetched. This should only be an issue in
+       [hot mode](x-source-tag://Diez) when the image may not be resolved from the SDK's bundle.
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */

@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+`webpack` overrides are courtesy of [`react-app-rewired`](https://github.com/timarney/react-app-rewired).
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -16,6 +16,10 @@ class {{{componentName}}} {
       });
     }
   }
+
+  update (payload) {
+    // Noop.
+  }
 }
 
 module.exports.{{{componentName}}} = {{{componentName}}};

@@ -1,14 +1,14 @@
-name: Diez
+name: {{{moduleName}}}
 options:
   bundleIdPrefix: {{{bundleIdPrefix}}}
 targets:
-  Diez:
+  {{{moduleName}}}:
     type: framework
     platform: iOS
-    sources: 
+    sources:
       - Sources
-    info: 
-      path: Sources/Diez/Info.plist
+    info:
+      path: Sources/{{{moduleName}}}/Info.plist
     {{#if hasDependenciesOrStaticAssets}}
     dependencies:
       {{#if hasStaticAssets}}
@@ -25,7 +25,7 @@ targets:
   Static:
     type: bundle
     platform: iOS
-    info: 
+    info:
       path: static/Resources-Info.plist
     sources:
       {{#each assetFolderPaths}}

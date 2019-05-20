@@ -13,33 +13,33 @@ public protocol StateBag: Decodable, Updatable {
 
  The class responsible for registering for updates to components.
 
- When the value of `DiezIsDevelopmentEnabled` is set to `YES` in the application's `Info.plist` found in the SDK's 
- generated source directory, Diez will run in development mode.
+ When the value of `DiezIsHot` is set to `YES` in the application's `Info.plist` found in the SDK's
+ generated source directory, Diez will run in hot mode.
 
- When in development mode, this class will instantiate a `WKWebView` that is used to communicate with the Diez server 
+ When in hot mode, this class will instantiate a `WKWebView` that is used to communicate with the Diez server
  to provide component updates as they are made on the server.
 
- When not in development mode, no `WKWebView` is instantiated and content is only served from the resources embedded in 
+ When not in hot mode, no `WKWebView` is instantiated and content is only served from the resources embedded in
  the framework.
 
- - Note: The presence of a `WKWebView` in development mode and the need to provide a `UIView` will be removed in the 
+ - Note: The presence of a `WKWebView` in hot mode and the need to provide a `UIView` will be removed in the
    future.
  */
 public class Diez<T>: NSObject where T: StateBag {
     private var component: T
 
     /**
-     - Parameter view: When in [development mode](x-source-tag://Diez), this view will have a visually empty 
-       `WKWebView` added to it in order to communicate with the Diez server. When not in [development mode]
+     - Parameter view: When in [hot mode](x-source-tag://Diez), this view will have a visually empty 
+       `WKWebView` added to it in order to communicate with the Diez server. When not in [hot mode]
        (x-source-tag://Diez) this value is unused.
 
-     - Note: The presence of a `WKWebView` in [development mode](x-source-tag://Diez) and the need to provide a 
+     - Note: The presence of a `WKWebView` in [hot mode](x-source-tag://Diez) and the need to provide a 
        `UIView` will be removed in a future version.
      */
     public init(view: UIView) {
         component = T()
 
-        if environment.isDevelopment && Bundle.main.allowsLocalNetworking {
+        if environment.isHot && Bundle.main.allowsLocalNetworking {
             updateObserver = UpdateObserver(view: view)
         } else {
             updateObserver = nil
@@ -107,13 +107,13 @@ public class Diez<T>: NSObject where T: StateBag {
 
      The provided closure is called synchronously when this function is called.
      
-     If in [development mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
+     If in [hot mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
      component.
 
      - Parameter subscriber: The closure to be called when the component updates.
      */
     public func attach(_ subscriber: @escaping AttachSubscription) {
-        if environment.isDevelopment && !Bundle.main.allowsLocalNetworking {
+        if environment.isHot && !Bundle.main.allowsLocalNetworking {
             let error = AttachError(
                 errorType: .appTransportSecurityFailure,
                 partiallyUpdatedComponent: component,
@@ -224,7 +224,7 @@ extension Diez.AttachError: CustomDebugStringConvertible {
             return "Data corrupted for property named: \(context.propertyName): \(context.debugDescription)"
         case .appTransportSecurityFailure:
             return """
-            The NSAllowsLocalNetworking key must be set to true under NSAllowsLocalNetworking in the main bundle's Info.plist to use development mode.
+            The NSAllowsLocalNetworking key must be set to true under NSAllowsLocalNetworking in the main bundle's Info.plist to use hot mode.
             For example:
             <key>NSAppTransportSecurity</key>
             <dict>

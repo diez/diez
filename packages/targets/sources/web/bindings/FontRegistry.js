@@ -19,7 +19,7 @@ class FontRegistry {
 
   update (payload) {
     if (!payload) {
-      return;
+      return this;
     }
 
     if (payload.files !== undefined) {
@@ -27,6 +27,8 @@ class FontRegistry {
     }
 
     this.registerFonts();
+
+    return this;
   }
 
   // @internal

@@ -36,3 +36,10 @@ declare module 'validate-npm-package-name' {
 
   export = validate;
 }
+
+declare module 'time-fix-plugin' {
+  import {Plugin} from 'webpack';
+  class TimeFixPlugin extends Plugin {}
+
+  export = TimeFixPlugin;
+}

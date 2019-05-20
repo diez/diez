@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Diez
+import DiezPoodleSurf
 import Lottie
 
 extension LoadingViewController {

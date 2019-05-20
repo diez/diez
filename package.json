@@ -11,12 +11,12 @@
   "description": "Diez monorepo.",
   "license": "Proprietary",
   "devDependencies": {
-    "diez": "10.0.0-alpha.0",
     "@strictsoftware/typedoc-plugin-monorepo": "^0.2.1",
     "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^5.0.4",
     "@types/uglify-es": "^3.0.0",
     "chalk": "^2.4.2",
+    "diez": "10.0.0-alpha.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
     "fs-walk": "^0.0.2",

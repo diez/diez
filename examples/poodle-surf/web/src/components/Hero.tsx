@@ -1,4 +1,4 @@
-import {HeaderDesign, LocationMock} from 'poodle-surf-web-diez';
+import {HeaderDesign, LocationMock} from 'diez-poodle-surf';
 import * as React from 'react';
 import {generateGradient} from '../helpers';
 

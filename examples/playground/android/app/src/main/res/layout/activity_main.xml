@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline"
             android:layout_height="0dp"
             android:background="@android:color/white">
-        <org.diez.HaikuView android:id="@+id/haikuView" android:layout_width="match_parent" android:layout_height="match_parent" />
+        <org.diez.playground.HaikuView android:id="@+id/haikuView" android:layout_width="match_parent" android:layout_height="match_parent" />
     </FrameLayout>
     <FrameLayout
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="@+id/verticalGuideline">
-        <org.diez.SVGView android:id="@+id/svgView" android:layout_width="match_parent" android:layout_height="match_parent" />
+        <org.diez.playground.SVGView android:id="@+id/svgView" android:layout_width="match_parent" android:layout_height="match_parent" />
     </FrameLayout>
     <FrameLayout
             android:layout_width="0dp"

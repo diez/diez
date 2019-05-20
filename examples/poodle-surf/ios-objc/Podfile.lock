@@ -1,10 +1,10 @@
 PODS:
-  - Diez (1.0.0-alpha0):
+  - DiezPoodleSurf (1.0.0):
     - lottie-ios (~> 2.5.2)
   - lottie-ios (2.5.2)
 
 DEPENDENCIES:
-  - Diez (from `../ios/Diez`)
+  - DiezPoodleSurf (from `../build/diez-poodle-surf-ios`)
   - lottie-ios (= 2.5.2)
 
 SPEC REPOS:
@@ -12,13 +12,13 @@ SPEC REPOS:
     - lottie-ios
 
 EXTERNAL SOURCES:
-  Diez:
-    :path: "../ios/Diez"
+  DiezPoodleSurf:
+    :path: "../build/diez-poodle-surf-ios"
 
 SPEC CHECKSUMS:
-  Diez: 8d647482d74d0dd017d2384d85e3c84f8719e9a4
+  DiezPoodleSurf: 9bbb988d95d5e496cfe8ebb92ba400f7fdeea1fb
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
 
-PODFILE CHECKSUM: 1026d05550ab2f00b347bae8bf5d7c9c35968981
+PODFILE CHECKSUM: fa14f14a1bd4d0e1cb6416a4b1fd36cabd9d6557
 
 COCOAPODS: 1.6.1

@@ -1,4 +1,4 @@
-import {SharedCardDesign} from 'poodle-surf-web-diez';
+import {SharedCardDesign} from 'diez-poodle-surf';
 import * as React from 'react';
 import {generateGradient} from '../helpers';
 

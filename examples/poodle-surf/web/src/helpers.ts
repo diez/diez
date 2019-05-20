@@ -1,4 +1,4 @@
-import {SimpleGradient} from 'poodle-surf-web-diez';
+import {SimpleGradient} from 'diez-poodle-surf';
 
 /**
  * TODO

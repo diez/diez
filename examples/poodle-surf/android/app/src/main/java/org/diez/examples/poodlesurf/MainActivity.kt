@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.diez.*
+import org.diez.poodleSurf.*
 
 class MainActivity : AppCompatActivity() {
 

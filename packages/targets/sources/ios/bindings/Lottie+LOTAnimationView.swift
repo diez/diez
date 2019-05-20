@@ -38,7 +38,7 @@ extension LOTAnimationView {
        - session: The `URLSession` to be used when fetching the resource.
        - completion: A closure to be called when the load operation has completed.
 
-     - Returns: The `URLSessionDataTask` used to fetch the asset, or `nil` if the 
+     - Returns: The `URLSessionDataTask` used to fetch the asset, or `nil` if the
        [Lottie.url](x-source-tag://Lottie.url) is `nil`.
      */
     @discardableResult

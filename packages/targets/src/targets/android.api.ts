@@ -23,5 +23,9 @@ export interface AndroidBinding<T extends Component = Component> extends TargetB
  * Describes the complete output for a transpiled Android target.
  */
 export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBinding> {
-  files: Map<string, string>;
+  files: Map<string, {
+    dataClass: string;
+    extension?: string;
+  }>;
+  packageName: string;
 }

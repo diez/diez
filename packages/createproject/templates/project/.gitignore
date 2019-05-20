@@ -1,2 +1,4 @@
 lib/*
 tsconfig.tsbuildinfo
+.diez
+build/

@@ -1,5 +1,3 @@
-package org.diez
-
 import android.graphics.BitmapFactory
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
@@ -18,7 +16,7 @@ var ImageView.image: Image?
             return
         }
 
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     setImageDrawable(drawable)
@@ -39,7 +37,7 @@ var ImageView.file: File?
             return
         }
 
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             Glide.with(this.context).load(file.url).into(object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     setImageDrawable(drawable)
@@ -60,7 +58,7 @@ var TextView.leftDrawable: Image?
             return
         }
 
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
@@ -81,7 +79,7 @@ var Toolbar.icon: Image?
             return
         }
 
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     navigationIcon = drawable
@@ -102,7 +100,7 @@ var View.backgroundImage : Image?
             return
         }
 
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             val view = this
             getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {

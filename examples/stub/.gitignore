@@ -3,3 +3,4 @@ lib/
 tsconfig.tsbuildinfo
 .diez
 node_modules
+build/

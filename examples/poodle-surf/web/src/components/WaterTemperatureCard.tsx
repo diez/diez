@@ -1,4 +1,4 @@
-import {TemperatureMock, WaterTemperatureCardDesign} from 'poodle-surf-web-diez';
+import {TemperatureMock, WaterTemperatureCardDesign} from 'diez-poodle-surf';
 import * as React from 'react';
 import Card from './Card';
 

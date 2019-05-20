@@ -1,6 +1,4 @@
-/* tslint:disable:max-line-length */
 import {fatalError} from '@diez/cli-core';
-import {resolve} from 'path';
 import {CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
@@ -18,10 +16,8 @@ export const compileAction = async (options: CompilerOptions) => {
     return fatalError(`Invalid target: ${options.target}. See --help for options.`);
   }
 
-  options.outputPath = resolve(options.outputPath);
-
   const program = new Program(global.process.cwd(), options);
-  await program.start();
+  await program.run();
 
   if (!program.localComponentNames.length) {
     return fatalError('No local components found!');

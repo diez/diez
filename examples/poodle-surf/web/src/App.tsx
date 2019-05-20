@@ -1,4 +1,4 @@
-import {DesignSystem, Diez, ModelMocks} from 'poodle-surf-web-diez';
+import {DesignSystem, Diez, ModelMocks} from 'diez-poodle-surf';
 import * as React from 'react';
 import ForecastCard from './components/ForecastCard';
 import Header from './components/Header';

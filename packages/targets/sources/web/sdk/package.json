@@ -1,5 +1,5 @@
 {
-  "name": "{{#with this.hostPackageName}}{{.}}-{{/with}}diez",
+  "name": "{{{moduleName}}}",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",

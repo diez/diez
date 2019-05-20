@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <img :src="component.image.url">
-    <h1 :style="{color: component.palette.hello, fontFamily: 'Roboto-Black'}">{{ component.text }}</h1>
-    <p :style="component.textStyle">Text style!</p>
+    <h1 :style="{color: component.palette.hello.toString(), fontFamily: 'Roboto-Black'}">{{ component.text }}</h1>
+    <p :style="component.textStyle.css">Text style!</p>
     <div ref="haiku"></div>
     <div ref="lottie"></div>
   </div>
 </template>
 
 <script lang="ts">
-import {Diez, MyStateBag} from 'diez';
+import {Diez, MyStateBag} from 'diez-playground';
 import {Component, Vue} from 'vue-property-decorator';
 
 @Component

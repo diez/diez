@@ -1,10 +1,11 @@
 import {fatalError} from '@diez/cli-core';
-import {run, runQuiet} from '../internal/helpers';
+import {assertNotWatching, run, runQuiet} from '../internal/helpers';
 
 export= {
   name: 'health',
   description: 'Executes monorepo health checks.',
   action: async () => {
+    assertNotWatching();
     const gitChanges = runQuiet('git diff yarn.lock');
     if (gitChanges) {
       fatalError('Found untracked Git changes in `yarn.lock`. Be sure to stage and commit all `yarn.lock` changes.');

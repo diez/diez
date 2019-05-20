@@ -3,7 +3,7 @@ package org.diez.examples.poodlesurfjava;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import org.diez.*;
+import org.diez.poodleSurf.*;
 
 public class MainActivity extends AppCompatActivity {
     private DesignSystem diez;

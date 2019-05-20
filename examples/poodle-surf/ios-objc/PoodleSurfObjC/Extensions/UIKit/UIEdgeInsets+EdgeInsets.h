@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-@import Diez;
+@import DiezPoodleSurf;
 
 NS_ASSUME_NONNULL_BEGIN
 

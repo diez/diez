@@ -12,7 +12,7 @@
 		21D3ADA5220230C600118420 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA3220230C600118420 /* Main.storyboard */; };
 		21D3ADA7220230C600118420 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA6220230C600118420 /* Assets.xcassets */; };
 		21D3ADAA220230C600118420 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D3ADA8220230C600118420 /* LaunchScreen.storyboard */; };
-		4668B5D8227B9F9600BB9213 /* Diez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668B5D6227B9F9600BB9213 /* Diez.framework */; };
+		21F1288E2290FED9006F164B /* DiezPlayground.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21F1288D2290FED9006F164B /* DiezPlayground.framework */; };
 		4668B5D9227B9F9600BB9213 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668B5D7227B9F9600BB9213 /* Lottie.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +37,7 @@
 		21D3ADA6220230C600118420 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21D3ADA9220230C600118420 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21D3ADAB220230C600118420 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4668B5D6227B9F9600BB9213 /* Diez.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diez.framework; path = Carthage/Build/iOS/Diez.framework; sourceTree = "<group>"; };
+		21F1288D2290FED9006F164B /* DiezPlayground.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiezPlayground.framework; path = Carthage/Build/iOS/DiezPlayground.framework; sourceTree = "<group>"; };
 		4668B5D7227B9F9600BB9213 /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,8 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4668B5D8227B9F9600BB9213 /* Diez.framework in Frameworks */,
 				4668B5D9227B9F9600BB9213 /* Lottie.framework in Frameworks */,
+				21F1288E2290FED9006F164B /* DiezPlayground.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +95,7 @@
 		4668B5D5227B9F6D00BB9213 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				4668B5D6227B9F9600BB9213 /* Diez.framework */,
+				21F1288D2290FED9006F164B /* DiezPlayground.framework */,
 				4668B5D7227B9F9600BB9213 /* Lottie.framework */,
 			);
 			name = iOS;
@@ -180,7 +180,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Diez.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/DiezPlayground.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Lottie.framework",
 			);
 			name = "Copy Carthage Frameworks";

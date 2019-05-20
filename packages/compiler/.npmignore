@@ -4,7 +4,6 @@ src/
 test/
 scripts/
 tsconfig.json
-!templates/project/tsconfig.json
 tsconfig.tsbuildinfo
 tslint.json
 yarn-error.log

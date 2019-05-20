@@ -1,7 +1,0 @@
-<resources>
-    <!-- The IP 10.0.2.2 will resolve to localhost if using an AVD virtual device. -->
-    <!-- The IP 10.0.3.2 will resolve to localhost if using a Genymotion virtual device. -->
-    <!-- To test on your LAN on a physical device, use the LAN IP of the machine where the server is running. -->
-    <string name="server_url">http://{{{hostname}}}:{{{devPort}}}/</string>
-    <bool name="is_development">{{#if devMode}}true{{else}}false{{/if}}</bool>
-</resources>

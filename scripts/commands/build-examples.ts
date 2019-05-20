@@ -14,7 +14,7 @@ const buildAndroid = () => {
     for (const androidRoot of matches) {
       const diezRoot = resolve(androidRoot, '..');
       info(`Building for Android: ${basename(diezRoot)}`);
-      run('yarn diez compile -t android -o android', diezRoot);
+      run('yarn diez compile -t android', diezRoot);
       run('./gradlew build', androidRoot);
     }
   });
@@ -39,7 +39,7 @@ const buildWeb = () => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
       info(`Building for web: ${basename(diezRoot)}`);
-      run('yarn diez compile -t web -o web --baseUrl /diez --staticRoot web/public/diez', diezRoot);
+      run('yarn diez compile -t web', diezRoot);
       run('yarn', webRoot);
       run('yarn build', webRoot);
     }

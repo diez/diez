@@ -23,22 +23,6 @@ const provider: CliCommandProvider = {
         }
       },
     },
-    {
-      shortName: 'o',
-      longName: 'outputPath',
-      valueName: '/path/to/codebase',
-      description: 'The path to your target codebase.',
-      validator: async ({outputPath}) => {
-        if (!outputPath) {
-          fatalError('--outputPath is a required flag.');
-        }
-      },
-    },
-    {
-      shortName: 'd',
-      longName: 'devMode',
-      description: 'If set, runs the compiler in dev mode.',
-    },
   ],
   preinstall: async () => {
     const targets = await getTargets();

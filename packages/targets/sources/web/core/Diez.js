@@ -21,14 +21,17 @@ class Diez {
     if (this.iframe.contentWindow) {
       return;
     }
-    this.iframe.src = `${Environment.serverUrl}components/${this.component.constructor.name}`;
+    this.iframe.src = `${Environment.serverUrl}/components/${this.component.constructor.name}`;
     this.iframe.width = '0';
     this.iframe.height = '0';
     this.iframe.style.display = 'none';
     document.body.appendChild(this.iframe);
     window.addEventListener('message', (event) => {
-      if (event.origin === Environment.serverUrl) {
-        this.component.update(JSON.parse(event.data));
+      if (event.origin.startsWith(Environment.serverUrl)) {
+        this.component = Object.assign(
+          Object.create(Object.getPrototypeOf(this.component)),
+          this.component.update(JSON.parse(event.data)),
+        );
         this.broadcast();
       }
     });

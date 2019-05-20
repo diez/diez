@@ -1,7 +1,6 @@
 import {CompilerOptions, Program, projectCache} from '@diez/compiler';
 import {ConcreteComponentType} from '@diez/engine';
-import {getTempFileName} from '@diez/storage';
-import {copySync, ensureDirSync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
+import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';
 import {IosCompiler} from '../src/targets/ios.handler';
@@ -12,9 +11,14 @@ const fixturesRoot = join(__dirname, 'fixtures');
 const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
 
 /**
+ * The build output location for the stub project.
+ */
+export const buildRoot = join(stubProjectRoot, 'build');
+
+/**
  * Retrieves a golden root for a fixture and platform.
  */
-export const getGoldenRoot = (fixture: string, target: string) => join(__dirname, 'goldens', `${fixture}-${target}`);
+export const getGoldenRoot = (fixture: string) => join(__dirname, 'goldens', `${fixture}`);
 
 /**
  * Gets all fixtures by name.
@@ -47,25 +51,17 @@ const createProgramForFixture = async (fixture: string, target: string, options?
     copySync(join(fixturesRoot, fixture, 'assets'), join(stubProjectRoot, 'assets'));
   }
 
-  const destination = getTempFileName();
-  ensureDirSync(destination);
-  const program = new Program(stubProjectRoot, {target, outputPath: destination, ...options});
-  await program.start();
-  // Turn on dev mode after the fact so we don't start a dev server.
-  program.options.devMode = true;
+  const program = new Program(stubProjectRoot, {target, ...options});
+  await program.run();
   return program;
 };
 
 /**
  * Creates iOS output for a fixture.
  */
-export const createIosCompilerForFixture = async (
-  fixture: string,
-  sdkRootIn?: string,
-): Promise<IosCompiler> => {
+export const createIosCompilerForFixture = async (fixture: string): Promise<IosCompiler> => {
   const program = await createProgramForFixture(fixture, 'ios', {cocoapods: true, carthage: true});
-  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'Diez');
-  const compiler = new IosCompiler(program, sdkRoot);
+  const compiler = new IosCompiler(program);
   compiler.clear();
   return compiler;
 };
@@ -73,13 +69,9 @@ export const createIosCompilerForFixture = async (
 /**
  * Creates Android output for a fixture.
  */
-export const createAndroidCompilerForFixture = async (
-  fixture: string,
-  sdkRootIn?: string,
-): Promise<AndroidCompiler> => {
+export const createAndroidCompilerForFixture = async (fixture: string): Promise<AndroidCompiler> => {
   const program = await createProgramForFixture(fixture, 'android');
-  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'diez');
-  const compiler = new AndroidCompiler(program, sdkRoot);
+  const compiler = new AndroidCompiler(program);
   compiler.clear();
   return compiler;
 };
@@ -87,13 +79,9 @@ export const createAndroidCompilerForFixture = async (
 /**
  * Creates Web output for a fixture.
  */
-export const createWebCompilerForFixture = async (
-  fixture: string,
-  sdkRootIn?: string,
-): Promise<WebCompiler> => {
+export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
   const program = await createProgramForFixture(fixture, 'web');
-  const sdkRoot = sdkRootIn || join(program.options.outputPath, 'diez');
-  const compiler = new WebCompiler(program, sdkRoot);
+  const compiler = new WebCompiler(program);
   compiler.clear();
   return compiler;
 };

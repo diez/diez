@@ -8,7 +8,17 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
-import {copySync, ensureDirSync, outputFileSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
+import camelCase from 'camel-case';
+import {
+  copySync,
+  ensureDirSync,
+  openSync,
+  outputFileSync,
+  readFileSync,
+  removeSync,
+  writeFileSync,
+  writeSync,
+} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, dirname, join} from 'path';
@@ -56,6 +66,13 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    */
   async hostname () {
     return await v4();
+  }
+
+  /**
+   * @abstract
+   */
+  get moduleName () {
+    return `diez_${this.output.projectName.replace(/-/g, '_')}`;
   }
 
   /**
@@ -139,7 +156,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    */
   protected mergeBindingToOutput (binding: AndroidBinding): void {
     for (const bindingSource of binding.sources) {
-      this.output.files.set(basename(bindingSource), bindingSource);
+      this.output.sources.add(bindingSource);
     }
 
     if (binding.dependencies) {
@@ -152,12 +169,14 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
   /**
    * @abstract
    */
-  protected createOutput (sdkRoot: string) {
+  protected createOutput (sdkRoot: string, projectName: string) {
     return {
       sdkRoot,
+      projectName,
+      packageName: `org.diez.${camelCase(projectName)}`,
       files: new Map([
-        ['Diez.kt', join(coreAndroid, 'core', 'Diez.kt')],
-        ['Environment.kt', join(coreAndroid, 'core', 'Environment.kt')],
+        ['Diez.kt', {dataClass: join(coreAndroid, 'core', 'Diez.kt')}],
+        ['Environment.kt', {dataClass: join(coreAndroid, 'core', 'Environment.kt')}],
       ]),
       processedComponents: new Map(),
       imports: new Set([]),
@@ -171,10 +190,6 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   get staticRoot () {
-    if (this.program.options.devMode) {
-      return join(this.output.sdkRoot, 'src', 'main', 'assets');
-    }
-
     return join(this.output.sdkRoot, 'src', 'main', 'res', 'raw');
   }
 
@@ -184,20 +199,15 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
   printUsageInstructions () {
     const diez = inlineCodeSnippet('Diez');
     const component = this.program.localComponentNames[0];
-    info(`Diez SDK installed locally at ${join(this.program.projectRoot, 'diez')}.\n`);
+    info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
 
-    info(`You can register the local module in ${inlineCodeSnippet('settings.gradle')} like so:`);
-    code(`include ':app', ':diez'
-project(':diez').projectDir = new File(\"\${new File(\".\").absolutePath}/diez\")
-`);
-
-    info(`Then you can depend on ${diez} in ${inlineCodeSnippet('build.gradle')}:`);
-    code(`implementation project(':diez')
+    info(`You can depend on ${diez} in ${inlineCodeSnippet('build.gradle')}:`);
+    code(`implementation project(':${this.moduleName}')
 `);
 
     info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
 
-    code(`import org.diez.*
+    code(`import ${this.output.packageName}.*
 
 class MainActivity … {
   override fun onCreate(…) {
@@ -227,10 +237,11 @@ class MainActivity … {
   }
 
   /**
-   * Overrides asset writeout so we can write raw resources.
+   * Overrides asset writeout so we can write out raw resources compatible with Android naming requirements.
    */
   writeAssets () {
-    if (this.program.options.devMode) {
+    // Write hot assets for hot mode.
+    if (this.program.hot) {
       super.writeAssets();
       return;
     }
@@ -249,27 +260,9 @@ class MainActivity … {
   }
 
   /**
-   * Rebinds assets, but skips the remainder of SDK regeneration. Prevents useless overwrites for an already built app.
-   */
-  private rebindAssets () {
-    for (const {binding} of this.output.processedComponents.values()) {
-      if (binding) {
-        this.mergeBindingToOutput(binding);
-      }
-    }
-
-    this.writeAssets();
-  }
-
-  /**
    * @abstract
    */
-  async writeSdk (hostname?: string, devPort?: number) {
-    if (this.hasBuiltOnce) {
-      this.rebindAssets();
-      return;
-    }
-
+  async writeSdk () {
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -281,9 +274,11 @@ class MainActivity … {
 
     const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
-      if (binding && binding.skipGeneration) {
+      if (binding) {
         this.mergeBindingToOutput(binding);
-        continue;
+        if (binding.skipGeneration) {
+          continue;
+        }
       }
 
       // For each singleton, replace it with its simple constructor.
@@ -294,7 +289,6 @@ class MainActivity … {
       }
 
       const filename = getTempFileName();
-      this.output.sources.add(filename);
       writeFileSync(
         filename,
         compile(componentTemplate)({
@@ -304,21 +298,44 @@ class MainActivity … {
         }),
       );
 
-      if (binding) {
-        this.mergeBindingToOutput(binding);
+      this.output.files.set(`${spec.componentName}.kt`, {dataClass: filename});
+    }
+
+    const packageComponents = this.output.packageName.split('.');
+    const sourcesRoot = join(this.output.sdkRoot, 'src', 'main', 'java', ...packageComponents);
+    const prefixBuffer = Buffer.from(`package ${this.output.packageName}\n\n`);
+    ensureDirSync(sourcesRoot);
+
+    for (const source of this.output.sources) {
+      const filename = basename(source);
+      if (this.output.files.has(filename)) {
+        this.output.files.get(filename)!.extension = source;
+      } else {
+        this.output.files.set(filename, {dataClass: source});
       }
     }
 
-    for (const [filename, source] of this.output.files) {
-      copySync(source, join(this.output.sdkRoot, 'src', 'main', 'java', 'org', 'diez', filename));
+    for (const [filename, {dataClass, extension}] of this.output.files) {
+      const outputPath = join(sourcesRoot, filename);
+      const handle = openSync(outputPath, 'w+');
+      let cursor = 0;
+      writeSync(handle, prefixBuffer, 0, prefixBuffer.length, cursor);
+      cursor += prefixBuffer.length;
+      if (extension) {
+        const extensionBuffer = readFileSync(extension);
+        writeSync(handle, extensionBuffer, 0, extensionBuffer.length, cursor);
+        cursor += extensionBuffer.length;
+        writeSync(handle, Buffer.from('\n'), 0, 1, cursor);
+        cursor += 1;
+      }
+
+      const sourceBuffer = readFileSync(dataClass);
+      writeSync(handle, sourceBuffer, 0, sourceBuffer.length, cursor);
     }
 
     const tokens = {
-      devPort,
-      hostname,
-      devMode: !!this.program.options.devMode,
+      packageName: this.output.packageName,
       dependencies: Array.from(this.output.dependencies),
-      sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
     };
 
     this.writeAssets();
@@ -331,5 +348,5 @@ class MainActivity … {
  * @ignore
  */
 export const androidHandler: CompilerTargetHandler = async (program) => {
-  await new AndroidCompiler(program, join(program.options.outputPath, 'diez')).start();
+  await new AndroidCompiler(program).start();
 };

@@ -8,7 +8,7 @@
     "fix": "vue-cli-service lint *.js"
   },
   "dependencies": {
-    "diez": "link:./diez",
+    "diez-playground": "link:../build/diez-playground-web",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^8.0.0"

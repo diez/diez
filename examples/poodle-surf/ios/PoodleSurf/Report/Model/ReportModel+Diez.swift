@@ -6,7 +6,7 @@
 //  Copyright © 2019 Haiku. All rights reserved.
 //
 
-import Diez
+import DiezPoodleSurf
 
 extension ReportModel {
     init?(mock: ReportModelMock) {

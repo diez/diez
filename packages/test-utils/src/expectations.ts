@@ -72,7 +72,7 @@ const toMatchDirectory = (sourceDirectory: string, goldenDirectory: string, blac
     }
 
     const expectedSourceFile = resolve(sourceDirectory, relative(goldenDirectory, basedir), filename);
-    const diff = getDiff(join(basedir, filename), expectedSourceFile);
+    const diff = getDiff(expectedSourceFile, join(basedir, filename));
     if (diff) {
       failures.set(
         relativePath,

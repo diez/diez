@@ -1,4 +1,4 @@
-import {NavigationTitleDesign} from 'poodle-surf-web-diez';
+import {NavigationTitleDesign} from 'diez-poodle-surf';
 import * as React from 'react';
 
 interface HeaderProps {

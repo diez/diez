@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Diez
+import DiezPoodleSurf
 
 class ReportViewController: UIViewController {
     private lazy var diez = Diez<DesignSystem>(view: view)

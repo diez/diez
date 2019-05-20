@@ -19,16 +19,19 @@ class {{{componentName}}} {
 
   update (payload) {
     if (!payload) {
-      return;
+      return this;
     }
 
     {{#each properties}}
     {{#if this.updateable}}
-    this.{{{@key}}}.update(payload.{{{@key}}});
+    {{!-- Note: we are forced to create a new object here due to a lack of reactive state. This should not be necessary. --}}
+    this.{{{@key}}} = Object.assign(Object.create(Object.getPrototypeOf(this.{{{@key}}})), this.{{{@key}}}.update(payload.{{{@key}}}));
     {{else}}
     this.{{{@key}}} = payload.{{{@key}}};
     {{/if}}
     {{/each}}
+
+    return this;
   }
 }
 

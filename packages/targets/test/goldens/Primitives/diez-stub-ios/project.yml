@@ -1,0 +1,12 @@
+name: DiezStub
+options:
+  bundleIdPrefix: org.diez.Stub
+targets:
+  DiezStub:
+    type: framework
+    platform: iOS
+    sources:
+      - Sources
+    info:
+      path: Sources/DiezStub/Info.plist
+    scheme: {} # Generates the shared scheme

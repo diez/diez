@@ -1,22 +1,21 @@
 {
   "name": "playground",
   "main": "lib/index.js",
-  "license": "MIT",
   "version": "10.0.0-alpha.0",
   "private": true,
   "scripts": {
-    "run-ios": "diez compile -t ios -o ios -d --carthage",
     "build-ios": "./scripts/carthage-install.sh",
     "build-ios-ci": "./scripts/build-ios-ci.sh",
-    "run-android": "diez compile -t android -o android -d",
-    "build-android": "diez compile -t android -o android",
-    "run-web": "diez compile -t web -o web -d"
+    "run-ios": "yarn build-ios && diez hot -t ios",
+    "build-android": "diez compile -t android",
+    "run-android": "yarn build-android && diez hot -t android",
+    "build-web": "diez compile -t web",
+    "run-web": "yarn build-web && diez hot -t web"
   },
   "dependencies": {
     "@diez/prefabs": "^10.0.0-alpha.0",
     "@diez/engine": "^10.0.0-alpha.0",
-    "@haiku/taylor-testthang": "^0.0.2",
-    "just-curves": "^0.2.0"
+    "@haiku/taylor-testthang": "^0.0.2"
   },
   "devDependencies": {
     "@diez/compiler": "^10.0.0-alpha.0",

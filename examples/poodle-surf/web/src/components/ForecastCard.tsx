@@ -1,4 +1,4 @@
-import {ForecastCardDesign, ForecastMock, WindDayPartMock} from 'poodle-surf-web-diez';
+import {ForecastCardDesign, ForecastMock, WindDayPartMock} from 'diez-poodle-surf';
 import * as React from 'react';
 import Card from './Card';
 import Column from './Column';

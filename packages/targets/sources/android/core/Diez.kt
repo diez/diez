@@ -1,5 +1,3 @@
-package org.diez
-
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ interface StateBag {
     val name : String
 }
 
+@SuppressLint("SetJavaScriptEnabled")
 class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
     val adapter : JsonAdapter<T>
     val subscribers = mutableListOf<(T) -> Unit>()
@@ -21,12 +20,12 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
         builder.add(KotlinJsonAdapterFactory())
         adapter = builder.build().adapter(component.javaClass)
         Environment.initialize(view.context)
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             val webview = WebView(view.context)
             webview.settings.javaScriptEnabled = true
             webview.addJavascriptInterface(this, "puente")
-            webview.loadUrl("${Environment.serverUrl}components/${component.name}")
-            Log.d("DIEZ", "Loading ${Environment.serverUrl}components/${component.name}")
+            webview.loadUrl("${Environment.serverUrl}/components/${component.name}")
+            Log.d("DIEZ", "Loading ${Environment.serverUrl}/components/${component.name}")
             view.addView(webview, ViewGroup.LayoutParams(0, 0))
         }
     }
@@ -42,7 +41,6 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
         broadcast()
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     fun attach(subscriber: (T) -> Unit) {
         subscriber(component)
         subscribe(subscriber)

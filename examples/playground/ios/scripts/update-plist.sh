@@ -16,5 +16,5 @@ DIEZ_SERVER_URL=$(cat $DIEZ_HOT_URL_FILE)
 
 echo "Enabling hot mode with URL $DIEZ_SERVER_URL"
 
-plistbuddy DiezIsDevelopmentEnabled bool true
+plistbuddy DiezIsHot bool true
 plistbuddy DiezServerURL string $DIEZ_SERVER_URL

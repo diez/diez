@@ -1,5 +1,3 @@
-package org.diez
-
 import java.io.File as CoreFile
 import android.graphics.Typeface
 import android.widget.TextView

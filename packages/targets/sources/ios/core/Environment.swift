@@ -1,7 +1,7 @@
 private class Environment: NSObject {
-    var isDevelopment: Bool {
-        let isDevelopment = Bundle.main.infoDictionary?["DiezIsDevelopmentEnabled"] as? Bool
-        return isDevelopment ?? false
+    var isHot: Bool {
+        let isHot = Bundle.main.infoDictionary?["DiezIsHot"] as? Bool
+        return isHot ?? false
     }
 
     var serverURL: URL {

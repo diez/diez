@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def hotFile = new File('../.diez/android-hot-url')
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -8,6 +10,10 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        if (hotFile.exists() && hotFile.canRead()) {
+            resValue 'bool', 'diez_is_hot', 'true'
+            resValue 'string', 'diez_server_url', hotFile.text.trim()
+        }
     }
     buildTypes {
         release {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Diez
+import DiezPoodleSurf
 
 extension UIEdgeInsets {
     init(_ insets: EdgeInsets) {

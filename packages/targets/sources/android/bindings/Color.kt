@@ -1,5 +1,3 @@
-package org.diez
-
 import android.graphics.Color as CoreColor
 import android.support.v4.graphics.ColorUtils
 

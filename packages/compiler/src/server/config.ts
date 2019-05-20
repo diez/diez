@@ -1,4 +1,5 @@
 import {join, relative} from 'path';
+import timeFixPlugin from 'time-fix-plugin';
 import {Configuration, HotModuleReplacementPlugin} from 'webpack';
 import {CompilerProgram} from '../api';
 
@@ -13,7 +14,7 @@ export const getConfiguration = (program: CompilerProgram, componentEntry: strin
       componentEntry,
     ],
   },
-  context: program.projectRoot,
+  context: program.hotRoot,
   mode: 'development',
   resolve: {
     alias: {
@@ -28,5 +29,6 @@ export const getConfiguration = (program: CompilerProgram, componentEntry: strin
   devtool: 'source-map',
   plugins: [
     new HotModuleReplacementPlugin(),
+    new timeFixPlugin(),
   ],
 });

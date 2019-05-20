@@ -1,10 +1,6 @@
 const Environment = {
-  {{#if devMode}}
-  serverUrl: 'http://{{{hostname}}}:{{{devPort}}}/',
-  {{else}}
-  serverUrl: '{{baseUrl}}',
-  {{/if}}
-  isDevelopment: {{{devMode}}},
+  serverUrl: process.env.DIEZ_SERVER_URL,
+  isHot: process.env.DIEZ_IS_HOT,
 };
 
 module.exports = {};

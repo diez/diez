@@ -1,5 +1,3 @@
-package org.diez
-
 import android.net.Uri
 import java.net.URL
 
@@ -25,8 +23,8 @@ internal val File.resourceId: Int
 
 internal val File.canonicalURL: String
     get() {
-        if (Environment.isDevelopment) {
-            return "${Environment.serverUrl}$src"
+        if (Environment.isHot) {
+            return "${Environment.serverUrl}/$src"
         }
 
         return "android.resource://${Environment.packageName}/$resourcePath"
@@ -34,7 +32,7 @@ internal val File.canonicalURL: String
 
 internal val File.websafeURL: String
     get() {
-        if (Environment.isDevelopment) {
+        if (Environment.isHot) {
             return canonicalURL
         }
 

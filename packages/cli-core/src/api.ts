@@ -33,7 +33,7 @@ export interface CliCommandOption {
    */
   description?: string;
   /**
-   * An optional, one-character option alias. e.g. `-d` for `--devMode`. Should be specified without the leading dash.
+   * An optional, one-character option alias. e.g. `-t` for `--target`. Should be specified without the leading dash.
    */
   shortName?: string;
   /**

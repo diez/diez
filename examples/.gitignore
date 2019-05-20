@@ -1,11 +1,4 @@
 */ios/Cartfile
 */ios/Cartfile.resolved
-*/ios/Diez
-*/android/diez
-*/web/diez/index.d.ts
-*/web/diez/index.js
-*/web/diez/index.js
-*/web/diez/static/
 */web/public/diez/
-*/web/diez/yarn.lock
 .idea

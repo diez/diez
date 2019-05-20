@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-yarn diez compile -t ios -o ios --cocoapods
+yarn diez compile -t ios --cocoapods
 
 build () {
   pushd $1

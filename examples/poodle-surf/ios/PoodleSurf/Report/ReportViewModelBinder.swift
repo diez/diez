@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Diez
+import DiezPoodleSurf
 
 class ReportViewModelBinder {
     let view: ReportView

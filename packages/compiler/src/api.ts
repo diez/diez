@@ -20,9 +20,7 @@ declare module '@diez/cli-core/types/api' {
  * Flag-based compiler options, which can be augmented by targets as needed.
  */
 export interface CompilerOptions {
-  outputPath: string;
   target: string;
-  devMode?: boolean;
 }
 
 /**
@@ -181,6 +179,11 @@ export interface CompilerProgram extends EventEmitter {
    */
   emitRoot: string;
   /**
+   * Whether we are running hot.
+   * @ignore
+   */
+  hot: boolean;
+  /**
    * Where we should emit hot code.
    * @ignore
    */
@@ -229,6 +232,10 @@ export enum CompilerEvent {
    * Sent by the compiler after it has processed the TypeScript AST and successfully compiled.
    */
   Compiled = 'compiled',
+  /**
+   * Sent by the compiler when it encounters an error.
+   */
+  Error = 'error',
 }
 
 /**
@@ -277,6 +284,7 @@ export interface TargetOutput<
   sources: Set<string>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;
+  projectName: string;
   sdkRoot: string;
 }
 

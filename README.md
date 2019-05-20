@@ -18,7 +18,7 @@ Be sure to get set up for development by following the instructions in our [cont
    - Run the `app` target in an available simulator with `Ctrl + R` in Android Studio.
  - Web:
    - Run `yarn run-web`. This will compile a Web JS SDK and bring up the dev server.
-   - Run `yarn serve` from [examples/poodle-surf/web](examples/poodle-surf/web).
+   - Run `yarn start` from [examples/poodle-surf/web](examples/poodle-surf/web).
    - Follow instructions in the console to view the app.
 
 ## Universal commands

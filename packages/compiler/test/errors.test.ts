@@ -15,17 +15,17 @@ afterEach(() => {
 });
 
 describe('compiler errors', () => {
-  test('invalid program', () => {
-    const makeComponent = () => new Program(tempLocation, {outputPath: '/dev/null', target: 'foo'});
-    expect(makeComponent).toThrow();
+  test('invalid program', async () => {
+    const makeProgram = () => new Program(tempLocation, {target: 'foo'});
+    expect(makeProgram).toThrow();
     projectCache.clear();
 
     writeFileSync(join(tempLocation, 'tsconfig.json'), '');
-    expect(makeComponent).toThrow();
+    expect(makeProgram).toThrow();
     projectCache.clear();
 
     writeFileSync(join(tempLocation, 'src', 'index.ts'), '');
-    expect(makeComponent).toThrow();
+    expect(makeProgram).toThrow();
     projectCache.clear();
 
     writeFileSync(
@@ -33,8 +33,18 @@ describe('compiler errors', () => {
       JSON.stringify({compilerOptions: {rootDir: 'src', outDir: 'lib'}}),
     );
     projectCache.clear();
-    expect(makeComponent).not.toThrow();
+    expect(makeProgram).not.toThrow();
     // The second time, this should be retrieved from the cache.
-    expect(makeComponent).not.toThrow();
+    expect(makeProgram).not.toThrow();
+
+    // Write invalid TypeScript.
+    writeFileSync(
+      join(tempLocation, 'tsconfig.json'),
+      JSON.stringify({compilerOptions: {rootDir: 'src', outDir: 'lib', noEmitOnError: true}}),
+    );
+    writeFileSync(join(tempLocation, 'src', 'index.ts'), 'export const foo: string = 42;');
+    projectCache.clear();
+    const program = makeProgram();
+    await expect(program.run()).rejects.toThrow();
   });
 });

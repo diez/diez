@@ -19,14 +19,18 @@ export const getFixtures = () => readdirSync(fixturesRoot);
 /**
  * Generates a program for the specified fixtures.
  */
-export const createProgramForFixture = async (fixture: string, outputPath = '/dev/null', devMode = false) => {
+export const createProgramForFixture = async (fixture: string, hot = false) => {
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  const program = new Program(stubProjectRoot, {outputPath, devMode, target: 'test'});
-  await program.start();
+  const program = new Program(stubProjectRoot, {target: 'test'}, hot);
+
+  if (!hot) {
+    await program.run();
+  }
+
   return program;
 };
 
@@ -46,6 +50,7 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
 
   staticRoot = 'static';
   hotComponent = 'hot-component';
+  moduleName = 'module-name';
 
   async hostname () {
     return 'foo.bar';
@@ -57,9 +62,10 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
     }
   }
 
-  protected createOutput (sdkRoot: string): TargetOutput {
+  protected createOutput (sdkRoot: string, projectName: string): TargetOutput {
     return {
       sdkRoot,
+      projectName,
       processedComponents: new Map(),
       sources: new Set(),
       dependencies: new Set(),
@@ -105,8 +111,8 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
   }
 
   writeSdkMock = jest.fn();
-  writeSdk (hostname?: string | undefined, devPort?: number | undefined) {
-    this.writeSdkMock(hostname, devPort);
+  writeSdk () {
+    this.writeSdkMock();
     return Promise.resolve();
   }
 }

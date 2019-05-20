@@ -11,6 +11,7 @@ import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
+import pascalCase = require('pascal-case');
 import {join} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
@@ -85,6 +86,13 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
     } catch (_) {
       return await v4();
     }
+  }
+
+  /**
+   * @abstract
+   */
+  get moduleName () {
+    return pascalCase(`diez-${this.output.projectName}`);
   }
 
   /**
@@ -187,9 +195,10 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   /**
    * @abstract
    */
-  protected createOutput (sdkRoot: string) {
+  protected createOutput (sdkRoot: string, projectName: string) {
     return {
       sdkRoot,
+      projectName,
       processedComponents: new Map(),
       imports: new Set(['Foundation', 'WebKit']),
       sources: new Set([
@@ -201,7 +210,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       ]),
       dependencies: new Set(),
       assetBindings: new Map(),
-      bundleIdPrefix: 'com.diez',
+      bundleIdPrefix: `org.diez.${pascalCase(projectName)}`,
     };
   }
 
@@ -216,19 +225,19 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * @abstract
    */
   printUsageInstructions () {
-    info(`Diez SDK installed locally at ${join(this.program.projectRoot, 'Diez')}.\n`);
+    info(`Diez SDK installed locally at ${this.output.sdkRoot}.\n`);
 
     if (this.program.options.cocoapods) {
       info(`You can depend on the Diez SDK in your ${inlineCodeSnippet('Podfile')} during development like so:`);
-      code('pod \'Diez\', :path => \'/path/to/Diez\'\n');
+      code(`pod '${this.moduleName}', :path => '${this.output.sdkRoot}'\n`);
       info(`Don't forget to run ${inlineCodeSnippet('pod install')} after updating your CocoaPods dependencies!\n`);
     }
 
     if (this.program.options.carthage) {
       info('You can depend on the Diez SDK in your application by hosting the generated SDK on GitHub and updating ');
       info(`your ${inlineCodeSnippet('Cartfile')} like so:`);
-      code('github "Organization/Diez" "master"\n');
-      info(`where ${inlineCodeSnippet('Organization/Diez')} is your generated SDK's GitHub repository.`);
+      code(`github "organization/${this.moduleName}" "master"\n`);
+      info(`where ${inlineCodeSnippet(`organization/${this.moduleName}`)} is your generated SDK's GitHub repository.`);
       info(`Don't forget to run ${inlineCodeSnippet('carthage update')} after updating your Cartfile!\n`);
     }
 
@@ -238,7 +247,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
     // TODO: Move this into a template.
     // TODO: components with bindings should yield their own documentation.
     code(`import UIKit
-import Diez
+import ${this.moduleName}
 
 class ViewController: UIViewController {
     private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view: view)
@@ -262,19 +271,6 @@ class ViewController: UIViewController {
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
-  }
-
-  /**
-   * Rebinds assets, but skips the remainder of SDK regeneration. Prevents useless overwrites for an already built app.
-   */
-  private rebindAssets () {
-    for (const {binding} of this.output.processedComponents.values()) {
-      if (binding) {
-        this.mergeBindingToOutput(binding);
-      }
-    }
-
-    this.writeAssets();
   }
 
   /**
@@ -304,12 +300,7 @@ class ViewController: UIViewController {
   /**
    * @abstract
    */
-  async writeSdk (hostname?: string, devPort?: number) {
-    if (this.hasBuiltOnce) {
-      this.rebindAssets();
-      return;
-    }
-
+  async writeSdk () {
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -371,14 +362,12 @@ class ViewController: UIViewController {
     }
 
     const tokens = {
-      devPort,
-      hostname,
       hasDependenciesOrStaticAssets,
       hasStaticAssets,
+      moduleName: this.moduleName,
       assetCatalogPaths: Array.from(assetCatalogPaths),
       assetFolderPaths: Array.from(assetFolderPaths),
       bundleIdPrefix: this.output.bundleIdPrefix,
-      devMode: !!this.program.options.devMode,
       dependencies: Array.from(this.output.dependencies),
       imports: Array.from(this.output.imports),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
@@ -405,5 +394,5 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
     throw new Error('--target ios can only be built on macOS.');
   }
 
-  await new IosCompiler(program, join(program.options.outputPath, 'Diez')).start();
+  await new IosCompiler(program).start();
 };

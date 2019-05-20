@@ -1,5 +1,5 @@
 import UIKit
-import Diez
+import DiezPlayground
 import WebKit
 import Lottie
 

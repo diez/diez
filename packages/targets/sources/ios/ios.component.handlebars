@@ -61,7 +61,7 @@ extension {{{componentName}}}: ReflectedCustomStringConvertible {
 }
 {{#if public}}
 
-/// This is only intended to be used by Objective-C consumers. 
+/// This is only intended to be used by Objective-C consumers.
 /// In Swift use Diez<{{{componentName}}}>.
 @available(swift, obsoleted: 0.0.1)
 @objc(DEZDiez{{{componentName}}})
@@ -77,7 +77,7 @@ public final class DiezBridged{{{componentName}}}: NSObject {
 
      The provided closure is called synchronously when this function is called.
 
-     If in [development mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
+     If in [hot mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
      component.
 
      - Parameter subscriber: The block to be called when the component updates.

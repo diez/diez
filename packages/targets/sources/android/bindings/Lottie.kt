@@ -1,5 +1,3 @@
-package org.diez
-
 import android.util.Log
 import android.widget.FrameLayout
 import com.airbnb.lottie.LottieAnimationView
@@ -9,7 +7,7 @@ import com.airbnb.lottie.LottieListener
 import com.airbnb.lottie.LottieDrawable
 
 fun LottieAnimationView.load(lottie: Lottie) {
-    val task = when(Environment.isDevelopment) {
+    val task = when(Environment.isHot) {
         true -> LottieCompositionFactory.fromUrl(context, lottie.file.canonicalURL)
         else -> LottieCompositionFactory.fromRawRes(context, lottie.file.resourceId)
     }

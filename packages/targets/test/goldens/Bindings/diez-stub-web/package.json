@@ -1,0 +1,10 @@
+{
+  "name": "diez-stub",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lottie-web": "^5.5.2",
+    "haiku-component": "10.10.10"
+  }
+}

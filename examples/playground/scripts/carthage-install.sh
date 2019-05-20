@@ -1,20 +1,17 @@
 #!/bin/bash
 set -e
 
-rm -rf ios/Diez
-yarn diez compile -t ios -o ios --carthage
+yarn diez compile -t ios --carthage
 
-pushd ios/Diez
+pushd build/diez-playground-ios
   git init
   git add .
   git commit --allow-empty -m "auto: initialize Diez SDK"
 popd
 
+LOCAL_REPO=$(pwd -P)/build/diez-playground-ios
+
 pushd ios
-  WORKING_DIR=$(pwd)
-  LOCAL_REPO="${WORKING_DIR}/Diez"
-
   echo "git \"file://${LOCAL_REPO}\" \"master\"" > "Cartfile"
-
   carthage update --cache-builds --platform ios
 popd

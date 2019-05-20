@@ -1,6 +1,7 @@
 {
   "providers": {
     "commands": [
+      "./lib/commands/hot",
       "./lib/commands/compile"
     ]
   }

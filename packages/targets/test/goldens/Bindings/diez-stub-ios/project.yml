@@ -1,0 +1,28 @@
+name: DiezStub
+options:
+  bundleIdPrefix: org.diez.Stub
+targets:
+  DiezStub:
+    type: framework
+    platform: iOS
+    sources:
+      - Sources
+    info:
+      path: Sources/DiezStub/Info.plist
+    dependencies:
+      - target: Static
+        embed: true
+      - carthage: "Lottie"
+        findFrameworks: true
+    scheme: {} # Generates the shared scheme
+  Static:
+    type: bundle
+    platform: iOS
+    info:
+      path: static/Resources-Info.plist
+    sources:
+      - path: "static/assets"
+        type: folder
+      - path: "static/haiku"
+        type: folder
+      - "static/Images.xcassets"
