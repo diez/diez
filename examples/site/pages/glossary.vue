@@ -9,7 +9,6 @@
             <a href="#primitives">Design Primitives</a>
             <a href="#headless">Headless Components</a>
             <a href="#prefabs">Prefab Components</a>
-            <a href="#reusable">Reusable Components</a>
             <a href="#targets">Targets</a>
             <a href="#bindings">Native Bindings</a>
             <a href="#hot-mode">Hot Mode</a>
@@ -31,12 +30,9 @@
           <h3 id="headless">Headless Components</h3>
           <p>It's common to think of components in a visual context, as things that snap together in a UI. We think of components more simply as bearers of state. And because we're not dealing with rendering context, we call them <strong>headless</strong> components.</p>
           <h3 id="prefabs">Prefab Components</h3>
-          <p><strong>Prefab</strong> components are the subset of <a href="#reusable">reusable components</a> that have been open-sourced to the community. They serve as building blocks for consistently expressing common types of <a href="#primitives">design primitives</a> in order for you to compose your <a href="#pds">production design system</a>.
-          <p>Diez ships with a useful collection of <strong>prefabs</strong> but you can build your own to suit your needs (and optionally contribute them back to the mainline).</p>
+          <p><strong>Prefab</strong> components are components that have been open-sourced to the community. They serve as building blocks for consistently expressing common types of <a href="#primitives">design primitives</a> in order for you to compose your <a href="#pds">production design system</a>.
+          <p>Diez ships with a useful collection of <strong>prefabs</strong> but you can build your own to suit your needs (and optionally contribute them back to the mainline). </p>
           <p>A guide for building your own prefabs will be coming soon. Ping us in <a href="https://spectrum.chat/diez">the community</a> if you need some help.</p>
-          <h3 id="reusable">Reusable Components</h3>
-          <p><strong>Reusable</strong> components are user-defined components. This type of component has an interface that defines how it can be constructed. The interface provides typings which will enable auto-complete within your IDE that shows you what your components' pieces are called and what types of properties they can receive.</p>
-          <p>A reusable component's definition will provide its defaults and its interface gives you the language you use to override the defaults when you construct the component. Check out an example of <a href="https://github.com/diez/diez/blob/master/packages/compiler/templates/project/src/custom-components/Margin.ts"> a reusable component here</a>.</p>
           <h3 id="targets">Targets</h3>
           <p>We loosely refer to <strong>Targets</strong> as a combination of a target platform, and a target technology that's compatible with that platform. For example, iOS and Swift, or Web and JavaScript, or Web and CSS. We've made target compilers for a few platforms so far, but have also provided an extensible API for writing your own.</p>
           <h3 id="bindings">Native Bindings</h3>
