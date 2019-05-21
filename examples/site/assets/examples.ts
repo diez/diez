@@ -25,64 +25,38 @@ export class DesignSystem extends Component {
   @property palette = palette;
   @property textStyles = new TextStyles();
 }`,
-    kotlin: `import org.diez.*
+    kotlin: `import org.diez.designSystem.*
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var ds: DesignSystem
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Diez(DesignSystem(), root).attach(fun(component) {
-            runOnUiThread {
-                ds = component
-                onDiezUpdated()
-            }
-        })
-    }
 
-    private fun onDiezUpdated() {
-        view.setBackgroundColor(ds.palette.pink500)
-        textView.textStyle = ds.textStyles.heading1
+        val designSystem = DesignSystem()
+        view.setBackgroundColor(designSystem.palette.pink500.color)
+        textView.textStyle = designSystem.textStyles.heading1
     }
 }`,
-    swift: `import Diez
+    swift: `import DiezDesignSystem
 
 class ViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view: view)
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        diez.attach { [weak self] ds in
-            self?.apply(ds)
-        }
-    }
 
-    private func apply(_ ds: DesignSystem) {
-        view.backgroundColor = ds.palette.pink500
-        textView.textStyle = ds.textStyles.heading1
+        let designSystem = DesignSystem()
+        view.backgroundColor = designSystem.palette.pink500.color
+        label.apply(designSystem.textStyles.heading1)
     }
 }`,
-    javascript: `import {DesignSystem, Diez} from 'diez';
+    javascript: `import {DesignSystem} from 'diez-design-system';
 
 class View extends React.PureComponent {
-  constructor () {
-    this.diez = new Diez(DesignSystem);
-  }
-
-  componentWillMount () {
-    this.diez.attach((ds) => {
-      this.setState({ds});
-    });
-  }
-
   render () {
-    const {ds} = this.state;
+    const ds = new DesignSystem();
 
     return (
-      <div style={{backgroundColor: ds.palette.pink500}}>
-        <h1 style={ds.textStyles.heading1.style}>
+      <div style={{backgroundColor: ds.palette.pink500.toString()}}>
+        <h1 style={ds.textStyles.heading1.css}>
           Hello Diez!
         </h1>
       </div>
