@@ -339,6 +339,9 @@ export class Program extends EventEmitter implements CompilerProgram {
       this.run(false);
     };
 
+    // Expose the @internal close() function so that the FileWatcher can be closed in unit tests.
+    // Unit tests would hang on a leaked handle unless we shut down the file watcher.
+    // TODO: Submit PR to TypeScript to expose this publicly.
     this.close = (createWatchProgram(host) as unknown as FileWatcher).close;
   }
 
