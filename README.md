@@ -2,7 +2,7 @@
 
 This is the monorepo for Diez.
 
-## Running example projects in "live" mode
+## Running example projects in hot mode
 
 Be sure to get set up for development by following the instructions in our [contributing guidelines](CONTRIBUTING.md).
 

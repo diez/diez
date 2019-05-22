@@ -113,7 +113,7 @@
 				21D3AD9A220230C600118420 /* Resources */,
 				214EE4D6220BBD540058E6BE /* Embed Frameworks */,
 				4668B5DB227B9FC600BB9213 /* Copy Carthage Frameworks */,
-				4668B5DF227CCFD200BB9213 /* Enable Development Mode */,
+				4668B5DF227CCFD200BB9213 /* Enable Hot Mode */,
 			);
 			buildRules = (
 			);
@@ -194,7 +194,7 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
-		4668B5DF227CCFD200BB9213 /* Enable Development Mode */ = {
+		4668B5DF227CCFD200BB9213 /* Enable Hot Mode */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -203,7 +203,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Enable Development Mode";
+			name = "Enable Hot Mode";
 			outputFileListPaths = (
 			);
 			outputPaths = (

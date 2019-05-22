@@ -242,7 +242,7 @@
 				46087BE0225D341600F4B63F /* Frameworks */,
 				46087BE1225D341600F4B63F /* Resources */,
 				9647868D3A41FF46425863E6 /* [CP] Embed Pods Frameworks */,
-				4668B5DC227CC83400BB9213 /* Enable Development Mode */,
+				4668B5DC227CC83400BB9213 /* Enable Hot Mode */,
 			);
 			buildRules = (
 			);
@@ -301,7 +301,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4668B5DC227CC83400BB9213 /* Enable Development Mode */ = {
+		4668B5DC227CC83400BB9213 /* Enable Hot Mode */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -310,7 +310,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Enable Development Mode";
+			name = "Enable Hot Mode";
 			outputFileListPaths = (
 			);
 			outputPaths = (

@@ -2,7 +2,6 @@ import {extend} from 'expect';
 import {existsSync, readFileSync} from 'fs';
 import {walkSync} from 'fs-walk';
 import jestDiff from 'jest-diff';
-import {NO_DIFF_MESSAGE} from 'jest-diff/build/constants';
 import {join, relative, resolve} from 'path';
 
 const getDiff = (sourceFile: string, goldenFile: string): string | null => {
@@ -15,12 +14,13 @@ const getDiff = (sourceFile: string, goldenFile: string): string | null => {
     return `${sourceFile} does not exist, but is required to match ${goldenFile}.`;
   }
 
-  const diff = jestDiff(readFileSync(sourceFile).toString(), readFileSync(goldenFile).toString());
-  if (diff === NO_DIFF_MESSAGE) {
+  const sourceContents = readFileSync(sourceFile).toString();
+  const goldenContents = readFileSync(goldenFile).toString();
+  if (sourceContents === goldenContents) {
     return null;
   }
 
-  return diff;
+  return jestDiff(sourceContents, goldenContents);
 };
 
 /**
