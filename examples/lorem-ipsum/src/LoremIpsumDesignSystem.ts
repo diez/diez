@@ -1,4 +1,4 @@
-import {Color, FontRegistry, Image, Lottie, TextStyle} from '@diez/prefabs';
+import {Color, FontRegistry, Image, Lottie, Typograph} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Margin} from './custom-components/Margin';
 
@@ -18,7 +18,7 @@ class Palette extends Component {
  * Sometimes, it's helpful to keep a copy of a component instance you intend to reuse while defining
  * higher-level components in your design system.
  *
- * For example, you can use this instance of the `Palette` component to build your text styles.
+ * For example, you can use this instance of the `Palette` component to build your typographs.
  */
 const palette = new Palette();
 
@@ -35,20 +35,20 @@ enum MyFonts {
  * You can use the special FontRegistry component to load and activate your custom fonts from
  * TTF files.
  */
-class TextStyles extends Component {
+class Typographs extends Component {
   @property fontRegistry = FontRegistry.fromFiles('assets/Baloo-Regular.ttf');
 
-  @property heading1 = new TextStyle({
+  @property heading1 = new Typograph({
     fontSize: 24,
     color: palette.black,
   });
 
-  @property heading2 = new TextStyle({
+  @property heading2 = new Typograph({
     fontSize: 20,
     color: palette.black,
   });
 
-  @property caption = new TextStyle({
+  @property caption = new Typograph({
     fontName: MyFonts.BalooRegular,
     fontSize: 14,
     color: palette.pink500,
@@ -56,7 +56,7 @@ class TextStyles extends Component {
 }
 
 /**
-* In addition to colors and text styles, you can also collect other types of design system
+* In addition to colors and typographs, you can also collect other types of design system
 * primitives in components as well — such as images, icons & animations.
 */
 class Images extends Component {
@@ -77,7 +77,7 @@ class Margins extends Component {
  */
 export class LoremIpsumDesignSystem extends Component {
   @property palette = palette;
-  @property textStyles = new TextStyles();
+  @property typographs = new Typographs();
   @property images = new Images();
   @property loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json');
 }

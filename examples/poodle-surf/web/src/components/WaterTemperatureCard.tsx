@@ -25,7 +25,7 @@ export default class WaterTemperatureCard extends React.PureComponent<WaterTempe
               alt=""
               style={{marginRight: ds.temperature.iconSpacing, float: 'left'}}
             />
-            <span style={ds.temperature.textStyle.css}>
+            <span style={ds.temperature.typograph.css}>
               {mocks.value}
             </span>
           </div>
@@ -38,10 +38,10 @@ export default class WaterTemperatureCard extends React.PureComponent<WaterTempe
               style={{marginRight: ds.temperature.iconSpacing, float: 'left'}}
             />
             <div>
-              <h5 style={ds.wetsuit.headerTextStyle.css}>
+              <h5 style={ds.wetsuit.headerTypograph.css}>
                 {ds.wetsuit.headerText}
               </h5>
-              <p style={ds.wetsuit.valueTextStyle.css}>
+              <p style={ds.wetsuit.valueTypograph.css}>
                 {mocks.gear}
               </p>
             </div>

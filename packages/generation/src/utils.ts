@@ -75,7 +75,7 @@ export const createDesignSystemSpec = (
   filename,
   projectRoot,
   colors: [],
-  textStyles: [],
+  typographs: [],
   fontRegistry: new Set(),
   fontNames: new Set(),
 });
@@ -93,7 +93,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const engineImports = new Set(['Component']);
   const designSystemImports = new Set<string>();
   const paletteName = localResolver.getComponentName(`${designSystemName} Palette`);
-  const textStylesName = localResolver.getComponentName(`${designSystemName} Text Styles`);
+  const typographsName = localResolver.getComponentName(`${designSystemName} Typographs`);
 
   if (spec.colors.length) {
     engineImports.add('property');
@@ -112,21 +112,21 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     });
   }
 
-  if (spec.textStyles.length) {
+  if (spec.typographs.length) {
     engineImports.add('property');
     designSystemImports.add('Color');
-    designSystemImports.add('TextStyle');
+    designSystemImports.add('Typograph');
     sourceFile.addClass({
-      name: textStylesName,
+      name: typographsName,
       extends: 'Component',
-      properties: spec.textStyles.map(({name, initializer}) => {
-        const textStyleName = localResolver.getPropertyName(
-          name || 'Untitled Text Style',
-          textStylesName,
+      properties: spec.typographs.map(({name, initializer}) => {
+        const typographName = localResolver.getPropertyName(
+          name || 'Untitled Typograph',
+          typographsName,
         );
         return {
           initializer,
-          name: textStyleName,
+          name: typographName,
           decorators: [{name: 'property'}],
         };
       }),
@@ -177,11 +177,11 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     });
   }
 
-  if (spec.textStyles.length) {
+  if (spec.typographs.length) {
     exportedClassDeclaration.addProperty({
-      name: 'textStyles',
+      name: 'typographs',
       decorators: [{name: 'property'}],
-      initializer: `new ${textStylesName}()`,
+      initializer: `new ${typographsName}()`,
     });
   }
 

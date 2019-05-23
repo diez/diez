@@ -1,6 +1,6 @@
-extension TextStyle {
+extension Typograph {
     /**
-     The `UIFont` of the `TextStyle`.
+     The `UIFont` of the `Typograph`.
 
      - Note: If the font fails to load this will fallback to the `UIFont.systemFont(ofSize:)`.
      */
@@ -15,25 +15,25 @@ extension TextStyle {
 }
 
 public extension UILabel {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }
 
 public extension UITextView {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }
 
 public extension UITextField {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }

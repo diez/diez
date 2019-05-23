@@ -68,13 +68,13 @@ NS_ASSUME_NONNULL_BEGIN
         self.stackView.spacing = component.designs.report.contentSpacing;
         self.stackView.layoutMargins = DEZUIEdgeInsetsMake(component.designs.report.contentLayoutMargins);
 
-        [label dez_applyTextStyle:component.designs.navigationTitle.textStyle];
+        [label dez_applyTypograph:component.designs.navigationTitle.typograph];
         label.text = component.designs.navigationTitle.title;
 
-        [textView dez_applyTextStyle:component.designs.navigationTitle.textStyle];
+        [textView dez_applyTypograph:component.designs.navigationTitle.typograph];
         textView.text = component.designs.navigationTitle.title;
 
-        [textField dez_applyTextStyle:component.designs.navigationTitle.textStyle];
+        [textField dez_applyTypograph:component.designs.navigationTitle.typograph];
         textField.text = component.designs.navigationTitle.title;
 
         imageView.image = component.designs.navigationTitle.icon.image;

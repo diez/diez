@@ -40,12 +40,12 @@ beforeEach(() => {
           gradientAssets: [],
           imageCollection: [],
         },
-        layerTextStyles: {
+        layerTypographs: {
           objects: [
             {
               name: 'Heading 1',
               value: {
-                textStyle: {
+                typograph: {
                   MSAttributedStringColorAttribute: {
                     value: '#333333',
                   },
@@ -130,9 +130,9 @@ describe('Sketch', () => {
         fontNames: new Set(['Foobar-Italic']),
         fontRegistry: new Set(['/path/to/Foobar-Italic.ttf']),
         projectRoot: '.',
-        textStyles: [
+        typographs: [
           {
-            initializer: 'new TextStyle({color: Color.rgba(51, 51, 51, 1), fontName: "Foobar-Italic", fontSize: 20})',
+            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), fontName: "Foobar-Italic", fontSize: 20})',
             name: 'Heading 1',
           },
         ],

@@ -20,13 +20,13 @@ describe('codegen.e2e', () => {
     spec.fontNames.add('SomeFont-BoldItalic');
     spec.fontRegistry.add(resolve(__dirname, 'fixtures', 'fonts', 'font.ttf'));
 
-    spec.textStyles.push(
+    spec.typographs.push(
       {
         name: '',
         initializer: '0',
       },
       {
-        name: 'Some Text Style',
+        name: 'Some Typograph',
         initializer: '1',
       },
     );

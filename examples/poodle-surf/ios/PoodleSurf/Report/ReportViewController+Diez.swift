@@ -45,15 +45,15 @@ extension ReportViewController {
     }
 
     private func apply(_ design: TemperatureDesign, to view: HorizontalImageLabelView) {
-        view.label.apply(design.textStyle)
+        view.label.apply(design.typograph)
         view.imageView.image = design.icon.image
         view.spacing = design.iconSpacing
     }
 
     private func apply(_ design: WetsuitDesign, to view: HorizontalImageVerticalLabelsView) {
         view.topLabel.text = design.headerText
-        view.topLabel.apply(design.headerTextStyle)
-        view.bottomLabel.apply(design.valueTextStyle)
+        view.topLabel.apply(design.headerTypograph)
+        view.bottomLabel.apply(design.valueTypograph)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
         view.imageView.image = design.icon.image
@@ -74,7 +74,7 @@ extension ReportViewController {
 
     private func apply(_ design: SharedCardDesign, to view: CardViewDescribable) {
         view.titleLabel.text = design.title
-        view.titleLabel.apply(design.titleTextStyle)
+        view.titleLabel.apply(design.titleTypograph)
         view.titleContentSpacing = design.titleContentSpacing
         view.gradient = Gradient(design.gradient)
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
@@ -82,9 +82,9 @@ extension ReportViewController {
     }
 
     private func apply(_ design: DayPartDesign, to view: DayPartView) {
-        view.valueLabel.apply(design.valueTextStyle)
-        view.unitLabel.apply(design.unitTextStyle)
-        view.timeLabel.apply(design.timeTextStyle)
+        view.valueLabel.apply(design.valueTypograph)
+        view.unitLabel.apply(design.unitTypograph)
+        view.timeLabel.apply(design.timeTypograph)
         view.valueUnitSpacing = design.valueUnitSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
         view.iconWidth = design.iconWidth
@@ -98,7 +98,7 @@ extension ReportViewController {
     func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
         navigationBar.barTintColor = design.barTintColor.color
         view.label.text = design.title
-        view.label.apply(design.textStyle)
+        view.label.apply(design.typograph)
         view.imageView.image = design.icon.image
         view.spacing = design.iconToTitleSpacing
     }

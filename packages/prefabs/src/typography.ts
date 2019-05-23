@@ -39,22 +39,22 @@ export class FontRegistry extends Component<FontRegistryState> {
 }
 
 /**
- * Text style state.
+ * Typograph state.
  * @ignore
  */
-export interface TextStyleState<T = {}> {
+export interface TypographState<T = {}> {
   fontName: string | T;
   fontSize: number;
   color: Color;
 }
 
 /**
- * Describes a text style including specification of a font name (understood to specify both a font face and a font
+ * Describes a typograph including specification of a font name (understood to specify both a font face and a font
  * weight) as well as a font size in device-local units and a font color.
  *
  * @noinheritdoc
  */
-export class TextStyle extends Component<TextStyleState> {
+export class Typograph extends Component<TypographState> {
   @property fontName = IOSFonts.Helvetica;
   @property fontSize = 12;
   @property color: Color = Color.hsla(0, 0, 0, 1);

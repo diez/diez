@@ -27,7 +27,7 @@ class ViewController: UIViewController {
 
     private func apply(_ component: MyStateBag) {
         label.text = "\(component.text). \(component.numbers[10])"
-        label.apply(component.textStyle)
+        label.apply(component.typograph)
         if let image = component.image.image {
             view.backgroundColor = UIColor(patternImage: image)
         }

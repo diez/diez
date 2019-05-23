@@ -1,4 +1,4 @@
-import { Color, FontRegistry, TextStyle } from "@diez/prefabs";
+import { Color, FontRegistry, Typograph } from "@diez/prefabs";
 import { Component, property } from "@diez/engine";
 
 class MyDesignSystemPalette extends Component {
@@ -8,11 +8,11 @@ class MyDesignSystemPalette extends Component {
     someColor = 3;
 }
 
-class MyDesignSystemTextStyles extends Component {
+class MyDesignSystemTypographs extends Component {
     @property
-    untitledTextStyle = 0;
+    untitledTypograph = 0;
     @property
-    someTextStyle = 1;
+    someTypograph = 1;
 }
 
 export enum MyDesignSystemFonts {
@@ -25,7 +25,7 @@ export class MyDesignSystemDesignSystem extends Component {
     @property
     palette = new MyDesignSystemPalette();
     @property
-    textStyles = new MyDesignSystemTextStyles();
+    typographs = new MyDesignSystemTypographs();
 }
 
 export const myDesignSystemDesignSystem = new MyDesignSystemDesignSystem();

@@ -1,4 +1,4 @@
-import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, SVG, TextStyle} from '@diez/prefabs';
+import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, SVG, Typograph} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 
 export class Bindings extends Component {
@@ -12,7 +12,7 @@ export class Bindings extends Component {
     'assets/SomeFont.ttf',
   );
 
-  @property textStyle = new TextStyle({
+  @property typograph = new Typograph({
     fontName: IOSFonts.Helvetica,
     fontSize: 50,
     color: Color.hex('#ff0'),

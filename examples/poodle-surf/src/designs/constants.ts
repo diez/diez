@@ -1,4 +1,4 @@
-import {Color, IOSFonts, TextStyle, FontRegistry} from '@diez/prefabs';
+import {Color, IOSFonts, Typograph, FontRegistry} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {SimpleGradient} from './components/SimpleGradient';
 
@@ -43,38 +43,38 @@ enum FontSizes {
   Unit = 16,
 }
 
-class TextStyles extends Component {
-  @property headerTitle = new TextStyle({
+class Typographs extends Component {
+  @property headerTitle = new Typograph({
     fontName: FontRoles.DefaultBold,
     fontSize: FontSizes.Title,
     color: palette.black,
   });
-  @property headerCaption = new TextStyle({
+  @property headerCaption = new Typograph({
     fontName: FontRoles.Default,
     fontSize: FontSizes.Caption,
     color: palette.black,
   });
-  @property cardTitle = new TextStyle({
+  @property cardTitle = new Typograph({
     fontName: FontRoles.Default,
     fontSize: FontSizes.CardTitle,
     color: palette.white,
   });
-  @property value = new TextStyle({
+  @property value = new Typograph({
     fontName: FontRoles.Default,
     fontSize: FontSizes.Value,
     color: palette.white,
   });
-  @property unit = new TextStyle({
+  @property unit = new Typograph({
     fontName: FontRoles.Default,
     fontSize: FontSizes.Unit,
     color: palette.white,
   });
-  @property caption = new TextStyle({
+  @property caption = new Typograph({
     fontName: FontRoles.Default,
     fontSize: FontSizes.Caption,
     color: palette.white,
   });
-  @property captionHeader = new TextStyle({
+  @property captionHeader = new Typograph({
     fontName: FontRoles.DefaultBold,
     fontSize: FontSizes.Caption,
     color: palette.white,
@@ -112,6 +112,6 @@ export const fontRegistry = FontRegistry.fromFiles(
 export const palette = new Palette();
 
 /**
- * A TextStyles singleton, used throughout the design system.
+ * A Typographs singleton, used throughout the design system.
  */
-export const textStyles = new TextStyles();
+export const typographs = new Typographs();

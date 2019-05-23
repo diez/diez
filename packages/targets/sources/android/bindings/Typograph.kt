@@ -2,7 +2,7 @@ import java.io.File as CoreFile
 import android.graphics.Typeface
 import android.widget.TextView
 
-val TextStyle.typeface: Typeface
+val Typograph.typeface: Typeface
     get() {
         val style = getStyle(fontName)
 
@@ -47,14 +47,14 @@ private fun getStyle(fontName: String): Int {
     return style
 }
 
-var TextView.textStyle: TextStyle?
-    set(textStyle) {
-        if (textStyle == null) {
+var TextView.typograph: Typograph?
+    set(typograph) {
+        if (typograph == null) {
             return
         }
-        this.typeface = textStyle.typeface
-        this.textSize = textStyle.fontSize
-        this.setTextColor(textStyle.color.color)
+        this.typeface = typograph.typeface
+        this.textSize = typograph.fontSize
+        this.setTextColor(typograph.color.color)
     }
 
     get() {

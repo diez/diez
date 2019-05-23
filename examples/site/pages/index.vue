@@ -98,8 +98,8 @@
               <span class="muted">&lt;</span>Number<span class="muted">/&gt;</span></div>
             <div class="card third mono"><img src="@/assets/icons/font.svg" alt="Font">
               <span class="muted">&lt;</span>Font<span class="muted">/&gt;</span></div>
-            <div class="card third mono"><img src="@/assets/icons/text-style.svg" alt="TextStyle">
-              <span class="muted">&lt;</span>TextStyle<span class="muted">/&gt;</span></div>
+            <div class="card third mono"><img src="@/assets/icons/typograph.svg" alt="Typograph">
+              <span class="muted">&lt;</span>Typograph<span class="muted">/&gt;</span></div>
             <div class="card third mono"><img src="@/assets/icons/image.svg" alt="Image">
               <span class="muted">&lt;</span>Image<span class="muted">/&gt;</span></div>
             <div class="card third mono"><img src="@/assets/icons/animation.svg" alt="Animation">

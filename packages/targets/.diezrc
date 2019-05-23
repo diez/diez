@@ -45,10 +45,10 @@
       "android": "./lib/bindings/SVG/android",
       "web": "./lib/bindings/SVG/web"
     },
-    "@diez/prefabs:TextStyle": {
-      "ios": "./lib/bindings/TextStyle/ios",
-      "android": "./lib/bindings/TextStyle/android",
-      "web": "./lib/bindings/TextStyle/web"
+    "@diez/prefabs:Typograph": {
+      "ios": "./lib/bindings/Typograph/ios",
+      "android": "./lib/bindings/Typograph/android",
+      "web": "./lib/bindings/Typograph/web"
     }
   }
 }

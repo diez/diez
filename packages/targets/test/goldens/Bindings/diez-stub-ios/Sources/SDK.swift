@@ -626,8 +626,8 @@ extension Color {
     }
 }
 
-@objc(DEZTextStyle)
-public final class TextStyle: NSObject, Decodable {
+@objc(DEZTypograph)
+public final class Typograph: NSObject, Decodable {
     @objc public internal(set) var fontName: String
     @objc public internal(set) var fontSize: CGFloat
     @objc public internal(set) var color: Color
@@ -649,7 +649,7 @@ public final class TextStyle: NSObject, Decodable {
     }
 }
 
-extension TextStyle: Updatable {
+extension Typograph: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(value: &fontName, forKey: .fontName)
@@ -658,15 +658,15 @@ extension TextStyle: Updatable {
     }
 }
 
-extension TextStyle: ReflectedCustomStringConvertible {
+extension Typograph: ReflectedCustomStringConvertible {
     public override var description: String {
         return reflectedDescription
     }
 }
 
-extension TextStyle {
+extension Typograph {
     /**
-     The `UIFont` of the `TextStyle`.
+     The `UIFont` of the `Typograph`.
 
      - Note: If the font fails to load this will fallback to the `UIFont.systemFont(ofSize:)`.
      */
@@ -681,26 +681,26 @@ extension TextStyle {
 }
 
 public extension UILabel {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }
 
 public extension UITextView {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }
 
 public extension UITextField {
-    @objc(dez_applyTextStyle:)
-    func apply(_ textStyle: TextStyle) {
-        font = textStyle.font
-        textColor = textStyle.color.color
+    @objc(dez_applyTypograph:)
+    func apply(_ typograph: Typograph) {
+        font = typograph.font
+        textColor = typograph.color.color
     }
 }
 
@@ -815,7 +815,7 @@ public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var svg: SVG
     @objc public internal(set) var lottie: Lottie
     @objc public internal(set) var fontRegistry: FontRegistry
-    @objc public internal(set) var textStyle: TextStyle
+    @objc public internal(set) var typograph: Typograph
     @objc public internal(set) var haiku: Haiku
 
     private enum CodingKeys: String, CodingKey {
@@ -823,7 +823,7 @@ public final class Bindings: NSObject, StateBag {
         case svg
         case lottie
         case fontRegistry
-        case textStyle
+        case typograph
         case haiku
     }
 
@@ -832,7 +832,7 @@ public final class Bindings: NSObject, StateBag {
         svg = SVG(src: "assets/image.svg")
         lottie = Lottie(file: File(src: "assets/lottie.json"), loop: true, autoplay: true)
         fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf")])
-        textStyle = TextStyle(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
+        typograph = Typograph(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
         haiku = Haiku(component: "haiku-component", loop: true, autoplay: true)
     }
 
@@ -841,14 +841,14 @@ public final class Bindings: NSObject, StateBag {
         svg: SVG,
         lottie: Lottie,
         fontRegistry: FontRegistry,
-        textStyle: TextStyle,
+        typograph: Typograph,
         haiku: Haiku
     ) {
         self.image = image
         self.svg = svg
         self.lottie = lottie
         self.fontRegistry = fontRegistry
-        self.textStyle = textStyle
+        self.typograph = typograph
         self.haiku = haiku
     }
 
@@ -862,7 +862,7 @@ extension Bindings: Updatable {
         try container.update(updatable: &svg, forKey: .svg)
         try container.update(updatable: &lottie, forKey: .lottie)
         try container.update(updatable: &fontRegistry, forKey: .fontRegistry)
-        try container.update(updatable: &textStyle, forKey: .textStyle)
+        try container.update(updatable: &typograph, forKey: .typograph)
         try container.update(updatable: &haiku, forKey: .haiku)
     }
 }

@@ -22,7 +22,7 @@ export declare class Color {
   toString(): string;
 }
 
-export declare class TextStyle {
+export declare class Typograph {
   css: {color: string, fontSize: string, fontFamily: string};
   applyStyle(ref: HTMLElement): void;
 }
@@ -37,7 +37,7 @@ export declare class Bindings extends StateBag {
   svg: SVG;
   lottie: Lottie;
   fontRegistry: FontRegistry;
-  textStyle: TextStyle;
+  typograph: Typograph;
   haiku: HaikuComponent;
 }
 

@@ -1,4 +1,4 @@
-import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, TextStyle} from '@diez/prefabs';
+import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, Typograph} from '@diez/prefabs';
 import {Component, expression, Integer, method, property, shared} from '@diez/engine';
 import {easeInOutExpo} from 'just-curves';
 
@@ -43,7 +43,7 @@ export class MyStateBag extends Component {
     'assets/fonts/Roboto-ThinItalic.ttf',
   );
 
-  @property textStyle = new TextStyle({
+  @property typograph = new Typograph({
     fontName: IOSFonts.Helvetica,
     fontSize: 50,
     color: this.palette.hello,

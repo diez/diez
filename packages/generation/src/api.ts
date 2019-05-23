@@ -15,7 +15,7 @@ export interface CodegenDesignSystem {
   filename: string;
   projectRoot: string;
   colors: CodegenEntity[];
-  textStyles: CodegenEntity[];
+  typographs: CodegenEntity[];
   fontRegistry: Set<string>;
   fontNames: Set<string>;
 }

@@ -50,10 +50,10 @@ interface SketchAssets {
   imageCollection: never[];
 }
 
-interface SketchSharedTextStyle {
+interface SketchSharedTypograph {
   name: string;
   value: {
-    textStyle: {
+    typograph: {
       MSAttributedStringColorAttribute: {
         value: string;
       };
@@ -70,8 +70,8 @@ interface SketchSharedTextStyle {
 
 interface SketchDump {
   assets: SketchAssets;
-  layerTextStyles: {
-    objects: SketchSharedTextStyle[];
+  layerTypographs: {
+    objects: SketchSharedTypograph[];
   };
 }
 
@@ -142,23 +142,23 @@ class SketchExporterImplementation implements Exporter {
       });
     }
 
-    for (const {name, value: {textStyle}} of output.layerTextStyles.objects) {
-      const fontSize = textStyle.NSFont.attributes.NSFontSizeAttribute;
+    for (const {name, value: {typograph}} of output.layerTypographs.objects) {
+      const fontSize = typograph.NSFont.attributes.NSFontSizeAttribute;
       const candidateFont = await locateFont(
-        textStyle.NSFont.family,
-        {name: textStyle.NSFont.attributes.NSFontNameAttribute},
+        typograph.NSFont.family,
+        {name: typograph.NSFont.attributes.NSFontNameAttribute},
       );
       if (candidateFont) {
         codegenSpec.fontRegistry.add(candidateFont.path);
       } else {
-        warning(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
+        warning(`Unable to locate system font assets for ${typograph.NSFont.attributes.NSFontNameAttribute}.`);
       }
 
-      const fontName = candidateFont ? candidateFont.name : textStyle.NSFont.attributes.NSFontNameAttribute;
+      const fontName = candidateFont ? candidateFont.name : typograph.NSFont.attributes.NSFontNameAttribute;
       codegenSpec.fontNames.add(fontName);
-      codegenSpec.textStyles.push({
+      codegenSpec.typographs.push({
         name,
-        initializer: `new TextStyle({color: ${getColorInitializer(textStyle.MSAttributedStringColorAttribute.value)}, fontName: "${fontName}", fontSize: ${fontSize}})`,
+        initializer: `new Typograph({color: ${getColorInitializer(typograph.MSAttributedStringColorAttribute.value)}, fontName: "${fontName}", fontSize: ${fontSize}})`,
       });
     }
 

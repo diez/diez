@@ -1,5 +1,5 @@
 import {Color} from '../src/color';
-import {FontRegistry, TextStyle} from '../src/typography';
+import {FontRegistry, Typograph} from '../src/typography';
 
 describe('font registry', () => {
   test('basic functionality', () => {
@@ -9,19 +9,19 @@ describe('font registry', () => {
   });
 });
 
-describe('text style', () => {
+describe('typograph', () => {
   test('basic functionality', () => {
     const enum Fonts {
       BloopMediumItalic = 'BloopMediumItalic',
     }
 
-    const textStyle = new TextStyle({
+    const typograph = new Typograph({
       fontName: Fonts.BloopMediumItalic,
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
     });
 
-    expect(textStyle.serialize()).toEqual({
+    expect(typograph.serialize()).toEqual({
       fontName: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
   });
 });

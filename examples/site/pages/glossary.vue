@@ -24,7 +24,7 @@
           <p>The concept includes:</p>
           <ul>
             <li>Design tokens such as spacing, sizing, border radii, colors.</li>
-            <li>Reusable collections of design tokens such as text styles.</li>
+            <li>Reusable collections of design tokens such as typographs.</li>
             <li>Design assets such as fonts, images, iconography, animations.</li>
           </ul>
           <h3 id="headless">Headless Components</h3>

@@ -2,7 +2,7 @@
   <div id="app">
     <img :src="component.image.url">
     <h1 :style="{color: component.palette.hello.toString(), fontFamily: 'Roboto-Black'}">{{ component.text }}</h1>
-    <p :style="component.textStyle.css">Text style!</p>
+    <p :style="component.typograph.css">Typograph!</p>
     <div ref="haiku"></div>
     <div ref="lottie"></div>
   </div>

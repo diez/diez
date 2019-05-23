@@ -251,7 +251,7 @@ Color.prototype.toString = function () {
   return `hsla(${this.h * 360}, ${this.s * 100}%, ${this.l * 100}%, ${this.a})`;
 };
 
-class TextStyle {
+class Typograph {
   constructor({
     fontName,
     fontSize,
@@ -276,9 +276,9 @@ class TextStyle {
 }
 
 
-module.exports.TextStyle = TextStyle;
+module.exports.Typograph = Typograph;
 
-Object.defineProperties(TextStyle.prototype, {
+Object.defineProperties(Typograph.prototype, {
   css: {
     get () {
       return {
@@ -290,7 +290,7 @@ Object.defineProperties(TextStyle.prototype, {
   },
 });
 
-TextStyle.prototype.applyStyle = function (ref) {
+Typograph.prototype.applyStyle = function (ref) {
   const css = this.css;
   ref.style.fontFamily = css.fontFamily;
   ref.style.fontSize = css.fontSize;
@@ -328,7 +328,7 @@ class Bindings {
     this.svg = new SVG({src: "assets/image.svg"});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json"}), loop: true, autoplay: true});
     this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf"})]});
-    this.textStyle = new TextStyle({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
+    this.typograph = new Typograph({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
     this.haiku = new HaikuComponent({});
   }
 
@@ -341,7 +341,7 @@ class Bindings {
     this.svg = Object.assign(Object.create(Object.getPrototypeOf(this.svg)), this.svg.update(payload.svg));
     this.lottie = Object.assign(Object.create(Object.getPrototypeOf(this.lottie)), this.lottie.update(payload.lottie));
     this.fontRegistry = Object.assign(Object.create(Object.getPrototypeOf(this.fontRegistry)), this.fontRegistry.update(payload.fontRegistry));
-    this.textStyle = Object.assign(Object.create(Object.getPrototypeOf(this.textStyle)), this.textStyle.update(payload.textStyle));
+    this.typograph = Object.assign(Object.create(Object.getPrototypeOf(this.typograph)), this.typograph.update(payload.typograph));
     this.haiku = Object.assign(Object.create(Object.getPrototypeOf(this.haiku)), this.haiku.update(payload.haiku));
 
     return this;

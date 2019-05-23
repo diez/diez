@@ -1,9 +1,9 @@
-import {Image, TextStyle} from '@diez/prefabs';
+import {Image, Typograph} from '@diez/prefabs';
 import {Component, Float, property} from '@diez/engine';
 import {Images} from './assets';
 import {EdgeInsets} from './components/EdgeInsets';
 import {SimpleGradient} from './components/SimpleGradient';
-import {LayoutValues, palette, textStyles} from './constants';
+import {LayoutValues, palette, typographs} from './constants';
 
 class LocationImageDesign extends Component {
   @property strokeWidth = 3;
@@ -12,8 +12,8 @@ class LocationImageDesign extends Component {
 }
 
 class HeaderDesign extends Component {
-  @property regionLabel = textStyles.headerTitle;
-  @property placeLabel = textStyles.headerCaption;
+  @property regionLabel = typographs.headerTitle;
+  @property placeLabel = typographs.headerCaption;
   @property mapPinIcon = Images.MapPin;
   @property locationImage = new LocationImageDesign();
   @property bannerHeight = 149;
@@ -27,7 +27,7 @@ class HeaderDesign extends Component {
 
 interface SharedCardDesignState {
   title: string;
-  titleTextStyle: TextStyle;
+  titleTypograph: Typograph;
   titleContentSpacing: number;
   gradient: SimpleGradient;
   layoutMargins: EdgeInsets;
@@ -36,7 +36,7 @@ interface SharedCardDesignState {
 
 class SharedCardDesign extends Component<SharedCardDesignState> {
   @property title = '';
-  @property titleTextStyle = textStyles.cardTitle;
+  @property titleTypograph = typographs.cardTitle;
   @property titleContentSpacing = LayoutValues.DefaultMargin;
   @property gradient = palette.gradient;
   @property layoutMargins = new EdgeInsets({
@@ -49,15 +49,15 @@ class SharedCardDesign extends Component<SharedCardDesignState> {
 }
 
 class TemperatureDesign extends Component {
-  @property textStyle = textStyles.value;
+  @property typograph = typographs.value;
   @property icon = Images.Thermometer;
   @property iconSpacing = LayoutValues.DefaultSpacing;
 }
 
 class WetsuitDesign extends Component {
   @property headerText = 'Recommended';
-  @property headerTextStyle = textStyles.captionHeader;
-  @property valueTextStyle = textStyles.caption;
+  @property headerTypograph = typographs.captionHeader;
+  @property valueTypograph = typographs.caption;
   @property labelSpacing = LayoutValues.CompactSpacing;
   @property iconSpacing = LayoutValues.DefaultSpacing;
   @property icon = Images.Gear;
@@ -75,9 +75,9 @@ class WaterTemperatureCardDesign extends Component {
 const DayPartIconSize = 78;
 
 class DayPartDesign extends Component {
-  @property valueTextStyle = textStyles.value;
-  @property unitTextStyle = textStyles.unit;
-  @property timeTextStyle = textStyles.caption;
+  @property valueTypograph = typographs.value;
+  @property unitTypograph = typographs.unit;
+  @property timeTypograph = typographs.caption;
   @property valueUnitSpacing = LayoutValues.CompactSpacing;
   @property layoutMargins = new EdgeInsets();
   @property iconWidth = DayPartIconSize;

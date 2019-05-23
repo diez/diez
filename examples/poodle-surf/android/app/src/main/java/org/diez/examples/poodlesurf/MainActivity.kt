@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.icon = diez.designs.navigationTitle.icon
         toolbar.contentInsetStartWithNavigation = diez.designs.navigationTitle.iconToTitleSpacing.toPx()
         toolbarTitle.text = diez.designs.navigationTitle.title
-        toolbarTitle.textStyle = diez.designs.navigationTitle.textStyle
+        toolbarTitle.typograph = diez.designs.navigationTitle.typograph
 
         // Header > Banner
         // TODO: write an extension
@@ -103,8 +103,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Header > Labels + Text
-        regionLabel.textStyle = diez.designs.report.header.regionLabel
-        placeLabel.textStyle = diez.designs.report.header.placeLabel
+        regionLabel.typograph = diez.designs.report.header.regionLabel
+        placeLabel.typograph = diez.designs.report.header.placeLabel
         placeLabel.leftDrawable = diez.designs.report.header.mapPinIcon
         placeLabel.compoundDrawablePadding = diez.designs.report.header.pinIconToLabelSpacing.toPx()
         regionLabel.layoutParams = (regionLabel.layoutParams as LinearLayout.LayoutParams).apply {
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         cardTitle.text = shared.title
-        cardTitle.textStyle = shared.titleTextStyle
+        cardTitle.typograph = shared.titleTypograph
         cardTitle.layoutParams = (cardTitle.layoutParams as LinearLayout.LayoutParams).apply {
             bottomMargin = shared.titleContentSpacing.toPx()
         }
@@ -158,13 +158,13 @@ class MainActivity : AppCompatActivity() {
         applySharedCardStyles(diez.designs.report.waterTemperature.shared, temperatureCard, temperatureCardTitle)
         tempCardIcon.image = diez.designs.report.waterTemperature.temperature.icon
         tempCardIcon.setPadding(0, 0, diez.designs.report.waterTemperature.temperature.iconSpacing.toPx(), 0)
-        tempCardTempText.textStyle = diez.designs.report.waterTemperature.temperature.textStyle
+        tempCardTempText.typograph = diez.designs.report.waterTemperature.temperature.typograph
         wetsuitIcon.image = diez.designs.report.waterTemperature.wetsuit.icon
         wetsuitIcon.setPadding(0, 0, diez.designs.report.waterTemperature.wetsuit.iconSpacing.toPx(), 0)
-        wetsuitLabel.textStyle = diez.designs.report.waterTemperature.wetsuit.headerTextStyle
+        wetsuitLabel.typograph = diez.designs.report.waterTemperature.wetsuit.headerTypograph
         wetsuitLabel.text = diez.designs.report.waterTemperature.wetsuit.headerText
         wetsuitLabel.setPadding(0, 0, 0, diez.designs.report.waterTemperature.wetsuit.labelSpacing.toPx())
-        wetsuitValue.textStyle = diez.designs.report.waterTemperature.wetsuit.valueTextStyle
+        wetsuitValue.typograph = diez.designs.report.waterTemperature.wetsuit.valueTypograph
     }
 
 
@@ -184,9 +184,9 @@ class MainActivity : AppCompatActivity() {
 
         valueUnit.setPadding(0, 0, 0, cardDesign.dayPartVerticalSpacing.toPx())
 
-        time.textStyle = cardDesign.dayPart.timeTextStyle
-        unit.textStyle = cardDesign.dayPart.unitTextStyle
-        value.textStyle = cardDesign.dayPart.valueTextStyle
+        time.typograph = cardDesign.dayPart.timeTypograph
+        unit.typograph = cardDesign.dayPart.unitTypograph
+        value.typograph = cardDesign.dayPart.valueTypograph
         value.setPadding(0, 0, cardDesign.dayPart.valueUnitSpacing.toPx(), 0)
 
         dayPartRoot.setPadding(
