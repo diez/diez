@@ -1,8 +1,18 @@
+const diezHTMLExtensions = [];
+
 class Diez {
   constructor (componentType) {
     this.iframe = document.createElement('iframe');
     this.component = new componentType();
     this.subscribers = [];
+  }
+
+  static applyHTMLExtensions () {
+    diezHTMLExtensions.forEach((extension) => {
+      if (extension instanceof Function) {
+        extension();
+      }
+    });
   }
 
   broadcast () {

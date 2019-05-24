@@ -16,3 +16,9 @@ Lottie.prototype.mount = function (ref) {
     loop: this.loop,
   });
 };
+
+diezHTMLExtensions.push(() => {
+  HTMLElement.prototype.mountLottie = function (lottieComponent) {
+    lottieComponent.mount(this);
+  };
+});

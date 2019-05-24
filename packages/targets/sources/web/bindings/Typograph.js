@@ -16,3 +16,9 @@ Typograph.prototype.applyStyle = function (ref) {
   ref.style.fontSize = css.fontSize;
   ref.style.color = css.color;
 };
+
+diezHTMLExtensions.push(() => {
+  HTMLElement.prototype.applyTypograph = (typograph) => {
+    typograph.applyStyle(this);
+  };
+});

@@ -161,6 +161,12 @@ Lottie.prototype.mount = function (ref) {
   });
 };
 
+diezHTMLExtensions.push(() => {
+  HTMLElement.prototype.mountLottie = function (lottieComponent) {
+    lottieComponent.mount(this);
+  };
+});
+
 const FontFormats = {
   eot: 'embedded-opentype',
   woff: 'woff',
@@ -296,6 +302,12 @@ Typograph.prototype.applyStyle = function (ref) {
   ref.style.fontSize = css.fontSize;
   ref.style.color = css.color;
 };
+
+diezHTMLExtensions.push(() => {
+  HTMLElement.prototype.applyTypograph = (typograph) => {
+    typograph.applyStyle(this);
+  };
+});
 
 class HaikuComponent {
   constructor () {
