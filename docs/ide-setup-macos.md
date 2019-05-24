@@ -46,4 +46,9 @@ If it keeps failing, you can try to [manually install the Simulator image][1].
 
 6. Ensure initial Gradle sync is successful. An `app` configuration should be created by default; run it with the play button in the top right (shortcut: `Ctrl + R`). You will initially be missing a ton of SDKs/etc. (Android Studio doesn’t ship with any SDKs), but prompts in the bottom of the interface should tell you what you need to install. You may need to restart a few times—just keep following instructions until it builds and runs in the emulator.
 
+7. Set the [`ANDROID_SDK_ROOT` environment variable](https://developer.android.com/studio/command-line/variables#envar) to the location of your installed Android SDK. This is typically done by adding the following line to the configuration file for your shell (e.g. `~/.bash_profile`):
+```bash
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+```
+
 [1]: https://hackernoon.com/manually-install-ios-simulators-in-xcode-f7e4bbe50753
