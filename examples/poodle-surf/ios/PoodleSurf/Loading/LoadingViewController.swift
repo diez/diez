@@ -40,7 +40,7 @@ class LoadingViewController: UIViewController {
     }
 
     override func loadView() {
-        view = LoadingView()
+        view = LoadingView(frame: UIScreen.main.bounds)
     }
 
     @available(*, unavailable)

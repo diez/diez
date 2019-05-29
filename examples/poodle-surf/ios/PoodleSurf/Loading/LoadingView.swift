@@ -12,7 +12,7 @@ import Lottie
 class LoadingView: UIView {
     let animationView = LOTAnimationView()
 
-    init() {
+    override init(frame: CGRect) {
         super.init(frame: CGRect.zero)
 
         setupLayout()
