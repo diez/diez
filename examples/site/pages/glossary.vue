@@ -6,7 +6,7 @@
         <div class="one-quarter">
           <div class="nav-wrap">
             <a href="#pds">Production Design Systems</a>
-            <a href="#primitives">Design Primitives</a>
+            <a href="#tokens">Design Tokens</a>
             <a href="#headless">Headless Components</a>
             <a href="#prefabs">Prefab Components</a>
             <a href="#targets">Targets</a>
@@ -19,18 +19,13 @@
           <h3 id="pds">Production Design Systems</h3>
           <p><strong>Production design systems</strong> are design systems that can be connected directly to your team's application codebases.</p>
           <p>The big difference between Diez and other <strong>production design systems</strong> is that Diez enables you to keep your design system source of truth in a single place and reuse it across all platforms. We believe this pattern is the best way forward for useful, flexible, maintainable, and evolving design system ecosystems.</p>
-          <h3 id="primitives">Design Primitives</h3>
-          <p><strong>Design primitives</strong> is a catch-all term for the basic building blocks that define your design system. They enable you to compose your UI in a uniform and consistent manner using resuable patterns.</p>
-          <p>The concept includes:</p>
-          <ul>
-            <li>Design tokens such as spacing, sizing, border radii, colors.</li>
-            <li>Reusable collections of design tokens such as typographs.</li>
-            <li>Design assets such as fonts, images, iconography, animations.</li>
-          </ul>
+          <h3 id="tokens">Design Tokens</h3>
+          <p><strong>Design tokens</strong> is the umbrella term we use for the basic building blocks that define your design system. They are the base layer that enables you to compose your UI in a uniform and consistent manner using reusable patterns.</p>
+          <p>Design tokens describe your “atomic” properties (e.g. spacing, border radii, colors). With Diez we extend the term to include higher order tokens such as text styles (which are collections of tokens), and other design assets such as fonts, images, iconography, animations.</p>
           <h3 id="headless">Headless Components</h3>
           <p>It's common to think of components in a visual context, as things that snap together in a UI. We think of components more simply as bearers of state. And because we're not dealing with rendering context, we call them <strong>headless</strong> components.</p>
           <h3 id="prefabs">Prefab Components</h3>
-          <p><strong>Prefab</strong> components are components that have been open-sourced to the community. They serve as building blocks for consistently expressing common types of <a href="#primitives">design primitives</a> in order for you to compose your <a href="#pds">production design system</a>.
+          <p><strong>Prefab</strong> components are components that have been open-sourced to the community. They serve as building blocks for consistently expressing common types of <a href="#tokens">design tokens</a> in order for you to compose your <a href="#pds">production design system</a>.
           <p>Diez ships with a useful collection of <strong>prefabs</strong> but you can build your own to suit your needs (and optionally contribute them back to the mainline). </p>
           <p>A guide for building your own prefabs will be coming soon. Ping us in <a href="https://spectrum.chat/diez">the community</a> if you need some help.</p>
           <h3 id="targets">Targets</h3>

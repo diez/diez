@@ -34,7 +34,7 @@
         <h3>Do I have to use the components provided by Diez?</h3>
       </div>
       <div class="two-thirds answer">
-        <p>No. You can use as many or as few of them as you want. You can design your own — Diez is designed for extensibility. Our current beta includes a number of <NuxtLink to="/glossary#prefabs">prefab</NuxtLink> components implementing some <NuxtLink to="/glossary#primitives">design primitives</NuxtLink> we've observed in design systems. We'll certainly be adding more, and you can too.</p>
+        <p>No. You can use as many or as few of them as you want. You can design your own — Diez is designed for extensibility. Our current beta includes a number of <NuxtLink to="/glossary#prefabs">prefab</NuxtLink> components implementing some <NuxtLink to="/glossary#tokens">design tokens</NuxtLink> we've observed in design systems. We'll certainly be adding more, and you can too.</p>
       </div>
       <div class="one-third question">
         <h3>Where does the Diez source of truth live?</h3>
@@ -48,7 +48,7 @@
 
       <div class="two-thirds answer">
         <p>TypeScript is a well-designed language with excellent tooling created by Anders Heiljberg (the programming language designer who also created C# and Delphi). The Diez compiler uses its type system to emit SDKs that are compatible with strongly typed languages such as Swift, Kotlin, and Java. It has a flexible compiler API, and because it's a web language, it enables us to build excellent reactive tooling on top of it which enables us to achieve things that were previously unattainable. (<a href="https://spectrum.chat/diez">Ask us</a> about our explorations into Rust, WASM, LLVM.) And because TypeScript is a superset of JavaScript, you probably already know how to code in it!</p>
-        <p><NuxtLink to="/glossary#primitives">Design primitives</NuxtLink> such as colors and fonts look the same whether you're building them in Sketch, Illustrator, Figma, or any other tool. Diez chose to use a popular, accessible programming language with an expressive type system and excellent IDE support to capture the essential properties of design primitives while remaining agnostic to the idiosyncrasies of the platforms being targeted.</p>
+        <p><NuxtLink to="/glossary#tokens">Design tokens</NuxtLink> such as colors and fonts look the same whether you're building them in Sketch, Illustrator, Figma, or any other tool. Diez chose to use a popular, accessible programming language with an expressive type system and excellent IDE support to capture the essential properties of design tokens while remaining agnostic to the idiosyncrasies of the platforms being targeted.</p>
       </div>
 
       <div class="one-third question">
@@ -170,6 +170,10 @@ export default class NavBar extends Vue {}
     h3 {
       margin-top: $spacingLG;
     }
+  }
+
+  p, li {
+    line-height: 32px;
   }
 
   .section-split {
