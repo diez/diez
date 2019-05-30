@@ -113,7 +113,9 @@ var View.backgroundImage : Image?
             return
         }
 
-        this.background = image.drawableFromRawResource
+        val drawable = image.drawableFromRawResource
+        (drawable as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+        this.background = drawable
     }
     get() {
         return null

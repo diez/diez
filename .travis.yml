@@ -25,6 +25,7 @@ matrix:
     - yarn build-examples --target android
   - name: iOS Examples
     language: objective-c
+    cache: cocoapods
     osx_image: xcode10.2
     script:
     - yarn build-examples --target ios

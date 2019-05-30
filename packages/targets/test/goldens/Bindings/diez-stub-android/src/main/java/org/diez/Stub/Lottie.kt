@@ -21,10 +21,6 @@ fun LottieAnimationView.load(lottie: Lottie) {
             if (lottie.autoplay) {
               lottieView.playAnimation()
             }
-            lottieView.layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
         }
     })
 
