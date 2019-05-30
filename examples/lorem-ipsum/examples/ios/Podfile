@@ -1,0 +1,9 @@
+platform :ios, '12.2'
+
+target 'LoremIpsum' do
+  use_frameworks!
+
+  pod 'DiezLoremIpsum', :path => '../../build/diez-lorem-ipsum-ios'
+
+  pod 'lottie-ios', '2.5.2'
+end

@@ -1,4 +1,4 @@
-import {Color, IOSFonts, Typograph, FontRegistry} from '@diez/prefabs';
+import {Color, Typograph, FontRegistry} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {SimpleGradient} from './components/SimpleGradient';
 
@@ -20,14 +20,14 @@ class Palette extends Component {
 }
 
 enum FontNames {
-  Nunito ='Nunito-Regular',
-  NunitoBlack ='Nunito-Black',
-  NunitoBold ='Nunito-Bold',
-  NunitoExtraBold ='Nunito-ExtraBold',
-  NunitoExtraLight ='Nunito-ExtraLight',
-  NunitoLight ='Nunito-Light',
-  NunitoMedium ='Nunito-Medium',
-  NunitoSemiBold ='Nunito-SemiBold',
+  Nunito = 'Nunito-Regular',
+  NunitoBlack = 'Nunito-Black',
+  NunitoBold = 'Nunito-Bold',
+  NunitoExtraBold = 'Nunito-ExtraBold',
+  NunitoExtraLight = 'Nunito-ExtraLight',
+  NunitoLight = 'Nunito-Light',
+  NunitoMedium = 'Nunito-Medium',
+  NunitoSemiBold = 'Nunito-SemiBold',
 }
 
 enum FontRoles {

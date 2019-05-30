@@ -13,5 +13,8 @@
     "@diez/targets": "^10.0.0-alpha.0",
     "diez": "^10.0.0-alpha.0",
     "typescript": "^3.4.5"
+  },
+  "scripts": {
+    "build-ios": "diez compile -t ios --cocoapods"
   }
 }

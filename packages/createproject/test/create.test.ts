@@ -87,8 +87,8 @@ describe('create project', () => {
       .getTypeAtLocation(exported[0][0])
       .getSymbolOrThrow()
       .getValueDeclarationOrThrow() as ClassDeclaration;
-    expect(exportedType.getName()).toBe('MyProjectDesignSystem');
-    expect(downloadStream).toHaveBeenCalledWith('https://examples.diez.org/createproject/createproject-assets.tgz');
+    expect(exportedType.getName()).toBe('DesignSystem');
+    expect(downloadStream).toHaveBeenCalledWith('https://examples.diez.org/10.0.0-alpha.0/createproject/assets.tgz');
     expect(x).toHaveBeenCalledWith({cwd: myProjectRoot});
   });
 });

@@ -1,1 +1,1 @@
-export {LoremIpsumDesignSystem} from './LoremIpsumDesignSystem';
+export {DesignSystem} from './DesignSystem';

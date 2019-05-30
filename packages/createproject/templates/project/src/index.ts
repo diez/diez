@@ -1,1 +1,1 @@
-export { {{~componentName~}} DesignSystem} from './{{componentName}}DesignSystem';
+export {DesignSystem} from './DesignSystem';

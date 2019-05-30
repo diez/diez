@@ -97,7 +97,7 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
 };
 
 const downloadAssets = async (cwd: string) => {
-  const stream = await downloadStream('https://examples.diez.org/createproject/createproject-assets.tgz');
+  const stream = await downloadStream('https://examples.diez.org/10.0.0-alpha.0/createproject/assets.tgz');
   if (!stream) {
     throw new Error('Unable to download example assets from examples.diez.org. Please try again.');
   }
