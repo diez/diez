@@ -2,7 +2,7 @@ import {fatalError, info} from '@diez/cli-core';
 import enquirer from 'enquirer';
 import {copy, existsSync} from 'fs-extra';
 import {join} from 'path';
-import {currentVersion, replaceInFile, root, run} from '../internal/helpers';
+import {currentVersion, replaceOccurrencesInFile, root, run} from '../internal/helpers';
 
 export = {
   name: 'create-package',
@@ -26,8 +26,12 @@ export = {
     const destination = join(root, 'packages', packageName);
     info(`Creating package @diez/${packageName} in ${destination}...`);
     await copy(templateLocation, destination);
-    await replaceInFile(join(destination, 'README.md'), ['REPLACEME'], [packageName]);
-    await replaceInFile(join(destination, 'package.json'), ['REPLACEME', 'VERSION'], [packageName, currentVersion]);
+    const replacements = new Map([
+      ['REPLACEME', packageName],
+      [packageName, currentVersion],
+    ]);
+    await replaceOccurrencesInFile(join(destination, 'README.md'), replacements);
+    await replaceOccurrencesInFile(join(destination, 'package.json'), replacements);
     run('yarn lerna bootstrap');
   },
 };

@@ -111,6 +111,7 @@ const registerWithProviders = async (
       registry.set(provider.name, await registerWithProvider(provider, options[provider.name]));
     } catch (error) {
       warning(`An invalid command provider was specified at ${path}.`);
+      warning(error.message);
     }
   }
 };
