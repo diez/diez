@@ -1,18 +1,15 @@
 {
-  "name": "poodle-surf-web",
+  "name": "lorem_ipsum",
   "version": "10.0.0-alpha.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "24.0.11",
-    "@types/react": "16.8.14",
-    "@types/react-dom": "16.8.4",
-    "diez-poodle-surf": "link:../build/diez-poodle-surf-web",
+    "diez-lorem-ipsum": "link:../../build/diez-lorem-ipsum-web",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.4.5",
+    "react-app-rewired": "^2.1.3",
     "write-file-webpack-plugin": "^4.5.0"
   },
   "scripts": {

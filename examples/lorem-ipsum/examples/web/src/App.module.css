@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.masthead {
+  height: 194px;
+}
+
+.contentContainer {
+  flex-grow: 1;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  width: 684px;
+  max-width: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  display: flex;
+}
+
+.innerContent {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+}
+
+.icon {
+  transform: translate(0, -50%);
+  position: absolute;
+}
+
+.animationContainer {
+  height: 100%; 
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animation {
+  width: 174px;
+  height: 165px;
+}

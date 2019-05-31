@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build-android": "diez compile -t android",
-    "build-ios": "diez compile -t ios --cocoapods"
+    "build-ios": "diez compile -t ios --cocoapods",
+    "build-web": "diez compile -t web"
   }
 }

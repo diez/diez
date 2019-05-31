@@ -2,6 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {existsSync, readFileSync} = require('fs');
 const {join} = require('path');
 const {DefinePlugin} = require('webpack');
+const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 
 const hotFilePath = join(__dirname, '..', '.diez', 'web-hot-url');
 
@@ -15,7 +16,10 @@ module.exports = function override(config, env) {
       new DefinePlugin({
         'process.env.DIEZ_SERVER_URL': JSON.stringify('/diez'),
       }),
+      new WriteFileWebpackPlugin(),
     );
+
+    config.output.futureEmitAssets = false;
 
     return config;
   }

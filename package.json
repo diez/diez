@@ -5,6 +5,7 @@
     "packages/*",
     "examples/*",
     "examples/*/web",
+    "examples/*/*/web",
     "services/*"
   ],
   "version": "10.10.10",
