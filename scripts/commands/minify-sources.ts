@@ -8,7 +8,7 @@ import {assertNotWatching, root} from '../internal/helpers';
 export = {
   name: 'minify-sources',
   description: 'Minifies sources as a prepack step.',
-  action: async () => {
+  loadAction: () => async () => {
     assertNotWatching();
     const filePaths = glob.sync(join(root, 'packages/*/lib/**/*.js'));
     let minificationError = false;

@@ -6,7 +6,7 @@ import Lottie
 class ViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var haikuView: HaikuView!
-    @IBOutlet weak var svgView: SVGView!
+    @IBOutlet weak var vectorView: VectorView!
     @IBOutlet weak var lottieView: LOTAnimationView!
 
     private lazy var diez = Diez<MyStateBag>(view: view)
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         if let image = component.image.image {
             view.backgroundColor = UIColor(patternImage: image)
         }
-        svgView.load(component.svg)
+        vectorView.load(component.svg)
         haikuView.load(component.haiku)
         lottieView.load(component.lottie)
     }

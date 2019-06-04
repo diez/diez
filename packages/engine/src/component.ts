@@ -169,8 +169,8 @@ export abstract class Component<T extends Indexable = any>
   /**
    * Stateful<T> interface. Retrieves a state value.
    */
-  get<K extends keyof T> (key: K): T[K] {
-    return this.state[key];
+  get<K extends keyof T> (key: K): any {
+    return this.state[key as keyof T];
   }
 
   /**
@@ -186,7 +186,7 @@ export abstract class Component<T extends Indexable = any>
   set (state: Partial<T>): void {
     let dirty = false;
     Object.entries(state).forEach(([key, child]) => {
-      if (this.state[key] === child) {
+      if (this.state[key] === child || child === undefined) {
         return;
       }
 
@@ -195,7 +195,7 @@ export abstract class Component<T extends Indexable = any>
         this.children.set(key, child);
         child.host = this;
       }
-      this.state[key] = child;
+      this.state[key as keyof T] = child;
     });
     if (dirty) {
       this.dirty();

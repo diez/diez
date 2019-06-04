@@ -2,7 +2,8 @@ import {getTempFileName} from '@diez/storage';
 import {registerExpectations} from '@diez/test-utils';
 import {copySync} from 'fs-extra';
 import {join, resolve} from 'path';
-import {codegenDesignSystem, createDesignSystemSpec} from '../src/utils';
+import {AssetFolder} from '../src/api';
+import {codegenDesignSystem, createDesignSystemSpec, registerAsset} from '../src/utils';
 
 registerExpectations();
 
@@ -40,6 +41,26 @@ describe('codegen.e2e', () => {
         name: 'Some Color',
         initializer: '3',
       },
+    );
+
+    registerAsset(
+      {
+        src: 'assets/blah/Foobar.png',
+        width: 640,
+        height: 480,
+      },
+      AssetFolder.Slice,
+      spec.assets,
+    );
+
+    registerAsset(
+      {
+        src: 'assets/blah/Bazbat.png',
+        width: 320,
+        height: 240,
+      },
+      AssetFolder.Slice,
+      spec.assets,
     );
 
     await codegenDesignSystem(spec);

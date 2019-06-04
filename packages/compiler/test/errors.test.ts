@@ -1,3 +1,4 @@
+import {Target} from '@diez/engine';
 import {getTempFileName} from '@diez/storage';
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -16,7 +17,7 @@ afterEach(() => {
 
 describe('compiler errors', () => {
   test('invalid program', async () => {
-    const makeProgram = () => new Program(tempLocation, {target: 'foo'});
+    const makeProgram = () => new Program(tempLocation, {target: 'foo' as Target});
     expect(makeProgram).toThrow();
     projectCache.clear();
 

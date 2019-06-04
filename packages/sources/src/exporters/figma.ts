@@ -1,5 +1,5 @@
 import {findOpenPort} from '@diez/cli-core';
-import {pascalCase, UniqueNameResolver} from '@diez/generation';
+import {AssetFolder, pascalCase, UniqueNameResolver} from '@diez/generation';
 import {join} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';
@@ -27,24 +27,24 @@ const importBatchSize = 100;
 const figmaClientId = 'dVkwfl8RBD91688fwCq9Da';
 const figmaTokenExchangeUrl = 'https://oauth.diez.org/figma';
 
-const enum ValidType {
+const enum FigmaType {
   Slice = 'SLICE',
   Group = 'GROUP',
   Frame = 'FRAME',
   Component = 'COMPONENT',
 }
 
-const folders = new Map<ValidType, string>([
-  [ValidType.Slice, 'slices'],
-  [ValidType.Group, 'groups'],
-  [ValidType.Component, 'groups'],
-  [ValidType.Frame, 'frames'],
+const folders = new Map<FigmaType, AssetFolder>([
+  [FigmaType.Slice, AssetFolder.Slice],
+  [FigmaType.Group, AssetFolder.Group],
+  [FigmaType.Component, AssetFolder.Group],
+  [FigmaType.Frame, AssetFolder.Frame],
 ]);
 
 interface FigmaNode {
   exportSettings?: string[];
   name: string;
-  type: ValidType;
+  type: FigmaType;
   id: string;
   children: FigmaNode[];
   svg: string;
@@ -81,7 +81,7 @@ const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
             element.svgURL,
             join(
               outFolder,
-              (folders.get(element.type) || folders.get(ValidType.Slice))!,
+              (folders.get(element.type) || AssetFolder.Slice),
               sanitizeFileName(`${element.name}.svg`),
             ),
           );
@@ -259,7 +259,7 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
     const componentName = pascalCase(file.name);
     const assetName = `${componentName}.figma`;
     const out = join(assets, `${assetName}.contents`);
-    await createFolders(out, folders);
+    await createFolders(out, folders.values());
     const elements = await findExportableNodes(file.document.children, projectData.id, new UniqueNameResolver());
     reporters.progress(`Fetching SVG elements from Figma for ${assetName}`);
     const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);

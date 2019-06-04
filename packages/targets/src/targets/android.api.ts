@@ -1,4 +1,4 @@
-import {TargetBinding, TargetOutput} from '@diez/compiler';
+import {AssetBinding, TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 /**
@@ -28,4 +28,5 @@ export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBi
     extension?: string;
   }>;
   packageName: string;
+  resources: Map<string, Map<string, AssetBinding>>;
 }

@@ -34,7 +34,7 @@ export interface Indexable {
  * @typeparam T - The shape of the state the stateful component is expected to receive.
  */
 export interface Stateful<T extends Indexable> {
-  get<K extends keyof T> (key: K): T[K];
+  get<K extends keyof T> (key: K): any;
   set (state: Partial<T>): void;
   has (key: keyof T): boolean;
 }
@@ -167,11 +167,22 @@ export type Integer = number | AlwaysInt;
 export type Float = number | AlwaysFloat;
 
 /**
+ * An enum of available compiler targets.
+ *
+ * This enum can be augmented as needed by third party compilers.
+ */
+export enum Target {
+  Android = 'android',
+  Ios = 'ios',
+  Web = 'web',
+}
+
+/**
  * An expandable interface for property options.
  */
 export interface PropertyOptions {
   /**
-   * @ignore
+   * The list of targets a property should target.
    */
-  never: never;
+  targets: Target[];
 }

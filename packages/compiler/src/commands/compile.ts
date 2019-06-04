@@ -1,11 +1,11 @@
 import {CliCommandProvider, fatalError} from '@diez/cli-core';
-import {getTargets} from '../utils';
-import {compileAction as action} from './compile.action';
+
+const getTargetsLazy = () => import('../utils').then(({getTargets}) => getTargets());
 
 const provider: CliCommandProvider = {
-  action,
   name: 'compile',
   description: 'Compile a local Diez project.',
+  loadAction: () => import('./compile.action'),
   options: [
     {
       shortName: 't',
@@ -16,23 +16,18 @@ const provider: CliCommandProvider = {
           fatalError('--target is required.');
         }
 
-        const targets = await getTargets();
+        const targets = await getTargetsLazy();
 
         if (!targets.has(target.toString().toLowerCase())) {
-          fatalError(`Invalid target: ${target}. See --help for options.`);
+          let message = `Invalid target: ${target}. The following targets are supported:`;
+          for (const [name] of targets) {
+            message += `\n - ${name}`;
+          }
+          fatalError(message);
         }
       },
     },
   ],
-  preinstall: async () => {
-    const targets = await getTargets();
-    const targetOption = provider.options![0];
-    const indentation = `${' '.repeat(40)} - `;
-    targetOption.description = 'The following targets are supported: ';
-    for (const [name] of targets) {
-      targetOption.description += `\n${indentation}${name}`;
-    }
-  },
 };
 
 export = provider;

@@ -4,11 +4,13 @@ import android.graphics.BitmapFactory
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -19,10 +21,8 @@ var ImageView.image: Image?
         }
 
         if (Environment.isHot) {
-            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
-                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
-                    setImageDrawable(drawable)
-                }
+            getFromNetwork(image, this, fun(drawable) {
+                setImageDrawable(drawable)
             })
             return
         }
@@ -40,7 +40,7 @@ var ImageView.file: File?
         }
 
         if (Environment.isHot) {
-            Glide.with(this.context).load(file.url).into(object : SimpleTarget<Drawable>() {
+            Glide.with(this.context).load(file.url).signature(ObjectKey(file.src + System.currentTimeMillis())).into(object : SimpleTarget<Drawable>() {
                 override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                     setImageDrawable(drawable)
                 }
@@ -61,10 +61,8 @@ var TextView.leftDrawable: Image?
         }
 
         if (Environment.isHot) {
-            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
-                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
-                    setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-                }
+            getFromNetwork(image, this, fun(drawable) {
+                setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
             })
             return
         }
@@ -82,10 +80,8 @@ var Toolbar.icon: Image?
         }
 
         if (Environment.isHot) {
-            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
-                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
-                    navigationIcon = drawable
-                }
+            getFromNetwork(image, this, fun(drawable) {
+                navigationIcon = drawable
             })
             return
         }
@@ -104,11 +100,9 @@ var View.backgroundImage : Image?
 
         if (Environment.isHot) {
             val view = this
-            getFromNetwork(image, this, object : SimpleTarget<Drawable>() {
-                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
-                    (drawable as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
-                    view.background = drawable
-                }
+            getFromNetwork(image, this, fun(drawable) {
+                drawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+                view.background = drawable
             })
             return
         }
@@ -121,13 +115,19 @@ var View.backgroundImage : Image?
         return null
     }
 
-private val Image.correctDensityFile: File
+private val effectiveDensity: Int
     get () {
         val density = Environment.resources.displayMetrics.density.toDouble()
-        return when (Math.ceil(density)) {
-            1.0 -> file1x
-            2.0 -> file2x
-            else -> file3x
+        return Math.ceil(density).toInt()
+    }
+
+private val Image.correctDensityFile: File
+    get () {
+        return when (effectiveDensity) {
+            1 -> file
+            2 -> file2x
+            3 -> file3x
+            else -> file4x
         }
     }
 
@@ -136,20 +136,42 @@ private val Image.resourceId: Int
         return this.correctDensityFile.resourceId
     }
 
-private fun getFromNetwork(image: Image, view: View, callback: SimpleTarget<Drawable>) {
-    Glide.with(view.context).load(image.correctDensityFile.url).into(callback)
+private fun getFromNetwork(image: Image, view: View, callback: (BitmapDrawable) -> Unit) {
+    val width = (image.width * Environment.resources.displayMetrics.density.toDouble()).toInt()
+    val height = (image.height * Environment.resources.displayMetrics.density.toDouble()).toInt()
+    Glide
+        .with(view.context)
+        .load(image.correctDensityFile.url)
+        .override(width, height)
+        .signature(ObjectKey(image.file.src + System.currentTimeMillis()))
+        .into(object : SimpleTarget<Drawable>() {
+        override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
+            callback(drawable as BitmapDrawable)
+        }
+    })
 }
 
 
 private val Image.drawableFromRawResource: Drawable?
     get () {
-        return Drawable.createFromStream(Environment.resources.openRawResource(this.resourceId), null)
+        return ResourcesCompat.getDrawable(
+            Environment.resources,
+            Environment.resources.getIdentifier(
+                file.resourceName,
+                "drawable",
+                Environment.packageName
+            ),
+            null
+        )
     }
 
 data class Image(
-    val file1x: File,
+    val file: File,
     val file2x: File,
     val file3x: File,
+    val file4x: File,
     val width: Int,
     val height: Int
-)
+) {
+    companion object {}
+}

@@ -17,7 +17,7 @@ const findFactory = async (source: string): Promise<ExporterFactory> => {
     }
   }
 
-  throw new Error('Unable to find appropriate exporter for that design file.');
+  throw new Error(`Unable to find appropriate exporter for ${source}.`);
 };
 
 /**

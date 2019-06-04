@@ -7,7 +7,7 @@ import {root, run, runQuiet} from '../internal/helpers';
 export = {
   name: 'release [version]',
   description: 'Creates a release.',
-  action: async (_: {}, version: string) => {
+  loadAction: () => async (_: {}, version: string) => {
     if (!version || gte(diezVersion, version)) {
       fatalError('Refusing to set a lower version.');
     }

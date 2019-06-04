@@ -1,5 +1,6 @@
 import {execAsync, isMacOS, warning} from '@diez/cli-core';
 import {join} from 'path';
+import {getColorInitializer} from './color';
 
 interface DiezFont {
   name: string;
@@ -55,4 +56,16 @@ export const locateFont = async (fontFamily: string, lookup: Partial<FontLookup>
 
   warning('Font location is not implemented on your platform.');
   return;
+};
+
+/**
+ * Returns a color initializer based on primitive values.
+ * @ignore
+ */
+export const getTypographInitializer = (fontName: string, fontSize: number, colorCssValue?: string) => {
+  if (colorCssValue) {
+    return `new Typograph({color: ${getColorInitializer(colorCssValue)}, fontName: "${fontName}", fontSize: ${fontSize}})`;
+  }
+
+  return `new Typograph({fontName: "${fontName}", fontSize: ${fontSize}})`;
 };

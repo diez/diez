@@ -1,5 +1,7 @@
 import {createServer, Server} from 'http';
+import {Socket} from 'net';
 import serverDestroy from 'server-destroy';
+import {exitTrap} from './utils';
 
 /**
  * @internal
@@ -48,4 +50,23 @@ export const findOpenPort = async (ports: number[]): Promise<number> => {
 
   server.destroy();
   throw new Error('Unable to find open port.');
+};
+
+/**
+ * Traps socket events that
+ */
+export const socketTrap = (socket: Socket) => {
+  socket.once('disconnect', () => {
+    socket.destroy();
+    socket.removeAllListeners();
+  });
+
+  socket.on('error', (error) => {
+    socket.destroy();
+    socket.removeAllListeners();
+  });
+
+  exitTrap(() => {
+    socket.destroy();
+  });
 };

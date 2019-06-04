@@ -55,7 +55,7 @@ export = {
     valueName: 'target',
     description: 'The name of the compiler target.',
   }],
-  action: async ({target}: Flags) => {
+  loadAction: () => async ({target}: Flags) => {
     if (!target) {
       fatalError('--target is required.');
     }

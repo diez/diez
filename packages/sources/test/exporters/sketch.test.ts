@@ -40,12 +40,12 @@ beforeEach(() => {
           gradientAssets: [],
           imageCollection: [],
         },
-        layerTypographs: {
+        layerTextStyles: {
           objects: [
             {
               name: 'Heading 1',
               value: {
-                typograph: {
+                textStyle: {
                   MSAttributedStringColorAttribute: {
                     value: '#333333',
                   },
@@ -61,6 +61,34 @@ beforeEach(() => {
             },
           ],
         },
+        pages: [
+          {
+            ['<class>']: 'MSPage',
+            exportOptions: {exportFormats: [{}]},
+            frame: {width: 1920, height: 1080},
+            name: 'Page 1',
+            layers: [{
+              ['<class>']: 'MSArtboardGroup',
+              exportOptions: {exportFormats: [{}]},
+              frame: {width: 1920, height: 1080},
+              name: 'Artboard',
+              layers: [
+                {
+                  ['<class>']: 'Sliced Rectangle',
+                  exportOptions: {exportFormats: [{}]},
+                  frame: {width: 640, height: 480},
+                  name: 'Slice One',
+                },
+                {
+                  ['<class>']: 'Unsliced Rectangle',
+                  exportOptions: {exportFormats: []},
+                  frame: {width: 640, height: 480},
+                  name: 'Slice Two',
+                },
+              ],
+            }],
+          },
+        ],
       }));
     }
 
@@ -112,17 +140,23 @@ describe('Sketch', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
       await sketch.export({source: 'test.sketch', assets: 'out', code: 'src'}, '.');
-      expect(mockExec).toHaveBeenCalledTimes(4);
+      expect(mockExec).toHaveBeenCalledTimes(3);
       expect(mockExec).toHaveBeenNthCalledWith(1,
         'mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
-      expect(mockExec).toHaveBeenNthCalledWith(2, `${sketchtoolPath} dump test.sketch`);
+      expect(mockExec).toHaveBeenNthCalledWith(2, `${sketchtoolPath} dump test.sketch`, expect.anything());
       expect(mockExec).toHaveBeenNthCalledWith(3,
-        `${sketchtoolPath} export --format=svg --output=out/Test.sketch.contents/slices slices test.sketch`);
-      expect(mockExec).toHaveBeenNthCalledWith(4,
-        `${sketchtoolPath} export --format=svg --output=out/Test.sketch.contents/artboards artboards test.sketch`);
+        `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=out/Test.sketch.contents/slices slices test.sketch`);
       expect(mockCodegen).toHaveBeenCalled();
-      // codegenInput.fontNames = Array.from(codegenInput.fontNames);
       expect(mockCodegen).toHaveBeenCalledWith({
+        assets: new Map([[
+          'slices', new Map([[
+            'Slice One', {
+              width: 640,
+              height: 480,
+              src: 'out/Test.sketch.contents/slices/Slice One.png',
+            },
+          ]]),
+        ]]),
         assetsDirectory: 'out/Test.sketch.contents',
         colors: [{initializer: 'Color.rgba(255, 0, 0, 1)', name: 'Red'}],
         designSystemName: 'Test',

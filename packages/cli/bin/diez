@@ -1,3 +1,4 @@
 #!/usr/bin/env node
-
-require('@diez/cli-core/lib/cli').run(require('path').join(__dirname, '..'));
+const {join} = require('path');
+require('child_process').fork(join(__dirname, 'update-check'));
+require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));

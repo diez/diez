@@ -6,10 +6,7 @@
     "outDir": "lib",
     "experimentalDecorators": true,
     "module": "commonjs",
-    "strict": true,
-    "types": [
-      "@diez/compiler"
-    ]
+    "strict": true
   },
   "include": ["src/**/*.ts"]
 }

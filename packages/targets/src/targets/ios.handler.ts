@@ -61,6 +61,11 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * @abstract
    */
   protected async validateOptions () {
+    if (this.program.hot) {
+      // No need for validation if we're running hot.
+      return;
+    }
+
     const hasXcodeGen = await canRunCommand('xcodegen --help');
 
     if (hasXcodeGen) {
@@ -208,7 +213,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
         join(coreIos, 'core', 'Serialization.swift'),
         join(coreIos, 'core', 'ReflectedCustomStringConvertible.swift'),
       ]),
-      dependencies: new Set(),
+      dependencies: new Set<IosDependency>(),
       assetBindings: new Map(),
       bundleIdPrefix: `org.diez.${pascalCase(projectName)}`,
     };

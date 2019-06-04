@@ -12,11 +12,7 @@ interface Answers {
   projectName: string;
 }
 
-/**
- * The entry point for project generation.
- * @ignore
- */
-export const createProjectAction = async (_: {}, projectName: string) => {
+export = async (_: {}, projectName: string) => {
   if (projectName) {
     createProject(projectName);
     return;

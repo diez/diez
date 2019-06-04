@@ -1,13 +1,13 @@
 import {File} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
-import {Images} from './assets';
 import {DayPartTimes} from './constants';
+import {PoodleSurfSlicesFiles} from '../designs/PoodleSurf.sketch';
 
 class LocationMock extends Component {
   @property region = 'Santa Cruz, CA';
   @property place = 'Natural Bridges State Park';
-  @property mapImage = Images.SantaCruzMap;
-  @property bannerImage = Images.SantaCruzBanner;
+  @property mapImage = PoodleSurfSlicesFiles.SantaCruzMap3x;
+  @property bannerImage = PoodleSurfSlicesFiles.SantaCruzBanner3x;
 }
 
 class TemperatureMock extends Component {
@@ -22,24 +22,24 @@ interface WindDayPartMockState {
 }
 
 class WindDayPartMock extends Component<WindDayPartMockState> {
-  @property direction = Images.WindNorth;
+  @property direction = PoodleSurfSlicesFiles.DirectionNorthEast3x;
   @property value = '';
   @property dayPart = '';
 }
 
 class WindMock extends Component {
   @property early = new WindDayPartMock({
-    direction: Images.WindSouthWest,
+    direction: PoodleSurfSlicesFiles.DirectionSouthWest3x,
     value: '4',
     dayPart: DayPartTimes.Early,
   });
   @property middle = new WindDayPartMock({
-    direction: Images.WindSouth,
+    direction: PoodleSurfSlicesFiles.DirectionSouth3x,
     value: '12',
     dayPart: DayPartTimes.Middle,
   });
   @property late = new WindDayPartMock({
-    direction: Images.WindNorthEast,
+    direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
     value: '17',
     dayPart: DayPartTimes.Late,
   });

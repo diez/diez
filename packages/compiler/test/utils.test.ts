@@ -1,4 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
+import {Target} from '@diez/engine';
 import {getTargets} from '../src/utils';
 
 describe('utils', () => {
@@ -12,6 +13,6 @@ describe('utils', () => {
       },
     });
     const targets = await getTargets();
-    expect(targets.has('test')).toBe(true);
+    expect(targets.has('test' as Target)).toBe(true);
   });
 });

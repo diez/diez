@@ -36,9 +36,9 @@
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
     "ts-jest": "^24.0.2",
-    "ts-morph": "^2.1.0",
+    "ts-morph": "^2.3.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   }
 }

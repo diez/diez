@@ -1,5 +1,5 @@
-/* tslint:disable:max-line-length */
-import {cliRequire, fatalError, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
+import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
+import {Target} from '@diez/engine';
 import {dirname, join} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
@@ -29,7 +29,7 @@ export const getProject = (projectRoot: string) => {
     throw new Error('Unable to proceed: TypeScript configuration not found.');
   }
 
-  const project = new Project({tsConfigFilePath});
+  const project = new Project({tsConfigFilePath, compilerOptions: {incremental: false}});
   projectCache.set(projectRoot, project);
   return project;
 };
@@ -37,12 +37,12 @@ export const getProject = (projectRoot: string) => {
 /**
  * @internal
  */
-const targets = new Map<string, CompilerTargetProvider>();
+const targets = new Map<Target, CompilerTargetProvider>();
 
 /**
  * Retrieves the set of available targets for the compiler.
  */
-export const getTargets = async (): Promise<Map<string, CompilerTargetProvider>> => {
+export const getTargets = async (): Promise<Map<Target, CompilerTargetProvider>> => {
   if (targets.size > 0) {
     return targets;
   }
@@ -54,9 +54,9 @@ export const getTargets = async (): Promise<Map<string, CompilerTargetProvider>>
 
     for (const path of providers.targets) {
       const provider = cliRequire<CompilerTargetProvider>(plugin, path);
-      const providerName = provider.name.toLowerCase();
+      const providerName = provider.name.toLowerCase() as Target;
       if (targets.has(providerName)) {
-        fatalError(`A target named ${providerName} is already registered.`);
+        throw new Error(`A target named ${providerName} is already registered.`);
       }
       targets.set(providerName, provider);
     }
@@ -92,7 +92,8 @@ const getBindingLocation = async (
       for (const targetName in bindings[componentHash]) {
         const newHash = `${targetName}|${componentHash}`;
         if (bindingLocations.has(newHash)) {
-          fatalError(`Found duplicate binding compilation instructions for target ${targetName}. Component: ${componentHash}.`);
+          warning(`Found duplicate binding compilation instructions for target ${targetName}. Component: ${componentHash}. Only the first binding will be used.`);
+          continue;
         }
 
         bindingLocations.set(
@@ -134,39 +135,6 @@ export const getBinding = async <T>(
     warning(`A binding for ${componentName} was specified, but could not be loaded from ${location}.`);
     resolvedBindings.set(hash, undefined);
     return undefined;
-  }
-};
-
-/**
- * An internal map from filenames to component sources from node_modules.
- * @internal
- */
-const nodeModulesSourceMap = new Map<string, string>();
-
-/**
- * Caches and returns a component's source from node_modules, based on its file path.
- * @ignore
- */
-export const getNodeModulesSource = (filePath: string): string | undefined => {
-  if (nodeModulesSourceMap.has(filePath)) {
-    return nodeModulesSourceMap.get(filePath);
-  }
-  const [maybeNamespace, maybePackageName] = filePath.replace(new RegExp('^.*node_modules/?'), '').split('/');
-  try {
-    // Check for a namespaced import.
-    const candidateNamespaced = `${maybeNamespace}/${maybePackageName}`;
-    require.resolve(candidateNamespaced);
-    nodeModulesSourceMap.set(filePath, candidateNamespaced);
-    return candidateNamespaced;
-  } catch (_) {
-    try {
-      // Check for a plain import.
-      require.resolve(maybeNamespace);
-      nodeModulesSourceMap.set(filePath, maybeNamespace);
-      return maybeNamespace;
-    } catch (__) {
-      return;
-    }
   }
 };
 

@@ -1,5 +1,5 @@
 import {CompilerOptions, Program, projectCache} from '@diez/compiler';
-import {ConcreteComponentType} from '@diez/engine';
+import {ConcreteComponentType, Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';
@@ -38,7 +38,7 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
  *
  * @internal
  */
-const createProgramForFixture = async (fixture: string, target: string, options?: Partial<CompilerOptions>) => {
+const createProgramForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
@@ -60,7 +60,7 @@ const createProgramForFixture = async (fixture: string, target: string, options?
  * Creates iOS output for a fixture.
  */
 export const createIosCompilerForFixture = async (fixture: string): Promise<IosCompiler> => {
-  const program = await createProgramForFixture(fixture, 'ios', {cocoapods: true, carthage: true});
+  const program = await createProgramForFixture(fixture, Target.Ios, {cocoapods: true, carthage: true});
   const compiler = new IosCompiler(program);
   compiler.clear();
   return compiler;
@@ -70,7 +70,7 @@ export const createIosCompilerForFixture = async (fixture: string): Promise<IosC
  * Creates Android output for a fixture.
  */
 export const createAndroidCompilerForFixture = async (fixture: string): Promise<AndroidCompiler> => {
-  const program = await createProgramForFixture(fixture, 'android');
+  const program = await createProgramForFixture(fixture, Target.Android);
   const compiler = new AndroidCompiler(program);
   compiler.clear();
   return compiler;
@@ -80,7 +80,7 @@ export const createAndroidCompilerForFixture = async (fixture: string): Promise<
  * Creates Web output for a fixture.
  */
 export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
-  const program = await createProgramForFixture(fixture, 'web');
+  const program = await createProgramForFixture(fixture, Target.Web);
   const compiler = new WebCompiler(program);
   compiler.clear();
   return compiler;

@@ -40,10 +40,10 @@
       "android": "./lib/bindings/Lottie/android",
       "web": "./lib/bindings/Lottie/web"
     },
-    "@diez/prefabs:SVG": {
-      "ios": "./lib/bindings/SVG/ios",
-      "android": "./lib/bindings/SVG/android",
-      "web": "./lib/bindings/SVG/web"
+    "@diez/prefabs:Vector": {
+      "ios": "./lib/bindings/Vector/ios",
+      "android": "./lib/bindings/Vector/android",
+      "web": "./lib/bindings/Vector/web"
     },
     "@diez/prefabs:Typograph": {
       "ios": "./lib/bindings/Typograph/ios",

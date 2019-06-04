@@ -1,15 +1,19 @@
 public final class File: NSObject, Decodable {
     public internal(set) var src: String
+    public internal(set) var type: String
 
     private enum CodingKeys: String, CodingKey {
         case src
+        case type
     }
 
 
     init(
-        src: String
+        src: String,
+        type: String
     ) {
         self.src = src
+        self.type = src
     }
 }
 
@@ -17,6 +21,7 @@ extension File: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(value: &src, forKey: .src)
+        try container.update(value: &type, forKey: .type)
     }
 }
 

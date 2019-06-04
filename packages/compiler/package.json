@@ -18,13 +18,15 @@
     "@diez/cli-core": "^10.0.0-alpha.0",
     "@diez/engine": "^10.0.0-alpha.0",
     "@diez/storage": "^10.0.0-alpha.0",
+    "chokidar": "^3.0.1",
     "cors": "^2.8.5",
+    "debounce": "^1.2.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "fs-extra": "^7.0.1",
     "no-case": "^2.3.2",
     "time-fix-plugin": "^2.0.6",
-    "ts-morph": "^2.1.0",
+    "ts-morph": "^2.3.0",
     "uuid": "^3.3.2",
     "webpack": "^4.29.0",
     "webpack-dev-middleware": "^3.6.1",
@@ -33,6 +35,7 @@
   "devDependencies": {
     "@diez/test-utils": "^10.0.0-alpha.0",
     "@types/cors": "^2.8.4",
+    "@types/debounce": "^1.2.0",
     "@types/express": "^4.16.1",
     "@types/express-handlebars": "^0.0.30",
     "@types/jest": "^24.0.11",
@@ -47,6 +50,6 @@
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.20",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   }
 }

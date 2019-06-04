@@ -1,6 +1,6 @@
 import {Component, property} from '@diez/engine';
 import {Color} from './color';
-import {File} from './file';
+import {File, FileType} from './file';
 
 /**
  * Font registry state.
@@ -33,7 +33,7 @@ export class FontRegistry extends Component<FontRegistryState> {
    */
   static fromFiles (...files: string[]) {
     return new this({
-      files: files.map((src) => new File({src})),
+      files: files.map((src) => new File({src, type: FileType.Font})),
     });
   }
 }

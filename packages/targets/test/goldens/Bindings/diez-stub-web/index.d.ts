@@ -8,7 +8,7 @@ export declare class Image {
   url: string;
 }
 
-export declare class SVG {
+export declare class Vector {
   url: string;
 }
 
@@ -56,7 +56,7 @@ export declare class HaikuComponent {
 
 export declare class Bindings extends StateBag {
   image: Image;
-  svg: SVG;
+  svg: Vector;
   lottie: Lottie;
   fontRegistry: FontRegistry;
   typograph: Typograph;

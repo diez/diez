@@ -11,5 +11,6 @@ data class Primitives(
     val child: ChildComponent = ChildComponent(),
     val emptyChild: EmptyComponent = EmptyComponent()
 ) : StateBag {
+    companion object {}
     override val name = "Primitives"
 }

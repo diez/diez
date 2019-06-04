@@ -10,16 +10,20 @@ extension Bundle {
 
 public final class File: NSObject, Decodable {
     public internal(set) var src: String
+    public internal(set) var type: String
 
     private enum CodingKeys: String, CodingKey {
         case src
+        case type
     }
 
 
     init(
-        src: String
+        src: String,
+        type: String
     ) {
         self.src = src
+        self.type = src
     }
 }
 
@@ -27,6 +31,7 @@ extension File: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(value: &src, forKey: .src)
+        try container.update(value: &type, forKey: .type)
     }
 }
 
@@ -107,14 +112,14 @@ extension Bundle {
 
 @objc(DEZImage)
 public final class Image: NSObject, Decodable {
-    @objc public internal(set) var file1x: File
+    @objc public internal(set) var file: File
     @objc public internal(set) var file2x: File
     @objc public internal(set) var file3x: File
     @objc public internal(set) var width: Int
     @objc public internal(set) var height: Int
 
     private enum CodingKeys: String, CodingKey {
-        case file1x
+        case file
         case file2x
         case file3x
         case width
@@ -122,13 +127,13 @@ public final class Image: NSObject, Decodable {
     }
 
     init(
-        file1x: File,
+        file: File,
         file2x: File,
         file3x: File,
         width: Int,
         height: Int
     ) {
-        self.file1x = file1x
+        self.file = file
         self.file2x = file2x
         self.file3x = file3x
         self.width = width
@@ -139,7 +144,7 @@ public final class Image: NSObject, Decodable {
 extension Image: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &file1x, forKey: .file1x)
+        try container.update(updatable: &file, forKey: .file)
         try container.update(updatable: &file2x, forKey: .file2x)
         try container.update(updatable: &file3x, forKey: .file3x)
         try container.update(value: &width, forKey: .width)
@@ -155,48 +160,6 @@ extension Image: ReflectedCustomStringConvertible {
 
 extension Image {
     /**
-     Calls [url(forScale:)](x-source-tag://Image.urlForScale) with `UIScreen.main.scale`.
-
-     - See: [url(forScale:)](x-source-tag://Image.urlForScale)
-     */
-    @objc public var url: URL? {
-        return url(forScale: UIScreen.main.scale)
-    }
-
-    /**
-     The `URL` of the @1x image asset.
-
-     The value may be `nil` if:
-       - The @1x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt1x: URL? {
-        return file1x.url
-    }
-
-    /**
-     The `URL` of the @2x image asset.
-
-     The value may be `nil` if:
-       - The @2x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt2x: URL? {
-        return file2x.url
-    }
-
-    /**
-     The `URL` of the @3x image asset.
-
-     The value may be `nil` if:
-       - The @3x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt3x: URL? {
-        return file3x.url
-    }
-
-    /**
      An image of the appropriate scale if it exits.
 
      When in [hot mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale)
@@ -206,10 +169,14 @@ extension Image {
      */
     @objc public var image: UIImage? {
         if environment.isHot {
-            return image(withScale: UIScreen.main.scale)
+            guard let hotImage = image(withScale: UIScreen.main.scale) else {
+                return image(withScale: 3)
+            }
+
+            return hotImage
         }
 
-        guard let name = (file1x.src as NSString).deletingPathExtension.removingPercentEncoding else {
+        guard let name = (file.src as NSString).deletingPathExtension.removingPercentEncoding else {
             return nil
         }
 
@@ -231,10 +198,9 @@ extension Image {
 
      - Returns: The `URL` of the image at the provided scale, or nil.
      */
-    @objc(urlForScale:)
-    public func url(forScale scale: CGFloat) -> URL? {
+    private func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
-        case 1: return file1x.url
+        case 1: return file.url
         case 2: return file2x.url
         case 3: return file3x.url
         default: return nil
@@ -253,8 +219,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */
-    @objc(imageForScale:)
-    public func image(withScale scale: CGFloat) -> UIImage? {
+    private func image(withScale scale: CGFloat) -> UIImage? {
         guard
             let url = url(forScale: scale),
             let data = try? Data(contentsOf: url) else {
@@ -265,8 +230,8 @@ extension Image {
     }
 }
 
-@objc(DEZSVG)
-public final class SVG: NSObject, Decodable {
+@objc(DEZVector)
+public final class Vector: NSObject, Decodable {
     @objc public internal(set) var src: String
 
     private enum CodingKeys: String, CodingKey {
@@ -280,20 +245,20 @@ public final class SVG: NSObject, Decodable {
     }
 }
 
-extension SVG: Updatable {
+extension Vector: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(value: &src, forKey: .src)
     }
 }
 
-extension SVG: ReflectedCustomStringConvertible {
+extension Vector: ReflectedCustomStringConvertible {
     public override var description: String {
         return reflectedDescription
     }
 }
 
-extension SVG {
+extension Vector {
     /**
      The `URL` of the resource, or `nil` if it could not be parsed.
 
@@ -304,15 +269,15 @@ extension SVG {
     }
 
     var file: File {
-      return File(src: "\(src).html")
+      return File(src: "\(src).html", type: "raw")
     }
 }
 
 /**
- A view responsible for rendering an SVG.
+ A view responsible for rendering an Vector.
  */
-@objc(DEZSVGView)
-public final class SVGView: UIView {
+@objc(DEZVectorView)
+public final class VectorView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -327,13 +292,13 @@ public final class SVGView: UIView {
 
 
     /**
-     Loads the provided `SVG`.
+     Loads the provided `Vector`.
      */
-    @objc(loadSVG:)
-    public func load(_ svg: SVG) {
+    @objc(loadVector:)
+    public func load(_ vector: Vector) {
         // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
-        guard let request = svg.file.request else {
-            print("unable to load SVG URL")
+        guard let request = vector.file.request else {
+            print("unable to load Vector URL")
             return
         }
 
@@ -754,7 +719,7 @@ extension Haiku {
     }
 
     var file: File {
-      return File(src: "haiku/\(component).html")
+      return File(src: "haiku/\(component).html", type: "raw")
     }
 }
 
@@ -812,7 +777,7 @@ public final class HaikuView: UIView {
 @objc(DEZBindings)
 public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var image: Image
-    @objc public internal(set) var svg: SVG
+    @objc public internal(set) var svg: Vector
     @objc public internal(set) var lottie: Lottie
     @objc public internal(set) var fontRegistry: FontRegistry
     @objc public internal(set) var typograph: Typograph
@@ -828,17 +793,17 @@ public final class Bindings: NSObject, StateBag {
     }
 
     public override init() {
-        image = Image(file1x: File(src: "assets/image%20with%20spaces.jpg"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg"), width: 246, height: 246)
-        svg = SVG(src: "assets/image.svg")
-        lottie = Lottie(file: File(src: "assets/lottie.json"), loop: true, autoplay: true)
-        fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf")])
+        image = Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), width: 246, height: 246)
+        svg = Vector(src: "assets/image.svg")
+        lottie = Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true)
+        fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf", type: "font")])
         typograph = Typograph(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
         haiku = Haiku(component: "haiku-component", loop: true, autoplay: true)
     }
 
     init(
         image: Image,
-        svg: SVG,
+        svg: Vector,
         lottie: Lottie,
         fontRegistry: FontRegistry,
         typograph: Typograph,

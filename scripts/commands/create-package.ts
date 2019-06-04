@@ -7,7 +7,7 @@ import {currentVersion, replaceOccurrencesInFile, root, run} from '../internal/h
 export = {
   name: 'create-package',
   description: 'Creates a new package in the monorepo.',
-  action: async () => {
+  loadAction: () => async () => {
     const templateLocation = join(root, 'templates', 'package');
     if (!existsSync(templateLocation)) {
       fatalError(`Unable to location template project in ${templateLocation}. Aborting.`);

@@ -4,7 +4,7 @@ import {assertNotWatching, run, runQuiet} from '../internal/helpers';
 export= {
   name: 'health',
   description: 'Executes monorepo health checks.',
-  action: async () => {
+  loadAction: () => async () => {
     assertNotWatching();
     const gitChanges = runQuiet('git diff yarn.lock');
     if (gitChanges) {

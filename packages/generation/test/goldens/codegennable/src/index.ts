@@ -1,4 +1,4 @@
-import { Color, FontRegistry, Typograph } from "@diez/prefabs";
+import { Color, File, FontRegistry, Image, Typograph } from "@diez/prefabs";
 import { Component, property } from "@diez/engine";
 
 class MyDesignSystemPalette extends Component {
@@ -13,6 +13,22 @@ class MyDesignSystemTypographs extends Component {
     untitledTypograph = 0;
     @property
     someTypograph = 1;
+}
+
+export class MyDesignSystemSlicesFiles {
+    static Foobar = new File({"src": "assets/blah/Foobar.png"});
+    static Foobar2x = new File({"src": "assets/blah/Foobar@2x.png"});
+    static Foobar3x = new File({"src": "assets/blah/Foobar@3x.png"});
+    static Foobar4x = new File({"src": "assets/blah/Foobar@4x.png"});
+    static Bazbat = new File({"src": "assets/blah/Bazbat.png"});
+    static Bazbat2x = new File({"src": "assets/blah/Bazbat@2x.png"});
+    static Bazbat3x = new File({"src": "assets/blah/Bazbat@3x.png"});
+    static Bazbat4x = new File({"src": "assets/blah/Bazbat@4x.png"});
+}
+
+export class MyDesignSystemSlices {
+    static Foobar = Image.responsive("assets/blah/Foobar.png", 640, 480);
+    static Bazbat = Image.responsive("assets/blah/Bazbat.png", 320, 240);
 }
 
 export enum MyDesignSystemFonts {

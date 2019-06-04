@@ -1,3 +1,4 @@
+import {Target} from '@diez/engine';
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
@@ -8,8 +9,12 @@ import {Program, TargetCompiler} from '../src/compiler';
  */
 export const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
 
+/**
+ * Where the stub project is located.
+ */
+export const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
+
 const fixturesRoot = join(__dirname, 'fixtures');
-const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
 
 /**
  * Gets all fixtures by name.
@@ -25,7 +30,7 @@ export const createProgramForFixture = async (fixture: string, hot = false) => {
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  const program = new Program(stubProjectRoot, {target: 'test'}, hot);
+  const program = new Program(stubProjectRoot, {target: 'test' as Target}, hot);
 
   if (!hot) {
     await program.run();
@@ -43,13 +48,8 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
     return;
   }
 
-  mockWriteHotUrlMutex = jest.fn();
-  protected writeHotUrlMutex (hostname: string, devPort: number) {
-    this.mockWriteHotUrlMutex(hostname, devPort);
-  }
-
   staticRoot = 'static';
-  hotComponent = 'hot-component';
+  hotComponent = join(__dirname, 'mock-hot-component.ts');
   moduleName = 'module-name';
 
   async hostname () {

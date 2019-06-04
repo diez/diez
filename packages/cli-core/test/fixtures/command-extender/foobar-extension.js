@@ -5,6 +5,7 @@ module.exports = {
   options: [
     {
       longName: 'stringParam',
+      shortName: 's',
       valueName: 'stringParam',
       description: 'String param.',
       validator: mocks.mockStringValidator,

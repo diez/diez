@@ -4,21 +4,28 @@ import android.net.Uri
 import java.net.URL
 
 data class File(
-    val src: String
+    val src: String,
+    val type: String
 )
 
+private val extensionReplacer = """(.+)(_.+)""".toRegex()
 private val fileReplacer = """[^a-z0-9_]""".toRegex()
+
+internal val File.resourceName: String
+    get() {
+        return extensionReplacer.replace(fileReplacer.replace(src.toLowerCase(), "_"), "$1")
+    }
 
 private val File.resourcePath: String
     get() {
-        return "raw/${fileReplacer.replace(src.toLowerCase(), "_")}"
+        return "$type/$resourceName"
     }
 
 internal val File.resourceId: Int
     get() {
         return Environment.resources.getIdentifier(
-            fileReplacer.replace(src.toLowerCase(), "_"),
-            "raw",
+            resourceName,
+            type,
             Environment.packageName
         )
     }

@@ -1,9 +1,9 @@
 import {getProject} from '@diez/compiler';
 import {copySync, ensureDirSync} from 'fs-extra';
 import pascalCase from 'pascal-case';
-import {basename, join, relative} from 'path';
+import {basename, join, parse, relative} from 'path';
 import {VariableDeclarationKind} from 'ts-morph';
-import {CodegenDesignSystem} from './api';
+import {AssetFolder, CodegenDesignSystem, GeneratedAsset, GeneratedAssets} from './api';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -78,7 +78,21 @@ export const createDesignSystemSpec = (
   typographs: [],
   fontRegistry: new Set(),
   fontNames: new Set(),
+  assets: new Map(),
 });
+
+/**
+ * Registers an asset belonging to a given asset folder in a collection.
+ */
+export const registerAsset = (asset: GeneratedAsset, folder: AssetFolder, collection: GeneratedAssets) => {
+  const {name} = parse(asset.src);
+  if (collection.has(folder)) {
+    collection.get(folder)!.set(name, asset);
+    return;
+  }
+
+  collection.set(folder, new Map([[name, asset]]));
+};
 
 /**
  * Generates source code for a design system.
@@ -131,6 +145,42 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
         };
       }),
     });
+  }
+
+  for (const [folder, assetsMap] of spec.assets) {
+    designSystemImports.add('Image');
+    designSystemImports.add('File');
+    const filesClass = sourceFile.addClass({
+      name: pascalCase(`${spec.designSystemName} ${folder} Files`),
+      isExported: true,
+    });
+
+    const imagesClass = sourceFile.addClass({
+      name: pascalCase(`${spec.designSystemName} ${folder}`),
+      isExported: true,
+    });
+
+    for (const [name, asset] of assetsMap) {
+      const assetName = pascalCase(name);
+      const parsedSrc = parse(asset.src);
+      filesClass.addProperties([
+        {
+          name: assetName,
+          isStatic: true,
+          initializer: `new File({"src": "${asset.src}"})`,
+        },
+        ...[2, 3, 4].map((multiplier) => ({
+          name: `${assetName}${multiplier}x`,
+          isStatic: true,
+          initializer: `new File({"src": "${parsedSrc.dir}/${parsedSrc.name}@${multiplier}x${parsedSrc.ext}"})`,
+        })),
+      ]);
+      imagesClass.addProperty({
+        name: assetName,
+        isStatic: true,
+        initializer: `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`,
+      });
+    }
   }
 
   if (spec.fontNames.size) {
@@ -206,5 +256,5 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     namedImports: Array.from(engineImports).sort().map((name) => ({name})),
   });
 
-  await sourceFile.save();
+  return sourceFile.save();
 };

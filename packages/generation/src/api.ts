@@ -7,6 +7,30 @@ export interface CodegenEntity {
 }
 
 /**
+ * Folder names where we should store extracted assets.
+ */
+export enum AssetFolder {
+  Slice = 'slices',
+  Artboard = 'artboards',
+  Group = 'groups',
+  Frame = 'frames',
+}
+
+/**
+ * A generated asset.
+ */
+export interface GeneratedAsset {
+  src: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * A collection of extracted assets.
+ */
+export type GeneratedAssets = Map<AssetFolder, Map<string, GeneratedAsset>>;
+
+/**
  * A specification for a generatable design system.
  */
 export interface CodegenDesignSystem {
@@ -18,4 +42,5 @@ export interface CodegenDesignSystem {
   typographs: CodegenEntity[];
   fontRegistry: Set<string>;
   fontNames: Set<string>;
+  assets: GeneratedAssets;
 }

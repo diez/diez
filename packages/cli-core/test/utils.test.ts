@@ -2,7 +2,7 @@ import {cleanupMockOsData, mockOsData, mockOsFactory} from '@diez/test-utils';
 jest.doMock('os', mockOsFactory);
 
 import {join} from 'path';
-import {canRunCommand, execAsync, findPlugins, isMacOS} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, isMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -25,5 +25,16 @@ describe('utils', () => {
     expect(isMacOS()).toBe(false);
     mockOsData.platform = 'darwin';
     expect(isMacOS()).toBe(true);
+  });
+
+  test('exitTrap', () => {
+    const mock = jest.fn();
+    exitTrap(mock);
+    process.emit('exit', 0);
+    process.emit('SIGINT', 'SIGINT');
+    process.emit('SIGHUP', 'SIGHUP');
+    process.emit('SIGQUIT', 'SIGQUIT');
+    process.emit('SIGTSTP', 'SIGTSTP');
+    expect(mock).toHaveBeenCalledTimes(5);
   });
 });

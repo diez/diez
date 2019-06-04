@@ -43,3 +43,8 @@ declare module 'time-fix-plugin' {
 
   export = TimeFixPlugin;
 }
+
+declare module 'webpack-hot-middleware/client' {
+  export function subscribeAll(handler: (payload: any) => void): void;
+  export function subscribe(handler: (payload: any) => void): void;
+}

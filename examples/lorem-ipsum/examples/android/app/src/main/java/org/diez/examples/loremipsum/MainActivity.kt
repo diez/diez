@@ -15,11 +15,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Environment.setContext(layout.context)
         val designSystem = DesignSystem()
-
-        // TODO: Remove
-        // Without calling this it will currently crash
-        Diez(designSystem, layout)
+        designSystem.typographs.fontRegistry.registerFonts()
 
         layout.setBackgroundColor(designSystem.colors.lightBackground.color)
 

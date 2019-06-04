@@ -67,4 +67,6 @@ data class Typograph(
     val fontName: String,
     val fontSize: Float,
     val color: Color
-)
+) {
+    companion object {}
+}

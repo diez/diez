@@ -1,14 +1,11 @@
 import {fatalError} from '@diez/cli-core';
+import {Target} from '@diez/engine';
 import {CompilerEvent, CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
 
-/**
- * The entry point for compilation.
- * @ignore
- */
-export const hotAction = async (options: CompilerOptions) => {
-  options.target = options.target.toLowerCase();
+export = async (options: CompilerOptions) => {
+  options.target = options.target.toLowerCase() as Target;
   const targetProvider = (await getTargets()).get(options.target);
 
   if (!targetProvider) {

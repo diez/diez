@@ -19,9 +19,13 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
         val builder = Builder()
         builder.add(KotlinJsonAdapterFactory())
         adapter = builder.build().adapter(component.javaClass)
-        Environment.initialize(view.context)
+        Environment.setContext(view.context)
         if (Environment.isHot) {
+            // Enables webview debugging in chrome://inspect.
+            WebView.setWebContentsDebuggingEnabled(true)
             val webview = WebView(view.context)
+            // Allows `window.location.reload()` to behave as expected.
+            webview.webViewClient = WebViewClient()
             webview.settings.javaScriptEnabled = true
             webview.addJavascriptInterface(this, "puente")
             webview.loadUrl("${Environment.serverUrl}/components/${component.name}")

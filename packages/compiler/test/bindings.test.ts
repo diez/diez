@@ -1,6 +1,7 @@
 import {findPlugins} from '@diez/cli-core';
 import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
+import {printWarnings} from '../src/utils';
 import {createProgramForFixture, TestTargetCompiler} from './helpers';
 
 registerExpectations();
@@ -13,7 +14,23 @@ describe('bindings', () => {
       '.:BoundComponent': {
         test: './test/fixtures/Bindings/BoundComponent.binding',
       },
+      // (This should fail without crashing.)
+      '.:Bindings': {
+        test: '/dev/null',
+      },
     };
+
+    plugins.set(
+      'random',
+      {
+        bindings: {
+          // (This should be skipped without crashing.)
+          '.:BoundComponent': {
+            test: '/dev/null',
+          },
+        },
+      },
+    );
 
     const program = await createProgramForFixture('Bindings');
     expect(program.targetComponents.size).toBe(2);
@@ -28,5 +45,6 @@ describe('bindings', () => {
 
     compiler.writeAssets();
     expect(join(program.projectRoot, 'build')).toMatchDirectory(join(__dirname, 'goldens', 'bindings-output'));
+    printWarnings(program.targetComponents);
   });
 });

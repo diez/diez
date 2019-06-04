@@ -5,7 +5,7 @@ describe('font registry', () => {
   test('basic functionality', () => {
     const src = 'bloop.ttf';
     const font = FontRegistry.fromFiles(src);
-    expect(font.serialize()).toEqual({files: [{src: 'bloop.ttf'}]});
+    expect(font.serialize()).toEqual({files: [{src: 'bloop.ttf', type: 'font'}]});
   });
 });
 

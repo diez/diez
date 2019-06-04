@@ -10,15 +10,6 @@ beforeEach(() => {
 
 jest.mock('@diez/storage');
 
-jest.mock('package-json', () => {
-  const mock = jest.fn();
-  // Covers all nag scenarios.
-  mock.mockImplementationOnce(() => ({version: '1000.1000.1000'}));
-  mock.mockRejectedValueOnce('<fake error>');
-  mock.mockImplementation(() => ({version: '0.0.0'}));
-  return mock;
-});
-
 describe('cli', () => {
   test('command registration', async () => {
     await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
@@ -35,17 +26,19 @@ describe('cli', () => {
     process.argv = ['node', 'diez', 'foobar', '--stringParam', 'foo'];
     mockAction.mockRejectedValueOnce('<fake error>');
     await run();
-    expect(mockAction).toHaveBeenCalled();
-    expect(mockAction).toHaveBeenCalledWith(
-      expect.objectContaining({
-        stringParam: 'foo',
-        booleanParam: true,
-      }),
-      expect.anything(),
-      expect.anything(),
-    );
-    expect(mockStringValidator).toHaveBeenCalledWith(expect.objectContaining({stringParam: 'foo'}));
-    expect(mockBooleanValidator).toHaveBeenCalledWith(expect.objectContaining({booleanParam: true}));
-    expect(mockPreinstall).toHaveBeenCalled();
+    process.nextTick(() => {
+      expect(mockAction).toHaveBeenCalled();
+      expect(mockAction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          stringParam: 'foo',
+          booleanParam: true,
+        }),
+        expect.anything(),
+        expect.anything(),
+      );
+      expect(mockStringValidator).toHaveBeenCalledWith(expect.objectContaining({stringParam: 'foo'}));
+      expect(mockBooleanValidator).toHaveBeenCalledWith(expect.objectContaining({booleanParam: true}));
+      expect(mockPreinstall).toHaveBeenCalled();
+    });
   });
 });

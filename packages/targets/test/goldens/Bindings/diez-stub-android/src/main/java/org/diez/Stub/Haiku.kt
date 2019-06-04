@@ -7,7 +7,7 @@ import android.webkit.WebView
 
 private val Haiku.file: File
     get() {
-        return File("haiku/$component.html")
+        return File("haiku/$component.html", "raw")
     }
 
 class HaikuView(context: Context, attrs: AttributeSet) : WebView(context, attrs) {
@@ -27,4 +27,6 @@ data class Haiku(
     val component: String,
     val loop: Boolean,
     val autoplay: Boolean
-)
+) {
+    companion object {}
+}

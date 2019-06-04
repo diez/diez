@@ -169,8 +169,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       declarations: new Set([
         join(coreWeb, 'core', 'Diez.d.ts'),
       ]),
-      declarationImports: new Set(),
-      dependencies: new Set(),
+      declarationImports: new Set<string>(),
+      dependencies: new Set<WebDependency>(),
       assetBindings: new Map(),
     };
   }

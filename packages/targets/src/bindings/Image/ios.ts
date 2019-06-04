@@ -1,6 +1,5 @@
 import {AssetBinder, AssetBindings} from '@diez/compiler';
 import {File, Image} from '@diez/prefabs';
-import {stat} from 'fs-extra';
 import {basename, dirname, join, parse} from 'path';
 import {IosBinding, IosOutput} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
@@ -29,10 +28,10 @@ const makeImagesetContentsImageJson = (filename: string, scale: string) => ({
   idiom: 'universal',
 });
 
-const makeImagesetContentsJson = (bundleId: string, file1x: string, file2x: string, file3x: string) => ({
+const makeImagesetContentsJson = (bundleId: string, file: string, file2x: string, file3x: string) => ({
   info: makeContentsInfoJson(bundleId),
   images: [
-    makeImagesetContentsImageJson(file1x, '1x'),
+    makeImagesetContentsImageJson(file, '1x'),
     makeImagesetContentsImageJson(file2x, '2x'),
     makeImagesetContentsImageJson(file3x, '3x'),
   ],
@@ -80,10 +79,10 @@ const addFolderGroups = (path: string, assetBindings: AssetBindings, bundleId: s
 const addImageSetContents = (destination: string, instance: Image, assetBindings: AssetBindings, bundleId: string) => {
   const imageSetContents = join(destination, 'Contents.json');
 
-  const file1x = basename(instance.file1x.src);
+  const file = basename(instance.file.src);
   const file2x = basename(instance.file2x.src);
   const file3x = basename(instance.file3x.src);
-  const json = makeImagesetContentsJson(bundleId, file1x, file2x, file3x);
+  const json = makeImagesetContentsJson(bundleId, file, file2x, file3x);
   const contents = JSON.stringify(json, null, 2);
 
   assetBindings.set(
@@ -93,13 +92,6 @@ const addImageSetContents = (destination: string, instance: Image, assetBindings
 };
 
 const addImage = async (file: File, destination: string, projectRoot: string, assetBindings: AssetBindings) => {
-  const filePath = join(projectRoot, file.src);
-
-  const stats = await stat(filePath);
-  if (!stats.isFile()) {
-    throw new Error(`Image file at ${filePath} does not exist.`);
-  }
-
   const filename = basename(file.src);
   const path = join(destination, filename);
 
@@ -113,11 +105,11 @@ const addImage = async (file: File, destination: string, projectRoot: string, as
 };
 
 const addImageSet = async (instance: Image, projectRoot: string, assetBindings: AssetBindings, bundleId: string) => {
-  const parsed1x = parse(instance.file1x.src);
+  const parsed1x = parse(instance.file.src);
   const destination = join(assetCatalog, parsed1x.dir, `${parsed1x.name}.imageset`);
 
   return Promise.all([
-    addImage(instance.file1x, destination, projectRoot, assetBindings),
+    addImage(instance.file, destination, projectRoot, assetBindings),
     addImage(instance.file2x, destination, projectRoot, assetBindings),
     addImage(instance.file3x, destination, projectRoot, assetBindings),
     addImageSetContents(destination, instance, assetBindings, bundleId),
@@ -125,24 +117,22 @@ const addImageSet = async (instance: Image, projectRoot: string, assetBindings: 
 };
 
 const imageAssetBinder: AssetBinder<Image, IosOutput> =
-  async (instance, projectRoot, {assetBindings, bundleIdPrefix}) => {
-    const dirname1x = dirname(instance.file1x.src);
-    const dirname2x = dirname(instance.file2x.src);
-    const dirname3x = dirname(instance.file3x.src);
-    const directoriesMatch = (dirname1x === dirname2x && dirname2x === dirname3x);
-
-    if (!directoriesMatch) {
-      throw new Error(`Image files are not in the same directory:
-- ${instance.file1x.src}
-- ${instance.file2x.src}
-- ${instance.file3x.src}`);
+  async (instance, {projectRoot, hot}, {assetBindings, bundleIdPrefix}) => {
+    // In hot mode, we don't need an asset bundle as files are loaded dynamically.
+    if (hot) {
+      return;
     }
+
+    // In non-hot mode, we don't need to create static assets from the underlying files.
+    assetBindings.delete(instance.file.src);
+    assetBindings.delete(instance.file2x.src);
+    assetBindings.delete(instance.file3x.src);
 
     const bundleId = `${bundleIdPrefix}.Static`;
 
     await Promise.all([
       addCatalog(assetBindings, bundleId),
-      addFolderGroups(dirname1x, assetBindings, bundleId),
+      addFolderGroups(dirname(instance.file.src), assetBindings, bundleId),
       addImageSet(instance, projectRoot, assetBindings, bundleId),
     ]);
   };

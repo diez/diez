@@ -4,4 +4,5 @@ export class BoundComponent extends Component {}
 
 export class Bindings extends Component {
   @property bound = new BoundComponent();
+  @property ambiguous: any = '12';
 }

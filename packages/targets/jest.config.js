@@ -1,3 +1,5 @@
+const {resolve} = require('path');
+
 module.exports = {
   roots: [
     '<rootDir>/test',
@@ -18,5 +20,8 @@ module.exports = {
     'ts-jest': {
       tsConfig: 'test/tsconfig.json',
     },
+  },
+  moduleNameMapper: {
+    [`^${resolve(__dirname, 'lib')}/(.*)`]: '<rootDir>/src/$1',
   },
 };

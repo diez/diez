@@ -1,6 +1,6 @@
-import {Image, Typograph} from '@diez/prefabs';
-import {Component, Float, property} from '@diez/engine';
-import {Images} from './assets';
+import {Typograph} from '@diez/prefabs';
+import {Component, property} from '@diez/engine';
+import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
 import {SimpleGradient} from './components/SimpleGradient';
 import {LayoutValues, palette, typographs} from './constants';
@@ -14,7 +14,7 @@ class LocationImageDesign extends Component {
 class HeaderDesign extends Component {
   @property regionLabel = typographs.headerTitle;
   @property placeLabel = typographs.headerCaption;
-  @property mapPinIcon = Images.MapPin;
+  @property mapPinIcon = PoodleSurfSlices.MapPin;
   @property locationImage = new LocationImageDesign();
   @property bannerHeight = 149;
   @property labelsLayoutMargin = EdgeInsets.simple(
@@ -50,7 +50,7 @@ class SharedCardDesign extends Component<SharedCardDesignState> {
 
 class TemperatureDesign extends Component {
   @property typograph = typographs.value;
-  @property icon = Images.Thermometer;
+  @property icon = PoodleSurfSlices.Thermometer;
   @property iconSpacing = LayoutValues.DefaultSpacing;
 }
 
@@ -60,7 +60,7 @@ class WetsuitDesign extends Component {
   @property valueTypograph = typographs.caption;
   @property labelSpacing = LayoutValues.CompactSpacing;
   @property iconSpacing = LayoutValues.DefaultSpacing;
-  @property icon = Images.Gear;
+  @property icon = PoodleSurfSlices.Gear;
 }
 
 class WaterTemperatureCardDesign extends Component {

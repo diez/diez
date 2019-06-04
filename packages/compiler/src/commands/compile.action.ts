@@ -1,14 +1,11 @@
 import {fatalError} from '@diez/cli-core';
+import {Target} from '@diez/engine';
 import {CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
 
-/**
- * The entry point for compilation.
- * @ignore
- */
-export const compileAction = async (options: CompilerOptions) => {
-  options.target = options.target.toLowerCase();
+export = async (options: CompilerOptions) => {
+  options.target = options.target.toLowerCase() as Target;
   const targetProvider = (await getTargets()).get(options.target);
 
   if (!targetProvider) {
@@ -24,5 +21,5 @@ export const compileAction = async (options: CompilerOptions) => {
   }
 
   printWarnings(program.targetComponents);
-  return await targetProvider.handler(program);
+  return targetProvider.handler(program);
 };

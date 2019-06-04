@@ -1,4 +1,4 @@
-import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, SVG, Typograph} from '@diez/prefabs';
+import {Color, File, FontRegistry, Haiku, Image, IOSFonts, Lottie, Palette, Vector, Typograph} from '@diez/prefabs';
 import {Component, expression, Integer, method, property, shared} from '@diez/engine';
 import {easeInOutExpo} from 'just-curves';
 
@@ -19,9 +19,9 @@ export class MyStateBag extends Component {
   @property numbers: Integer[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   // Try changing this to `assets/images/diez`!
-  @property image = Image.responsive('assets/images/haiku', 'jpg');
+  @property image = Image.responsive('assets/images/haiku.jpg');
 
-  @property svg = new SVG({src: 'assets/images/rat.svg'});
+  @property svg = new Vector({src: 'assets/images/rat.svg'});
 
   @property lottie = new Lottie({
     file: new File({src: 'assets/lottie/loading-pizza.json'}),

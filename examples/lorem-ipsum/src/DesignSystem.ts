@@ -69,8 +69,8 @@ class Typographs extends Component {
  * primitives in components as well — such as images, icons & animations.
  */
 class Images extends Component {
-  @property logo = Image.responsive('assets/logo', 'png');
-  @property masthead = Image.responsive('assets/masthead', 'png');
+  @property logo = Image.responsive('assets/logo.png');
+  @property masthead = Image.responsive('assets/masthead.png');
 }
 
 /**

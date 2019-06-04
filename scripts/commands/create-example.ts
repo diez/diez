@@ -7,7 +7,7 @@ import {root} from '../internal/helpers';
 export = {
   name: 'create-example',
   description: 'Creates an example project in the monorepo.',
-  action: async () => {
+  loadAction: () => async () => {
     interface Answers {
       exampleName: string;
     }

@@ -2,7 +2,7 @@ import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockExec,
 jest.doMock('os', mockOsFactory);
 jest.doMock('@diez/cli-core', mockCliCoreFactory);
 
-import {locateFont} from '../src/typography';
+import {locateFont, getTypographInitializer} from '../src/typography';
 
 afterEach(() => {
   cleanupMockCommandData();
@@ -68,5 +68,14 @@ describe('typography', () => {
   test('non-macOS font location', async () => {
     mockOsData.platform = 'linux';
     expect(await locateFont('', {})).toBeUndefined();
+  });
+
+  test('typograph initializer', () => {
+    expect(getTypographInitializer('Foobar-Regular', 20, '#f00')).toBe(
+      'new Typograph({color: Color.rgba(255, 0, 0, 1), fontName: "Foobar-Regular", fontSize: 20})',
+    );
+    expect(getTypographInitializer('Foobar-Regular', 20)).toBe(
+      'new Typograph({fontName: "Foobar-Regular", fontSize: 20})',
+    );
   });
 });

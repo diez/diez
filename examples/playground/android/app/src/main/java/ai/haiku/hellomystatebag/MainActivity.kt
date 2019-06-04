@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
                 text.typograph = component.typograph
                 view.backgroundImage = component.image
                 this.haikuView.load(component.haiku)
-                this.svgView.load(component.svg)
+                this.vectorView.load(component.svg)
                 this.lottieView.load(component.lottie)
             }
         })

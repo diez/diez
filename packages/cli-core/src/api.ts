@@ -3,7 +3,7 @@ import {Command} from 'commander';
 /**
  * A CLI action. Receives the arguments of a CLI command.
  */
-export type CliAction = (command: any, ...args: string[]) => void;
+export type CliAction = (command: any, ...args: string[]) => Promise<void>;
 
 /**
  * A generic interface for a CLI command option validator. Options can be either a boolean
@@ -49,6 +49,14 @@ export interface CliCommandOption {
 }
 
 /**
+ * A module-wrapped CliAction.
+ * @ignore
+ */
+export interface ModuleWrappedCliAction {
+  default: CliAction;
+}
+
+/**
  * Provides a generic interface for a CLI command.
  */
 export interface CliCommandProvider {
@@ -59,7 +67,7 @@ export interface CliCommandProvider {
   /**
    * The action that should be executed when the command is invoked by name.
    */
-  action: CliAction;
+  loadAction (): Promise<CliAction | ModuleWrappedCliAction>;
   /**
    * The command description.
    */

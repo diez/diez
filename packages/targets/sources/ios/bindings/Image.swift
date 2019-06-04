@@ -1,47 +1,5 @@
 extension Image {
     /**
-     Calls [url(forScale:)](x-source-tag://Image.urlForScale) with `UIScreen.main.scale`.
-
-     - See: [url(forScale:)](x-source-tag://Image.urlForScale)
-     */
-    @objc public var url: URL? {
-        return url(forScale: UIScreen.main.scale)
-    }
-
-    /**
-     The `URL` of the @1x image asset.
-
-     The value may be `nil` if:
-       - The @1x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt1x: URL? {
-        return file1x.url
-    }
-
-    /**
-     The `URL` of the @2x image asset.
-
-     The value may be `nil` if:
-       - The @2x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt2x: URL? {
-        return file2x.url
-    }
-
-    /**
-     The `URL` of the @3x image asset.
-
-     The value may be `nil` if:
-       - The @3x image asset does not exist
-       - The `URL` failed to resolve
-     */
-    @objc public var urlAt3x: URL? {
-        return file3x.url
-    }
-
-    /**
      An image of the appropriate scale if it exits.
 
      When in [hot mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale)
@@ -51,10 +9,14 @@ extension Image {
      */
     @objc public var image: UIImage? {
         if environment.isHot {
-            return image(withScale: UIScreen.main.scale)
+            guard let hotImage = image(withScale: UIScreen.main.scale) else {
+                return image(withScale: 3)
+            }
+
+            return hotImage
         }
 
-        guard let name = (file1x.src as NSString).deletingPathExtension.removingPercentEncoding else {
+        guard let name = (file.src as NSString).deletingPathExtension.removingPercentEncoding else {
             return nil
         }
 
@@ -76,10 +38,9 @@ extension Image {
 
      - Returns: The `URL` of the image at the provided scale, or nil.
      */
-    @objc(urlForScale:)
-    public func url(forScale scale: CGFloat) -> URL? {
+    private func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
-        case 1: return file1x.url
+        case 1: return file.url
         case 2: return file2x.url
         case 3: return file3x.url
         default: return nil
@@ -98,8 +59,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */
-    @objc(imageForScale:)
-    public func image(withScale scale: CGFloat) -> UIImage? {
+    private func image(withScale scale: CGFloat) -> UIImage? {
         guard
             let url = url(forScale: scale),
             let data = try? Data(contentsOf: url) else {

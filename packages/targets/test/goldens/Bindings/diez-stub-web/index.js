@@ -33,15 +33,13 @@ module.exports.File = File;
 
 class Image {
   constructor({
-    file1x,
+    file,
     file2x,
-    file3x,
     width,
     height
   }) {
-    this.file1x = file1x;
+    this.file = file;
     this.file2x = file2x;
-    this.file3x = file3x;
     this.width = width;
     this.height = height;
   }
@@ -51,9 +49,8 @@ class Image {
       return this;
     }
 
-    this.file1x = Object.assign(Object.create(Object.getPrototypeOf(this.file1x)), this.file1x.update(payload.file1x));
+    this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
     this.file2x = Object.assign(Object.create(Object.getPrototypeOf(this.file2x)), this.file2x.update(payload.file2x));
-    this.file3x = Object.assign(Object.create(Object.getPrototypeOf(this.file3x)), this.file3x.update(payload.file3x));
     this.width = payload.width;
     this.height = payload.height;
 
@@ -69,7 +66,7 @@ Object.defineProperties(Image.prototype, {
     get () {
       switch (Math.ceil(window.devicePixelRatio)) {
         case 1:
-          return this.file1x.url;
+          return this.file.url;
         case 2:
           return this.file2x.url;
         case 3:
@@ -81,7 +78,7 @@ Object.defineProperties(Image.prototype, {
   },
 });
 
-class SVG {
+class Vector {
   constructor({
     src
   }) {
@@ -100,9 +97,9 @@ class SVG {
 }
 
 
-module.exports.SVG = SVG;
+module.exports.Vector = Vector;
 
-Object.defineProperties(SVG.prototype, {
+Object.defineProperties(Vector.prototype, {
   file: {
     get () {
       return new File({src: this.src});
@@ -336,10 +333,10 @@ module.exports.HaikuComponent = HaikuComponent;
 
 class Bindings {
   constructor () {
-    this.image = new Image({file1x: new File({src: "assets/image%20with%20spaces.jpg"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg"}), width: 246, height: 246});
-    this.svg = new SVG({src: "assets/image.svg"});
-    this.lottie = new Lottie({file: new File({src: "assets/lottie.json"}), loop: true, autoplay: true});
-    this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf"})]});
+    this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), width: 246, height: 246});
+    this.svg = new Vector({src: "assets/image.svg"});
+    this.lottie = new Lottie({file: new File({src: "assets/lottie.json", type: "raw"}), loop: true, autoplay: true});
+    this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf", type: "font"})]});
     this.typograph = new Typograph({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
     this.haiku = new HaikuComponent({});
   }

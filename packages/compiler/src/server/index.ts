@@ -1,8 +1,12 @@
-import {info} from '@diez/cli-core';
+import {info, socketTrap} from '@diez/cli-core';
+import {watch} from 'chokidar';
 import cors from 'cors';
+import debounce from 'debounce';
 import express from 'express';
 import expressHandlebars from 'express-handlebars';
-import {resolve} from 'path';
+import {readFileSync} from 'fs-extra';
+import {createConnection} from 'net';
+import {join, resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -36,16 +40,46 @@ export const serveHot = async (
   const webpackConfig = getConfiguration(program, componentEntry);
   const compiler = webpack(webpackConfig);
 
-  app.use(webpackDevMiddleware(compiler, {
+  const devMiddleware = webpackDevMiddleware(compiler, {
     publicPath: '',
     logLevel: 'warn',
-  }));
+  });
 
-  app.use(webpackHotMiddleware(compiler, {log: false}));
+  const hotMiddleware = webpackHotMiddleware(compiler, {log: false});
+
+  const hotExtractMutex = join(program.projectRoot, '.diez', 'extract-port');
+  const watcher = watch(hotExtractMutex, {persistent: true});
+
+  const debouncedReload = debounce(() => {
+    info('Reloading assets...');
+    hotMiddleware.publish({reload: true});
+  }, 500);
+
+  watcher.on('add', () => {
+    const assetPort = Number(readFileSync(hotExtractMutex));
+    const socket = createConnection(assetPort, '0.0.0.0', () => {
+      info(`Receiving hot assets on port ${assetPort}.`);
+    });
+
+    socket.setEncoding('utf8');
+    socketTrap(socket);
+
+    socket.on('data', (data) => {
+      const {event} = JSON.parse(data.toString());
+      if (event === 'reload') {
+        debouncedReload();
+      }
+    });
+  });
+
+  app.use(devMiddleware);
+  app.use(hotMiddleware);
 
   let lastHash = '';
   compiler.hooks.done.tap('@diez/compiler', ({hash, endTime}) => {
+    // istanbul ignore if
     if (!hash || !endTime) {
+      // This should never happen.
       return;
     }
 

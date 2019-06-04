@@ -1,11 +1,12 @@
 import {execAsync, info, isMacOS, warning} from '@diez/cli-core';
+import {AssetFolder} from '@diez/generation';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {walkSync} from 'fs-walk';
 import {tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
 import {v4} from 'uuid';
-import {FolderGroup, ImageFormats, Reporters} from './api';
+import {ImageFormats, Reporters} from './api';
 
 const reservedCharReplacement = '-';
 const filenameReservedRegExp = /[<>:"\/\\|?*\x00-\x1F]/g;
@@ -43,11 +44,9 @@ export const locateBinaryMacOS = async (bundleId: string) => {
  * Empties `basePath` and creates the provided `folders` inside.
  * @ignore
  */
-export const createFolders = async (basePath: string, folders: FolderGroup) => {
+export const createFolders = async (basePath: string, folders: Iterable<AssetFolder>) => {
   await emptyDir(basePath);
-  return Promise.all([
-    Array.from(folders).map(async ([_, folder]) => mkdirp(join(basePath, folder))),
-  ]);
+  return Promise.all(Array.from(folders).map((folder) => mkdirp(join(basePath, folder))));
 };
 
 /**

@@ -10,7 +10,6 @@ import {CompilerProgram} from '../api';
 export const getConfiguration = (program: CompilerProgram, componentEntry: string): Configuration => ({
   entry: {
     component: [
-      'webpack-hot-middleware/client',
       componentEntry,
     ],
   },

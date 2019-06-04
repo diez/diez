@@ -22,6 +22,6 @@
     "@diez/targets": "^10.0.0-alpha.0",
     "diez": "^10.0.0-alpha.0",
     "react-app-rewired": "^2.1.3",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   }
 }

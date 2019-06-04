@@ -1,4 +1,4 @@
-import {Component, ConcreteComponent, ConcreteComponentType} from '@diez/engine';
+import {Component, ConcreteComponent, ConcreteComponentType, Target} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {Type} from 'ts-morph';
 
@@ -20,7 +20,7 @@ declare module '@diez/cli-core/types/api' {
  * Flag-based compiler options, which can be augmented by targets as needed.
  */
 export interface CompilerOptions {
-  target: string;
+  target: Target;
 }
 
 /**
@@ -106,10 +106,10 @@ export interface TargetComponent {
    */
   type?: Type;
   /**
-   * If specified, the resolvable module that provides the property's component type. Used for assembling bindings for
+   * The resolvable module that provides the property's component type. Used for assembling bindings for
    * some compiler targets.
    */
-  source?: string;
+  source: string;
   /**
    * Warnings encountered while attempting to compile this component.
    */
@@ -130,7 +130,7 @@ export type CompilerTargetHandler = (program: CompilerProgram) => void;
  * A generic interface for a compiler target.
  */
 export interface CompilerTargetProvider {
-  name: string;
+  name: Target;
   handler: CompilerTargetHandler;
 }
 
@@ -218,7 +218,7 @@ export type AssetBinder<
   OutputType = TargetOutput,
 > = (
   instance: ComponentType,
-  projectRoot: string,
+  program: CompilerProgram,
   output: OutputType,
   spec: TargetComponentSpec,
 ) => Promise<void>;

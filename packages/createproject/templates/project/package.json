@@ -11,6 +11,6 @@
     "@diez/sources": "^{{diezVersion}}",
     "@diez/targets": "^{{diezVersion}}",
     "diez": "^{{diezVersion}}",
-    "typescript": "{{typescriptVersion}}"
+    "typescript": "^3.5.1"
   }
 }

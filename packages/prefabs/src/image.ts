@@ -1,27 +1,30 @@
-import {Component, Integer, property} from '@diez/engine';
-import {File} from './file';
+import {Component, Integer, property, Target} from '@diez/engine';
+import {File, FileType} from './file';
 
 /**
  * Responsive image state.
  * @ignore
  */
 export interface ImageState {
-  file1x: File;
+  file: File;
   file2x: File;
   file3x: File;
+  file4x: File;
   width: number;
   height: number;
 }
 
 /**
  * Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
- * accordance with best practices. Images should provide pixel ratios for standard, retina@2x, and retina@3x devices.
+ * accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
+ * file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
+ * image is expected to exist and provide an image with the specified dimensions.
  *
  * @noinheritdoc
  */
 export class Image extends Component<ImageState> {
   /**
-   * Yields a responsive image according to the convention that files should be located in the same directory using the
+   * Yields a raster image according to the convention that files should be located in the same directory using the
    * same filename prefix. For example:
    *
    * ```
@@ -29,27 +32,37 @@ export class Image extends Component<ImageState> {
    * ├── filename.png
    * ├── filename@2x.png
    * └── filename@3x.png
+   * └── filename@4x.png
    * ```
    *
    * can be specified with:
    *
-   * `@property image = Image.responsive('assets/filename', 'png');`
+   * `@property image = Image.responsive('assets/filename.png', 640, 480);`
    */
-  static responsive (basename: string, extension: string, width: number = 0, height: number = 0) {
+  static responsive (src: string, width: number = 0, height: number = 0) {
+    const pathComponents = src.split('/');
+    const filename = pathComponents.pop() || '';
+    const extensionLocation = filename.lastIndexOf('.');
+    const dir = pathComponents.join('/');
+    const name = filename.slice(0, extensionLocation);
+    const ext = filename.slice(extensionLocation);
     return new Image({
       width,
       height,
-      file1x: new File({src: `${basename}.${extension}`}),
-      file2x: new File({src: `${basename}@2x.${extension}`}),
-      file3x: new File({src: `${basename}@3x.${extension}`}),
+      file: new File({src, type: FileType.Image}),
+      file2x: new File({src: `${dir}/${name}@2x${ext}`, type: FileType.Image}),
+      file3x: new File({src: `${dir}/${name}@3x${ext}`, type: FileType.Image}),
+      file4x: new File({src: `${dir}/${name}@4x${ext}`, type: FileType.Image}),
     });
   }
 
-  @property file1x = new File();
+  @property file = new File({type: FileType.Image});
 
-  @property file2x = new File();
+  @property file2x = new File({type: FileType.Image});
 
-  @property file3x = new File();
+  @property({targets: [Target.Ios, Target.Android]}) file3x = new File({type: FileType.Image});
+
+  @property({targets: [Target.Android]}) file4x = new File({type: FileType.Image});
 
   @property width: Integer = 0;
 
@@ -60,9 +73,7 @@ export class Image extends Component<ImageState> {
    */
   serialize () {
     return {
-      file1x: this.file1x.serialize(),
-      file2x: this.file2x.serialize(),
-      file3x: this.file3x.serialize(),
+      ...super.serialize(),
       width: Math.round(this.width),
       height: Math.round(this.height),
     };
@@ -70,10 +81,10 @@ export class Image extends Component<ImageState> {
 }
 
 /**
- * SVG state.
+ * Vector state.
  * @ignore
  */
-export interface SVGState {
+export interface VectorState {
   src: string;
 }
 
@@ -82,7 +93,7 @@ export interface SVGState {
  *
  * @noinheritdoc
  */
-export class SVG extends Component<SVGState> {
+export class Vector extends Component<Vector> {
   @property src = '';
 
   serialize () {

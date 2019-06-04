@@ -14,7 +14,7 @@ const getRegistry = async (): Promise<Partial<DiezRegistryOptions>> => {
     await writeJson(registryPath, {});
   }
 
-  return await readJson(registryPath);
+  return await readJson(registryPath, {throws: false}) || {};
 };
 
 const setRegistry = async (configuration: Partial<DiezRegistryOptions>) => {

@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="width" secondItem="zMV-Vz-At3" secondAttribute="height" multiplier="1:1" id="Qz3-Fm-rmy"/>
                                 </constraints>
                             </view>
-                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOC-kf-QNs" userLabel="SVG Container" customClass="DEZSVGView">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOC-kf-QNs" userLabel="SVG Container" customClass="DEZVectorView">
                                 <rect key="frame" x="0.0" y="20" width="207" height="207"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -62,7 +62,7 @@
                         <outlet property="haikuView" destination="zMV-Vz-At3" id="jwL-cn-p8Q"/>
                         <outlet property="label" destination="YPA-Xe-m01" id="zM5-7Z-l9B"/>
                         <outlet property="lottieView" destination="iOf-C3-QDW" id="rSw-bS-v3t"/>
-                        <outlet property="svgView" destination="aOC-kf-QNs" id="wRl-Fl-pzE"/>
+                        <outlet property="vectorView" destination="aOC-kf-QNs" id="wRl-Fl-pzE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

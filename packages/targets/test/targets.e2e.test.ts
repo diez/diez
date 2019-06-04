@@ -21,16 +21,13 @@ describe('targets.e2e', () => {
       jest.resetModules();
 
       const iosCompiler = await createIosCompilerForFixture(fixture);
-      await iosCompiler.run();
-      await iosCompiler.writeSdk();
+      await iosCompiler.start();
 
       const androidCompiler = await createAndroidCompilerForFixture(fixture);
-      await androidCompiler.run();
-      await androidCompiler.writeSdk();
+      await androidCompiler.start();
 
       const webCompiler = await createWebCompilerForFixture(fixture);
-      await webCompiler.run();
-      await webCompiler.writeSdk();
+      await webCompiler.start();
 
       expect(buildRoot).toMatchDirectory(getGoldenRoot(fixture));
     });

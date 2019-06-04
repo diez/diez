@@ -3,6 +3,6 @@ const mocks = require('../mocks');
 module.exports = {
   name: 'foobar',
   description: 'Do stuff.',
-  action: mocks.mockAction,
+  loadAction: () => mocks.mockAction,
   preinstall: mocks.mockPreinstall,
 };

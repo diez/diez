@@ -11,7 +11,7 @@ A `CliCommandProvider` can be implemented in a Diez package like this:
 import {CliCommandProvider} from '@diez/cli-core';
 
 const provider: CliCommandProvider = {
-  action,
+  loadAction: () => action,
   name: 'command',
   description: 'Command description',
   options: [

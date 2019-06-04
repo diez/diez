@@ -13,7 +13,7 @@ interface GenerateDocsOptions {
 export = {
   name: 'generate-docs',
   description: 'Generates docs.',
-  action: async ({theme}: GenerateDocsOptions) => {
+  loadAction: () => async ({theme}: GenerateDocsOptions) => {
     assertNotWatching();
     const gitChanges = runQuiet('git diff packages');
     if (gitChanges) {

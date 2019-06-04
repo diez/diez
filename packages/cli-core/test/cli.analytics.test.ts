@@ -14,15 +14,14 @@ jest.doMock('@diez/storage', () => ({
   disableAnalytics: mockDisableAnalytics,
 }));
 
+import {ModuleWrappedCliAction} from '../src';
 import {run} from '../src/cli';
-import {action as analyticsAction} from '../src/commands/analytics';
+import {loadAction as loadAnalyticsAction} from '../src/commands/analytics';
 import {diezVersion} from '../src/utils';
 
 beforeEach(() => {
   assignMock(process, 'exit');
 });
-
-jest.mock('package-json');
 
 describe('cli.analytics', () => {
   test('analytics ping', async () => {
@@ -32,6 +31,7 @@ describe('cli.analytics', () => {
   });
 
   test('analytics <on|off> command', async () => {
+    const analyticsAction = (await loadAnalyticsAction() as ModuleWrappedCliAction).default;
     await analyticsAction({}, 'on');
     expect(mockEnableAnalytics).toHaveBeenCalledTimes(1);
     expect(mockDisableAnalytics).toHaveBeenCalledTimes(0);

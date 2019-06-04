@@ -5,7 +5,7 @@
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "fix": "vue-cli-service lint *.js"
+    "fix": "vue-cli-service lint *.ts"
   },
   "dependencies": {
     "diez-playground": "link:../build/diez-playground-web",
@@ -16,7 +16,7 @@
   "devDependencies": {
     "@vue/cli-plugin-typescript": "^3.5.0",
     "@vue/cli-service": "^3.5.0",
-    "typescript": "^3.4.5",
+    "typescript": "^3.5.1",
     "vue-template-compiler": "^2.5.21"
   }
 }

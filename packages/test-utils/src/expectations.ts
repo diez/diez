@@ -1,5 +1,5 @@
 import {extend} from 'expect';
-import {existsSync, readFileSync} from 'fs';
+import {existsSync, readFileSync} from 'fs-extra';
 import {walkSync} from 'fs-walk';
 import jestDiff from 'jest-diff';
 import {join, relative, resolve} from 'path';

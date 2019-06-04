@@ -2,14 +2,14 @@
 import {emitDiagnostics, enableAnalytics, Registry} from '@diez/storage';
 import chalk from 'chalk';
 import {args, command, help, on, parse, version} from 'commander';
-import packageJson from 'package-json';
-import semver from 'semver';
 import {
+  CliAction,
   CliCommandExtension,
   CliCommandOption,
   CliCommandProvider,
   CliDefaultOptions,
   CliOptionValidator,
+  ModuleWrappedCliAction,
   ValidatedCommand,
 } from './api';
 import {fatalError, info, warning} from './reporting';
@@ -50,6 +50,12 @@ const registerOptions = (validatedCommand: ValidatedCommand, options?: CliComman
 };
 
 /**
+ * @internal
+ */
+const isModuleWrappedAction = (action: CliAction | ModuleWrappedCliAction): action is ModuleWrappedCliAction =>
+  action.hasOwnProperty('default');
+
+/**
  * Registers a command from its provider.
  * @internal
  */
@@ -63,10 +69,10 @@ const registerWithProvider = async (provider: CliCommandProvider, defaultOptions
   const registeredCommand = command(provider.name).action(async (...options: any[]) => {
     try {
       const commandWithDefaults = Object.assign({}, defaultOptions, registeredCommand);
-      for (const validator of validators) {
-        await validator(commandWithDefaults);
-      }
-      await provider.action.call(undefined, commandWithDefaults, ...options);
+      await Promise.all(validators.map((validator) => validator(commandWithDefaults)));
+      const action = await provider.loadAction();
+      const callable = isModuleWrappedAction(action) ? action.default : action;
+      await callable.call(undefined, commandWithDefaults, ...options);
     } catch (error) {
       fatalError(error.message);
     }
@@ -121,15 +127,6 @@ const registerWithProviders = async (
  * in `package.json` and `.diezrc` files.
  */
 export const bootstrap = async (rootPackageName = global.process.cwd(), bootstrapRoot?: string) => {
-  try {
-    const {version: latestVersion} = await packageJson('@diez/cli-core');
-    if (semver.gt(latestVersion as string, diezVersion)) {
-      warning('You are using an out-of-date version of Diez. Please upgrade to the latest version!');
-    }
-  } catch (_) {
-    warning('Unable to check if Diez is up to date. Are you connected to the Internet?');
-  }
-
   const plugins = await findPlugins(rootPackageName, bootstrapRoot);
   const registeredCommands = new Map<string, ValidatedCommand>();
   const deferredExtensions: CliCommandExtension[] = [];

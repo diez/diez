@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "dist",
-    "baseUrl": "./packages/cli"
+    "baseUrl": "./packages/cli",
+    "composite": false,
+    "incremental": false
   },
   "include": [
     "scripts/**/*.ts",

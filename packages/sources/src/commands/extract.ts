@@ -1,10 +1,9 @@
 import {CliCommandProvider} from '@diez/cli-core';
-import {syncAction as action} from './extract.action';
 
 const provider: CliCommandProvider = {
-  action,
   name: 'extract',
   description: 'Extract from designs into a Diez project.',
+  loadAction: () => import('./extract.action'),
   options: [
     {
       longName: 'hot',

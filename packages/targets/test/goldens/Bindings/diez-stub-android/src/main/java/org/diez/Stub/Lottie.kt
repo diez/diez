@@ -35,4 +35,6 @@ data class Lottie(
     val file: File,
     val loop: Boolean,
     val autoplay: Boolean
-)
+) {
+    companion object {}
+}

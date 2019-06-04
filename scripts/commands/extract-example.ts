@@ -55,7 +55,7 @@ const removeGitIgnoredFiles = async (directory: string) => {
 export = {
   name: 'extract-example',
   description: 'Extracts templatized target examples from the lorem-ipsum example.',
-  action: async () => {
+  loadAction: () => async () => {
     const loremIpsumRoot = join(root, 'examples', 'lorem-ipsum');
     const exampleLocation = join(loremIpsumRoot, 'examples');
     if (!existsSync(exampleLocation)) {

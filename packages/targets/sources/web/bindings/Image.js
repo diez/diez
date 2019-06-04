@@ -3,7 +3,7 @@ Object.defineProperties(Image.prototype, {
     get () {
       switch (Math.ceil(window.devicePixelRatio)) {
         case 1:
-          return this.file1x.url;
+          return this.file.url;
         case 2:
           return this.file2x.url;
         case 3:

@@ -13,7 +13,12 @@ data class {{{componentName}}}(
 data class {{{componentName}}}(
     val nonce: String = ""
 {{/if}}
-){{#if public}} : StateBag {
+{{#if public}}) : StateBag {
+    companion object {}
     override val name = "{{{componentName}}}"
+}
+{{else}}
+) {
+    companion object {}
 }
 {{/if}}

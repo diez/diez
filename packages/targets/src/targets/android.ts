@@ -1,9 +1,10 @@
 import {CompilerTargetProvider} from '@diez/compiler';
+import {Target} from '@diez/engine';
 import {androidHandler as handler} from './android.handler';
 
 const target: CompilerTargetProvider = {
   handler,
-  name: 'android',
+  name: Target.Android,
 };
 
 export = target;

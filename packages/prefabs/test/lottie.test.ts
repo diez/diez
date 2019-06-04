@@ -5,6 +5,6 @@ describe('lottie', () => {
     const src = 'lottie.json';
     const image = Lottie.fromJson(src);
     expect(image.file.src).toBe(src);
-    expect(image.serialize()).toEqual({file: {src}, loop: true, autoplay: true});
+    expect(image.serialize()).toEqual({file: {src, type: 'raw'}, loop: true, autoplay: true});
   });
 });

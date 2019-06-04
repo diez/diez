@@ -1,6 +1,6 @@
 import {each} from 'async';
 import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
-import {existsSync, readFileSync} from 'fs';
+import {existsSync, readFileSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {dirname, join} from 'path';
@@ -179,4 +179,16 @@ export const canRunCommand = async (command: string) => {
   } catch (_) {
     return false;
   }
+};
+
+/**
+ * Exit trap for shutting down handles and preventing process leaks in Node.
+ */
+
+export const exitTrap = (cleanup: () => void) => {
+  global.process.once('exit', cleanup);
+  global.process.once('SIGINT', cleanup);
+  global.process.once('SIGHUP', cleanup);
+  global.process.once('SIGQUIT', cleanup);
+  global.process.once('SIGTSTP', cleanup);
 };

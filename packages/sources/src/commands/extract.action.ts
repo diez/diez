@@ -1,29 +1,15 @@
-import {findPlugins, info, warning} from '@diez/cli-core';
+import {exitTrap, findPlugins, info, socketTrap, warning} from '@diez/cli-core';
+import {getHotPort} from '@diez/compiler';
 import {queue} from 'async';
 import {watch} from 'chokidar';
-import {ensureDirSync, readdirSync} from 'fs-extra';
+import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 'fs-extra';
+import {createServer, Socket} from 'net';
 import {join, resolve} from 'path';
-import {ExporterInput} from '../api';
+import {DesignSources, ExporterInput} from '../api';
 import {performExtraction} from '../exporters';
-
-interface DesignSources {
-  sources: string;
-  assets: string;
-  code: string;
-  services: string[];
-}
 
 interface SyncOptions {
   hot?: boolean;
-}
-
-declare module '@diez/cli-core/types/api' {
-  /**
-   * Extends FullDiezConfiguration for the sync mechanism.
-   */
-  export interface FullDiezConfiguration {
-    designs: Partial<DesignSources>;
-  }
 }
 
 const defaultConfiguration: DesignSources = {
@@ -33,9 +19,12 @@ const defaultConfiguration: DesignSources = {
   services: [],
 };
 
-const syncQueue = queue<ExporterInput>(async (input, callback) => {
+const syncQueue = queue<ExporterInput & {sockets: Iterable<Socket>}>(async (input, callback) => {
   try {
     await performExtraction(input, global.process.cwd());
+    for (const socket of input.sockets) {
+      socket.write(JSON.stringify({event: 'reload'}));
+    }
   } catch (error) {
     warning(error);
   } finally {
@@ -43,11 +32,7 @@ const syncQueue = queue<ExporterInput>(async (input, callback) => {
   }
 });
 
-/**
- * The entry point for syncing.
- * @ignore
- */
-export const syncAction = async ({hot}: SyncOptions) => {
+export = async ({hot}: SyncOptions) => {
   const rawConfiguration = (await findPlugins()).get('.');
   const configuration: DesignSources = {
     ...defaultConfiguration,
@@ -81,26 +66,52 @@ export const syncAction = async ({hot}: SyncOptions) => {
   }));
 
   if (hot) {
-    info(`Watching ${configuration.sources} for changes…`);
+    const hotMutex = join(global.process.cwd(), '.diez', 'extract-port');
+    if (existsSync(hotMutex)) {
+      throw new Error(
+        `Found existing hot extraction mutex at ${hotMutex}. If this is an error, please manually remove the file.`,
+      );
+    }
+
+    const sockets: Socket[] = [];
+
     const watcher = watch(configuration.sources, {
       persistent: true,
       ignoreInitial: true,
     });
 
-    watcher.on('add', async (source) => {
+    info(`Watching ${configuration.sources} for changes…`);
+
+    watcher.on('all', (eventName, source) => {
+      if (eventName !== 'add' && eventName !== 'change') {
+        return;
+      }
+
       syncQueue.push({
+        sockets,
         source,
         assets: configuration.assets,
         code: configuration.code,
       });
     });
 
-    watcher.on('change', async (source) => {
-      syncQueue.push({
-        source,
-        assets: configuration.assets,
-        code: configuration.code,
+    const port = await getHotPort();
+    const server = createServer((socket) => {
+      socketTrap(socket);
+      sockets.push(socket);
+    });
+
+    server.listen(port, '0.0.0.0', () => {
+      exitTrap(() => {
+        removeSync(hotMutex);
+        server.close();
+        for (const socket of sockets) {
+          socket.destroy();
+        }
+        process.exit(0);
       });
+      writeFileSync(hotMutex, port);
+      info(`Serving hot assets on port ${port}.`);
     });
   }
 };

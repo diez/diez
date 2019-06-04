@@ -10,6 +10,6 @@ extension Haiku {
     }
 
     var file: File {
-      return File(src: "haiku/\(component).html")
+      return File(src: "haiku/\(component).html", type: "raw")
     }
 }

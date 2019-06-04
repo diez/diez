@@ -1,19 +1,11 @@
 import {execAsync} from '@diez/cli-core';
-import {pascalCase} from '@diez/generation';
+import {AssetFolder, pascalCase} from '@diez/generation';
 import {pathExists, writeFile} from 'fs-extra';
 import {basename, extname, join, resolve} from 'path';
 import {Exporter, ExporterFactory, ExporterInput} from '../api';
 import {cliReporters, createFolders, generateRandomFilePath} from '../utils';
 
 const illustratorExtension = '.ai';
-
-const enum ValidType {
-  Artboard,
-}
-
-const folders = new Map<ValidType, string>([
-  [ValidType.Artboard, 'artboards'],
-]);
 
 /**
  * This template script runs inside Illustrator and perform the export of the
@@ -114,9 +106,9 @@ class IllustratorExporterImplementation implements Exporter {
     const out = join(assets, `${assetName}.contents`);
 
     reporters.progress('Creating necessary folders.');
-    await createFolders(out, folders);
+    await createFolders(out, [AssetFolder.Artboard]);
     const exportScriptPath = generateRandomFilePath('jsx');
-    const outdir = join(out, folders.get(ValidType.Artboard)!);
+    const outdir = join(out, AssetFolder.Artboard);
     const exportScriptContents = generateScript(outdir, source);
     reporters.progress('Running export script.');
     await writeFile(exportScriptPath, exportScriptContents);

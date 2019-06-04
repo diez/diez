@@ -1,7 +1,7 @@
-import {Component, property} from '@diez/engine';
+import {Component, property, Target} from '@diez/engine';
 
 export class Filtered extends Component {
-  @property({targets: ['not-test']}) excludeMe = false;
+  @property({targets: ['not-test' as Target]}) excludeMe = false;
   @property includeMe = true;
-  @property({targets: ['test']}) includeUs = [true, true, true];
+  @property({targets: ['test' as Target]}) includeUs = [true, true, true];
 }

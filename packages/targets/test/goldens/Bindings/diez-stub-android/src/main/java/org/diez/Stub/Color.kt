@@ -19,4 +19,6 @@ data class Color(
     val s: Float,
     val l: Float,
     val a: Float
-)
+) {
+    companion object {}
+}

@@ -1,6 +1,7 @@
-import {Image} from '@diez/prefabs';
+import {File, Image} from '@diez/prefabs';
 import {join} from 'path';
 import {AndroidBinding} from '../../targets/android.api';
+import {portAssetBindingToResource} from '../../targets/android.handler';
 import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<Image> = {
@@ -12,6 +13,23 @@ const binding: AndroidBinding<Image> = {
       source: 'com.github.bumptech.glide:glide',
     },
   }],
+  assetsBinder: async (instance, {hot}, output, spec) => {
+    // We do not need to bind image resources in hot mode.
+    if (hot) {
+      return;
+    }
+
+    const densityMap = new Map<string, File>([
+      ['mdpi', instance.file],
+      ['xhdpi', instance.file2x],
+      ['xxhdpi', instance.file3x],
+      ['xxxhdpi', instance.file4x],
+    ]);
+
+    for (const [density, file] of densityMap) {
+      portAssetBindingToResource(file, output, `drawable-${density}`, instance.file);
+    }
+  },
 };
 
 export = binding;

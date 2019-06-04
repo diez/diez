@@ -1,16 +1,16 @@
 /* tslint:disable:max-line-length */
-import {info, warning} from '@diez/cli-core';
+import {exitTrap, info, warning} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import noCase from 'no-case';
 import {dirname, join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Type, TypeChecker} from 'ts-morph';
+import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, SourceFile, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
 import {v4} from 'uuid';
 import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {getBinding, getHotPort, getNodeModulesSource, getProject, loadComponentModule, purgeRequireCache} from './utils';
+import {getBinding, getHotPort, getProject, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
@@ -134,11 +134,9 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * Processes a component type and attaches it to a preconstructed target component map.
    *
-   * @param type - The type to process.
-   *
    * @returns `true` if we were able to process the type as a component.
    */
-  private processType (type: Type) {
+  private processType (type: Type, sourceMap: Map<string, string>) {
     const typeSymbol = type.getSymbol();
     if (!type.isObject() || !typeSymbol) {
       return false;
@@ -179,6 +177,7 @@ export class Program extends EventEmitter implements CompilerProgram {
       warnings: {
         ambiguousTypes: new Set(),
       },
+      source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
     };
 
     for (const typeMember of typeSymbol.getMembers()) {
@@ -227,7 +226,7 @@ export class Program extends EventEmitter implements CompilerProgram {
         continue;
       }
 
-      if (!this.processType(propertyType)) {
+      if (!this.processType(propertyType, sourceMap)) {
         continue;
       }
 
@@ -241,13 +240,30 @@ export class Program extends EventEmitter implements CompilerProgram {
       });
     }
 
-    const sourceFile = typeValue.getSourceFile();
-    if (sourceFile.isInNodeModules()) {
-      newTarget.source = getNodeModulesSource(sourceFile.getFilePath());
-    }
-
     this.targetComponents.set(componentName, newTarget);
     return true;
+  }
+
+  private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
+    if (!sourceFile.compilerNode.resolvedModules) {
+      return;
+    }
+
+    for (const resolvedModule of sourceFile.compilerNode.resolvedModules.values()) {
+      if (!resolvedModule) {
+        continue;
+      }
+
+      sourceMap.set(
+        resolvedModule.resolvedFileName,
+        (resolvedModule.isExternalLibraryImport && resolvedModule.packageId) ? resolvedModule.packageId.name : '.',
+      );
+
+      this.locateSources(
+        this.project.getSourceFileOrThrow(resolvedModule.resolvedFileName),
+        sourceMap,
+      );
+    }
   }
 
   /**
@@ -266,10 +282,12 @@ export class Program extends EventEmitter implements CompilerProgram {
     }
 
     const sourceFile = this.project.getSourceFileOrThrow(join(this.projectRoot, 'src', 'index.ts'));
+    const sourceMap = new Map<string, string>();
+    this.locateSources(sourceFile, sourceMap);
     for (const exportedDeclarations of sourceFile.getExportedDeclarations().values()) {
       for (const exportDeclaration of exportedDeclarations) {
         const type = this.checker.getTypeAtLocation(exportDeclaration);
-        if (this.processType(type)) {
+        if (this.processType(type, sourceMap)) {
           this.localComponentNames.push(type.getSymbolOrThrow().getName());
         }
       }
@@ -554,14 +572,10 @@ export abstract class TargetCompiler<
 
       const propertyComponent = this.program.targetComponents.get(property.type)!;
       const propertyBinding = await getBinding<BindingType>(
-        this.program.options.target, propertyComponent.source || '.', property.type);
+        this.program.options.target, propertyComponent.source, property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
-          try {
-            await propertyBinding.assetsBinder(instance, this.program.projectRoot, this.output, componentSpec);
-          } catch (error) {
-            warning(error);
-          }
+          await propertyBinding.assetsBinder(instance, this.program, this.output, componentSpec);
         }
       }
 
@@ -660,12 +674,8 @@ export abstract class TargetCompiler<
       throw new Error(`Found existing hot URL at ${this.hotUrlMutex}. If this is an error, please manually remove the file.`);
     }
 
+    exitTrap(() => this.cleanupHotUrlMutex());
     writeFileSync(this.hotUrlMutex, `http://${hostname}:${devPort}`);
-    global.process.once('exit', this.cleanupHotUrlMutex);
-    global.process.once('SIGINT', this.cleanupHotUrlMutex);
-    global.process.once('SIGHUP', this.cleanupHotUrlMutex);
-    global.process.once('SIGQUIT', this.cleanupHotUrlMutex);
-    global.process.once('SIGTSTP', this.cleanupHotUrlMutex);
   }
 
   /**
@@ -675,7 +685,12 @@ export abstract class TargetCompiler<
   async start () {
     await this.validateOptions();
     if (this.program.hot) {
-      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname(), this.buildHot()]);
+      if (!await this.buildHot()) {
+        // TODO: make this retry without throwing.
+        throw new Error('Unable to perform initial build.');
+      }
+
+      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
       this.writeHotUrlMutex(hostname, devPort);
       serveHot(
         this.program,
@@ -683,7 +698,6 @@ export abstract class TargetCompiler<
         devPort,
         this.hotStaticRoot,
       );
-
       // Important: only handle one Compiled event at a time to prevent races.
       this.program.on(CompilerEvent.Compiled, async () => {
         await this.buildHot();
@@ -700,7 +714,14 @@ export abstract class TargetCompiler<
    */
   private async buildHot () {
     this.output = this.createOutput(this.output.sdkRoot, this.output.projectName);
-    await this.run();
+    try {
+      await this.run();
+    } catch (error) {
+      warning('Unable to compile.');
+      warning(error);
+      return false;
+    }
+
     for (const {binding} of this.output.processedComponents.values()) {
       if (binding) {
         this.mergeBindingToOutput(binding as BindingType);
@@ -708,6 +729,7 @@ export abstract class TargetCompiler<
     }
     await this.writeAssets();
     copySync(this.program.emitRoot, this.program.hotRoot);
+    return true;
   }
 
   /**
