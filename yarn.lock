@@ -847,18 +847,6 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
-"@haiku/core@^4.3.11":
-  version "4.5.2"
-  resolved "https://reservoir.haiku.ai:8910/@haiku%2fcore/-/core-4.5.2.tgz#0c054a1cb8bb26ecfebf7f0adafae194093d3c9a"
-  integrity sha512-C1dFZcv2lBieVgfXM89D/BrKwBvWieYZzEL7BF3Xn9PDwMty1EjihiyZ2M+bORpSZ2ipcweg0gULb9Fz6UQqbQ==
-
-"@haiku/taylor-testthang@0.0.2", "@haiku/taylor-testthang@^0.0.2":
-  version "0.0.2"
-  resolved "https://reservoir.haiku.ai:8910/@haiku%2ftaylor-testthang/-/taylor-testthang-0.0.2.tgz#d782705cb598ae72cf770fd55e340c1d4b56465b"
-  integrity sha512-8tj6d9i1dHzgP6DsKcF9NGFZFd7NP2/9e8NLpLD0+/vWnaELgdB30Pl/es9aTHh0OUlg2/dXEcqT4E3aeIuVZw==
-  dependencies:
-    "@haiku/core" "^4.3.11"
-
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"
@@ -5987,10 +5975,6 @@ dezalgo@^1.0.0:
     wrappy "1"
 
 "diez-lorem-ipsum@link:examples/lorem-ipsum/build/diez-lorem-ipsum-web":
-  version "0.0.0"
-  uid ""
-
-"diez-playground@link:examples/playground/build/diez-playground-web":
   version "0.0.0"
   uid ""
 
@@ -15802,15 +15786,10 @@ vue-class-component@7.0.1:
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.0.1.tgz#7af2225c600667c7042b60712eefdf41dfc6de63"
   integrity sha512-YIihdl7YmceEOjSwcxLhCXCNA3TKC2FStuMcjtuzhUAgw5x5d1T5gZTmVQHGyOaQsaKffL4GlZzYN3dlMYl53w==
 
-vue-class-component@^6.0.0, vue-class-component@^6.2.0:
+vue-class-component@^6.2.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-6.3.2.tgz#e6037e84d1df2af3bde4f455e50ca1b9eec02be6"
   integrity sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==
-
-vue-class-component@^7.0.1:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.0.2.tgz#c5f35a91c0e9341532392b84d606a84911fb13bc"
-  integrity sha512-8xw/wkZI2tgHcwvkSRC1ax7GeP1CG27wKhedvOAdjdASm05VU4RijGsCYti6s6CzBioBL5BQUmntQQTCsp1wnQ==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
@@ -15877,13 +15856,6 @@ vue-property-decorator@^7.3.0:
   dependencies:
     vue-class-component "^6.2.0"
 
-vue-property-decorator@^8.0.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.1.0.tgz#66493a5350e7f643e852e7698ec2c883554daa79"
-  integrity sha512-TUWpbadApSW/sx9hlbrUq092ULm4E3RkL5X4fFhkiJ88/Y99lVubjh3bd3VbFQ8JRlKaTeqMOKaFHQRzWBCFPg==
-  dependencies:
-    vue-class-component "^7.0.1"
-
 vue-router@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
@@ -15911,7 +15883,7 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.5.21, vue-template-compiler@^2.6.10:
+vue-template-compiler@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.10.tgz#323b4f3495f04faa3503337a82f5d6507799c9cc"
   integrity sha512-jVZkw4/I/HT5ZMvRnhv78okGusqe0+qH2A0Em0Cp8aq78+NK9TII263CDVz2QXZsIT+yyV/gZc/j/vlwa+Epyg==
@@ -15924,7 +15896,7 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.10, vue@^2.6.6:
+vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
