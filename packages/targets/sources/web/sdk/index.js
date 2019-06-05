@@ -1,5 +1,11 @@
+if (typeof process === 'undefined' || !process) {
+  process = {env: {}};
+} else if (!process.env) {
+  process.env = {};
+}
+
 const Environment = {
-  serverUrl: process.env.DIEZ_SERVER_URL,
+  serverUrl: process.env.DIEZ_SERVER_URL || '/diez',
   isHot: process.env.DIEZ_IS_HOT,
 };
 

@@ -13,9 +13,6 @@ module.exports = function override(config, env) {
         from: join(__dirname, '..', 'build', 'diez-poodle-surf-web', 'static'),
         to: join(__dirname, 'public', 'diez'),
       }]),
-      new DefinePlugin({
-        'process.env.DIEZ_SERVER_URL': JSON.stringify('/diez'),
-      }),
       new WriteFileWebpackPlugin(),
     );
 
