@@ -1,10 +1,8 @@
 import {Component, property} from '@diez/engine';
-import {Color, FontRegistry, Haiku, Image, IOSFonts, Lottie, Typograph, Vector} from '@diez/prefabs';
+import {Color, FontRegistry, Image, IOSFonts, Lottie, Typograph} from '@diez/prefabs';
 
 export class Bindings extends Component {
   @property image = Image.responsive('assets/image with spaces.jpg', 246, 246);
-
-  @property svg = new Vector({src: 'assets/image.svg'});
 
   @property lottie = Lottie.fromJson('assets/lottie.json');
 
@@ -16,9 +14,5 @@ export class Bindings extends Component {
     fontName: IOSFonts.Helvetica,
     fontSize: 50,
     color: Color.hex('#ff0'),
-  });
-
-  @property haiku = new Haiku({
-    component: 'haiku-component',
   });
 }

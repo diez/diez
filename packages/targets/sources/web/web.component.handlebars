@@ -23,7 +23,7 @@ class {{{componentName}}} {
     }
 
     {{#each properties}}
-    {{#if this.updateable}}
+    {{#if this.updatable}}
     {{!-- Note: we are forced to create a new object here due to a lack of reactive state. This should not be necessary. --}}
     this.{{{@key}}} = Object.assign(Object.create(Object.getPrototypeOf(this.{{{@key}}})), this.{{{@key}}}.update(payload.{{{@key}}}));
     {{else}}

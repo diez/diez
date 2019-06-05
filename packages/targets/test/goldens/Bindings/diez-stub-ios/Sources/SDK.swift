@@ -1,29 +1,27 @@
 import Foundation
 import UIKit
-import WebKit
 import Lottie
-import UIKit.UIView
 
 extension Bundle {
     static let diezResources = Bundle(url: Bundle.diez.resourceURL!.appendingPathComponent("Static.bundle"))
 }
 
+@objc(DEZFile)
 public final class File: NSObject, Decodable {
-    public internal(set) var src: String
-    public internal(set) var type: String
+    @objc public internal(set) var src: String
+    @objc public internal(set) var type: String
 
     private enum CodingKeys: String, CodingKey {
         case src
         case type
     }
 
-
     init(
         src: String,
         type: String
     ) {
         self.src = src
-        self.type = src
+        self.type = type
     }
 }
 
@@ -230,102 +228,6 @@ extension Image {
     }
 }
 
-@objc(DEZVector)
-public final class Vector: NSObject, Decodable {
-    @objc public internal(set) var src: String
-
-    private enum CodingKeys: String, CodingKey {
-        case src
-    }
-
-    init(
-        src: String
-    ) {
-        self.src = src
-    }
-}
-
-extension Vector: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &src, forKey: .src)
-    }
-}
-
-extension Vector: ReflectedCustomStringConvertible {
-    public override var description: String {
-        return reflectedDescription
-    }
-}
-
-extension Vector {
-    /**
-     The `URL` of the resource, or `nil` if it could not be parsed.
-
-     - See: [File.url](x-source-tag://File.url)
-     */
-    @objc public var url: URL? {
-        return file.url
-    }
-
-    var file: File {
-      return File(src: "\(src).html", type: "raw")
-    }
-}
-
-/**
- A view responsible for rendering an Vector.
- */
-@objc(DEZVectorView)
-public final class VectorView: UIView {
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setup()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        setup()
-    }
-
-
-    /**
-     Loads the provided `Vector`.
-     */
-    @objc(loadVector:)
-    public func load(_ vector: Vector) {
-        // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
-        guard let request = vector.file.request else {
-            print("unable to load Vector URL")
-            return
-        }
-
-        // TODO: Warn user if NSAppTransportSecurity.NSAllowsLocalNetworking is not set to true in their Info.plist.
-
-        webView.scrollView.isScrollEnabled = false
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        webView.load(request)
-    }
-
-    private let webView = WKWebView()
-
-    private func setup() {
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(webView)
-        NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            webView.topAnchor.constraint(equalTo: topAnchor),
-            webView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-    }
-
-    public override class var requiresConstraintBasedLayout: Bool { return true }
-}
-
 @objc(DEZLottie)
 public final class Lottie: NSObject, Decodable {
     @objc public internal(set) var file: File
@@ -492,22 +394,38 @@ extension LOTAnimationView {
     }
 }
 
-// TODO: Make internal
+@objc(DEZFontRegistry)
 public final class FontRegistry: NSObject, Decodable {
-    var files: [File]
-    var registeredFiles: Set<File> = []
-
-    init(files: [File]) {
-        self.files = files
-        super.init()
-        self.registerFonts(with: files)
-    }
+    @objc public internal(set) var files: [File]
 
     private enum CodingKeys: String, CodingKey {
         case files
     }
 
-    private func registerFonts(with files: [File]) {
+    init(
+        files: [File]
+    ) {
+        self.files = files
+    }
+}
+
+extension FontRegistry: Updatable {
+    public func update(from decoder: Decoder) throws {
+        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
+        try container.update(value: &files, forKey: .files)
+    }
+}
+
+extension FontRegistry: ReflectedCustomStringConvertible {
+    public override var description: String {
+        return reflectedDescription
+    }
+}
+
+private var registeredFiles: Set<File> = []
+
+extension FontRegistry {
+    @objc public func registerFonts() {
         files.forEach { file in
             if registeredFiles.contains(file) {
                 return
@@ -525,15 +443,6 @@ public final class FontRegistry: NSObject, Decodable {
 
             CTFontManagerRegisterGraphicsFont(cgFont, nil)
         }
-    }
-}
-
-extension FontRegistry: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &files, forKey: .files)
-        // TODO: diff files, only register the new ones
-        self.registerFonts(with: files)
     }
 }
 
@@ -669,152 +578,37 @@ public extension UITextField {
     }
 }
 
-@objc(DEZHaiku)
-public final class Haiku: NSObject, Decodable {
-    @objc public internal(set) var component: String
-    @objc public internal(set) var loop: Bool
-    @objc public internal(set) var autoplay: Bool
-
-    private enum CodingKeys: String, CodingKey {
-        case component
-        case loop
-        case autoplay
-    }
-
-    init(
-        component: String,
-        loop: Bool,
-        autoplay: Bool
-    ) {
-        self.component = component
-        self.loop = loop
-        self.autoplay = autoplay
-    }
-}
-
-extension Haiku: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &component, forKey: .component)
-        try container.update(value: &loop, forKey: .loop)
-        try container.update(value: &autoplay, forKey: .autoplay)
-    }
-}
-
-extension Haiku: ReflectedCustomStringConvertible {
-    public override var description: String {
-        return reflectedDescription
-    }
-}
-
-// TODO: this should also accept options.
-extension Haiku {
-    /**
-     The `URL` of the resource, or `nil` if it could not be parsed.
-
-     - See: [File.url](x-source-tag://File.url)
-     */
-    @objc public var url: URL? {
-        return file.url
-    }
-
-    var file: File {
-      return File(src: "haiku/\(component).html", type: "raw")
-    }
-}
-
-/**
- A view responsible for rendering a Haiku animation.
- */
-@objc(DEZHaikuView)
-public final class HaikuView: UIView {
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setup()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        setup()
-    }
-
-    /**
-     Loads the provided `Haiku`.
-     */
-    @objc(loadHaiku:)
-    public func load(_ haiku: Haiku) {
-        // TODO: Add a parameter that allows a fade in animated and add a description of the parameter to doc comment.
-        guard let request = haiku.file.request else {
-            return
-        }
-
-        // TODO: Warn user if NSAppTransportSecurity.NSAllowsLocalNetworking is not set to true in their Info.plist.
-
-        webView.scrollView.isScrollEnabled = false
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        webView.load(request)
-    }
-
-    private let webView = WKWebView()
-
-    private func setup() {
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(webView)
-        NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            webView.topAnchor.constraint(equalTo: topAnchor),
-            webView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-    }
-
-    public override class var requiresConstraintBasedLayout: Bool { return true }
-}
-
 @objc(DEZBindings)
 public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var image: Image
-    @objc public internal(set) var svg: Vector
     @objc public internal(set) var lottie: Lottie
     @objc public internal(set) var fontRegistry: FontRegistry
     @objc public internal(set) var typograph: Typograph
-    @objc public internal(set) var haiku: Haiku
 
     private enum CodingKeys: String, CodingKey {
         case image
-        case svg
         case lottie
         case fontRegistry
         case typograph
-        case haiku
     }
 
     public override init() {
         image = Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), width: 246, height: 246)
-        svg = Vector(src: "assets/image.svg")
         lottie = Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true)
         fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf", type: "font")])
         typograph = Typograph(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
-        haiku = Haiku(component: "haiku-component", loop: true, autoplay: true)
     }
 
     init(
         image: Image,
-        svg: Vector,
         lottie: Lottie,
         fontRegistry: FontRegistry,
-        typograph: Typograph,
-        haiku: Haiku
+        typograph: Typograph
     ) {
         self.image = image
-        self.svg = svg
         self.lottie = lottie
         self.fontRegistry = fontRegistry
         self.typograph = typograph
-        self.haiku = haiku
     }
 
     public static let name = "Bindings"
@@ -824,11 +618,9 @@ extension Bindings: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(updatable: &image, forKey: .image)
-        try container.update(updatable: &svg, forKey: .svg)
         try container.update(updatable: &lottie, forKey: .lottie)
         try container.update(updatable: &fontRegistry, forKey: .fontRegistry)
         try container.update(updatable: &typograph, forKey: .typograph)
-        try container.update(updatable: &haiku, forKey: .haiku)
     }
 }
 

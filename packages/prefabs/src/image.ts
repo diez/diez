@@ -60,7 +60,7 @@ export class Image extends Component<ImageState> {
 
   @property file2x = new File({type: FileType.Image});
 
-  @property({targets: [Target.Ios, Target.Android]}) file3x = new File({type: FileType.Image});
+  @property file3x = new File({type: FileType.Image});
 
   @property({targets: [Target.Android]}) file4x = new File({type: FileType.Image});
 
@@ -76,29 +76,6 @@ export class Image extends Component<ImageState> {
       ...super.serialize(),
       width: Math.round(this.width),
       height: Math.round(this.height),
-    };
-  }
-}
-
-/**
- * Vector state.
- * @ignore
- */
-export interface VectorState {
-  src: string;
-}
-
-/**
- * Provides an abstraction for SVG vector images. With bindings, this component can embed SVGs in multiple platforms.
- *
- * @noinheritdoc
- */
-export class Vector extends Component<Vector> {
-  @property src = '';
-
-  serialize () {
-    return {
-      src: encodeURI(this.src),
     };
   }
 }

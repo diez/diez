@@ -86,7 +86,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     return {
       type: `${reference.type}[]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      updateable: reference.updateable,
+      updatable: false,
     };
   }
 
@@ -111,7 +111,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         return {
           type: 'string',
           initializer: `"${instance}"`,
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
@@ -119,13 +119,13 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         return {
           type: 'number',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'boolean',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       default:
         warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
@@ -234,11 +234,6 @@ new Diez(${component}).attach((component) => {
     const componentTemplate = readFileSync(join(coreWeb, 'web.component.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'web.declaration.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
-      if (binding && binding.skipGeneration) {
-        this.mergeBindingToOutput(binding);
-        continue;
-      }
-
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
         if (singletons.has(property.type)) {

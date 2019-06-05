@@ -243,7 +243,7 @@ export enum CompilerEvent {
  */
 export interface TargetComponentProperty {
   type: PropertyType;
-  updateable: boolean;
+  updatable: boolean;
   initializer: string;
 }
 
@@ -296,6 +296,5 @@ export interface TargetBinding<
   OutputType = TargetOutput,
 > {
   sources: string[];
-  skipGeneration?: boolean;
   assetsBinder?: AssetBinder<T, OutputType>;
 }

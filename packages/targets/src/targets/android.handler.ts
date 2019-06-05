@@ -135,7 +135,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
     return {
       type: `Array<${reference.type}>`,
       initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
-      updateable: reference.updateable,
+      updatable: reference.updatable,
     };
   }
 
@@ -160,26 +160,26 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
         return {
           type: 'String',
           initializer: `"${instance}"`,
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
         return {
           type: 'Float',
           initializer: `${instance.toString()}F`,
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Int:
         return {
           type: 'Int',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'Boolean',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       default:
         warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
@@ -316,9 +316,6 @@ class MainActivity … {
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       if (binding) {
         this.mergeBindingToOutput(binding);
-        if (binding.skipGeneration) {
-          continue;
-        }
       }
 
       // For each singleton, replace it with its simple constructor.

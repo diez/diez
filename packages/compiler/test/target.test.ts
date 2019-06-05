@@ -24,8 +24,8 @@ describe('target compiler', () => {
 
     // The excluded property is not included in the ledger spec.
     expect(ledger.spec.properties).toEqual({
-      includeMe: {initializer: 'true', type: PrimitiveType.Boolean, updateable: false},
-      includeUs: {initializer: '[true, true, true]', type: `Array<${PrimitiveType.Boolean}>`, updateable: false},
+      includeMe: {initializer: 'true', type: PrimitiveType.Boolean, updatable: false},
+      includeUs: {initializer: '[true, true, true]', type: `Array<${PrimitiveType.Boolean}>`, updatable: false},
     });
   });
 });

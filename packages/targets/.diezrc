@@ -25,11 +25,6 @@
       "android": "./lib/bindings/FontRegistry/android",
       "web": "./lib/bindings/FontRegistry/web"
     },
-    "@diez/prefabs:Haiku": {
-      "ios": "./lib/bindings/Haiku/ios",
-      "android": "./lib/bindings/Haiku/android",
-      "web": "./lib/bindings/Haiku/web"
-    },
     "@diez/prefabs:Image": {
       "ios": "./lib/bindings/Image/ios",
       "android": "./lib/bindings/Image/android",
@@ -39,11 +34,6 @@
       "ios": "./lib/bindings/Lottie/ios",
       "android": "./lib/bindings/Lottie/android",
       "web": "./lib/bindings/Lottie/web"
-    },
-    "@diez/prefabs:Vector": {
-      "ios": "./lib/bindings/Vector/ios",
-      "android": "./lib/bindings/Vector/android",
-      "web": "./lib/bindings/Vector/web"
     },
     "@diez/prefabs:Typograph": {
       "ios": "./lib/bindings/Typograph/ios",

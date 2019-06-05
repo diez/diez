@@ -1,1 +1,3 @@
-export declare class FontRegistry {}
+export declare class FontRegistry {
+  registerFonts (): void;
+}

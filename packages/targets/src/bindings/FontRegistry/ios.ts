@@ -6,7 +6,6 @@ import {sourcesPath} from '../../utils';
 const binding: IosBinding<FontRegistry> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'FontRegistry.swift')],
   imports: ['UIKit'],
-  skipGeneration: true,
 };
 
 export = binding;

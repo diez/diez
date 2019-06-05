@@ -581,7 +581,7 @@ export abstract class TargetCompiler<
 
       return {
         type: componentSpec.componentName,
-        updateable: true,
+        updatable: true,
         initializer: this.getInitializer(componentSpec),
       };
     }

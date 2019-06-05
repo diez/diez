@@ -39,7 +39,7 @@ export interface IosBinding<T extends Component = Component> extends TargetBindi
  */
 export interface IosComponentProperty {
   type: PropertyType;
-  updateable: boolean;
+  updatable: boolean;
   initializer: string;
 }
 

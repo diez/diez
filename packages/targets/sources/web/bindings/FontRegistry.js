@@ -6,50 +6,30 @@ const FontFormats = {
   svg: 'svg',
 };
 
-class FontRegistry {
-
-  constructor ({files} = {files: []}) {
+FontRegistry.prototype.registerFonts = function () {
+  if (!this.styleSheet || !this.cache) {
     const styleEl = document.createElement('style');
     document.head.appendChild(styleEl);
-    this.styleSheet = styleEl.sheet;
-    this.files = files;
+    this.styleSheet = styleEl.sheet; // @internal
     this.cache = new Set(); // @internal
-    this.registerFonts(); // @internal
   }
 
-  update (payload) {
-    if (!payload) {
-      return this;
+  for (const file of this.files) {
+    if (this.cache.has(file.src)) {
+      continue;
     }
 
-    if (payload.files !== undefined) {
-      this.files = payload.files;
+    const parsedFile = file.src.split('/').pop();
+    if (parsedFile) {
+      const [name, format] = parsedFile.split('.');
+      const rule = `
+        @font-face {
+          font-family: '${name}';
+          src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
+        }`;
+
+      this.styleSheet.insertRule(rule);
     }
-
-    this.registerFonts();
-
-    return this;
+    this.cache.add(file.src);
   }
-
-  // @internal
-  registerFonts () {
-    for (const file of this.files) {
-      if (this.cache.has(file.src)) {
-        continue;
-      }
-
-      const parsedFile = file.src.split('/').pop();
-      if (parsedFile) {
-        const [name, format] = parsedFile.split('.');
-        const rule = `
-          @font-face {
-            font-family: '${name}';
-            src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
-          }`;
-
-        this.styleSheet.insertRule(rule);
-      }
-      this.cache.add(file.src);
-    }
-  }
-}
+};

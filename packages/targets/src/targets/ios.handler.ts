@@ -124,7 +124,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
     return {
       type: `[${reference.type}]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      updateable: reference.updateable,
+      updatable: false,
     };
   }
 
@@ -152,26 +152,26 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
         return {
           type: 'String',
           initializer: `"${instance}"`,
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Float:
       case PrimitiveType.Number:
         return {
           type: 'CGFloat',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Int:
         return {
           type: 'Int',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'Bool',
           initializer: instance.toString(),
-          updateable: false,
+          updatable: false,
         };
       default:
         warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
@@ -322,11 +322,6 @@ class ViewController: UIViewController {
 
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
-      if (binding && binding.skipGeneration) {
-        this.mergeBindingToOutput(binding);
-        continue;
-      }
-
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
         if (singletons.has(property.type)) {

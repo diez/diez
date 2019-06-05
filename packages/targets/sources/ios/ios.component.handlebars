@@ -45,7 +45,7 @@ extension {{{componentName}}}: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         {{#each properties}}
-          {{#if this.updateable}}
+          {{#if this.updatable}}
         try container.update(updatable: &{{@key}}, forKey: .{{@key}})
           {{else}}
         try container.update(value: &{{@key}}, forKey: .{{@key}})

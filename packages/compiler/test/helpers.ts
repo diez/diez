@@ -79,7 +79,7 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
     return {
       type: `Array<${properties[0].type}>`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      updateable: properties[0].updateable,
+      updatable: properties[0].updatable,
     };
   }
 
@@ -96,7 +96,7 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
     return {
       type,
       initializer: instance.toString(),
-      updateable: false,
+      updatable: false,
     };
   }
 

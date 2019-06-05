@@ -7,7 +7,6 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<File> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'File.kt')],
-  skipGeneration: true,
   assetsBinder: async (instance, program, output, spec) => {
     // Do the work of the file asset binder, mainly to benefit from its validations.
     await fileAssetBinder(instance, program, output, spec);

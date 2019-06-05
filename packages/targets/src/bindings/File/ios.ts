@@ -10,7 +10,6 @@ const binding: IosBinding<File> = {
     join(sourcesPath, 'ios', 'bindings', 'Bundle+File.swift'),
   ],
   imports: ['Foundation'],
-  skipGeneration: true,
   assetsBinder: fileAssetBinder,
 };
 

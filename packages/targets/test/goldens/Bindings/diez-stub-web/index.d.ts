@@ -1,14 +1,8 @@
-import {ComponentFactory} from '@haiku/core/lib/HaikuContext';
-
 export declare class File {
   url: string;
 }
 
 export declare class Image {
-  url: string;
-}
-
-export declare class Vector {
   url: string;
 }
 
@@ -27,7 +21,9 @@ declare global {
   }
 }
 
-export declare class FontRegistry {}
+export declare class FontRegistry {
+  registerFonts (): void;
+}
 
 export declare class Color {
   toString(): string;
@@ -49,17 +45,10 @@ declare global {
   }
 }
 
-export declare class HaikuComponent {
-  adapter: ComponentFactory;
-  mount(ref: any): void;
-}
-
 export declare class Bindings extends StateBag {
   image: Image;
-  svg: Vector;
   lottie: Lottie;
   fontRegistry: FontRegistry;
   typograph: Typograph;
-  haiku: HaikuComponent;
 }
 

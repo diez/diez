@@ -5,7 +5,6 @@ import {BoundComponent} from './Bindings';
 
 const binding: TargetBinding<BoundComponent> = {
   sources: ['bound-source'],
-  skipGeneration: true,
   assetsBinder: async (_, __, output) => {
     output.assetBindings.set('foo', {contents: 'bar'});
     const copiedFile = getTempFileName();

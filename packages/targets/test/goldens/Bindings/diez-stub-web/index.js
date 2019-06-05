@@ -6,8 +6,12 @@ const Environment = {
 module.exports = {};
 
 class File {
-  constructor ({src}) {
+  constructor({
+    src,
+    type
+  }) {
     this.src = src;
+    this.type = type;
   }
 
   update (payload) {
@@ -16,10 +20,14 @@ class File {
     }
 
     this.src = payload.src;
+    this.type = payload.type;
 
     return this;
   }
 }
+
+
+module.exports.File = File;
 
 Object.defineProperties(File.prototype, {
   url: {
@@ -29,17 +37,17 @@ Object.defineProperties(File.prototype, {
   },
 });
 
-module.exports.File = File;
-
 class Image {
   constructor({
     file,
     file2x,
+    file3x,
     width,
     height
   }) {
     this.file = file;
     this.file2x = file2x;
+    this.file3x = file3x;
     this.width = width;
     this.height = height;
   }
@@ -51,6 +59,7 @@ class Image {
 
     this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
     this.file2x = Object.assign(Object.create(Object.getPrototypeOf(this.file2x)), this.file2x.update(payload.file2x));
+    this.file3x = Object.assign(Object.create(Object.getPrototypeOf(this.file3x)), this.file3x.update(payload.file3x));
     this.width = payload.width;
     this.height = payload.height;
 
@@ -74,40 +83,6 @@ Object.defineProperties(Image.prototype, {
         default:
           return this.file2x.url;
       }
-    },
-  },
-});
-
-class Vector {
-  constructor({
-    src
-  }) {
-    this.src = src;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.src = payload.src;
-
-    return this;
-  }
-}
-
-
-module.exports.Vector = Vector;
-
-Object.defineProperties(Vector.prototype, {
-  file: {
-    get () {
-      return new File({src: this.src});
-    },
-  },
-  url: {
-    get () {
-      return this.file.url;
     },
   },
 });
@@ -164,6 +139,27 @@ diezHTMLExtensions.push(() => {
   };
 });
 
+class FontRegistry {
+  constructor({
+    files
+  }) {
+    this.files = files;
+  }
+
+  update (payload) {
+    if (!payload) {
+      return this;
+    }
+
+    this.files = payload.files;
+
+    return this;
+  }
+}
+
+
+module.exports.FontRegistry = FontRegistry;
+
 const FontFormats = {
   eot: 'embedded-opentype',
   woff: 'woff',
@@ -172,53 +168,33 @@ const FontFormats = {
   svg: 'svg',
 };
 
-class FontRegistry {
-
-  constructor ({files} = {files: []}) {
+FontRegistry.prototype.registerFonts = function () {
+  if (!this.styleSheet || !this.cache) {
     const styleEl = document.createElement('style');
     document.head.appendChild(styleEl);
-    this.styleSheet = styleEl.sheet;
-    this.files = files;
+    this.styleSheet = styleEl.sheet; // @internal
     this.cache = new Set(); // @internal
-    this.registerFonts(); // @internal
   }
 
-  update (payload) {
-    if (!payload) {
-      return this;
+  for (const file of this.files) {
+    if (this.cache.has(file.src)) {
+      continue;
     }
 
-    if (payload.files !== undefined) {
-      this.files = payload.files;
+    const parsedFile = file.src.split('/').pop();
+    if (parsedFile) {
+      const [name, format] = parsedFile.split('.');
+      const rule = `
+        @font-face {
+          font-family: '${name}';
+          src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
+        }`;
+
+      this.styleSheet.insertRule(rule);
     }
-
-    this.registerFonts();
-
-    return this;
+    this.cache.add(file.src);
   }
-
-  // @internal
-  registerFonts () {
-    for (const file of this.files) {
-      if (this.cache.has(file.src)) {
-        continue;
-      }
-
-      const parsedFile = file.src.split('/').pop();
-      if (parsedFile) {
-        const [name, format] = parsedFile.split('.');
-        const rule = `
-          @font-face {
-            font-family: '${name}';
-            src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
-          }`;
-
-        this.styleSheet.insertRule(rule);
-      }
-      this.cache.add(file.src);
-    }
-  }
-}
+};
 
 class Color {
   constructor({
@@ -306,39 +282,12 @@ diezHTMLExtensions.push(() => {
   };
 });
 
-class HaikuComponent {
-  constructor () {
-    try {
-      this.adapter = require('haiku-component');
-    } catch (_) {
-      console.error('Unable to load component: haiku-component.');
-    }
-  }
-
-  mount(ref) {
-    if (this.adapter) {
-      return this.adapter(ref, {
-        loop: true,
-        autoplay: true
-      });
-    }
-  }
-
-  update (payload) {
-    // Noop.
-  }
-}
-
-module.exports.HaikuComponent = HaikuComponent;
-
 class Bindings {
   constructor () {
-    this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), width: 246, height: 246});
-    this.svg = new Vector({src: "assets/image.svg"});
+    this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg", type: "image"}), width: 246, height: 246});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json", type: "raw"}), loop: true, autoplay: true});
     this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf", type: "font"})]});
     this.typograph = new Typograph({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
-    this.haiku = new HaikuComponent({});
   }
 
   update (payload) {
@@ -347,11 +296,9 @@ class Bindings {
     }
 
     this.image = Object.assign(Object.create(Object.getPrototypeOf(this.image)), this.image.update(payload.image));
-    this.svg = Object.assign(Object.create(Object.getPrototypeOf(this.svg)), this.svg.update(payload.svg));
     this.lottie = Object.assign(Object.create(Object.getPrototypeOf(this.lottie)), this.lottie.update(payload.lottie));
     this.fontRegistry = Object.assign(Object.create(Object.getPrototypeOf(this.fontRegistry)), this.fontRegistry.update(payload.fontRegistry));
     this.typograph = Object.assign(Object.create(Object.getPrototypeOf(this.typograph)), this.typograph.update(payload.typograph));
-    this.haiku = Object.assign(Object.create(Object.getPrototypeOf(this.haiku)), this.haiku.update(payload.haiku));
 
     return this;
   }

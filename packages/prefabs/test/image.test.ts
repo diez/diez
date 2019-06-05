@@ -1,4 +1,4 @@
-import {Image, Vector} from '../src/image';
+import {Image} from '../src/image';
 
 describe('image', () => {
   test('basic functionality', () => {
@@ -11,14 +11,5 @@ describe('image', () => {
       width: 640,
       height: 480,
     });
-  });
-});
-
-describe('vector', () => {
-  test('basic functionality', () => {
-    const src = 'blah.svg';
-    const image = new Vector({src});
-    expect(image.src).toBe(src);
-    expect(image.serialize()).toEqual({src});
   });
 });

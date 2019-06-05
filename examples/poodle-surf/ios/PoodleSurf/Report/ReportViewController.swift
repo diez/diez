@@ -31,6 +31,7 @@ class ReportViewController: UIViewController {
     }
 
     private func apply(_ system: DesignSystem) {
+        system.fontRegistry.registerFonts()
         UIView.animate(withDuration: 0.5) {
             defer {
                 self.view.layoutSubviews()
