@@ -4,7 +4,7 @@
   "version": "10.0.0-alpha.0",
   "private": true,
   "scripts": {
-    "build-ios": "diez compile -t ios --cocoapods",
+    "build-ios": "diez compile -t ios --cocoapods --carthage",
     "build-ios-ci": "./scripts/build-ios-ci.sh",
     "run-ios": "yarn build-ios && diez hot -t ios",
     "build-android": "diez compile -t android",

@@ -1,16 +1,18 @@
 #!/bin/bash
 set -e
 
-yarn diez compile -t ios --cocoapods
+yarn diez compile -t ios --cocoapods --carthage
 
-build () {
-  pushd $1
-    pod install
+# Build the CocoaPods project
+pushd ios
+  pod install
+  xcodebuild -workspace PoodleSurf.xcworkspace -scheme PoodleSurf -sdk iphonesimulator | xcpretty
+  test ${PIPESTATUS[0]} -eq 0
+popd
 
-    xcodebuild -workspace $2.xcworkspace -scheme $2 -sdk iphonesimulator | xcpretty -t
-    test ${PIPESTATUS[0]} -eq 0
-  popd
-}
-
-build ios PoodleSurf
-build ios-objc PoodleSurfObjC
+# Build the Carthage project
+exec ./scripts/carthage-install.sh
+pushd ios-objc
+  xcodebuild -project PoodleSurfObjC.xcodeproj -scheme PoodleSurfObjC -sdk iphonesimulator | xcpretty
+  test ${PIPESTATUS[0]} -eq 0
+popd

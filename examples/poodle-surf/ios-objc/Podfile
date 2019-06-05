@@ -1,9 +1,0 @@
-platform :ios, '12.2'
-
-target 'PoodleSurfObjC' do
-  use_frameworks!
-
-  pod 'DiezPoodleSurf', :path => '../build/diez-poodle-surf-ios'
-
-  pod 'lottie-ios', '2.5.2'
-end

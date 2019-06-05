@@ -1,4 +1,5 @@
-*/ios/Cartfile
-*/ios/Cartfile.resolved
+*/ios*/Carthage
+*/ios*/Cartfile
+*/ios*/Cartfile.resolved
 */web/public/diez/
 .idea
