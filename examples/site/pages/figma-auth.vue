@@ -12,22 +12,18 @@
 <script lang="ts">
 import NavBar from '@/components/NavBar.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
-
 @Component({
   components: {NavBar},
 })
 export default class FigmaAuth extends Vue {
-
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_shared.scss';
-
   h1 {
     text-align: center;
   }
-
   .content-holster {
     display: flex;
     min-height: calc(100vh - 100px);

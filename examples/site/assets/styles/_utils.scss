@@ -61,6 +61,12 @@ $source-code-pro: "Source Code Pro", monospace;
   }
 }
 
+@mixin hide-mobile {
+  @include tablet {
+    display: none;
+  }
+}
+
 @mixin font-family ($family) {
   font-family: nth($family, 2);
 

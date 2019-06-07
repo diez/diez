@@ -1,19 +1,23 @@
 import fontLoader from './helpers/font-loader';
 
+const siteTitle = 'Diez - Cross-platform design system framework for native iOS, Android, and Web';
+const siteDesc = 'Diez makes it easy to adopt a unified design language across codebases, platforms, and teams.';
+
 export default {
-  env: {
-    docsURL: '/_api',
+  generate: {
+    routes: ['404'],
   },
   head: {
-    title: 'Diez - The cross-platform design system compiler',
+    title: siteTitle,
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'Diez enables you to use a single design system to power your native iOS, Android, and web codebases.',
-      },
+      {hid: 'description', name: 'description', content: siteDesc},
+      {hid: 'og:image', property: 'og:image', content: 'http://diez.org/og.jpg'},
+      {hid: 'og:title', property: 'og:title', content: siteTitle},
+      {hid: 'og:description', property: 'og:description', content: siteDesc},
+      {hid: 'og:url', property: 'og:url', content: 'http://diez.org/'},
+      {hid: 'twitter:card', property: 'twitter:card', content: 'summary_large_image'},
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
@@ -42,34 +46,6 @@ export default {
   ],
   optimizedImages: {
     optimizeImages: true,
-  },
-  router: {
-    extendRoutes (routes, resolve) {
-      routes.push({
-        name: 'docs-*',
-        path: '/docs/:version/*',
-        component: resolve(__dirname, 'pages/docs.vue'),
-      });
-    },
-  },
-  hooks: {
-    generate: {
-      page (page) {
-        const highlight = require('highlight.js');
-        const {Examples} = require('./assets/examples');
-        const position = page.html.indexOf('</body>');
-        let out = '';
-
-        if (Examples[page.route]) {
-          Object.keys(Examples[page.route]).forEach((example) => {
-            const h = highlight.highlight(example, Examples[page.route][example]);
-            out += `<script type="text/template" id="${example}">${h.value}</script>`;
-          });
-
-          page.html = page.html.substring(0, position) + out + page.html.substring(position);
-        }
-      },
-    },
   },
   loading: {
     color: '#5623EE',

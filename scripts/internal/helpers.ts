@@ -10,6 +10,11 @@ import {join} from 'path';
 export const root = global.process.cwd();
 
 /**
+ * The root of the site.
+ */
+export const siteRoot = join(root, 'examples', 'site');
+
+/**
  * The current version of the package.
  */
 export const currentVersion = require(join(root, 'packages', 'engine', 'package.json')).version;

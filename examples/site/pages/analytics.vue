@@ -38,30 +38,26 @@
 <script lang="ts">
 import NavBar from '@/components/NavBar.vue';
 import {Component, Vue} from 'nuxt-property-decorator';
-
 @Component({
   components: {NavBar},
 })
 export default class Analytics extends Vue {
-
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_utils.scss';
-
+  @import '@/assets/styles/_shared.scss';
   section {
     margin-top: $sizingXS !important;
     @include tablet {
       margin-top: 0 !important;
     }
   }
-
   h2 {
     margin-top: 0;
     margin-bottom: 0;
   }
-
   .block {
     margin-bottom: $spacing3XL;
   }
@@ -77,5 +73,4 @@ export default class Analytics extends Vue {
       display: none;
     }
   }
-
 </style>

@@ -5,14 +5,14 @@
     </div>
     <div class="nav" :class="{'hide' : isOpen}">
       <div class="holster">
-      <NuxtLink to="/" class="logo" @click.native="scrollToSelector('body')">
+        <NuxtLink to="/" class="logo" @click.native="scrollToSelector('body')">
           Diez
           <img width="34" src="@/assets/imgs/logo.svg"/>
         </NuxtLink>
         <div class="holster-right">
           <a href="https://github.com/diez/diez">Github</a>
           <NuxtLink to="/docs">Docs</NuxtLink>
-          <NuxtLink to="/#faq" @click.native="scrollToSelector('#faq')" >FAQ</NuxtLink>
+          <NuxtLink to="/faq">FAQ</NuxtLink>
           <NuxtLink to="/glossary">Glossary</NuxtLink>
           <a href="https://spectrum.chat/diez">Spectrum</a>
           <NuxtLink to="/getting-started" class="button hide-on-mobile">Get Started</NuxtLink>
@@ -30,21 +30,17 @@
 
 <script lang="ts">
 import {Component, Vue} from 'nuxt-property-decorator';
-
 @Component
 export default class NavBar extends Vue {
   private isOpen = true;
-
   scrollToSelector (selector: string) {
     const el = document.querySelector(selector) as HTMLElement;
-
     if (el) {
       window.scrollTo({
         top: el.offsetTop,
       });
     }
   }
-
   toggleMenu () {
     this.isOpen = !this.isOpen;
   }
@@ -53,11 +49,9 @@ export default class NavBar extends Vue {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_utils.scss';
-
   .navbar {
     @include navfont();
   }
-
   .nav {
     position: fixed;
     top: 0;
@@ -72,13 +66,11 @@ export default class NavBar extends Vue {
       bottom: 0;
     }
   }
-
   .hide {
     @include tablet {
       display: none;
     }
   }
-
   .holster {
     max-width: $page-width;
     margin: 0 auto;
@@ -91,23 +83,20 @@ export default class NavBar extends Vue {
       height: 100%;
     }
   }
-
   .logo {
     @include font-family ($source-code-pro);
     font-weight: 900;
     font-size: 30px;
     display: flex;
-    padding-left: 0;
+    padding-left: 0 !important;
     align-items: center;
     @include tablet {
       display: none;
     }
   }
-
   a {
     @include link();
   }
-
   a:not(.button) {
     padding: 0 $spacingLG;
     color: $black;
@@ -116,30 +105,25 @@ export default class NavBar extends Vue {
       font-size: 26px;
     }
   }
-
   .button {
     @include button();
     margin-left: $spacingLG;
   }
-
   .show-on-mobile {
     display: none;
     @include tablet {
       display: inline-block;
     }
   }
-
   .hide-on-mobile {
     @include tablet {
       display: none;
     }
   }
-
   img {
     margin-left: 10px;
     margin-top: 1px;
   }
-
   .holster-right {
     display: flex;
     align-items: center;
@@ -149,7 +133,6 @@ export default class NavBar extends Vue {
       justify-content: space-evenly;
     }
   }
-
   .menu-icon {
     position: fixed;
     top: 20px;

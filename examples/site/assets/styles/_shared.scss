@@ -3,12 +3,16 @@
 
 html {
   opacity: 0;
+  transition: opacity 0.3s ease-in;
 
   &.fonts-loaded,
   &.fonts-failed {
     opacity: 1;
-    transition: opacity 0.3s ease-in;
   }
+}
+
+.underline {
+  text-decoration: underline;
 }
 
 .page, #faq {
@@ -41,7 +45,8 @@ p, li {
 h1 {
   font-size: 4rem;
   @include phone {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    padding: 0 $spacingLG;
   }
 }
 
@@ -66,6 +71,7 @@ h3 {
   @include phone {
     font-size: 1.7rem;
     line-height: 2.2rem;
+    padding: 0 $spacingLG;
   }
 }
 
@@ -112,14 +118,54 @@ button,
       height: 35px;
     }
   }
+  &.fourth {
+    @extend .third;
+    padding: $spacingMD;
+    font-size: 0.75em;
+    width: calc(25% - 24px);
+    img {
+      height: 2em;
+      width: 100%;
+      margin: $spacingXS 0;
+    }
+    @include tablet-large {
+      span {
+        display: none;
+      }
+    }
+  }
   &.extensible {
     background-color: $mauve;
     color: $white;
     box-shadow: 0 5px 0 $mauve700, inset 0 2px 0 $cardInsetShadow;
-    cursor: pointer;
+
     &:hover {
       text-decoration: none;
     }
+  }
+}
+
+
+.strike {
+  text-decoration: line-through wavy $purple;
+}
+
+.correction-container {
+  position: relative;
+  display: inline-block;
+  width: 1px;
+  overflow: visible;
+}
+
+
+.correction {
+  color: $purple;
+  font-size: .8em;
+  font-weight: bolder;
+  position: absolute;
+  transform: rotate(-6deg) translate(-64px, -60px);
+  @include tablet {
+    transform: rotate(-9deg) translate(-54px, -54px);
   }
 }
 
@@ -146,6 +192,12 @@ button,
   @include phone {
     font-size: 12px;
   }
+}
+
+.get-in-touch {
+  @include font-family($source-code-pro);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .hljs {

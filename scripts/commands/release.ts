@@ -2,7 +2,7 @@ import {diezVersion, fatalError} from '@diez/cli-core';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
 import {gte} from 'semver';
-import {root, run, runQuiet} from '../internal/helpers';
+import {root, run, runQuiet, siteRoot} from '../internal/helpers';
 
 export = {
   name: 'release [version]',
@@ -38,7 +38,6 @@ export = {
       fatalError('Generating docs produced an error. Please fix the issue and try again.');
     }
 
-    const siteRoot = join(root, 'examples', 'site');
     const versionsPath = join(siteRoot, 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {
@@ -46,7 +45,6 @@ export = {
     }
     versions.unshift({version, name: `latest (${version})`});
     writeJsonSync(versionsPath, versions, {spaces: 2});
-    run('yarn build', siteRoot);
 
     // Manually bump the monorepo package.json version of `diez`.
     const packageJsonPath = join(root, 'package.json');
@@ -58,8 +56,8 @@ export = {
 
     run(`aws s3 sync api s3://diez-docs/${version}`);
     run('aws s3 sync api s3://diez-docs/latest');
-    run('aws s3 sync dist s3://diez-www', siteRoot);
-    run(`aws cloudfront create-invalidation --distribution-id=${process.env.DIEZ_DISTRIBUTION} --paths "/*"`);
+
+    run('yarn release-site');
 
     // Create the release with Lerna.
     run(`yarn lerna publish ${version} --github-release --conventional-commits --yes`);

@@ -18,11 +18,19 @@
   max-width: $sizing2XL;
 }
 
+.github-container{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.github-logo {
+  width: 50px;
+}
+
 .section-split {
   @extend .section;
   display: flex;
   align-items: center;
-  min-height: 500px;
   flex-wrap: wrap;
   @include tablet {
     flex-direction: column;
@@ -32,6 +40,13 @@
 .center {
   text-align: center;
   margin: 0 auto;
+}
+
+.center-mobile-only {
+  @include tablet {
+    text-align: center;
+    margin: 0 auto;
+  }
 }
 
 .content-holster {
@@ -105,4 +120,8 @@
   @include tablet {
     order: 2;
   }
+}
+
+.align-top {
+  align-self: flex-start;
 }

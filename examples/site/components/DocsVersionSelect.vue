@@ -16,19 +16,15 @@
 <script lang="ts">
 import versionHistory from '@/data/diez-versions.json';
 import {Component, Vue} from 'nuxt-property-decorator';
-
 @Component
 export default class DocVersionSelect extends Vue {
   versionHistory = versionHistory;
-
   get currentVersion () {
     if (this.$route && this.$route.params && this.$route.params.version) {
       return this.$route.params.version;
     }
-
     return '';
   }
-
   versionChanged (event: any) {
     this.$router.push(`/docs/${event.target.value}/index.html`);
   }
