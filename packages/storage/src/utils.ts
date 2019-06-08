@@ -1,9 +1,10 @@
-import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
-import {walkSync} from 'fs-walk';
+import {copySync, ensureDirSync, readFileSync, readlinkSync, symlinkSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
+import {isBinarySync} from 'istextorbinary';
+import klaw from 'klaw';
 import nodeFetch from 'node-fetch';
 import {tmpdir} from 'os';
-import {join, relative, resolve} from 'path';
+import {dirname, join, relative} from 'path';
 import {v4} from 'uuid';
 
 /**
@@ -12,28 +13,41 @@ import {v4} from 'uuid';
  *
  * Files and filenames are both parsed and rewritten based on replacement tokens.
  */
-export const outputTemplatePackage = (
+export const outputTemplatePackage = async (
   templateRoot: string,
   outputRoot: string,
   tokens: any,
   blacklist: Set<string> = new Set(),
-) => {
-  walkSync(templateRoot, (basedir, filename, stats) => {
-    if (!stats.isFile() || blacklist.has(filename)) {
+) => new Promise<void>((resolve, reject) => klaw(templateRoot, {preserveSymlinks: true})
+  .on('data', ({stats, path: sourcePath}) => {
+    const relativeFilename = relative(templateRoot, sourcePath);
+    if ((!stats.isFile() && !stats.isSymbolicLink()) || blacklist.has(relativeFilename)) {
       return;
     }
 
     // Note: even the file and directory names can be tokenized.
-    const outputFilename = compile(filename)(tokens);
-    const outputDirectory = compile(resolve(outputRoot, relative(templateRoot, basedir)))(tokens);
+    const outputPath = join(outputRoot, compile(relativeFilename)(tokens));
+    ensureDirSync(dirname(outputPath));
 
-    ensureDirSync(outputDirectory);
+    // Preserve symbolic links.
+    if (stats.isSymbolicLink()) {
+      symlinkSync(
+        compile(readlinkSync(sourcePath))(tokens),
+        outputPath,
+      );
+      return;
+    }
+
+    if (isBinarySync(sourcePath)) {
+      copySync(sourcePath, outputPath);
+      return;
+    }
+
     writeFileSync(
-      join(outputDirectory, outputFilename),
-      compile(readFileSync(resolve(basedir, filename)).toString())(tokens),
+      outputPath,
+      compile(readFileSync(sourcePath).toString())(tokens),
     );
-  });
-};
+  }).on('end', resolve).on('error', reject));
 
 /**
  * Provides a unique temporary filename.

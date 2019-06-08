@@ -375,7 +375,7 @@ class ViewController: UIViewController {
 
     this.writeAssets();
 
-    outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens, this.blacklist);
+    await outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens, this.blacklist);
 
     // Always generate a project when the user has not opted in to CocoaPods support, or when the user has explicitly
     // opted in to Carthage support.

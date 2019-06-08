@@ -5,23 +5,66 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import enquirer from 'enquirer';
+import {kebabCase} from 'change-case';
+import {prompt} from 'enquirer';
 import {createProject} from '../utils';
 
 interface Answers {
   projectName: string;
+  createExamples: string;
 }
 
 export = async (_: {}, projectName: string) => {
-  if (projectName) {
-    createProject(projectName);
-    return;
+  // This array is typed as `any[]` because enquirer's TypeScript definitions aren't quite correct.
+  // @see {@link https://github.com/enquirer/enquirer/pull/82}
+  const questions: any[] = [];
+
+  if (!projectName) {
+    questions.push({
+      type: 'input',
+      name: 'projectName',
+      required: true,
+      message: 'Enter the name for your Diez (DS). A directory will be created if it does not already exist.',
+    });
   }
 
-  createProject((await enquirer.prompt<Answers>({
-    type: 'input',
-    name: 'projectName',
-    required: true,
-    message: 'Enter your project\'s name. Your project directory will be created if it does not already exist.',
-  })).projectName);
+  questions.push({
+    type: 'select',
+    name: 'createExamples',
+    message: 'Create example codebases for Android, iOS, and Web? Select with arrow keys and submit with Enter.',
+    choices: [
+      {message: 'Yes'},
+      {message: 'No'},
+      {message: 'Let me choose'},
+    ],
+  });
+
+  const answers = await prompt<Answers>(questions);
+  const examples = [];
+  switch (answers.createExamples) {
+    case 'Yes':
+      examples.push('android', 'ios', 'web');
+      break;
+    case 'No':
+      break;
+    default:
+      const choiceAnswers = await prompt<{createExamples: string[]}>({
+        type: 'multiselect',
+        name: 'createExamples',
+        message:
+          'Selected example codebases will be created. Select with arrow keys, toggle with space bar, and submit with Enter.',
+        choices: [
+          {name: 'Android'},
+          {name: 'iOS'},
+          {name: 'Web'},
+        ],
+      });
+      examples.push(...choiceAnswers.createExamples.map((choice) => choice.toLowerCase()));
+      break;
+  }
+
+  createProject(
+    kebabCase(projectName || answers.projectName),
+    examples,
+  );
 };

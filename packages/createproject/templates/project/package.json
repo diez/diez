@@ -2,6 +2,12 @@
   "name": "{{packageName}}",
   "main": "lib/index.js",
   "version": "1.0.0",
+  "scripts": {
+    {{#if android}}"build-android": "diez compile -t android",
+    {{/if}}{{#if ios}}"build-ios": "diez compile -t ios --cocoapods",
+    {{/if}}{{#if web}}"build-web": "diez compile -t web",
+    {{/if}}"extract": "diez extract"
+  },
   "dependencies": {
     "@diez/engine": "^{{diezVersion}}",
     "@diez/prefabs": "^{{diezVersion}}"

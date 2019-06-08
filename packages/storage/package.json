@@ -23,6 +23,7 @@
     "@diez/test-utils": "^10.0.0-alpha.0",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^24.0.11",
+    "@types/klaw": "^3.0.0",
     "@types/node-fetch": "^2.3.3",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
@@ -36,7 +37,8 @@
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
-    "fs-walk": "^0.0.2",
-    "handlebars": "^4.1.1"
+    "klaw": "^3.0.0",
+    "handlebars": "^4.1.1",
+    "istextorbinary": "^2.5.1"
   }
 }

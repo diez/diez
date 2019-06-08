@@ -1,11 +1,24 @@
-import {canRunCommand, devDependencies, diezVersion, execAsync, fatalError, warning} from '@diez/cli-core';
-import {downloadStream, outputTemplatePackage} from '@diez/storage';
+import {canRunCommand, devDependencies, diezVersion, execAsync, fatalError, info, inlineCodeSnippet, inlineComment, warning} from '@diez/cli-core';
+import {downloadStream, getTempFileName, outputTemplatePackage} from '@diez/storage';
+import {
+  camelCase,
+  constantCase,
+  dotCase,
+  headerCase,
+  kebabCase,
+  lowerCase,
+  noCase,
+  pascalCase,
+  snakeCase,
+  titleCase,
+} from 'change-case';
 import {spawnSync} from 'child_process';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
-import pascalCase from 'pascal-case';
 import {basename, join, resolve} from 'path';
 import {x} from 'tar';
 import validateNpmPackageName from 'validate-npm-package-name';
+
+const examplesBaseUrl = `https://examples.diez.org/${diezVersion}/createproject/`;
 
 /**
  * Validates that a package name is valid and nonconflicting.
@@ -97,7 +110,8 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
 };
 
 const downloadAssets = async (cwd: string) => {
-  const stream = await downloadStream('https://examples.diez.org/10.0.0-alpha.0/createproject/assets.tgz');
+  info('Downloading assets from the Diez CDN...');
+  const stream = await downloadStream(`${examplesBaseUrl}assets.tgz`);
   if (!stream) {
     throw new Error('Unable to download example assets from examples.diez.org. Please try again.');
   }
@@ -106,11 +120,66 @@ const downloadAssets = async (cwd: string) => {
   return;
 };
 
+const downloadAndExtractExample = async (templateRoot: string, target: string) => {
+  info(`Downloading example project from the Diez CDN for target: ${target}...`);
+  const stream = await downloadStream(`${examplesBaseUrl}examples/${target}.tgz`);
+  if (!stream) {
+    warning(`Unable to download ${target} example project from examples.diez.org. Please try again.`);
+    return;
+  }
+
+  const writeStream = x({cwd: templateRoot});
+  stream.pipe(writeStream);
+
+  return new Promise((onComplete) => writeStream.on('close', onComplete));
+};
+
+const populateExamples = async (cwd: string, name: string, targets: string[]) => {
+  if (targets.length === 0) {
+    return;
+  }
+
+  const templateRoot = resolve(getTempFileName(), 'examples');
+  ensureDirSync(templateRoot);
+
+  const downloads = targets.map((target) => downloadAndExtractExample(templateRoot, target));
+  await Promise.all(downloads);
+
+  const pascalCased = pascalCase(name);
+  const lowerCased = lowerCase(pascalCased);
+  const tokens = {
+    openTag: '{{',
+    closeTag: '}}',
+    namePascalCase: pascalCased,
+    nameLowerCase: lowerCased,
+    nameKebabCase: kebabCase(name),
+    nameCamelCase: camelCase(name),
+    nameTitleCase: titleCase(name),
+    nameNoCase: noCase(name),
+    nameSnakeCase: snakeCase(name),
+    nameConstantCase: constantCase(name),
+    nameHeaderCase: headerCase(name),
+    nameDotCase: dotCase(name),
+  };
+
+  const destination = join(cwd, 'examples');
+  ensureDirSync(destination);
+
+  return outputTemplatePackage(templateRoot, destination, tokens);
+};
+
+const copyTemplate = async (templateRoot: string, root: string, tokens: {}, useYarn: boolean) => {
+  info('Generating template project...');
+  await outputTemplatePackage(templateRoot, root, tokens);
+  info('Installing packages. This might take a couple of minutes.');
+  return execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
+};
+
 /**
  * Creates a project with the given name in the specified current working directory.
  * @ignore
  */
-export const createProject = async (packageName: string, cwd = process.cwd()) => {
+export const createProject = async (packageName: string, targets: string[], cwd = process.cwd()) => {
   validatePackageName(packageName);
 
   const useYarn = await shouldUseYarn();
@@ -123,15 +192,27 @@ export const createProject = async (packageName: string, cwd = process.cwd()) =>
     diezVersion,
     typescriptVersion: devDependencies.typescript,
     componentName: pascalCase(basename(packageName)),
+    ios: targets.includes('ios'),
+    android: targets.includes('android'),
+    web: targets.includes('web') || targets.length === 0,
   };
 
-  outputTemplatePackage(join(templateRoot, 'project'), root, tokens);
+  ensureDirSync(root);
+  await copyTemplate(join(templateRoot, 'project'), root, tokens, useYarn);
 
   const commands: Promise<any>[] = [
-    useYarn ? execAsync('yarn install', {cwd: root}) : execAsync('npm install', {cwd: root}),
     downloadAssets(root),
+    populateExamples(root, packageName, targets),
   ];
 
   await Promise.all(commands);
-  // TODO: print instructions.
+  info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.`);
+  info('In that directory, you can run commands like:');
+  for (const target of (targets.length ? targets : ['web'])) {
+    info(`
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} build-${target}`)}
+    Runs ${inlineComment(`diez compile --target ${target}`)} for your Diez.`);
+  }
+
+  info('\nCheck out https://beta.diez.org/getting-started to learn more.');
 };

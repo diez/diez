@@ -276,7 +276,7 @@ new Diez(${component}).attach((component) => {
     };
 
     this.writeAssets();
-    outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens);
+    return outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens);
   }
 }
 

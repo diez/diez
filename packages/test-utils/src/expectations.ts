@@ -1,10 +1,9 @@
 import {extend} from 'expect';
-import {existsSync, readFileSync} from 'fs-extra';
-import {walkSync} from 'fs-walk';
+import {existsSync, lstatSync, readdirSync, readFileSync, readlinkSync, Stats} from 'fs-extra';
 import jestDiff from 'jest-diff';
 import {join, relative, resolve} from 'path';
 
-const getDiff = (sourceFile: string, goldenFile: string): string | null => {
+const getDiff = (sourceFile: string, goldenFile: string, isSymbolicLink: boolean): string | null => {
   if (!existsSync(goldenFile)) {
     // This should never happen.
     return null;
@@ -14,8 +13,8 @@ const getDiff = (sourceFile: string, goldenFile: string): string | null => {
     return `${sourceFile} does not exist, but is required to match ${goldenFile}.`;
   }
 
-  const sourceContents = readFileSync(sourceFile).toString();
-  const goldenContents = readFileSync(goldenFile).toString();
+  const sourceContents = isSymbolicLink ? readlinkSync(sourceFile) : readFileSync(sourceFile).toString();
+  const goldenContents = isSymbolicLink ? readlinkSync(goldenFile) : readFileSync(goldenFile).toString();
   if (sourceContents === goldenContents) {
     return null;
   }
@@ -44,7 +43,7 @@ const toExist = (sourceFile: string) => {
  * Expectation that files have the same contents.
  */
 const toMatchFile = (sourceFile: string, goldenFile: string) => {
-  const diff = getDiff(sourceFile, goldenFile);
+  const diff = getDiff(sourceFile, goldenFile, false);
 
   if (diff) {
     return {
@@ -59,27 +58,42 @@ const toMatchFile = (sourceFile: string, goldenFile: string) => {
   };
 };
 
+const readDirectory = (directoryName: string, catalog: Map<string, Stats>) => {
+  for (const filename of readdirSync(directoryName)) {
+    const path = join(directoryName, filename);
+    if (catalog.has(path)) {
+      continue;
+    }
+    const stats = lstatSync(path);
+    catalog.set(path, stats);
+    if (stats.isDirectory()) {
+      readDirectory(path, catalog);
+    }
+  }
+};
+
 /**
  * Expectation that directories have the same contents.
  */
 const toMatchDirectory = (sourceDirectory: string, goldenDirectory: string, blacklist = new Set<string>()) => {
   const failures = new Map<string, string>();
-
-  walkSync(goldenDirectory, (basedir, filename, stats) => {
-    const relativePath = join(relative(goldenDirectory, basedir), filename);
-    if (!stats.isFile() || blacklist.has(relativePath)) {
-      return;
+  const catalog = new Map<string, Stats>();
+  readDirectory(goldenDirectory, catalog);
+  for (const [path, stats] of catalog) {
+    const relativePath = relative(goldenDirectory, path);
+    if ((!stats.isFile() && !stats.isSymbolicLink()) || blacklist.has(relativePath)) {
+      continue;
     }
 
-    const expectedSourceFile = resolve(sourceDirectory, relative(goldenDirectory, basedir), filename);
-    const diff = getDiff(expectedSourceFile, join(basedir, filename));
+    const expectedSourceFile = resolve(sourceDirectory, relativePath);
+    const diff = getDiff(expectedSourceFile, path, stats.isSymbolicLink());
     if (diff) {
       failures.set(
         relativePath,
         diff,
       );
     }
-  });
+  }
 
   if (failures.size === 0) {
     return {

@@ -24,7 +24,7 @@
     "@diez/storage": "^10.0.0-alpha.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
-    "pascal-case": "^2.0.1",
+    "change-case": "^3.1.0",
     "tar": "^4.4.8",
     "validate-npm-package-name": "^3.0.0"
   },

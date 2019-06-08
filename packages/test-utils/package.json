@@ -22,7 +22,6 @@
   "dependencies": {
     "expect": "^23.6.0",
     "fs-extra": "^7.0.1",
-    "fs-walk": "^0.0.2",
     "jest": "^24.7.1",
     "jest-diff": "^24.7.0",
     "stream-mock": "^1.2.0"

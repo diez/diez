@@ -38,6 +38,9 @@ export = {
       fatalError('Generating docs produced an error. Please fix the issue and try again.');
     }
 
+    // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.
+    run(`yarn extract-lorem-ipsum --currentVersion ${version}`);
+
     const versionsPath = join(siteRoot, 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {

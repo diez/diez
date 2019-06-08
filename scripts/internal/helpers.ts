@@ -48,13 +48,11 @@ If this is an error, please manually remove .watching from the monorepo root and
 /**
  * Replaces a list of patterns in a given string.
  */
-export const replaceOccurrencesInString = (contents: string, replacements: Map<string, string>) => {
-  let result = contents;
-  for (const [search, replace] of replacements) {
-    result = result.replace(new RegExp(search, 'g'), replace);
-  }
-  return result;
-};
+export const replaceOccurrencesInString = (contents: string, replacements: Map<string, string>) =>
+  contents.replace(
+    new RegExp(Array.from(replacements.keys()).join('|'), 'g'),
+    (match) => replacements.get(match)!,
+  );
 
 /**
  * Replaces a list of patterns in a given file.

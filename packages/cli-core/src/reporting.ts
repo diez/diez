@@ -34,9 +34,14 @@ export const warning = (message: string) => {
 };
 
 /**
- * Logs an inline code snippet.
+ * Returns an inline code snippet.
  */
 export const inlineCodeSnippet = (message: string) => chalk.green(message);
+
+/**
+ * Logs an inline comment.
+ */
+export const inlineComment = (message: string) => chalk.hex('#5623ee')(message);
 
 /**
  * Logs a code snippet.

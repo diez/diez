@@ -376,7 +376,7 @@ class MainActivity … {
     };
 
     this.writeAssets();
-    outputTemplatePackage(join(coreAndroid, 'sdk'), this.output.sdkRoot, tokens);
+    return outputTemplatePackage(join(coreAndroid, 'sdk'), this.output.sdkRoot, tokens);
   }
 }
 

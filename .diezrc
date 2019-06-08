@@ -4,7 +4,7 @@
       "./scripts/commands/build-examples",
       "./scripts/commands/create-example",
       "./scripts/commands/create-package",
-      "./scripts/commands/extract-example",
+      "./scripts/commands/extract-lorem-ipsum",
       "./scripts/commands/generate-docs",
       "./scripts/commands/health",
       "./scripts/commands/minify-sources",

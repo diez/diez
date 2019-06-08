@@ -11,7 +11,6 @@
 # production
 /build
 /dist
-/public/diez
 
 # misc
 .DS_Store
