@@ -1,24 +1,23 @@
 import {execAsync, isMacOS, warning} from '@diez/cli-core';
+import pascalCase from 'pascal-case';
 import {join} from 'path';
+import {GeneratedFont} from './api';
 import {getColorInitializer} from './color';
-
-interface DiezFont {
-  name: string;
-  style: string;
-  path: string;
-}
 
 interface FontLookup {
   name: string;
   style: string;
 }
 
-const fontCache = new Map<string, DiezFont>();
+const fontCache = new Map<string, GeneratedFont>();
 
 /**
  * Provides a best-effort lookup for a font in a given font family.
  */
-export const locateFont = async (fontFamily: string, lookup: Partial<FontLookup>): Promise<DiezFont | undefined> => {
+export const locateFont = async (
+  fontFamily: string,
+  lookup: Partial<FontLookup>,
+): Promise<GeneratedFont | undefined> => {
   const fontHash = `${fontFamily}|${lookup.name}|${lookup.style}`;
   if (fontCache.has(fontHash)) {
     return fontCache.get(fontHash);
@@ -27,10 +26,18 @@ export const locateFont = async (fontFamily: string, lookup: Partial<FontLookup>
   if (isMacOS()) {
     const candidates = JSON.parse(await execAsync(`./MacFonts '${fontFamily}'`, {
       cwd: join(__dirname, '..', 'tools', 'mac-fonts', 'bin'),
-    })) as DiezFont[];
+    })) as GeneratedFont[];
 
     if (!candidates.length) {
       return;
+    }
+
+    if (lookup.name) {
+      const match = candidates.find(({name}) => name === lookup.name);
+      if (match) {
+        fontCache.set(fontHash, match);
+        return match;
+      }
     }
 
     switch (lookup.style) {
@@ -62,10 +69,20 @@ export const locateFont = async (fontFamily: string, lookup: Partial<FontLookup>
  * Returns a color initializer based on primitive values.
  * @ignore
  */
-export const getTypographInitializer = (fontName: string, fontSize: number, colorCssValue?: string) => {
+export const getTypographInitializer = (
+  designSystemName: string,
+  candidateFont: GeneratedFont | undefined,
+  fontName: string,
+  fontSize: number,
+  colorCssValue?: string,
+) => {
+  const font = candidateFont ?
+    `${pascalCase(`${designSystemName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
+    `new Font({name: "${fontName}"})`;
+
   if (colorCssValue) {
-    return `new Typograph({color: ${getColorInitializer(colorCssValue)}, fontName: "${fontName}", fontSize: ${fontSize}})`;
+    return `new Typograph({color: ${getColorInitializer(colorCssValue)}, font: ${font}, fontSize: ${fontSize}})`;
   }
 
-  return `new Typograph({fontName: "${fontName}", fontSize: ${fontSize}})`;
+  return `new Typograph({font: ${font}, fontSize: ${fontSize}})`;
 };

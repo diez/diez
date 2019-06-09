@@ -1,5 +1,5 @@
 import {Component, property} from '@diez/engine';
-import {LoadingDesign, NavigationTitleDesign, palette, ReportDesign, typographs, fontRegistry} from './designs';
+import {LoadingDesign, NavigationTitleDesign, palette, ReportDesign, typographs} from './designs';
 
 class Designs extends Component {
   @property report = new ReportDesign();
@@ -12,7 +12,6 @@ class Designs extends Component {
  */
 export class DesignSystem extends Component {
   @property palette = palette;
-  @property fontRegistry = fontRegistry;
   @property typographs = typographs;
   @property designs = new Designs();
 }

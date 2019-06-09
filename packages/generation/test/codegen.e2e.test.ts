@@ -1,9 +1,37 @@
+import {mockCanRunCommand, mockCliCoreFactory, mockExec, registerExpectations} from '@diez/test-utils';
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
+
+import {dirname, join, resolve} from 'path';
+
+const ttfFont = resolve(__dirname, 'fixtures', 'fonts', 'font.ttf');
+const ttcFont = resolve(__dirname, 'fixtures', 'fonts', 'font.ttc');
+
+const mockGetFont = jest.fn();
+jest.doMock('fontkit', () => ({
+  openSync (filename: string) {
+    switch (filename) {
+      case ttfFont:
+        return {postscriptName: 'SomeFont-BoldItalic'};
+      case ttcFont:
+        class TrueTypeCollection {
+          getFont = mockGetFont;
+        }
+        return new TrueTypeCollection();
+      default:
+        throw new Error('Unexpected font filename.');
+    }
+  },
+}));
+
 import {getTempFileName} from '@diez/storage';
-import {registerExpectations} from '@diez/test-utils';
-import {copySync} from 'fs-extra';
-import {join, resolve} from 'path';
+import {copySync, writeFileSync} from 'fs-extra';
 import {AssetFolder} from '../src/api';
-import {codegenDesignSystem, createDesignSystemSpec, registerAsset} from '../src/utils';
+import {codegenDesignSystem, createDesignSystemSpec, registerAsset, registerFont} from '../src/utils';
+
+beforeAll(() => {
+  // Allow 1 minute per test.
+  jest.setTimeout(6e4);
+});
 
 registerExpectations();
 
@@ -18,8 +46,46 @@ describe('codegen.e2e', () => {
       projectRoot,
     );
 
-    spec.fontNames.add('SomeFont-BoldItalic');
-    spec.fontRegistry.add(resolve(__dirname, 'fixtures', 'fonts', 'font.ttf'));
+    await registerFont(
+      {
+        family: 'Some Font',
+        style: 'BoldItalic',
+        name: 'SomeFont-BoldItalic',
+        path: ttfFont,
+      },
+      spec.fonts,
+    );
+
+    const tryRegisterTtcFont = () => registerFont(
+      {
+        family: 'Some Font',
+        style: 'Extra Medium',
+        name: 'SomeFont-ExtraMedium',
+        path: ttcFont,
+      },
+      spec.fonts,
+    );
+
+    mockGetFont.mockImplementationOnce(() => null);
+    await expect(tryRegisterTtcFont()).rejects.toThrow();
+
+    mockGetFont.mockImplementation(() => true);
+    mockCanRunCommand.mockResolvedValueOnce(false);
+    await tryRegisterTtcFont();
+    expect(spec.fonts.get('SomeFont')!.get('ExtraMedium')!.path).toBeUndefined();
+
+    mockCanRunCommand.mockResolvedValue(true);
+    await tryRegisterTtcFont();
+    expect(spec.fonts.get('SomeFont')!.get('ExtraMedium')!.path).toBeUndefined();
+    await codegenDesignSystem(spec);
+
+    mockExec.mockImplementation((command: string) => {
+      const fontFile = command.split(' ')[1];
+      writeFileSync(join(dirname(fontFile), 'SomeFont-ExtraMedium.ttf'), 'Font collection content.');
+    });
+    await tryRegisterTtcFont();
+
+    expect(mockGetFont).toHaveBeenCalledWith('SomeFont-ExtraMedium');
 
     spec.typographs.push(
       {
@@ -64,7 +130,6 @@ describe('codegen.e2e', () => {
     );
 
     await codegenDesignSystem(spec);
-
     expect(projectRoot).toMatchDirectory(join(__dirname, 'goldens', 'codegennable'));
   });
 });

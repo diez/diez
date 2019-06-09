@@ -51,7 +51,7 @@ beforeEach(() => {
                   },
                   NSFont: {
                     attributes: {
-                      NSFontNameAttribute: 'Foobar-Italic',
+                      NSFontNameAttribute: 'Foobar-BoldItalic',
                       NSFontSizeAttribute: 20,
                     },
                     family: 'Foobar',
@@ -93,9 +93,10 @@ beforeEach(() => {
     }
 
     mockLocateFont.mockResolvedValue({
-      name: 'Foobar-Italic',
-      path: '/path/to/Foobar-Italic.ttf',
-      style: 'Italic',
+      name: 'Foobar-BoldItalic',
+      family: 'Foobar',
+      path: '/path/to/Foobar-BoldItalic.ttf',
+      style: 'Bold Italic',
     });
 
     return Promise.resolve('');
@@ -111,6 +112,9 @@ afterEach(() => {
   mockLocateFont.mockReset();
 });
 
+jest.mock('fontkit', () => ({
+  openSync: () => ({}),
+}));
 const sketch = SketchExporter.create();
 
 describe('Sketch', () => {
@@ -161,17 +165,16 @@ describe('Sketch', () => {
         colors: [{initializer: 'Color.rgba(255, 0, 0, 1)', name: 'Red'}],
         designSystemName: 'Test',
         filename: 'src/Test.sketch.ts',
-        fontNames: new Set(['Foobar-Italic']),
-        fontRegistry: new Set(['/path/to/Foobar-Italic.ttf']),
+        fonts: new Map([['Foobar', new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]])]]),
         projectRoot: '.',
         typographs: [
           {
-            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), fontName: "Foobar-Italic", fontSize: 20})',
+            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), font: TestFonts.Foobar.BoldItalic, fontSize: 20})',
             name: 'Heading 1',
           },
         ],
       });
-      expect(mockLocateFont).toHaveBeenCalledWith('Foobar', {name: 'Foobar-Italic'});
+      expect(mockLocateFont).toHaveBeenCalledWith('Foobar', {name: 'Foobar-BoldItalic'});
     });
 
     test('returns false if the file provided cannot be parsed by this module', async () => {

@@ -8,7 +8,11 @@ import {WebCompiler} from '../src/targets/web.handler';
 
 const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
 const fixturesRoot = join(__dirname, 'fixtures');
-const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
+
+/**
+ * The location of the stub project.
+ */
+export const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
 
 /**
  * The build output location for the stub project.

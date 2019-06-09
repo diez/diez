@@ -4,6 +4,11 @@
 export const mockExec = jest.fn();
 
 /**
+ * A mock singleton for `canRunCommand` in `@diez/cli-core`.
+ */
+export const mockCanRunCommand = jest.fn();
+
+/**
  * A mock singleton for `exitTrap` in `@diez/cli-core`.
  */
 export const mockExitTrap = jest.fn();
@@ -28,6 +33,7 @@ export const mockCliCoreFactory = () => ({
   execAsync: mockExec,
   exitTrap: mockExitTrap,
   socketTrap: mockSocketTrap,
+  canRunCommand: mockCanRunCommand,
   findOpenPort () {
     return Promise.resolve(9001);
   },

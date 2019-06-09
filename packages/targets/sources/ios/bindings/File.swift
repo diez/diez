@@ -37,26 +37,3 @@ extension File {
         return URLRequest(url: url)
     }
 }
-
-// MARK: File<Equatable>
-
-extension File {
-    public override func isEqual(_ other: Any?) -> Bool {
-        guard let other = other as? File else {
-            return false
-        }
-        // TODO: Update to also consider contents of the underlying file.
-        return src == other.src
-    }
-}
-
-// MARK: File<Hashable>
-
-extension File {
-    public override var hash: Int {
-        // TODO: Update to also consider contents of the underlying file.
-        var hasher = Hasher()
-        hasher.combine(src)
-        return hasher.finalize()
-    }
-}

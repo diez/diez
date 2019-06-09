@@ -22,7 +22,6 @@ class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}>
 
   render () {
     const {mocks, ds} = this.state;
-    ds.fontRegistry.registerFonts();
     return (
       <div>
         <Header ds={ds.designs.navigationTitle} />

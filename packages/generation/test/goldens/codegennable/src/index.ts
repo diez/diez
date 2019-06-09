@@ -1,4 +1,4 @@
-import { Color, File, FontRegistry, Image, Typograph } from "@diez/prefabs";
+import { Color, File, Font, Image, Typograph } from "@diez/prefabs";
 import { Component, property } from "@diez/engine";
 
 class MyDesignSystemPalette extends Component {
@@ -31,13 +31,14 @@ export class MyDesignSystemSlices {
     static Bazbat = Image.responsive("assets/blah/Bazbat.png", 320, 240);
 }
 
-export enum MyDesignSystemFonts {
-    SomeFontBoldItalic = "SomeFont-BoldItalic"
-}
+export const MyDesignSystemFonts = {
+    SomeFont: {
+        BoldItalic: Font.fromFile("assets/fonts/SomeFont-BoldItalic.ttf"),
+        ExtraMedium: Font.fromFile("assets/fonts/SomeFont-ExtraMedium.ttf")
+    }
+};
 
 export class MyDesignSystemDesignSystem extends Component {
-    @property
-    fonts = FontRegistry.fromFiles("assets/fonts/font.ttf");
     @property
     palette = new MyDesignSystemPalette();
     @property

@@ -3,7 +3,7 @@ import {EventEmitter} from 'events';
 
 beforeAll(() => {
   // Allow 1 minute per test.
-  jest.setTimeout(6e5);
+  jest.setTimeout(6e4);
 });
 
 jest.doMock('@diez/cli-core', mockCliCoreFactory);

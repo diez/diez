@@ -48,3 +48,29 @@ declare module 'webpack-hot-middleware/client' {
   export function subscribeAll(handler: (payload: any) => void): void;
   export function subscribe(handler: (payload: any) => void): void;
 }
+
+declare module 'fontkit' {
+  import {Stream} from 'stream';
+
+  type FontkitCodePoint = number;
+  type FontkitGlyph = {};
+
+  interface FontkitSubset {
+    includeGlyph(glyph: FontkitGlyph): void;
+    encodeStream(): Stream;
+  }
+
+  interface FontkitFont {
+    postscriptName: string;
+    createSubset(): FontkitSubset;
+    characterSet: Iterable<FontkitCodePoint>;
+    glyphForCodePoint(codePoint: FontkitCodePoint): FontkitGlyph;
+  }
+
+  interface FontkitFontCollection {
+    fonts: FontkitFont[];
+    getFont (name: string): FontkitFont | null;
+  }
+
+  export function openSync(filename: string): FontkitFont | FontkitFontCollection | null;
+}

@@ -26,11 +26,23 @@ export const info = (message: string) => {
   console.log(chalk.blue(message));
 };
 
+const warnings = new Set<string>();
+
 /**
  * Logs a warning message.
  */
 export const warning = (message: string) => {
+  warnings.add(message);
   console.log(chalk.yellow(message));
+};
+
+/**
+ * Logs a warning message.
+ */
+export const warningOnce = (message: string) => {
+  if (!warnings.has(message)) {
+    warning(message);
+  }
 };
 
 /**

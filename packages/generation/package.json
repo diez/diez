@@ -23,6 +23,7 @@
     "@diez/cli-core": "^10.0.0-alpha.0",
     "@diez/compiler": "^10.0.0-alpha.0",
     "color-string": "^1.5.3",
+    "fontkit": "^1.8.0",
     "fs-extra": "^7.0.1",
     "pascal-case": "^2.0.1",
     "ts-morph": "^2.3.0"

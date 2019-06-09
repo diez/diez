@@ -14,7 +14,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let designSystem = DesignSystem()
-        designSystem.typographs.fontRegistry.registerFonts()
 
         guard let view = self.view as? View else {
             fatalError("Unexpected view type: \(String(describing: self.view))")

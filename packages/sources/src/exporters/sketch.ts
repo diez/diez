@@ -9,6 +9,7 @@ import {
   locateFont,
   pascalCase,
   registerAsset,
+  registerFont,
 } from '@diez/generation';
 import {pathExists} from 'fs-extra';
 import {basename, extname, join, relative} from 'path';
@@ -183,17 +184,17 @@ class SketchExporterImplementation implements Exporter {
         {name: textStyle.NSFont.attributes.NSFontNameAttribute},
       );
       if (candidateFont) {
-        codegenSpec.fontRegistry.add(candidateFont.path);
+        await registerFont(candidateFont, codegenSpec.fonts);
       } else {
         warning(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
       }
 
-      const fontName = candidateFont ? candidateFont.name : textStyle.NSFont.attributes.NSFontNameAttribute;
-      codegenSpec.fontNames.add(fontName);
       codegenSpec.typographs.push({
         name,
         initializer: getTypographInitializer(
-          fontName,
+          codegenSpec.designSystemName,
+          candidateFont,
+          textStyle.NSFont.attributes.NSFontNameAttribute,
           fontSize,
           textStyle.MSAttributedStringColorAttribute ? textStyle.MSAttributedStringColorAttribute.value : undefined,
         ),

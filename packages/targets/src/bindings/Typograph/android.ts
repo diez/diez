@@ -6,7 +6,6 @@ import {sourcesPath} from '../../utils';
 const binding: AndroidBinding<Typograph> = {
   sources: [
     join(sourcesPath, 'android', 'bindings', 'Typograph.kt'),
-    join(sourcesPath, 'android', 'bindings', 'FontRegistry.kt'),
   ],
 };
 

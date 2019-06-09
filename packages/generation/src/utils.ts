@@ -1,9 +1,12 @@
+import {canRunCommand, execAsync, info, warningOnce} from '@diez/cli-core';
 import {getProject} from '@diez/compiler';
-import {copySync, ensureDirSync} from 'fs-extra';
+import {getTempFileName} from '@diez/storage';
+import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
+import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import pascalCase from 'pascal-case';
-import {basename, join, parse, relative} from 'path';
-import {VariableDeclarationKind} from 'ts-morph';
-import {AssetFolder, CodegenDesignSystem, GeneratedAsset, GeneratedAssets} from './api';
+import {basename, extname, join, parse, relative} from 'path';
+import {ObjectLiteralExpression, VariableDeclarationKind} from 'ts-morph';
+import {AssetFolder, CodegenDesignSystem, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -76,8 +79,7 @@ export const createDesignSystemSpec = (
   projectRoot,
   colors: [],
   typographs: [],
-  fontRegistry: new Set(),
-  fontNames: new Set(),
+  fonts: new Map(),
   assets: new Map(),
 });
 
@@ -92,6 +94,65 @@ export const registerAsset = (asset: GeneratedAsset, folder: AssetFolder, collec
   }
 
   collection.set(folder, new Map([[name, asset]]));
+};
+
+const isFontCollection = (candidate: FontkitFont | FontkitFontCollection | null):
+  candidate is FontkitFontCollection => candidate !== null && candidate.constructor.name === 'TrueTypeCollection';
+
+/**
+ * Returns a nullable path to TrueType (.ttf) or OpenType (.otf) font file given a path to a font resource
+ * containing a font definition for a provided font name.
+ *
+ * In case the font path provided is a collection (.ttc) font file, the method will attempt to use the Adobe Font
+ * Development Kit for OpenType tool for extracting TTC to TTF (`otc2otf`) in order to deliver usable font assets for
+ * all possible platforms.
+ */
+const getFontPath = async (path: string, fontName: string): Promise<string | undefined> => {
+  const fontResourceOrCollection = openSync(path);
+  if (!isFontCollection(fontResourceOrCollection)) {
+    return path;
+  }
+
+  const fontResource = fontResourceOrCollection.getFont(fontName);
+  if (fontResource === null) {
+    throw new Error(`The font collection at ${path} does not include a font named ${fontName}.`);
+  }
+
+  if (!await canRunCommand('which otc2otf')) {
+    warningOnce(`The Adobe Font Development Kit for OpenType is required to extract fonts from font collections.
+
+See installation instructions here: https://github.com/adobe-type-tools/afdko#installation.`);
+    warningOnce(`The font at ${path} cannot be used.`);
+    return undefined;
+  }
+
+  const workingDirectory = getTempFileName();
+  const ttcLocation = join(workingDirectory, basename(path));
+  ensureDirSync(workingDirectory);
+  copySync(path, ttcLocation);
+
+  info(`Extracting font ${fontName} from TrueType collection font at ${path}.`);
+  await execAsync(`otc2otf ${ttcLocation}`);
+  for (const filename of readdirSync(workingDirectory)) {
+    if (filename === `${fontName}.ttf` || filename === `${fontName}.otf`) {
+      return join(workingDirectory, filename);
+    }
+  }
+
+  return undefined;
+};
+
+/**
+ * Registers an asset belonging to a given asset folder in a collection.
+ */
+export const registerFont = async (font: GeneratedFont, collection: GeneratedFonts) => {
+  const family = pascalCase(font.family);
+  if (!collection.has(family)) {
+    collection.set(family, new Map());
+  }
+
+  collection.get(family)!.set(
+    pascalCase(font.style), {name: font.name, path: await getFontPath(font.path, font.name)});
 };
 
 /**
@@ -183,15 +244,40 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     }
   }
 
-  if (spec.fontNames.size) {
-    sourceFile.addEnum({
-      name: `${designSystemName}Fonts`,
+  if (spec.fonts.size) {
+    designSystemImports.add('Font');
+    const fontDirectory = join(assetsDirectory, 'fonts');
+    ensureDirSync(fontDirectory);
+    const fontsExpression = sourceFile.addVariableStatement({
+      declarationKind: VariableDeclarationKind.Const,
       isExported: true,
-      members: Array.from(spec.fontNames).sort().map((value) => ({
-        value,
-        name: pascalCase(value),
-      })),
-    });
+      declarations: [{
+        name: `${designSystemName}Fonts`,
+        initializer: '{}',
+      }],
+    }).getDeclarations()[0].getInitializer() as ObjectLiteralExpression;
+
+    for (const [family, styles] of spec.fonts) {
+      const familyExpression = fontsExpression.addPropertyAssignment({
+        name: family,
+        initializer: '{}',
+      }).getInitializer() as ObjectLiteralExpression;
+      for (const [style, {name, path}] of styles) {
+        if (!path) {
+          familyExpression.addPropertyAssignment({
+            name: style,
+            initializer: `new Font({name: "${name}"})`,
+          });
+          continue;
+        }
+        const destination = join(fontDirectory, `${name}${extname(path)}`);
+        copySync(path, destination);
+        familyExpression.addPropertyAssignment({
+          name: style,
+          initializer: `Font.fromFile("${relative(projectRoot, destination)}")`,
+        });
+      }
+    }
   }
 
   const componentName = `${designSystemName}DesignSystem`;
@@ -200,24 +286,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     name: componentName,
     extends: 'Component',
   });
-
-  if (spec.fontRegistry.size) {
-    designSystemImports.add('FontRegistry');
-    const fontDirectory = join(assetsDirectory, 'fonts');
-    ensureDirSync(fontDirectory);
-    const fontFiles: string[] = [];
-    for (const file of spec.fontRegistry) {
-      const destination = join(fontDirectory, basename(file));
-      copySync(file, destination);
-      fontFiles.push(relative(projectRoot, destination));
-    }
-
-    exportedClassDeclaration.addProperty({
-      name: 'fonts',
-      decorators: [{name: 'property'}],
-      initializer: `FontRegistry.fromFiles(${fontFiles.map((src) => `"${src}"`).join(', ')})`,
-    });
-  }
 
   if (spec.colors.length) {
     exportedClassDeclaration.addProperty({

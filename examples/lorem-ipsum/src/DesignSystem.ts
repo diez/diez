@@ -1,4 +1,4 @@
-import {Color, FontRegistry, Image, Lottie, Typograph} from '@diez/prefabs';
+import {Color, Image, Lottie, Typograph, Font} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Margin} from './components/Margin';
 
@@ -36,29 +36,28 @@ class Colors extends Component {
 const colors = new Colors();
 
 /**
- * All of rich language features of TypeScript are at your disposal; for example, you can use an
- * enum to keep track of your font names. `@diez/prefabs` already provides enums for the
- * built-in fonts for iOS and Android.
+ * All of rich language features of TypeScript are at your disposal; for example, you can define an
+ * object to keep track of your fonts.
  */
-enum FontNames {
-  SourceSansPro = 'SourceSansPro-Regular',
+const Fonts = {
+  SourceSansPro: {
+    Regular: Font.fromFile('assets/SourceSansPro-Regular.ttf'),
+  },
 }
 
 /**
- * You can use the special FontRegistry component to load and activate your custom fonts from
- * TTF files.
+ * Typographs encapsulate type styles with support for a specific font, font size, and color.
+ * More typograph properties are coming soon.
  */
 class Typographs extends Component {
-  @property fontRegistry = FontRegistry.fromFiles('assets/SourceSansPro-Regular.ttf');
-
   @property heading1 = new Typograph({
-    fontName: FontNames.SourceSansPro,
+    font: Fonts.SourceSansPro.Regular,
     fontSize: 24,
     color: colors.text,
   });
 
   @property caption = new Typograph({
-    fontName: FontNames.SourceSansPro,
+    font: Fonts.SourceSansPro.Regular,
     fontSize: 14,
     color: colors.caption,
   });

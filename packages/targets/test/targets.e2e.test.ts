@@ -10,9 +10,13 @@ import {
 
 beforeAll(() => {
   // Allow 1 minute per test. Hopefully they don't actually take that long!
-  jest.setTimeout(6e5);
+  jest.setTimeout(6e4);
   registerExpectations();
 });
+
+jest.mock('fontkit', () => ({
+  openSync: () => ({postscriptName: 'SomeFont'}),
+}));
 
 describe('targets.e2e', () => {
   for (const fixture of getFixtures()) {

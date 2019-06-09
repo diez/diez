@@ -145,11 +145,10 @@ diezHTMLExtensions.push(() => {
   };
 });
 
-class FontRegistry {
-  constructor({
-    files
-  }) {
-    this.files = files;
+class Font {
+  constructor () {
+    this.file = new File({src: "assets/SomeFont.ttf", type: "font"});
+    this.name = "SomeFont";
   }
 
   update (payload) {
@@ -157,50 +156,15 @@ class FontRegistry {
       return this;
     }
 
-    this.files = payload.files;
+    this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
+    this.name = payload.name;
 
     return this;
   }
 }
 
 
-module.exports.FontRegistry = FontRegistry;
-
-const FontFormats = {
-  eot: 'embedded-opentype',
-  woff: 'woff',
-  woff2: 'woff2',
-  ttf: 'truetype',
-  svg: 'svg',
-};
-
-FontRegistry.prototype.registerFonts = function () {
-  if (!this.styleSheet || !this.cache) {
-    const styleEl = document.createElement('style');
-    document.head.appendChild(styleEl);
-    this.styleSheet = styleEl.sheet; // @internal
-    this.cache = new Set(); // @internal
-  }
-
-  for (const file of this.files) {
-    if (this.cache.has(file.src)) {
-      continue;
-    }
-
-    const parsedFile = file.src.split('/').pop();
-    if (parsedFile) {
-      const [name, format] = parsedFile.split('.');
-      const rule = `
-        @font-face {
-          font-family: '${name}';
-          src: local('${name}'), url(${file.url}) format('${FontFormats[format] || format}');
-        }`;
-
-      this.styleSheet.insertRule(rule);
-    }
-    this.cache.add(file.src);
-  }
-};
+module.exports.Font = Font;
 
 class Color {
   constructor({
@@ -238,11 +202,11 @@ Color.prototype.toString = function () {
 
 class Typograph {
   constructor({
-    fontName,
+    font,
     fontSize,
     color
   }) {
-    this.fontName = fontName;
+    this.font = font;
     this.fontSize = fontSize;
     this.color = color;
   }
@@ -252,7 +216,7 @@ class Typograph {
       return this;
     }
 
-    this.fontName = payload.fontName;
+    this.font = Object.assign(Object.create(Object.getPrototypeOf(this.font)), this.font.update(payload.font));
     this.fontSize = payload.fontSize;
     this.color = Object.assign(Object.create(Object.getPrototypeOf(this.color)), this.color.update(payload.color));
 
@@ -263,11 +227,51 @@ class Typograph {
 
 module.exports.Typograph = Typograph;
 
+const FontFormats = {
+  eot: 'embedded-opentype',
+  woff: 'woff',
+  woff2: 'woff2',
+  otf: 'opentype',
+  ttf: 'truetype',
+  svg: 'svg',
+};
+
+let styleSheet;
+let cache;
+
+const registerFont = (font) => {
+  if (!styleSheet || !cache) {
+    const styleEl = document.createElement('style');
+    document.head.appendChild(styleEl);
+    styleSheet = styleEl.sheet;
+    cache = new Set();
+  }
+
+  if (cache.has(font.file.src)) {
+    return;
+  }
+
+  const format = font.file.src.split('.').pop();
+  const rule = `
+@font-face {
+  font-family: '${font.name}';
+  src: local('${font.name}'), url(${font.file.url}) format('${FontFormats[format] || format}');
+}`;
+  styleSheet.insertRule(rule);
+  cache.add(font.file.src);
+};
+
 Object.defineProperties(Typograph.prototype, {
+  fontFamily: {
+    get () {
+      registerFont(this.font);
+      return this.font.name;
+    },
+  },
   css: {
     get () {
       return {
-        fontFamily: this.fontName,
+        fontFamily: this.fontFamily,
         fontSize: `${this.fontSize}px`,
         color: this.color.toString(),
       };
@@ -292,8 +296,7 @@ class Bindings {
   constructor () {
     this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg", type: "image"}), width: 246, height: 246});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json", type: "raw"}), loop: true, autoplay: true});
-    this.fontRegistry = new FontRegistry({files: [new File({src: "assets/SomeFont.ttf", type: "font"})]});
-    this.typograph = new Typograph({fontName: "Helvetica", fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
+    this.typograph = new Typograph({font: new Font({file: new File({src: "assets/SomeFont.ttf", type: "font"}), name: "SomeFont"}), fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
   }
 
   update (payload) {
@@ -303,7 +306,6 @@ class Bindings {
 
     this.image = Object.assign(Object.create(Object.getPrototypeOf(this.image)), this.image.update(payload.image));
     this.lottie = Object.assign(Object.create(Object.getPrototypeOf(this.lottie)), this.lottie.update(payload.lottie));
-    this.fontRegistry = Object.assign(Object.create(Object.getPrototypeOf(this.fontRegistry)), this.fontRegistry.update(payload.fontRegistry));
     this.typograph = Object.assign(Object.create(Object.getPrototypeOf(this.typograph)), this.typograph.update(payload.typograph));
 
     return this;

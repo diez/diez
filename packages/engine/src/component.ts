@@ -64,7 +64,7 @@ export abstract class Component<T extends Indexable = any>
   /**
    * A humble, readonly state container.
    */
-  protected readonly state: T;
+  protected readonly state!: T;
 
   /**
    * The (nullable) component that may be hosting us.
@@ -108,9 +108,10 @@ export abstract class Component<T extends Indexable = any>
   constructor (
     state: Partial<T> = {},
   ) {
-    // Note how we explicitly case state as T. (We will soon also accept Expression<T>s at init time).
-    // Our engine relies on runtime initialization with defaults in concrete implementations.
-    this.state = state as T;
+    // Note how we explicitly case state as T. Our engine relies on runtime initialization with defaults in concrete
+    // implementations.
+    this.state = {} as T;
+    this.set(state);
     this.serializer = new Serializer<T>(this.state);
   }
 

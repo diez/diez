@@ -1,4 +1,4 @@
-import {Color, Typograph, FontRegistry} from '@diez/prefabs';
+import {Color, Typograph, Font, IOSFonts} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {SimpleGradient} from './components/SimpleGradient';
 
@@ -19,21 +19,21 @@ class Palette extends Component {
   });
 }
 
-enum FontNames {
-  Nunito = 'Nunito-Regular',
-  NunitoBlack = 'Nunito-Black',
-  NunitoBold = 'Nunito-Bold',
-  NunitoExtraBold = 'Nunito-ExtraBold',
-  NunitoExtraLight = 'Nunito-ExtraLight',
-  NunitoLight = 'Nunito-Light',
-  NunitoMedium = 'Nunito-Medium',
-  NunitoSemiBold = 'Nunito-SemiBold',
-}
-
-enum FontRoles {
-  Default = FontNames.Nunito,
-  DefaultBold = FontNames.NunitoBold,
-}
+/**
+ * A registry of all of the design's fonts.
+ */
+const Fonts = {
+  Nunito: {
+    Regular: Font.fromFile('assets/fonts/Nunito-Regular.ttf'),
+    Black: Font.fromFile('assets/fonts/Nunito-Black.ttf'),
+    Bold: Font.fromFile('assets/fonts/Nunito-Bold.ttf'),
+    ExtraBold: Font.fromFile('assets/fonts/Nunito-ExtraBold.ttf'),
+    ExtraLight: Font.fromFile('assets/fonts/Nunito-ExtraLight.ttf'),
+    Light: Font.fromFile('assets/fonts/Nunito-Light.ttf'),
+    Medium: Font.fromFile('assets/fonts/Nunito-Medium.ttf'),
+    SemiBold: Font.fromFile('assets/fonts/Nunito-SemiBold.ttf'),
+  },
+};
 
 enum FontSizes {
   Title = 20,
@@ -45,37 +45,37 @@ enum FontSizes {
 
 class Typographs extends Component {
   @property headerTitle = new Typograph({
-    fontName: FontRoles.DefaultBold,
+    font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Title,
     color: palette.black,
   });
   @property headerCaption = new Typograph({
-    fontName: FontRoles.Default,
+    font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.black,
   });
   @property cardTitle = new Typograph({
-    fontName: FontRoles.Default,
+    font: Fonts.Nunito.Regular,
     fontSize: FontSizes.CardTitle,
     color: palette.white,
   });
   @property value = new Typograph({
-    fontName: FontRoles.Default,
+    font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Value,
     color: palette.white,
   });
   @property unit = new Typograph({
-    fontName: FontRoles.Default,
+    font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Unit,
     color: palette.white,
   });
   @property caption = new Typograph({
-    fontName: FontRoles.Default,
+    font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.white,
   });
   @property captionHeader = new Typograph({
-    fontName: FontRoles.DefaultBold,
+    font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Caption,
     color: palette.white,
   });
@@ -91,20 +91,6 @@ export enum LayoutValues {
   DefaultSpacing = 10,
   CompactSpacing = 5,
 }
-
-/**
- * A registry of all of the design's fonts.
- */
-export const fontRegistry = FontRegistry.fromFiles(
-  'assets/fonts/Nunito-Black.ttf',
-  'assets/fonts/Nunito-Bold.ttf',
-  'assets/fonts/Nunito-ExtraBold.ttf',
-  'assets/fonts/Nunito-ExtraLight.ttf',
-  'assets/fonts/Nunito-Light.ttf',
-  'assets/fonts/Nunito-Medium.ttf',
-  'assets/fonts/Nunito-Regular.ttf',
-  'assets/fonts/Nunito-SemiBold.ttf',
-);
 
 /**
  * A palette singleton, used throughout the design system.

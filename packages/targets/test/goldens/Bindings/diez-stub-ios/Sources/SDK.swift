@@ -79,29 +79,6 @@ extension File {
     }
 }
 
-// MARK: File<Equatable>
-
-extension File {
-    public override func isEqual(_ other: Any?) -> Bool {
-        guard let other = other as? File else {
-            return false
-        }
-        // TODO: Update to also consider contents of the underlying file.
-        return src == other.src
-    }
-}
-
-// MARK: File<Hashable>
-
-extension File {
-    public override var hash: Int {
-        // TODO: Update to also consider contents of the underlying file.
-        var hasher = Hasher()
-        hasher.combine(src)
-        return hasher.finalize()
-    }
-}
-
 extension Bundle {
     func url(forFile file: File) -> URL? {
         return url(forResource: file.src.removingPercentEncoding, withExtension: nil)
@@ -394,55 +371,41 @@ extension LOTAnimationView {
     }
 }
 
-@objc(DEZFontRegistry)
-public final class FontRegistry: NSObject, Decodable {
-    @objc public internal(set) var files: [File]
+@objc(DEZFont)
+public final class Font: NSObject, Decodable {
+    @objc public internal(set) var file: File
+    @objc public internal(set) var name: String
 
     private enum CodingKeys: String, CodingKey {
-        case files
+        case file
+        case name
+    }
+
+    override init() {
+        file = File(src: "assets/SomeFont.ttf", type: "font")
+        name = "SomeFont"
     }
 
     init(
-        files: [File]
+        file: File,
+        name: String
     ) {
-        self.files = files
+        self.file = file
+        self.name = name
     }
 }
 
-extension FontRegistry: Updatable {
+extension Font: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &files, forKey: .files)
+        try container.update(updatable: &file, forKey: .file)
+        try container.update(value: &name, forKey: .name)
     }
 }
 
-extension FontRegistry: ReflectedCustomStringConvertible {
+extension Font: ReflectedCustomStringConvertible {
     public override var description: String {
         return reflectedDescription
-    }
-}
-
-private var registeredFiles: Set<File> = []
-
-extension FontRegistry {
-    @objc public func registerFonts() {
-        files.forEach { file in
-            if registeredFiles.contains(file) {
-                return
-            }
-
-            registeredFiles.insert(file)
-
-            guard
-                let url = file.url,
-                let data = try? Data(contentsOf: url) as CFData,
-                let dataProvider = CGDataProvider(data: data),
-                let cgFont = CGFont(dataProvider) else {
-                    return
-            }
-
-            CTFontManagerRegisterGraphicsFont(cgFont, nil)
-        }
     }
 }
 
@@ -502,22 +465,22 @@ extension Color {
 
 @objc(DEZTypograph)
 public final class Typograph: NSObject, Decodable {
-    @objc public internal(set) var fontName: String
+    @objc public internal(set) var font: Font
     @objc public internal(set) var fontSize: CGFloat
     @objc public internal(set) var color: Color
 
     private enum CodingKeys: String, CodingKey {
-        case fontName
+        case font
         case fontSize
         case color
     }
 
     init(
-        fontName: String,
+        font: Font,
         fontSize: CGFloat,
         color: Color
     ) {
-        self.fontName = fontName
+        self.font = font
         self.fontSize = fontSize
         self.color = color
     }
@@ -526,7 +489,7 @@ public final class Typograph: NSObject, Decodable {
 extension Typograph: Updatable {
     public func update(from decoder: Decoder) throws {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &fontName, forKey: .fontName)
+        try container.update(updatable: &font, forKey: .font)
         try container.update(value: &fontSize, forKey: .fontSize)
         try container.update(updatable: &color, forKey: .color)
     }
@@ -538,15 +501,35 @@ extension Typograph: ReflectedCustomStringConvertible {
     }
 }
 
+private var registeredFonts: Set<String> = []
+
+private func registerFont(_ font: Font) {
+    if font.file.src == "" || registeredFonts.contains(font.file.src) {
+        return
+    }
+
+    registeredFonts.insert(font.file.src)
+
+    guard
+        let url = font.file.url,
+        let data = try? Data(contentsOf: url) as CFData,
+        let dataProvider = CGDataProvider(data: data),
+        let cgFont = CGFont(dataProvider) else {
+            return
+    }
+
+    CTFontManagerRegisterGraphicsFont(cgFont, nil)
+}
+
 extension Typograph {
     /**
      The `UIFont` of the `Typograph`.
 
      - Note: If the font fails to load this will fallback to the `UIFont.systemFont(ofSize:)`.
      */
-    @objc public var font: UIFont {
-        guard let font = UIFont(name: fontName, size: fontSize) else {
-            // TODO: Should this instead return nil? Update doc comment if this changes.
+    @objc public var uiFont: UIFont {
+        registerFont(font)
+        guard let font = UIFont(name: font.name, size: fontSize) else {
             return UIFont.systemFont(ofSize: fontSize)
         }
 
@@ -557,7 +540,7 @@ extension Typograph {
 public extension UILabel {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
-        font = typograph.font
+        font = typograph.uiFont
         textColor = typograph.color.color
     }
 }
@@ -565,7 +548,7 @@ public extension UILabel {
 public extension UITextView {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
-        font = typograph.font
+        font = typograph.uiFont
         textColor = typograph.color.color
     }
 }
@@ -573,7 +556,7 @@ public extension UITextView {
 public extension UITextField {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
-        font = typograph.font
+        font = typograph.uiFont
         textColor = typograph.color.color
     }
 }
@@ -582,32 +565,27 @@ public extension UITextField {
 public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var image: Image
     @objc public internal(set) var lottie: Lottie
-    @objc public internal(set) var fontRegistry: FontRegistry
     @objc public internal(set) var typograph: Typograph
 
     private enum CodingKeys: String, CodingKey {
         case image
         case lottie
-        case fontRegistry
         case typograph
     }
 
     public override init() {
         image = Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), width: 246, height: 246)
         lottie = Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true)
-        fontRegistry = FontRegistry(files: [File(src: "assets/SomeFont.ttf", type: "font")])
-        typograph = Typograph(fontName: "Helvetica", fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
+        typograph = Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
     }
 
     init(
         image: Image,
         lottie: Lottie,
-        fontRegistry: FontRegistry,
         typograph: Typograph
     ) {
         self.image = image
         self.lottie = lottie
-        self.fontRegistry = fontRegistry
         self.typograph = typograph
     }
 
@@ -619,7 +597,6 @@ extension Bindings: Updatable {
         guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
         try container.update(updatable: &image, forKey: .image)
         try container.update(updatable: &lottie, forKey: .lottie)
-        try container.update(updatable: &fontRegistry, forKey: .fontRegistry)
         try container.update(updatable: &typograph, forKey: .typograph)
     }
 }

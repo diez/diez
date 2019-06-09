@@ -1,3 +1,4 @@
+import fontkit from 'fontkit';
 import {copySync, removeSync} from 'fs-extra';
 import {
   buildRoot,
@@ -7,6 +8,11 @@ import {
   getFixtures,
   getGoldenRoot,
 } from '../test/helpers';
+
+// Monkey-patch `loadSync` from `opentype.js` so our font validator works.
+Object.assign(fontkit, {
+  openSync: () => ({postscriptName: 'SomeFont'}),
+});
 
 removeSync(buildRoot);
 (async () => {

@@ -20,11 +20,6 @@
       "android": "./lib/bindings/File/android",
       "web": "./lib/bindings/File/web"
     },
-    "@diez/prefabs:FontRegistry": {
-      "ios": "./lib/bindings/FontRegistry/ios",
-      "android": "./lib/bindings/FontRegistry/android",
-      "web": "./lib/bindings/FontRegistry/web"
-    },
     "@diez/prefabs:Image": {
       "ios": "./lib/bindings/Image/ios",
       "android": "./lib/bindings/Image/android",

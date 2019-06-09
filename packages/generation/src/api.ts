@@ -31,6 +31,21 @@ export interface GeneratedAsset {
 export type GeneratedAssets = Map<AssetFolder, Map<string, GeneratedAsset>>;
 
 /**
+ * A generated font.
+ */
+export interface GeneratedFont {
+  name: string;
+  family: string;
+  style: string;
+  path: string;
+}
+
+/**
+ * A generated font.
+ */
+export type GeneratedFonts = Map<string, Map<string, {name: string, path?: string}>>;
+
+/**
  * A specification for a generatable design system.
  */
 export interface CodegenDesignSystem {
@@ -40,7 +55,6 @@ export interface CodegenDesignSystem {
   projectRoot: string;
   colors: CodegenEntity[];
   typographs: CodegenEntity[];
-  fontRegistry: Set<string>;
-  fontNames: Set<string>;
+  fonts: GeneratedFonts;
   assets: GeneratedAssets;
 }

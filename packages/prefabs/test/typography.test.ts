@@ -1,27 +1,25 @@
 import {Color} from '../src/color';
-import {FontRegistry, Typograph} from '../src/typography';
+import {Font, Typograph} from '../src/typography';
 
-describe('font registry', () => {
+describe('font', () => {
   test('basic functionality', () => {
-    const src = 'bloop.ttf';
-    const font = FontRegistry.fromFiles(src);
-    expect(font.serialize()).toEqual({files: [{src: 'bloop.ttf', type: 'font'}]});
+    expect(Font.fromFile('Whatever.ttf', 'Bloop-MediumItalic').name).toBe('Bloop-MediumItalic');
+    expect(Font.fromFile('Whatever.ttf').name).toBe('Whatever');
   });
 });
 
 describe('typograph', () => {
   test('basic functionality', () => {
-    const enum Fonts {
-      BloopMediumItalic = 'BloopMediumItalic',
-    }
-
     const typograph = new Typograph({
-      fontName: Fonts.BloopMediumItalic,
+      font: Font.fromFile('Bloop-MediumItalic.ttf', 'Bloop-MediumItalic'),
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
     });
 
     expect(typograph.serialize()).toEqual({
-      fontName: 'BloopMediumItalic', fontSize: 50, color: {h: 0, s: 0, l: 0, a: 0.5}});
+      font: {file: {src: 'Bloop-MediumItalic.ttf', type: 'font'}, name: 'Bloop-MediumItalic'},
+      fontSize: 50,
+      color: {h: 0, s: 0, l: 0, a: 0.5},
+    });
   });
 });

@@ -12,6 +12,7 @@ afterEach(() => {
   cleanupMockCommandData();
 });
 
+jest.mock('editions');
 jest.mock('path', () => ({
   ...jest.requireActual('path'),
   resolve (dir: string) {

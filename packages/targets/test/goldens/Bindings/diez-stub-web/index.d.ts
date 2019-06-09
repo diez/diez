@@ -21,8 +21,9 @@ declare global {
   }
 }
 
-export declare class FontRegistry {
-  registerFonts (): void;
+export declare class Font {
+  file: File;
+  name: string;
 }
 
 export declare class Color {
@@ -48,7 +49,6 @@ declare global {
 export declare class Bindings extends StateBag {
   image: Image;
   lottie: Lottie;
-  fontRegistry: FontRegistry;
   typograph: Typograph;
 }
 

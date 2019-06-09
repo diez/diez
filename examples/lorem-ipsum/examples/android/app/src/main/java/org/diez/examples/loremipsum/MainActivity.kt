@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
         Environment.setContext(layout.context)
         val designSystem = DesignSystem()
-        designSystem.typographs.fontRegistry.registerFonts()
 
         layout.setBackgroundColor(designSystem.colors.lightBackground.color)
 

@@ -11,7 +11,7 @@ import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import pascalCase = require('pascal-case');
+import pascalCase from 'pascal-case';
 import {join} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';

@@ -36,7 +36,7 @@ const myProjectRoot = join(workspaceExamplesRoot, 'my-project');
 
 beforeAll(() => {
   // Allow 1 minute per test. Hopefully they don't actually take that long!
-  jest.setTimeout(6e5);
+  jest.setTimeout(6e4);
   registerExpectations();
   removeSync(myProjectRoot);
 });

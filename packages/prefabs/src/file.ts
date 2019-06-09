@@ -20,9 +20,11 @@ export interface FileState {
 
 /**
  * Provides a container for referencing local assets, which can be bridged by target compilers to embed images, SVGs,
- * and more. This component is used internally by [[Image]] and [[FontRegistry]].
+ * and more. This component is used internally by [[Image]] and [[Font]].
  *
- * Usage: `@property file = new File({src: 'assets/images/file.jpg'});`.
+ * The compiler may enforce certain restrictions on the `type` of a `File` instance.
+ *
+ * Usage: `@property file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
  *
  * @noinheritdoc
  */

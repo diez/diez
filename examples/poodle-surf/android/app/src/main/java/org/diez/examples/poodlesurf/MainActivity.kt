@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDiezUpdated() {
-        diez.fontRegistry.registerFonts()
-
         applySplashScreenStyles()
 
         // Background color

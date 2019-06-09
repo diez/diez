@@ -3,7 +3,7 @@ import {createProgramForFixture} from './helpers';
 
 beforeAll(() => {
   // Allow 1 minute per test.
-  jest.setTimeout(6e5);
+  jest.setTimeout(6e4);
 });
 
 /**

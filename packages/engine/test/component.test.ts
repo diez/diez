@@ -29,12 +29,16 @@ describe('component', () => {
     );
 
     component.tick(0, patcher);
-    expect(patcher).toBeCalledTimes(0);
-    component.set({justbar: 'bar'});
-    expect(patcher).toBeCalledTimes(0);
-    component.tick(1, patcher);
     expect(patcher).toBeCalledTimes(1);
+    component.set({justbar: 'bar'});
+    expect(patcher).toBeCalledTimes(1);
+    component.tick(1, patcher);
+    expect(patcher).toBeCalledTimes(2);
     expect(patcher).toHaveBeenNthCalledWith(1, {
+      justbar: '',
+      foobar: 'foobar',
+    });
+    expect(patcher).toHaveBeenNthCalledWith(2, {
       justbar: 'bar',
       foobar: 'foobar',
     });

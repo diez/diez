@@ -19,7 +19,7 @@ const getDiff = (sourceFile: string, goldenFile: string, isSymbolicLink: boolean
     return null;
   }
 
-  return jestDiff(sourceContents, goldenContents);
+  return jestDiff(goldenContents, sourceContents);
 };
 
 /**

@@ -7,6 +7,7 @@ if CommandLine.arguments.count < 2 {
 
 struct Font: Codable {
     let name: String
+    let family: String
     let style: String
     let path: String
 }
@@ -21,6 +22,7 @@ let registry: [Font] = {
     return fonts.compactMap { font -> Font? in
         guard
             let name = CTFontDescriptorCopyAttribute(font, kCTFontNameAttribute) as? String,
+            let family = CTFontDescriptorCopyAttribute(font, kCTFontFamilyNameAttribute) as? String,
             let style = CTFontDescriptorCopyAttribute(font, kCTFontStyleNameAttribute) as? String,
             let url = CTFontDescriptorCopyAttribute(font, kCTFontURLAttribute) as? URL else {
                 print("Failed to register: \(font)")
@@ -29,6 +31,7 @@ let registry: [Font] = {
 
         return Font(
             name: name,
+            family: family,
             style: style,
             path: url.relativePath)
     }

@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
-        [component.fontRegistry registerFonts];
         self.stackView.backgroundColor = component.designs.loading.backgroundColor.color;
         self.stackView.spacing = component.designs.report.contentSpacing;
         self.stackView.layoutMargins = DEZUIEdgeInsetsMake(component.designs.report.contentLayoutMargins);

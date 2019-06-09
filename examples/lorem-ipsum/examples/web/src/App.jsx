@@ -55,7 +55,6 @@ export default class App extends React.PureComponent {
 
   render () {
     const {ds} = this.props;
-    ds.typographs.fontRegistry.registerFonts();
 
     return (
       <div className={styles.wrapper}>
