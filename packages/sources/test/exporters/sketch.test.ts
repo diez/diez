@@ -126,7 +126,7 @@ describe('Sketch', () => {
       expect(await SketchExporter.canParse('test.sketchster')).toBe(false);
     });
 
-    test('returns `false` if the file looks like an illustrator file but doesn\'t exist', async () => {
+    test('returns `false` if the file looks like a Sketch file but doesn\'t exist', async () => {
       expect(await SketchExporter.canParse('test.sketch')).toBe(false);
     });
 

@@ -79,7 +79,7 @@
         </div>
         <div class="half mobile-reorder">
           <div class="holster-tri-card">
-            <img width="100%" height="100%" src="@/assets/imgs/design-tool-extractors-1x.png" alt="Design File Extractors: Sketch, Illustrator, Figma, InVision DSM">
+            <img width="100%" height="100%" src="@/assets/imgs/design-tool-extractors-1x.png" alt="Design File Extractors: Sketch, Figma, InVision DSM">
           </div>
         </div>
       </section>

@@ -50,7 +50,7 @@
 
         <div class="two-thirds answer">
           <p>TypeScript is a well-designed language with excellent tooling created by Anders Heiljberg (the programming language designer who also created C# and Delphi). The Diez compiler uses its type system to emit SDKs that are compatible with strongly typed languages such as Swift, Kotlin, and Java. It has a flexible compiler API, and because it's a web language, it enables us to build excellent reactive tooling on top of it which enables us to achieve things that were previously unattainable. (<a href="https://spectrum.chat/diez">Ask us</a> about our explorations into Rust, WASM, LLVM.) And because TypeScript is a superset of JavaScript, you probably already know how to code in it!</p>
-          <p><NuxtLink to="/glossary#tokens">Design tokens</NuxtLink> such as colors and fonts look the same whether you're building them in Sketch, Illustrator, Figma, or any other tool. Diez chose to use a popular, accessible programming language with an expressive type system and excellent IDE support to capture the essential properties of design tokens while remaining agnostic to the idiosyncrasies of the platforms being targeted.</p>
+          <p><NuxtLink to="/glossary#tokens">Design tokens</NuxtLink> such as colors and fonts look the same whether you're building them in Sketch, Figma, or any other tool. Diez chose to use a popular, accessible programming language with an expressive type system and excellent IDE support to capture the essential properties of design tokens while remaining agnostic to the idiosyncrasies of the platforms being targeted.</p>
         </div>
 
         <div class="one-third question">
@@ -81,7 +81,6 @@
           <h3>Does Diez work with modern design tools; e.g. Figma, Sketch, InVision, et al?</h3>
         </div>
         <div class="two-thirds answer">
-          <p>The current Diez beta includes <NuxtLink to="/glossary#bindings">native bindings</NuxtLink> for an <code class="inline">Image</code> <NuxtLink to="/glossary#prefabs">prefab</NuxtLink> which is compatible with every design tool capable of exporting slices. We have alpha support for automatic extraction of slices from Sketch, Figma, and Illustrator, and plan to build additional tooling to enable syncing your design tools with your design system. We'd love your thoughts on this topic if you have <a href="https://spectrum.chat/diez/design-tools">any feedback</a>.</p>
         </div>
         <div class="one-third question">
           <h3>Does a team's design system source of truth live in design tools or in Diez?</h3>

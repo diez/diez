@@ -35,7 +35,6 @@
           <a class="sub-link soon" title="Guide coming soon" href="#">Figma</a>
           <a class="sub-link soon" title="Guide coming soon" href="#">InVision DSM</a>
           <a class="sub-link soon" title="Guide coming soon" href="#">Abstract</a>
-          <a class="sub-link soon" title="Guide coming soon" href="#">Illustrator</a>
         </div>
       </div>            
     </div>           

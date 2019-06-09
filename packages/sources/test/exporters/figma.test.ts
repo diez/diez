@@ -13,7 +13,7 @@ describe('Figma', () => {
   describe('canParse', () => {
     test('returns `false` if the file does not look like a Figma file', async () => {
       expect(await FigmaExporter.canParse('test.sketch')).toBe(false);
-      expect(await FigmaExporter.canParse('http://illustrator.com/file/key/name')).toBe(false);
+      expect(await FigmaExporter.canParse('http://something.com/file/key/name')).toBe(false);
     });
 
     test('returns `true` if the file does look like a Figma file', async () => {
