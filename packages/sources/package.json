@@ -1,7 +1,7 @@
 {
   "name": "@diez/sources",
   "main": "lib/index.js",
-  "version": "10.0.0-alpha.2",
+  "version": "10.0.0-alpha.3",
   "description": "Utilities and metaprogramming extensions for design sources.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -20,10 +20,10 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.0-alpha.2",
-    "@diez/compiler": "^10.0.0-alpha.2",
-    "@diez/generation": "^10.0.0-alpha.2",
-    "@diez/storage": "^10.0.0-alpha.2",
+    "@diez/cli-core": "^10.0.0-alpha.3",
+    "@diez/compiler": "^10.0.0-alpha.3",
+    "@diez/generation": "^10.0.0-alpha.3",
+    "@diez/storage": "^10.0.0-alpha.3",
     "async": "^2.6.2",
     "chokidar": "^3.0.1",
     "fs-extra": "^7.0.1",
@@ -35,7 +35,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.0.0-alpha.2",
+    "@diez/test-utils": "^10.0.0-alpha.3",
     "@types/color-string": "^1.5.0",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^24.0.11",
