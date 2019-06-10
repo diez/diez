@@ -4,8 +4,20 @@ const siteTitle = 'Diez - Cross-platform design system framework for native iOS,
 const siteDesc = 'Diez makes it easy to adopt a unified design language across codebases, platforms, and teams.';
 
 export default {
+  env: {
+    docsURL: '/_api',
+  },
   generate: {
     routes: ['404'],
+  },
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'docs-*',
+        path: '/docs/:version/*',
+        component: resolve(__dirname, 'pages/docs.vue'),
+      });
+    },
   },
   head: {
     title: siteTitle,

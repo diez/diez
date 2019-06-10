@@ -17,7 +17,7 @@
 import versionHistory from '@/data/diez-versions.json';
 import {Component, Vue} from 'nuxt-property-decorator';
 @Component
-export default class DocVersionSelect extends Vue {
+export default class DocsVersionSelect extends Vue {
   versionHistory = versionHistory;
   get currentVersion () {
     if (this.$route && this.$route.params && this.$route.params.version) {
