@@ -1,7 +1,7 @@
 {
   "name": "@diez/cli-core",
   "main": "lib/index.js",
-  "version": "10.0.0-alpha.1",
+  "version": "10.0.0-alpha.2",
   "description": "APIs for the Diez command line interface.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -20,7 +20,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.0.0-alpha.1",
+    "@diez/test-utils": "^10.0.0-alpha.2",
     "@types/async": "^2.4.1",
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
@@ -36,7 +36,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "@diez/storage": "^10.0.0-alpha.1",
+    "@diez/storage": "^10.0.0-alpha.2",
     "async": "^2.6.2",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
