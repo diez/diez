@@ -51,7 +51,7 @@ export default class Footer extends Vue {
   #footer {
     font-size: 16px;
     padding: $spacing2XL 0;
-    
+
     a {
       padding: 0 $spacingLG; 
 
@@ -59,7 +59,7 @@ export default class Footer extends Vue {
         display: block;
         margin: 10px 0;
       }
-      
+
       &.inline-link {
         padding: 0 0 0 $spacingXS;
         display: inline-block;

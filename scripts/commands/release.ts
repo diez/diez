@@ -60,7 +60,7 @@ export = {
     run(`aws s3 sync api s3://diez-docs/${version}`);
     run('aws s3 sync api s3://diez-docs/latest');
 
-    run('yarn release-site');
+    run('yarn diez release-site');
 
     // Create the release with Lerna.
     run(`yarn lerna publish ${version} --github-release --conventional-commits --yes`);

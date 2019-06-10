@@ -1,0 +1,133 @@
+@import './utils';
+
+.page {
+  position: relative;
+}
+
+.section {
+  padding: $spacing3XL;
+  margin: 0 auto $sizingXS;
+  max-width: $page-width;
+  @include phone {
+    padding: $spacingSM;
+  }
+}
+
+.section-narrow {
+  @extend .section;
+  max-width: $sizing2XL;
+}
+
+.section-narrow {
+  @extend .section;
+  max-width: $sizing2XL;
+  height: 50px;
+}
+
+.github-container{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.github-logo {
+  width: 50px;
+}
+
+.section-split {
+  @extend .section;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  @include tablet {
+    flex-direction: column;
+  }
+}
+
+.center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.center-mobile-only {
+  @include tablet {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+.content-holster {
+  padding: 0 $spacingLG;
+}
+
+.one-quarter {
+  @extend .content-holster;
+  width: 25%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.one-third {
+  @extend .content-holster;
+  width: 33%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.half {
+  @extend .content-holster;
+  width: 50%;
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.two-thirds {
+  @extend .content-holster;
+  width: 67%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.three-quarters {
+  @extend .content-holster;
+  width: 75%;
+  @include tablet-large {
+    width: 50%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.button-following-text {
+  margin-top: $spacingLG
+}
+
+.staggered {
+  // margin-top: $sizingLG / 2;
+  @include tablet {
+    margin-top: $spacing3XL;
+  }
+}
+
+.mobile-reorder {
+  @include tablet {
+    order: 2;
+  }
+}
+
+.align-top {
+  align-self: flex-start;
+}

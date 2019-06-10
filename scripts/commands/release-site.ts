@@ -1,4 +1,3 @@
-
 import {run, siteRoot} from '../internal/helpers';
 
 export = {
