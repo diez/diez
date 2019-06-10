@@ -421,7 +421,7 @@ export class Program extends EventEmitter implements CompilerProgram {
 const inferProjectName = (projectName: string) => {
   try {
     return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
-  } catch {
+  } catch (error) {
     return 'design-system';
   }
 };
