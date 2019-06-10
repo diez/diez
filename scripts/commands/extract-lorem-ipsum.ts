@@ -13,8 +13,8 @@ import {
   titleCase,
 } from 'change-case';
 import {copy, ensureDirSync, existsSync, readdirSync, readFileSync, readlinkSync, removeSync, symlinkSync, writeFileSync} from 'fs-extra';
-import klaw from 'klaw';
 import {isBinarySync} from 'istextorbinary';
+import klaw from 'klaw';
 import {dirname, join, relative} from 'path';
 import {c} from 'tar';
 import {replaceOccurrencesInString, root, run, runQuiet} from '../internal/helpers';

@@ -20,14 +20,15 @@ export = {
       fatalError('Working tree has untracked changes; unable to proceed.');
     }
 
-    run('git fetch');
-    if (runQuiet('git diff origin/master')) {
+    run('git fetch upstream');
+    if (runQuiet('git diff upstream/master')) {
       fatalError('You must be up to date on the latest `master` branch to create a release.');
     }
 
     try {
       runQuiet('aws s3 ls s3://diez-docs');
-      runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_DISTRIBUTION}`);
+      runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_WWW_DISTRIBUTION_SECRET}`);
+      runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_EXAMPLES_DISTRIBUTION}`);
     } catch (e) {
       fatalError('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
     }
