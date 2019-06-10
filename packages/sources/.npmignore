@@ -14,3 +14,4 @@ types/**/*.d.ts.map
 lib/**/*.js.map
 tools/*/Makefile
 tools/*/src/
+coverage/

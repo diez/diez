@@ -14,3 +14,4 @@ cobertura-coverage.xml
 checkstyle-result.xml
 types/**/*.d.ts.map
 lib/**/*.js.map
+coverage/

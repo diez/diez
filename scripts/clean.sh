@@ -9,7 +9,7 @@ fi
 
 # Clean generated files from packages.
 for package in $(ls packages); do
-  for file in lib types tsconfig.tsbuildinfo yarn-error.log test-result.tap cobertura-coverage.xml checkstyle-result.xml; do
+  for file in coverage lib types tsconfig.tsbuildinfo yarn-error.log test-result.tap cobertura-coverage.xml checkstyle-result.xml; do
     TARGET=packages/$package/$file
     if [ -e $TARGET ]; then
       rm -rf $TARGET
