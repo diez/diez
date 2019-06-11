@@ -211,7 +211,7 @@ export const createProject = async (packageName: string, targets: string[], cwd 
   for (const target of (targets.length ? targets : ['web'])) {
     info(`
   ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} build-${target}`)}
-    Runs ${inlineComment(`diez compile --target ${target}`)} for your Diez.`);
+    Runs ${inlineComment(`diez compile --target ${target}`)} for your Diez project.`);
   }
 
   info('\nCheck out https://beta.diez.org/getting-started to learn more.');

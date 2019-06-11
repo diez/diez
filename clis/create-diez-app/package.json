@@ -1,7 +1,7 @@
 {
-  "name": "diez",
+  "name": "create-diez-app",
   "version": "10.0.0-alpha.3",
-  "description": "The entry point for the Diez CLI.",
+  "description": "A helper CLI for creating Diez projects.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
   "repository": {
@@ -10,12 +10,10 @@
   },
   "homepage": "https://diez.org",
   "dependencies": {
-    "@diez/cli-core": "^10.0.0-alpha.3",
-    "@diez/createproject": "^10.0.0-alpha.3",
-    "package-json": "^6.3.0",
-    "semver": "^6.0.0"
+    "diez": "^10.0.0-alpha.3",
+    "@diez/createproject": "^10.0.0-alpha.3"
   },
   "bin": {
-    "diez": "./bin/diez"
+    "create-diez-app": "./bin/create-diez-app"
   }
 }

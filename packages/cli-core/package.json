@@ -29,10 +29,9 @@
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
-    "package-json": "^6.3.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.20",
+    "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.5.1"
   },
   "dependencies": {
@@ -41,6 +40,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
+    "package-json": "^6.3.0",
     "server-destroy": "^1.0.1",
     "stack-trace": "^0.0.10",
     "typed-errors": "^1.1.0"

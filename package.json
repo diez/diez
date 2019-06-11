@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "clis/*",
     "examples/*",
     "examples/*/web",
     "examples/*/*/web",
@@ -32,7 +33,7 @@
     "ts-morph": "^2.3.0",
     "ts-node": "^8.1.0",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.20",
+    "tslint-config-haiku": "^1.0.21",
     "typedoc": "^0.14.2",
     "typedoc-plugin-no-inherit": "^1.1.6",
     "typescript": "^3.5.1",

@@ -50,7 +50,7 @@
     "stream-mock": "^1.2.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.20",
+    "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.5.1"
   }
 }

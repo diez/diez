@@ -24,7 +24,7 @@ export = async (_: {}, projectName: string) => {
       type: 'input',
       name: 'projectName',
       required: true,
-      message: 'Enter the name for your Diez (DS). A directory will be created if it does not already exist.',
+      message: 'Enter the name for your Diez project. A directory will be created if it does not already exist.',
     });
   }
 

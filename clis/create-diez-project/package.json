@@ -1,0 +1,19 @@
+{
+  "name": "create-diez-project",
+  "version": "10.0.0-alpha.3",
+  "description": "A helper CLI for creating Diez projects.",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "Proprietary",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
+  },
+  "homepage": "https://diez.org",
+  "dependencies": {
+    "diez": "^10.0.0-alpha.3",
+    "@diez/createproject": "^10.0.0-alpha.3"
+  },
+  "bin": {
+    "create-diez-project": "./bin/create-diez-project"
+  }
+}

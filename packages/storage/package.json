@@ -30,15 +30,15 @@
     "jest-tap-reporter": "^1.9.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.20",
-    "typescript": "^3.5.1",
-    "uuid": "^3.3.2"
+    "tslint-config-haiku": "^1.0.21",
+    "typescript": "^3.5.1"
   },
   "dependencies": {
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
     "istextorbinary": "^2.5.1",
     "klaw": "^3.0.0",
-    "node-fetch": "^2.5.0"
+    "node-fetch": "^2.5.0",
+    "uuid": "^3.3.2"
   }
 }

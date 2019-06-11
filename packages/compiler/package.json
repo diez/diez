@@ -27,6 +27,7 @@
     "no-case": "^2.3.2",
     "time-fix-plugin": "^2.0.6",
     "ts-morph": "^2.3.0",
+    "typescript": "^3.5.1",
     "uuid": "^3.3.2",
     "webpack": "^4.29.0",
     "webpack-dev-middleware": "^3.6.1",
@@ -49,7 +50,6 @@
     "just-curves": "^0.2.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",
-    "tslint-config-haiku": "^1.0.20",
-    "typescript": "^3.5.1"
+    "tslint-config-haiku": "^1.0.21"
   }
 }

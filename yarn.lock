@@ -15451,10 +15451,10 @@ tslint-config-airbnb@^5.10.0:
     tslint-eslint-rules "^5.4.0"
     tslint-microsoft-contrib "~5.2.1"
 
-tslint-config-haiku@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.20.tgz#a623705a23b28c80786022f0101fdd01f8950e38"
-  integrity sha512-y+490m97AmQbAh8yW+kxA1PozpLGFDFmC1oo4TDdvKM2O/xirAZfqyuiViiFsEV3Ag0PTmFmGXgAXtFk1FTRzQ==
+tslint-config-haiku@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/tslint-config-haiku/-/tslint-config-haiku-1.0.21.tgz#747a767a08e590b7ff9f16054d1083e0ec51cd9f"
+  integrity sha512-/kk+GtKou2QwzaBnPGP6iA7sAUkFNg9Lal26vW9Zsqm8DUVuFhkZIv2LjLF0ccFuCS83lt5P/oSHhVUDUOeyoQ==
   dependencies:
     tslib "^1.9.3"
     tslint "^5.11.0"

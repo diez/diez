@@ -400,7 +400,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     // Create a stub type file for typing the Component class and number primitives.
     const stubTypeFile = this.project.createSourceFile(
       join('src', '__stub.ts'),
-      "import {Component, Integer, Float} from '@diez/engine';",
+      'import {Component, Integer, Float} from \'@diez/engine\';',
       {overwrite: true},
     );
 
