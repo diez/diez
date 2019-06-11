@@ -1,18 +1,18 @@
 import React from 'react';
-import {DesignSystem} from 'diez-lorem-ipsum';
+import { Diez, DesignSystem } from 'diez-lorem-ipsum';
 import styles from './App.module.css';
 
-const Masthead = ({backgroundColor, backgroundImage}) => (
-  <div 
+const Masthead = ({ backgroundColor, backgroundImage }) => (
+  <div
     className={styles.masthead}
     style={{
       backgroundColor: backgroundColor,
       backgroundImage: backgroundImage,
-    }} 
+    }}
   />
 );
 
-const Icon = ({src, icon, marginLeft}) => (
+const Icon = ({ src, marginLeft }) => (
   <img
     src={src}
     alt="logo"
@@ -23,27 +23,27 @@ const Icon = ({src, icon, marginLeft}) => (
   />
 );
 
-const Title = ({style, text}) => (
+const Title = ({ style, text }) => (
   <h2 style={style}>
     {text}
   </h2>
 );
 
-const Caption = ({style, text}) => (
+const Caption = ({ style, text }) => (
   <h3 style={style}>
     {text}
   </h3>
 );
 
 class Animation extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.lottie.mount(this.refs.animation);
   }
-  
-  render () {
+
+  render() {
     return (
-      <div 
-        className={styles.animation} 
+      <div
+        className={styles.animation}
         ref="animation"
       />
     );
@@ -51,18 +51,24 @@ class Animation extends React.Component {
 }
 
 export default class App extends React.PureComponent {
-  static defaultProps = {ds: new DesignSystem()};
+  diez = new Diez(DesignSystem);
 
-  render () {
-    const {ds} = this.props;
+  componentWillMount() {
+    this.diez.attach((ds) => {
+      this.setState({ ds });
+    });
+  }
+
+  render() {
+    const { ds } = this.state;
 
     return (
       <div className={styles.wrapper}>
-        <Masthead 
+        <Masthead
           backgroundColor={ds.colors.darkBackground.toString()}
           backgroundImage={`url(${ds.images.masthead.url})`}
         />
-        <div 
+        <div
           className={styles.contentContainer}
           style={{
             backgroundColor: ds.colors.lightBackground.toString(),
@@ -73,7 +79,7 @@ export default class App extends React.PureComponent {
               src={ds.images.logo.url}
               marginLeft={ds.layoutValues.contentMargin.left}
             />
-            <div 
+            <div
               className={styles.innerContent}
               style={{
                 paddingTop: ds.layoutValues.contentMargin.top,
@@ -82,14 +88,14 @@ export default class App extends React.PureComponent {
                 paddingLeft: ds.layoutValues.contentMargin.left,
               }}
             >
-              <Title 
+              <Title
                 style={{
                   ...ds.typographs.heading1.css,
                   marginBottom: ds.layoutValues.spacingSmall
                 }}
                 text={ds.strings.title}
               />
-              <Caption 
+              <Caption
                 style={{
                   ...ds.typographs.caption.css,
                   marginBottom: ds.layoutValues.spacingSmall
@@ -97,7 +103,7 @@ export default class App extends React.PureComponent {
                 text={ds.strings.caption}
               />
               <div className={styles.animationContainer}>
-                <Animation lottie={ds.loadingAnimation}/>
+                <Animation lottie={ds.loadingAnimation} />
               </div>
             </div>
           </div>
