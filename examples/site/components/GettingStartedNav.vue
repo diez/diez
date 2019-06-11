@@ -6,12 +6,9 @@
       <div>
         <a href="/getting-started#guides" class="category">Guides</a>
         <div>
-          <div class="sub-category">General</div>
+          <div class="sub-category">Diez</div>
+          <a class="sub-link" href="/getting-started/the-basics">The Basics</a>
           <a class="sub-link soon" href="#">Hosting your Diez</a>
-          <a class="sub-link soon" href="#">Creating Native Bindings</a>
-          <a class="sub-link soon" href="#">Contributing a Prefab</a>
-          <a class="sub-link soon" href="#">Contributing a Target</a>
-          <a class="sub-link soon" href="#">Extending the CLI</a>
         </div>
         <div>
           <div class="sub-category">iOS</div>
@@ -31,8 +28,8 @@
         </div>
         <div>
           <div class="sub-category">Design Tools</div>
-          <a class="sub-link" href="/getting-started/sketch">Sketch</a>
-          <a class="sub-link soon" title="Guide coming soon" href="#">Figma</a>
+          <a class="sub-link" href="#">Figma</a>
+          <a class="sub-link soon" href="#" title="Guide coming soon">Sketch</a>
           <a class="sub-link soon" title="Guide coming soon" href="#">InVision DSM</a>
           <a class="sub-link soon" title="Guide coming soon" href="#">Abstract</a>
         </div>
@@ -69,7 +66,7 @@ export default class NavBar extends Vue {
     position: fixed;
     height: 100%;
     top: 0;
-    padding: 153px 0;
+    padding: 153px $spacing3XL 0 0;
     overflow-y: auto;
     overflow-x: hidden;
     a {
@@ -95,10 +92,25 @@ export default class NavBar extends Vue {
     margin-left: $spacingLG;
     margin-bottom: $spacingSM !important;
     &.soon {
-      text-decoration: line-through;
       color: $gray700;
       font-style: italic;
-      cursor: not-allowed;
+      &:hover:after {
+        opacity: 1;
+      }
+      &:after {
+        content: "SOON";
+        opacity: 0;
+        font-size: 10px;
+        padding: 0 $spacingXS;
+        margin-left:6px;
+        transform: translateY(5px);
+        position: absolute;
+        z-index: 1000;
+        color: $white;
+        background-color: $mauve;
+        border-radius: $borderRadiusButton;
+        transition: opacity 130ms ease;
+      }
     }
   }
 </style>

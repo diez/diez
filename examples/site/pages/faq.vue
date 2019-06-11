@@ -13,7 +13,7 @@
           <h3>How is this different from React Native, Flutter, et al?</h3>
         </div>
         <div class="two-thirds answer">
-          <p>Diez doesn't force your app to work within its paradigm or have opinions on how you design, develop, and structure your app's code. It simply provides you with SDKs for use in your existing codebases. Diez SDKs are libraries <strong>not frameworks</strong> — they are intended to complement, but not replace, your design workflow.</p>
+          <p>Diez doesn't force your app to work within its paradigm or have opinions on how you design, develop, and structure your app's code. It simply provides you with SDKs for use in your existing codebases. Your generated Diez SDKs are libraries <strong>not frameworks</strong> — they are intended to complement, but not replace, your design workflow.</p>
         </div>
         <div id="extensibility-explained" class="one-third question">
           <h3>How is Diez designed for extensibility?</h3>
@@ -78,11 +78,6 @@
           <p>Authoring Diez currently requires writing code.  It's straightforward to write, and at least as easy to write as React (probably easier!) — so if you consider yourself a low-coder, Diez is probably a great fit. We highly recommend authorizing Diez components using VS Code, which provides first-class support for TypeScript.</p>
         </div>
         <div class="one-third question">
-          <h3>Does Diez work with modern design tools; e.g. Figma, Sketch, InVision, et al?</h3>
-        </div>
-        <div class="two-thirds answer">
-        </div>
-        <div class="one-third question">
           <h3>Does a team's design system source of truth live in design tools or in Diez?</h3>
         </div>
         <div class="two-thirds answer">
@@ -130,7 +125,7 @@
         </div>
         <div class="two-thirds answer">
           <p>We have an ambitious and exciting road ahead of us, and are very open to <a href="https://spectrum.chat/diez/feedback">feedback about which features you'd like to see</a> us work on next.</p>
-          <p>Our current roadmap is <a href="https://github.com/diez/diez/projects/1">on GitHub</a>.</p>
+          <p>Our current roadmap will be on GitHub very soon</a>.</p>
         </div>
       </section>
     </div>

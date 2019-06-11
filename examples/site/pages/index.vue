@@ -254,17 +254,4 @@ export default class extends Vue {
   .bottom-spacer {
     margin-bottom: $sizingXS;
   }
-
-  .aside {
-    margin-top: $spacing2XL;
-    font-size: 17px;
-    padding: $spacingXS $spacingXL;
-    background-color: $gray400;
-    color: $purple;
-    border: 4px solid $purple;
-    border-radius: $borderRadiusCard;
-    li, p {
-      line-height: 30px;
-    }
-  }
 </style>

@@ -8,9 +8,19 @@
         </div>
         <div class="three-quarters">
           <h2 id="why">Getting Started</h2>
+          <div class="aside">
+            <h4>🚨Early Beta Warning 🚨</h4>
+            <p>Although we’re in early beta, we think you can get your first Diez (DS) set up and powering an application codebase in 5 minutes!</p>
+            <p>Please keep in mind that Diez is under active development. A few notable pieces we have proven out that will be dropping into the repo soon include:</p>
+            <ul>
+              <li>CSS & Sass support</li>
+              <li>Wider Sketch support (currently only image syncing)</li>
+              <li>More guides and demos</li>
+            </ul>
+          </div>
           <h3>Introduction</h3>
           <p>Diez aims to make it easy for you to adopt a unified design language across codebases, platforms, and teams. It is intended to be used as <i>the</i> source of truth for your design system.</p>
-          <p>While we're in beta, there might be some rough edges. With that said we think you have a good shot at getting your first Diez (DS) set up and powering your targets in 5 minutes!</p>
+          <p>Be sure to visit <NuxtLink to="/getting-started/the-basics">the basics</NuxtLink> guide for more information on how to get up and running.</p>
           <h3 id="installation">Installation</h3>
           <div class="block">
             <h4>Install the Diez CLI & create a new Diez</h4>
@@ -28,12 +38,29 @@
           <div class="block">
             <h4>Serve the HMR production build locally</h4>
             <div class="code-block">
-              <pre><code>yarn start-ios</code></pre>
+              <pre><code>yarn start-web</code></pre>
             </div>
-            <p class="note">Alternatively <code class="inline">yarn start-android</code> or <code class="inline">yarn start-web</code></p>
+            <p class="note">Alternatively <code class="inline">yarn start-ios</code> or <code class="inline">yarn start-android</code></p>
           </div>
           <h3 id="guides">Guides</h3>
-            <p>There are a handful of guides available in the side menu. We're working hard to generate a complete set of guides. Check back soon. In the meantime, please don't hesistate to <a href="https://spectrum.chat/diez">reach out for help</a> on a particular topic.</p>
+            <p>There are a handful of guides available in the side menu. We're working hard to generate a complete set of guides. Check back soon. In the meantime, please don't hesitate to <a href="https://spectrum.chat/diez">reach out for help</a> on a particular topic.</p>
+            <div class="holster-tri-card">
+            <NuxtLink class="card third" to="/getting-started/the-basics">
+              <img src="@/assets/imgs/logo.svg" alt="Swift"><span>Diez Basics</span>
+            </NuxtLink>
+            <NuxtLink class="card third" to="/getting-started/swift">
+              <img src="@/assets/imgs/swift.svg" alt="Swift"><span>Swift Guide</span>
+            </NuxtLink>
+            <NuxtLink class="card third" to="/getting-started/kotlin">
+              <img src="@/assets/imgs/kotlin.svg" alt="Kotlin"><span>Kotlin Guide</span>
+            </NuxtLink>
+            <NuxtLink class="card third" to="/getting-started/javascript">
+              <img src="@/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript Guide</span>
+            </NuxtLink>
+            <NuxtLink class="card third" to="/getting-started/figma">
+              <img src="@/assets/imgs/figma.svg" alt="ObjectiveC"><span>Figma Guide</span>
+            </NuxtLink>
+          </div>
         </div>
       </section>
     </div>

@@ -5,7 +5,7 @@
       <section class="section-split">
         <div class="one-quarter">
           <div class="nav-wrap">
-            <a href="#tokens">Design Tokens</a>
+            <a href="#tokens">Design Token Components</a>
             <a href="#headless">Headless Components</a>
             <a href="#prefabs">Prefab Components</a>
             <a href="#targets">Targets</a>
@@ -15,10 +15,10 @@
         </div>
         <div class="three-quarters">
           <h2 id="glossary">Glossary</h2>
-          <h3 id="tokens">Design Tokens</h3>
-          <p><strong>Design tokens</strong> are the basic building blocks that define your design system. They are the base layer that enables you to compose your UI in a uniform and consistent manner using reusable patterns.</p>
-          <p>In Diez, <a href="#headless">headlesss</a> components are used to make your team's <strong>design tokens</strong> customizable, reusable, and developer-friendly across all platforms.</p>
-          <p>While you can create your own custom <a href="#headless">headlesss</a> components, Diez ships with many "off the shelf" <a href="#prefabs">prefab</a> components, which are prepared to handle common <strong>design token</strong> use cases.</p>
+          <h3 id="tokens">Design Token Components (DTC)</h3>
+          <p>Design tokens are the basic building blocks that define your design system. They are the base layer that enables you to compose your UI in a uniform and consistent manner using reusable patterns.</p>
+          <p>In Diez, <a href="#headless">headlesss</a> components are used to transform your team's design tokens into <strong>design token components</strong>, making them customizable, reusable, and developer-friendly across all platforms.</p>
+          <p>While you can create your own custom <a href="#headless">headlesss</a> components for this job, Diez ships with many "off the shelf" <a href="#prefabs">prefab</a> components, which are prepared to handle common design token use cases.</p>
           <h3 id="headless">Headless Components</h3>
           <p>It's common to think of components in a visual context, as things that snap together in a UI. We think of components more simply as bearers of state. And because we're not dealing with rendering context, we call them <strong>headless</strong> components.</p>
           <h3 id="prefabs">Prefab Components</h3>

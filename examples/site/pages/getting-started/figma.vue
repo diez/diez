@@ -7,7 +7,7 @@
           <GettingStartedNav/>
         </div>
         <div class="three-quarters">
-          <h2 id="why">Sketch Guide</h2>
+          <h2 id="why">Figma Guide</h2>
           <h3>Introduction</h3>
           <p>Diez's aim is to make it easy for you to adopt a unified design language across codebases, platforms, and teams. It is intended to be used as <i>the</i> source of truth for your design system.</p>
           <p>Getting started is easy. Just follow the next step. You'll be set up and able to see changes in your typescript</p>

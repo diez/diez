@@ -75,6 +75,12 @@ h3 {
   }
 }
 
+h4 {
+  font-size: 1.46rem;
+  line-height: 2.2rem;
+  margin-bottom: 0;
+}
+
 li {
   margin-top: $spacingMD;
 }
@@ -145,6 +151,14 @@ button,
   }
 }
 
+a.card {
+  color: $black;
+  transition: background-color 120ms ease;
+  &:hover {
+    text-decoration: none;
+    background-color: darken($cardColor, 1.3%);
+  }
+}
 
 .strike {
   text-decoration: line-through wavy $purple;
@@ -230,5 +244,18 @@ button,
   color: $gray900;
   code {
     font-weight: 400 !important;
+  }
+}
+
+.aside {
+  margin-top: $spacing2XL;
+  font-size: 17px;
+  padding: $spacingXS $spacingXL;
+  background-color: $gray400;
+  color: $purple;
+  border: 4px solid $purple;
+  border-radius: $borderRadiusCard;
+  li, p {
+    line-height: 30px;
   }
 }
