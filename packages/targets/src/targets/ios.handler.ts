@@ -210,7 +210,6 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
         join(coreIos, 'core', 'Diez.swift'),
         join(coreIos, 'core', 'Environment.swift'),
         join(coreIos, 'core', 'Bundle+Environment.swift'),
-        join(coreIos, 'core', 'Serialization.swift'),
         join(coreIos, 'core', 'ReflectedCustomStringConvertible.swift'),
       ]),
       dependencies: new Set<IosDependency>(),

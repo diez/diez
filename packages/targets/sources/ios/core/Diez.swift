@@ -3,7 +3,7 @@
 
  A component that can be observed by a [Diez](x-source-tag://Diez) instance.
  */
-public protocol StateBag: Decodable, Updatable {
+public protocol StateBag: Decodable {
     init()
     static var name: String { get }
 }
@@ -25,15 +25,15 @@ public protocol StateBag: Decodable, Updatable {
  - Note: The presence of a `WKWebView` in hot mode and the need to provide a `UIView` will be removed in the
    future.
  */
-public class Diez<T>: NSObject where T: StateBag {
+public final class Diez<T>: NSObject where T: StateBag {
     private var component: T
 
     /**
-     - Parameter view: When in [hot mode](x-source-tag://Diez), this view will have a visually empty 
+     - Parameter view: When in [hot mode](x-source-tag://Diez), this view will have a visually empty
        `WKWebView` added to it in order to communicate with the Diez server. When not in [hot mode]
        (x-source-tag://Diez) this value is unused.
 
-     - Note: The presence of a `WKWebView` in [hot mode](x-source-tag://Diez) and the need to provide a 
+     - Note: The presence of a `WKWebView` in [hot mode](x-source-tag://Diez) and the need to provide a
        `UIView` will be removed in a future version.
      */
     public init(view: UIView) {
@@ -92,9 +92,6 @@ public class Diez<T>: NSObject where T: StateBag {
         /// The type of error that occured.
         public let errorType: ErrorType
 
-        /// The partially updated component.
-        public let partiallyUpdatedComponent: T
-
         /// The underlying error which caused this error, if any.
         public let underlyingError: Error?
     }
@@ -106,8 +103,8 @@ public class Diez<T>: NSObject where T: StateBag {
      Registers the provided closure for updates to the component of type `T`.
 
      The provided closure is called synchronously when this function is called.
-     
-     If in [hot mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
+
+     Iff in [hot mode](x-source-tag://Diez), this closure will also be called whenever changes occur to the
      component.
 
      - Parameter subscriber: The closure to be called when the component updates.
@@ -116,15 +113,16 @@ public class Diez<T>: NSObject where T: StateBag {
         if environment.isHot && !Bundle.main.allowsLocalNetworking {
             let error = AttachError(
                 errorType: .appTransportSecurityFailure,
-                partiallyUpdatedComponent: component,
                 underlyingError: nil)
             subscriber(.failure(error))
             return;
         }
 
-        // Initially execute a synchronous call on our subscriber.
         subscriber(.success(component))
-        subscribers.append(subscriber)
+
+        if environment.isHot {
+          subscribers.append(subscriber)
+        }
     }
 
     private let decoder = JSONDecoder()
@@ -146,13 +144,12 @@ extension Diez: UpdateObserverDelegate {
 
     private func resultForUpdate(with body: String) -> AttachResult {
         do {
-            try decoder.update(&component, from: Data(body.utf8))
+            let component = try decoder.decode(T.self, from: Data(body.utf8))
             return .success(component)
         } catch {
             guard let decodingError = error as? DecodingError else {
                 let attachError = AttachError(
                     errorType: .unrecognized,
-                    partiallyUpdatedComponent: component,
                     underlyingError: error
                 )
                 return .failure(attachError)
@@ -160,7 +157,6 @@ extension Diez: UpdateObserverDelegate {
 
             let attachError = AttachError(
                 errorType: AttachError.ErrorType(decodingError),
-                partiallyUpdatedComponent: component,
                 underlyingError: error
             )
             return .failure(attachError)
@@ -249,7 +245,7 @@ private protocol UpdateObserverDelegate: NSObject {
     func update(with body: String)
 }
 
-private class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: StateBag {
+private final class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: StateBag {
     weak var delegate: UpdateObserverDelegate?
 
     init(view: UIView) {

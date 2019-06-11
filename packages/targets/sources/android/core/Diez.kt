@@ -36,18 +36,19 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
 
     @JavascriptInterface
     fun patch(json: String) {
-        // TODO: update instead of replacing!
         try {
             component = adapter.fromJson(json)!!
+            broadcast()
         } catch (e: Exception) {
             Log.e("DIEZ", e.toString())
         }
-        broadcast()
     }
 
     fun attach(subscriber: (T) -> Unit) {
         subscriber(component)
-        subscribe(subscriber)
+        if (Environment.isHot) {
+            subscribe(subscriber)
+        }
     }
 
     fun subscribe(subscriber: (T) -> Unit) {

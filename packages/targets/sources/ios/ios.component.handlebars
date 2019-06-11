@@ -8,18 +8,14 @@ public final class {{{componentName}}}: NSObject, Decodable {
     @objc public internal(set) var {{@key}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
-
-    private enum CodingKeys: String, CodingKey {
-        {{#each properties}}
-        case {{@key}}
-        {{/each}}
-    }
     {{#if singleton}}
 
-    {{#if public}}public {{/if}}override init() {
-        {{#each properties}}
-        {{@key}} = {{{this.initializer}}}
-        {{/each}}
+    convenience {{#if public}}public {{/if}}override init() {
+        self.init(
+            {{#each properties}}
+            {{@key}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
+            {{/each}}
+        )
     }
     {{/if}}
 
@@ -39,19 +35,6 @@ public final class {{{componentName}}}: NSObject, Decodable {
 
     public static let name = "{{{componentName}}}"
     {{/if}}
-}
-
-extension {{{componentName}}}: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        {{#each properties}}
-          {{#if this.updatable}}
-        try container.update(updatable: &{{@key}}, forKey: .{{@key}})
-          {{else}}
-        try container.update(value: &{{@key}}, forKey: .{{@key}})
-          {{/if}}
-        {{/each}}
-    }
 }
 
 extension {{{componentName}}}: ReflectedCustomStringConvertible {

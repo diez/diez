@@ -11,25 +11,12 @@ public final class File: NSObject, Decodable {
     @objc public internal(set) var src: String
     @objc public internal(set) var type: String
 
-    private enum CodingKeys: String, CodingKey {
-        case src
-        case type
-    }
-
     init(
         src: String,
         type: String
     ) {
         self.src = src
         self.type = type
-    }
-}
-
-extension File: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &src, forKey: .src)
-        try container.update(value: &type, forKey: .type)
     }
 }
 
@@ -93,14 +80,6 @@ public final class Image: NSObject, Decodable {
     @objc public internal(set) var width: Int
     @objc public internal(set) var height: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case file
-        case file2x
-        case file3x
-        case width
-        case height
-    }
-
     init(
         file: File,
         file2x: File,
@@ -113,17 +92,6 @@ public final class Image: NSObject, Decodable {
         self.file3x = file3x
         self.width = width
         self.height = height
-    }
-}
-
-extension Image: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &file, forKey: .file)
-        try container.update(updatable: &file2x, forKey: .file2x)
-        try container.update(updatable: &file3x, forKey: .file3x)
-        try container.update(value: &width, forKey: .width)
-        try container.update(value: &height, forKey: .height)
     }
 }
 
@@ -211,12 +179,6 @@ public final class Lottie: NSObject, Decodable {
     @objc public internal(set) var loop: Bool
     @objc public internal(set) var autoplay: Bool
 
-    private enum CodingKeys: String, CodingKey {
-        case file
-        case loop
-        case autoplay
-    }
-
     init(
         file: File,
         loop: Bool,
@@ -225,15 +187,6 @@ public final class Lottie: NSObject, Decodable {
         self.file = file
         self.loop = loop
         self.autoplay = autoplay
-    }
-}
-
-extension Lottie: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &file, forKey: .file)
-        try container.update(value: &loop, forKey: .loop)
-        try container.update(value: &autoplay, forKey: .autoplay)
     }
 }
 
@@ -376,14 +329,11 @@ public final class Font: NSObject, Decodable {
     @objc public internal(set) var file: File
     @objc public internal(set) var name: String
 
-    private enum CodingKeys: String, CodingKey {
-        case file
-        case name
-    }
-
-    override init() {
-        file = File(src: "assets/SomeFont.ttf", type: "font")
-        name = "SomeFont"
+    convenience override init() {
+        self.init(
+            file: File(src: "assets/SomeFont.ttf", type: "font"),
+            name: "SomeFont"
+        )
     }
 
     init(
@@ -392,14 +342,6 @@ public final class Font: NSObject, Decodable {
     ) {
         self.file = file
         self.name = name
-    }
-}
-
-extension Font: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &file, forKey: .file)
-        try container.update(value: &name, forKey: .name)
     }
 }
 
@@ -416,13 +358,6 @@ public final class Color: NSObject, Decodable {
     @objc public internal(set) var l: CGFloat
     @objc public internal(set) var a: CGFloat
 
-    private enum CodingKeys: String, CodingKey {
-        case h
-        case s
-        case l
-        case a
-    }
-
     init(
         h: CGFloat,
         s: CGFloat,
@@ -433,16 +368,6 @@ public final class Color: NSObject, Decodable {
         self.s = s
         self.l = l
         self.a = a
-    }
-}
-
-extension Color: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(value: &h, forKey: .h)
-        try container.update(value: &s, forKey: .s)
-        try container.update(value: &l, forKey: .l)
-        try container.update(value: &a, forKey: .a)
     }
 }
 
@@ -469,12 +394,6 @@ public final class Typograph: NSObject, Decodable {
     @objc public internal(set) var fontSize: CGFloat
     @objc public internal(set) var color: Color
 
-    private enum CodingKeys: String, CodingKey {
-        case font
-        case fontSize
-        case color
-    }
-
     init(
         font: Font,
         fontSize: CGFloat,
@@ -483,15 +402,6 @@ public final class Typograph: NSObject, Decodable {
         self.font = font
         self.fontSize = fontSize
         self.color = color
-    }
-}
-
-extension Typograph: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &font, forKey: .font)
-        try container.update(value: &fontSize, forKey: .fontSize)
-        try container.update(updatable: &color, forKey: .color)
     }
 }
 
@@ -567,16 +477,12 @@ public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var lottie: Lottie
     @objc public internal(set) var typograph: Typograph
 
-    private enum CodingKeys: String, CodingKey {
-        case image
-        case lottie
-        case typograph
-    }
-
-    public override init() {
-        image = Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), width: 246, height: 246)
-        lottie = Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true)
-        typograph = Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
+    convenience public override init() {
+        self.init(
+            image: Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), width: 246, height: 246),
+            lottie: Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true),
+            typograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1))
+        )
     }
 
     init(
@@ -590,15 +496,6 @@ public final class Bindings: NSObject, StateBag {
     }
 
     public static let name = "Bindings"
-}
-
-extension Bindings: Updatable {
-    public func update(from decoder: Decoder) throws {
-        guard let container = try decoder.containerIfPresent(keyedBy: CodingKeys.self) else { return }
-        try container.update(updatable: &image, forKey: .image)
-        try container.update(updatable: &lottie, forKey: .lottie)
-        try container.update(updatable: &typograph, forKey: .typograph)
-    }
 }
 
 extension Bindings: ReflectedCustomStringConvertible {

@@ -26,7 +26,6 @@ class LoadingViewController: UIViewController {
                 self?.apply(design)
             case .failure(let error):
                 print(error)
-                self?.apply(error.partiallyUpdatedComponent)
             }
         }
     }
