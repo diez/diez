@@ -80,9 +80,9 @@ class LayoutValues extends Component {
   @property spacingMedium = 25;
   @property spacingLarge = 40;
   @property contentMargin = new Margin({
-    top: this.spacingLarge, 
-    left: this.spacingMedium, 
-    right: this.spacingMedium, 
+    top: this.spacingLarge,
+    left: this.spacingMedium,
+    right: this.spacingMedium,
     bottom: this.spacingMedium
   });
 }

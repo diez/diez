@@ -17,6 +17,7 @@
   "scripts": {
     "build-android": "diez compile -t android",
     "build-ios": "diez compile -t ios --cocoapods",
+    "run-ios": "yarn build-ios && diez hot -t ios",
     "build-web": "diez compile -t web"
   }
 }

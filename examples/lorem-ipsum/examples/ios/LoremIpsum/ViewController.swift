@@ -10,22 +10,31 @@ import UIKit
 import DiezLoremIpsum
 
 class ViewController: UIViewController {
+    private lazy var diez = Diez<DesignSystem>(view: view)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let designSystem = DesignSystem()
-
+        diez.attach { [weak self] result in
+            switch result {
+            case .success(let designSystem):
+                self?.apply(designSystem)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func apply(_ designSystem: DesignSystem) {
         guard let view = self.view as? View else {
             fatalError("Unexpected view type: \(String(describing: self.view))")
         }
         
-        guard let mastheadImage = designSystem.images.masthead.image else {
-            fatalError("Failed to load masthead image.")
-        }
-        
         view.backgroundColor = designSystem.colors.darkBackground.color
         
-        view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)
+        if let mastheadImage = designSystem.images.masthead.image {
+            view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)
+        }
         
         view.iconView.image = designSystem.images.logo.image
         
