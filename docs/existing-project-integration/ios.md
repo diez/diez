@@ -64,7 +64,7 @@ extension {
 
 ```swift
 extension Image {
-    var image: UIImage
+    var uiImage: UIImage
 }
 ```
 

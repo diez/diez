@@ -27,7 +27,7 @@ extension ReportViewController {
     private func apply(_ design: HeaderDesign, to view: ReportHeaderView) {
         view.regionLabel.apply(design.regionLabel)
         view.placeLabel.apply(design.placeLabel)
-        view.pinIconImageView.image = design.mapPinIcon.image
+        view.pinIconImageView.image = design.mapPinIcon.uiImage
         view.locationImageView.strokeWidth = design.locationImage.strokeWidth
         view.locationImageView.strokeGradient = Gradient(design.locationImage.strokeGradient)
         view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
@@ -46,7 +46,7 @@ extension ReportViewController {
 
     private func apply(_ design: TemperatureDesign, to view: HorizontalImageLabelView) {
         view.label.apply(design.typograph)
-        view.imageView.image = design.icon.image
+        view.imageView.image = design.icon.uiImage
         view.spacing = design.iconSpacing
     }
 
@@ -56,7 +56,7 @@ extension ReportViewController {
         view.bottomLabel.apply(design.valueTypograph)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
-        view.imageView.image = design.icon.image
+        view.imageView.image = design.icon.uiImage
     }
 
     private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
@@ -99,7 +99,7 @@ extension ReportViewController {
         navigationBar.barTintColor = design.barTintColor.color
         view.label.text = design.title
         view.label.apply(design.typograph)
-        view.imageView.image = design.icon.image
+        view.imageView.image = design.icon.uiImage
         view.spacing = design.iconToTitleSpacing
     }
 }

@@ -1,13 +1,13 @@
 extension Image {
     /**
-     An image of the appropriate scale if it exits.
+     An `UIImage` of the appropriate scale if it exits.
 
      When in [hot mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale)
      with `UIScreen.main.scale`.
 
      When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
-    @objc public var image: UIImage? {
+    @objc public var uiImage: UIImage? {
         if environment.isHot {
             guard let hotImage = image(withScale: UIScreen.main.scale) else {
                 return image(withScale: 3)

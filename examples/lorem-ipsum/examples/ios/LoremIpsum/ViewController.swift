@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         diez.attach { [weak self] result in
             switch result {
             case .success(let designSystem):
@@ -24,20 +24,20 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     private func apply(_ designSystem: DesignSystem) {
         guard let view = self.view as? View else {
             fatalError("Unexpected view type: \(String(describing: self.view))")
         }
-        
+
         view.backgroundColor = designSystem.colors.darkBackground.color
-        
-        if let mastheadImage = designSystem.images.masthead.image {
+
+        if let mastheadImage = designSystem.images.masthead.uiImage {
             view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)
         }
-        
-        view.iconView.image = designSystem.images.logo.image
-        
+
+        view.iconView.image = designSystem.images.logo.uiImage
+
         view.contentBackgroundView.backgroundColor = designSystem.colors.lightBackground.color
         let margin = designSystem.layoutValues.contentMargin
         view.contentStackView.layoutMargins = UIEdgeInsets(
@@ -47,28 +47,28 @@ class ViewController: UIViewController {
             right: margin.right
         )
         view.contentStackView.spacing = designSystem.layoutValues.spacingSmall
-        
+
         view.titleLabel.apply(designSystem.typographs.heading1)
         view.titleLabel.text = designSystem.strings.title
-        
+
         view.captionLabel.apply(designSystem.typographs.caption)
         view.captionLabel.text = designSystem.strings.caption
-        
+
         view.animationView.load(designSystem.loadingAnimation)
     }
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     override func loadView() {
         view = View()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }
 }
