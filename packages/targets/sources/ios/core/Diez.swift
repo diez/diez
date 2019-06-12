@@ -144,7 +144,7 @@ extension Diez: UpdateObserverDelegate {
 
     private func resultForUpdate(with body: String) -> AttachResult {
         do {
-            let component = try decoder.decode(T.self, from: Data(body.utf8))
+            component = try decoder.decode(T.self, from: Data(body.utf8))
             return .success(component)
         } catch {
             guard let decodingError = error as? DecodingError else {
