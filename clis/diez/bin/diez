@@ -10,6 +10,7 @@ if (semver.gt('7.6.0', process.version)) {
   const packageJson = require('package-json');
   const {warning, diezVersion} = require('@diez/cli-core');
   const {join} = require('path');
+  const {clearLine} = require('readline');
 
   // Perform a fast DNS resolution check to avoid a hung version check.
   require('dns').lookup('npmjs.com', async (err) => {
@@ -22,6 +23,7 @@ if (semver.gt('7.6.0', process.version)) {
     const ticks = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
     let i = 0;
     const interval = setInterval(() => {
+      clearLine(process.stdout);
       process.stdout.write(`${ticks[i++ % 10]} Checking for updates...\r`);
     }, 30);
 
@@ -34,6 +36,7 @@ if (semver.gt('7.6.0', process.version)) {
       // Noop.
     } finally {
       clearInterval(interval);
+      clearLine(process.stdout);
       require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));
     }
   });
