@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.4](https://github.com/stristr/diez/compare/v10.0.0-alpha.3...v10.0.0-alpha.4) (2019-06-13)
+
+**Note:** Version bump only for package stub
+
+
+
+
+
 # [10.0.0-alpha.3](https://github.com/stristr/diez/compare/v10.0.0-alpha.2...v10.0.0-alpha.3) (2019-06-10)
 
 **Note:** Version bump only for package stub

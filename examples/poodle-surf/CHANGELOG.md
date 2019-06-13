@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.4](https://github.com/stristr/diez/compare/v10.0.0-alpha.3...v10.0.0-alpha.4) (2019-06-13)
+
+
+### chore
+
+* **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/stristr/diez/issues/137)) ([7bbd9f5](https://github.com/stristr/diez/commit/7bbd9f5))
+
+
+### Features
+
+* **examples:** use hot updates in lorem-ipsum android example ([#136](https://github.com/stristr/diez/issues/136)) ([8cabfc4](https://github.com/stristr/diez/commit/8cabfc4))
+* **ios:** remove Updatable ([#134](https://github.com/stristr/diez/issues/134)) ([cff9845](https://github.com/stristr/diez/commit/cff9845))
+* add support for design system extraction for Figma files ([#140](https://github.com/stristr/diez/issues/140)) ([26b6d87](https://github.com/stristr/diez/commit/26b6d87))
+
+
+### BREAKING CHANGES
+
+* **ios:** The `image` property getter that returns a `UIImage` on the `Image` extension has been renamed `uiImage`.
+
+
+
+
+
 # [10.0.0-alpha.3](https://github.com/stristr/diez/compare/v10.0.0-alpha.2...v10.0.0-alpha.3) (2019-06-10)
 
 **Note:** Version bump only for package poodle-surf

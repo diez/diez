@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.4](https://github.com/stristr/diez/compare/v10.0.0-alpha.3...v10.0.0-alpha.4) (2019-06-13)
+
+
+### Bug Fixes
+
+* **ios:** save component state after an update ([#139](https://github.com/stristr/diez/issues/139)) ([9f188fc](https://github.com/stristr/diez/commit/9f188fc))
+* run CLI update check in the main thread ([#141](https://github.com/stristr/diez/issues/141)) ([739d4f3](https://github.com/stristr/diez/commit/739d4f3))
+
+
+### chore
+
+* **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/stristr/diez/issues/137)) ([7bbd9f5](https://github.com/stristr/diez/commit/7bbd9f5))
+
+
+### Features
+
+* **createproject:** `yarn create`/`npm init` starter kits for Diez ([#130](https://github.com/stristr/diez/issues/130)) ([86caab2](https://github.com/stristr/diez/commit/86caab2))
+* **docs:** add getting started docs for iOS ([#132](https://github.com/stristr/diez/issues/132)) ([f67f039](https://github.com/stristr/diez/commit/f67f039))
+* **examples:** use hot updates in lorem-ipsum android example ([#136](https://github.com/stristr/diez/issues/136)) ([8cabfc4](https://github.com/stristr/diez/commit/8cabfc4))
+* **ios:** remove Updatable ([#134](https://github.com/stristr/diez/issues/134)) ([cff9845](https://github.com/stristr/diez/commit/cff9845))
+* add support for design system extraction for Figma files ([#140](https://github.com/stristr/diez/issues/140)) ([26b6d87](https://github.com/stristr/diez/commit/26b6d87))
+
+
+### BREAKING CHANGES
+
+* **ios:** The `image` property getter that returns a `UIImage` on the `Image` extension has been renamed `uiImage`.
+
+
+
+
+
 # [10.0.0-alpha.3](https://github.com/stristr/diez/compare/v10.0.0-alpha.2...v10.0.0-alpha.3) (2019-06-10)
 
 

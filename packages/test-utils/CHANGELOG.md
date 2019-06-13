@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.4](https://github.com/diez/diez/compare/v10.0.0-alpha.3...v10.0.0-alpha.4) (2019-06-13)
+
+
+### Features
+
+* **createproject:** `yarn create`/`npm init` starter kits for Diez ([#130](https://github.com/diez/diez/issues/130)) ([86caab2](https://github.com/diez/diez/commit/86caab2))
+* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+
+
+
+
+
 # [10.0.0-alpha.3](https://github.com/diez/diez/compare/v10.0.0-alpha.2...v10.0.0-alpha.3) (2019-06-10)
 
 **Note:** Version bump only for package @diez/test-utils
