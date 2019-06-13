@@ -7,7 +7,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
-    "diez-lorem-ipsum": "link:../../build/diez-lorem-ipsum-web",
+    "diez-lorem-ipsum": "file:../../build/diez-lorem-ipsum-web",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
@@ -21,6 +21,7 @@
     "css-loader": "^2.1.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.3",
     "webpack-dev-server": "^3.7.1"

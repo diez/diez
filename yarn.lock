@@ -6521,9 +6521,10 @@ dfa@^1.0.0:
   dependencies:
     babel-runtime "^6.11.6"
 
-"diez-lorem-ipsum@link:examples/lorem-ipsum/build/diez-lorem-ipsum-web":
+"diez-lorem-ipsum@file:examples/lorem-ipsum/build/diez-lorem-ipsum-web":
   version "0.0.0"
-  uid ""
+  dependencies:
+    lottie-web "^5.5.2"
 
 "diez-poodle-surf@link:examples/poodle-surf/build/diez-poodle-surf-web":
   version "0.0.0"
@@ -15669,7 +15670,7 @@ strong-log-transformer@^2.0.0:
     minimist "^1.2.0"
     through "^2.3.4"
 
-style-loader@0.23.1:
+style-loader@0.23.1, style-loader@^0.23.1:
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.23.1.tgz#cb9154606f3e771ab6c4ab637026a1049174d925"
   integrity sha512-XK+uv9kWwhZMZ1y7mysB+zoihsEj4wneFWAS5qoiLwzW0WzSqMrrsIy+a3zkQJq0ipFtBpX5W3MqyRIBF/WFGg==
