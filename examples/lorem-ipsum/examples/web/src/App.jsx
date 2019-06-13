@@ -7,14 +7,17 @@ const Masthead = ({ backgroundColor, backgroundImage }) => (
     className={styles.masthead}
     style={{
       backgroundColor: backgroundColor,
-      backgroundImage: backgroundImage,
+      backgroundImage: `url(${backgroundImage.url})`,
+      backgroundSize: `${backgroundImage.width}px ${backgroundImage.height}px`
     }}
   />
 );
 
-const Icon = ({ src, marginLeft }) => (
+const Icon = ({ image, marginLeft }) => (
   <img
-    src={src}
+    src={image.url}
+    width={image.width}
+    height={image.height}
     alt="logo"
     className={styles.icon}
     style={{
@@ -66,7 +69,7 @@ export default class App extends React.PureComponent {
       <div className={styles.wrapper}>
         <Masthead
           backgroundColor={ds.colors.darkBackground.toString()}
-          backgroundImage={`url(${ds.images.masthead.url})`}
+          backgroundImage={ds.images.masthead}
         />
         <div
           className={styles.contentContainer}
@@ -76,7 +79,7 @@ export default class App extends React.PureComponent {
         >
           <div className={styles.content}>
             <Icon
-              src={ds.images.logo.url}
+              image={ds.images.logo}
               marginLeft={ds.layoutValues.contentMargin.left}
             />
             <div
