@@ -23,9 +23,14 @@ export const locateFont = async (
   }
 
   if (isMacOS()) {
-    const candidates = JSON.parse(await execAsync(`./MacFonts '${fontFamily}'`, {
-      cwd: join(__dirname, '..', 'tools', 'mac-fonts', 'bin'),
-    })) as GeneratedFont[];
+    const candidates: GeneratedFont[] = [];
+    try {
+      candidates.push(...JSON.parse(await execAsync(`./MacFonts '${fontFamily}'`, {
+        cwd: join(__dirname, '..', 'tools', 'mac-fonts', 'bin'),
+      })));
+    } catch (error) {
+      // Noop. For some reason, we were not able to run the MacFonts binary on this machine.
+    }
 
     if (!candidates.length) {
       return;

@@ -13,3 +13,8 @@ checkstyle-result.xml
 types/**/*.d.ts.map
 lib/**/*.js.map
 coverage/
+tools/*/Makefile
+tools/*/Brewfile
+tools/*/Package.swift
+tools/*/.build/
+tools/*/Sources/

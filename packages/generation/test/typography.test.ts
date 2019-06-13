@@ -15,6 +15,9 @@ describe('typography', () => {
     mockExec.mockResolvedValue(JSON.stringify([]));
     expect(await locateFont('', {})).toBeUndefined();
 
+    mockExec.mockRejectedValueOnce(true);
+    expect(await locateFont('', {})).toBeUndefined();
+
     const nullFont = {name: '', style: '', path: ''};
     mockExec.mockResolvedValue(JSON.stringify([nullFont]));
     expect(await locateFont('nil', {style: 'normal'})).toEqual(nullFont);
