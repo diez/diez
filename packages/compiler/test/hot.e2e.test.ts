@@ -78,7 +78,7 @@ describe('hot server', () => {
         const compiler = new TestTargetCompiler(program);
         await compiler.start();
         expect(mockExitTrap).toHaveBeenCalled();
-        expect(mockExpressRender).toHaveBeenCalledWith('component', {componentName: 'foobar'});
+        expect(mockExpressRender).toHaveBeenCalledWith('component', {componentName: 'foobar', layout: false});
 
         // Simulate attaching to an asset server.
         mockWatcher.emit('add');

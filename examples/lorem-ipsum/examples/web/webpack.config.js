@@ -8,6 +8,7 @@ const hotFilePath = join(__dirname, '..', '..', '.diez', 'web-hot-url');
 
 const webpackConfig = {
   entry: './src/index.jsx',
+  resolve: {symlinks: false},
   module: {
     rules: [
       {

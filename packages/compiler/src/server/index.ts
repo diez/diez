@@ -34,7 +34,7 @@ export const serveHot = async (
 
   app.get('/components/:componentName', (request, response) => {
     const {componentName} = request.params;
-    response.render('component', {componentName});
+    response.render('component', {componentName, layout: false});
   });
 
   const webpackConfig = getConfiguration(program, componentEntry);
