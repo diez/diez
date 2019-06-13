@@ -15,9 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Environment.setContext(layout.context)
-        val designSystem = DesignSystem()
+        Diez(DesignSystem(), root).attach(fun(designSystem) {
+            runOnUiThread {
+                apply(designSystem)
+            }
+        })
+    }
 
+    private fun apply(designSystem: DesignSystem) {
         layout.setBackgroundColor(designSystem.colors.lightBackground.color)
 
         headerLayout.setBackgroundColor(designSystem.colors.darkBackground.color)
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // TODO: add to --target android core.
-    fun Number.toPx(): Int {
+    private fun Number.toPx(): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             this.toFloat(),
@@ -54,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         ).toInt()
     }
 
-    inline fun View.afterLayout(crossinline afterLayout: () -> Unit) {
+    inline private fun View.afterLayout(crossinline afterLayout: () -> Unit) {
         viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if (measuredWidth <= 0 || measuredHeight <= 0) {

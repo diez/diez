@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/layout"
         tools:context=".MainActivity"
-        android:orientation="vertical"
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false">
-
-    <FrameLayout
-            android:id="@+id/headerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:clipChildren="false">
-
-        <View
-                android:id="@+id/headerView"
-                android:layout_width="match_parent"
-                android:layout_height="112dp"
-                android:scaleType="centerCrop"/>
-
-        <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"/>
-
-    </FrameLayout>
+        android:layout_height="match_parent">
 
     <LinearLayout
-            android:id="@+id/contentLayout"
+            android:id="@+id/layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <Space
-                android:id="@+id/titleSpacer"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
-
-        <TextView
-                android:id="@+id/captionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <Space
-                android:id="@+id/captionSpacer"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
+            android:layout_height="match_parent"
+            android:clipChildren="false">
 
         <FrameLayout
+                android:id="@+id/headerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="112dp"
+                android:clipChildren="false">
 
-            <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animationView"
-                    android:layout_width="174dp"
-                    android:layout_height="165dp"
-                    android:layout_gravity="center"/>
+            <View
+                    android:id="@+id/headerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="112dp"
+                    android:scaleType="centerCrop"/>
+
+            <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"/>
 
         </FrameLayout>
 
+        <LinearLayout
+                android:id="@+id/contentLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <Space
+                    android:id="@+id/titleSpacer"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+            <TextView
+                    android:id="@+id/captionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <Space
+                    android:id="@+id/captionSpacer"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="174dp"
+                        android:layout_height="165dp"
+                        android:layout_gravity="center"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
