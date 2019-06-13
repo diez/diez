@@ -4,8 +4,11 @@
   "version": "1.0.0",
   "scripts": {
     {{#if android}}"build-android": "diez compile -t android",
+    "run-android": "diez hot -t android",
     {{/if}}{{#if ios}}"build-ios": "diez compile -t ios --cocoapods",
+    "run-ios": "diez hot -t ios",
     {{/if}}{{#if web}}"build-web": "diez compile -t web",
+    "run-web": "diez hot -t web",
     {{/if}}"extract": "diez extract"
   },
   "dependencies": {
