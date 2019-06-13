@@ -1,12 +1,24 @@
-import {findOpenPort} from '@diez/cli-core';
-import {AssetFolder, pascalCase, UniqueNameResolver} from '@diez/generation';
-import {join} from 'path';
+import {findOpenPort, info, warning} from '@diez/cli-core';
+import {
+  AssetFolder,
+  CodegenDesignSystem,
+  codegenDesignSystem,
+  createDesignSystemSpec,
+  getTypographInitializer,
+  locateFont,
+  pascalCase,
+  registerAsset,
+  registerFont,
+  UniqueNameResolver,
+} from '@diez/generation';
+import {downloadStream} from '@diez/storage';
+import {createWriteStream} from 'fs-extra';
+import {join, relative} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {v4} from 'uuid';
 import {Exporter, ExporterFactory, ExporterInput, OAuthable} from '../api';
-import {chunk, cliReporters, createFolders, sanitizeFileName} from '../utils';
+import {chunk, cliReporters, createFolders} from '../utils';
 import {
-  downloadFile,
   getOAuthCodeFromBrowser,
   performGetRequest,
   performGetRequestWithBearerToken,
@@ -35,28 +47,62 @@ const enum FigmaType {
 }
 
 const folders = new Map<FigmaType, AssetFolder>([
-  [FigmaType.Slice, AssetFolder.Slice],
-  [FigmaType.Group, AssetFolder.Group],
-  [FigmaType.Component, AssetFolder.Group],
-  [FigmaType.Frame, AssetFolder.Frame],
+  [FigmaType.Component, AssetFolder.Component],
 ]);
 
-interface FigmaNode {
-  exportSettings?: string[];
-  name: string;
-  type: FigmaType;
-  id: string;
-  children: FigmaNode[];
-  svg: string;
-  svgURL: string;
+interface FigmaFill {
+  color: {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+  };
 }
 
-interface FigmaProject {
+interface FigmaTextStyle {
+  fontFamily: string;
+  fontPostScriptName: string;
+  fontSize: number;
+}
+
+interface FigmaDimensions {
+  width: number;
+  height: number;
+}
+
+interface FigmaNode {
+  id: string;
   name: string;
-  lastModified: string;
-  thumbnailURL: string;
-  version: string;
-  document: FigmaNode;
+  children?: FigmaNode[];
+  absoluteBoundingBox?: FigmaDimensions;
+  fills?: FigmaFill[];
+  style?: FigmaTextStyle;
+  styles?: {
+    fill?: string;
+    text?: string;
+  };
+}
+
+/**
+ * Describes a Figma file retrieved from the Figma API.
+ * @ignore
+ */
+export interface FigmaFile {
+  name: string;
+  document: {
+    children: FigmaNode[];
+  };
+  styles?: {
+    [id: string]: {
+      name: string;
+      styleType: 'FILL' | 'TEXT';
+    };
+  };
+  components?: {
+    [id: string]: {
+      name: string;
+    };
+  };
 }
 
 interface FigmaImageResponse {
@@ -65,72 +111,8 @@ interface FigmaImageResponse {
 }
 
 interface FigmaImagesURL {
-  [key: string]: string;
+  [id: string]: string;
 }
-
-/**
- * Fetches SVG contents form the Figma API for a given set of FigmaNode elements.
- * @param elements elements to fetch SVG contents from the API
- */
-const getSVGContents = (elements: FigmaNode[], outFolder: string) => {
-  return Promise.all(
-    elements.map(async (element) => {
-      try {
-        if (element.svgURL) {
-          await downloadFile(
-            element.svgURL,
-            join(
-              outFolder,
-              (folders.get(element.type) || AssetFolder.Slice),
-              sanitizeFileName(`${element.name}.svg`),
-            ),
-          );
-        }
-      } catch (error) {
-        throw new Error(`Error importing ${element.name}: ${error}`);
-      }
-    }),
-  );
-};
-
-/**
- * Maps an array of elements into an array of elements with links to their
- * SVG representation in the cloud via the Figma API
- *
- * @param elements elements to get the SVG links from
- * @param id ID of the Figma file
- */
-export const getSVGLinks = async (elements: FigmaNode[], id: string, authToken: string) => {
-  const ids = chunk(elements.map((element) => element.id), importBatchSize);
-
-  if (ids[0].length === 0) {
-    throw new Error(
-      'It looks like the Figma document you imported doesn\'t have any exportable elements. ' +
-        'Try adding some and re-syncing.',
-    );
-  }
-
-  const chunkedResponse = await Promise.all(ids.map(async (idsChunk) => {
-    const params = new URLSearchParams([
-      ['format', 'svg'],
-      ['ids', idsChunk.join(',')],
-      ['svg_include_id', 'true'],
-    ]);
-
-    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-      `${apiBase}/images/${id}?${params.toString()}`,
-      authToken,
-    );
-
-    return images;
-  }));
-
-  const imageResponse: FigmaImagesURL = Object.assign({}, ...chunkedResponse);
-
-  return elements.map((element) => {
-    return Object.assign(element, {svgURL: imageResponse[element.id]}) as FigmaNode;
-  });
-};
 
 /**
  * Parses a Figma URL and returns an object describing the project, if the URL is invalid or can't be parsed
@@ -153,36 +135,156 @@ const parseProjectURL = (rawUrl: string) => {
  *
  * @param id ID of the Figma document
  */
-const fetchFile = (id: string, authToken: string): Promise<FigmaProject> => {
-  return performGetRequestWithBearerToken<FigmaProject>(`${apiBase}/files/${id}`, authToken);
+const fetchFile = (id: string, authToken: string): Promise<FigmaFile> => {
+  return performGetRequestWithBearerToken<FigmaFile>(`${apiBase}/files/${id}`, authToken);
 };
 
-/**
- *  Find nodes that contain any of the types defined in `VALID_TYPES`
- *
- * @param iter a iterable that retrieves `FigmaNode`s
- * @param docId id of the Figma document
- * @param nameResolver helper to determine unique names
- */
-const findExportableNodes = (iter: FigmaNode[], docId: string, nameResolver: UniqueNameResolver): FigmaNode[] => {
-  const result: FigmaNode[] = [];
+interface AssetDownloadParams {
+  scale: string;
+  ids: string;
+}
 
-  for (const item of iter) {
-    if (folders.has(item.type) || (item.exportSettings && item.exportSettings.length > 0)) {
-      result.push({
-        ...item,
-        id: item.id,
-        name: nameResolver.getAssetName(item.name),
-        type: item.type,
-      });
+const downloadAssets = async (
+  filenameMap: Map<string, string>,
+  assetsDirectory: string,
+  fileId: string,
+  authToken: string,
+) => {
+  if (!filenameMap.size) {
+    warning('This Figma file does not contain any shared components.');
+    return;
+  }
+
+  info('Retrieving component URLs from the Figma API...');
+  const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
+  const downloadParams: AssetDownloadParams[] = [];
+  const scales = ['1', '2', '3', '4'];
+  for (const scale of scales) {
+    for (const chunkedIds of componentIds) {
+      downloadParams.push({scale, ids: chunkedIds.join(',')});
     }
+  }
+  const resolvedUrlMap = new Map<string, Map<string, string>>(scales.map((scale) => [scale, new Map()]));
+  await Promise.all(downloadParams.map(async ({scale, ids}) => {
+    const params = new URLSearchParams([
+      ['format', 'png'],
+      ['ids', ids],
+      ['scale', scale],
+    ]);
+    const urlMap = resolvedUrlMap.get(scale)!;
 
-    if (item.children) {
-      result.push(...findExportableNodes(item.children, docId, nameResolver));
+    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
+      `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
+    for (const [id, url] of Object.entries(images)) {
+      urlMap.set(id, url);
+    }
+  }));
+
+  const streams: Promise<void>[] = [];
+  for (const [scale, urls] of resolvedUrlMap) {
+    for (const [id, url] of urls) {
+      const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
+      info(`Downloading asset ${filename} from the Figma CDN...`);
+      streams.push(downloadStream(url).then((stream) => {
+        stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
+      }));
     }
   }
 
-  return result;
+  return Promise.all(streams);
+};
+
+const getColorInitializerFromFigma = ({color: {r, g, b, a}}: FigmaFill) =>
+  `Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+
+const processFigmaNode = async (
+  spec: CodegenDesignSystem,
+  colors: Map<string, string>,
+  typographs: Map<string, string>,
+  components: Set<string>,
+  componentDimensions: Map<string, FigmaDimensions>,
+  node: FigmaNode,
+) => {
+  if (!colors.size && !typographs.size && !components.size) {
+    return;
+  }
+
+  if (node.styles) {
+    if (colors.size && node.styles.fill && colors.has(node.styles.fill) && node.fills && node.fills.length) {
+      spec.colors.push({
+        name: colors.get(node.styles.fill)!,
+        initializer: getColorInitializerFromFigma(node.fills[0]),
+      });
+      colors.delete(node.styles.fill);
+    }
+
+    if (typographs.size && node.styles.text && typographs.has(node.styles.text) && node.style) {
+      const candidateFont = await locateFont(
+        node.style.fontFamily,
+        {name: node.style.fontPostScriptName},
+      );
+      if (candidateFont) {
+        await registerFont(candidateFont, spec.fonts);
+      } else {
+        warning(`Unable to locate system font assets for ${node.style.fontFamily}.`);
+      }
+
+      spec.typographs.push({
+        name: typographs.get(node.styles.text)!,
+        initializer: getTypographInitializer(
+          spec.designSystemName,
+          candidateFont,
+          node.style.fontPostScriptName,
+          node.style.fontSize,
+          node.fills && node.fills[0] && getColorInitializerFromFigma(node.fills[0]),
+        ),
+      });
+      typographs.delete(node.styles.text);
+    }
+  }
+
+  if (components.has(node.id) && node.absoluteBoundingBox) {
+    componentDimensions.set(node.id, node.absoluteBoundingBox);
+    components.delete(node.id);
+  }
+
+  if (node.children) {
+    for (const childNode of node.children) {
+      await processFigmaNode(spec, colors, typographs, components, componentDimensions, childNode);
+    }
+  }
+};
+
+const parseFigmaFile = async (
+  spec: CodegenDesignSystem,
+  filenameMap: Map<string, string>,
+  assetsDirectory: string,
+  file: FigmaFile,
+) => {
+  // Build lookup tables for colors, fills, and components. As we discover color and fill definitions,
+  // we can delete them from the lookup table.
+  const styles = Object.entries(file.styles || {});
+  const colors = new Map(styles.filter(
+    ([_, {styleType}]) => styleType === 'FILL').map(([id, {name}]) => [id, name]));
+  const typographs = new Map(styles.filter(
+    ([_, {styleType}]) => styleType === 'TEXT').map(([id, {name}]) => [id, name]));
+  const components = new Set(filenameMap.keys());
+  const componentDimensions = new Map<string, FigmaDimensions>();
+  for (const node of file.document.children) {
+    await processFigmaNode(spec, colors, typographs, components, componentDimensions, node);
+  }
+
+  for (const [id, filename] of filenameMap) {
+    const dimensions = componentDimensions.get(id) || {width: 0, height: 0};
+    registerAsset(
+      {
+        ...dimensions,
+        src: join(assetsDirectory, AssetFolder.Component, `${filename}.png`),
+      },
+      AssetFolder.Component,
+      spec.assets,
+    );
+  }
 };
 
 /**
@@ -239,7 +341,7 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
    * Exports assets from Figma.
    */
   async export (
-    {source, assets}: ExporterInput,
+    {source, assets, code}: ExporterInput,
     projectRoot: string,
     reporters = cliReporters,
   ) {
@@ -256,15 +358,28 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
 
     reporters.progress('Fetching information from Figma.');
     const file = await fetchFile(projectData.id, this.token);
-    const componentName = pascalCase(file.name);
-    const assetName = `${componentName}.figma`;
-    const out = join(assets, `${assetName}.contents`);
-    await createFolders(out, folders.values());
-    const elements = await findExportableNodes(file.document.children, projectData.id, new UniqueNameResolver());
-    reporters.progress(`Fetching SVG elements from Figma for ${assetName}`);
-    const elementsWithLinks = await getSVGLinks(elements, projectData.id, this.token);
-    reporters.progress(`Downloading SVG elements for ${assetName}`);
-    await getSVGContents(elementsWithLinks, out);
+    const designSystemName = pascalCase(file.name);
+    const assetName = `${designSystemName}.figma`;
+    const assetsDirectory = join(assets, `${assetName}.contents`);
+
+    reporters.progress(`Creating necessary folders for ${assetName}`);
+    await createFolders(assetsDirectory, folders.values());
+
+    const codegenSpec = createDesignSystemSpec(
+      designSystemName,
+      assetsDirectory,
+      join(code, `${assetName}.ts`),
+      projectRoot,
+    );
+
+    const resolver = new UniqueNameResolver();
+    const filenameMap = new Map(Object.entries(file.components || {}).map(
+      ([id, {name}]) => [id, resolver.getComponentName(name)]));
+    await parseFigmaFile(codegenSpec, filenameMap, relative(projectRoot, assetsDirectory), file);
+    return Promise.all([
+      downloadAssets(filenameMap, assetsDirectory, projectData.id, this.token),
+      codegenDesignSystem(codegenSpec),
+    ]);
   }
 }
 

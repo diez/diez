@@ -11,7 +11,7 @@
     "test": "jest",
     "fix": "vue-cli-service lint components layouts pages",
     "lint": "yarn fix --no-fix",
-    "health": "jest --ci -c jest.ci.js && yarn lint -t checkstyle -o checkstyle-result.xml"
+    "health": "yarn lint -t checkstyle -o checkstyle-result.xml"
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.2.0",

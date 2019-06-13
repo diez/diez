@@ -1,6 +1,5 @@
 import {sep} from 'path';
-// @ts-ignore
-import {WritableMock} from 'stream-mock';
+import {BufferWritableMock} from 'stream-mock';
 
 /**
  * Provides a mock directory format for the mock filesystem.
@@ -77,11 +76,12 @@ export const mockFsExtraFactory = () => {
       return true;
     },
     createWriteStream (out: string) {
-      const stream = new WritableMock();
-      stream.close = () => {
-        writeFile(out, 'mockcontent');
-      };
-      return stream;
+      const writable = new BufferWritableMock({write: (buffer) => {
+        writeFile(out, buffer.toString());
+        writable.end();
+      }});
+
+      return writable;
     },
     readJson (path: string) {
       return JSON.parse(mockFileSystem[path] as string);

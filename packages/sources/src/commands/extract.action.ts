@@ -49,9 +49,9 @@ export = async ({hot}: SyncOptions) => {
     .map((designFile) => join(configuration.sources, designFile))
     .concat(configuration.services);
 
-  await Promise.all(sources.map((source) => {
+  await Promise.all(sources.map(async (source) => {
     try {
-      return performExtraction(
+      await performExtraction(
         {
           source,
           assets: configuration.assets,

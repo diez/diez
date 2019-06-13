@@ -33,7 +33,7 @@ export interface ExporterInput {
  * Defines a common interface for Exporters
  */
 export interface Exporter {
-  export (input: ExporterInput, projectRoot: string, reporters?: Reporters): Promise<void>;
+  export (input: ExporterInput, projectRoot: string, reporters?: Reporters): Promise<any>;
 }
 
 /**

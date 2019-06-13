@@ -1,13 +1,109 @@
-import {cleanupMockFileSystem, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
+import {
+  cleanupMockFileSystem,
+  mockCodegen,
+  mockFileSystem,
+  mockFsExtraFactory,
+  mockGenerationFactory,
+  mockLocateFont,
+} from '@diez/test-utils';
 jest.doMock('fs-extra', mockFsExtraFactory);
+jest.doMock('@diez/generation', mockGenerationFactory);
 
-import {FigmaExporter, getSVGLinks} from '../../src/exporters/figma';
+const mockRequest = jest.fn();
+jest.doMock('request', () => mockRequest);
 
-jest.mock('request');
+const downloadStreamMock = jest.fn();
+jest.doMock('@diez/storage', () => ({
+  ...jest.requireActual('@diez/storage'),
+  downloadStream: downloadStreamMock,
+}));
+
+import {Readable} from 'stream';
+import {FigmaExporter, FigmaFile} from '../../src/exporters/figma';
 
 const figma = FigmaExporter.create('mock-token');
 
 afterEach(cleanupMockFileSystem);
+
+const mockAbbreviatedResponse: FigmaFile = {
+  name: 'Hello',
+  document: {
+    children: [{
+      id: '',
+      name: '',
+    }],
+  },
+};
+
+const mockFullResponse: FigmaFile = {
+  name: 'Hello',
+  document: {
+    children: [{
+      id: 'component',
+      name: '',
+      absoluteBoundingBox: {
+        width: 1920,
+        height: 1080,
+      },
+      children: [
+        {
+          id: '',
+          name: '',
+          fills: [{
+            color: {
+              r: 0.03921568627451,
+              g: 0.03921568627451,
+              b: 0.03921568627451,
+              a: 1,
+            },
+          }],
+          styles: {
+            fill: 'color',
+          },
+          children: [{
+            id: '',
+            name: '',
+            fills: [{
+              color: {
+                r: 0.392156862745098,
+                g: 0.392156862745098,
+                b: 0.392156862745098,
+                a: 1,
+              },
+            }],
+            style: {
+              fontFamily: 'Foobar',
+              fontPostScriptName: 'Foobar-BoldItalic',
+              fontSize: 9001,
+            },
+            styles: {
+              text: 'text',
+            },
+          }],
+        },
+      ],
+    }],
+  },
+  components: {
+    component: {
+      name: 'Team Component',
+    },
+  },
+  styles: {
+    color: {
+      name: 'Diez Black',
+      styleType: 'FILL',
+    },
+    text: {
+      name: 'Foobar Typograph',
+      styleType: 'TEXT',
+    },
+  },
+};
+
+jest.mock('fontkit', () => ({
+  openSync: () => ({}),
+}));
 
 describe('Figma', () => {
   describe('canParse', () => {
@@ -24,20 +120,149 @@ describe('Figma', () => {
 
   describe('export', () => {
     test('exports assets as expected from a Figma URL', async () => {
-      const result = await figma.export(
+      mockRequest.mockImplementationOnce((_: any, callback: any) => callback(
+        undefined,
+        {statusCode: 200},
+        mockAbbreviatedResponse,
+      ));
+
+      // Ensure no crash on empty document.
+      await figma.export(
         {
           source: 'http://figma.com/file/key/name',
           assets: 'out',
-          code: 'noop',
+          code: 'src',
         },
-        'noop',
+        '.',
       );
-      expect(result).toBeUndefined();
-      expect(mockFileSystem['out/Hello.figma.contents/groups/Group.svg']).toBeTruthy();
-      expect(mockFileSystem['out/Hello.figma.contents/groups/Subgroup.svg']).toBeTruthy();
-      expect(mockFileSystem['out/Hello.figma.contents/frames/Frame.svg']).toBeTruthy();
-      expect(mockFileSystem['out/Hello.figma.contents/groups/Component.svg']).toBeTruthy();
-      expect(mockFileSystem['out/Hello.figma.contents/groups/Missing-URL.svg']).toBeFalsy();
+
+      mockRequest.mockReset();
+
+      mockRequest.mockImplementation(({uri}: {uri: string}, callback: any) => {
+        switch (uri) {
+          case 'https://api.figma.com/v1/files/key':
+            return callback(undefined, {statusCode: 200}, mockFullResponse);
+          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=1':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=2':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=3':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=4':
+            return callback(undefined, {statusCode: 200}, {
+              images: {
+                component: uri.charAt(uri.length - 1),
+              },
+            });
+          default:
+            throw new Error(`Unexpected uri: ${uri}`);
+        }
+      });
+
+      mockLocateFont.mockResolvedValue({
+        name: 'Foobar-BoldItalic',
+        family: 'Foobar',
+        path: '/path/to/Foobar-BoldItalic.ttf',
+        style: 'Bold Italic',
+      });
+
+      downloadStreamMock.mockImplementation((scale: string) => {
+        const stream = new Readable();
+        stream._read = () => {};
+        stream.push(`asset @${scale}x`);
+        stream.push(null);
+        return Promise.resolve(stream);
+      });
+
+      await figma.export(
+        {
+          source: 'http://figma.com/file/key/name',
+          assets: 'out',
+          code: 'src',
+        },
+        '.',
+      );
+
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        1,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/files/key',
+        },
+        expect.anything(),
+      );
+
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        2,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=1',
+        },
+        expect.anything(),
+      );
+
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        3,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=2',
+        },
+        expect.anything(),
+      );
+
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        4,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=3',
+        },
+        expect.anything(),
+      );
+
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        5,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=4',
+        },
+        expect.anything(),
+      );
+
+      expect(mockCodegen).toHaveBeenCalledWith({
+        assets: new Map([[
+          'components',
+          new Map([[
+            'TeamComponent',
+            {width: 1920, height: 1080, src: 'out/Hello.figma.contents/components/TeamComponent.png'},
+          ]]),
+        ]]),
+        assetsDirectory: 'out/Hello.figma.contents',
+        colors: [{
+          initializer: 'Color.rgba(10, 10, 10, 1)',
+          name: 'Diez Black',
+        }],
+        designSystemName: 'Hello',
+        filename: 'src/Hello.figma.ts',
+        fonts: new Map([[
+          'Foobar',
+          new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]]),
+        ]]),
+        projectRoot: '.',
+        typographs: [{
+          name: 'Foobar Typograph',
+          initializer:
+            'new Typograph({color: Color.rgba(100, 100, 100, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
+        }],
+      });
+
+      process.nextTick(() => {
+        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent.png']).toBe('asset @1x');
+        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@2x.png']).toBe('asset @2x');
+        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@3x.png']).toBe('asset @3x');
+        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@4x.png']).toBe('asset @4x');
+      });
     });
 
     test('throws errors if unable to parse', async () => {
@@ -52,11 +277,5 @@ describe('Figma', () => {
         'noop',
       )).rejects.toThrow();
     });
-  });
-});
-
-describe('getSVGLinks', () => {
-  test('throws an error if there are\'n assets to export', async () => {
-    await expect(getSVGLinks([], '', '')).rejects.toThrow();
   });
 });

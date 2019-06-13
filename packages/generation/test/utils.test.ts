@@ -1,19 +1,6 @@
 import {UniqueNameResolver} from '../src/utils';
 
 describe('UniqueNameResolver', () => {
-  test('provides conventional asset names', () => {
-    const resolver = new UniqueNameResolver();
-    const name = resolver.getAssetName('File Name');
-    const name1 = resolver.getAssetName('File Name');
-    const name2 = resolver.getAssetName('File Name');
-    const name3 = resolver.getAssetName('Other File Name');
-
-    expect(name).toBe('File Name');
-    expect(name1).toBe('File Name Copy 1');
-    expect(name2).toBe('File Name Copy 2');
-    expect(name3).toBe('Other File Name');
-  });
-
   test('provides conventional component names', () => {
     const resolver = new UniqueNameResolver();
     const name = resolver.getComponentName('my design_system');

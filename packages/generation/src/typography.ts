@@ -2,7 +2,6 @@ import {execAsync, isMacOS, warning} from '@diez/cli-core';
 import pascalCase from 'pascal-case';
 import {join} from 'path';
 import {GeneratedFont} from './api';
-import {getColorInitializer} from './color';
 
 interface FontLookup {
   name: string;
@@ -74,14 +73,14 @@ export const getTypographInitializer = (
   candidateFont: GeneratedFont | undefined,
   fontName: string,
   fontSize: number,
-  colorCssValue?: string,
+  colorInitializer?: string,
 ) => {
   const font = candidateFont ?
     `${pascalCase(`${designSystemName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
     `new Font({name: "${fontName}"})`;
 
-  if (colorCssValue) {
-    return `new Typograph({color: ${getColorInitializer(colorCssValue)}, font: ${font}, fontSize: ${fontSize}})`;
+  if (colorInitializer) {
+    return `new Typograph({color: ${colorInitializer}, font: ${font}, fontSize: ${fontSize}})`;
   }
 
   return `new Typograph({font: ${font}, fontSize: ${fontSize}})`;

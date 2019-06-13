@@ -18,20 +18,8 @@ const camelCase = (name: string) => {
  * @ignore
  */
 export class UniqueNameResolver {
-  private readonly assetResolver = new Map<string, number>();
   private readonly componentResolver = new Map<string, number>();
   private readonly propertyResolver = new Map<string, number>();
-
-  getAssetName (name: string) {
-    if (!this.assetResolver.has(name)) {
-      this.assetResolver.set(name, 0);
-      return name;
-    }
-
-    const counter = this.assetResolver.get(name)! + 1;
-    this.assetResolver.set(name, counter);
-    return `${name} Copy ${counter}`;
-  }
 
   getComponentName (name: string) {
     const componentName = pascalCase(name, undefined, true);
@@ -228,12 +216,12 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
         {
           name: assetName,
           isStatic: true,
-          initializer: `new File({"src": "${asset.src}"})`,
+          initializer: `new File({src: "${asset.src}"})`,
         },
         ...[2, 3, 4].map((multiplier) => ({
           name: `${assetName}${multiplier}x`,
           isStatic: true,
-          initializer: `new File({"src": "${parsedSrc.dir}/${parsedSrc.name}@${multiplier}x${parsedSrc.ext}"})`,
+          initializer: `new File({src: "${parsedSrc.dir}/${parsedSrc.name}@${multiplier}x${parsedSrc.ext}"})`,
         })),
       ]);
       imagesClass.addProperty({
@@ -296,6 +284,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (spec.typographs.length) {
+    designSystemImports.add('Font');
     exportedClassDeclaration.addProperty({
       name: 'typographs',
       decorators: [{name: 'property'}],

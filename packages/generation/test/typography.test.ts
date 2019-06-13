@@ -71,8 +71,8 @@ describe('typography', () => {
   });
 
   test('typograph initializer', () => {
-    expect(getTypographInitializer('DesignSystem', undefined, 'Foobar-Regular', 20, '#f00')).toBe(
-      'new Typograph({color: Color.rgba(255, 0, 0, 1), font: new Font({name: "Foobar-Regular"}), fontSize: 20})',
+    expect(getTypographInitializer('DesignSystem', undefined, 'Foobar-Regular', 20, 'new Color()')).toBe(
+      'new Typograph({color: new Color(), font: new Font({name: "Foobar-Regular"}), fontSize: 20})',
     );
     expect(getTypographInitializer(
       'DesignSystem',

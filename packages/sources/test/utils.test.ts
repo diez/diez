@@ -12,7 +12,6 @@ import {
   escapeShell,
   fixGammaOfSVGs,
   generateRandomFilePath,
-  sanitizeFileName,
 } from '../src/utils';
 
 jest.mock('fs-walk');
@@ -36,8 +35,8 @@ const pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QD
 const processedPixel =
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4AWNg+M9QDwADgQF/Vry1+wAAAABJRU5ErkJggg==';
 const file1 = {content: svgWrap(pixel), fullPath: 'full/path/', name: 'file-one.svg'};
-const file2 = {content: 'file two content', fullPath: 'full/path/nested', name: 'file/two.svg'};
-const file3 = {content: 'file three content', fullPath: 'full/path/nested', name: 'file/three.png'};
+const file2 = {content: 'file two content', fullPath: 'full/path/nested', name: 'file-two.svg'};
+const file3 = {content: 'file three content', fullPath: 'full/path/nested', name: 'file-three.png'};
 
 describe('escapeShell', () => {
   test('', () => {
@@ -66,20 +65,6 @@ describe('adjustImageGamma', () => {
   });
 });
 
-describe('sanitizeFileName', () => {
-  test('replaces slashes with dashes', () => {
-    expect(sanitizeFileName('my / file / name')).toBe('my - file - name');
-  });
-
-  test('does not modify file names without invalid characters', () => {
-    expect(sanitizeFileName('valid-file-name')).toBe('valid-file-name');
-  });
-
-  test('returns an empty string if the filename provided is not an string', () => {
-    expect(sanitizeFileName(null as unknown as string)).toBe('');
-  });
-});
-
 describe('generateRandomScriptPath', () => {
   test('does not returns two consecutive equal paths', () => {
     expect(generateRandomFilePath()).not.toEqual(generateRandomFilePath());
@@ -105,9 +90,9 @@ describe('createFolders', () => {
 
 describe('fixGammaOfPNGFiles', () => {
   test('fixes the gamma values of a png embedded in a svg file', async () => {
-    await writeFile(join(file1.fullPath, sanitizeFileName(file1.name)), file1.content);
-    await writeFile(join(file2.fullPath, sanitizeFileName(file2.name)), file2.content);
-    await writeFile(join(file3.fullPath, sanitizeFileName(file3.name)), file3.content);
+    await writeFile(join(file1.fullPath, file1.name), file1.content);
+    await writeFile(join(file2.fullPath, file2.name), file2.content);
+    await writeFile(join(file3.fullPath, file3.name), file3.content);
     await fixGammaOfSVGs('full/path');
     expect(mockFileSystem['full/path/file-one.svg']).toBe(svgWrap(processedPixel));
     expect(mockFileSystem['full/path/nested/file-two.svg']).toBe(file2.content);

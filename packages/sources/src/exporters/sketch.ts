@@ -152,7 +152,7 @@ class SketchExporterImplementation implements Exporter {
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}`);
-    await createFolders(assetsDirectory, [AssetFolder.Slice, AssetFolder.Artboard]);
+    await createFolders(assetsDirectory, [AssetFolder.Slice]);
     reporters.progress(`Running sketchtool export commands for ${assetName}`);
     const [rawDump] = await Promise.all([
       execAsync(`${parserCliPath} dump ${source}`, {maxBuffer: 48 * (1 << 20)}),
@@ -196,7 +196,9 @@ class SketchExporterImplementation implements Exporter {
           candidateFont,
           textStyle.NSFont.attributes.NSFontNameAttribute,
           fontSize,
-          textStyle.MSAttributedStringColorAttribute ? textStyle.MSAttributedStringColorAttribute.value : undefined,
+          textStyle.MSAttributedStringColorAttribute ?
+            getColorInitializer(textStyle.MSAttributedStringColorAttribute.value) :
+            undefined,
         ),
       });
     }

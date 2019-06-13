@@ -16,14 +16,14 @@ class MyDesignSystemTypographs extends Component {
 }
 
 export class MyDesignSystemSlicesFiles {
-    static Foobar = new File({"src": "assets/blah/Foobar.png"});
-    static Foobar2x = new File({"src": "assets/blah/Foobar@2x.png"});
-    static Foobar3x = new File({"src": "assets/blah/Foobar@3x.png"});
-    static Foobar4x = new File({"src": "assets/blah/Foobar@4x.png"});
-    static Bazbat = new File({"src": "assets/blah/Bazbat.png"});
-    static Bazbat2x = new File({"src": "assets/blah/Bazbat@2x.png"});
-    static Bazbat3x = new File({"src": "assets/blah/Bazbat@3x.png"});
-    static Bazbat4x = new File({"src": "assets/blah/Bazbat@4x.png"});
+    static Foobar = new File({src: "assets/blah/Foobar.png"});
+    static Foobar2x = new File({src: "assets/blah/Foobar@2x.png"});
+    static Foobar3x = new File({src: "assets/blah/Foobar@3x.png"});
+    static Foobar4x = new File({src: "assets/blah/Foobar@4x.png"});
+    static Bazbat = new File({src: "assets/blah/Bazbat.png"});
+    static Bazbat2x = new File({src: "assets/blah/Bazbat@2x.png"});
+    static Bazbat3x = new File({src: "assets/blah/Bazbat@3x.png"});
+    static Bazbat4x = new File({src: "assets/blah/Bazbat@4x.png"});
 }
 
 export class MyDesignSystemSlices {

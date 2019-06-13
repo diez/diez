@@ -3,7 +3,8 @@
     <NavBar></NavBar>
     <div class="page">
       <section class="content-holster">
-        <H1>Congratulations, you're signed in!</H1>
+        <h3>You were successfully signed in!</h3>
+        <p>Please return to the command line to continue.</p>
       </section>
     </div>
   </div>
@@ -21,13 +22,11 @@ export default class FigmaAuth extends Vue {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_shared.scss';
-  h1 {
-    text-align: center;
-  }
   .content-holster {
     display: flex;
     min-height: calc(100vh - 100px);
     align-items: center;
     justify-content: center;
+    flex-direction: column;
   }
 </style>

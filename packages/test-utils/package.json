@@ -24,7 +24,7 @@
     "fs-extra": "^7.0.1",
     "jest": "^24.7.1",
     "jest-diff": "^24.7.0",
-    "stream-mock": "^1.2.0"
+    "stream-mock": "^2.0.2"
   },
   "devDependencies": {
     "@types/expect": "^1.20.4",

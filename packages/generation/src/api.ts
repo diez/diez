@@ -11,9 +11,7 @@ export interface CodegenEntity {
  */
 export enum AssetFolder {
   Slice = 'slices',
-  Artboard = 'artboards',
-  Group = 'groups',
-  Frame = 'frames',
+  Component = 'components',
 }
 
 /**

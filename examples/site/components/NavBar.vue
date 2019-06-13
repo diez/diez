@@ -49,8 +49,18 @@ export default class NavBar extends Vue {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/_utils.scss';
+  $mobile-toggle-height: 25px;
+  $mobile-toggle-margin: 20px;
   .navbar {
     @include navfont();
+    @include tablet {
+      position: fixed;
+      width: 100%;
+      z-index: 999;
+      padding-top: 2 * $mobile-toggle-margin + $mobile-toggle-height;
+      background-color: $white;
+      border-bottom: 1px solid $gray700;
+    }
   }
   .nav {
     position: fixed;
@@ -67,9 +77,7 @@ export default class NavBar extends Vue {
     }
   }
   .hide {
-    @include tablet {
-      display: none;
-    }
+     @include hide-mobile;
   }
   .holster {
     max-width: $page-width;
@@ -135,8 +143,8 @@ export default class NavBar extends Vue {
   }
   .menu-icon {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: $mobile-toggle-margin;
+    right: $mobile-toggle-margin;
     cursor: pointer;
   }
 </style>

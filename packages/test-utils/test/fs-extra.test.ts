@@ -51,10 +51,10 @@ describe('fs-extra mock', () => {
       expect(callback).toHaveBeenCalled();
     });
 
-    const stream = createWriteStream('/foo/bar/baz/bat');
     expect(pathExists('/foo/bar/baz/bat')).toBe(false);
-    stream.close();
+    const stream = createWriteStream('/foo/bar/baz/bat');
+    stream.write('foobar');
     expect(pathExists('/foo/bar/baz/bat')).toBe(true);
-    expect(readFile('/foo/bar/baz/bat')).toBe('mockcontent');
+    expect(readFile('/foo/bar/baz/bat')).toBe('foobar');
   });
 });

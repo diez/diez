@@ -62,12 +62,10 @@ jest.mock('request', () => (_: never, callback: any) => {
 
 describe('utils.network', () => {
   test('oauth handshake', async () => {
-    mockOsData.platform = 'darwin';
     expect(await getOAuthCodeFromBrowser('http://server.com/login', 9001)).toEqual({code: 'foo', state: 'bar'});
-    expect(MockServer.mockResponse.writeHead).toHaveBeenCalledWith(302, {Location: 'https://diez.org/figma-auth'});
+    expect(MockServer.mockResponse.writeHead).toHaveBeenCalledWith(302, {Location: 'https://beta.diez.org/signed-in'});
     expect(MockServer.mockResponse.end).toHaveBeenCalled();
     expect(MockServer.mockDestroy).toHaveBeenCalled();
-    expect(mockExec).toHaveBeenCalledWith('open -b com.apple.Terminal');
   });
 
   test('figma oauth', async () => {

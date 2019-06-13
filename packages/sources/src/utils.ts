@@ -8,9 +8,6 @@ import {PNG} from 'pngjs';
 import {v4} from 'uuid';
 import {ImageFormats, Reporters} from './api';
 
-const reservedCharReplacement = '-';
-const filenameReservedRegExp = /[<>:"\/\\|?*\x00-\x1F]/g;
-const windowsNamesReservedRegExp = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
 const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
 
 /**
@@ -55,19 +52,6 @@ export const createFolders = async (basePath: string, folders: Iterable<AssetFol
  */
 export const escapeShell = (cmd: string) => {
   return cmd.replace(/(["\s'$`\\])/g, '\\$1');
-};
-
-/**
- * Sanitizes a file name.
- */
-export const sanitizeFileName = (name: string) => {
-  if (typeof name !== 'string') {
-    return '';
-  }
-
-  return name
-    .replace(filenameReservedRegExp, reservedCharReplacement)
-    .replace(windowsNamesReservedRegExp, reservedCharReplacement);
 };
 
 /**
