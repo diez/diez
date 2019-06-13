@@ -16,7 +16,14 @@ export = {
       fatalError('You must be on the `master` branch to create a release.');
     }
 
-    if (runQuiet('git diff')) {
+    if (
+      runQuiet('git remote get-url upstream') !== 'git@github.com:diez/diez.git' ||
+      runQuiet('git ls-remote --get-url') !== 'git@github.com:diez/diez.git'
+    ) {
+      fatalError('You must have an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
+    }
+
+    if (runQuiet('git diff') || runQuiet('git diff --staged')) {
       fatalError('Working tree has untracked changes; unable to proceed.');
     }
 
