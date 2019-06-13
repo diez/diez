@@ -38,6 +38,7 @@ const webpackConfig = {
     ]),
   ],
   performance: { hints: false },
+  devServer: { stats: 'errors-only', open: true },
 };
 
 if (existsSync(hotFilePath)) {

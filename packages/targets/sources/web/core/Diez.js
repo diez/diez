@@ -27,6 +27,9 @@ class Diez {
 
   attach (subscriber) {
     subscriber(this.component);
+    if (!Environment.isHot) {
+      return;
+    }
     this.subscribe(subscriber);
     if (this.iframe.contentWindow) {
       return;
