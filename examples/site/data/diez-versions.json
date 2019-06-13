@@ -1,15 +1,19 @@
 [
   {
+    "version": "10.0.0-alpha.6",
+    "name": "latest (10.0.0-alpha.6)"
+  },
+  {
     "version": "10.0.0-alpha.5",
-    "name": "latest (10.0.0-alpha.5)"
+    "name": "10.0.0-alpha.5"
   },
   {
     "version": "10.0.0-alpha.4",
     "name": "10.0.0-alpha.4"
   },
   {
-    "version": "v10.0.0-alpha.3",
-    "name": "v10.0.0-alpha.3"
+    "version": "10.0.0-alpha.3",
+    "name": "10.0.0-alpha.3"
   },
   {
     "version": "10.0.0-alpha.2",
