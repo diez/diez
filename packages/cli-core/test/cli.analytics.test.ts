@@ -1,6 +1,6 @@
 import {assignMock} from '@diez/test-utils';
 
-const mockEmitDiagnostics = jest.fn();
+const mockEmitDiagnostics = jest.fn().mockResolvedValue(undefined);
 const mockEnableAnalytics = jest.fn();
 const mockDisableAnalytics = jest.fn();
 jest.doMock('@diez/storage', () => ({

@@ -1,4 +1,40 @@
 #!/usr/bin/env node
-const {join} = require('path');
-require('child_process').fork(join(__dirname, 'update-check'));
-require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));
+// Note: we're intentionally using `var` here in case Diez is running on a very old version of Node.
+var semver = require('semver');
+if (semver.gt('7.6.0', process.version)) {
+  console.log('Your Node version is incompatible with Diez. Please upgrade to a newer version.');
+  process.exit(1);
+}
+
+(async () => {
+  const packageJson = require('package-json');
+  const {warning, diezVersion} = require('@diez/cli-core');
+  const {join} = require('path');
+
+  // Perform a fast DNS resolution check to avoid a hung version check.
+  require('dns').lookup('npmjs.com', async (err) => {
+    if (err) {
+      require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));
+      return;
+    }
+
+    // Make a simple spinner for our update check.
+    const ticks = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+    let i = 0;
+    const interval = setInterval(() => {
+      process.stdout.write(`${ticks[i++ % 10]} Checking for updates...\r`);
+    }, 30);
+
+    try {
+      const {version: latestVersion} = await packageJson('@diez/cli-core');
+      if (semver.gt(latestVersion, diezVersion)) {
+        warning('You are using an out-of-date version of Diez. Please upgrade to the latest version!');
+      }
+    } catch (_) {
+      // Noop.
+    } finally {
+      clearInterval(interval);
+      require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));
+    }
+  });
+})();

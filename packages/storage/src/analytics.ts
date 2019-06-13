@@ -56,12 +56,10 @@ export const emitDiagnostics = async (
   eventType: string,
   diezVersion: string,
   extra?: any,
-): Promise<Response> => {
-  return nodeFetch('https://analytics.diez.org/ping', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(await getDiagnosticsPayload(eventType, diezVersion, extra)),
-  });
-};
+): Promise<Response> => nodeFetch('https://analytics.diez.org/ping', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(await getDiagnosticsPayload(eventType, diezVersion, extra)),
+});

@@ -1,7 +1,7 @@
 /* tslint:disable no-var-requires */
 import {emitDiagnostics, enableAnalytics, Registry} from '@diez/storage';
 import chalk from 'chalk';
-import {args, command, help, on, parse, version} from 'commander';
+import {args, command, on, outputHelp, parse, version} from 'commander';
 import {
   CliAction,
   CliCommandExtension,
@@ -184,18 +184,18 @@ here: https://diez.org/analytics`);
   }
 
   if (!global.doNotTrack) {
-    emitDiagnostics('activity', diezVersion);
+    emitDiagnostics('activity', diezVersion).catch(() => {
+      // Noop. Ensures we don't crash on an uncaught Promise rejection if the analytics ping fails for any reason.
+    });
   }
 
   await bootstrap(global.process.cwd(), bootstrapRoot);
   // istanbul ignore next
-  on('command:*', () => {
-    help();
-  });
+  on('command:*', () => outputHelp());
 
   parse(process.argv);
   // istanbul ignore if
   if (!args.length) {
-    help();
+    outputHelp();
   }
 };
