@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.7](https://github.com/stristr/diez/compare/v10.0.0-alpha.6...v10.0.0-alpha.7) (2019-06-13)
+
+
+### Bug Fixes
+
+* **examples:** fix retina layout of lorem-ipsum web ([#143](https://github.com/stristr/diez/issues/143)) ([c000b67](https://github.com/stristr/diez/commit/c000b67))
+* **generation:** increased compatibility and robustness for font location ([#144](https://github.com/stristr/diez/issues/144)) ([2f5ee83](https://github.com/stristr/diez/commit/2f5ee83))
+
+
+### Features
+
+* **docs:** add getting started guides for web ([#138](https://github.com/stristr/diez/issues/138)) ([2972e8c](https://github.com/stristr/diez/commit/2972e8c))
+
+
+
+
+
 # [10.0.0-alpha.6](https://github.com/stristr/diez/compare/v10.0.0-alpha.5...v10.0.0-alpha.6) (2019-06-13)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "create-diez-app",
-  "version": "10.0.0-alpha.6",
+  "version": "10.0.0-alpha.7",
   "description": "A helper CLI for creating Diez projects.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -10,8 +10,8 @@
   },
   "homepage": "https://diez.org",
   "dependencies": {
-    "@diez/createproject": "^10.0.0-alpha.6",
-    "diez": "^10.0.0-alpha.6"
+    "@diez/createproject": "^10.0.0-alpha.7",
+    "diez": "^10.0.0-alpha.7"
   },
   "bin": {
     "create-diez-app": "./bin/create-diez-app"

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-alpha.7](https://github.com/stristr/diez/compare/v10.0.0-alpha.6...v10.0.0-alpha.7) (2019-06-13)
+
+**Note:** Version bump only for package diez-preview-site
+
+
+
+
+
 # [10.0.0-alpha.6](https://github.com/stristr/diez/compare/v10.0.0-alpha.5...v10.0.0-alpha.6) (2019-06-13)
 
 **Note:** Version bump only for package diez-preview-site
