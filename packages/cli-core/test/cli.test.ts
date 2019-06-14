@@ -8,7 +8,14 @@ beforeEach(() => {
   assignMock(process, 'exit');
 });
 
-jest.mock('@diez/storage');
+jest.mock('@diez/storage', () => ({
+  ...jest.requireActual('@diez/storage'),
+  Registry: {
+    get: jest.fn(),
+    set: jest.fn(),
+  },
+  emitDiagnostics: jest.fn().mockRejectedValue('noop'),
+}));
 
 describe('cli', () => {
   test('command registration', async () => {

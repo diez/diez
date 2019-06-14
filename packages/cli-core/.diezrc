@@ -1,7 +1,5 @@
 {
   "providers": {
-    "commands": [
-      "./lib/commands/analytics"
-    ]
+    "commands": []
   }
 }
