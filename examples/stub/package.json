@@ -2,16 +2,16 @@
   "name": "stub",
   "main": "lib/index.js",
   "private": true,
-  "version": "10.0.0-alpha.8",
+  "version": "10.0.0-beta.0",
   "dependencies": {
-    "@diez/engine": "^10.0.0-alpha.8",
-    "@diez/prefabs": "^10.0.0-alpha.8"
+    "@diez/engine": "^10.0.0-beta.0",
+    "@diez/prefabs": "^10.0.0-beta.0"
   },
   "devDependencies": {
-    "@diez/compiler": "^10.0.0-alpha.8",
-    "@diez/sources": "^10.0.0-alpha.8",
-    "@diez/targets": "^10.0.0-alpha.8",
-    "diez": "^10.0.0-alpha.8",
+    "@diez/compiler": "^10.0.0-beta.0",
+    "@diez/sources": "^10.0.0-beta.0",
+    "@diez/targets": "^10.0.0-beta.0",
+    "diez": "^10.0.0-beta.0",
     "typescript": "^3.5.1"
   }
 }
