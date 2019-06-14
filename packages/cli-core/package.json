@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@diez/storage": "^10.0.0-alpha.7",
+    "@sentry/node": "^5.2.0",
     "async": "^2.6.2",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",

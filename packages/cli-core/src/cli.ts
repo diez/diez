@@ -1,5 +1,6 @@
 /* tslint:disable no-var-requires */
 import {emitDiagnostics, enableAnalytics, Registry} from '@diez/storage';
+import {captureException, configureScope, getCurrentHub, init as initSentry} from '@sentry/node';
 import {args, command, on, outputHelp, parse, version} from 'commander';
 import {
   CliAction,
@@ -74,6 +75,11 @@ const registerWithProvider = async (provider: CliCommandProvider, defaultOptions
       const callable = isModuleWrappedAction(action) ? action.default : action;
       await callable.call(undefined, commandWithDefaults, ...options);
     } catch (error) {
+      captureException(error);
+      const client = getCurrentHub().getClient();
+      if (client) {
+        await client.close(1000);
+      }
       fatalError(error.message);
     }
   });
@@ -178,6 +184,26 @@ export const run = async (bootstrapRoot?: string) => {
       // Noop. Ensures we don't crash on an uncaught Promise rejection if the analytics ping fails for any reason.
     });
   }
+
+  initSentry({
+    dsn: 'https://58599c81fc834e9cb29d235c1e99b892@sentry.io/1460669',
+    release: `v${diezVersion}`,
+    beforeSend: (event) => {
+      const stacktrace = event.exception && event.exception.values && event.exception.values[0].stacktrace;
+      if (stacktrace && stacktrace.frames) {
+        for (const frame of stacktrace.frames) {
+          if (frame.filename && frame.filename.includes('@diez/')) {
+            frame.filename = `app://${frame.filename.replace(/^.*@diez/, '/packages')}`;
+          }
+        }
+      }
+      return null;
+    },
+  });
+
+  configureScope((scope) => {
+    scope.setUser({id: global.analyticsUuid});
+  });
 
   await bootstrap(global.process.cwd(), bootstrapRoot);
   // istanbul ignore next
