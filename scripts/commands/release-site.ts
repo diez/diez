@@ -5,7 +5,7 @@ export = {
   description: 'Releases the Diez site.',
   loadAction: () => () => {
     run('yarn build', siteRoot);
-    run('aws s3 sync dist s3://diez-www-secret', siteRoot);
+    run('aws s3 sync docs/.vuepress/dist s3://diez-www-secret', siteRoot);
     run(`aws cloudfront create-invalidation --distribution-id=${process.env.DIEZ_WWW_DISTRIBUTION_SECRET} --paths "/*"`);
   },
 };

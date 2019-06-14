@@ -50,7 +50,7 @@ export = {
     // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.
     run(`yarn extract-lorem-ipsum --currentVersion ${version}`);
 
-    const versionsPath = join(siteRoot, 'data', 'diez-versions.json');
+    const versionsPath = join(siteRoot, 'docs', '.vuepress', 'theme', 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {
       versions[0] = {version: versions[0].version, name: versions[0].version};

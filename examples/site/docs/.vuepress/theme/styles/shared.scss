@@ -1,0 +1,257 @@
+@import 'utils';
+@import 'layout';
+
+.shared {
+  .underline {
+    text-decoration: underline;
+  }
+
+  &.page, &#faq {
+    @include navfont();
+  }
+
+  pre {
+    margin: 0;
+  }
+
+  code, .mono {
+    @include font-family($source-code-pro);
+    font-size: 18px;
+    &.inline {
+      background-color: $cardColor;
+      border-radius: $borderRadiusButton;
+      padding: 0 $spacingSM;
+      font-weight: 700;
+      color: $mauve700;
+    }
+  }
+
+  a {
+    @include link();
+  }
+
+  p, li {
+    line-height: 32px;
+  }
+
+  h1 {
+    font-size: 4rem;
+    @include phone {
+      font-size: 2.5rem;
+      padding: 0 $spacingLG;
+    }
+  }
+
+  h2 {
+    font-size: 3rem;
+    &.ivan {
+      margin-top: -78px;
+      text-align: center;
+      @include phone {
+        margin: 0;
+      }
+    }
+    @include phone {
+      font-size: 2rem;
+    }
+  }
+
+  h3 {
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 2.72rem;
+    @include phone {
+      font-size: 1.7rem;
+      line-height: 2.2rem;
+      padding: 0 $spacingLG;
+    }
+  }
+
+  h4 {
+    font-size: 1.46rem;
+    line-height: 2.2rem;
+    margin-bottom: -12px;
+  }
+
+  li {
+    margin-top: $spacingMD;
+  }
+
+  button,
+  .button {
+    @include button();
+  }
+
+  .muted {
+    opacity: .57
+  }
+
+  .holster-tri-card {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+  }
+
+  .card {
+    border-radius: $borderRadiusCard;
+    background-color: $cardColor;
+    box-shadow: 0 5px 0 $cardShadow, inset 0 2px 0 $cardInsetShadow;
+    overflow: hidden;
+    &.third {
+      width: calc(33% - 24px);
+      margin: $spacingMD;
+      text-align: center;
+      font-weight: 700;
+      padding: $spacingLG;
+      @include tablet-large {
+        width: calc(50% - 24px);
+      }
+      img {
+        height: 60px;
+        width: 100%;
+        pointer-events: none;
+        margin: $spacingLG 0;
+      }
+      &.mono img {
+        height: 35px;
+      }
+    }
+    &.fourth {
+      @extend .third;
+      padding: $spacingMD;
+      font-size: 0.75em;
+      width: calc(25% - 24px);
+      img {
+        height: 2em;
+        width: 100%;
+        margin: $spacingXS 0;
+      }
+      @include tablet-large {
+        span {
+          display: none;
+        }
+      }
+    }
+    &.extensible {
+      background-color: $mauve;
+      color: $white;
+      box-shadow: 0 5px 0 $mauve700, inset 0 2px 0 $cardInsetShadow;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  a.card {
+    color: $black;
+    transition: background-color 120ms ease;
+    &:hover {
+      text-decoration: none;
+      background-color: darken($cardColor, 1.3%);
+    }
+  }
+
+  .strike {
+    text-decoration: line-through wavy $purple;
+  }
+
+  .correction-container {
+    position: relative;
+    display: inline-block;
+    width: 1px;
+    overflow: visible;
+  }
+
+
+  .correction {
+    color: $purple;
+    font-size: .8em;
+    font-weight: bolder;
+    position: absolute;
+    transform: rotate(-6deg) translate(-64px, -60px);
+    @include tablet {
+      transform: rotate(-9deg) translate(-54px, -54px);
+    }
+  }
+
+  .code-block {
+    @extend .card;
+    width: 67%;
+    padding: $spacingMD $spacingXL;
+    overflow: auto;
+    margin-top: $spacing2XL;
+    @include phone {
+      width: 100%;
+    }
+  }
+
+  .card-code {
+    @extend .card;
+    @include font-family($source-code-pro);
+    padding: $spacingLG;
+    width: 100%;
+    height: $sizingLG;
+    margin-top: $spacingLG;
+    overflow: auto;
+    font-size: 15px;
+    @include phone {
+      font-size: 12px;
+    }
+  }
+
+  .get-in-touch {
+    @include font-family($source-code-pro);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: $spacingSM $spacingLG;
+    background-color: transparent;
+  }
+
+  .tab-links {
+    font-weight: 700;
+    font-size: $smallText;
+    border-radius: $borderRadiusButton;
+    padding: $spacingXS $spacingLG;
+    cursor: pointer;
+    &.active {
+      background-color: $mauve;
+      color: $white;
+    }
+  }
+
+  .small-text-indented {
+    font-size: $smallText;
+    font-weight: 700;
+    margin-left: $spacingLG;
+  }
+
+  .note {
+    font-size: $smallText;
+    margin-top: $spacingLG;
+    line-height: 1.5rem;
+    color: $gray900;
+    code {
+      font-weight: 400 !important;
+      font-size: 16px;
+    }
+  }
+
+  .aside {
+    margin-top: $spacing2XL;
+    font-size: 17px;
+    padding: $spacingXS $spacingXL;
+    background-color: $gray400;
+    color: $purple;
+    border: 4px solid $purple;
+    border-radius: $borderRadiusCard;
+    li, p {
+      line-height: 30px;
+    }
+  }
+}
