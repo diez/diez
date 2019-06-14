@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+const { info } = require('@diez/cli-core');
+const { execSync } = require('child_process');
+const { resolve } = require('path');
+
+(async () => {
+  const cwd = resolve(__dirname, '..');
+
+  info('Building Diez project for Android...');
+  execSync('./node_modules/.bin/diez compile -t android', { cwd, stdio: 'inherit' });
+  info('Starting the Diez hot server...');
+  execSync('./node_modules/.bin/diez hot -t android', { cwd, stdio: 'inherit' });
+})();

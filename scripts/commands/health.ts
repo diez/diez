@@ -22,5 +22,13 @@ export= {
 
     // Build web examples.
     run('yarn build-examples --target web');
+
+    // Confirm that lorem-ipsum source files match their source of truth.
+    if (
+      runQuiet('diff -r packages/createproject/templates/project/src examples/lorem-ipsum/src') ||
+      runQuiet('diff -r packages/createproject/templates/project/scripts examples/lorem-ipsum/scripts')
+    ) {
+      fatalError('lorem-ipsum example project sources do not match their template');
+    }
   },
 };

@@ -1,15 +1,16 @@
 import {diezVersion, fatalError} from '@diez/cli-core';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
-import {gte} from 'semver';
+import {gte, valid} from 'semver';
 import {root, run, runQuiet, siteRoot} from '../internal/helpers';
 
 export = {
   name: 'release [version]',
   description: 'Creates a release.',
-  loadAction: () => async (_: {}, version: string) => {
+  loadAction: () => async (_: {}, rawVersion: string) => {
+    const version = valid(rawVersion);
     if (!version || gte(diezVersion, version)) {
-      fatalError('Refusing to set a lower version.');
+      fatalError('Refusing to set an invalid or lower version.');
     }
 
     if (runQuiet('git rev-parse --abbrev-ref HEAD') !== 'master') {
@@ -27,7 +28,7 @@ export = {
       fatalError('Working tree has untracked changes; unable to proceed.');
     }
 
-    run('git fetch upstream');
+    run('git fetch upstream --tags');
     if (runQuiet('git diff upstream/master')) {
       fatalError('You must be up to date on the latest `master` branch to create a release.');
     }

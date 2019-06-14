@@ -17,9 +17,12 @@
   "scripts": {
     "build-android": "diez compile -t android",
     "run-android": "diez hot -t android",
+    "start-android": "./scripts/start-android",
     "build-ios": "diez compile -t ios --cocoapods",
     "run-ios": "diez hot -t ios",
+    "start-ios": "./scripts/start-ios",
     "build-web": "diez compile -t web",
-    "run-web": "diez hot -t web"
+    "run-web": "diez hot -t web",
+    "start-web": "./scripts/start-web"
   }
 }

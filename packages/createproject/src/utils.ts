@@ -14,7 +14,7 @@ import {
 } from 'change-case';
 import {spawnSync} from 'child_process';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
-import {basename, join, resolve} from 'path';
+import {basename, join, relative, resolve} from 'path';
 import {x} from 'tar';
 import validateNpmPackageName from 'validate-npm-package-name';
 
@@ -194,7 +194,7 @@ export const createProject = async (packageName: string, targets: string[], cwd 
     componentName: pascalCase(basename(packageName)),
     ios: targets.includes('ios'),
     android: targets.includes('android'),
-    web: targets.includes('web') || targets.length === 0,
+    web: targets.includes('web'),
   };
 
   ensureDirSync(root);
@@ -208,11 +208,26 @@ export const createProject = async (packageName: string, targets: string[], cwd 
   await Promise.all(commands);
   info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.`);
   info('In that directory, you can run commands like:');
-  for (const target of (targets.length ? targets : ['web'])) {
+  const target = targets[0];
+  if (target) {
     info(`
   ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} build-${target}`)}
-    Runs ${inlineComment(`diez compile --target ${target}`)} for your Diez project.`);
+    Compiles your Diez project with ${inlineComment(`diez compile -t ${target}`)}.
+
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} run-${target}`)}
+    Starts a hot server for your Diez project with ${inlineComment(`diez hot -t ${target}`)}.
+
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} start-${target}`)}
+    Compiles, installs, and starts a hot server targeting ${inlineComment(target)} for your Diez project.`);
+  } else {
+    info(`
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez compile -t web`)}
+    Compiles your Diez project with for the ${inlineComment('web')} target.
+
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez hot -t web`)}
+    Starts a hot server for your Diez project with the ${inlineComment('web')} target.`);
   }
 
   info('\nCheck out https://beta.diez.org/getting-started to learn more.');
+  info(`Run ${inlineCodeSnippet(`cd ${relative(cwd, root)}`)} to get started.`);
 };

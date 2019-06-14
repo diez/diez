@@ -46,6 +46,9 @@ export const outputTemplatePackage = async (
     writeFileSync(
       outputPath,
       compile(readFileSync(sourcePath).toString())(tokens),
+      {
+        mode: stats.mode,
+      },
     );
   }).on('end', resolve).on('error', reject));
 

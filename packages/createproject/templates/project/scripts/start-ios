@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+const { canRunCommand, fatalError, info } = require('@diez/cli-core');
+const { execSync } = require('child_process');
+const { join, resolve } = require('path');
+
+(async () => {
+  // Make sure CocoaPods is installed.
+  if (!await canRunCommand('pod --version')) {
+    fatalError('CocoaPods is required to run the iOS example project. See https://cocoapods.org for details.');
+  }
+
+  const cwd = resolve(__dirname, '..');
+
+  info('Building Diez project for iOS...');
+  execSync('./node_modules/.bin/diez compile -t ios --cocoapods', { cwd, stdio: 'inherit' });
+  info('Installing CocoaPods dependencies...');
+  execSync('pod install', { cwd: join(cwd, 'examples', 'ios'), stdio: 'inherit' });
+  info('Starting the Diez hot server...');
+  execSync('./node_modules/.bin/diez hot -t ios', { cwd, stdio: 'inherit' });
+})();

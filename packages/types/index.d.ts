@@ -12,6 +12,7 @@ declare module 'fs-walk' {
 declare module 'semver' {
   export function gt(a: string, b: string): boolean;
   export function gte(a: string, b: string): boolean;
+  export function valid(a: string): string | null;
 }
 
 declare module 'typed-errors' {

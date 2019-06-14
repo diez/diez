@@ -68,8 +68,8 @@ class Typographs extends Component {
  * primitives in components as well — such as images, icons & animations.
  */
 class Images extends Component {
-  @property logo = Image.responsive('assets/logo.png');
-  @property masthead = Image.responsive('assets/masthead.png');
+  @property logo = Image.responsive('assets/logo.png', 52, 48);
+  @property masthead = Image.responsive('assets/masthead.png', 208, 88);
 }
 
 /**
@@ -80,9 +80,9 @@ class LayoutValues extends Component {
   @property spacingMedium = 25;
   @property spacingLarge = 40;
   @property contentMargin = new Margin({
-    top: this.spacingLarge, 
-    left: this.spacingMedium, 
-    right: this.spacingMedium, 
+    top: this.spacingLarge,
+    left: this.spacingMedium,
+    right: this.spacingMedium,
     bottom: this.spacingMedium
   });
 }
