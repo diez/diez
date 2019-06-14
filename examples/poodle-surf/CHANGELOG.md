@@ -10,10 +10,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * **createproject:** simplify `lorem-ipsum` web example ([#120](https://github.com/stristr/diez/issues/120)) ([085d1b0](https://github.com/stristr/diez/commit/085d1b0))
 * **examples:** fix LoadingView initialization in PoodleSurf ([#110](https://github.com/stristr/diez/issues/110)) ([ddbcd04](https://github.com/stristr/diez/commit/ddbcd04))
-
-
-### chore
-
 * **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/stristr/diez/issues/137)) ([7bbd9f5](https://github.com/stristr/diez/commit/7bbd9f5))
 
 

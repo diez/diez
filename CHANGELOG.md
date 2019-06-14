@@ -24,10 +24,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * use normal slashes when resolving node_modules sources ([#77](https://github.com/stristr/diez/issues/77)) ([dbe02e1](https://github.com/stristr/diez/commit/dbe02e1))
 * **ios:** save component state after an update ([#139](https://github.com/stristr/diez/issues/139)) ([9f188fc](https://github.com/stristr/diez/commit/9f188fc))
 * **site:** use nuxt built-in loading bar to load docs ([#89](https://github.com/stristr/diez/issues/89)) ([f45e549](https://github.com/stristr/diez/commit/f45e549))
-
-
-### chore
-
 * **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/stristr/diez/issues/137)) ([7bbd9f5](https://github.com/stristr/diez/commit/7bbd9f5))
 
 

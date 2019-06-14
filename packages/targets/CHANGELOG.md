@@ -11,10 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **createproject:** simplify `lorem-ipsum` web example ([#120](https://github.com/diez/diez/issues/120)) ([085d1b0](https://github.com/diez/diez/commit/085d1b0))
 * **ios:** make component properties public internal(set) ([#83](https://github.com/diez/diez/issues/83)) ([4119665](https://github.com/diez/diez/commit/4119665))
 * **ios:** save component state after an update ([#139](https://github.com/diez/diez/issues/139)) ([9f188fc](https://github.com/diez/diez/commit/9f188fc))
-
-
-### chore
-
 * **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/diez/diez/issues/137)) ([7bbd9f5](https://github.com/diez/diez/commit/7bbd9f5))
 
 

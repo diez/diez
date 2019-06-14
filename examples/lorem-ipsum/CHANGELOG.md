@@ -11,10 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **createproject:** simplify `lorem-ipsum` web example ([#120](https://github.com/stristr/diez/issues/120)) ([085d1b0](https://github.com/stristr/diez/commit/085d1b0))
 * ensure symlinks work for linking the example project ([a3b801c](https://github.com/stristr/diez/commit/a3b801c))
 * **examples:** fix retina layout of lorem-ipsum web ([#143](https://github.com/stristr/diez/issues/143)) ([c000b67](https://github.com/stristr/diez/commit/c000b67))
-
-
-### chore
-
 * **ios:** rename `UIImage` getter on `Image` to `uiImage` ([#137](https://github.com/stristr/diez/issues/137)) ([7bbd9f5](https://github.com/stristr/diez/commit/7bbd9f5))
 
 
