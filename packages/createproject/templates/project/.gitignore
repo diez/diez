@@ -1,3 +1,4 @@
+node_modules/
 lib/*
 tsconfig.tsbuildinfo
 build/
