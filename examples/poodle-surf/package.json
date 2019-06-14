@@ -1,7 +1,7 @@
 {
   "name": "poodle-surf",
   "main": "lib/index.js",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "private": true,
   "scripts": {
     "build-ios": "diez compile -t ios --cocoapods --carthage",
@@ -13,14 +13,14 @@
     "run-web": "yarn build-web && diez hot -t web"
   },
   "dependencies": {
-    "@diez/engine": "^10.0.0-alpha.7",
-    "@diez/prefabs": "^10.0.0-alpha.7"
+    "@diez/engine": "^10.0.0-alpha.8",
+    "@diez/prefabs": "^10.0.0-alpha.8"
   },
   "devDependencies": {
-    "@diez/compiler": "^10.0.0-alpha.7",
-    "@diez/sources": "^10.0.0-alpha.7",
-    "@diez/targets": "^10.0.0-alpha.7",
-    "diez": "^10.0.0-alpha.7",
+    "@diez/compiler": "^10.0.0-alpha.8",
+    "@diez/sources": "^10.0.0-alpha.8",
+    "@diez/targets": "^10.0.0-alpha.8",
+    "diez": "^10.0.0-alpha.8",
     "react-app-rewired": "^2.1.3",
     "typescript": "^3.5.1"
   }

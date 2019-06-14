@@ -1,7 +1,7 @@
 {
   "name": "@diez/targets",
   "main": "lib/index.js",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "description": "Diez compiler targets for various platforms.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -21,11 +21,11 @@
     "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.0-alpha.7",
-    "@diez/compiler": "^10.0.0-alpha.7",
-    "@diez/engine": "^10.0.0-alpha.7",
-    "@diez/prefabs": "^10.0.0-alpha.7",
-    "@diez/storage": "^10.0.0-alpha.7",
+    "@diez/cli-core": "^10.0.0-alpha.8",
+    "@diez/compiler": "^10.0.0-alpha.8",
+    "@diez/engine": "^10.0.0-alpha.8",
+    "@diez/prefabs": "^10.0.0-alpha.8",
+    "@diez/storage": "^10.0.0-alpha.8",
     "camel-case": "^3.0.0",
     "fontkit": "^1.8.0",
     "fs-extra": "^7.0.1",
@@ -34,7 +34,7 @@
     "pascal-case": "^2.0.1"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.0.0-alpha.7",
+    "@diez/test-utils": "^10.0.0-alpha.8",
     "@types/jest": "^24.0.11",
     "haiku-component": "file:./test/mocks/haiku-component",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",

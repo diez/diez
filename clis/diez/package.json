@@ -1,7 +1,7 @@
 {
   "name": "diez",
   "main": "./bin/diez",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "description": "The entry point for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
@@ -11,8 +11,8 @@
   },
   "homepage": "https://diez.org",
   "dependencies": {
-    "@diez/cli-core": "^10.0.0-alpha.7",
-    "@diez/createproject": "^10.0.0-alpha.7",
+    "@diez/cli-core": "^10.0.0-alpha.8",
+    "@diez/createproject": "^10.0.0-alpha.8",
     "package-json": "^6.3.0",
     "semver": "^6.0.0"
   },
