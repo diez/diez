@@ -3,13 +3,9 @@
     <div>
       <a href="/getting-started#why">Introduction</a>
       <a href="/getting-started#installation">Installation</a>
+      <a href="/getting-started/the-basics">The Basics</a>
       <div>
         <a href="/getting-started#guides" class="category">Guides</a>
-        <div>
-          <div class="sub-category">Diez</div>
-          <a class="sub-link" href="/getting-started/the-basics">The Basics</a>
-          <a class="sub-link soon" href="#">Hosting your Diez</a>
-        </div>
         <div>
           <div class="sub-category">iOS</div>
           <a class="sub-link" href="/getting-started/swift">Swift</a>
