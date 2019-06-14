@@ -176,8 +176,9 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
 export const run = async (bootstrapRoot?: string) => {
   if (!await Registry.get('analyticsEnabled')) {
     await enableAnalytics();
-    global.analyticsUuid = (await Registry.get('uuid'))!;
   }
+
+  global.analyticsUuid = (await Registry.get('uuid'))!;
 
   if (!global.doNotTrack) {
     emitDiagnostics('activity', diezVersion).catch(() => {
@@ -197,7 +198,7 @@ export const run = async (bootstrapRoot?: string) => {
           }
         }
       }
-      return null;
+      return event;
     },
   });
 
