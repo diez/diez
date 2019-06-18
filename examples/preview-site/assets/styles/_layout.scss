@@ -116,7 +116,6 @@
 }
 
 .staggered {
-  // margin-top: $sizingLG / 2;
   @include tablet {
     margin-top: $spacing3XL;
   }
