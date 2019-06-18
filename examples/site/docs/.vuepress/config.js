@@ -69,4 +69,12 @@ module.exports = {
   themeConfig: {
     docsURL: '/_api',
   },
+  plugins: [
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-90094131-5',
+      },
+    ],
+  ],
 };

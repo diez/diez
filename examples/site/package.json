@@ -6,6 +6,7 @@
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "Proprietary",
   "devDependencies": {
+    "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue-libs": "^3.0.0",
     "node-sass": "^4.12.0",
