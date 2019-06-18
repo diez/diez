@@ -11,8 +11,8 @@ import DiezPoodleSurf
 extension Gradient {
     init(_ gradient: SimpleGradient) {
         self.init(
-            startColor: gradient.startColor.color,
-            endColor: gradient.endColor.color,
+            startColor: gradient.startColor.uiColor,
+            endColor: gradient.endColor.uiColor,
             startPoint: CGPoint(x: gradient.startPointX, y: gradient.startPointY),
             endPoint: CGPoint(x: gradient.endPointX, y: gradient.endPointY))
     }

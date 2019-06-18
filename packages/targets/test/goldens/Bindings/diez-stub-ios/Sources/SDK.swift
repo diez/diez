@@ -105,15 +105,15 @@ extension Image {
     /**
      An `UIImage` of the appropriate scale if it exits.
 
-     When in [hot mode](x-source-tag://Diez), calls [image(withScale:)](x-source-tag://Image.imageWithScale)
-     with `UIScreen.main.scale`.
+     When in [hot mode](x-source-tag://Diez), synchronously fetches and returns a `UIImage` at the scale returned by
+     `UIScreen.main.scale`.
 
      When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
     @objc public var uiImage: UIImage? {
         if environment.isHot {
-            guard let hotImage = image(withScale: UIScreen.main.scale) else {
-                return image(withScale: 3)
+            guard let hotImage = uiImage(forScale: UIScreen.main.scale) else {
+                return uiImage(forScale: 3)
             }
 
             return hotImage
@@ -152,8 +152,6 @@ extension Image {
 
 
     /**
-     - Tag Image.imageWithScale
-
      Gets an appropriately scaled `UIImage` if it exists.
 
      - Note: This operation is performed synchronously using the [url(forScale:)](x-source-tag://Image.urlForScale) and
@@ -162,7 +160,7 @@ extension Image {
 
      - See: [url(forScale:)](x-source-tag://Image.urlForScale)
      */
-    private func image(withScale scale: CGFloat) -> UIImage? {
+    private func uiImage(forScale scale: CGFloat) -> UIImage? {
         guard
             let url = url(forScale: scale),
             let data = try? Data(contentsOf: url) else {
@@ -381,7 +379,7 @@ extension Color {
     /**
      A `UIColor` representation of the color.
      */
-    @objc public var color: UIColor {
+    @objc public var uiColor: UIColor {
         let brightness = l + s * min(l, 1 - l)
         let saturation = (brightness == 0) ? 0 : 2 - 2 * l / brightness
         return UIColor(hue: h, saturation: saturation, brightness: brightness, alpha: a)
@@ -451,7 +449,7 @@ public extension UILabel {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }
 
@@ -459,7 +457,7 @@ public extension UITextView {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }
 
@@ -467,7 +465,7 @@ public extension UITextField {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }
 

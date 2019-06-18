@@ -38,7 +38,7 @@ public extension UILabel {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }
 
@@ -46,7 +46,7 @@ public extension UITextView {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }
 
@@ -54,6 +54,6 @@ public extension UITextField {
     @objc(dez_applyTypograph:)
     func apply(_ typograph: Typograph) {
         font = typograph.uiFont
-        textColor = typograph.color.color
+        textColor = typograph.color.uiColor
     }
 }

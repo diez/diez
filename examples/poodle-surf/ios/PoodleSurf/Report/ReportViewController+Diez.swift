@@ -13,7 +13,7 @@ import DiezPoodleSurf
 
 extension ReportViewController {
     func apply(_ design: ReportDesign, to view: ReportView) {
-        view.backgroundColor = design.backgroundColor.color
+        view.backgroundColor = design.backgroundColor.uiColor
         view.contentLayoutMargins = UIEdgeInsets(design.contentLayoutMargins)
         view.contentSpacing = design.contentSpacing
 
@@ -63,7 +63,7 @@ extension ReportViewController {
         apply(design.shared, to: view)
         view.dayPartsHorizontalSpacing = design.dayPartsHorizontalSpacing
         view.separatorWidth = design.separatorWidth
-        view.separators.forEach { $0.backgroundColor = design.separatorColor.color }
+        view.separators.forEach { $0.backgroundColor = design.separatorColor.uiColor }
         view.dayParts.forEach { dayPart in
             dayPart.unitLabel.text = design.unit
             dayPart.valueUnitLayoutMargins = UIEdgeInsets(design.valueUnitMargins)
@@ -96,7 +96,7 @@ extension ReportViewController {
 
 extension ReportViewController {
     func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
-        navigationBar.barTintColor = design.barTintColor.color
+        navigationBar.barTintColor = design.barTintColor.uiColor
         view.label.text = design.title
         view.label.apply(design.typograph)
         view.imageView.image = design.icon.uiImage
