@@ -23,7 +23,7 @@
         </div>
         <div>
           <div class="sub-category">Design Tools</div>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Figma</router-link>
+          <router-link class="sub-link" to="/getting-started/figma">Figma</router-link>
           <router-link class="sub-link soon" title="Guide coming soon" to="#">Adobe XD</router-link>
           <router-link class="sub-link soon" to="#" title="Guide coming soon">Sketch</router-link>
           <router-link class="sub-link soon" title="Guide coming soon" to="#">InVision DSM</router-link>

@@ -20,7 +20,7 @@ The Diez CLI is used to generate your Diez project, cut new versions of your Die
 
 ### Using Design Token Components to compose your Diez project
 
-To compose your Diez project you will componentize your team's design tokens in order to make them customizable, composable, reusable, and developer-friendly within your consuming codebase(s). TypeScript is used for making these definitions. Read more about that choice here.
+To compose your Diez project you will componentize your team's design tokens in order to make them customizable, composable, reusable, and developer-friendly within your consuming codebase(s). TypeScript is used for making these definitions. Read more about that choice [here](/faq/#typescript).
 
 In general, you define `Component`(s) composed of `Property`(ies) and compose them together to create your full "Design System."
 
@@ -54,7 +54,7 @@ class MyColors extends Component {
 }
 ```
 
-View the full `Color` API here.
+View the full `Color` API [here](/docs/latest/classes/color.image.html).
 
 #### Images
 
@@ -66,7 +66,7 @@ class Images extends Component {
 }
 ```
 
-View the full `Image` API here.
+View the full `Image` API [here](/docs/latest/classes/prefabs.image.html).
 
 #### Typography
 
@@ -84,7 +84,7 @@ class TextStyles extends Component {
 }
 ```
 
-There are a few more prefabs available [here](https://github.com/diez/diez/tree/master/packages/prefabs/src), and we will be adding more in due time. Because prefabs are just components, you're able to extend them or contribute back to the mainline as well.
+There are several more prefabs available [here](/docs/latest/modules/prefabs.html), and we will be adding more in due time. Because prefabs are just components, you're able to extend them or contribute back to the mainline as well.
 
 #### Creating custom components
 
