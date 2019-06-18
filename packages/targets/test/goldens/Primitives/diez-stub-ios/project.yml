@@ -9,4 +9,6 @@ targets:
       - Sources
     info:
       path: Sources/DiezStub/Info.plist
+      properties:
+        CFBundleShortVersionString: 10.10.10
     scheme: {} # Generates the shared scheme

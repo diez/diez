@@ -21,6 +21,7 @@ declare module '@diez/cli-core/types/api' {
  */
 export interface CompilerOptions {
   target: Target;
+  sdkVersion: string;
 }
 
 /**

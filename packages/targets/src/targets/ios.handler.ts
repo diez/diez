@@ -363,6 +363,7 @@ class ViewController: UIViewController {
     const tokens = {
       hasDependenciesOrStaticAssets,
       hasStaticAssets,
+      sdkVersion: this.program.options.sdkVersion,
       moduleName: this.moduleName,
       assetCatalogPaths: Array.from(assetCatalogPaths),
       assetFolderPaths: Array.from(assetFolderPaths),

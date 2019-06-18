@@ -11,6 +11,7 @@ const provider: CliCommandProvider = {
       shortName: 't',
       longName: 'target',
       valueName: 'target',
+      description: 'The target platform for the compiled SDK.',
       validator: async ({target}) => {
         if (!target) {
           fatalError('--target is required.');
@@ -26,6 +27,11 @@ const provider: CliCommandProvider = {
           fatalError(message);
         }
       },
+    },
+    {
+      longName: 'sdk-version',
+      valueName: 'sdkVersion',
+      description: 'The semantic version to set on the generated SDK.',
     },
   ],
 };

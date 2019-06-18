@@ -1,5 +1,5 @@
 # coding: utf-8
-version = '1.0.0'
+version = '{{{sdkVersion}}}'
 
 Pod::Spec.new do |s|
   s.name = '{{{moduleName}}}'

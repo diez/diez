@@ -55,7 +55,7 @@ const createProgramForFixture = async (fixture: string, target: Target, options?
     copySync(join(fixturesRoot, fixture, 'assets'), join(stubProjectRoot, 'assets'));
   }
 
-  const program = new Program(stubProjectRoot, {target, ...options});
+  const program = new Program(stubProjectRoot, {target, sdkVersion: '10.10.10', ...options});
   await program.run();
   return program;
 };

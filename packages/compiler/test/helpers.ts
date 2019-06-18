@@ -30,7 +30,7 @@ export const createProgramForFixture = async (fixture: string, hot = false) => {
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  const program = new Program(stubProjectRoot, {target: 'test' as Target}, hot);
+  const program = new Program(stubProjectRoot, {sdkVersion: '10.10.10', target: 'test' as Target}, hot);
 
   if (!hot) {
     await program.run();

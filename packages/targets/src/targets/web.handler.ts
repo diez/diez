@@ -269,6 +269,7 @@ new Diez(${component}).attach((component) => {
 
     const tokens = {
       moduleName: this.moduleName,
+      sdkVersion: this.program.options.sdkVersion,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
       declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),

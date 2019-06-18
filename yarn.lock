@@ -7041,11 +7041,11 @@ diacritics@^1.3.0:
   integrity sha1-PvqHMj67hj5mls67AILUj/PW96E=
 
 "diez-lorem-ipsum@link:examples/lorem-ipsum/build/diez-lorem-ipsum-web":
-  version "0.0.0"
+  version "0.1.0"
   uid ""
 
 "diez-poodle-surf@link:examples/poodle-surf/build/diez-poodle-surf-web":
-  version "0.0.0"
+  version "0.1.0"
   uid ""
 
 diff-sequences@^24.3.0:

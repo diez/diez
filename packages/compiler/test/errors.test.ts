@@ -17,7 +17,7 @@ afterEach(() => {
 
 describe('compiler errors', () => {
   test('invalid program', async () => {
-    const makeProgram = () => new Program(tempLocation, {target: 'foo' as Target});
+    const makeProgram = () => new Program(tempLocation, {sdkVersion: '10.10.10', target: 'foo' as Target});
     expect(makeProgram).toThrow();
     projectCache.clear();
 

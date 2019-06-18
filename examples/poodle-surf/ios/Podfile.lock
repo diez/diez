@@ -1,5 +1,5 @@
 PODS:
-  - DiezPoodleSurf (1.0.0):
+  - DiezPoodleSurf (0.1.0):
     - lottie-ios (~> 2.5.2)
   - lottie-ios (2.5.2)
 
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "../build/diez-poodle-surf-ios"
 
 SPEC CHECKSUMS:
-  DiezPoodleSurf: 9bbb988d95d5e496cfe8ebb92ba400f7fdeea1fb
+  DiezPoodleSurf: 3d8c265c501cc068a96d2f7e45a225f62002166d
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
 
 PODFILE CHECKSUM: 331f9fc8e73e420a1e556f8607a3ddf96909547b

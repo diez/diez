@@ -1,11 +1,22 @@
-import {fatalError} from '@diez/cli-core';
+import {fatalError, warning} from '@diez/cli-core';
 import {Target} from '@diez/engine';
+import {valid} from 'semver';
 import {CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
 
 export = async (options: CompilerOptions) => {
   options.target = options.target.toLowerCase() as Target;
+  const validSemver = valid(options.sdkVersion);
+  if (validSemver) {
+    options.sdkVersion = validSemver;
+  } else {
+    if (options.sdkVersion !== undefined) {
+      warning(`Invalid SDK version: ${options.sdkVersion}.`);
+    }
+    options.sdkVersion = '0.1.0';
+  }
+
   const targetProvider = (await getTargets()).get(options.target);
 
   if (!targetProvider) {

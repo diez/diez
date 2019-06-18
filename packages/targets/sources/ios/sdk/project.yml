@@ -9,6 +9,8 @@ targets:
       - Sources
     info:
       path: Sources/{{{moduleName}}}/Info.plist
+      properties:
+        CFBundleShortVersionString: {{{sdkVersion}}}
     {{#if hasDependenciesOrStaticAssets}}
     dependencies:
       {{#if hasStaticAssets}}
