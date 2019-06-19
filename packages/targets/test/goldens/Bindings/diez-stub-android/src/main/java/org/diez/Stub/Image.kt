@@ -14,106 +14,66 @@ import com.bumptech.glide.signature.ObjectKey
 import android.widget.ImageView
 import android.widget.TextView
 
-var ImageView.image: Image?
-    set(image) {
-        if (image == null) {
-            return
-        }
+fun ImageView.load(image: Image) {
+    if (Environment.isHot) {
+        getFromNetwork(image, this, fun(drawable) {
+            setImageDrawable(drawable)
+        })
+        return
+    }
 
-        if (Environment.isHot) {
-            getFromNetwork(image, this, fun(drawable) {
+    setImageDrawable(image.drawableFromRawResource)
+}
+
+fun ImageView.load(file: File) {
+    if (Environment.isHot) {
+        Glide.with(this.context).load(file.url).signature(ObjectKey(file.src + System.currentTimeMillis())).into(object : SimpleTarget<Drawable>() {
+            override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
                 setImageDrawable(drawable)
-            })
-            return
-        }
-
-        setImageDrawable(image.drawableFromRawResource)
-    }
-    get() {
-        return null
+            }
+        })
+        return
     }
 
-var ImageView.file: File?
-    set(file) {
-        if (file == null) {
-            return
-        }
+    setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(file.resourceId)))
+}
 
-        if (Environment.isHot) {
-            Glide.with(this.context).load(file.url).signature(ObjectKey(file.src + System.currentTimeMillis())).into(object : SimpleTarget<Drawable>() {
-                override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
-                    setImageDrawable(drawable)
-                }
-            })
-            return
-        }
-
-        setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(file.resourceId)))
-    }
-    get() {
-        return null
+fun TextView.loadLeftDrawable(image: Image) {
+    if (Environment.isHot) {
+        getFromNetwork(image, this, fun(drawable) {
+            setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+        })
+        return
     }
 
-var TextView.leftDrawable: Image?
-    set(image) {
-        if (image == null) {
-            return
-        }
+    setCompoundDrawablesWithIntrinsicBounds(image.drawableFromRawResource, null, null, null)
+}
 
-        if (Environment.isHot) {
-            getFromNetwork(image, this, fun(drawable) {
-                setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-            })
-            return
-        }
-
-        setCompoundDrawablesWithIntrinsicBounds(image.drawableFromRawResource, null, null, null)
-    }
-    get() {
-        return null
+fun Toolbar.loadIcon(image: Image) {
+    if (Environment.isHot) {
+        getFromNetwork(image, this, fun(drawable) {
+            navigationIcon = drawable
+        })
+        return
     }
 
-var Toolbar.icon: Image?
-    set(image) {
-        if (image == null) {
-            return
-        }
+    navigationIcon = image.drawableFromRawResource
+}
 
-        if (Environment.isHot) {
-            getFromNetwork(image, this, fun(drawable) {
-                navigationIcon = drawable
-            })
-            return
-        }
-
-        navigationIcon = image.drawableFromRawResource
-    }
-    get() {
-        return null
+fun View.loadBackgroundImage(image: Image) {
+    if (Environment.isHot) {
+        val view = this
+        getFromNetwork(image, this, fun(drawable) {
+            drawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+            view.background = drawable
+        })
+        return
     }
 
-var View.backgroundImage : Image?
-    set(image) {
-        if (image == null) {
-            return
-        }
-
-        if (Environment.isHot) {
-            val view = this
-            getFromNetwork(image, this, fun(drawable) {
-                drawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
-                view.background = drawable
-            })
-            return
-        }
-
-        val drawable = image.drawableFromRawResource
-        (drawable as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
-        this.background = drawable
-    }
-    get() {
-        return null
-    }
+    val drawable = image.drawableFromRawResource
+    (drawable as BitmapDrawable).setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+    this.background = drawable
+}
 
 private val effectiveDensity: Int
     get () {

@@ -78,10 +78,10 @@ class MainActivity : AppCompatActivity() {
 
         // NavigationTitle
         toolbar.setBackgroundColor(diez.designs.navigationTitle.barTintColor.color)
-        toolbar.icon = diez.designs.navigationTitle.icon
+        toolbar.loadIcon(diez.designs.navigationTitle.icon)
         toolbar.contentInsetStartWithNavigation = diez.designs.navigationTitle.iconToTitleSpacing.toPx()
         toolbarTitle.text = diez.designs.navigationTitle.title
-        toolbarTitle.typograph = diez.designs.navigationTitle.typograph
+        toolbarTitle.apply(diez.designs.navigationTitle.typograph)
 
         // Header > Banner
         // TODO: write an extension
@@ -102,9 +102,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Header > Labels + Text
-        regionLabel.typograph = diez.designs.report.header.regionLabel
-        placeLabel.typograph = diez.designs.report.header.placeLabel
-        placeLabel.leftDrawable = diez.designs.report.header.mapPinIcon
+        regionLabel.apply(diez.designs.report.header.regionLabel)
+        placeLabel.apply(diez.designs.report.header.placeLabel)
+        placeLabel.loadLeftDrawable(diez.designs.report.header.mapPinIcon)
         placeLabel.compoundDrawablePadding = diez.designs.report.header.pinIconToLabelSpacing.toPx()
         regionLabel.layoutParams = (regionLabel.layoutParams as LinearLayout.LayoutParams).apply {
             bottomMargin = diez.designs.report.header.labelsSpacing.toPx()
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         cardTitle.text = shared.title
-        cardTitle.typograph = shared.titleTypograph
+        cardTitle.apply(shared.titleTypograph)
         cardTitle.layoutParams = (cardTitle.layoutParams as LinearLayout.LayoutParams).apply {
             bottomMargin = shared.titleContentSpacing.toPx()
         }
@@ -155,15 +155,15 @@ class MainActivity : AppCompatActivity() {
     private fun applyTemperatureCardStyles() {
         // Card > Temperature
         applySharedCardStyles(diez.designs.report.waterTemperature.shared, temperatureCard, temperatureCardTitle)
-        tempCardIcon.image = diez.designs.report.waterTemperature.temperature.icon
+        tempCardIcon.load( diez.designs.report.waterTemperature.temperature.icon)
         tempCardIcon.setPadding(0, 0, diez.designs.report.waterTemperature.temperature.iconSpacing.toPx(), 0)
-        tempCardTempText.typograph = diez.designs.report.waterTemperature.temperature.typograph
-        wetsuitIcon.image = diez.designs.report.waterTemperature.wetsuit.icon
+        tempCardTempText.apply(diez.designs.report.waterTemperature.temperature.typograph)
+        wetsuitIcon.load(diez.designs.report.waterTemperature.wetsuit.icon)
         wetsuitIcon.setPadding(0, 0, diez.designs.report.waterTemperature.wetsuit.iconSpacing.toPx(), 0)
-        wetsuitLabel.typograph = diez.designs.report.waterTemperature.wetsuit.headerTypograph
+        wetsuitLabel.apply(diez.designs.report.waterTemperature.wetsuit.headerTypograph)
         wetsuitLabel.text = diez.designs.report.waterTemperature.wetsuit.headerText
         wetsuitLabel.setPadding(0, 0, 0, diez.designs.report.waterTemperature.wetsuit.labelSpacing.toPx())
-        wetsuitValue.typograph = diez.designs.report.waterTemperature.wetsuit.valueTypograph
+        wetsuitValue.apply(diez.designs.report.waterTemperature.wetsuit.valueTypograph)
     }
 
 
@@ -183,9 +183,9 @@ class MainActivity : AppCompatActivity() {
 
         valueUnit.setPadding(0, 0, 0, cardDesign.dayPartVerticalSpacing.toPx())
 
-        time.typograph = cardDesign.dayPart.timeTypograph
-        unit.typograph = cardDesign.dayPart.unitTypograph
-        value.typograph = cardDesign.dayPart.valueTypograph
+        time.apply(cardDesign.dayPart.timeTypograph)
+        unit.apply(cardDesign.dayPart.unitTypograph)
+        value.apply(cardDesign.dayPart.valueTypograph)
         value.setPadding(0, 0, cardDesign.dayPart.valueUnitSpacing.toPx(), 0)
 
         dayPartRoot.setPadding(
@@ -308,21 +308,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onMocksUpdated() {
-        bannerImage.file = mocks.report.location.bannerImage
-        locationImage.file = mocks.report.location.mapImage
+        bannerImage.load(mocks.report.location.bannerImage)
+        locationImage.load(mocks.report.location.mapImage)
         regionLabel.text = mocks.report.location.region
         placeLabel.text = mocks.report.location.place
         tempCardTempText.text = mocks.report.temperature.value
         wetsuitValue.text = mocks.report.temperature.gear
 
         windEarlyTime.text = mocks.report.wind.early.dayPart
-        windEarlyIcon.file = mocks.report.wind.early.direction
+        windEarlyIcon.load(mocks.report.wind.early.direction)
         windEarlyValue.text = mocks.report.wind.early.value
         windMiddleTime.text = mocks.report.wind.middle.dayPart
-        windMiddleIcon.file = mocks.report.wind.middle.direction
+        windMiddleIcon.load(mocks.report.wind.middle.direction)
         windMiddleValue.text = mocks.report.wind.middle.value
         windLateTime.text = mocks.report.wind.late.dayPart
-        windLateIcon.file = mocks.report.wind.late.direction
+        windLateIcon.load(mocks.report.wind.late.direction)
         windLateValue.text = mocks.report.wind.late.value
 
         swellEarlyTime.text = mocks.report.swell.early.dayPart

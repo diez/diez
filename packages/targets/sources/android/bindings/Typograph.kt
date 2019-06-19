@@ -141,15 +141,8 @@ val Typograph.typeface: Typeface
         return getTypeface(font)
     }
 
-var TextView.typograph: Typograph?
-    set(typograph) {
-        if (typograph == null) {
-            return
-        }
-        this.typeface = typograph.typeface
-        this.textSize = typograph.fontSize
-        this.setTextColor(typograph.color.color)
-    }
-    get() {
-        return null
-    }
+fun TextView.apply(typograph: Typograph) {
+    this.typeface = typograph.typeface
+    this.textSize = typograph.fontSize
+    this.setTextColor(typograph.color.color)
+}

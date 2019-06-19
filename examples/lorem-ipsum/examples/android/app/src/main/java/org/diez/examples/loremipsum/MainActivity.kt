@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         headerLayout.setBackgroundColor(designSystem.colors.darkBackground.color)
 
-        headerView.backgroundImage = designSystem.images.masthead
+        headerView.loadBackgroundImage(designSystem.images.masthead)
 
-        imageView.image = designSystem.images.logo
+        imageView.load(designSystem.images.logo)
 
         imageView.afterLayout {
             val paddingBottom = -imageView.width / 2
@@ -40,11 +40,11 @@ class MainActivity : AppCompatActivity() {
         contentLayout.setPadding(padding.left.toPx(), padding.top.toPx(), padding.right.toPx(), padding.bottom.toPx())
 
         titleTextView.text = designSystem.strings.title
-        titleTextView.typograph = designSystem.typographs.heading1
+        titleTextView.apply(designSystem.typographs.heading1)
         titleSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
 
         captionTextView.text = designSystem.strings.caption
-        captionTextView.typograph = designSystem.typographs.caption
+        captionTextView.apply(designSystem.typographs.caption)
         captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
 
         animationView.load(designSystem.loadingAnimation)
