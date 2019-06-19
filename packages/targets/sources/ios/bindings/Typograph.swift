@@ -22,37 +22,44 @@ extension Typograph {
     /**
      The `UIFont` of the `Typograph`.
 
-     - Note: If the font fails to load this will fallback to the `UIFont.systemFont(ofSize:)`.
+     This uses the `UIFont(name:size)` initializer and may return nil as a result.
      */
-    @objc public var uiFont: UIFont {
+    @objc 
+    public var uiFont: UIFont? {
         registerFont(font)
-        guard let font = UIFont(name: font.name, size: fontSize) else {
-            return UIFont.systemFont(ofSize: fontSize)
-        }
 
-        return font
+        return UIFont(name: font.name, size: fontSize)
     }
 }
 
-public extension UILabel {
+extension UILabel {
+    /**
+     Applies the provided `Typograph` to the receiver.
+     */
     @objc(dez_applyTypograph:)
-    func apply(_ typograph: Typograph) {
+    public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
     }
 }
 
-public extension UITextView {
+extension UITextView {
+    /**
+     Applies the provided `Typograph` to the receiver.
+     */
     @objc(dez_applyTypograph:)
-    func apply(_ typograph: Typograph) {
+    public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
     }
 }
 
-public extension UITextField {
+extension UITextField {
+    /**
+     Applies the provided `Typograph` to the receiver.
+     */
     @objc(dez_applyTypograph:)
-    func apply(_ typograph: Typograph) {
+    public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
     }

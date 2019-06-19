@@ -6,12 +6,9 @@ extension File {
 
      When in [hot mode](x-source-tag://Diez), this will be a `URL` to resource on the Diez server.
 
-     When not in [hot mode](x-source-tag://Diez), this will be a `URL` pointing to the resource on the
-     filesystem (within the SDK's asset bundle).
+     When not in [hot mode](x-source-tag://Diez), this will be a `URL` pointing to the resource on the filesystem (within the SDK's asset bundle).
 
-     - Note: This `URL` will only be `nil` if there is an issue parsing the `URL` when in
-       [hot mode](x-source-tag://Diez). This should never be `nil` when not in
-       [hot mode](x-source-tag://Diez).
+     - Note: This `URL` will only be `nil` if there is an issue parsing the `URL` when in [hot mode](x-source-tag://Diez). This should never be `nil` when not in [hot mode](x-source-tag://Diez).
      */
     public var url: URL? {
         if environment.isHot {

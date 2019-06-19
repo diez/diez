@@ -37,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)applyGradient:(DEZSimpleGradient *)gradient {
     self.gradientLayer.colors = @[
-        (id)gradient.startColor.color.CGColor,
-        (id)gradient.endColor.color.CGColor,
+        (id)gradient.startColor.uiColor.CGColor,
+        (id)gradient.endColor.uiColor.CGColor,
     ];
     self.gradientLayer.locations = @[@0, @1];
     self.gradientLayer.startPoint = (CGPoint){

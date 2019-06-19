@@ -53,8 +53,16 @@ Diez comes packaged with a number of prefabs that you can use to define your [De
 #### UIColor Representation
 
 ```swift
-extension {
-    var color: UIColor
+extension Color {
+    var uiColor: UIColor
+}
+```
+
+#### UIColor Initializer
+
+```swift
+extension UIColor {
+    init(_ color: Color)
 }
 ```
 
@@ -64,7 +72,15 @@ extension {
 
 ```swift
 extension Image {
-    var uiImage: UIImage
+    var uiImage: UIImage?
+}
+```
+
+#### UIImage Initializer
+
+```swift
+extension UIImage {
+    init?(_ image: Image)
 }
 ```
 
@@ -94,7 +110,7 @@ extension LOTAnimationView {
 
 ```swift
 extension Typograph {
-    var uiFont: UIFont
+    var uiFont: UIFont?
 }
 ```
 

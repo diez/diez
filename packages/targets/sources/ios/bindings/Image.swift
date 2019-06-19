@@ -1,44 +1,15 @@
 extension Image {
     /**
-     An `UIImage` of the appropriate scale if it exits.
+     Returns an image inialized with [UIImage(_ image: Image)](x-source-tag://UIImage.init).
 
-     When in [hot mode](x-source-tag://Diez), synchronously fetches and returns a `UIImage` at the scale returned by
-     `UIScreen.main.scale`.
-
-     When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
+     - See [UIImage(_ image: Image)](x-source-tag://UIImage.init)
      */
-    @objc public var uiImage: UIImage? {
-        if environment.isHot {
-            guard let hotImage = uiImage(forScale: UIScreen.main.scale) else {
-                return uiImage(forScale: 3)
-            }
-
-            return hotImage
-        }
-
-        guard let name = (file.src as NSString).deletingPathExtension.removingPercentEncoding else {
-            return nil
-        }
-
-        return UIImage(named: name, in: Bundle.diezResources, compatibleWith: nil)
+    @objc 
+    public var uiImage: UIImage? {
+        return UIImage(self)
     }
 
-    /**
-     - Tag: Image.urlForScale
-
-     Gets a `URL` to the provided `scale`.
-
-     The returned `URL` will only be `nil` if:
-       - The provided scale does not round to 1, 2, or 3
-       - The `URL` for the image at the provided scale does not exist
-       - Diez is in [hot mode](x-source-tag://Diez) and the `URL` failed to resolve
-
-     - Parameter scale: The scale of the image to request which is rounded to the nearest `Int` value before resolving
-       the `URL`. This typically corresponds to the `UIScreen.main.scale`.
-
-     - Returns: The `URL` of the image at the provided scale, or nil.
-     */
-    private func url(forScale scale: CGFloat) -> URL? {
+    func url(forScale scale: CGFloat) -> URL? {
         switch round(scale) {
         case 1: return file.url
         case 2: return file2x.url
@@ -46,24 +17,47 @@ extension Image {
         default: return nil
         }
     }
+}
 
-
+extension UIImage {
     /**
-     Gets an appropriately scaled `UIImage` if it exists.
+     - Tag: UIImage.init
 
-     - Note: This operation is performed synchronously using the [url(forScale:)](x-source-tag://Image.urlForScale) and
-       will block the thread while the image is fetched. This should only be an issue in
-       [hot mode](x-source-tag://Diez) when the image may not be resolved from the SDK's bundle.
+     Initializes a `UIImage` of the appropriate scale if it exists.
 
-     - See: [url(forScale:)](x-source-tag://Image.urlForScale)
+     When in [hot mode](x-source-tag://Diez), synchronously fetches and initializes a `UIImage` at the scale returned by `UIScreen.main.scale` if it exists. If an image URL is not available for the `UIScreen.main.scale`, the 3x asset will attempt to be loaded.
+
+     When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
-    private func uiImage(forScale scale: CGFloat) -> UIImage? {
-        guard
-            let url = url(forScale: scale),
-            let data = try? Data(contentsOf: url) else {
+    public convenience init?(_ image: Image) {
+        guard environment.isHot else {
+            guard let name = (image.file.src as NSString).deletingPathExtension.removingPercentEncoding else {
                 return nil
+            }
+
+            self.init(named: name, in: Bundle.diezResources, compatibleWith: nil)
+            return
+        }
+        
+        let screenScale = UIScreen.main.scale
+        guard let url = image.url(forScale: screenScale) else {
+            let maxScale: CGFloat = 3
+            guard let url = image.url(forScale: maxScale) else {
+                return nil
+            }
+            
+            self.init(url, scale: maxScale)
+            return
+        }
+        
+        self.init(url, scale: screenScale)
+    }
+    
+    convenience init?(_ url: URL, scale: CGFloat) {
+        guard let data = try? Data(contentsOf: url) else {
+            return nil
         }
 
-        return UIImage(data: data, scale: scale)
+        self.init(data: data, scale: scale)
     }
 }

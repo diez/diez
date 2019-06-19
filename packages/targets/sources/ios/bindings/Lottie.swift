@@ -6,7 +6,8 @@ extension Lottie {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    @objc public var url: URL? {
+    @objc 
+    public var url: URL? {
         return file.url
     }
 }

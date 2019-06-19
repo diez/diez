@@ -96,10 +96,15 @@ extension ReportViewController {
 
 extension ReportViewController {
     func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
-        navigationBar.barTintColor = design.barTintColor.uiColor
         view.label.text = design.title
-        view.label.apply(design.typograph)
-        view.imageView.image = design.icon.uiImage
         view.spacing = design.iconToTitleSpacing
+        
+        // Using the UIKit class initializers for test coverage.
+        navigationBar.barTintColor = UIColor(design.barTintColor)
+        view.imageView.image = UIImage(design.icon)
+        
+        // Applying the typograph manually to add test coverage for the .uiFont getter.
+        view.label.font = design.typograph.uiFont
+        view.label.textColor = design.typograph.color.uiColor
     }
 }

@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
-        self.stackView.backgroundColor = component.designs.loading.backgroundColor.color;
+        self.stackView.backgroundColor = component.designs.loading.backgroundColor.uiColor;
         self.stackView.spacing = component.designs.report.contentSpacing;
         self.stackView.layoutMargins = DEZUIEdgeInsetsMake(component.designs.report.contentLayoutMargins);
 
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
         [textField dez_applyTypograph:component.designs.navigationTitle.typograph];
         textField.text = component.designs.navigationTitle.title;
 
-        imageView.image = component.designs.navigationTitle.icon.image;
+        imageView.image = component.designs.navigationTitle.icon.uiImage;
 
         [gradientView applyGradient:component.designs.report.waterTemperature.shared.gradient];
 
