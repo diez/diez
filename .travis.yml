@@ -1,3 +1,5 @@
+env:
+- DIEZ_DO_NOT_TRACK=1
 matrix:
   include:
   - name: Core

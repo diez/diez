@@ -5,8 +5,15 @@ const mockEnableAnalytics = jest.fn();
 const mockDisableAnalytics = jest.fn();
 jest.doMock('@diez/storage', () => ({
   Registry: {
-    get () {
-      return true;
+    get (key: string) {
+      switch (key) {
+        case 'analyticsEnabled':
+          return false;
+        case 'uuid':
+          return 'user-1';
+        default:
+          throw new Error(`Unexpected key: ${key}`);
+      }
     },
   },
   emitDiagnostics: mockEmitDiagnostics,
@@ -20,14 +27,29 @@ import {loadAction as loadAnalyticsAction} from '../src/commands/analytics';
 import {diezVersion} from '../src/utils';
 
 beforeEach(() => {
+  process.env.DIEZ_DO_NOT_TRACK = 'indeed';
   assignMock(process, 'exit');
 });
 
+afterEach(() => {
+  mockEmitDiagnostics.mockReset();
+  mockEnableAnalytics.mockReset();
+  mockDisableAnalytics.mockReset();
+});
+
 describe('cli.analytics', () => {
-  test('analytics ping', async () => {
+  test('analytics ping - on', async () => {
+    delete process.env.DIEZ_DO_NOT_TRACK;
+    // Make sure we make it through here without crashing.
+    mockEmitDiagnostics.mockRejectedValueOnce('ahoy');
     await run();
     expect(mockEmitDiagnostics).toHaveBeenCalledTimes(1);
     expect(mockEmitDiagnostics).toHaveBeenCalledWith('activity', diezVersion);
+  });
+
+  test('analytics ping - off', async () => {
+    await run();
+    expect(mockEmitDiagnostics).toHaveBeenCalledTimes(0);
   });
 
   test('analytics <on|off> command', async () => {

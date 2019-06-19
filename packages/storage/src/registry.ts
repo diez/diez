@@ -33,7 +33,7 @@ export class Registry {
     setRegistry(this.configuration);
   }
 
-  private get (key: keyof DiezRegistryOptions) {
+  private get<T extends keyof DiezRegistryOptions> (key: T): Partial<DiezRegistryOptions>[T] {
     return this.configuration[key];
   }
 
@@ -58,9 +58,9 @@ export class Registry {
    * Gets a configuration value by key.
    * @param key The Configuration key requested.
    */
-  static async get<T = string> (key: keyof DiezRegistryOptions): Promise<T | undefined> {
+  static async get<T extends keyof DiezRegistryOptions> (key: T): Promise<Partial<DiezRegistryOptions>[T] | undefined> {
     await this.initialize();
-    return this.instance!.get(key) as T | undefined;
+    return this.instance!.get(key);
   }
 
   /**

@@ -1,3 +1,14 @@
+class MockSentry {
+  static mockClose = jest.fn();
+  static mockSetUser = jest.fn();
+  static mockGetClient = jest.fn().mockImplementation((() => ({close: MockSentry.mockClose})));
+  static captureException = jest.fn();
+  static init = jest.fn();
+  static configureScope = jest.fn().mockImplementation((callback) => callback({setUser: MockSentry.mockSetUser}));
+  static getCurrentHub = jest.fn().mockImplementation(() => ({getClient: MockSentry.mockGetClient}));
+}
+jest.doMock('@sentry/node', () => MockSentry);
+
 import {assignMock} from '@diez/test-utils';
 import commander, {Command} from 'commander';
 import {join} from 'path';
@@ -46,6 +57,51 @@ describe('cli', () => {
       expect(mockStringValidator).toHaveBeenCalledWith(expect.objectContaining({stringParam: 'foo'}));
       expect(mockBooleanValidator).toHaveBeenCalledWith(expect.objectContaining({booleanParam: true}));
       expect(mockPreinstall).toHaveBeenCalled();
+    });
+  });
+
+  test('sentry e2e', async () => {
+    // #deleteme
+    await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
+    delete process.env.DIEZ_DO_NOT_TRACK;
+    process.argv = ['node', 'diez', 'foobar', '--stringParam', 'foo'];
+
+    // Simulate the actual behaviors of Sentry.
+    mockAction.mockRejectedValueOnce({
+      exception: {
+        values: [{
+          stacktrace: {
+            frames: [
+              {filename: 'path/to/@diez/packagename/lib/filename.js'},
+            ],
+          },
+        }],
+      },
+    });
+
+    const eventTrap = jest.fn();
+    // beforeSend() should be called when we captureException().
+    MockSentry.init.mockImplementation(({beforeSend}: any) => {
+      MockSentry.captureException.mockImplementation((event) => {
+        eventTrap(beforeSend(event));
+      });
+    });
+
+    await run();
+
+    process.nextTick(() => {
+      expect(eventTrap).toHaveBeenCalledWith({
+        exception: {
+          values: [{
+            stacktrace: {
+              frames: [
+                {filename: 'app:///packages/packagename/lib/filename.js'},
+              ],
+            },
+          }],
+        },
+      });
+      expect(MockSentry.mockClose).toHaveBeenCalledWith(1000);
     });
   });
 });
