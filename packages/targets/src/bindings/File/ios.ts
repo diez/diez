@@ -6,10 +6,9 @@ import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<File> = {
   sources: [
-    join(sourcesPath, 'ios', 'bindings', 'File.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'File+Binding.swift'),
     join(sourcesPath, 'ios', 'bindings', 'Bundle+File.swift'),
   ],
-  imports: ['Foundation'],
   assetsBinder: fileAssetBinder,
 };
 

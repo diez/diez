@@ -1,3 +1,5 @@
+import Foundation
+
 extension Lottie {
     /**
      - Tag: Lottie.url
@@ -6,7 +8,7 @@ extension Lottie {
 
      - See: [File.url](x-source-tag://File.url)
      */
-    @objc 
+    @objc
     public var url: URL? {
         return file.url
     }

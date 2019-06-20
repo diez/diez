@@ -30,7 +30,6 @@ export interface IosDependency {
  * Describes an iOS binding.
  */
 export interface IosBinding<T extends Component = Component> extends TargetBinding<T, IosOutput> {
-  imports: string[];
   dependencies?: IosDependency[];
 }
 
@@ -56,6 +55,10 @@ export interface IosComponentSpec {
  * Describes the complete output for a transpiled iOS target.
  */
 export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {
-  imports: Set<string>;
   bundleIdPrefix: string;
+
+  /**
+   * A temporary directory used as an intermediary copy step when writing the SDK.
+   */
+  temporaryRoot: string;
 }

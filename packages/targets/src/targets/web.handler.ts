@@ -162,7 +162,6 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       sdkRoot,
       projectName,
       processedComponents: new Map(),
-      imports: new Set([]),
       sources: new Set([
         join(coreWeb, 'core', 'Diez.js'),
       ]),

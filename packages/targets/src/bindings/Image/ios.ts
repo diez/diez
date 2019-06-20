@@ -138,8 +138,7 @@ const imageAssetBinder: AssetBinder<Image, IosOutput> =
   };
 
 const binding: IosBinding<Image> = {
-  sources: [join(sourcesPath, 'ios', 'bindings', 'Image.swift')],
-  imports: ['UIKit'],
+  sources: [join(sourcesPath, 'ios', 'bindings', 'Image+Binding.swift')],
   assetsBinder: imageAssetBinder,
 };
 

@@ -1,3 +1,10 @@
+import Foundation
+{{#if public}}
+import UIKit
+{{else}}
+import CoreGraphics
+{{/if}}
+
 @objc(DEZ{{{componentName}}})
 {{#if public}}
 public final class {{{componentName}}}: NSObject, StateBag {

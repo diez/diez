@@ -1,3 +1,5 @@
+import Foundation
+
 extension File {
     /**
      - Tag: File.url

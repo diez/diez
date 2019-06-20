@@ -4,8 +4,7 @@ import {IosBinding} from '../../targets/ios.api';
 import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<Typograph> = {
-  sources: [join(sourcesPath, 'ios', 'bindings', 'Typograph.swift')],
-  imports: ['UIKit'],
+  sources: [join(sourcesPath, 'ios', 'bindings', 'Typograph+Binding.swift')],
 };
 
 export = binding;

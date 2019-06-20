@@ -8,11 +8,11 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
-import {readFileSync, writeFileSync} from 'fs-extra';
+import {copySync, ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import pascalCase from 'pascal-case';
-import {join} from 'path';
+import {join, relative} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
@@ -178,16 +178,27 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
         return;
     }
   }
+
+  /**
+   * Returns the root path in the temp directory where the module's source files should be copied to.
+   *
+   * All sources will be copied here in the appropriate directory structure before being copied to the destination.
+   */
+  private get sourcesRoot () {
+    return join(this.output.temporaryRoot, 'Sources', this.moduleName);
+  }
+
   /**
    * @abstract
    */
   protected mergeBindingToOutput (binding: IosBinding): void {
-    for (const bindingImport of binding.imports) {
-      this.output.imports.add(bindingImport);
-    }
+    const sourcesRoot = this.sourcesRoot;
 
     for (const bindingSource of binding.sources) {
-      this.output.sources.add(bindingSource);
+      const relativePath = relative(join(coreIos, 'bindings'), bindingSource);
+      const destination = join(sourcesRoot, 'Bindings', relativePath);
+      copySync(bindingSource, destination);
+      this.output.sources.add(destination);
     }
 
     if (binding.dependencies) {
@@ -205,16 +216,11 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       sdkRoot,
       projectName,
       processedComponents: new Map(),
-      imports: new Set(['Foundation', 'WebKit']),
-      sources: new Set([
-        join(coreIos, 'core', 'Diez.swift'),
-        join(coreIos, 'core', 'Environment.swift'),
-        join(coreIos, 'core', 'Bundle+Environment.swift'),
-        join(coreIos, 'core', 'ReflectedCustomStringConvertible.swift'),
-      ]),
+      sources: new Set([]),
       dependencies: new Set<IosDependency>(),
       assetBindings: new Map(),
       bundleIdPrefix: `org.diez.${pascalCase(projectName)}`,
+      temporaryRoot: getTempFileName(),
     };
   }
 
@@ -222,7 +228,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * @abstract
    */
   get staticRoot () {
-    return join(this.output.sdkRoot, 'static');
+    return join(this.output.sdkRoot, 'Sources', 'Static');
   }
 
   /**
@@ -270,7 +276,6 @@ class ViewController: UIViewController {
    * @abstract
    */
   clear () {
-    this.output.imports.clear();
     this.output.sources.clear();
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
@@ -302,6 +307,23 @@ class ViewController: UIViewController {
   }
 
   /**
+   * Copies the provided core files into the temp directory before adding them to the list of output sources.
+   *
+   * @param filenames The core filenames to add to the output's sources.
+   */
+  private addCoreSources (filenames: string[]) {
+    const sourceCore = join(coreIos, 'core');
+    const sourcesRoot = this.sourcesRoot;
+
+    for (const filename of filenames) {
+      const source = join(sourceCore, filename);
+      const destination = join(sourcesRoot, 'Core', filename);
+      copySync(source, destination);
+      this.output.sources.add(destination);
+    }
+  }
+
+  /**
    * @abstract
    */
   async writeSdk () {
@@ -314,11 +336,22 @@ class ViewController: UIViewController {
       }
     }
 
+    const coreSourceFilenames = [
+      'Diez.swift',
+      'Environment.swift',
+      'Bundle+Environment.swift',
+      'ReflectedCustomStringConvertible.swift',
+    ];
+
     const hasStaticAssets = this.output.assetBindings.size > 0;
     if (hasStaticAssets) {
-      this.output.sources.add(join(coreIos, 'core', 'Bundle+Static.swift'));
+      coreSourceFilenames.push('Bundle+Static.swift');
     }
 
+    this.addCoreSources(coreSourceFilenames);
+
+    const componentsFolder = join(this.sourcesRoot, 'Components');
+    ensureDirSync(componentsFolder);
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
@@ -328,7 +361,7 @@ class ViewController: UIViewController {
         }
       }
 
-      const filename = getTempFileName();
+      const filename = join(componentsFolder, `${spec.componentName.toString()}.swift`);
       this.output.sources.add(filename);
       writeFileSync(
         filename,
@@ -352,7 +385,7 @@ class ViewController: UIViewController {
     const assetFolderPaths: Set<string> = new Set();
     for (const path of assetBindingKeys) {
       const root = path.split('/')[0];
-      const staticRoot = join('static', root);
+      const staticRoot = join('Sources', 'Static', root);
       if (root.endsWith('.xcassets')) {
         assetCatalogPaths.add(staticRoot);
       } else {
@@ -369,13 +402,19 @@ class ViewController: UIViewController {
       assetFolderPaths: Array.from(assetFolderPaths),
       bundleIdPrefix: this.output.bundleIdPrefix,
       dependencies: Array.from(this.output.dependencies),
-      imports: Array.from(this.output.imports),
-      sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
     };
 
     this.writeAssets();
 
     await outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens, this.blacklist);
+
+    for (const source of this.output.sources) {
+      // Since all source files are copied to the temp directory before being added as output, all files should be
+      // copied relative to the temp directory.
+      const relativePath = relative(this.output.temporaryRoot, source);
+      const destination = join(this.output.sdkRoot, relativePath);
+      copySync(source, destination);
+    }
 
     // Always generate a project when the user has not opted in to CocoaPods support, or when the user has explicitly
     // opted in to Carthage support.

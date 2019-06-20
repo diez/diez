@@ -1,3 +1,5 @@
+import UIKit
+
 private var registeredFonts: Set<String> = []
 
 private func registerFont(_ font: Font) {
@@ -24,7 +26,7 @@ extension Typograph {
 
      This uses the `UIFont(name:size)` initializer and may return nil as a result.
      */
-    @objc 
+    @objc
     public var uiFont: UIFont? {
         registerFont(font)
 

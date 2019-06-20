@@ -6,7 +6,7 @@ targets:
     type: framework
     platform: iOS
     sources:
-      - Sources
+      - Sources/DiezStub
     info:
       path: Sources/DiezStub/Info.plist
       properties:

@@ -6,7 +6,7 @@ targets:
     type: framework
     platform: iOS
     sources:
-      - Sources
+      - Sources/{{{moduleName}}}
     info:
       path: Sources/{{{moduleName}}}/Info.plist
       properties:
@@ -28,7 +28,7 @@ targets:
     type: bundle
     platform: iOS
     info:
-      path: static/Resources-Info.plist
+      path: Sources/Static/Resources-Info.plist
     sources:
       {{#each assetFolderPaths}}
       - path: "{{{this}}}"

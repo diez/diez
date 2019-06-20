@@ -214,7 +214,6 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
         ['Environment.kt', {dataClass: join(coreAndroid, 'core', 'Environment.kt')}],
       ]),
       processedComponents: new Map(),
-      imports: new Set([]),
       sources: new Set([]),
       dependencies: new Set<AndroidDependency>(),
       assetBindings: new Map(),

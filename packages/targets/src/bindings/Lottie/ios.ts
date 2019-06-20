@@ -5,10 +5,9 @@ import {sourcesPath} from '../../utils';
 
 const binding: IosBinding<Lottie> = {
   sources: [
-    join(sourcesPath, 'ios', 'bindings', 'Lottie.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'Lottie+Binding.swift'),
     join(sourcesPath, 'ios', 'bindings', 'Lottie+LOTAnimationView.swift'),
   ],
-  imports: ['UIKit', 'Lottie'],
   dependencies: [{
     cocoapods: {
       name: 'lottie-ios',

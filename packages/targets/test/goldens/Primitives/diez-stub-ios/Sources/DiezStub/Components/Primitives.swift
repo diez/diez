@@ -1,37 +1,5 @@
-
-@objc(DEZChildComponent)
-public final class ChildComponent: NSObject, Decodable {
-    @objc public internal(set) var diez: CGFloat
-
-    convenience override init() {
-        self.init(
-            diez: 10
-        )
-    }
-
-    init(
-        diez: CGFloat
-    ) {
-        self.diez = diez
-    }
-}
-
-extension ChildComponent: ReflectedCustomStringConvertible {
-    public override var description: String {
-        return reflectedDescription
-    }
-}
-
-@objc(DEZEmptyComponent)
-public final class EmptyComponent: NSObject, Decodable {
-    public override init() {}
-}
-
-extension EmptyComponent: ReflectedCustomStringConvertible {
-    public override var description: String {
-        return reflectedDescription
-    }
-}
+import Foundation
+import UIKit
 
 @objc(DEZPrimitives)
 public final class Primitives: NSObject, StateBag {
@@ -124,4 +92,3 @@ public final class DiezBridgedPrimitives: NSObject {
 
     private let diez: Diez<Primitives>
 }
-

@@ -1,10 +1,12 @@
+import UIKit
+
 extension Image {
     /**
      Returns an image inialized with [UIImage(_ image: Image)](x-source-tag://UIImage.init).
 
      - See [UIImage(_ image: Image)](x-source-tag://UIImage.init)
      */
-    @objc 
+    @objc
     public var uiImage: UIImage? {
         return UIImage(self)
     }
@@ -38,21 +40,21 @@ extension UIImage {
             self.init(named: name, in: Bundle.diezResources, compatibleWith: nil)
             return
         }
-        
+
         let screenScale = UIScreen.main.scale
         guard let url = image.url(forScale: screenScale) else {
             let maxScale: CGFloat = 3
             guard let url = image.url(forScale: maxScale) else {
                 return nil
             }
-            
+
             self.init(url, scale: maxScale)
             return
         }
-        
+
         self.init(url, scale: screenScale)
     }
-    
+
     convenience init?(_ url: URL, scale: CGFloat) {
         guard let data = try? Data(contentsOf: url) else {
             return nil

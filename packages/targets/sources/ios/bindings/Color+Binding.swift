@@ -1,8 +1,10 @@
+import UIKit
+
 extension Color {
     /**
      A `UIColor` representation of the `Color`.
      */
-    @objc 
+    @objc
     public var uiColor: UIColor {
         return UIColor(self)
     }

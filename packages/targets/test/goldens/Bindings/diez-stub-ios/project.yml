@@ -6,7 +6,7 @@ targets:
     type: framework
     platform: iOS
     sources:
-      - Sources
+      - Sources/DiezStub
     info:
       path: Sources/DiezStub/Info.plist
       properties:
@@ -21,8 +21,8 @@ targets:
     type: bundle
     platform: iOS
     info:
-      path: static/Resources-Info.plist
+      path: Sources/Static/Resources-Info.plist
     sources:
-      - path: "static/assets"
+      - path: "Sources/Static/assets"
         type: folder
-      - "static/Images.xcassets"
+      - "Sources/Static/Images.xcassets"
