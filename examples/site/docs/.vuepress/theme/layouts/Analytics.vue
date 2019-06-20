@@ -39,7 +39,7 @@
 import NavBar from '@theme/components/NavBar.vue';
 
 export default {
-  components: { NavBar }
+  components: {NavBar}
 };
 </script>
 

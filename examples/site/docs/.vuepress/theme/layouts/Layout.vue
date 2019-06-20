@@ -19,7 +19,7 @@ import GettingStartedNav from '@theme/components/GettingStartedNav.vue';
 import NavBar from '@theme/components/NavBar.vue';
 
 export default {
-  components: { NavBar, GettingStartedNav }
+  components: {NavBar, GettingStartedNav}
 };
 </script>
 
