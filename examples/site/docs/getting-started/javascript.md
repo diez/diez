@@ -31,12 +31,12 @@ If you take a look at the code in `examples/web/App.tsx`, you'll find that the d
 
 ```jsx
 <Masthead
-  backgroundColor={ds.colors.darkBackground.toString()}
-  backgroundImage={`url(${ds.images.masthead.url})`}
+  backgroundColor={ds.colors.darkBackground.color}
+  backgroundImage={ds.images.masthead.urlCss}
 />
 ```
 
-As you can see, the app is **directly** consuming your design system! 
+As you can see, the app is **directly** consuming your design system!
 
 ### Making Changes
 
@@ -68,5 +68,5 @@ Go back to your browser and see the web app hot update! You can update and hot r
 
 Please see [The Basics Guide](/getting-started/the-basics) for more information on how to compose and edit your design token components (DTCs).
 
-<!-- 
+<!--
 Now you are ready to start! if you want to integrate Diez with an existing project, check out [Integrating Diez with an existing web project][TODO:] -->

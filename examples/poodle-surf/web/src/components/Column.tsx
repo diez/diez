@@ -19,8 +19,8 @@ export default class Column extends React.PureComponent<ColumnProps> {
     return (
       <div style={{textAlign: 'center', ...style}}>
         {icon && <img src={icon} alt="" style={{width: '67px', height: '67px'}} />}
-        <p style={{margin: 0, ...ds.valueTypograph.css}}>{value} <span style={ds.unitTypograph.css}>ft</span></p>
-        <span style={ds.timeTypograph.css}>{name}</span>
+        <p style={{margin: 0, ...ds.valueTypograph.style}}>{value} <span style={ds.unitTypograph.style}>ft</span></p>
+        <span style={ds.timeTypograph.style}>{name}</span>
       </div>
     );
   }

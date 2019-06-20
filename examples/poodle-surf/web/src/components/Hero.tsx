@@ -20,7 +20,7 @@ export default class Hero extends React.PureComponent<HeroProps> {
       <div style={style}>
         <div
           style={{
-            backgroundImage: `url(${mocks.bannerImage.url})`,
+            backgroundImage: mocks.bannerImage.urlCss,
             backgroundSize: 'cover',
             height: ds.bannerHeight,
           }}
@@ -39,14 +39,14 @@ export default class Hero extends React.PureComponent<HeroProps> {
           >
             <img src={mocks.mapImage.url} alt="" style={{width: '100%', borderRadius: '50%'}} />
           </div>
-          <h3 style={ds.regionLabel.css}>{mocks.region}</h3>
+          <h3 style={ds.regionLabel.style}>{mocks.region}</h3>
           <div>
             <img
               src={ds.mapPinIcon.url}
               alt=""
               style={{verticalAlign: 'middle', marginRight: ds.pinIconToLabelSpacing, width: 9, height: 14}}
             />
-            <span style={ds.placeLabel.css}>{mocks.place}</span>
+            <span style={ds.placeLabel.style}>{mocks.place}</span>
           </div>
         </div>
       </div>

@@ -13,4 +13,16 @@ Object.defineProperties(Image.prototype, {
       }
     },
   },
+  urlCss: {
+    get () {
+      return `url("${this.url}")`;
+    },
+  },
+  backgroundImageStyle: {
+    get () {
+      return {
+        backgroundImage: this.urlCss,
+      };
+    },
+  },
 });

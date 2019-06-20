@@ -1,4 +1,7 @@
 export declare class Lottie {
+  /**
+   * Mounts a `Lottie` animation on the given element.
+   */
   mount(ref: any): void;
 }
 

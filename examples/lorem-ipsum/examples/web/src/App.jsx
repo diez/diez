@@ -7,7 +7,7 @@ const Masthead = ({ backgroundColor, backgroundImage }) => (
     className={styles.masthead}
     style={{
       backgroundColor: backgroundColor,
-      backgroundImage: `url(${backgroundImage.url})`,
+      backgroundImage: backgroundImage.urlCss,
       backgroundSize: `${backgroundImage.width}px ${backgroundImage.height}px`
     }}
   />
@@ -68,13 +68,13 @@ export default class App extends React.PureComponent {
     return (
       <div className={styles.wrapper}>
         <Masthead
-          backgroundColor={ds.colors.darkBackground.toString()}
+          backgroundColor={ds.colors.darkBackground.color}
           backgroundImage={ds.images.masthead}
         />
         <div
           className={styles.contentContainer}
           style={{
-            backgroundColor: ds.colors.lightBackground.toString(),
+            backgroundColor: ds.colors.lightBackground.color,
           }}
         >
           <div className={styles.content}>
@@ -93,14 +93,14 @@ export default class App extends React.PureComponent {
             >
               <Title
                 style={{
-                  ...ds.typographs.heading1.css,
+                  ...ds.typographs.heading1.style,
                   marginBottom: ds.layoutValues.spacingSmall
                 }}
                 text={ds.strings.title}
               />
               <Caption
                 style={{
-                  ...ds.typographs.caption.css,
+                  ...ds.typographs.caption.style,
                   marginBottom: ds.layoutValues.spacingSmall
                 }}
                 text={ds.strings.caption}

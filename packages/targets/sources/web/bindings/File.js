@@ -4,4 +4,9 @@ Object.defineProperties(File.prototype, {
       return `${Environment.serverUrl}/${this.src}`;
     },
   },
+  urlCss: {
+    get () {
+      return `url("${this.url}")`;
+    },
+  },
 });

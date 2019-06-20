@@ -39,22 +39,22 @@ Object.defineProperties(Typograph.prototype, {
       return this.font.name;
     },
   },
-  css: {
+  style: {
     get () {
       return {
         fontFamily: this.fontFamily,
         fontSize: `${this.fontSize}px`,
-        color: this.color.toString(),
+        color: this.color.color,
       };
     },
   },
 });
 
 Typograph.prototype.applyStyle = function (ref) {
-  const css = this.css;
-  ref.style.fontFamily = css.fontFamily;
-  ref.style.fontSize = css.fontSize;
-  ref.style.color = css.color;
+  const style = this.style;
+  ref.style.fontFamily = style.fontFamily;
+  ref.style.fontSize = style.fontSize;
+  ref.style.color = style.color;
 };
 
 diezHTMLExtensions.push(() => {

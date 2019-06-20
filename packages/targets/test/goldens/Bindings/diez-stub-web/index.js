@@ -41,6 +41,11 @@ Object.defineProperties(File.prototype, {
       return `${Environment.serverUrl}/${this.src}`;
     },
   },
+  urlCss: {
+    get () {
+      return `url("${this.url}")`;
+    },
+  },
 });
 
 class Image {
@@ -89,6 +94,18 @@ Object.defineProperties(Image.prototype, {
         default:
           return this.file2x.url;
       }
+    },
+  },
+  urlCss: {
+    get () {
+      return `url("${this.url}")`;
+    },
+  },
+  backgroundImageStyle: {
+    get () {
+      return {
+        backgroundImage: this.urlCss,
+      };
     },
   },
 });
@@ -196,9 +213,41 @@ class Color {
 
 module.exports.Color = Color;
 
-Color.prototype.toString = function () {
-  return `hsla(${this.h * 360}, ${this.s * 100}%, ${this.l * 100}%, ${this.a})`;
-};
+Object.defineProperties(Color.prototype, {
+  color: {
+    get () {
+      return `hsla(${this.h * 360}, ${this.s * 100}%, ${this.l * 100}%, ${this.a})`;
+    },
+  },
+  colorStyle: {
+    get () {
+      return {
+        color: this.color,
+      };
+    },
+  },
+  backgroundColorStyle: {
+    get () {
+      return {
+        backgroundColor: this.color,
+      };
+    },
+  },
+  borderColorStyle: {
+    get () {
+      return {
+        borderColor: this.color,
+      };
+    },
+  },
+  outlineColorStyle: {
+    get () {
+      return {
+        outlineColor: this.color,
+      };
+    },
+  },
+});
 
 class Typograph {
   constructor({
@@ -268,22 +317,22 @@ Object.defineProperties(Typograph.prototype, {
       return this.font.name;
     },
   },
-  css: {
+  style: {
     get () {
       return {
         fontFamily: this.fontFamily,
         fontSize: `${this.fontSize}px`,
-        color: this.color.toString(),
+        color: this.color.color,
       };
     },
   },
 });
 
 Typograph.prototype.applyStyle = function (ref) {
-  const css = this.css;
-  ref.style.fontFamily = css.fontFamily;
-  ref.style.fontSize = css.fontSize;
-  ref.style.color = css.color;
+  const style = this.style;
+  ref.style.fontFamily = style.fontFamily;
+  ref.style.fontSize = style.fontSize;
+  ref.style.color = style.color;
 };
 
 diezHTMLExtensions.push(() => {

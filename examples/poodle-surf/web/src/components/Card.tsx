@@ -29,7 +29,7 @@ export default class Card extends React.PureComponent<CardProps> {
           flexDirection: 'column',
         }}
       >
-        <h3 style={{marginBottom: 20, ...ds.titleTypograph.css}}>{ds.title}</h3>
+        <h3 style={{marginBottom: 20, ...ds.titleTypograph.style}}>{ds.title}</h3>
         {this.props.children}
       </div>
     );

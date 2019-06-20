@@ -18,7 +18,7 @@ export default class Header extends React.PureComponent<HeaderProps> {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: ds.barTintColor.toString(),
+          color: ds.barTintColor.color,
           height: 51,
         }}
       >
@@ -27,7 +27,7 @@ export default class Header extends React.PureComponent<HeaderProps> {
           alt="logo"
           style={{marginRight: ds.iconToTitleSpacing, width: 29, height: 26}}
         />
-        <span style={ds.typograph.css}>{ds.title}</span>
+        <span style={ds.typograph.style}>{ds.title}</span>
       </header>
     );
   }
