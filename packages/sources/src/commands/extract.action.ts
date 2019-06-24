@@ -1,10 +1,11 @@
-import {exitTrap, findPlugins, info, socketTrap, warning} from '@diez/cli-core';
+import {exitTrap, findPlugins, info, inlineCodeSnippet, socketTrap, warning} from '@diez/cli-core';
 import {getHotPort} from '@diez/compiler';
 import {queue} from 'async';
 import {watch} from 'chokidar';
 import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 'fs-extra';
 import {createServer, Socket} from 'net';
 import {join, resolve} from 'path';
+import readline from 'readline';
 import {DesignSources, ExporterInput} from '../api';
 import {performExtraction} from '../exporters';
 
@@ -80,7 +81,30 @@ export = async ({hot}: SyncOptions) => {
       ignoreInitial: true,
     });
 
-    info(`Watching ${configuration.sources} for changes…`);
+    info(`Watching ${inlineCodeSnippet(configuration.sources)} for changes…`);
+    if (configuration.services.length) {
+      info(`Press ${inlineCodeSnippet('r')} to refresh design services…`);
+    }
+
+    const stdin = process.stdin;
+    if (stdin && stdin.setRawMode) {
+      readline.emitKeypressEvents(stdin);
+      stdin.setRawMode(true);
+      stdin.on('keypress', (key, data) => {
+        if (key === 'r') {
+          return syncQueue.push(configuration.services.map((source) => ({
+            sockets,
+            source,
+            assets: configuration.assets,
+            code: configuration.code,
+          })));
+        }
+
+        if (data.name === 'c' && data.ctrl) {
+          process.exit();
+        }
+      });
+    }
 
     watcher.on('all', (eventName, source) => {
       if (eventName !== 'add' && eventName !== 'change') {
