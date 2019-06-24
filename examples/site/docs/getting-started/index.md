@@ -29,23 +29,26 @@ The best way to get up and running with Diez is by using our official template p
 Run the following command in your terminal and follow the prompts. 
 
 ```bash
-yarn create diez-project your-ds-name
+yarn create diez-project
 ```
-<div class="note">In the above command, "<code class="inline">your-ds-name</code>" should be a name of your choosing. Please note that for the duration of the guides, your project will be referred to as <code class="inline">your-ds-name</code>.</div>
+<div class="note">The above command will prompt you to choose a name for your Diez project. Please note that for the duration of the guides, your project will be referred to as <code class="inline">your-ds-name</code>.</div>
 
 ```bash
 cd your-ds-name
 ```
-That's it! You now have a Diez project set up and ready to power your apps.
+That's it! You now have a Diez project set up and ready to power your apps. Let's take a look at what you just made.
+
+By default, the `create diez-project` CLI functionality scaffolds out not only a Diez project, but example codebases that demonstrate how to consume your Compiler-baked Diez SDKs in real apps. **Note that the example apps are only present for demonstration purposes**. They can be discarded when you connect your Diez project to your own apps.
+
+<img width="100%" src="@theme/assets/imgs/infographic.png">
 
 ### Next Steps
 
- We've written platform specifc guides for walking through this new Diez project you've just created. We recommend picking your flavor(s) and jumping right in. If you'd prefer to first learn a bit more about your Diez project and how to compose your design system, we've got you covered there too with the [Diez Basics guide](/getting-started/the-basics).
+#### Explore your example app codebases to see Diez in action
 
-<div class="holster-tri-card">
-  <router-link class="card third" to="/getting-started/the-basics">
-    <img src="@theme/assets/imgs/logo.svg" alt="Swift"><span>Diez Basics</span>
-  </router-link>
+ We've written platform specific guides for walking through this new Diez project you've just created. We recommend picking your flavor(s) and jumping right in. 
+ 
+ <div class="holster-tri-card">
   <router-link class="card third" to="/getting-started/swift">
     <img src="@theme/assets/imgs/swift.svg" alt="Swift"><span>Swift Guide</span>
   </router-link>
@@ -54,6 +57,15 @@ That's it! You now have a Diez project set up and ready to power your apps.
   </router-link>
   <router-link class="card third" to="/getting-started/javascript">
     <img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript Guide</span>
+  </router-link>
+</div>
+
+#### Additional guides
+If you'd prefer to first learn a bit more about your Diez project and how to compose your design token components, we have you covered with the Diez Basics guide. Want to hook your new Diez project up to Figma? We've got you there too.
+
+<div class="holster-tri-card">
+  <router-link class="card third" to="/getting-started/the-basics">
+    <img src="@theme/assets/imgs/logo.svg" alt="Swift"><span>Diez Basics</span>
   </router-link>
   <router-link class="card third" to="/getting-started/figma">
     <img src="@theme/assets/imgs/figma.svg" alt="ObjectiveC"><span>Figma Guide</span>
