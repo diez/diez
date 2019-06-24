@@ -221,10 +221,10 @@ export const createProject = async (packageName: string, targets: string[], cwd 
     Compiles, installs, and starts a hot server targeting ${inlineComment(target)} for your Diez project.`);
   } else {
     info(`
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez compile -t web`)}
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez compile -t web --js`)}
     Compiles your Diez project with for the ${inlineComment('web')} target.
 
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez hot -t web`)}
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez hot -t web --js`)}
     Starts a hot server for your Diez project with the ${inlineComment('web')} target.`);
   }
 

@@ -12,9 +12,9 @@ const { join, resolve } = require('path');
   const cwd = resolve(__dirname, '..');
 
   info('Building Diez project for Web...');
-  execSync('./node_modules/.bin/diez compile -t web', { cwd, stdio: 'inherit' });
+  execSync('./node_modules/.bin/diez compile -t web --js', { cwd, stdio: 'inherit' });
   info('Installing Node dependencies...');
   execSync('yarn', { cwd: join(cwd, 'examples', 'web'), stdio: 'inherit' });
   info('Starting the Diez hot server...');
-  execSync('./node_modules/.bin/diez hot -t web', { cwd, stdio: 'inherit' });
+  execSync('./node_modules/.bin/diez hot -t web --js', { cwd, stdio: 'inherit' });
 })();

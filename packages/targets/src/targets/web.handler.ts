@@ -47,7 +47,12 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   protected async validateOptions () {
-    // Noop.
+    if (!this.program.options.js) {
+      throw new Error(
+        'You must specify one or more output type.' +
+        ' For a list of available output types, run `diez compile --target web --help`',
+      );
+    }
   }
 
   /**

@@ -39,7 +39,7 @@ const buildWeb = () => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
       info(`Building for web: ${basename(diezRoot)}`);
-      run('yarn diez compile -t web', diezRoot);
+      run('yarn diez compile -t web --js', diezRoot);
       run('yarn', webRoot);
       run('yarn build', webRoot);
     }

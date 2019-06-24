@@ -3,7 +3,7 @@ import {Component} from '@diez/engine';
 
 declare module '@diez/compiler/types/api' {
   /**
-   * Extends CompilerOptions for web.
+   * Extends CompilerOptions for iOS.
    */
   export interface CompilerOptions {
     cocoapods?: boolean;

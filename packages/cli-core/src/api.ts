@@ -90,7 +90,7 @@ export interface CliCommandExtension {
   /**
    * The name of the command to extend.
    */
-  name: string;
+  names: string[];
   /**
    * A set of _additional_ options the command should receive.
    */

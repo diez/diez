@@ -1,7 +1,7 @@
 const mocks = require('../mocks');
 
 module.exports = {
-  name: 'foobar',
+  names: ['foobar'],
   options: [
     {
       longName: 'stringParam',

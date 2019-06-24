@@ -9,8 +9,8 @@
     {{/if}}{{#if ios}}"build-ios": "diez compile -t ios --cocoapods",
     "run-ios": "diez hot -t ios",
     "start-ios": "./scripts/start-ios",
-    {{/if}}{{#if web}}"build-web": "diez compile -t web",
-    "run-web": "diez hot -t web",
+    {{/if}}{{#if web}}"build-web": "diez compile -t web --js",
+    "run-web": "diez hot -t web --js",
     "start-web": "./scripts/start-web",
     {{/if}}"extract": "diez extract"
   },

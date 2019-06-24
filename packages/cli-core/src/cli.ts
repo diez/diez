@@ -163,11 +163,13 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
   }
 
   for (const extension of deferredExtensions) {
-    const validatedCommand = registeredCommands.get(extension.name);
-    if (!validatedCommand) {
-      continue;
+    for (const name of extension.names) {
+      const validatedCommand = registeredCommands.get(name);
+      if (!validatedCommand) {
+        continue;
+      }
+      registerOptions(validatedCommand, extension.options);
     }
-    registerOptions(validatedCommand, extension.options);
   }
 };
 

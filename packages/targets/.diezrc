@@ -6,7 +6,8 @@
       "./lib/targets/web"
     ],
     "extensions": [
-      "./lib/targets/ios.extensions"
+      "./lib/targets/ios.extensions",
+      "./lib/targets/web.extensions"
     ]
   },
   "bindings": {
