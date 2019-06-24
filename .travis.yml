@@ -6,10 +6,10 @@ matrix:
     language: objective-c
     osx_image: xcode10.2
     cache: yarn
-    before_script:
-    - yarn global add codecov
     script:
     - yarn health
+    after_success:
+    - yarn global add codecov
     - codecov
     addons:
       homebrew:
