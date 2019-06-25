@@ -7,7 +7,6 @@ import android.util.TypedValue
 import kotlinx.android.synthetic.main.activity_main.*
 import org.diez.loremIpsum.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.view.ViewTreeObserver
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun apply(designSystem: DesignSystem) {
-        layout.setBackgroundColor(designSystem.colors.lightBackground.color)
+        root.setBackgroundColor(designSystem.colors.lightBackground.color)
 
         headerLayout.setBackgroundColor(designSystem.colors.darkBackground.color)
 

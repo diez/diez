@@ -30,7 +30,8 @@ class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
             webview.addJavascriptInterface(this, "puente")
             webview.loadUrl("${Environment.serverUrl}/components/${component.name}")
             Log.d("DIEZ", "Loading ${Environment.serverUrl}/components/${component.name}")
-            view.addView(webview, ViewGroup.LayoutParams(0, 0))
+            webview.alpha = 0F
+            view.addView(webview, 0, 0)
         }
     }
 
