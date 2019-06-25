@@ -1,4 +1,14 @@
-import {canRunCommand, devDependencies, diezVersion, execAsync, fatalError, info, inlineCodeSnippet, inlineComment, warning} from '@diez/cli-core';
+import {
+  canRunCommand,
+  devDependencies,
+  diezVersion,
+  execAsync,
+  fatalError,
+  info,
+  inlineCodeSnippet,
+  inlineComment,
+  warning,
+} from '@diez/cli-core';
 import {downloadStream, getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {
   camelCase,
@@ -17,6 +27,7 @@ import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {basename, join, relative, resolve} from 'path';
 import {x} from 'tar';
 import validateNpmPackageName from 'validate-npm-package-name';
+import {initializeGitRepository} from './utils.git';
 
 const examplesBaseUrl = `https://examples.diez.org/${diezVersion}/createproject/`;
 
@@ -206,6 +217,14 @@ export const createProject = async (packageName: string, targets: string[], cwd 
   ];
 
   await Promise.all(commands);
+
+  await initializeGitRepository(root)
+    .then(() => info('Initialized a git repository.'))
+    .catch(() => {
+      // Ignore errors.
+      return;
+    });
+
   info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.`);
   info('In that directory, you can run commands like:');
   const target = targets[0];
