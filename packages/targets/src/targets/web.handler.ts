@@ -290,5 +290,5 @@ new Diez(${component}).attach((component) => {
  * @ignore
  */
 export const webHandler: CompilerTargetHandler = async (program) => {
-  await new WebCompiler(program).start();
+  return new WebCompiler(program).start();
 };

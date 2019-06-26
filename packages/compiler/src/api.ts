@@ -125,7 +125,7 @@ export type NamedComponentMap = Map<PropertyType, TargetComponent>;
 /**
  * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
  */
-export type CompilerTargetHandler = (program: CompilerProgram) => void;
+export type CompilerTargetHandler = (program: CompilerProgram) => Promise<void>;
 
 /**
  * A generic interface for a compiler target.

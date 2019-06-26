@@ -384,5 +384,5 @@ class MainActivity … {
  * @ignore
  */
 export const androidHandler: CompilerTargetHandler = async (program) => {
-  await new AndroidCompiler(program).start();
+  return new AndroidCompiler(program).start();
 };

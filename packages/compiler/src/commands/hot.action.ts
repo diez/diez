@@ -1,10 +1,10 @@
-import {fatalError} from '@diez/cli-core';
+import {CliAction, fatalError} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {CompilerEvent, CompilerOptions} from '../api';
 import {Program} from '../compiler';
 import {getTargets, printWarnings} from '../utils';
 
-export = async (options: CompilerOptions) => {
+const action: CliAction = (options: CompilerOptions) => new Promise(async (resolve, reject) => {
   options.target = options.target.toLowerCase() as Target;
   const targetProvider = (await getTargets()).get(options.target);
 
@@ -16,14 +16,14 @@ export = async (options: CompilerOptions) => {
 
   const program = new Program(global.process.cwd(), options, true);
   // Print warnings on every `Compiled` event.
-  program.on(CompilerEvent.Compiled, () => {
-    printWarnings(program.targetComponents);
-  });
+  program.on(CompilerEvent.Compiled, () => printWarnings(program.targetComponents));
 
   // Start the hot handler on the first `Compiled` event.
   program.once(CompilerEvent.Compiled, () => {
-    targetProvider.handler(program);
+    targetProvider.handler(program).catch(reject).then(resolve);
   });
 
   program.watch();
-};
+});
+
+export = action;

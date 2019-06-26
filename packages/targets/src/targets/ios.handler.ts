@@ -433,5 +433,5 @@ export const iosHandler: CompilerTargetHandler = async (program) => {
     throw new Error('--target ios can only be built on macOS.');
   }
 
-  await new IosCompiler(program).start();
+  return new IosCompiler(program).start();
 };
