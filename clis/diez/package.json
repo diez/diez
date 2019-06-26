@@ -4,7 +4,7 @@
   "version": "10.0.0-beta.0",
   "description": "The entry point for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diez/diez.git"

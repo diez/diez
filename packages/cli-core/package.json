@@ -4,7 +4,7 @@
   "version": "10.0.0-beta.0",
   "description": "APIs for the Diez command line interface.",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
@@ -45,5 +45,8 @@
     "server-destroy": "^1.0.1",
     "stack-trace": "^0.0.10",
     "typed-errors": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

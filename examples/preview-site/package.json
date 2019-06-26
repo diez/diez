@@ -4,7 +4,7 @@
   "private": true,
   "description": "The Diez website - https://diez.org",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "scripts": {
     "start": "nuxt",
     "build": "nuxt generate",

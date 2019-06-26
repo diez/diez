@@ -4,7 +4,7 @@
   "version": "10.0.0-beta.0",
   "description": "Components for building a design system with Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
@@ -33,5 +33,8 @@
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

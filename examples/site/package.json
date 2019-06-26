@@ -4,7 +4,7 @@
   "private": true,
   "description": "The Diez website - https://diez.org",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "devDependencies": {
     "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
     "eslint": "^5.16.0",

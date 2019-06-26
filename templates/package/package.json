@@ -4,7 +4,7 @@
   "version": "VERSION",
   "description": "TODO: add description.",
   "author": "The Haiku Team <contact@haiku.ai>",
-  "license": "Proprietary",
+  "license": "SEE LICENSE.md",
   "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
