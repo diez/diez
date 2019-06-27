@@ -139,7 +139,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   }
 
   /**
-   * @abstract
+   * Updates the output based on the contents of the binding.
    */
   protected mergeBindingToOutput (binding: WebBinding): void {
     for (const bindingSource of binding.sources) {

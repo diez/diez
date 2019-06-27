@@ -446,11 +446,6 @@ export abstract class TargetCompiler<
   output: OutputType;
 
   /**
-   * Updates a output based on the contents of bindings.
-   */
-  protected abstract mergeBindingToOutput (binding: BindingType): void;
-
-  /**
    * Creates fresh output.
    */
   protected abstract createOutput (sdkRoot: string, projectName: string): OutputType;
@@ -722,11 +717,6 @@ export abstract class TargetCompiler<
       return false;
     }
 
-    for (const {binding} of this.output.processedComponents.values()) {
-      if (binding) {
-        this.mergeBindingToOutput(binding as BindingType);
-      }
-    }
     await this.writeAssets();
     copySync(this.program.emitRoot, this.program.hotRoot);
     return true;

@@ -8,6 +8,14 @@ import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.LottieListener
 import com.airbnb.lottie.LottieDrawable
 
+data class Lottie(
+    val file: File,
+    val loop: Boolean,
+    val autoplay: Boolean
+) {
+    companion object {}
+}
+
 fun LottieAnimationView.load(lottie: Lottie) {
     val task = when(Environment.isHot) {
         true -> LottieCompositionFactory.fromUrl(context, lottie.file.canonicalURL)
@@ -29,12 +37,4 @@ fun LottieAnimationView.load(lottie: Lottie) {
             Log.e("DIEZ", "Lottie animation load for ${lottie.file.src} failed")
         }
     })
-}
-
-data class Lottie(
-    val file: File,
-    val loop: Boolean,
-    val autoplay: Boolean
-) {
-    companion object {}
 }

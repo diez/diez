@@ -1,0 +1,22 @@
+{{#if hasProperties}}
+data class {{{componentName}}}(
+{{#if singleton}}
+{{#each properties}}
+    val {{{@key}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
+{{/each}}
+{{else}}
+{{#each properties}}
+    val {{{@key}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+{{/each}}
+{{/if}}
+{{else}}
+data class {{{componentName}}}(
+    val nonce: String = ""
+{{/if}}
+{{#if public}}) : StateBag {
+    companion object {}
+    override val name = "{{{componentName}}}"
+{{else}}
+) {
+    companion object {}
+{{/if}}

@@ -56,18 +56,11 @@ export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBindi
     return 'foo.bar';
   }
 
-  protected mergeBindingToOutput (binding: TargetBinding): void {
-    for (const source in binding.sources) {
-      this.output.sources.add(source);
-    }
-  }
-
   protected createOutput (sdkRoot: string, projectName: string): TargetOutput {
     return {
       sdkRoot,
       projectName,
       processedComponents: new Map(),
-      sources: new Set(),
       dependencies: new Set(),
       assetBindings: new Map(),
     };

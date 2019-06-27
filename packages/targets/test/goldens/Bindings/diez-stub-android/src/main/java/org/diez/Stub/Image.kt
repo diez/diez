@@ -14,6 +14,45 @@ import com.bumptech.glide.signature.ObjectKey
 import android.widget.ImageView
 import android.widget.TextView
 
+data class Image(
+    val file: File,
+    val file2x: File,
+    val file3x: File,
+    val file4x: File,
+    val width: Int,
+    val height: Int
+) {
+    companion object {}
+
+    internal val correctDensityFile: File
+        get () {
+            return when (effectiveDensity) {
+                1 -> file
+                2 -> file2x
+                3 -> file3x
+                else -> file4x
+            }
+        }
+
+    internal val resourceId: Int
+        get () {
+            return this.correctDensityFile.resourceId
+        }
+
+    internal val drawableFromRawResource: Drawable?
+        get () {
+            return ResourcesCompat.getDrawable(
+                Environment.resources,
+                Environment.resources.getIdentifier(
+                    file.resourceName,
+                    "drawable",
+                    Environment.packageName
+                ),
+                null
+            )
+        }
+}
+
 fun ImageView.load(image: Image) {
     if (Environment.isHot) {
         getFromNetwork(image, this, fun(drawable) {
@@ -81,21 +120,6 @@ private val effectiveDensity: Int
         return Math.ceil(density).toInt()
     }
 
-private val Image.correctDensityFile: File
-    get () {
-        return when (effectiveDensity) {
-            1 -> file
-            2 -> file2x
-            3 -> file3x
-            else -> file4x
-        }
-    }
-
-private val Image.resourceId: Int
-    get () {
-        return this.correctDensityFile.resourceId
-    }
-
 private fun getFromNetwork(image: Image, view: View, callback: (BitmapDrawable) -> Unit) {
     val width = (image.width * Environment.resources.displayMetrics.density.toDouble()).toInt()
     val height = (image.height * Environment.resources.displayMetrics.density.toDouble()).toInt()
@@ -109,29 +133,4 @@ private fun getFromNetwork(image: Image, view: View, callback: (BitmapDrawable) 
             callback(drawable as BitmapDrawable)
         }
     })
-}
-
-
-private val Image.drawableFromRawResource: Drawable?
-    get () {
-        return ResourcesCompat.getDrawable(
-            Environment.resources,
-            Environment.resources.getIdentifier(
-                file.resourceName,
-                "drawable",
-                Environment.packageName
-            ),
-            null
-        )
-    }
-
-data class Image(
-    val file: File,
-    val file2x: File,
-    val file3x: File,
-    val file4x: File,
-    val width: Int,
-    val height: Int
-) {
-    companion object {}
 }

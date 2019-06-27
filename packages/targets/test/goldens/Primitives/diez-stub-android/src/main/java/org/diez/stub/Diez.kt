@@ -1,4 +1,4 @@
-package {{{packageName}}}
+package org.diez.stub
 
 import android.annotation.SuppressLint
 import android.util.Log

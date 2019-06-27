@@ -32,6 +32,7 @@ export interface WebBinding<T extends Component = Component> extends TargetBindi
  * Describes the complete output for a transpiled Web target.
  */
 export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
+  sources: Set<string>;
   declarations: Set<string>;
   declarationImports: Set<string>;
 }

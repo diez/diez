@@ -56,6 +56,7 @@ export interface IosComponentSpec {
  */
 export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {
   bundleIdPrefix: string;
+  sources: Set<string>;
 
   /**
    * A temporary directory used as an intermediary copy step when writing the SDK.

@@ -8,19 +8,17 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {File} from '@diez/prefabs';
-import {getTempFileName, outputTemplatePackage} from '@diez/storage';
+import {outputTemplatePackage} from '@diez/storage';
 import camelCase from 'camel-case';
 import {
   copySync,
   ensureDirSync,
-  openSync,
   outputFileSync,
   readFileSync,
   removeSync,
   writeFileSync,
-  writeSync,
 } from 'fs-extra';
-import {compile} from 'handlebars';
+import {compile, registerPartial} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, join} from 'path';
 import {sourcesPath} from '../utils';
@@ -186,20 +184,6 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
         return;
     }
   }
-  /**
-   * @abstract
-   */
-  protected mergeBindingToOutput (binding: AndroidBinding): void {
-    for (const bindingSource of binding.sources) {
-      this.output.sources.add(bindingSource);
-    }
-
-    if (binding.dependencies) {
-      for (const dependency of binding.dependencies) {
-        mergeDependency(this.output.dependencies, dependency);
-      }
-    }
-  }
 
   /**
    * @abstract
@@ -209,10 +193,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
       sdkRoot,
       projectName,
       packageName: `org.diez.${camelCase(projectName)}`,
-      files: new Map([
-        ['Diez.kt', {dataClass: join(coreAndroid, 'core', 'Diez.kt')}],
-        ['Environment.kt', {dataClass: join(coreAndroid, 'core', 'Environment.kt')}],
-      ]),
+      components: new Map(),
       processedComponents: new Map(),
       sources: new Set([]),
       dependencies: new Set<AndroidDependency>(),
@@ -264,8 +245,6 @@ class MainActivity … {
    * @abstract
    */
   clear () {
-    this.output.sources.clear();
-    this.output.files.clear();
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
@@ -298,10 +277,35 @@ class MainActivity … {
     }
   }
 
+  protected bindingContainsExtension (binding: AndroidBinding | undefined, filename: string) {
+    if (!binding) {
+      return false;
+    }
+
+    const match = binding.sources.find((source) => basename(source) === filename);
+    return match !== undefined;
+  }
+
   /**
    * @abstract
    */
   async writeSdk () {
+    const packageComponents = this.output.packageName.split('.');
+    const sourcesRoot = join(this.output.sdkRoot, 'src', 'main', 'java', ...packageComponents);
+    ensureDirSync(sourcesRoot);
+
+    const coreBasenames = [
+      'Diez.kt',
+      'Environment.kt',
+    ];
+    for (const filename of coreBasenames) {
+      const template = readFileSync(join(coreAndroid, 'core', filename)).toString();
+      const path = join(sourcesRoot, filename);
+      writeFileSync(path, compile(template)({
+        packageName: this.output.packageName,
+      }));
+    }
+
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -311,12 +315,12 @@ class MainActivity … {
       }
     }
 
-    const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
-    for (const [type, {spec, binding}] of this.output.processedComponents) {
-      if (binding) {
-        this.mergeBindingToOutput(binding);
-      }
+    const dataClassStartTemplate = readFileSync(join(coreAndroid, 'android.data-class.start.handlebars')).toString();
+    registerPartial('androidDataClassStart', dataClassStartTemplate);
 
+    const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
+
+    for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
         if (singletons.has(property.type)) {
@@ -324,49 +328,45 @@ class MainActivity … {
         }
       }
 
-      const filename = getTempFileName();
-      writeFileSync(
-        filename,
-        compile(componentTemplate)({
-          ...spec,
-          singleton: spec.public || singletons.has(type),
-          hasProperties: Object.keys(spec.properties).length > 0,
-        }),
-      );
+      const dataClassStartTokens = {
+        ...spec,
+        singleton: spec.public || singletons.has(type),
+        hasProperties: Object.keys(spec.properties).length > 0,
+      };
 
-      this.output.files.set(`${spec.componentName}.kt`, {dataClass: filename});
-    }
+      const componentTokens = {
+        ...dataClassStartTokens,
+        packageName: this.output.packageName,
+      };
 
-    const packageComponents = this.output.packageName.split('.');
-    const sourcesRoot = join(this.output.sdkRoot, 'src', 'main', 'java', ...packageComponents);
-    const prefixBuffer = Buffer.from(`package ${this.output.packageName}\n\n`);
-    ensureDirSync(sourcesRoot);
+      const componentBasename = `${spec.componentName}.kt`;
+      let hasComponentOverride = false;
+      if (binding) {
+        for (const source of binding.sources) {
+          const template = readFileSync(source).toString();
+          const sourceBasename = basename(source);
+          const bindingPath = join(sourcesRoot, sourceBasename);
+          writeFileSync(bindingPath, compile(template)(componentTokens));
 
-    for (const source of this.output.sources) {
-      const filename = basename(source);
-      if (this.output.files.has(filename)) {
-        this.output.files.get(filename)!.extension = source;
-      } else {
-        this.output.files.set(filename, {dataClass: source});
-      }
-    }
+          if (sourceBasename === componentBasename) {
+            hasComponentOverride = true;
+          }
+        }
 
-    for (const [filename, {dataClass, extension}] of this.output.files) {
-      const outputPath = join(sourcesRoot, filename);
-      const handle = openSync(outputPath, 'w+');
-      let cursor = 0;
-      writeSync(handle, prefixBuffer, 0, prefixBuffer.length, cursor);
-      cursor += prefixBuffer.length;
-      if (extension) {
-        const extensionBuffer = readFileSync(extension);
-        writeSync(handle, extensionBuffer, 0, extensionBuffer.length, cursor);
-        cursor += extensionBuffer.length;
-        writeSync(handle, Buffer.from('\n'), 0, 1, cursor);
-        cursor += 1;
+        if (binding.dependencies) {
+          for (const dependency of binding.dependencies) {
+            mergeDependency(this.output.dependencies, dependency);
+          }
+        }
       }
 
-      const sourceBuffer = readFileSync(dataClass);
-      writeSync(handle, sourceBuffer, 0, sourceBuffer.length, cursor);
+      // We only need to write a component here if a binding hasn't already been written with the data class
+      // implementation. This is determined by checking the name of the file to see if it matches our component name.
+      if (!hasComponentOverride) {
+        const sourceBasename = basename(`${spec.componentName}.kt`);
+        const bindingPath = join(sourcesRoot, sourceBasename);
+        writeFileSync(bindingPath, compile(componentTemplate)(componentTokens));
+      }
     }
 
     const tokens = {

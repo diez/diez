@@ -1,3 +1,5 @@
+package {{{packageName}}}
+
 import android.util.Log
 import android.widget.FrameLayout
 import com.airbnb.lottie.LottieAnimationView
@@ -5,6 +7,9 @@ import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.LottieListener
 import com.airbnb.lottie.LottieDrawable
+
+{{> androidDataClassStart }}
+}
 
 fun LottieAnimationView.load(lottie: Lottie) {
     val task = when(Environment.isHot) {

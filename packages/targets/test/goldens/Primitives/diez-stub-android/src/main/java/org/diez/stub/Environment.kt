@@ -1,4 +1,4 @@
-package {{{packageName}}}
+package org.diez.stub
 
 import android.content.Context
 import android.content.res.Resources

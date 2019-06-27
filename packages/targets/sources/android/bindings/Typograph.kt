@@ -1,9 +1,49 @@
+package {{{packageName}}}
+
 import java.io.File as CoreFile
 import android.graphics.Typeface
 import android.widget.TextView
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
 import android.os.StrictMode
+
+{{> androidDataClassStart }}
+
+    val typeface: Typeface
+        get() {
+            if (foreignFontCache.containsKey(font.name)) {
+                return foreignFontCache.get(font.name)!!
+            }
+
+            if (font.file.src == "") {
+                if (systemFontCache.isEmpty()) {
+                    registerSystemFonts()
+                }
+
+                if (systemFontCache.containsKey(font.name)) {
+                    val resolver = systemFontCache.get(font.name)!!
+                    val typeface = Typeface.create(
+                        Typeface.create(resolver.name, resolver.style),
+                        resolver.weight,
+                        resolver.style == Typeface.ITALIC || resolver.style == Typeface.BOLD_ITALIC
+                    )
+                    foreignFontCache.set(font.name, typeface)
+                    return typeface
+                }
+
+
+                return Typeface.create("", Typeface.NORMAL)
+            }
+
+            return getTypeface(font)
+        }
+}
+
+fun TextView.apply(typograph: Typograph) {
+    this.typeface = typograph.typeface
+    this.textSize = typograph.fontSize
+    this.setTextColor(typograph.color.color)
+}
 
 private data class FontResolver(val name: String, val weight: Int, val style: Int)
 
@@ -110,39 +150,4 @@ private fun getTypeface(font: Font): Typeface {
     val typeface = Environment.resources.getFont(font.file.resourceId)
     foreignFontCache.set(font.name, typeface)
     return typeface
-}
-
-val Typograph.typeface: Typeface
-    get() {
-        if (foreignFontCache.containsKey(font.name)) {
-            return foreignFontCache.get(font.name)!!
-        }
-
-        if (font.file.src == "") {
-            if (systemFontCache.isEmpty()) {
-                registerSystemFonts()
-            }
-
-            if (systemFontCache.containsKey(font.name)) {
-                val resolver = systemFontCache.get(font.name)!!
-                val typeface = Typeface.create(
-                    Typeface.create(resolver.name, resolver.style),
-                    resolver.weight,
-                    resolver.style == Typeface.ITALIC || resolver.style == Typeface.BOLD_ITALIC
-                )
-                foreignFontCache.set(font.name, typeface)
-                return typeface
-            }
-
-
-            return Typeface.create("", Typeface.NORMAL)
-        }
-
-        return getTypeface(font)
-    }
-
-fun TextView.apply(typograph: Typograph) {
-    this.typeface = typograph.typeface
-    this.textSize = typograph.fontSize
-    this.setTextColor(typograph.color.color)
 }
