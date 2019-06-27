@@ -34,7 +34,8 @@ export const locateBinaryMacOS = async (bundleId: string) => {
     throw new Error('Platform is not macOS');
   }
 
-  return await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
+  const result = await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
+  return result.split('\n')[0];
 };
 
 /**
