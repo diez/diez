@@ -20,7 +20,7 @@ if (semver.gt('7.6.0', process.version)) {
     }
 
     // Make a simple spinner for our update check.
-    const spinner = spinner('Checking for updates...');
+    const spinner = loadingMessage('Checking for updates...');
 
     try {
       const {version: latestVersion} = await packageJson('@diez/cli-core');
