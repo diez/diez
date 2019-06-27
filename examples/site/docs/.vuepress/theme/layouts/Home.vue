@@ -5,6 +5,7 @@
       <section class="hero section-narrow">
         <h1>The cross-platform design system framework</h1>
         <h3>Diez makes it easy to adopt a unified design language across codebases, platforms, and teams.</h3>
+        <div style="text-align:center;"><router-link class="button" to="/getting-started">Get Started</router-link></div>
       </section>
 
       <section class="section-narrow" style="margin-top:0;">
@@ -13,7 +14,7 @@
           <p>We're still sanding and varnishing and sweeping the broom around here, but Diez is already fine-tuned in many ways and we're excited to get it into your hands.</p>
           <p>First things first, we want to say <strong>thank you so much</strong> for taking part in this before we release open-source. We're fairly certain you'll be excited when you experience its power, but we want to dillgently carve out this short period to learn from you and your experience with Diez and design systems in general.</p>
           <p>What should a cross-platform design system be? We're hoping you can help us with this answer. Please don't hesitate to reach out — we're all ears. If you'd like to schedule some time for a one-on-one we're on standby for that too.</p>
-          <div style="text-align:center;padding:12px 0 24px;"><a class="button" to="/getting-started">Get Started</a></div>
+          <div style="text-align:center;padding:12px 0 24px;"><router-link class="button" to="/getting-started">Get Started</router-link></div>
         </div>
       </section>
 

@@ -8,6 +8,9 @@
 
   &.page, &#faq {
     @include navfont();
+    @include tablet {
+      padding-top: $sizingXS;
+    }
   }
 
   pre {

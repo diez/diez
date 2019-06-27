@@ -10,15 +10,16 @@
           <img width="34" src="../assets/imgs/logo.svg"/>
         </router-link>
         <div class="holster-right">
-          <a href="https://github.com/diez/diez">Github</a>
+          <router-link to="/getting-started">Get Started</router-link>
           <router-link to="/docs">Docs</router-link>
           <router-link to="/faq">FAQ</router-link>
           <router-link to="/glossary">Glossary</router-link>
-          <a href="https://spectrum.chat/diez">Spectrum</a>
-          <router-link to="/getting-started" class="button hide-on-mobile">Get Started</router-link>
-          <router-link to="https://diez.substack.com/subscribe" class="show-on-mobile">Mailing List</router-link>
           <router-link to="http://twitter.com/dieznative" class="show-on-mobile">Twitter</router-link>
-          <router-link to="/getting-started" class="show-on-mobile">Get Started</router-link>
+          <a href="https://spectrum.chat/diez" class="hide-on-mobile" target="_blank"><img height="20px" width="20px" src="../assets/imgs/spectrum.svg" alt="spectrum"></a>
+          <a href="https://twitter.com/dieznative" class="hide-on-mobile" target="_blank"><img height="20px" width="24px" src="../assets/imgs/twitter.svg" alt="twitter"></a>
+          <a href="https://github.com/diez/diez" class="hide-on-mobile" target="_blank"><img height="24px" width="24px" src="../assets/imgs/github.svg" alt="github"></a>
+          <a href="https://spectrum.chat/diez" class="show-on-mobile">Spectrum</a>
+          <a href="https://github.com/diez/diez" class="show-on-mobile">Github</a>
           <div @click="toggleMenu" class="menu-icon show-on-mobile">
             <img v-show="!isOpen" width="25px" src="../assets/icons/close.svg" alt="close">
           </div>
@@ -63,6 +64,7 @@ export default {
       position: fixed;
       width: 100%;
       z-index: 999;
+      top: 0;
       padding-top: 2 * $mobile-toggle-margin + $mobile-toggle-height;
       background-color: $white;
       border-bottom: 1px solid $gray700;
@@ -134,7 +136,7 @@ export default {
       display: none;
     }
   }
-  img {
+  .logo img {
     margin-left: 10px;
     margin-top: 1px;
   }
@@ -145,6 +147,9 @@ export default {
       flex-direction: column;
       height: 100%;
       justify-content: space-evenly;
+    }
+    img {
+      transform: translateY(3px);
     }
   }
   .menu-icon {
