@@ -9,7 +9,7 @@ import {
 } from '@diez/compiler';
 import {File} from '@diez/prefabs';
 import {outputTemplatePackage} from '@diez/storage';
-import camelCase from 'camel-case';
+import {camelCase} from 'change-case';
 import {
   copySync,
   ensureDirSync,

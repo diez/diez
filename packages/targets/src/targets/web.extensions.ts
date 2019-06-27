@@ -11,6 +11,20 @@ const extension: CliCommandExtension = {
         onlyTarget('js', options, 'web');
       },
     },
+    {
+      longName: 'css',
+      description: 'When --target=web, compiles to CSS.',
+      validator: async (options) => {
+        onlyTarget('css', options, 'web');
+      },
+    },
+    {
+      longName: 'scss',
+      description: 'When --target=web, compiles to SCSS.',
+      validator: async (options) => {
+        onlyTarget('scss', options, 'web');
+      },
+    },
   ],
 };
 

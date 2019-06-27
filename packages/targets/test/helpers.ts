@@ -83,8 +83,11 @@ export const createAndroidCompilerForFixture = async (fixture: string): Promise<
 /**
  * Creates Web output for a fixture.
  */
-export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
-  const program = await createProgramForFixture(fixture, Target.Web, {js: true});
+export const createWebCompilerForFixture = async (
+  fixture: string,
+  options: Partial<CompilerOptions>,
+): Promise<WebCompiler> => {
+  const program = await createProgramForFixture(fixture, Target.Web, options);
   const compiler = new WebCompiler(program);
   compiler.clear();
   return compiler;

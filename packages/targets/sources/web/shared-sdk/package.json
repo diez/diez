@@ -1,7 +1,6 @@
 {
   "name": "{{{moduleName}}}",
   "version": "{{{sdkVersion}}}",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
   {{#each dependencies}}

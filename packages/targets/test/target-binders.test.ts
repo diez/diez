@@ -1,4 +1,4 @@
-import {TargetComponentSpec} from '@diez/compiler';
+import {TargetComponentSpec, TargetProperty} from '@diez/compiler';
 import {Image} from '@diez/prefabs';
 import {assetsBinder as androidImageBinder} from '../src/bindings/Image/android';
 import {assetsBinder as iosImageBinder} from '../src/bindings/Image/ios';
@@ -10,11 +10,18 @@ const mockSpec: TargetComponentSpec = {
   public: false,
 };
 
+const mockTargetProperty: TargetProperty = {
+  name: '',
+  isComponent: true,
+  depth: 1,
+  type: 'Image',
+};
+
 describe('android image binding', () => {
   test('Android images are not bound in hot mode', async () => {
     const compiler = await createAndroidCompilerForFixture('Primitives');
     compiler.program.hot = true;
-    await androidImageBinder!(new Image(), compiler.program, compiler.output, mockSpec);
+    await androidImageBinder!(new Image(), compiler.program, compiler.output, mockSpec, mockTargetProperty);
     expect(compiler.output.resources.size).toBe(0);
   });
 });
@@ -24,7 +31,7 @@ describe('ios image binding', () => {
   test('iOS images are not bound in hot mode', async () => {
     const compiler = await createIosCompilerForFixture('Primitives');
     compiler.program.hot = true;
-    await iosImageBinder!(new Image(), compiler.program, compiler.output, mockSpec);
+    await iosImageBinder!(new Image(), compiler.program, compiler.output, mockSpec, mockTargetProperty);
     expect(compiler.output.assetBindings.size).toBe(0);
   });
 });

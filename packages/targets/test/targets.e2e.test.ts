@@ -30,7 +30,7 @@ describe('targets.e2e', () => {
       const androidCompiler = await createAndroidCompilerForFixture(fixture);
       await androidCompiler.start();
 
-      const webCompiler = await createWebCompilerForFixture(fixture);
+      const webCompiler = await createWebCompilerForFixture(fixture, {js: true, scss: true, css: true});
       await webCompiler.start();
 
       expect(buildRoot).toMatchDirectory(getGoldenRoot(fixture));

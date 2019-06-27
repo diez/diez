@@ -7,9 +7,9 @@ import {sourcesPath} from '../../utils';
 
 const binding: AndroidBinding<File> = {
   sources: [join(sourcesPath, 'android', 'bindings', 'File.kt')],
-  assetsBinder: async (instance, program, output, spec) => {
+  assetsBinder: async (instance, program, output, spec, property) => {
     // Do the work of the file asset binder, mainly to benefit from its validations.
-    await fileAssetBinder(instance, program, output, spec);
+    await fileAssetBinder(instance, program, output, spec, property);
     // Resources are not used in hot mode; images need special handling.
     if (program.hot || instance.type === FileType.Image) {
       return;

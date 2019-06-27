@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "SomeFont";
+  src: url("./static/assets/SomeFont.ttf");
+}
+
+$bindings-image: url("./static/assets/image with spaces.jpg");
+$bindings-image-2x: url("./static/assets/image with spaces@2x.jpg");
+$bindings-image-3x: url("./static/assets/image with spaces@3x.jpg");
+$font-file: url("./static/assets/SomeFont.ttf");
+$font-name: "SomeFont";
+
+@mixin bindings-typograph {
+  font-family: "SomeFont";
+  font-size: 50px;
+  color: hsla(60, 100%, 50%, 1);
+}

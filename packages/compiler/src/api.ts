@@ -82,6 +82,10 @@ export interface TargetProperty {
    * The unique type name.
    */
   type: PropertyType;
+  /**
+   * The name of the host of the property.
+   */
+  parentType?: PropertyType;
 }
 
 /**
@@ -222,6 +226,7 @@ export type AssetBinder<
   program: CompilerProgram,
   output: OutputType,
   spec: TargetComponentSpec,
+  property: TargetProperty,
 ) => Promise<void>;
 
 /**

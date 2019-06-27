@@ -237,6 +237,7 @@ export class Program extends EventEmitter implements CompilerProgram {
         name: propertyName,
         isComponent: true,
         type: candidateSymbol.getName(),
+        parentType: componentName,
       });
     }
 
@@ -483,7 +484,7 @@ export abstract class TargetCompiler<
   /**
    * The root where we should serve static content in hot mode.
    */
-  private get hotStaticRoot () {
+  protected get hotStaticRoot () {
     return join(this.program.projectRoot, '.diez', `${this.program.options.target}-assets`);
   }
 
@@ -570,7 +571,7 @@ export abstract class TargetCompiler<
         this.program.options.target, propertyComponent.source, property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
-          await propertyBinding.assetsBinder(instance, this.program, this.output, componentSpec);
+          await propertyBinding.assetsBinder(instance, this.program, this.output, componentSpec, property);
         }
       }
 

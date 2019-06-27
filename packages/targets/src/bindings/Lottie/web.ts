@@ -5,10 +5,10 @@ import {sourcesPath} from '../../utils';
 
 const binding: WebBinding<Lottie> = {
   sources: [
-    join(sourcesPath, 'web', 'bindings', 'Lottie.js'),
+    join(sourcesPath, 'web', 'js', 'bindings', 'Lottie.js'),
   ],
   declarations: [
-    join(sourcesPath, 'web', 'bindings', 'Lottie.d.ts'),
+    join(sourcesPath, 'web', 'js', 'bindings', 'Lottie.d.ts'),
   ],
   dependencies: [{
     packageJson: {

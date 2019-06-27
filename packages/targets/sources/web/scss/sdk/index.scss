@@ -1,0 +1,19 @@
+{{#each styleFonts as |fontDeclaration|}}
+@font-face {
+  {{#each fontDeclaration.[1]}}
+  {{this.[0]}}: {{{this.[1]}}};
+  {{/each}}
+}
+
+{{/each}}
+{{#each styleVariables}}
+${{this.[0]}}: {{{this.[1]}}};
+{{/each}}
+
+{{#each styleRuleGroups as |groups|}}
+@mixin {{groups.[0]}} {
+  {{#each groups.[1]}}
+  {{this.[0]}}: {{{this.[1]}}};
+  {{/each}}
+}
+{{/each}}
