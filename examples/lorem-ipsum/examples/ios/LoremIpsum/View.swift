@@ -1,11 +1,3 @@
-//
-//  View.swift
-//  LoremIpsum
-//
-//  Created by Westin Newell on 5/28/19.
-//  Copyright © 2019 Westin Newell. All rights reserved.
-//
-
 import UIKit
 import Lottie
 import DiezLoremIpsum

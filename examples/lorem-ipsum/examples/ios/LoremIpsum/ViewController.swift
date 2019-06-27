@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  LoremIpsum
-//
-//  Created by Westin Newell on 5/28/19.
-//  Copyright © 2019 Westin Newell. All rights reserved.
-//
-
 import UIKit
 import DiezLoremIpsum
 
@@ -15,6 +7,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Here we are observing hot updates to our design system.
+        //
+        // Since this instance of Diez was initialized as Diez<DesignSystem>, it will deliver updates to the
+        // DesignSystem object described in `src/DesignSystem.ts` (relative to the root of the Diez project).
         diez.attach { [weak self] result in
             switch result {
             case .success(let designSystem):

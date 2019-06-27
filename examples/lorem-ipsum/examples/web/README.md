@@ -1,6 +1,13 @@
 # Lorem Ipsum
 
-This project demonstrates the capabilities of the Diez compiler for web in a basic project built with `react` and `webpack`.
+This example app demonstrates how to consume a Diez-compiled SDK within a web project built with [React](https://reactjs.org) and [Webpack](https://webpack.js.org).
+
+For more information about how to get started with Diez on web, check out the [Getting Started Guide](https://beta.diez.org/getting-started/javascript.html).
+
+## Quick Start
+
+1. From the root of your Diez project, run `yarn start-web`.
+2. In this directory, run `yarn start`.
 
 ## Available Scripts
 

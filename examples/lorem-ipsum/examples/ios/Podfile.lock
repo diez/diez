@@ -1,5 +1,5 @@
 PODS:
-  - DiezLoremIpsum (1.0.0):
+  - DiezLoremIpsum (0.1.0):
     - lottie-ios (~> 2.5.2)
   - lottie-ios (2.5.2)
 
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "../../build/diez-lorem-ipsum-ios"
 
 SPEC CHECKSUMS:
-  DiezLoremIpsum: a5252fbeab257b785557ebcaac66cfc06b01597e
+  DiezLoremIpsum: 4dccf7d4536f9e1d8ca23aef41237380eeb21a91
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
 
 PODFILE CHECKSUM: a79aa59f925d2c472d63b1d2344ba6da58241ee9

@@ -57,6 +57,10 @@ export default class App extends React.PureComponent {
   diez = new Diez(DesignSystem);
 
   componentWillMount() {
+    // Here we are observing hot updates to our design system.
+    //
+    // Since this instance of Diez was initialized with DesignSystem, it will deliver updates to the DesignSystem
+    // object described in `src/DesignSystem.ts` (relative to the root of the Diez project).
     this.diez.attach((ds) => {
       this.setState({ ds });
     });

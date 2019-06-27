@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Here we are observing hot updates to our design system.
+        //
+        // Since this instance of Diez is initialized with a DesignSystem, it will deliver updates to the DesignSystem
+        // object described in `src/DesignSystem.ts` (relative to the root of the Diez project).
         Diez(DesignSystem(), root).attach(fun(designSystem) {
             runOnUiThread {
                 apply(designSystem)
