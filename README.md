@@ -2,6 +2,11 @@
 
 This is the monorepo for Diez.
 
+## Experiencing Diez
+Diez aims to make it easy to adopt a unified design language across codebases, platforms, and teams. It is intended to be used as the source of truth for your design system.
+
+Please refer to [beta.diez.org/getting-started](https://beta.diez.org/getting-started) for installation instructions and a thorough set of getting started guides.
+
 ## Running example projects in hot mode
 
 Be sure to get set up for development by following the instructions in our [contributing guidelines](CONTRIBUTING.md).
