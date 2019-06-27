@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
         captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
 
         animationView.load(designSystem.loadingAnimation)
+        animationSpacer.layoutParams.height = designSystem.layoutValues.spacingMedium.toPx()
+
+        animationTextView.text = designSystem.strings.helper
+        animationTextView.apply(designSystem.typographs.body)
     }
 
     // TODO: add to --target android core.

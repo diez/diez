@@ -50,7 +50,12 @@ class ViewController: UIViewController {
         view.captionLabel.apply(designSystem.typographs.caption)
         view.captionLabel.text = designSystem.strings.caption
 
+        view.animationStackView.spacing = designSystem.layoutValues.spacingMedium
+
         view.animationView.load(designSystem.loadingAnimation)
+        view.animationLabel.apply(designSystem.typographs.body)
+
+        view.animationLabel.text = designSystem.strings.helper
     }
 
     init() {

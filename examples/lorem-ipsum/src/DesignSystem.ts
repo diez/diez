@@ -56,6 +56,12 @@ class Typographs extends Component {
     color: colors.text,
   });
 
+  @property body = new Typograph({
+    font: Fonts.SourceSansPro.Regular,
+    fontSize: 18,
+    color: colors.text,
+  });
+
   @property caption = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 14,
@@ -92,7 +98,8 @@ class LayoutValues extends Component {
  */
 class Strings extends Component {
   @property title = 'Diez';
-  @property caption = 'Keep your designs in sync with code.';
+  @property caption = 'Keep your designs in sync with code';
+  @property helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
 }
 
 /**
@@ -104,5 +111,5 @@ export class DesignSystem extends Component {
   @property images = new Images();
   @property layoutValues = new LayoutValues();
   @property strings = new Strings();
-  @property loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json');
+  @property loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json', false);
 }

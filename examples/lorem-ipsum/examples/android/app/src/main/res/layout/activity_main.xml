@@ -60,13 +60,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animationView"
-                    android:layout_width="174dp"
-                    android:layout_height="165dp"
-                    android:layout_gravity="center"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="174dp"
+                        android:layout_height="165dp"
+                        android:layout_gravity="center"/>
+
+                <Space
+                        android:id="@+id/animationSpacer"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"/>
+
+                <TextView
+                        android:id="@+id/animationTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"/>
+
+            </LinearLayout>
 
         </FrameLayout>
 
     </LinearLayout>
+
 </LinearLayout>

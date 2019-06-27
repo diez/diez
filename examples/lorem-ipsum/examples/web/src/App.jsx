@@ -2,13 +2,13 @@ import React from 'react';
 import { Diez, DesignSystem } from 'diez-lorem-ipsum';
 import styles from './App.module.css';
 
-const Masthead = ({ backgroundColor, backgroundImage }) => (
+const Masthead = ({ ds }) => (
   <div
     className={styles.masthead}
     style={{
-      backgroundColor: backgroundColor,
-      backgroundImage: backgroundImage.urlCss,
-      backgroundSize: `${backgroundImage.width}px ${backgroundImage.height}px`
+      backgroundColor: ds.colors.darkBackground.color,
+      backgroundImage: ds.images.masthead.urlCss,
+      backgroundSize: `${ds.images.masthead.width}px ${ds.images.masthead.height}px`
     }}
   />
 );
@@ -26,16 +26,40 @@ const Icon = ({ image, marginLeft }) => (
   />
 );
 
-const Title = ({ style, text }) => (
-  <h2 style={style}>
+const Title = ({ text, ds, style }) => (
+  <h2 style={{
+    ...ds.typographs.heading1.style,
+    ...style,
+  }}>
     {text}
   </h2>
 );
 
-const Caption = ({ style, text }) => (
-  <h3 style={style}>
+const Caption = ({ text, ds, style }) => (
+  <h3 style={{
+    ...ds.typographs.caption.style,
+    ...style,
+  }}>
     {text}
   </h3>
+);
+
+const Body = ({ text, ds, style }) => (
+  <p style={{
+    ...ds.typographs.body.style,
+    ...style,
+  }}>
+    {text}
+  </p>
+);
+
+const MoreInfo = ({ ds, style }) => (
+  <div style={{
+    ...ds.typographs.body.style,
+    ...style,
+  }}>
+    Refer to <a href="https://beta.diez.org/getting-started/" target="_blank">The Guides</a> for more information.
+  </div>
 );
 
 class Animation extends React.Component {
@@ -48,6 +72,7 @@ class Animation extends React.Component {
       <div
         className={styles.animation}
         ref="animation"
+        style={this.props.style}
       />
     );
   }
@@ -71,10 +96,7 @@ export default class App extends React.PureComponent {
 
     return (
       <div className={styles.wrapper}>
-        <Masthead
-          backgroundColor={ds.colors.darkBackground.color}
-          backgroundImage={ds.images.masthead}
-        />
+        <Masthead ds={ds} />
         <div
           className={styles.contentContainer}
           style={{
@@ -96,21 +118,27 @@ export default class App extends React.PureComponent {
               }}
             >
               <Title
-                style={{
-                  ...ds.typographs.heading1.style,
-                  marginBottom: ds.layoutValues.spacingSmall
-                }}
                 text={ds.strings.title}
+                ds={ds}
               />
               <Caption
-                style={{
-                  ...ds.typographs.caption.style,
-                  marginBottom: ds.layoutValues.spacingSmall
-                }}
                 text={ds.strings.caption}
+                ds={ds}
+                style={{marginTop: ds.layoutValues.spacingSmall}}
               />
               <div className={styles.animationContainer}>
-                <Animation lottie={ds.loadingAnimation} />
+                <Animation
+                  lottie={ds.loadingAnimation}
+                />
+                <Body
+                  text={ds.strings.helper}
+                  ds={ds}
+                  style={{marginTop: ds.layoutValues.spacingMedium}}
+                />
+                <MoreInfo
+                  ds={ds}
+                  style={{marginTop: ds.layoutValues.spacingMedium}}
+                />
               </div>
             </div>
           </div>

@@ -9,7 +9,9 @@ class View: UIView {
     let iconView = UIImageView()
     let titleLabel = UILabel()
     let captionLabel = UILabel()
+    let animationStackView = UIStackView()
     let animationView = LOTAnimationView()
+    let animationLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,7 +52,7 @@ class View: UIView {
         contentStackView.isLayoutMarginsRelativeArrangement = true
         stackView.addArrangedSubview(contentStackView)
         
-        captionLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(titleLabel)
         
         captionLabel.numberOfLines = 0
@@ -68,14 +70,30 @@ class View: UIView {
     }
     
     private func makeAnimationContainerView() -> UIView {
+        animationStackView.axis = .vertical
+
         let animationContainerView = UIView()
+        animationView.widthAnchor.constraint(equalToConstant: 174).isActive = true
+        animationView.heightAnchor.constraint(equalToConstant: 165).isActive = true
         animationView.translatesAutoresizingMaskIntoConstraints = false
         animationContainerView.addSubview(animationView)
         animationView.centerXAnchor.constraint(equalTo: animationContainerView.centerXAnchor).isActive = true
-        animationView.centerYAnchor.constraint(equalTo: animationContainerView.centerYAnchor).isActive = true
-        animationView.widthAnchor.constraint(equalToConstant: 174).isActive = true
-        animationView.heightAnchor.constraint(equalToConstant: 165).isActive = true
-        return animationContainerView
+        animationView.topAnchor.constraint(equalTo: animationContainerView.topAnchor).isActive = true
+        animationView.bottomAnchor.constraint(equalTo: animationContainerView.bottomAnchor).isActive = true
+        animationStackView.addArrangedSubview(animationContainerView)
+
+        animationLabel.numberOfLines = 0
+        animationLabel.textAlignment = .center
+        animationStackView.addArrangedSubview(animationLabel)
+
+        let animationStackViewContainerView = UIView()
+        animationStackView.translatesAutoresizingMaskIntoConstraints = false
+        animationStackViewContainerView.addSubview(animationStackView)
+        animationStackView.leadingAnchor.constraint(equalTo: animationStackViewContainerView.leadingAnchor).isActive = true
+        animationStackView.trailingAnchor.constraint(equalTo: animationStackViewContainerView.trailingAnchor).isActive = true
+        animationStackView.centerYAnchor.constraint(equalTo: animationStackViewContainerView.centerYAnchor).isActive = true
+
+        return animationStackViewContainerView
     }
     
     private func addIconView() {
