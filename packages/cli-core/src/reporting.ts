@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import chalk from 'chalk';
+import {clearLine} from 'readline';
 
 /**
  * Reports a fatal error and exits.
@@ -62,4 +63,26 @@ export const code = (message: string) => {
   console.log(
     `\n${chalk.green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n'))}`,
   );
+};
+
+/**
+ * Display the provided message alongside a simple spinner.
+ */
+export const loadingMessage = (message: string) => {
+  const ticks = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  let displayMessage = message;
+  let i = 0;
+  const interval = setInterval(() => {
+    clearLine(process.stdout, 0);
+    process.stdout.write(`${ticks[i++ % 10]} ${displayMessage}\r`);
+  }, 30);
+
+  return {
+    update (newMessage: string) {
+      displayMessage = newMessage;
+    },
+    stop () {
+      clearInterval(interval);
+    },
+  };
 };

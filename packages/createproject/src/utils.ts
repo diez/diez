@@ -7,6 +7,7 @@ import {
   info,
   inlineCodeSnippet,
   inlineComment,
+  loadingMessage,
   warning,
 } from '@diez/cli-core';
 import {downloadStream, getTempFileName, outputTemplatePackage} from '@diez/storage';
@@ -180,10 +181,12 @@ const populateExamples = async (cwd: string, name: string, targets: string[]) =>
 };
 
 const copyTemplate = async (templateRoot: string, root: string, tokens: {}, useYarn: boolean) => {
-  info('Generating template project...');
+  const message = loadingMessage('Generating template project...');
   await outputTemplatePackage(templateRoot, root, tokens);
-  info('Installing packages. This might take a couple of minutes.');
-  return execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
+  message.update('Installing packages. This might take a couple of minutes.');
+  await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
+  message.stop();
+  return;
 };
 
 /**

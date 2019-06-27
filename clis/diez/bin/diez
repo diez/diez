@@ -8,7 +8,7 @@ if (semver.gt('7.6.0', process.version)) {
 
 (async () => {
   const packageJson = require('package-json');
-  const {warning, diezVersion} = require('@diez/cli-core');
+  const {warning, diezVersion, loadingMessage} = require('@diez/cli-core');
   const {join} = require('path');
   const {clearLine} = require('readline');
 
@@ -20,12 +20,7 @@ if (semver.gt('7.6.0', process.version)) {
     }
 
     // Make a simple spinner for our update check.
-    const ticks = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-    let i = 0;
-    const interval = setInterval(() => {
-      clearLine(process.stdout);
-      process.stdout.write(`${ticks[i++ % 10]} Checking for updates...\r`);
-    }, 30);
+    const loadingMessage = loadingMessage('Checking for updates...');
 
     try {
       const {version: latestVersion} = await packageJson('@diez/cli-core');
@@ -35,7 +30,7 @@ if (semver.gt('7.6.0', process.version)) {
     } catch (_) {
       // Noop.
     } finally {
-      clearInterval(interval);
+      loadingMessage.stop();
       clearLine(process.stdout);
       require('@diez/cli-core/lib/cli').run(join(__dirname, '..'));
     }
