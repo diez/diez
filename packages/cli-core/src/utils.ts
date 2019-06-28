@@ -5,7 +5,7 @@ import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {dirname, join} from 'path';
 import {DiezConfiguration} from './api';
-import {warning} from './reporting';
+import {Log} from './reporting';
 
 // tslint:disable-next-line:no-var-requires
 const packageJson = require(join('..', 'package.json'));
@@ -140,7 +140,7 @@ export const findPlugins = (
           const rcConfiguration = JSON.parse(readFileSync(diezRcPath).toString());
           Object.assign(configuration, rcConfiguration);
         } catch (error) {
-          warning(`Found invalid .diezrc at ${diezRcPath}`);
+          Log.warning(`Found invalid .diezrc at ${diezRcPath}`);
         }
 
         if (Object.keys(configuration).length) {

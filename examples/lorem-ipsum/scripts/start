@@ -1,45 +1,47 @@
 #!/usr/bin/env node
-const { canRunCommand, comment, fatalError, inlineCodeSnippet } = require('@diez/cli-core');
+const { canRunCommand, Format, Log } = require('@diez/cli-core');
 const { execSync, fork } = require('child_process');
 const { join, resolve } = require('path');
 
 (async () => {
   // Make sure Yarn is installed.
   if (!await canRunCommand('yarn --version')) {
-    fatalError('Yarn is required to run the Web example project. See https://yarnpkg.org for details.');
+    Log.error('Yarn is required to run the Web example project. See https://yarnpkg.org for details.');
+    process.exit(1);
   }
 
   const target = process.argv.pop();
   if (!['android', 'ios', 'web'].includes(target)) {
-    fatalError('Usage: start <android|ios|web>');
+    Log.error('Usage: start <android|ios|web>');
+    process.exit(0);
   }
 
   const cwd = resolve(__dirname, '..');
   const diez = join('.', 'node_modules', '.bin', 'diez');
 
-  comment(`Building Diez project for target ${target}...`);
+  Log.comment(`Building Diez project for target ${target}...`);
   let hotProcess;
   let guideUrl;
   switch (target) {
     case 'android':
       execSync(`${diez} compile -t android`, { cwd, stdio: 'inherit' });
-      comment('Starting the Diez hot server...');
+      Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'android'], { cwd, stdio: 'inherit' });
       guideUrl = 'https://beta.diez.org/getting-started/kotlin.html';
       break;
     case 'ios':
       execSync(`${diez} compile -t ios --cocoapods`, { cwd, stdio: 'inherit' });
-      comment('Installing CocoaPods dependencies in example codebase...');
+      Log.comment('Installing CocoaPods dependencies in example codebase...');
       execSync('pod install', { cwd: join(cwd, 'examples', 'ios'), stdio: 'inherit' });
-      comment('Starting the Diez hot server...');
+      Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'ios'], { cwd, stdio: 'inherit' });
       guideUrl = 'https://beta.diez.org/getting-started/swift.html';
       break;
     case 'web':
       execSync(`${diez} compile -t web --js`, { cwd, stdio: 'inherit' });
-      comment('Installing Node dependencies in example codebase...');
+      Log.comment('Installing Node dependencies in example codebase...');
       execSync('yarn', { cwd: join(cwd, 'examples', 'web'), stdio: 'inherit' });
-      comment('Starting the Diez hot server...');
+      Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web', '--js'], { cwd, stdio: 'inherit' });
       guideUrl = 'https://beta.diez.org/getting-started/javascript.html';
       break;
@@ -48,20 +50,20 @@ const { join, resolve } = require('path');
   const handleBuilt = (message) => {
     if (message === 'built') {
       hotProcess.off('message', handleBuilt);
-      comment(`
+      Log.comment(`
 Your Diez project is now running in hot mode for ${target}.`);
-      comment(`
+      Log.comment(`
 In hot mode, Diez observes and emits changes to your design system in real time.`);
       if (process.send) {
         process.send('built');
         return;
       }
 
-      comment(`
+      Log.comment(`
 To see Diez in action, leave the hot server running, open a new tab in your
 terminal, and follow along with the guide at:
 
-  ${inlineCodeSnippet(guideUrl)}
+  ${Format.code(guideUrl)}
 `);
     }
   };

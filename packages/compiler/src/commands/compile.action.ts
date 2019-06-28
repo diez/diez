@@ -1,4 +1,4 @@
-import {fatalError, warning} from '@diez/cli-core';
+import {Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {valid} from 'semver';
 import {CompilerOptions} from '../api';
@@ -12,7 +12,7 @@ export = async (options: CompilerOptions) => {
     options.sdkVersion = validSemver;
   } else {
     if (options.sdkVersion !== undefined) {
-      warning(`Invalid SDK version: ${options.sdkVersion}.`);
+      Log.warning(`Invalid SDK version: ${options.sdkVersion}.`);
     }
     options.sdkVersion = '0.1.0';
   }
@@ -21,14 +21,14 @@ export = async (options: CompilerOptions) => {
 
   if (!targetProvider) {
     // This should never happen.
-    return fatalError(`Invalid target: ${options.target}. See --help for options.`);
+    throw new Error(`Invalid target: ${options.target}. See --help for options.`);
   }
 
   const program = new Program(global.process.cwd(), options);
   await program.run();
 
   if (!program.localComponentNames.length) {
-    return fatalError('No local components found!');
+    throw new Error('No local components found!');
   }
 
   printWarnings(program.targetComponents);

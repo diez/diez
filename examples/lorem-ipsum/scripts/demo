@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { comment } = require('@diez/cli-core');
+const { Log } = require('@diez/cli-core');
 const { fork } = require('child_process');
 const { join, resolve } = require('path');
 
@@ -8,7 +8,7 @@ const cwd = resolve(__dirname, '..');
 const start = fork('./scripts/start', ['web'], { stdio: 'inherit' });
 
 start.once('message', () => {
-  comment(`
+  Log.comment(`
 Starting example web project...`);
   const devServer = fork(
     './node_modules/.bin/webpack-dev-server',

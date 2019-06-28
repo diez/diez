@@ -1,4 +1,4 @@
-import {code, info, inlineCodeSnippet, warning} from '@diez/cli-core';
+import {Format, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   PrimitiveType,
@@ -180,7 +180,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
           updatable: false,
         };
       default:
-        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
         return;
     }
   }
@@ -213,17 +213,17 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   printUsageInstructions () {
-    const diez = inlineCodeSnippet('Diez');
+    const diez = Format.code('Diez');
     const component = this.program.localComponentNames[0];
-    info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
+    Log.info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
 
-    info(`You can depend on ${diez} in ${inlineCodeSnippet('build.gradle')}:`);
-    code(`implementation project(':${this.moduleName}')
+    Log.info(`You can depend on ${diez} in ${Format.code('build.gradle')}:`);
+    Log.code(`implementation project(':${this.moduleName}')
 `);
 
-    info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
+    Log.info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
 
-    code(`import ${this.output.packageName}.*
+    Log.code(`import ${this.output.packageName}.*
 
 class MainActivity ... {
   override fun onCreate(...) {

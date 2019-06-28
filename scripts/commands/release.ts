@@ -1,4 +1,4 @@
-import {diezVersion, fatalError} from '@diez/cli-core';
+import {diezVersion} from '@diez/cli-core';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
 import {gte, valid} from 'semver';
@@ -10,27 +10,27 @@ export = {
   loadAction: () => async (_: {}, rawVersion: string) => {
     const version = valid(rawVersion);
     if (!version || gte(diezVersion, version)) {
-      fatalError('Refusing to set an invalid or lower version.');
+      throw new Error('Refusing to set an invalid or lower version.');
     }
 
     if (runQuiet('git rev-parse --abbrev-ref HEAD') !== 'master') {
-      fatalError('You must be on the `master` branch to create a release.');
+      throw new Error('You must be on the `master` branch to create a release.');
     }
 
     if (
       runQuiet('git remote get-url upstream') !== 'git@github.com:diez/diez.git' ||
       runQuiet('git ls-remote --get-url') !== 'git@github.com:diez/diez.git'
     ) {
-      fatalError('You must have an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
+      throw new Error('You must have an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
     }
 
     if (runQuiet('git diff') || runQuiet('git diff --staged')) {
-      fatalError('Working tree has untracked changes; unable to proceed.');
+      throw new Error('Working tree has untracked changes; unable to proceed.');
     }
 
     run('git fetch upstream --tags');
     if (runQuiet('git diff upstream/master')) {
-      fatalError('You must be up to date on the latest `master` branch to create a release.');
+      throw new Error('You must be up to date on the latest `master` branch to create a release.');
     }
 
     try {
@@ -38,13 +38,13 @@ export = {
       runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_WWW_DISTRIBUTION_SECRET}`);
       runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_EXAMPLES_DISTRIBUTION}`);
     } catch (e) {
-      fatalError('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
+      throw new Error('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
     }
 
     run('yarn clean');
     const docs = runQuiet('yarn docs');
     if (docs.includes('Error:')) {
-      fatalError('Generating docs produced an error. Please fix the issue and try again.');
+      throw new Error('Generating docs produced an error. Please fix the issue and try again.');
     }
 
     // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.

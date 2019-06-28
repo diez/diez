@@ -1,4 +1,4 @@
-import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, warning} from '@diez/cli-core';
+import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {dirname, join} from 'path';
 import {Project} from 'ts-morph';
@@ -92,7 +92,7 @@ const getBindingLocation = async (
       for (const targetName in bindings[componentHash]) {
         const newHash = `${targetName}|${componentHash}`;
         if (bindingLocations.has(newHash)) {
-          warning(`Found duplicate binding compilation instructions for target ${targetName}. Component: ${componentHash}. Only the first binding will be used.`);
+          Log.warning(`Found duplicate binding compilation instructions for target ${targetName}. Component: ${componentHash}. Only the first binding will be used.`);
           continue;
         }
 
@@ -132,7 +132,7 @@ export const getBinding = async <T>(
     resolvedBindings.set(hash, binding);
     return binding;
   } catch (e) {
-    warning(`A binding for ${componentName} was specified, but could not be loaded from ${location}.`);
+    Log.warning(`A binding for ${componentName} was specified, but could not be loaded from ${location}.`);
     resolvedBindings.set(hash, undefined);
     return undefined;
   }
@@ -148,10 +148,10 @@ export const printWarnings = (targetComponents: NamedComponentMap) => {
       continue;
     }
 
-    warning(`Component: ${name}`);
-    warning(
+    Log.warning(`Component: ${name}`);
+    Log.warning(
       '  The following properties are of an unknown or invalid type. Please ensure your component definition includes complete type annotations.');
-    targetComponent.warnings.ambiguousTypes.forEach((property) => warning(`  - ${property}`));
+    targetComponent.warnings.ambiguousTypes.forEach((property) => Log.warning(`  - ${property}`));
   }
 };
 

@@ -1,4 +1,4 @@
-import {diezVersion, info} from '@diez/cli-core';
+import {diezVersion, Log} from '@diez/cli-core';
 import {getTempFileName} from '@diez/storage';
 import {
   camelCase,
@@ -79,7 +79,7 @@ export = {
     const archiveDestination = getTempFileName();
     ensureDirSync(swapDestination);
 
-    info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
+    Log.info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
     await copy(loremIpsumRoot, join(swapDestination, exampleProject));
     await removeGitIgnoredFiles(swapDestination);
 

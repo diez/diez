@@ -1,4 +1,4 @@
-import {execAsync, isMacOS, warning} from '@diez/cli-core';
+import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import pascalCase from 'pascal-case';
 import {join} from 'path';
 import {GeneratedFont} from './api';
@@ -65,7 +65,7 @@ export const locateFont = async (
     return candidates[0];
   }
 
-  warning('Font location is not implemented on your platform.');
+  Log.warning('Font location is not implemented on your platform.');
   return;
 };
 

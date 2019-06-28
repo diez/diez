@@ -1,4 +1,4 @@
-import {code, info, inlineCodeSnippet, warning} from '@diez/cli-core';
+import {Format, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   PrimitiveType,
@@ -139,7 +139,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
           updatable: false,
         };
       default:
-        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
         return;
     }
   }
@@ -202,14 +202,14 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   printUsageInstructions () {
-    const diez = inlineCodeSnippet('Diez');
+    const diez = Format.code('Diez');
     const component = this.program.localComponentNames[0];
     const styleVarName = this.output.styles.variables.keys().next().value;
 
-    info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
+    Log.info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
 
-    info(`You can depend on ${diez} in ${inlineCodeSnippet('package.json')}:`);
-    code(`{
+    Log.info(`You can depend on ${diez} in ${Format.code('package.json')}:`);
+    Log.code(`{
   "dependencies": {
     "${this.moduleName}": "*"
   }
@@ -218,9 +218,9 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 
     if (this.program.options.js) {
 
-      info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
+      Log.info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
 
-      code(`
+      Log.code(`
 new Diez(${component}).attach((component) => {
   // ...
 });
@@ -228,13 +228,13 @@ new Diez(${component}).attach((component) => {
     }
 
     if (this.program.options.css) {
-      info(`You can use the variables and classes defined by ${diez} in your CSS styles.\n`);
-      code(`rule: var(--${styleVarName});\n`);
+      Log.info(`You can use the variables and classes defined by ${diez} in your CSS styles.\n`);
+      Log.code(`rule: var(--${styleVarName});\n`);
     }
 
     if (this.program.options.scss) {
-      info(`You can use the variables and mixins defined by ${diez} in your SCSS styles.\n`);
-      code(`rule: \$${styleVarName};\n`);
+      Log.info(`You can use the variables and mixins defined by ${diez} in your SCSS styles.\n`);
+      Log.code(`rule: \$${styleVarName};\n`);
     }
   }
 

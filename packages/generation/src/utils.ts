@@ -1,4 +1,4 @@
-import {canRunCommand, execAsync, info, warningOnce} from '@diez/cli-core';
+import {canRunCommand, execAsync, Log} from '@diez/cli-core';
 import {getProject} from '@diez/compiler';
 import {getTempFileName} from '@diez/storage';
 import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
@@ -107,10 +107,10 @@ const getFontPath = async (path: string, fontName: string): Promise<string | und
   }
 
   if (!await canRunCommand('which otc2otf')) {
-    warningOnce(`The Adobe Font Development Kit for OpenType is required to extract fonts from font collections.
+    Log.warningOnce(`The Adobe Font Development Kit for OpenType is required to extract fonts from font collections.
 
 See installation instructions here: https://github.com/adobe-type-tools/afdko#installation.`);
-    warningOnce(`The font at ${path} cannot be used.`);
+    Log.warningOnce(`The font at ${path} cannot be used.`);
     return undefined;
   }
 
@@ -119,7 +119,7 @@ See installation instructions here: https://github.com/adobe-type-tools/afdko#in
   ensureDirSync(workingDirectory);
   copySync(path, ttcLocation);
 
-  info(`Extracting font ${fontName} from TrueType collection font at ${path}.`);
+  Log.info(`Extracting font ${fontName} from TrueType collection font at ${path}.`);
   await execAsync(`otc2otf ${ttcLocation}`);
   for (const filename of readdirSync(workingDirectory)) {
     if (filename === `${fontName}.ttf` || filename === `${fontName}.otf`) {

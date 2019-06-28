@@ -1,4 +1,4 @@
-import {fatalError, info} from '@diez/cli-core';
+import {Log} from '@diez/cli-core';
 import enquirer from 'enquirer';
 import {copy, existsSync} from 'fs-extra';
 import {join} from 'path';
@@ -10,7 +10,7 @@ export = {
   loadAction: () => async () => {
     const templateLocation = join(root, 'templates', 'package');
     if (!existsSync(templateLocation)) {
-      fatalError(`Unable to location template project in ${templateLocation}. Aborting.`);
+      throw new Error(`Unable to location template project in ${templateLocation}. Aborting.`);
     }
 
     interface Answers {
@@ -24,7 +24,7 @@ export = {
     })).packageName;
 
     const destination = join(root, 'packages', packageName);
-    info(`Creating package @diez/${packageName} in ${destination}...`);
+    Log.info(`Creating package @diez/${packageName} in ${destination}...`);
     await copy(templateLocation, destination);
     const replacements = new Map([
       ['REPLACEME', packageName],

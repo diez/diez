@@ -12,7 +12,7 @@ import {
   ModuleWrappedCliAction,
   ValidatedCommand,
 } from './api';
-import {fatalError, warning} from './reporting';
+import {Log} from './reporting';
 import {cliRequire, diezVersion, findPlugins} from './utils';
 
 version(diezVersion).name('diez');
@@ -82,7 +82,8 @@ const registerWithProvider = async (provider: CliCommandProvider, defaultOptions
           await client.close(1000);
         }
       }
-      fatalError(error.message);
+      Log.error(error.message);
+      process.exit(1);
     }
   });
 
@@ -118,14 +119,14 @@ const registerWithProviders = async (
     try {
       const provider = cliRequire<CliCommandProvider>(plugin, path);
       if (registry.has(provider.name)) {
-        warning(`Ignoring attempt to reregister command ${provider.name}.`);
+        Log.warning(`Ignoring attempt to reregister command ${provider.name}.`);
         continue;
       }
 
       registry.set(provider.name, await registerWithProvider(provider, options[provider.name]));
     } catch (error) {
-      warning(`An invalid command provider was specified at ${path}.`);
-      warning(error.message);
+      Log.warning(`An invalid command provider was specified at ${path}.`);
+      Log.warning(error.message);
     }
   }
 };
@@ -157,7 +158,7 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
       try {
         deferredExtensions.push(cliRequire<CliCommandExtension>(plugin, path));
       } catch (error) {
-        warning(`An invalid command extension was specified at ${path}.`);
+        Log.warning(`An invalid command extension was specified at ${path}.`);
       }
     }
   }

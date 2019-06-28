@@ -1,4 +1,4 @@
-import {CliAction, fatalError} from '@diez/cli-core';
+import {CliAction} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {CompilerEvent, CompilerOptions} from '../api';
 import {Program} from '../compiler';
@@ -10,7 +10,7 @@ const action: CliAction = (options: CompilerOptions) => new Promise(async (resol
 
   if (!targetProvider) {
     // This should never happen.
-    fatalError(`Invalid target: ${options.target}. See --help for options.`);
+    throw new Error(`Invalid target: ${options.target}. See --help for options.`);
     return;
   }
 

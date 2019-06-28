@@ -1,4 +1,4 @@
-import {execAsync, isMacOS, warning} from '@diez/cli-core';
+import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import {
   AssetFolder,
   codegenDesignSystem,
@@ -186,7 +186,7 @@ class SketchExporterImplementation implements Exporter {
       if (candidateFont) {
         await registerFont(candidateFont, codegenSpec.fonts);
       } else {
-        warning(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
+        Log.warning(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
       }
 
       codegenSpec.typographs.push({

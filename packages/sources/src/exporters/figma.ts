@@ -1,4 +1,4 @@
-import {findOpenPort, info, warning} from '@diez/cli-core';
+import {findOpenPort, Log} from '@diez/cli-core';
 import {
   AssetFolder,
   CodegenDesignSystem,
@@ -151,11 +151,11 @@ const downloadAssets = async (
   authToken: string,
 ) => {
   if (!filenameMap.size) {
-    warning('This Figma file does not contain any shared components.');
+    Log.warning('This Figma file does not contain any shared components.');
     return;
   }
 
-  info('Retrieving component URLs from the Figma API...');
+  Log.info('Retrieving component URLs from the Figma API...');
   const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
   const downloadParams: AssetDownloadParams[] = [];
   const scales = ['1', '2', '3', '4'];
@@ -184,7 +184,7 @@ const downloadAssets = async (
   for (const [scale, urls] of resolvedUrlMap) {
     for (const [id, url] of urls) {
       const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
-      info(`Downloading asset ${filename} from the Figma CDN...`);
+      Log.info(`Downloading asset ${filename} from the Figma CDN...`);
       streams.push(downloadStream(url).then((stream) => {
         stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
       }));
@@ -226,7 +226,7 @@ const processFigmaNode = async (
       if (candidateFont) {
         await registerFont(candidateFont, spec.fonts);
       } else {
-        warning(`Unable to locate system font assets for ${node.style.fontFamily}.`);
+        Log.warning(`Unable to locate system font assets for ${node.style.fontFamily}.`);
       }
 
       spec.typographs.push({

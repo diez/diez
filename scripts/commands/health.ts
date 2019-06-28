@@ -1,4 +1,3 @@
-import {fatalError} from '@diez/cli-core';
 import {assertNotWatching, run, runQuiet} from '../internal/helpers';
 
 export= {
@@ -8,13 +7,13 @@ export= {
     assertNotWatching();
     const gitChanges = runQuiet('git diff yarn.lock');
     if (gitChanges) {
-      fatalError('Found untracked Git changes in `yarn.lock`. Be sure to stage and commit all `yarn.lock` changes.');
+      throw new Error('Found untracked Git changes in `yarn.lock`. Be sure to stage and commit all `yarn.lock` changes.');
     }
 
     // Ensures docs are generated without errors.
     const docs = runQuiet('yarn docs');
     if (docs.includes('Error:')) {
-      fatalError('Generating docs produced an error. Please fix the issue and try again.');
+      throw new Error('Generating docs produced an error. Please fix the issue and try again.');
     }
 
     // Run health checks in all packages.

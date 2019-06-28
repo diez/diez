@@ -1,4 +1,4 @@
-import {canRunCommand, code, execAsync, info, inlineCodeSnippet, isMacOS, warning} from '@diez/cli-core';
+import {canRunCommand, execAsync, Format, isMacOS, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
   PrimitiveType,
@@ -174,7 +174,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
           updatable: false,
         };
       default:
-        warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
         return;
     }
   }
@@ -235,28 +235,28 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * @abstract
    */
   printUsageInstructions () {
-    info(`Diez SDK installed locally at ${this.output.sdkRoot}.\n`);
+    Log.info(`Diez SDK installed locally at ${this.output.sdkRoot}.\n`);
 
     if (this.program.options.cocoapods) {
-      info(`You can depend on the Diez SDK in your ${inlineCodeSnippet('Podfile')} during development like so:`);
-      code(`pod '${this.moduleName}', :path => '${this.output.sdkRoot}'\n`);
-      info(`Don't forget to run ${inlineCodeSnippet('pod install')} after updating your CocoaPods dependencies!\n`);
+      Log.info(`You can depend on the Diez SDK in your ${Format.code('Podfile')} during development like so:`);
+      Log.code(`pod '${this.moduleName}', :path => '${this.output.sdkRoot}'\n`);
+      Log.info(`Don't forget to run ${Format.code('pod install')} after updating your CocoaPods dependencies!\n`);
     }
 
     if (this.program.options.carthage) {
-      info('You can depend on the Diez SDK in your application by hosting the generated SDK on GitHub and updating ');
-      info(`your ${inlineCodeSnippet('Cartfile')} like so:`);
-      code(`github "organization/${this.moduleName}" "master"\n`);
-      info(`where ${inlineCodeSnippet(`organization/${this.moduleName}`)} is your generated SDK's GitHub repository.`);
-      info(`Don't forget to run ${inlineCodeSnippet('carthage update')} after updating your Cartfile!\n`);
+      Log.info('You can depend on the Diez SDK in your application by hosting the generated SDK on GitHub and updating ');
+      Log.info(`your ${Format.code('Cartfile')} like so:`);
+      Log.code(`github "organization/${this.moduleName}" "master"\n`);
+      Log.info(`where ${Format.code(`organization/${this.moduleName}`)} is your generated SDK's GitHub repository.`);
+      Log.info(`Don't forget to run ${Format.code('carthage update')} after updating your Cartfile!\n`);
     }
 
     // TODO: Check if the target is actually using Swift.
-    info(`You can use ${inlineCodeSnippet('Diez')} to bootstrap any of the components defined in your project.\n`);
-    info('For example:');
+    Log.info(`You can use ${Format.code('Diez')} to bootstrap any of the components defined in your project.\n`);
+    Log.info('For example:');
     // TODO: Move this into a template.
     // TODO: components with bindings should yield their own documentation.
-    code(`import UIKit
+    Log.code(`import UIKit
 import ${this.moduleName}
 
 class ViewController: UIViewController {

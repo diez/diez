@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {exitTrap, info, warning} from '@diez/cli-core';
+import {exitTrap, Log} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
@@ -151,7 +151,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     const componentName = typeValue.getName();
     if (!componentName) {
       // FIXME: we should be able to handle this by automatically generating anonymous componenet names.
-      warning('Encountered an unnamed component class. Components without names are skipped.');
+      Log.warning('Encountered an unnamed component class. Components without names are skipped.');
       return false;
     }
 
@@ -160,7 +160,7 @@ export class Program extends EventEmitter implements CompilerProgram {
     ) {
       if (this.targetComponents.get(componentName)!.type !== type) {
         // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
-        warning(`Encountered a duplicate component name: ${componentName}. Please ensure no component names are duplicated.`);
+        Log.warning(`Encountered a duplicate component name: ${componentName}. Please ensure no component names are duplicated.`);
         return false;
       }
 
@@ -301,7 +301,7 @@ export class Program extends EventEmitter implements CompilerProgram {
    * Actually compiles the project, emitting JS source files for runtime compilation.
    */
   private async compile () {
-    info('Compiling project...');
+    Log.info('Compiling project...');
     const emitResult = await this.program.emit();
     this.printDiagnostics(emitResult.diagnostics);
     return emitResult.diagnostics.length === 0;
@@ -377,7 +377,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   ) {
     super();
 
-    info(`Validating project structure at ${projectRoot}...`);
+    Log.info(`Validating project structure at ${projectRoot}...`);
 
     try {
       this.project = getProject(projectRoot);
@@ -591,7 +591,7 @@ export abstract class TargetCompiler<
   protected async processComponentInstance (instance: ConcreteComponent, name: PropertyType) {
     const targetComponent = this.program.targetComponents.get(name);
     if (!targetComponent) {
-      warning(`Unable to find component definition for ${name}!`);
+      Log.warning(`Unable to find component definition for ${name}!`);
       return;
     }
 
@@ -638,7 +638,7 @@ export abstract class TargetCompiler<
     for (const componentName of this.program.localComponentNames) {
       const constructor = componentModule[componentName];
       if (!constructor) {
-        warning(`Unable to resolve component instance from ${this.program.projectRoot}: ${componentName}.`);
+        Log.warning(`Unable to resolve component instance from ${this.program.projectRoot}: ${componentName}.`);
         continue;
       }
 
@@ -713,8 +713,8 @@ export abstract class TargetCompiler<
     try {
       await this.run();
     } catch (error) {
-      warning('Unable to compile.');
-      warning(error);
+      Log.warning('Unable to compile.');
+      Log.warning(error);
       return false;
     }
 

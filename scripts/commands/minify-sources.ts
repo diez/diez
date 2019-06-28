@@ -1,4 +1,4 @@
-import {canRunCommand, diezVersion, fatalError} from '@diez/cli-core';
+import {canRunCommand, diezVersion} from '@diez/cli-core';
 import {existsSync, outputFileSync, readFileSync, readJsonSync} from 'fs-extra';
 import glob from 'glob';
 import {basename, dirname, join, relative} from 'path';
@@ -11,7 +11,7 @@ export = {
   loadAction: () => async () => {
     assertNotWatching();
     if (!await canRunCommand('sentry-cli --version')) {
-      fatalError('sentry-cli is not installed.');
+      throw new Error('sentry-cli is not installed.');
     }
     // Create source maps for our original transpiled TypeScript.
     run('rm -f packages/*/tsconfig.tsbuildinfo');
@@ -42,7 +42,7 @@ export = {
 
       if (minified.error) {
         minificationError = true;
-        fatalError(`Unable to minify ${filePath}!`);
+        throw new Error(`Unable to minify ${filePath}!`);
       }
 
       outputFileSync(filePath, minified.code);
@@ -62,7 +62,7 @@ export = {
     `sentry-cli releases -o ${sentryOrganization} -p ${sentryProject} ${command} v${diezVersion} ${subcommand}`;
 
     run(`sentry-cli releases -o ${sentryOrganization} new -p ${sentryProject} v${diezVersion}`);
-    run(getSentryCommand('set-commits', `--commit "diez/diez"`));
+    run(getSentryCommand('set-commits', '--commit "diez/diez"'));
     const relevantPaths = [
       ...glob.sync(join(root, 'packages/*/lib/**/*.js')),
       ...glob.sync(join(root, 'packages/*/lib/**/*.js.map')),

@@ -2,87 +2,91 @@
 import chalk from 'chalk';
 import {clearLine, cursorTo} from 'readline';
 
-const green = chalk.rgb(60, 221, 117);
+/**
+ * A simple class for formatting messages.
+ *
+ * Static class members return formatted strings.
+ */
+export class Format {
+  /**
+   * Formats information messages.
+   */
+  static info = (...messages: string[]) => chalk.rgb(30, 197, 248)(messages.join('\n'));
+
+  /**
+   * Formats warning messages.
+   */
+  static warning = (...messages: string[]) => chalk.rgb(246, 229, 0)(messages.join('\n'));
+
+  /**
+   * Formats error messages.
+   */
+  static error = (...messages: string[]) => chalk.red(messages.join('\n'));
+
+  /**
+   * Formats comment messages.
+   */
+  static comment = (...messages: string[]) => chalk.rgb(216, 60, 221)(messages.join('\n'));
+
+  /**
+   * Formats code messages.
+   */
+  static code = (...messages: string[]) => chalk.rgb(60, 221, 117)(messages.join('\n'));
+}
 
 /**
- * Reports a fatal error and exits.
+ * Tracks warning messages.
  */
-export const fatalError = (message: string): never => {
-  if (message) {
-    console.log(chalk.red(message));
-  }
-  return process.exit(1);
-};
-
-/**
- * Logs a success message and exits.
- */
-export const success = (message: string): never => {
-  console.log(green(message));
-  return process.exit(0);
-};
-
-/**
- * Returns an info message.
- */
-export const inlineInfo = (message: string) => chalk.rgb(30, 197, 248)(message);
-
-/**
- * Logs an info message.
- */
-export const info = (message: string) => {
-  console.log(inlineInfo(message));
-};
-
 const warnings = new Set<string>();
 
 /**
- * Returns a warning message.
- */
-export const inlineWarning = (message: string) => chalk.rgb(246, 229, 0)(message);
-
-/**
- * Logs a warning message.
- */
-export const warning = (message: string) => {
-  warnings.add(message);
-  console.log(inlineWarning(message));
-};
-
-/**
- * Logs a warning message.
- */
-export const warningOnce = (message: string) => {
-  if (!warnings.has(message)) {
-    warning(message);
-  }
-};
-
-/**
- * Returns an inline comment.
- */
-export const inlineComment = (message: string) => chalk.rgb(216, 60, 221)(message);
-
-/**
- * Logs a comment.
- */
-export const comment = (message: string) => console.log(inlineComment(message));
-
-/**
- * Returns an inline code snippet.
+ * A simple class for logging messages.
  *
- * TODO: rename this to `inlineCode`.
+ * Static class members log formatted strings.
  */
-export const inlineCodeSnippet = (message: string) => chalk.rgb(60, 221, 117)(message);
+export class Log {
+  /**
+   * Logs information messages.
+   */
+  static info = (...messages: string[]) => console.log(Format.info(...messages));
 
-/**
- * Logs a code snippet.
- */
-export const code = (message: string) => {
-  console.log(
-    `\n${green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n'))}`,
-  );
-};
+  /**
+   * Logs warning messages.
+   */
+  static warning = (...messages: string[]) => {
+    for (const message in messages) {
+      warnings.add(message);
+    }
+    console.log(Format.warning(...messages));
+  };
+
+  /**
+   * Logs warning messages once.
+   */
+  static warningOnce = (...messages: string[]) => {
+    for (const message in messages) {
+      if (!warnings.has(message)) {
+        Log.warning(message);
+      }
+    }
+  };
+
+  /**
+   * Logs error messages.
+   */
+  static error = (...messages: string[]) => console.log(Format.error(...messages));
+
+  /**
+   * Logs comment messages.
+   */
+  static comment = (...messages: string[]) => console.log(Format.comment(...messages));
+
+  /**
+   * Logs code messages.
+   */
+  static code = (...messages: string[]) => console.log(Format.code(...messages.map((message) =>
+    `\n${Format.code(message.split('\n').map((line) => `    ${line}`).join('\n'))}`)));
+}
 
 /**
  * Display the provided message alongside a simple spinner.

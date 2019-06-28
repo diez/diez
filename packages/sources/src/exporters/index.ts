@@ -1,4 +1,4 @@
-import {info, UnauthorizedRequestException, warning} from '@diez/cli-core';
+import {Log, UnauthorizedRequestException} from '@diez/cli-core';
 import {Registry} from '@diez/storage';
 import {ExporterFactory, ExporterInput} from '../api';
 import {FigmaExporter, getFigmaAccessToken} from '../exporters/figma';
@@ -31,7 +31,7 @@ export const performExtraction = async (
   if (factory === FigmaExporter) {
     let figmaAccessToken = await Registry.get('figmaAccessToken');
     if (!figmaAccessToken) {
-      info('Figma authentication required.');
+      Log.info('Figma authentication required.');
       figmaAccessToken = await getFigmaAccessToken();
       await Registry.set({figmaAccessToken});
     }
@@ -40,7 +40,7 @@ export const performExtraction = async (
 
   try {
     const exporter = factory.create(...constructorArgs);
-    await exporter.export(input, projectRoot, {progress: info, error: warning});
+    await exporter.export(input, projectRoot, {progress: Log.info, error: Log.warning});
   } catch (error) {
     if (error instanceof UnauthorizedRequestException) {
       await Registry.delete('figmaAccessToken');

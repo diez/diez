@@ -1,4 +1,4 @@
-import {execAsync, info, isMacOS, warning} from '@diez/cli-core';
+import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import {AssetFolder} from '@diez/generation';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {walkSync} from 'fs-walk';
@@ -114,6 +114,6 @@ export const fixGammaOfSVGs = (directory: string) => {
  * @ignore
  */
 export const cliReporters: Reporters = {
-  progress: info,
-  error: warning,
+  progress: Log.info,
+  error: Log.warning,
 };

@@ -3,12 +3,9 @@ import {
   devDependencies,
   diezVersion,
   execAsync,
-  fatalError,
-  info,
-  inlineCodeSnippet,
-  inlineComment,
+  Format,
   loadingMessage,
-  warning,
+  Log,
 } from '@diez/cli-core';
 import {downloadStream, getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {
@@ -47,11 +44,11 @@ const validatePackageName = (packageName: string) => {
     }
 
     if (warnings.length) {
-      warning('Project name validation failed:');
-      warnings.forEach(warning);
+      Log.warning('Project name validation failed:');
+      Log.warning(...warnings);
     }
 
-    fatalError(`Unable to create project with name ${packageName}.`);
+    throw new Error(`Unable to create project with name ${packageName}.`);
   }
 };
 
@@ -104,12 +101,12 @@ export const canUseNpm = async (root: string) => {
  */
 const validateProjectRoot = async (root: string, useYarn = false) => {
   if (existsSync(root) && !lstatSync(root).isDirectory()) {
-    fatalError(`Found a non-directory at ${root}.`);
+    throw new Error(`Found a non-directory at ${root}.`);
   }
 
   ensureDirSync(root);
   if (existsSync(join(root, 'package.json'))) {
-    fatalError(`A Node.js project already exists at ${root}.`);
+    throw new Error(`A Node.js project already exists at ${root}.`);
   }
 
   if (useYarn) {
@@ -117,12 +114,12 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
   }
 
   if (!await canUseNpm(root)) {
-    fatalError(`Unable to start an NPM process in ${root}.`);
+    throw new Error(`Unable to start an NPM process in ${root}.`);
   }
 };
 
 const downloadAndExtractProject = async (templateRoot: string) => {
-  info('Downloading template project from the Diez CDN...');
+  Log.info('Downloading template project from the Diez CDN...');
   const stream = await downloadStream(examplesProjectUrl);
   if (!stream) {
     throw new Error('Unable to download template project from examples.diez.org. Please try again.');
@@ -183,8 +180,8 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
     try {
       await createTemplateProject(cwd, packageName);
     } catch (error) {
-      warning('Unable to download template project from the Diez CDN.');
-      warning(`If you would like to generate an empty project, you can re-run this command with ${inlineCodeSnippet('--bare')}.`);
+      Log.warning('Unable to download template project from the Diez CDN. Are you connected to the internet?');
+      Log.warning(`If you would like to generate an empty project, you can re-run this command with ${Format.code('--bare')}.`);
       throw error;
     }
   }
@@ -193,33 +190,33 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
   try {
     await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
   } catch (error) {
-    warning('Unable to install dependencies. Are you connected to the Internet?');
-    warning(`You may need to run ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm'} install`)} before ${inlineCodeSnippet('diez')} commands will work.`);
+    Log.warning('Unable to install dependencies. Are you connected to the Internet?');
+    Log.warning(`You may need to run ${Format.code(`${useYarn ? 'yarn' : 'npm'} install`)} before ${Format.code('diez')} commands will work.`);
   }
 
   message.stop();
 
   try {
     await initializeGitRepository(root);
-    info(`Initialized a Git repository at ${root}`);
+    Log.info(`Initialized a Git repository at ${root}`);
   } catch (error) {
     // Ignore errors.
   }
 
-  info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.
+  Log.info(`Success! A new Diez (DS) has been created at ${Format.comment(root)}.
 `);
-  info(`In that directory, the ${inlineCodeSnippet('diez')} command line utility can be invoked using:
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez`)}
+  Log.info(`In that directory, the ${Format.code('diez')} command line utility can be invoked using:
+  ${Format.code(`${useYarn ? 'yarn' : 'npm run'} diez`)}
 `);
   if (bare) {
-    info(`To see a list of available commands, you can run:
-  ${inlineCodeSnippet(`cd ${relative(cwd, root)}
+    Log.info(`To see a list of available commands, you can run:
+  ${Format.code(`cd ${relative(cwd, root)}
   ${useYarn ? 'yarn' : 'npm run'} diez --help`)}`);
   } else {
-    info(`To get started, we suggest running:
-  ${inlineCodeSnippet(`cd ${relative(cwd, root)}
+    Log.info(`To get started, we suggest running:
+  ${Format.code(`cd ${relative(cwd, root)}
   ${useYarn ? 'yarn' : 'npm run'} demo`)}
 `);
-    info('Check out https://beta.diez.org/getting-started to learn more.');
+    Log.info('Check out https://beta.diez.org/getting-started to learn more.');
   }
 };

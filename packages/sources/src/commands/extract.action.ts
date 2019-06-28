@@ -1,4 +1,4 @@
-import {exitTrap, findPlugins, info, inlineCodeSnippet, socketTrap, warning} from '@diez/cli-core';
+import {exitTrap, findPlugins, Format, Log, socketTrap} from '@diez/cli-core';
 import {getHotPort} from '@diez/compiler';
 import {queue} from 'async';
 import {watch} from 'chokidar';
@@ -27,7 +27,7 @@ const syncQueue = queue<ExporterInput & {sockets: Iterable<Socket>}>(async (inpu
       socket.write(JSON.stringify({event: 'reload'}));
     }
   } catch (error) {
-    warning(error);
+    Log.warning(error);
   } finally {
     callback();
   }
@@ -61,7 +61,7 @@ export = async ({hot}: SyncOptions) => {
         projectRoot,
       );
     } catch (error) {
-      warning(error);
+      Log.warning(error);
       return;
     }
   }));
@@ -81,9 +81,9 @@ export = async ({hot}: SyncOptions) => {
       ignoreInitial: true,
     });
 
-    info(`Watching ${inlineCodeSnippet(configuration.sources)} for changes...`);
+    Log.info(`Watching ${Format.code(configuration.sources)} for changes...`);
     if (configuration.services.length) {
-      info(`Press ${inlineCodeSnippet('r')} to refresh design services...`);
+      Log.info(`Press ${Format.code('r')} to refresh design services...`);
     }
 
     const stdin = process.stdin;
@@ -135,7 +135,7 @@ export = async ({hot}: SyncOptions) => {
         process.exit(0);
       });
       writeFileSync(hotMutex, port);
-      info(`Serving hot assets on port ${port}.`);
+      Log.info(`Serving hot assets on port ${port}.`);
     });
   }
 };

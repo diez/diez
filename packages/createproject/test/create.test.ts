@@ -1,4 +1,4 @@
-import {assignMock, mockCliCoreFactory, registerExpectations} from '@diez/test-utils';
+import {assignMock, mockCanRunCommand, mockCliCoreFactory, registerExpectations} from '@diez/test-utils';
 jest.doMock('@diez/cli-core', mockCliCoreFactory);
 
 const downloadStreamMock = jest.fn();
@@ -50,6 +50,7 @@ afterEach(() => {
   removeSync(myProjectRoot);
   mockPackageNameValidator.mockReset();
   downloadStreamMock.mockReset();
+  mockCanRunCommand.mockReset();
 });
 
 describe('create project', () => {
@@ -79,6 +80,7 @@ describe('create project', () => {
   });
 
   test('project generation - non-bare', async () => {
+    mockCanRunCommand.mockResolvedValueOnce(true);
     downloadStreamMock.mockImplementation((path: string) => {
       const stream = new Readable();
       stream._read = () => {};
@@ -95,6 +97,7 @@ describe('create project', () => {
   });
 
   test('project generation - bare', async () => {
+    mockCanRunCommand.mockResolvedValueOnce(true);
     await createProject('my-project', true, workspaceExamplesRoot);
     const tsConfigFilePath = join(myProjectRoot, 'tsconfig.json');
     expect(myProjectRoot).toExist();

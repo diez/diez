@@ -1,4 +1,4 @@
-import {CliCommandProvider, fatalError} from '@diez/cli-core';
+import {CliCommandProvider} from '@diez/cli-core';
 
 const getTargetsLazy = () => import('../utils').then(({getTargets}) => getTargets());
 
@@ -14,7 +14,7 @@ const provider: CliCommandProvider = {
       description: 'The target platform for the compiled SDK.',
       validator: async ({target}) => {
         if (!target) {
-          fatalError('--target is required.');
+          throw new Error('--target is required.');
         }
 
         const targets = await getTargetsLazy();
@@ -24,7 +24,7 @@ const provider: CliCommandProvider = {
           for (const [name] of targets) {
             message += `\n - ${name}`;
           }
-          fatalError(message);
+          throw new Error(message);
         }
       },
     },

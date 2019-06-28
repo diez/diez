@@ -1,4 +1,4 @@
-import {info, socketTrap} from '@diez/cli-core';
+import {Log, socketTrap} from '@diez/cli-core';
 import {watch} from 'chokidar';
 import cors from 'cors';
 import debounce from 'debounce';
@@ -51,14 +51,14 @@ export const serveHot = async (
   const watcher = watch(hotExtractMutex, {persistent: true});
 
   const debouncedReload = debounce(() => {
-    info('Reloading assets...');
+    Log.info('Reloading assets...');
     hotMiddleware.publish({reload: true});
   }, 500);
 
   watcher.on('add', () => {
     const assetPort = Number(readFileSync(hotExtractMutex));
     const socket = createConnection(assetPort, '0.0.0.0', () => {
-      info(`Receiving hot assets on port ${assetPort}.`);
+      Log.info(`Receiving hot assets on port ${assetPort}.`);
     });
 
     socket.setEncoding('utf8');
@@ -85,7 +85,7 @@ export const serveHot = async (
 
     if (lastHash !== hash) {
       const buildTime = endTime - program.hotBuildStartTime;
-      info(`Built in ${buildTime}ms.`);
+      Log.info(`Built in ${buildTime}ms.`);
       if (process.send) {
         process.send('built');
       }
@@ -102,6 +102,6 @@ export const serveHot = async (
 
   // TODO: get an open port programatically.
   app.listen(port, () => {
-    info(`Serving hot on port ${port}.`);
+    Log.info(`Serving hot on port ${port}.`);
   });
 };

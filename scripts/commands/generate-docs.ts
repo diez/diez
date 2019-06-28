@@ -1,4 +1,3 @@
-import {fatalError} from '@diez/cli-core';
 import glob from 'glob';
 import {dirname, join, relative} from 'path';
 import {Project} from 'ts-morph';
@@ -17,7 +16,7 @@ export = {
     assertNotWatching();
     const gitChanges = runQuiet('git diff packages');
     if (gitChanges) {
-      fatalError('Found untracked Git changes in packages/. Stash them before generating docs.');
+      throw new Error('Found untracked Git changes in packages/. Stash them before generating docs.');
     }
 
     const project = new Project();
