@@ -10,7 +10,7 @@
     "build-android": "diez compile -t android",
     "run-android": "yarn build-android && diez hot -t android",
     "build-web": "diez compile -t web --js",
-    "run-web": "yarn build-web && diez hot -t web --js"
+    "run-web": "yarn build-web && diez hot -t web"
   },
   "dependencies": {
     "@diez/engine": "^10.0.0-beta.0",

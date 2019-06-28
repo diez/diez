@@ -484,7 +484,7 @@ export abstract class TargetCompiler<
   /**
    * The root where we should serve static content in hot mode.
    */
-  protected get hotStaticRoot () {
+  private get hotStaticRoot () {
     return join(this.program.projectRoot, '.diez', `${this.program.options.target}-assets`);
   }
 
@@ -516,7 +516,7 @@ export abstract class TargetCompiler<
   /**
    * Writes the transpiled SDK to disk.
    */
-  abstract async writeSdk (): Promise<void>;
+  abstract async writeSdk (): Promise<void | void[]>;
 
   constructor (readonly program: CompilerProgram) {
     const projectName = inferProjectName(program.projectRoot);

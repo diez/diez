@@ -49,7 +49,7 @@ The Diez compiler can compile your design system in two modes: normal and hot.
 To start your development server you can run:
 
 ```
-$ diez hot -t web --js
+$ diez hot -t web
 ```
 
 ### Build flow

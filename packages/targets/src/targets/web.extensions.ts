@@ -2,7 +2,7 @@ import {CliCommandExtension} from '@diez/cli-core';
 import {onlyTarget} from '../utils';
 
 const extension: CliCommandExtension = {
-  names: ['compile', 'hot'],
+  names: ['compile'],
   options: [
     {
       longName: 'js',

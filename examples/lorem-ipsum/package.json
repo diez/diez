@@ -20,7 +20,7 @@
     "build-ios": "diez compile -t ios --cocoapods",
     "run-ios": "diez hot -t ios",
     "build-web": "diez compile -t web --js",
-    "run-web": "diez hot -t web --js",
+    "run-web": "diez hot -t web",
     "start": "node ./scripts/start",
     "demo": "node ./scripts/demo"
   }

@@ -49,9 +49,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   protected async validateOptions () {
     if (
       !this.program.hot &&
-      !this.program.options.js &&
-      !this.program.options.css &&
-      !this.program.options.scss
+      !(this.program.options.js || this.program.options.css || this.program.options.scss)
     ) {
       throw new Error(
         'You must specify one or more output type.' +
@@ -256,12 +254,15 @@ new Diez(${component}).attach((component) => {
    * @abstract
    */
   async writeSdk () {
-    if (this.program.options.js) {
-      await this.writeJsSdk();
-    }
+    // We must wait for this call because it may modify `this.output`
+    await this.writeJsSdk();
 
-    await this.writeBaseSdk();
-    await this.writeAssets();
+    return Promise.all([
+      this.writeStyleSdk(StyleOutputs.scss),
+      this.writeStyleSdk(StyleOutputs.css),
+      this.writeBaseSdk(),
+      this.writeAssets(),
+    ]);
   }
 
   async writeBaseSdk () {
@@ -275,6 +276,10 @@ new Diez(${component}).attach((component) => {
   }
 
   async writeStyleSdk (lang: StyleOutputs) {
+    if (!this.program.options[lang]) {
+      return;
+    }
+
     const numberVariables = new Set<string>();
     for (const [componentName, component] of this.output.processedComponents) {
       for (const [propertyName, property] of Object.entries(component.spec.properties)) {
@@ -304,6 +309,10 @@ new Diez(${component}).attach((component) => {
   }
 
   async writeJsSdk () {
+    if (!this.program.options.js) {
+      return;
+    }
+
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -357,26 +366,6 @@ new Diez(${component}).attach((component) => {
     };
 
     return outputTemplatePackage(join(coreWeb, 'js', 'sdk'), this.output.sdkRoot, tokens);
-  }
-
-  get hotStaticRoot () {
-    if (this.program.options.css || this.program.options.scss) {
-      return this.staticRoot;
-    }
-
-    return super.hotStaticRoot;
-  }
-
-  async writeAssets () {
-    if (this.program.options.css) {
-      await this.writeStyleSdk(StyleOutputs.css);
-    }
-
-    if (this.program.options.scss) {
-      await this.writeStyleSdk(StyleOutputs.scss);
-    }
-
-    super.writeAssets();
   }
 }
 
