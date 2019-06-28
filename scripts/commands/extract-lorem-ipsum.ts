@@ -53,7 +53,11 @@ const populateTemplateMapForCasedName = (name: string, map: Map<string, string>)
   map.set(dotCase(name), '{{nameDotCase}}');
 };
 
-const removeGitIgnoredFiles = async (directory: string) => {
+const removeUnwantedFiles = (directory: string) => {
+  removeSync(join(directory, exampleProject, 'scripts', 'build-ios-ci.sh'));
+};
+
+const removeGitIgnoredFiles = (directory: string) => {
   runQuiet('git init', directory);
   runQuiet('git add .', directory);
   runQuiet('git commit -m "Initial commit."', directory);
@@ -81,7 +85,8 @@ export = {
 
     Log.info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
     await copy(loremIpsumRoot, join(swapDestination, exampleProject));
-    await removeGitIgnoredFiles(swapDestination);
+    removeUnwantedFiles(swapDestination);
+    removeGitIgnoredFiles(swapDestination);
 
     const replacements = new Map([
       ['{{', '{{{openTag}}}'],

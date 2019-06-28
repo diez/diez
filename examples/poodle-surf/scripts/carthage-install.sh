@@ -9,7 +9,7 @@ popd
 
 LOCAL_REPO=$(pwd -P)/build/diez-poodle-surf-ios
 
-pushd ios-objc
+pushd examples/ios-objc
   echo "git \"file://${LOCAL_REPO}\" \"master\"" > "Cartfile"
   carthage update --cache-builds --platform ios
 popd

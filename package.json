@@ -5,7 +5,6 @@
     "packages/*",
     "clis/*",
     "examples/*",
-    "examples/*/web",
     "examples/*/*/web",
     "services/*"
   ],

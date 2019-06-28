@@ -4,13 +4,13 @@ const {join} = require('path');
 const {DefinePlugin} = require('webpack');
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 
-const hotFilePath = join(__dirname, '..', '.diez', 'web-hot-url');
+const hotFilePath = join(__dirname, '..', '..', '.diez', 'web-hot-url');
 
 module.exports = function override(config, env) {
   if (env === 'production' || !existsSync(hotFilePath)) {
     config.plugins.push(
       new CopyWebpackPlugin([{
-        from: join(__dirname, '..', 'build', 'diez-poodle-surf-web', 'static'),
+        from: join(__dirname, '..', '..', 'build', 'diez-poodle-surf-web', 'static'),
         to: join(__dirname, 'public', 'diez'),
       }]),
       new WriteFileWebpackPlugin(),

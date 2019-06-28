@@ -6,7 +6,7 @@
     "@types/jest": "24.0.11",
     "@types/react": "16.8.14",
     "@types/react-dom": "16.8.4",
-    "diez-poodle-surf": "link:../build/diez-poodle-surf-web",
+    "diez-poodle-surf": "link:../../build/diez-poodle-surf-web",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0"

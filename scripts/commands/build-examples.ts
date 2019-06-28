@@ -1,6 +1,6 @@
 /* tslint:disable:max-line-length */
 import {Log} from '@diez/cli-core';
-import {readJSONSync} from 'fs-extra';
+import {existsSync} from 'fs-extra';
 import glob from 'glob';
 import {basename, join, resolve} from 'path';
 import {root, run} from '../internal/helpers';
@@ -10,7 +10,7 @@ interface Flags {
 }
 
 const buildAndroid = () => {
-  glob(join(root, 'examples', '*', '{android,android-java}'), (_, matches) => {
+  glob(join(root, 'examples', '*', 'examples', '{android,android-java}'), (_, matches) => {
     for (const androidRoot of matches) {
       const diezRoot = resolve(androidRoot, '..');
       Log.info(`Building for Android: ${basename(diezRoot)}`);
@@ -24,18 +24,19 @@ const buildIos = () => {
   glob(join(root, 'examples', '*'), (_, matches) => {
     for (const diezRoot of matches) {
       Log.info(`Building for iOS: ${basename(diezRoot)}`);
-      const packageJson = readJSONSync(join(diezRoot, 'package.json'), {throws: false});
-      if (!packageJson || !packageJson.scripts || !packageJson.scripts['build-ios-ci']) {
+      const scriptPath = join('scripts', 'build-ios-ci.sh');
+      const script = existsSync(join(diezRoot, scriptPath));
+      if (!script) {
         Log.info(`Skipping ${basename(diezRoot)} because no build-ios-ci script was provided.`);
         continue;
       }
-      run('yarn build-ios-ci', diezRoot);
+      run(`./${scriptPath}`, diezRoot);
     }
   });
 };
 
 const buildWeb = () => {
-  glob(join(root, 'examples', '*', 'web'), (_, matches) => {
+  glob(join(root, 'examples', '*', 'examples', 'web'), (_, matches) => {
     for (const webRoot of matches) {
       const diezRoot = resolve(webRoot, '..');
       Log.info(`Building for web: ${basename(diezRoot)}`);
