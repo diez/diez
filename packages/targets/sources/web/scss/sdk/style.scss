@@ -1,18 +1,24 @@
 {{#each styleFonts as |fontDeclaration|}}
 @font-face {
-  {{#each fontDeclaration.[1]}}
+  {{#each fontDeclaration}}
   {{this.[0]}}: {{{this.[1]}}};
   {{/each}}
 }
-
 {{/each}}
+
 {{#each styleVariables}}
-${{this.[0]}}: {{{this.[1]}}};
+${{this.name}}: {{{this.value}}};
+{{#if this.isNumber}}
+${{this.name}}-px: #{$ {{~this.name~}} }px;
+${{this.name}}-pt: #{$ {{~this.name~}} }pt;
+${{this.name}}-em: #{$ {{~this.name~}} }em;
+${{this.name}}-rem: #{$ {{~this.name~}} }rem;
+{{/if}}
 {{/each}}
 
-{{#each styleRuleGroups as |groups|}}
-@mixin {{groups.[0]}} {
-  {{#each groups.[1]}}
+{{#each styleRuleGroups as |group|}}
+@mixin {{group.name}} {
+  {{#each group.values}}
   {{this.[0]}}: {{{this.[1]}}};
   {{/each}}
 }

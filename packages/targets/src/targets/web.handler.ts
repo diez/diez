@@ -275,18 +275,29 @@ new Diez(${component}).attach((component) => {
   }
 
   async writeStyleSdk (lang: StyleOutputs) {
+    const numberVariables = new Set<string>();
     for (const [componentName, component] of this.output.processedComponents) {
       for (const [propertyName, property] of Object.entries(component.spec.properties)) {
-        if (['number', 'string', 'boolean'].includes(property.type.toString()) && !component.binding) {
-          this.output.styles.variables.set(joinToKebabCase(componentName, propertyName), property.initializer);
+        const propertyType = property.type.toString();
+        if (['number', 'string', 'boolean'].includes(propertyType) && !component.binding) {
+          const variableName = joinToKebabCase(componentName, propertyName);
+          this.output.styles.variables.set(variableName, property.initializer);
+
+          if (propertyType === 'number') {
+            numberVariables.add(variableName);
+          }
         }
       }
     }
 
     const tokens = {
-      styleVariables: Array.from(this.output.styles.variables),
-      styleRuleGroups: Array.from(this.output.styles.ruleGroups).map(([key, val]) => [key, Array.from(val)]),
-      styleFonts: Array.from(this.output.styles.fonts).map(([key, val]) => [key, Array.from(val)]),
+      styleVariables: Array.from(this.output.styles.variables).map(([name, value]) => {
+        return {name, value, isNumber: numberVariables.has(name)};
+      }),
+      styleRuleGroups: Array.from(this.output.styles.ruleGroups).map(([name, values]) => {
+        return {name, values: Array.from(values)};
+      }),
+      styleFonts: Array.from(this.output.styles.fonts).map(([key, val]) => Array.from(val)),
     };
 
     return outputTemplatePackage(join(coreWeb, lang, 'sdk'), this.output.sdkRoot, tokens);
@@ -349,7 +360,7 @@ new Diez(${component}).attach((component) => {
   }
 
   get hotStaticRoot () {
-    if (this.program.options.css || this.program.options.css) {
+    if (this.program.options.css || this.program.options.scss) {
       return this.staticRoot;
     }
 

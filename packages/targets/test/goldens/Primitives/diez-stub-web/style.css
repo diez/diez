@@ -1,9 +1,25 @@
 
 :root {
   --child-component-diez: 10;
+  --child-component-diez-px: 10px;
+  --child-component-diez-pt: 10pt;
+  --child-component-diez-em: 10em;
+  --child-component-diez-rem: 10rem;
   --primitives-number: 10;
+  --primitives-number-px: 10px;
+  --primitives-number-pt: 10pt;
+  --primitives-number-em: 10em;
+  --primitives-number-rem: 10rem;
   --primitives-integer: 10;
+  --primitives-integer-px: 10px;
+  --primitives-integer-pt: 10pt;
+  --primitives-integer-em: 10em;
+  --primitives-integer-rem: 10rem;
   --primitives-float: 10;
+  --primitives-float-px: 10px;
+  --primitives-float-pt: 10pt;
+  --primitives-float-em: 10em;
+  --primitives-float-rem: 10rem;
   --primitives-string: "ten";
   --primitives-boolean: true;
 }
