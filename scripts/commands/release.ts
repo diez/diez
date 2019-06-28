@@ -1,7 +1,7 @@
 import {diezVersion} from '@diez/cli-core';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
-import {gte, valid} from 'semver';
+import {gte, parse, valid} from 'semver';
 import {root, run, runQuiet, siteRoot} from '../internal/helpers';
 
 export = {
@@ -53,9 +53,28 @@ export = {
     const versionsPath = join(siteRoot, 'docs', '.vuepress', 'theme', 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {
-      versions[0] = {version: versions[0].version, name: versions[0].version};
+      const lastVersionParsed = parse(versions[0].version);
+      const versionParsed = parse(version);
+      if (!lastVersionParsed || !versionParsed) {
+        throw new Error('Unable to parse semantic versions.');
+      }
+      if (
+        lastVersionParsed.major === versionParsed.major &&
+        lastVersionParsed.minor === versionParsed.minor
+      ) {
+        // According to the rules of semantic versioning, we will only have bugfixes here, and can safely overwrite the
+        // old version.
+        versions[0] = {version, name: `latest (${version})`};
+      } else {
+        // Either the major or minor versions has changed, so we should shift the new version to the top of the stack.
+        versions[0] = {version: lastVersionParsed.version, name: lastVersionParsed.version};
+        versions.unshift({version, name: `latest (${version})`});
+      }
+    } else {
+      // We're setting a new version for the first time.
+      versions.push({version, name: `latest (${version})`});
     }
-    versions.unshift({version, name: `latest (${version})`});
+
     writeJsonSync(versionsPath, versions, {spaces: 2});
 
     // Manually bump the monorepo package.json version of `diez`.

@@ -10,9 +10,17 @@ declare module 'fs-walk' {
 }
 
 declare module 'semver' {
+  interface Semver {
+    major: number;
+    minor: number;
+    patch: number;
+    version: string;
+  }
+
   export function gt(a: string, b: string): boolean;
   export function gte(a: string, b: string): boolean;
   export function valid(a: any): string | null;
+  export function parse(a: any): Semver | null;
 }
 
 declare module 'typed-errors' {

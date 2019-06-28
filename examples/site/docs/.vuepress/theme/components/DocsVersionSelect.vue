@@ -1,6 +1,6 @@
 <template>
   <div class="version-select">
-    <select @change="versionChanged">
+    <select @change="versionChanged" :disabled="versionHistory.length < 2">
       <option
         v-for="version in versionHistory"
         :value="version.name.includes('latest') ? 'latest' : version.version"
