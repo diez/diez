@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 import chalk from 'chalk';
-import {clearLine} from 'readline';
+import {clearLine, cursorTo} from 'readline';
+
+const green = chalk.rgb(60, 221, 117);
 
 /**
  * Reports a fatal error and exits.
@@ -16,25 +18,35 @@ export const fatalError = (message: string): never => {
  * Logs a success message and exits.
  */
 export const success = (message: string): never => {
-  console.log(chalk.green(message));
+  console.log(green(message));
   return process.exit(0);
 };
+
+/**
+ * Returns an info message.
+ */
+export const inlineInfo = (message: string) => chalk.rgb(30, 197, 248)(message);
 
 /**
  * Logs an info message.
  */
 export const info = (message: string) => {
-  console.log(chalk.blue(message));
+  console.log(inlineInfo(message));
 };
 
 const warnings = new Set<string>();
+
+/**
+ * Returns a warning message.
+ */
+export const inlineWarning = (message: string) => chalk.rgb(246, 229, 0)(message);
 
 /**
  * Logs a warning message.
  */
 export const warning = (message: string) => {
   warnings.add(message);
-  console.log(chalk.yellow(message));
+  console.log(inlineWarning(message));
 };
 
 /**
@@ -47,21 +59,28 @@ export const warningOnce = (message: string) => {
 };
 
 /**
- * Returns an inline code snippet.
+ * Returns an inline comment.
  */
-export const inlineCodeSnippet = (message: string) => chalk.green(message);
+export const inlineComment = (message: string) => chalk.rgb(216, 60, 221)(message);
 
 /**
- * Logs an inline comment.
+ * Logs a comment.
  */
-export const inlineComment = (message: string) => chalk.hex('#5623ee')(message);
+export const comment = (message: string) => console.log(inlineComment(message));
+
+/**
+ * Returns an inline code snippet.
+ *
+ * TODO: rename this to `inlineCode`.
+ */
+export const inlineCodeSnippet = (message: string) => chalk.rgb(60, 221, 117)(message);
 
 /**
  * Logs a code snippet.
  */
 export const code = (message: string) => {
   console.log(
-    `\n${chalk.green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n'))}`,
+    `\n${green(message.split('\n').map((line) => `    ${inlineCodeSnippet(line)}`).join('\n'))}`,
   );
 };
 
@@ -73,16 +92,19 @@ export const loadingMessage = (message: string) => {
   let displayMessage = message;
   let i = 0;
   const interval = setInterval(() => {
-    clearLine(process.stdout, 0);
     process.stdout.write(`${ticks[i++ % 10]} ${displayMessage}\r`);
   }, 30);
 
   return {
     update (newMessage: string) {
+      cursorTo(process.stdout, 0);
+      clearLine(process.stdout, 0);
       displayMessage = newMessage;
     },
     stop () {
       clearInterval(interval);
+      cursorTo(process.stdout, 0);
+      clearLine(process.stdout, 0);
     },
   };
 };

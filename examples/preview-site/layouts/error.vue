@@ -3,7 +3,7 @@
     <div class="holster" v-if="error.statusCode === 404">
       <img src="@/assets/imgs/404.svg" alt="404-lamp-illo">
       <h3 style="font-style:italic;">“Deep into that darkness peering, long I stood there, wondering, fearing, doubting, dreaming dreams no mortal ever dared to dream before.”</h3>
-      <NuxtLink class="button" to="/">…Get me out of here</NuxtLink>
+      <NuxtLink class="button" to="/">...Get me out of here</NuxtLink>
     </div>
     <div v-else>
       <h1 >An error occurred</h1>

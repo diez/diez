@@ -68,17 +68,17 @@ describe('asset binding', () => {
     ensureFileSync(join(compiler.program.projectRoot, 'assets', 'CorrectName.ttf'));
     const namedFont = Font.fromFile('assets/CorrectName.ttf', '');
 
-    // We should throw with no name…
+    // We should throw with no name...
     await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
-    // …and with the wrong name…
+    // ...and with the wrong name...
     mockFontLoader.mockImplementationOnce(() => ({postscriptName: 'WrongName'}));
     namedFont.name = 'CorrectName';
     await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
-    // …and resolve with the correct name.
+    // ...and resolve with the correct name.
     mockFontLoader.mockImplementationOnce(() => ({postscriptName: 'CorrectName'}));
     await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
       .resolves.toBeUndefined();

@@ -3,7 +3,7 @@
     <div class="holster">
       <img src="../assets/imgs/404.svg" alt="404-lamp-illo">
       <h3 style="font-style:italic;">“Deep into that darkness peering, long I stood there, wondering, fearing, doubting, dreaming dreams no mortal ever dared to dream before.”</h3>
-      <router-link class="button" to="/">…Get me out of here</router-link>
+      <router-link class="button" to="/">...Get me out of here</router-link>
     </div>
   </div>
 </template>

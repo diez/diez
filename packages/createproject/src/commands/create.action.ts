@@ -11,13 +11,17 @@ import {createProject} from '../utils';
 
 interface Answers {
   projectName: string;
-  createExamples: string;
 }
 
-export = async (_: {}, projectName: string) => {
+interface CreateOptions {
+  bare: boolean;
+}
+
+export = async ({bare}: CreateOptions, projectNameIn: string) => {
   // This array is typed as `any[]` because enquirer's TypeScript definitions aren't quite correct.
   // @see {@link https://github.com/enquirer/enquirer/pull/82}
   const questions: any[] = [];
+  let projectName = projectNameIn;
 
   if (!projectName) {
     questions.push({
@@ -26,45 +30,13 @@ export = async (_: {}, projectName: string) => {
       required: true,
       message: 'Enter the name for your Diez project. A directory will be created if it does not already exist.',
     });
+
+    const answers = await prompt<Answers>(questions);
+    projectName = answers.projectName;
   }
 
-  questions.push({
-    type: 'select',
-    name: 'createExamples',
-    message: 'Create example codebases for Android, iOS, and Web? Select with arrow keys and submit with Enter.',
-    choices: [
-      {message: 'Yes'},
-      {message: 'No'},
-      {message: 'Let me choose'},
-    ],
-  });
-
-  const answers = await prompt<Answers>(questions);
-  const examples = [];
-  switch (answers.createExamples) {
-    case 'Yes':
-      examples.push('android', 'ios', 'web');
-      break;
-    case 'No':
-      break;
-    default:
-      const choiceAnswers = await prompt<{createExamples: string[]}>({
-        type: 'multiselect',
-        name: 'createExamples',
-        message:
-          'Selected example codebases will be created. Select with arrow keys, toggle with space bar, and submit with Enter.',
-        choices: [
-          {name: 'Android'},
-          {name: 'iOS'},
-          {name: 'Web'},
-        ],
-      });
-      examples.push(...choiceAnswers.createExamples.map((choice) => choice.toLowerCase()));
-      break;
-  }
-
-  createProject(
-    kebabCase(projectName || answers.projectName),
-    examples,
+  return createProject(
+    kebabCase(projectName),
+    bare,
   );
 };

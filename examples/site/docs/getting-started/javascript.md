@@ -13,7 +13,7 @@ In the template project, you'll find a sample Diez project defined for you in `s
 From your Diez project root, run the following command to compile your Diez project's JavaScript SDK and serve it in hot mode.
 
 ```bash
-yarn start-web
+yarn start web
 ```
 <div class="note">Note that it's also possible to separate these commands into <code class="inline">yarn build-web</code> and <code class="inline">yarn run-web</code>.</div>
 

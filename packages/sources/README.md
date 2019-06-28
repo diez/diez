@@ -10,8 +10,8 @@ Extraction as a service is provided via the CLI command `diez extract` for any D
 {
   "designs": {
     "services": [
-      "https://projects.invisionapp.com/dsm-export/…",
-      "https://www.figma.com/file/…",
+      "https://projects.invisionapp.com/dsm-export/...",
+      "https://www.figma.com/file/...",
       ...
     ]
   }
@@ -28,7 +28,7 @@ If desired, these directories can be customized using `.diezrc`:
     "sources": "./my-designs",
     "assets": "./my-assets",
     "code": "./src/my-designs",
-    "services": […]
+    "services": [...]
   }
 }
 ```

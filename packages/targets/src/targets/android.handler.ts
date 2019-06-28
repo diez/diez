@@ -225,15 +225,15 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
 
     code(`import ${this.output.packageName}.*
 
-class MainActivity … {
-  override fun onCreate(…) {
-    // …
+class MainActivity ... {
+  override fun onCreate(...) {
+    // ...
     Diez(
       ${component}(),
       viewGroup
     ).attach(fun(component) {
       runOnUiThread {
-          // …
+          // ...
       }
     })
   }

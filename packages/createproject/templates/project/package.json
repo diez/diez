@@ -3,16 +3,9 @@
   "main": "lib/index.js",
   "version": "1.0.0",
   "scripts": {
-    {{#if android}}"build-android": "diez compile -t android",
-    "run-android": "diez hot -t android",
-    "start-android": "./scripts/start-android",
-    {{/if}}{{#if ios}}"build-ios": "diez compile -t ios --cocoapods",
-    "run-ios": "diez hot -t ios",
-    "start-ios": "./scripts/start-ios",
-    {{/if}}{{#if web}}"build-web": "diez compile -t web --js",
-    "run-web": "diez hot -t web --js",
-    "start-web": "./scripts/start-web",
-    {{/if}}"extract": "diez extract"
+    "compile": "diez compile",
+    "hot": "diez hot",
+    "extract": "diez extract"
   },
   "dependencies": {
     "@diez/engine": "^{{diezVersion}}",

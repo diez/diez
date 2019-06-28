@@ -30,7 +30,7 @@ import {x} from 'tar';
 import validateNpmPackageName from 'validate-npm-package-name';
 import {initializeGitRepository} from './utils.git';
 
-const examplesBaseUrl = `https://examples.diez.org/${diezVersion}/createproject/`;
+const examplesProjectUrl = `https://examples.diez.org/${diezVersion}/createproject/project.tgz`;
 
 /**
  * Validates that a package name is valid and nonconflicting.
@@ -121,23 +121,11 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
   }
 };
 
-const downloadAssets = async (cwd: string) => {
-  info('Downloading assets from the Diez CDN...');
-  const stream = await downloadStream(`${examplesBaseUrl}assets.tgz`);
+const downloadAndExtractProject = async (templateRoot: string) => {
+  info('Downloading template project from the Diez CDN...');
+  const stream = await downloadStream(examplesProjectUrl);
   if (!stream) {
-    throw new Error('Unable to download example assets from examples.diez.org. Please try again.');
-  }
-
-  stream.pipe(x({cwd}));
-  return;
-};
-
-const downloadAndExtractExample = async (templateRoot: string, target: string) => {
-  info(`Downloading example project from the Diez CDN for target: ${target}...`);
-  const stream = await downloadStream(`${examplesBaseUrl}examples/${target}.tgz`);
-  if (!stream) {
-    warning(`Unable to download ${target} example project from examples.diez.org. Please try again.`);
-    return;
+    throw new Error('Unable to download template project from examples.diez.org. Please try again.');
   }
 
   const writeStream = x({cwd: templateRoot});
@@ -146,16 +134,10 @@ const downloadAndExtractExample = async (templateRoot: string, target: string) =
   return new Promise((onComplete) => writeStream.on('close', onComplete));
 };
 
-const populateExamples = async (cwd: string, name: string, targets: string[]) => {
-  if (targets.length === 0) {
-    return;
-  }
-
+const createTemplateProject = async (cwd: string, name: string) => {
   const templateRoot = resolve(getTempFileName(), 'examples');
   ensureDirSync(templateRoot);
-
-  const downloads = targets.map((target) => downloadAndExtractExample(templateRoot, target));
-  await Promise.all(downloads);
+  await downloadAndExtractProject(templateRoot);
 
   const pascalCased = pascalCase(name);
   const lowerCased = lowerCase(pascalCased);
@@ -174,82 +156,70 @@ const populateExamples = async (cwd: string, name: string, targets: string[]) =>
     nameDotCase: dotCase(name),
   };
 
-  const destination = join(cwd, 'examples');
-  ensureDirSync(destination);
-
-  return outputTemplatePackage(templateRoot, destination, tokens);
-};
-
-const copyTemplate = async (templateRoot: string, root: string, tokens: {}, useYarn: boolean) => {
-  const message = loadingMessage('Generating template project...');
-  await outputTemplatePackage(templateRoot, root, tokens);
-  message.update('Installing packages. This might take a couple of minutes.');
-  await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
-  message.stop();
-  return;
+  return outputTemplatePackage(templateRoot, cwd, tokens);
 };
 
 /**
  * Creates a project with the given name in the specified current working directory.
  * @ignore
  */
-export const createProject = async (packageName: string, targets: string[], cwd = process.cwd()) => {
+export const createProject = async (packageName: string, bare: boolean, cwd = process.cwd()) => {
   validatePackageName(packageName);
 
   const useYarn = await shouldUseYarn();
   const root = resolve(cwd, basename(packageName));
   await validateProjectRoot(root, useYarn);
 
-  const templateRoot = resolve(__dirname, '..', 'templates');
-  const tokens = {
-    packageName,
-    diezVersion,
-    typescriptVersion: devDependencies.typescript,
-    componentName: pascalCase(basename(packageName)),
-    ios: targets.includes('ios'),
-    android: targets.includes('android'),
-    web: targets.includes('web'),
-  };
-
-  ensureDirSync(root);
-  await copyTemplate(join(templateRoot, 'project'), root, tokens, useYarn);
-
-  const commands: Promise<any>[] = [
-    downloadAssets(root),
-    populateExamples(root, packageName, targets),
-  ];
-
-  await Promise.all(commands);
-
-  await initializeGitRepository(root)
-    .then(() => info('Initialized a git repository.'))
-    .catch(() => {
-      // Ignore errors.
-      return;
-    });
-
-  info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.`);
-  info('In that directory, you can run commands like:');
-  const target = targets[0];
-  if (target) {
-    info(`
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} build-${target}`)}
-    Compiles your Diez project with ${inlineComment(`diez compile -t ${target}`)}.
-
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} run-${target}`)}
-    Starts a hot server for your Diez project with ${inlineComment(`diez hot -t ${target}`)}.
-
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} start-${target}`)}
-    Compiles, installs, and starts a hot server targeting ${inlineComment(target)} for your Diez project.`);
+  if (bare) {
+    const tokens = {
+      packageName,
+      diezVersion,
+      typescriptVersion: devDependencies.typescript,
+      componentName: pascalCase(basename(packageName)),
+    };
+    await outputTemplatePackage(
+      resolve(__dirname, '..', 'templates', 'project'), root, tokens);
   } else {
-    info(`
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez compile -t web --js`)}
-    Compiles your Diez project with for the ${inlineComment('web')} target.
-
-  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez hot -t web --js`)}
-    Starts a hot server for your Diez project with the ${inlineComment('web')} target.`);
+    try {
+      await createTemplateProject(cwd, packageName);
+    } catch (error) {
+      warning('Unable to download template project from the Diez CDN.');
+      warning(`If you would like to generate an empty project, you can re-run this command with ${inlineCodeSnippet('--bare')}.`);
+      throw error;
+    }
   }
 
-  info('\nCheck out https://beta.diez.org/getting-started to learn more.');
-  info(`Run ${inlineCodeSnippet(`cd ${relative(cwd, root)}`)} to get started.`);
+  const message = loadingMessage('Installing dependencies. This might take a couple of minutes.');
+  try {
+    await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
+  } catch (error) {
+    warning('Unable to install dependencies. Are you connected to the Internet?');
+    warning(`You may need to run ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm'} install`)} before ${inlineCodeSnippet('diez')} commands will work.`);
+  }
+
+  message.stop();
+
+  try {
+    await initializeGitRepository(root);
+    info(`Initialized a Git repository at ${root}`);
+  } catch (error) {
+    // Ignore errors.
+  }
+
+  info(`Success! A new Diez (DS) has been created at ${inlineComment(root)}.
+`);
+  info(`In that directory, the ${inlineCodeSnippet('diez')} command line utility can be invoked using:
+  ${inlineCodeSnippet(`${useYarn ? 'yarn' : 'npm run'} diez`)}
+`);
+  if (bare) {
+    info(`To see a list of available commands, you can run:
+  ${inlineCodeSnippet(`cd ${relative(cwd, root)}
+  ${useYarn ? 'yarn' : 'npm run'} diez --help`)}`);
+  } else {
+    info(`To get started, we suggest running:
+  ${inlineCodeSnippet(`cd ${relative(cwd, root)}
+  ${useYarn ? 'yarn' : 'npm run'} demo`)}
+`);
+    info('Check out https://beta.diez.org/getting-started to learn more.');
+  }
 };

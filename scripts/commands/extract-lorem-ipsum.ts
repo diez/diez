@@ -12,30 +12,30 @@ import {
   snakeCase,
   titleCase,
 } from 'change-case';
-import {copy, ensureDirSync, existsSync, readdirSync, readFileSync, readlinkSync, removeSync, symlinkSync, writeFileSync} from 'fs-extra';
+import {copy, ensureDirSync, existsSync, readFileSync, readlinkSync, removeSync, symlinkSync, writeFileSync} from 'fs-extra';
 import {isBinarySync} from 'istextorbinary';
 import klaw from 'klaw';
 import {dirname, join, relative} from 'path';
 import {c} from 'tar';
 import {replaceOccurrencesInString, root, run, runQuiet} from '../internal/helpers';
 
-const uploadTargetExamples = async (containingDirectory: string, effectiveVersion: string) => {
-  for (const directory of readdirSync(containingDirectory)) {
-    const archiveName = `${directory}.tgz`;
-    await c(
-      {
-        cwd: containingDirectory,
-        gzip: true,
-        file: join(containingDirectory, archiveName),
-      },
-      [directory],
-    );
+const exampleProject = 'lorem-ipsum';
 
-    run(
-      `aws s3 cp ${archiveName} s3://diez-examples/${effectiveVersion}/createproject/examples/${archiveName}`,
-      containingDirectory,
-    );
-  }
+const uploadTemplateExamples = async (containingDirectory: string, effectiveVersion: string) => {
+  const archiveName = 'project.tgz';
+  await c(
+    {
+      cwd: containingDirectory,
+      gzip: true,
+      file: join(containingDirectory, archiveName),
+    },
+    ['{{nameKebabCase}}'],
+  );
+
+  run(
+    `aws s3 cp ${archiveName} s3://diez-examples/${effectiveVersion}/createproject/${archiveName}`,
+    containingDirectory,
+  );
 };
 
 const populateTemplateMapForCasedName = (name: string, map: Map<string, string>) => {
@@ -67,33 +67,27 @@ interface ExtractLoremIpsumOptions {
 
 export = {
   name: 'extract-lorem-ipsum',
-  description: 'Extracts templatized target examples from the lorem-ipsum example.',
+  description: 'Extracts a templatized diez create project from the lorem-ipsum example.',
   loadAction: () => async ({currentVersion}: ExtractLoremIpsumOptions) => {
     const effectiveVersion = currentVersion || diezVersion;
-    const loremIpsumRoot = join(root, 'examples', 'lorem-ipsum');
-    const exampleLocation = join(loremIpsumRoot, 'examples');
-    if (!existsSync(exampleLocation)) {
-      throw new Error(`Unable to location source example project in ${exampleLocation}. Aborting.`);
-    }
-
-    const examplesGitDirectory = join(exampleLocation, '.git');
-    if (existsSync(examplesGitDirectory)) {
-      throw new Error(`${examplesGitDirectory} exists. Aborting.`);
+    const loremIpsumRoot = join(root, 'examples', exampleProject);
+    if (!existsSync(loremIpsumRoot)) {
+      throw new Error(`Unable to locate source project at ${loremIpsumRoot}. Aborting.`);
     }
 
     const swapDestination = getTempFileName();
     const archiveDestination = getTempFileName();
     ensureDirSync(swapDestination);
 
-    info(`Generating template using ${exampleLocation} to ${archiveDestination} via ${swapDestination}...`);
-    await copy(exampleLocation, swapDestination);
+    info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
+    await copy(loremIpsumRoot, join(swapDestination, exampleProject));
     await removeGitIgnoredFiles(swapDestination);
 
     const replacements = new Map([
       ['{{', '{{{openTag}}}'],
       ['}}', '{{{closeTag}}}'],
     ]);
-    populateTemplateMapForCasedName('lorem-ipsum', replacements);
+    populateTemplateMapForCasedName(exampleProject, replacements);
 
     await new Promise((resolve) => klaw(swapDestination, {preserveSymlinks: true})
       .on('data', ({path: originalQualifiedFilename, stats}) => {
@@ -122,21 +116,7 @@ export = {
         writeFileSync(qualifiedFilename, contents);
       }).on('end', resolve));
 
-    await uploadTargetExamples(archiveDestination, effectiveVersion);
-
-    await c(
-      {
-        cwd: loremIpsumRoot,
-        gzip: true,
-        file: join(archiveDestination, 'assets.tgz'),
-      },
-      ['assets'],
-    );
-
-    run(
-      `aws s3 cp assets.tgz s3://diez-examples/${effectiveVersion}/createproject/assets.tgz`,
-      archiveDestination,
-    );
+    await uploadTemplateExamples(archiveDestination, effectiveVersion);
 
     const distributionId = process.env.DIEZ_EXAMPLES_DISTRIBUTION;
     run(`aws cloudfront create-invalidation --distribution-id=${distributionId} --paths "/${effectiveVersion}/*"`);

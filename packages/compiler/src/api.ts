@@ -25,7 +25,7 @@ export interface CompilerOptions {
 }
 
 /**
- * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | …`.
+ * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | ...`.
  *
  * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
  *                primitive type or [[Component]].
@@ -33,7 +33,7 @@ export interface CompilerOptions {
 export interface NestedArray<T> extends Array<T | NestedArray<T>> {}
 
 /**
- * Provides an arbitrarily nested array type with support for 0 or more levels of nesting, i.e. `T | T[] | T[][] | …`.
+ * Provides an arbitrarily nested array type with support for 0 or more levels of nesting, i.e. `T | T[] | T[][] | ...`.
  *
  * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
  *                primitive type or [[Component]].

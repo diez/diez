@@ -3,8 +3,9 @@ import {Component, property} from '@diez/engine';
 import {Margin} from './components/Margin';
 
 /**
- * You can collect anything inside a Diez component. Design tokens labeled with @property will be
- * made available in the SDKs transpiled with Diez. Everything else is purely internal.
+ * You can collect anything inside a Diez component. Design tokens labeled with
+ * @property will be made available in the SDKs transpiled with Diez. Everything
+ * else is purely internal.
  */
 class Palette extends Component {
   private lightener = 0.2;
@@ -16,10 +17,11 @@ class Palette extends Component {
 }
 
 /**
- * Sometimes, it's helpful to keep a copy of a component instance you intend to reuse while defining
- * higher-level components in your design system.
+ * Sometimes, it's helpful to keep a copy of a component instance you intend to
+ * reuse while defining higher-level components in your design system.
  *
- * For example, you can use this instance of the `Palette` component to build your typographs.
+ * For example, you can use this instance of the `Palette` component to build your
+ * typographs.
  */
 const palette = new Palette();
 
@@ -36,8 +38,8 @@ class Colors extends Component {
 const colors = new Colors();
 
 /**
- * All of rich language features of TypeScript are at your disposal; for example, you can define an
- * object to keep track of your fonts.
+ * All of rich language features of TypeScript are at your disposal; for example,
+ * you can define an object to keep track of your fonts.
  */
 const Fonts = {
   SourceSansPro: {
@@ -46,8 +48,8 @@ const Fonts = {
 }
 
 /**
- * Typographs encapsulate type styles with support for a specific font, font size, and color.
- * More typograph properties are coming soon.
+ * Typographs encapsulate type styles with support for a specific font, font size,
+ * and color. More typograph properties are coming soon.
  */
 class Typographs extends Component {
   @property heading1 = new Typograph({
@@ -70,8 +72,9 @@ class Typographs extends Component {
 }
 
 /**
- * In addition to colors and typographs, you can also collect other types of design system
- * primitives in components as well — such as images, icons & animations.
+ * In addition to colors and typographs, you can also collect other types of
+ * design system primitives in components as well — such as images, icons &
+ * animations.
  */
 class Images extends Component {
   @property logo = Image.responsive('assets/logo.png', 52, 48);
@@ -103,7 +106,19 @@ class Strings extends Component {
 }
 
 /**
- * When you `export` a component, it will become available in your SDK.
+ * Note how this component is exported from `index.ts`. Diez compiles these
+ * exported components for your apps' codebases.
+ *
+ * For example:
+ *   - If you run `yarn start web`, Diez will create a Node package called
+ *     `diez-lorem-ipsum-web`. Look for `App.jsx` inside `examples/web` to see
+ *     how you can use Diez in a web codebase.
+ *   - If you run `yarn start ios`, Diez will create a CocoaPods dependency
+ *     called `DiezLoremIpsum`. Look for `ViewController.swift` inside
+ *     `examples/ios` to see how you can use Diez in an iOS codebase.
+ *   - If you run `yarn start android`, Diez will create an Android library.
+ *     Look for `MainActivity.kt` inside `examples/android` to see how you can
+ *     use Diez in an Android codebase.
  */
 export class DesignSystem extends Component {
   @property colors = colors;

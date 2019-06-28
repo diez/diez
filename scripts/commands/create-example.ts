@@ -18,7 +18,7 @@ export = {
       message: 'Enter example project name.',
     })).exampleName;
 
-    await createProject(exampleName, ['android', 'ios', 'web'], join(root, 'examples'));
+    await createProject(exampleName, false, join(root, 'examples'));
     const packageJsonPath = join(root, 'examples', exampleName, 'package.json');
     const packageJson = readJsonSync(packageJsonPath);
     packageJson.private = true;

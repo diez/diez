@@ -85,7 +85,7 @@
           <h3>How does hot updating work?</h3>
         </div>
         <div class="two-thirds answer">
-          <p>Hot updating uses TypeScript's powerful ability to watch, typecheck, and hot-compile a codebase (in the case of Diez, a codebase containing Diez components) to observe and emit changes to your design system, recompile your cross-platform SDKs, and emit changes into your codebase. Under the hood, we are running a hot server based on the popular and powerful ability for web applications to implement “hot module reloading”, which basically means that we can react to and emit changes in real time, even if you're targeting a native codebase.</p>
+          <p>Hot updating uses TypeScript's powerful ability to watch, typecheck, and hot-compile a codebase (in the case of Diez, a codebase containing Diez components) to observe and emit changes to your design system, then emit changes into your codebase. Under the hood, we are running a hot server based on the popular and powerful ability for web applications to implement “hot module reloading”, which basically means that we can react to and emit changes in real time, even if you're targeting a native codebase.</p>
           <p>As a convenience for emitting changes to your design system into a native app while it's still running on your device or simulator, we are using webviews in <router-link to="/glossary#hot-mode">hot mode</router-link>, <em>only</em>. We plan to revise this approach in the future, but it's perfectly suitable for development and “melts away” in production builds.</p>
         </div>
         <div class="one-third question">

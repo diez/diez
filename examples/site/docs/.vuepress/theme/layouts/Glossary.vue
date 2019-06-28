@@ -32,7 +32,7 @@
           <p>For example, the prefab <code class="inline">Color</code> — which is expressed abstractly as hsla — uses <strong>native bindings</strong> to become useful on native targets. (On Android colors are numbers that are represented as integers in the rgba color space; on iOS colors are objects; on Web colors are strings, hexcodes or rgba.)</p>
           <p></p>
           <h3 id="hot-mode">Hot Mode</h3>
-          <p><strong>Hot mode</strong> is an optional feature that uses a hot server to observe and emit changes to your design system, recompile your cross-platform SDKs, and emit changes into your codebase in real time. More details on how it works can be <router-link to="/#hot-mode-explained">found here</router-link>.</p>
+          <p><strong>Hot mode</strong> is an optional feature that uses a hot server to observe and emit changes to your design system, then emit changes into your codebase in real time. More details on how it works can be <router-link to="/#hot-mode-explained">found here</router-link>.</p>
         </div>
       </section>
       <Footer/>

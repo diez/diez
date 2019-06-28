@@ -60,25 +60,25 @@ describe('create project', () => {
       warnings: ['warning'],
     }));
 
-    await expect(createProject('my-project', [], workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('existing project root - file', async () => {
     ensureFileSync(myProjectRoot);
-    await expect(createProject('my-project', [], workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('existing project root - module', async () => {
     ensureFileSync(join(myProjectRoot, 'package.json'));
-    await expect(createProject('my-project', [], workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('asset download failure', async () => {
     downloadStreamMock.mockResolvedValue(null);
-    await expect(createProject('my-project', [], workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
   });
 
-  test('project generation', async () => {
+  test('project generation - non-bare', async () => {
     downloadStreamMock.mockImplementation((path: string) => {
       const stream = new Readable();
       stream._read = () => {};
@@ -87,7 +87,15 @@ describe('create project', () => {
       return stream;
     });
 
-    await createProject('my-project', ['android', 'ios', 'web'], workspaceExamplesRoot);
+    await createProject('my-project', false, workspaceExamplesRoot);
+    expect(downloadStream).toHaveBeenCalledWith(`https://examples.diez.org/${diezVersion}/createproject/project.tgz`);
+
+    expect(mockWriter).toHaveBeenCalledWith('project.tgz contents');
+    expect(x).toHaveBeenCalledWith({cwd: expect.anything()});
+  });
+
+  test('project generation - bare', async () => {
+    await createProject('my-project', true, workspaceExamplesRoot);
     const tsConfigFilePath = join(myProjectRoot, 'tsconfig.json');
     expect(myProjectRoot).toExist();
     expect(tsConfigFilePath).toExist();
@@ -101,19 +109,5 @@ describe('create project', () => {
       .getSymbolOrThrow()
       .getValueDeclarationOrThrow() as ClassDeclaration;
     expect(exportedType.getName()).toBe('DesignSystem');
-    expect(downloadStream).toHaveBeenNthCalledWith(
-      1, `https://examples.diez.org/${diezVersion}/createproject/assets.tgz`);
-    expect(downloadStream).toHaveBeenNthCalledWith(
-      2, `https://examples.diez.org/${diezVersion}/createproject/examples/android.tgz`);
-    expect(downloadStream).toHaveBeenNthCalledWith(
-      3, `https://examples.diez.org/${diezVersion}/createproject/examples/ios.tgz`);
-    expect(downloadStream).toHaveBeenNthCalledWith(
-      4, `https://examples.diez.org/${diezVersion}/createproject/examples/web.tgz`);
-
-    expect(mockWriter).toHaveBeenNthCalledWith(1, 'assets.tgz contents');
-    expect(mockWriter).toHaveBeenNthCalledWith(2, 'android.tgz contents');
-    expect(mockWriter).toHaveBeenNthCalledWith(3, 'ios.tgz contents');
-    expect(mockWriter).toHaveBeenNthCalledWith(4, 'web.tgz contents');
-    expect(x).toHaveBeenCalledWith({cwd: myProjectRoot});
   });
 });

@@ -60,6 +60,7 @@
   },
   "resolutions": {
     "istanbul-api": "^2.0.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "webpack": "^4.35.0"
   }
 }

@@ -159,7 +159,7 @@ export class Program extends EventEmitter implements CompilerProgram {
       this.targetComponents.has(componentName)
     ) {
       if (this.targetComponents.get(componentName)!.type !== type) {
-        // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`…).
+        // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
         warning(`Encountered a duplicate component name: ${componentName}. Please ensure no component names are duplicated.`);
         return false;
       }
@@ -301,7 +301,7 @@ export class Program extends EventEmitter implements CompilerProgram {
    * Actually compiles the project, emitting JS source files for runtime compilation.
    */
   private async compile () {
-    info('Compiling project…');
+    info('Compiling project...');
     const emitResult = await this.program.emit();
     this.printDiagnostics(emitResult.diagnostics);
     return emitResult.diagnostics.length === 0;

@@ -86,6 +86,9 @@ export const serveHot = async (
     if (lastHash !== hash) {
       const buildTime = endTime - program.hotBuildStartTime;
       info(`Built in ${buildTime}ms.`);
+      if (process.send) {
+        process.send('built');
+      }
       lastHash = hash;
     }
   });

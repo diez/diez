@@ -81,9 +81,9 @@ export = async ({hot}: SyncOptions) => {
       ignoreInitial: true,
     });
 
-    info(`Watching ${inlineCodeSnippet(configuration.sources)} for changes…`);
+    info(`Watching ${inlineCodeSnippet(configuration.sources)} for changes...`);
     if (configuration.services.length) {
-      info(`Press ${inlineCodeSnippet('r')} to refresh design services…`);
+      info(`Press ${inlineCodeSnippet('r')} to refresh design services...`);
     }
 
     const stdin = process.stdin;

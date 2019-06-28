@@ -18,7 +18,6 @@
   "scripts": {
     "start": "vuepress dev docs",
     "build": "vuepress build docs",
-    "test": "jest",
     "fix": "yarn lint --fix",
     "lint": "eslint docs/.vuepress/theme --ext .js,.vue",
     "health": "yarn lint -f checkstyle -o checkstyle-result.xml"
