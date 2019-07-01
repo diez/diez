@@ -8,12 +8,12 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
-import {readFileSync, writeFileSync} from 'fs-extra';
+import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
 import {joinToKebabCase, sourcesPath} from '../utils';
-import {StyleOutputs, WebBinding, WebDependency, WebOutput} from './web.api';
+import {StyleTokens, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
  * The root location for source files.
@@ -39,6 +39,15 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 };
 
 /**
+ * Returns a qualified CSS URL for a given output and relative path.
+ *
+ * This method currently assumes that when we do not have a hot URL, static assets will be served in the host
+ * application at `/diez`. This detail cannot be guaranteed in every codebase, so further work is required here.
+ */
+export const getQualifiedCssUrl = (output: WebOutput, relativePath: string) =>
+  `url("${output.hotUrl || '/diez'}/${relativePath}")`;
+
+/**
  * A compiler for web targets.
  * @ignore
  */
@@ -47,16 +56,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   protected async validateOptions () {
-    if (
-      !this.program.hot &&
-      !(this.program.options.js || this.program.options.css || this.program.options.scss)
-    ) {
-      throw new Error(
-        'You must specify one or more output type.' +
-          ' For a list of available output types, run `diez compile --target web --help`',
-      );
-    }
-
+    // Noop.
   }
 
   /**
@@ -145,7 +145,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   /**
    * Updates the output based on the contents of the binding.
    */
-  protected mergeBindingToOutput (binding: WebBinding): void {
+  private mergeBindingToOutput (binding: WebBinding): void {
     for (const bindingSource of binding.sources) {
       this.output.sources.add(bindingSource);
     }
@@ -170,13 +170,12 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     return {
       sdkRoot,
       projectName,
-      staticFolder: 'static',
       processedComponents: new Map(),
       sources: new Set([
-        join(coreWeb, 'js', 'core', 'Diez.js'),
+        join(coreWeb, 'core', 'Diez.js'),
       ]),
       declarations: new Set([
-        join(coreWeb, 'js', 'core', 'Diez.d.ts'),
+        join(coreWeb, 'core', 'Diez.d.ts'),
       ]),
       declarationImports: new Set<string>(),
       dependencies: new Set<WebDependency>(),
@@ -193,7 +192,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    * @abstract
    */
   get staticRoot () {
-    return join(this.output.sdkRoot, this.output.staticFolder);
+    return join(this.output.sdkRoot, 'static');
   }
 
   /**
@@ -214,26 +213,16 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 }
 `);
 
-    if (this.program.options.js) {
+    Log.info(`You can use the variables and classes defined by ${diez} in your CSS or Sass styles.
+  CSS:  ${Format.code(`rule: var(--${styleVarName});`)}
+  Sass: ${Format.code(`rule: \$${styleVarName};`)}\n`);
 
-      Log.info(`You can use ${diez} to bootstrap any of the components defined in your project.\n`);
+    Log.info(`You can also use ${diez} with JavaScript to bootstrap any of the components defined in your project.`);
 
-      Log.code(`
-new Diez(${component}).attach((component) => {
+    Log.code(`new Diez(${component}).attach((component) => {
   // ...
 });
 `);
-    }
-
-    if (this.program.options.css) {
-      Log.info(`You can use the variables and classes defined by ${diez} in your CSS styles.\n`);
-      Log.code(`rule: var(--${styleVarName});\n`);
-    }
-
-    if (this.program.options.scss) {
-      Log.info(`You can use the variables and mixins defined by ${diez} in your SCSS styles.\n`);
-      Log.code(`rule: \$${styleVarName};\n`);
-    }
   }
 
   /**
@@ -250,36 +239,7 @@ new Diez(${component}).attach((component) => {
     this.output.styles.fonts.clear();
   }
 
-  /**
-   * @abstract
-   */
-  async writeSdk () {
-    // We must wait for this call because it may modify `this.output`
-    await this.writeJsSdk();
-
-    return Promise.all([
-      this.writeStyleSdk(StyleOutputs.scss),
-      this.writeStyleSdk(StyleOutputs.css),
-      this.writeBaseSdk(),
-      this.writeAssets(),
-    ]);
-  }
-
-  async writeBaseSdk () {
-    const tokens = {
-      moduleName: this.moduleName,
-      sdkVersion: this.program.options.sdkVersion,
-      dependencies: Array.from(this.output.dependencies),
-    };
-
-    return outputTemplatePackage(join(coreWeb, 'shared-sdk'), this.output.sdkRoot, tokens);
-  }
-
-  async writeStyleSdk (lang: StyleOutputs) {
-    if (!this.program.options[lang]) {
-      return;
-    }
-
+  private getStyleTokens (): StyleTokens {
     const numberVariables = new Set<string>();
     for (const [componentName, component] of this.output.processedComponents) {
       for (const [propertyName, property] of Object.entries(component.spec.properties)) {
@@ -295,7 +255,7 @@ new Diez(${component}).attach((component) => {
       }
     }
 
-    const tokens = {
+    return {
       styleVariables: Array.from(this.output.styles.variables).map(([name, value]) => {
         return {name, value, isNumber: numberVariables.has(name)};
       }),
@@ -304,15 +264,23 @@ new Diez(${component}).attach((component) => {
       }),
       styleFonts: Array.from(this.output.styles.fonts).map(([key, val]) => Array.from(val)),
     };
-
-    return outputTemplatePackage(join(coreWeb, lang, 'sdk'), this.output.sdkRoot, tokens);
   }
 
-  async writeJsSdk () {
-    if (!this.program.options.js) {
-      return;
-    }
+  private writeStyleSdk (lang: 'scss' | 'css', tokens: StyleTokens) {
+    const template = readFileSync(join(coreWeb, `styles.${lang}.handlebars`)).toString();
+    const staticRoot = this.program.hot ? this.hotStaticRoot : this.staticRoot;
+    ensureDirSync(staticRoot);
+    writeFileSync(join(staticRoot, `styles.${lang}`), compile(template)(tokens));
+  }
 
+  writeAssets () {
+    super.writeAssets();
+    const tokens = this.getStyleTokens();
+    this.writeStyleSdk('css', tokens);
+    this.writeStyleSdk('scss', tokens);
+  }
+
+  async writeSdk () {
     // Pass through to take note of our singletons.
     const singletons = new Set<PropertyType>();
     for (const [type, {instances, binding}] of this.output.processedComponents) {
@@ -322,8 +290,8 @@ new Diez(${component}).attach((component) => {
       }
     }
 
-    const componentTemplate = readFileSync(join(coreWeb, 'js', 'js.component.handlebars')).toString();
-    const declarationTemplate = readFileSync(join(coreWeb, 'js', 'js.declaration.handlebars')).toString();
+    const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
+    const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
@@ -359,13 +327,16 @@ new Diez(${component}).attach((component) => {
     }
 
     const tokens = {
+      moduleName: this.moduleName,
+      sdkVersion: this.program.options.sdkVersion,
       dependencies: Array.from(this.output.dependencies),
       sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
       declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),
       declarationImports: Array.from(this.output.declarationImports),
     };
 
-    return outputTemplatePackage(join(coreWeb, 'js', 'sdk'), this.output.sdkRoot, tokens);
+    this.writeAssets();
+    return outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens);
   }
 }
 

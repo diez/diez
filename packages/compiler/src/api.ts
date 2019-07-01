@@ -286,6 +286,7 @@ export interface TargetOutput<
   Binding = {},
   Spec = TargetComponentSpec,
 > {
+  hotUrl?: string;
   processedComponents: Map<PropertyType, TargetSpecLedger<Spec, Binding>>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;

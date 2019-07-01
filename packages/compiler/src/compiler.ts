@@ -484,7 +484,7 @@ export abstract class TargetCompiler<
   /**
    * The root where we should serve static content in hot mode.
    */
-  private get hotStaticRoot () {
+  protected get hotStaticRoot () {
     return join(this.program.projectRoot, '.diez', `${this.program.options.target}-assets`);
   }
 
@@ -665,13 +665,14 @@ export abstract class TargetCompiler<
   /**
    * Writes the hot URL mutex once.
    */
-  protected writeHotUrlMutex (hostname: string, devPort: number) {
+  private writeHotUrlMutex (hostname: string, devPort: number) {
     if (existsSync(this.hotUrlMutex)) {
       throw new Error(`Found existing hot URL at ${this.hotUrlMutex}. If this is an error, please manually remove the file.`);
     }
 
     exitTrap(() => this.cleanupHotUrlMutex());
-    writeFileSync(this.hotUrlMutex, `http://${hostname}:${devPort}`);
+    this.output.hotUrl = `http://${hostname}:${devPort}`;
+    writeFileSync(this.hotUrlMutex, this.output.hotUrl);
   }
 
   /**
@@ -681,13 +682,14 @@ export abstract class TargetCompiler<
   async start () {
     await this.validateOptions();
     if (this.program.hot) {
+      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
+      this.writeHotUrlMutex(hostname, devPort);
+
       if (!await this.buildHot()) {
         // TODO: make this retry without throwing.
         throw new Error('Unable to perform initial build.');
       }
 
-      const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
-      this.writeHotUrlMutex(hostname, devPort);
       serveHot(
         this.program,
         this.hotComponent,
@@ -709,7 +711,7 @@ export abstract class TargetCompiler<
    * @internal
    */
   private async buildHot () {
-    this.output = this.createOutput(this.output.sdkRoot, this.output.projectName);
+    Object.assign(this.output, this.createOutput(this.output.sdkRoot, this.output.projectName));
     try {
       await this.run();
     } catch (error) {

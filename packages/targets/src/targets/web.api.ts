@@ -1,17 +1,6 @@
 import {TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
-declare module '@diez/compiler/types/api' {
-  /**
-   * Extends CompilerOptions for web.
-   */
-  export interface CompilerOptions {
-    js?: boolean;
-    css?: boolean;
-    scss?: boolean;
-  }
-}
-
 /**
  * Describes an Web third party dependency.
  */
@@ -23,7 +12,7 @@ export interface WebDependency {
 }
 
 /**
- * Describes an Web binding.
+ * Describes a Web binding.
  */
 export interface WebBinding<T extends Component = Component> extends TargetBinding<T, WebOutput> {
   declarations?: string[];
@@ -32,21 +21,52 @@ export interface WebBinding<T extends Component = Component> extends TargetBindi
 
 /**
  * Describes a collection of groups of CSS rules.
+ * @ignore
  */
 export type StyleGroups = Map<string, Map<string, string>>;
 
 /**
  * Describes a collection of tuples containing CSS rules and values.
+ * @ignore
  */
 export type RuleTuples = [string, string][];
 
 /**
  * Describes interfaces related to style rules.
+ * @ignore
  */
 export interface Styles {
   variables: Map<string, string>;
   ruleGroups: StyleGroups;
   fonts: StyleGroups;
+}
+
+/**
+ * A handlebars token for a style variable.
+ * @ignore
+ */
+export interface StyleVariableToken {
+  name: string;
+  value: string;
+  isNumber: boolean;
+}
+
+/**
+ * A handlebars token for a style rule group.
+ * @ignore
+ */
+export interface StyleRuleGroupToken {
+  name: string;
+  values: RuleTuples;
+}
+
+/**
+ * A collection of handlebars tokens for styles.
+ */
+export interface StyleTokens {
+  styleVariables: StyleVariableToken[];
+  styleRuleGroups: StyleRuleGroupToken[];
+  styleFonts: RuleTuples[];
 }
 
 /**
@@ -57,13 +77,4 @@ export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   declarations: Set<string>;
   declarationImports: Set<string>;
   styles: Styles;
-  staticFolder: string;
-}
-
-/**
- * Describes the supported style targets.
- */
-export enum StyleOutputs {
-  css = 'css',
-  scss = 'scss',
 }

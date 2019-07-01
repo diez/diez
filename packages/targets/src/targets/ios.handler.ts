@@ -191,7 +191,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   /**
    * Updates the output based on the contents of the binding.
    */
-  protected mergeBindingToOutput (binding: IosBinding): void {
+  private mergeBindingToOutput (binding: IosBinding): void {
     const sourcesRoot = this.sourcesRoot;
 
     for (const bindingSource of binding.sources) {

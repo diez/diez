@@ -31,7 +31,7 @@ removeSync(buildRoot);
     await androidCompiler.writeSdk();
 
     // Regenerates Web goldens.
-    const webCompiler = await createWebCompilerForFixture(fixture, {js: true, css: true, scss: true});
+    const webCompiler = await createWebCompilerForFixture(fixture);
     await webCompiler.run();
     await webCompiler.writeSdk();
 
