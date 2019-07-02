@@ -17,7 +17,7 @@ const isInGitRepository = async (root: string) => {
   try {
     await execAsync('git rev-parse --is-inside-work-tree', {cwd: root});
     return true;
-  } catch {
+  } catch (error) {
     return false;
   }
 };
