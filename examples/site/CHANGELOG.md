@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.1](https://github.com/stristr/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
+
+
+### Bug Fixes
+
+* **site:** add GA tracking ([#155](https://github.com/stristr/diez/issues/155)) ([4de3f71](https://github.com/stristr/diez/commit/4de3f71))
+* **site:** scope layout styles so docs do not receive extra styles ([#157](https://github.com/stristr/diez/issues/157)) ([5089c2d](https://github.com/stristr/diez/commit/5089c2d))
+
+
+### Features
+
+* **ios:** add Swift only UIKit class initializers for Diez types ([#159](https://github.com/stristr/diez/issues/159)) ([913c54f](https://github.com/stristr/diez/commit/913c54f))
+* **site:** add Figma guide ([#153](https://github.com/stristr/diez/issues/153)) ([de1ebc8](https://github.com/stristr/diez/commit/de1ebc8))
+* **site:** add global component to define tabbed code examples ([#156](https://github.com/stristr/diez/issues/156)) ([d278c87](https://github.com/stristr/diez/commit/d278c87))
+* **targets:** require `--js` param for web target ([#167](https://github.com/stristr/diez/issues/167)) ([a4669ad](https://github.com/stristr/diez/commit/a4669ad))
+* **targets:** revamp Web JavaScript binding helpers ([#162](https://github.com/stristr/diez/issues/162)) ([55dd138](https://github.com/stristr/diez/commit/55dd138))
+
+
+
+
+
 # [10.0.0-beta.0](https://github.com/diez/diez/compare/v10.0.0-alpha.0...v10.0.0-beta.0) (2019-06-14)
 
 

@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.1](https://github.com/stristr/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
+
+
+### Bug Fixes
+
+* **android:** ensure hot mode webview does not cover content ([#170](https://github.com/stristr/diez/issues/170)) ([d0164c9](https://github.com/stristr/diez/commit/d0164c9))
+* **site:** add GA tracking ([#155](https://github.com/stristr/diez/issues/155)) ([4de3f71](https://github.com/stristr/diez/commit/4de3f71))
+* **site:** scope layout styles so docs do not receive extra styles ([#157](https://github.com/stristr/diez/issues/157)) ([5089c2d](https://github.com/stristr/diez/commit/5089c2d))
+* ensure diez hot crashes bubble on compiler event handlers ([#172](https://github.com/stristr/diez/issues/172)) ([75e0508](https://github.com/stristr/diez/commit/75e0508))
+* **sources:** fixes application detection when more than one installation is present ([#180](https://github.com/stristr/diez/issues/180)) ([5c27f44](https://github.com/stristr/diez/commit/5c27f44))
+
+
+### Code Refactoring
+
+* **android:** improve android SDK semantics ([#160](https://github.com/stristr/diez/issues/160)) ([1b1d1a6](https://github.com/stristr/diez/commit/1b1d1a6))
+
+
+### Features
+
+* **android:** use handlebar templates to bind real properties/functions instead of using extensions ([#173](https://github.com/stristr/diez/issues/173)) ([7a53dfd](https://github.com/stristr/diez/commit/7a53dfd))
+* **compiler:** add the ability to set generated SDK versions with a command line flag ([#158](https://github.com/stristr/diez/issues/158)) ([bdb6c9e](https://github.com/stristr/diez/commit/bdb6c9e))
+* **createproject:** add a loader spinner when installing dependencies ([#179](https://github.com/stristr/diez/issues/179)) ([306e081](https://github.com/stristr/diez/commit/306e081))
+* **createproject:** add comments in example projects that lead a viewer back to the TypeScript definitions ([#176](https://github.com/stristr/diez/issues/176)) ([3ed19c1](https://github.com/stristr/diez/commit/3ed19c1))
+* **createproject:** initialize a git repository when creating a new project ([#169](https://github.com/stristr/diez/issues/169)) ([124f508](https://github.com/stristr/diez/commit/124f508))
+* **createproject:** make example project easier to follow ([#178](https://github.com/stristr/diez/issues/178)) ([19fa10f](https://github.com/stristr/diez/commit/19fa10f))
+* **ios:** add Swift only UIKit class initializers for Diez types ([#159](https://github.com/stristr/diez/issues/159)) ([913c54f](https://github.com/stristr/diez/commit/913c54f))
+* **ios:** generate SDK as a collection of files instead of a single SDK.swift ([#163](https://github.com/stristr/diez/issues/163)) ([c625e08](https://github.com/stristr/diez/commit/c625e08))
+* add "press r to reload" functionality for `diez extract --hot` ([#165](https://github.com/stristr/diez/issues/165)) ([174b72d](https://github.com/stristr/diez/commit/174b72d))
+* **site:** add Figma guide ([#153](https://github.com/stristr/diez/issues/153)) ([de1ebc8](https://github.com/stristr/diez/commit/de1ebc8))
+* **site:** add global component to define tabbed code examples ([#156](https://github.com/stristr/diez/issues/156)) ([d278c87](https://github.com/stristr/diez/commit/d278c87))
+* **targets:** add ability to compile CSS and SCSS ([#174](https://github.com/stristr/diez/issues/174)) ([26ec8fe](https://github.com/stristr/diez/commit/26ec8fe))
+* **targets:** require `--js` param for web target ([#167](https://github.com/stristr/diez/issues/167)) ([a4669ad](https://github.com/stristr/diez/commit/a4669ad))
+* **targets:** revamp Web JavaScript binding helpers ([#162](https://github.com/stristr/diez/issues/162)) ([55dd138](https://github.com/stristr/diez/commit/55dd138))
+
+
+### BREAKING CHANGES
+
+* **android:** Extensions on Android classes that were values with a setter and a null returning getter are now functions.
+
+
+
+
+
 # [10.0.0-beta.0](https://github.com/diez/diez/compare/v10.0.0-alpha.0...v10.0.0-beta.0) (2019-06-14)
 
 

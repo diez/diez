@@ -2,16 +2,16 @@
   "name": "lorem-ipsum",
   "private": true,
   "main": "lib/index.js",
-  "version": "10.0.0-beta.0",
+  "version": "10.0.0-beta.1",
   "dependencies": {
-    "@diez/engine": "^10.0.0-beta.0",
-    "@diez/prefabs": "^10.0.0-beta.0"
+    "@diez/engine": "^10.0.0-beta.1",
+    "@diez/prefabs": "^10.0.0-beta.1"
   },
   "devDependencies": {
-    "@diez/compiler": "^10.0.0-beta.0",
-    "@diez/sources": "^10.0.0-beta.0",
-    "@diez/targets": "^10.0.0-beta.0",
-    "diez": "^10.0.0-beta.0",
+    "@diez/compiler": "^10.0.0-beta.1",
+    "@diez/sources": "^10.0.0-beta.1",
+    "@diez/targets": "^10.0.0-beta.1",
+    "diez": "^10.0.0-beta.1",
     "typescript": "^3.5.1"
   },
   "scripts": {

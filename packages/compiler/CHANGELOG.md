@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.1](https://github.com/stristr/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
+
+
+### Bug Fixes
+
+* ensure diez hot crashes bubble on compiler event handlers ([#172](https://github.com/stristr/diez/issues/172)) ([75e0508](https://github.com/stristr/diez/commit/75e0508))
+
+
+### Features
+
+* **android:** use handlebar templates to bind real properties/functions instead of using extensions ([#173](https://github.com/stristr/diez/issues/173)) ([7a53dfd](https://github.com/stristr/diez/commit/7a53dfd))
+* **compiler:** add the ability to set generated SDK versions with a command line flag ([#158](https://github.com/stristr/diez/issues/158)) ([bdb6c9e](https://github.com/stristr/diez/commit/bdb6c9e))
+* **targets:** add ability to compile CSS and SCSS ([#174](https://github.com/stristr/diez/issues/174)) ([26ec8fe](https://github.com/stristr/diez/commit/26ec8fe))
+
+
+
+
+
 # [10.0.0-beta.0](https://github.com/diez/diez/compare/v10.0.0-alpha.0...v10.0.0-beta.0) (2019-06-14)
 
 
