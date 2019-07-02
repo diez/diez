@@ -7,25 +7,6 @@ Diez aims to make it easy to adopt a unified design language across codebases, p
 
 Please refer to [beta.diez.org/getting-started](https://beta.diez.org/getting-started) for installation instructions and a thorough set of getting started guides.
 
-## Running example projects in hot mode
-
-Be sure to get set up for development by following the instructions in our [contributing guidelines](CONTRIBUTING.md).
-
- - Navigate to [examples/poodle-surf/](examples/poodle-surf).
- - iOS:
-   - Run `yarn run-ios`. This will compile a Swift iOS SDK and bring up the dev server.
-   - In [examples/poodle-surf/ios/](examples/poodle-surf/ios), run `pod install`.
-   - Open the XCode workspace at [examples/poodle-surf/ios/PoodleSurf.xcworkspace](examples/poodle-surf/ios/PoodleSurf.xcworkspace) in Xcode.
-   - Run `PoodleSurf` in an available simulator with `Cmd + R` in Xcode. You should also be able to run it on a device on the same LAN as your development machine.
- - Android:
-   - Run `yarn run-android`. This will compile a Kotlin Android SDK and bring up the dev server.
-   - Open the Android Studio project at [examples/poodle-surf/android](examples/poodle-surf/android).
-   - Run the `app` target in an available simulator with `Ctrl + R` in Android Studio.
- - Web:
-   - Run `yarn run-web`. This will compile a Web JS SDK and bring up the dev server.
-   - Run `yarn start` from [examples/poodle-surf/web](examples/poodle-surf/web).
-   - Follow instructions in the console to view the app.
-
 ## Universal commands
 
 The following commands are available in all subpackages, as well as in the monorepo itself. Running these commands in the monorepo will run across all subpackages.

@@ -50,6 +50,7 @@ export const createFolders = async (basePath: string, folders: Iterable<AssetFol
 /**
  * Escapes a command to be safe for shell usage.
  * @todo - Move this to @diez/cli-core.
+ * @ignore
  */
 export const escapeShell = (cmd: string) => {
   return cmd.replace(/(["\s'$`\\])/g, '\\$1');

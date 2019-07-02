@@ -5,7 +5,7 @@ plistbuddy() {
     /usr/libexec/PlistBuddy -c "Set :$1 $3" "${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
 }
 
-DIEZ_HOT_URL_FILE=$SRCROOT/../.diez/ios-hot-url
+DIEZ_HOT_URL_FILE=$SRCROOT/../../.diez/ios-hot-url
 
 if [ ! -f $DIEZ_HOT_URL_FILE ]; then
     echo "$DIEZ_HOT_URL_FILE not found. Diez server URL will not be updated."
