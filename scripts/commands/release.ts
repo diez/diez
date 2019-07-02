@@ -21,7 +21,7 @@ export = {
       runQuiet('git remote get-url upstream') !== 'git@github.com:diez/diez.git' ||
       runQuiet('git ls-remote --get-url') !== 'git@github.com:diez/diez.git'
     ) {
-      throw new Error('You must have an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
+      throw new Error('You must track an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
     }
 
     if (runQuiet('git diff') || runQuiet('git diff --staged')) {
@@ -35,10 +35,17 @@ export = {
 
     try {
       runQuiet('aws s3 ls s3://diez-docs');
+      runQuiet('aws s3 ls s3://diez-www-secret');
       runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_WWW_DISTRIBUTION_SECRET}`);
       runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_EXAMPLES_DISTRIBUTION}`);
     } catch (e) {
       throw new Error('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
+    }
+
+    try {
+      runQuiet('sentry-cli projects -o haiku-systems list');
+    } catch (e) {
+      throw new Error('Unable to run Sentry CLI commands. `sentry-cli` is either not installed or missing privileges.');
     }
 
     run('yarn clean');
