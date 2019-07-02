@@ -3,12 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.1](https://github.com/stristr/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
+# [10.0.0-beta.1](https://github.com/diez/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
 
 
 ### Bug Fixes
 
-* **site:** scope layout styles so docs do not receive extra styles ([#157](https://github.com/stristr/diez/issues/157)) ([5089c2d](https://github.com/stristr/diez/commit/5089c2d))
+* **site:** scope layout styles so docs do not receive extra styles ([#157](https://github.com/diez/diez/issues/157)) ([5089c2d](https://github.com/diez/diez/commit/5089c2d))
 
 
 
