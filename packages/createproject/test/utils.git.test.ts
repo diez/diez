@@ -44,7 +44,7 @@ describe('initializing a new git repository', () => {
   test('in existing git respository failure', async () => {
     await execAsync('git init', {cwd: temporaryDirectory});
 
-    const error = 'The provided directory is already in a git repository.';
+    const error = 'The provided directory is already in a Git repository.';
     await expect(initializeGitRepository(temporaryDirectory)).rejects.toThrow(error);
     expect(join(temporaryDirectory, '.git')).toExist();
   });

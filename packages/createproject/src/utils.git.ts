@@ -35,21 +35,21 @@ export const initializeGitRepository = async (root: string) => {
   }
 
   if (await isInGitRepository(root)) {
-    throw new Error('The provided directory is already in a git repository.');
+    throw new Error('The provided directory is already in a Git repository.');
   }
 
   const options: ExecOptions = {cwd: root};
 
   try {
     await execAsync('git init', options);
-  } catch {
-    throw new Error('Failed to initialize the git repository.');
+  } catch (error) {
+    throw new Error('Failed to initialize the Git repository.');
   }
 
   try {
     await execAsync('git add .', options);
     await execAsync('git commit -m "Initial commit."', options);
-  } catch {
+  } catch (error) {
     // We need to clean up the .git directory since the git repository was already succesfully initialized above.
     await remove(join(root, '.git'));
     throw new Error('Failed to create initial commit.');
