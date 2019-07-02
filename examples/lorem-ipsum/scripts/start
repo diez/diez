@@ -6,7 +6,7 @@ const { join, resolve } = require('path');
 (async () => {
   // Make sure Yarn is installed.
   if (!await canRunCommand('yarn --version')) {
-    Log.error('Yarn is required to run the Web example project. See https://yarnpkg.org for details.');
+    Log.error('Yarn is required to run the example projects. See https://yarnpkg.org for details.');
     process.exit(1);
   }
 
@@ -14,6 +14,12 @@ const { join, resolve } = require('path');
   if (!['android', 'ios', 'web'].includes(target)) {
     Log.error('Usage: start <android|ios|web>');
     process.exit(0);
+  }
+
+  if (target === 'ios' && !await canRunCommand('pod --version')) {
+    Log.error('CocoaPods is required to run the iOS example project. See installation options:');
+    Log.error('https://guides.cocoapods.org/using/getting-started.html#getting-started');
+    process.exit(1);
   }
 
   const cwd = resolve(__dirname, '..');
