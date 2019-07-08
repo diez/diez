@@ -1,17 +1,20 @@
 @font-face {
   font-family: "SomeFont";
-  src: url("/diez/assets/SomeFont.ttf");
+  font-weight: 700;
+  font-style: normal;
+  src: local("SomeFont"), url("/diez/assets/SomeFont.ttf");
 }
 
 :root {
   --bindings-image: url("/diez/assets/image with spaces.jpg");
   --bindings-image-2x: url("/diez/assets/image with spaces@2x.jpg");
   --bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
-  --font-name: "SomeFont";
 }
 
 .bindings-typograph {
-  font-family: "SomeFont";
+  font-family: "SomeFont","Verdana",serif;
+  font-weight: 700;
+  font-style: normal;
   font-size: 50px;
   color: hsla(60, 100%, 50%, 1);
 }

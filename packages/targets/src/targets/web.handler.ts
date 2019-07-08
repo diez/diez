@@ -244,7 +244,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     for (const [componentName, component] of this.output.processedComponents) {
       for (const [propertyName, property] of Object.entries(component.spec.properties)) {
         const propertyType = property.type.toString();
-        if (['number', 'string', 'boolean'].includes(propertyType) && !component.binding) {
+        // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
+        if (['number', 'string', 'boolean'].includes(propertyType) && !component.binding && componentName !== 'Font') {
           const variableName = joinToKebabCase(componentName, propertyName);
           this.output.styles.variables.set(variableName, property.initializer);
 

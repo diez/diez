@@ -1,4 +1,4 @@
-import {Component, property} from '@diez/engine';
+import {Component, property, Target} from '@diez/engine';
 import {Color} from './color';
 import {File, FileType} from './file';
 
@@ -9,6 +9,17 @@ import {File, FileType} from './file';
 export interface FontState {
   file: File;
   name: string;
+  fallbacks: string[];
+  weight: number;
+  style: FontStyle;
+}
+
+/**
+ * Valid face forms for `@font-face` declarations in web.
+ */
+export enum FontStyle {
+  Normal = 'normal',
+  Italic = 'italic',
 }
 
 /**
@@ -35,6 +46,21 @@ export class Font extends Component<FontState> {
    * The exact, correct PostScript name of the font.
    */
   @property name = '';
+
+  /**
+   * An array of fallback fonts (web only).
+   */
+  @property({targets: [Target.Web]}) fallbacks = ['sans-serif'];
+
+  /**
+   * The weight or boldness of the font (web only).
+   */
+  @property({targets: [Target.Web]}) weight = 400;
+
+  /**
+   * The font style (web only).
+   */
+  @property({targets: [Target.Web]}) style = FontStyle.Normal;
 
   /**
    * Creates a Font component from a source file and its PostScript name.

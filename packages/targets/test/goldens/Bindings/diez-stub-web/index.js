@@ -166,6 +166,9 @@ class Font {
   constructor () {
     this.file = new File({src: "assets/SomeFont.ttf", type: "font"});
     this.name = "SomeFont";
+    this.fallbacks = ["Verdana", "serif"];
+    this.weight = 700;
+    this.style = "normal";
   }
 
   update (payload) {
@@ -175,6 +178,9 @@ class Font {
 
     this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
     this.name = payload.name;
+    this.fallbacks = payload.fallbacks;
+    this.weight = payload.weight;
+    this.style = payload.style;
 
     return this;
   }
@@ -285,6 +291,8 @@ const FontFormats = {
   svg: 'svg',
 };
 
+const keywords = ['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'math', 'emoji', 'fangsong'];
+
 let styleSheet;
 let cache;
 
@@ -304,6 +312,8 @@ const registerFont = (font) => {
   const rule = `
 @font-face {
   font-family: '${font.name}';
+  font-weight: ${font.weight};
+  font-style: ${font.style};
   src: local('${font.name}'), url(${font.file.url}) format('${FontFormats[format] || format}');
 }`;
   styleSheet.insertRule(rule);
@@ -314,13 +324,28 @@ Object.defineProperties(Typograph.prototype, {
   fontFamily: {
     get () {
       registerFont(this.font);
-      return this.font.name;
+      const fontFamilies = [];
+
+      if (this.font.name) {
+        fontFamilies.push(this.font.name);
+      }
+
+      fontFamilies.push(...this.font.fallbacks);
+
+      // Generic family names are keywords and must not be quoted.
+      const sanitizedFonts = fontFamilies.map((font) =>
+        keywords.includes(font) ? font : `"${font}"`,
+      );
+
+      return sanitizedFonts.join();
     },
   },
   style: {
     get () {
       return {
         fontFamily: this.fontFamily,
+        fontWeight: this.font.fontWeight,
+        fontStyle: this.font.fontStyle,
         fontSize: `${this.fontSize}px`,
         color: this.color.color,
       };
@@ -331,6 +356,8 @@ Object.defineProperties(Typograph.prototype, {
 Typograph.prototype.applyStyle = function (ref) {
   const style = this.style;
   ref.style.fontFamily = style.fontFamily;
+  ref.style.fontWeight = style.fontWeight;
+  ref.style.fontStyle = style.fontStyle;
   ref.style.fontSize = style.fontSize;
   ref.style.color = style.color;
 };
@@ -345,7 +372,7 @@ class Bindings {
   constructor () {
     this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg", type: "image"}), width: 246, height: 246});
     this.lottie = new Lottie({file: new File({src: "assets/lottie.json", type: "raw"}), loop: true, autoplay: true});
-    this.typograph = new Typograph({font: new Font({file: new File({src: "assets/SomeFont.ttf", type: "font"}), name: "SomeFont"}), fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
+    this.typograph = new Typograph({font: new Font({file: new File({src: "assets/SomeFont.ttf", type: "font"}), name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}), fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
   }
 
   update (payload) {

@@ -49,6 +49,9 @@ declare global {
 export declare class Font {
   file: File;
   name: string;
+  fallbacks: string[];
+  weight: number;
+  style: string;
 }
 
 export declare class Color {
@@ -78,7 +81,7 @@ export declare class Typograph {
   /**
    * An `Object` with CSS values for this `Typograph`.
    */
-  style: {color: string, fontSize: string, fontFamily: string};
+  style: {color: string, fontSize: string, fontFamily: string, fontWeight: number, fontStyle: string};
   /**
    * Applies the `Typograph` CSS styles to the given HTMLElement.
    */

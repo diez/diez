@@ -17,7 +17,13 @@ describe('typograph', () => {
     });
 
     expect(typograph.serialize()).toEqual({
-      font: {file: {src: 'Bloop-MediumItalic.ttf', type: 'font'}, name: 'Bloop-MediumItalic'},
+      font: {
+        file: {src: 'Bloop-MediumItalic.ttf', type: 'font'},
+        name: 'Bloop-MediumItalic',
+        style: 'normal',
+        weight: 400,
+        fallbacks: ['sans-serif'],
+      },
       fontSize: 50,
       color: {h: 0, s: 0, l: 0, a: 0.5},
     });
