@@ -1,5 +1,5 @@
 import {execAsync, isMacOS, Log} from '@diez/cli-core';
-import pascalCase from 'pascal-case';
+import {pascalCase} from 'change-case';
 import {join} from 'path';
 import {GeneratedFont} from './api';
 

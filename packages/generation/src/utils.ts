@@ -1,9 +1,9 @@
 import {canRunCommand, execAsync, Log} from '@diez/cli-core';
 import {getProject} from '@diez/compiler';
 import {getTempFileName} from '@diez/storage';
+import {pascalCase} from 'change-case';
 import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
 import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
-import pascalCase from 'pascal-case';
 import {basename, extname, join, parse, relative} from 'path';
 import {ObjectLiteralExpression, VariableDeclarationKind} from 'ts-morph';
 import {AssetFolder, CodegenDesignSystem, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';

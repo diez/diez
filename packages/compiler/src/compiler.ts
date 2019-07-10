@@ -1,9 +1,9 @@
 /* tslint:disable:max-line-length */
 import {exitTrap, Log} from '@diez/cli-core';
 import {ConcreteComponent} from '@diez/engine';
+import {noCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
-import noCase from 'no-case';
 import {dirname, join, relative} from 'path';
 import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, SourceFile, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';

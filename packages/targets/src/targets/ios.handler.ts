@@ -8,10 +8,10 @@ import {
   TargetComponentSpec,
 } from '@diez/compiler';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
+import {pascalCase} from 'change-case';
 import {copySync, ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import pascalCase from 'pascal-case';
 import {join, relative} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
