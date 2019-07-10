@@ -1,14 +1,22 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const {existsSync, readFileSync} = require('fs');
-const {join} = require('path');
+const {join, resolve} = require('path');
 const {DefinePlugin} = require('webpack');
 
-const hotFilePath = join(__dirname, '..', '..', '.diez', 'web-hot-url');
+const diezProject = resolve(__dirname, '..', '..');
+const hotFilePath = join(diezProject, '.diez', 'web-hot-url');
 
 const webpackConfig = {
   entry: './src/index.jsx',
-  resolve: {symlinks: false},
+  resolve: {
+    symlinks: false,
+    alias: {
+      '@diez': existsSync(hotFilePath)
+        ? join(diezProject, '.diez', 'web-assets')
+        : join(diezProject, 'build', 'diez-lorem-ipsum-web', 'static'),
+    },
+  },
   module: {
     rules: [
       {
@@ -19,10 +27,11 @@ const webpackConfig = {
         },
       },
       {
-        test: /\.css$/i,
+        test: /\.scss$/i,
         use: [
           'style-loader',
           { loader: 'css-loader', options: { modules: true } },
+          'sass-loader',
         ],
       },
     ],

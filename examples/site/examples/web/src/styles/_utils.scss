@@ -1,0 +1,98 @@
+@import '@diez/styles.scss';
+
+$page-width: $sizing-xxxl-px;
+$smallText: 16px;
+
+@mixin tablet-large {
+  @media (max-width: 1100px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $sizing-xxl-px) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media (max-width: $sizing-xl-px) {
+    @content;
+  }
+}
+
+@mixin hide-mobile {
+  @include tablet {
+    display: none;
+  }
+}
+
+@mixin nav() {
+  @include typography-nav();
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@mixin link() {
+  @include typography-link();
+  text-decoration: none;
+  transition: opacity 140ms ease-out;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.on-primary {
+    color: $palette-black;
+  }
+}
+
+@mixin button() {
+  @include typography-button();
+  display: inline-block;
+  background-color: $palette-primary;
+  position: relative;
+  border-radius: $border-radius-button-px;
+  border-bottom: 4px solid darken($palette-primary, 40%);
+  padding: 11px 30px 9px;
+  letter-spacing: 1.4px;
+  color: $palette-white;
+  text-decoration: none;
+  transition: all 100ms;
+  outline: none;
+  overflow: hidden;
+  cursor: pointer;
+  &:active {
+    transform: translateY(4px);
+    border-bottom: 4px solid transparent;
+  }
+  &:before {
+    content: "";
+    background-color: rgba(71, 32, 32, 0.07);
+    height: 100%;
+    width: 3em;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -4.5em;
+    transform: skewX(-45deg) translateX(0);
+    transition: none;
+    pointer-events: none;
+  }
+  &:hover {
+    opacity: 1;
+    text-decoration: none;
+    &:before {
+      transform: skewX(-45deg) translateX(700%);
+      transition: all 300ms ease-in;
+    }
+  }
+  &.alt {
+    background-color: $palette-white;
+    color: $palette-black;
+    margin: 0 $spacing-sm-px;
+    border-bottom: 4px solid $palette-gray700;
+    &:active {
+      border-bottom: 4px solid transparent;
+    }
+  }
+}

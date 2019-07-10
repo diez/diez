@@ -28,7 +28,7 @@ export default {
 
   .shared {
     section {
-      margin-top: $sizingXS !important;
+      margin-top: $sizing-xs-px !important;
       @include tablet {
         margin-top: 0 !important;
       }
@@ -42,7 +42,7 @@ export default {
       margin-top: 0;
     }
     .block {
-      margin-bottom: $spacing3XL;
+      margin-bottom: $spacing-xxxl-px;
     }
     .one-quarter {
       position: relative;
@@ -54,7 +54,7 @@ export default {
       top: 200;
       a {
         display: block;
-        margin-bottom: $spacingLG;
+        margin-bottom: $spacing-lg-px;
       }
       @include tablet {
         display: none;
@@ -62,15 +62,15 @@ export default {
     }
 
     pre {
-      border-radius: $borderRadiusCard;
-      background-color: $cardColor!important;
-      box-shadow: 0 5px 0 $cardShadow, inset 0 2px 0 $cardInsetShadow;
-      margin-top: $spacing2XL!important;
+      border-radius: $border-radius-card-px;
+      background-color: $palette-card-color!important;
+      box-shadow: 0 5px 0 $palette-card-shadow, inset 0 2px 0 $palette-card-inset-shadow;
+      margin-top: $spacing-xxl-px!important;
     }
 
     p > code {
-      border-radius: $borderRadiusCard;
-      background-color: $cardColor;
+      border-radius: $border-radius-card-px;
+      background-color: $palette-card-color;
       padding: 2px 7px;
     }
   }

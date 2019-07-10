@@ -5,13 +5,19 @@ The official website for Diez.
 ## Getting started
 
 ### Requisites
-- Node v8.15.1
-- Yarn
+- Node v10.15.3
+- Yarn v1.16.0
 
-### Installing dependencies
+### Building the design system for web
 
-- `yarn`
+```bash
+$ yarn build-web
+```
 
 ### Starting the app
 
-- `yarn start`
+To start the web app, run:
+
+```sh
+$ cd examples/web && yarn start
+```

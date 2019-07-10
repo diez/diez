@@ -7,9 +7,9 @@
   }
 
   &.page, &#faq {
-    @include navfont();
+    @include nav();
     @include tablet {
-      padding-top: $sizingXS;
+      padding-top: $sizing-xs-px;
     }
   }
 
@@ -18,14 +18,13 @@
   }
 
   code, .mono {
-    @include font-family($source-code-pro);
-    font-size: 18px;
+    @include typography-code-large();
     &.inline {
-      background-color: $cardColor;
-      border-radius: $borderRadiusButton;
-      padding: 0 $spacingSM;
+      background-color: $palette-card-color;
+      border-radius: $border-radius-button-px;
+      padding: 0 $spacing-sm-px;
       font-weight: 700;
-      color: $mauve700;
+      color: $palette-mauve700;
     }
   }
 
@@ -38,15 +37,15 @@
   }
 
   h1 {
-    font-size: 4rem;
+    @include typography-heading-one();
     @include phone {
       font-size: 2.5rem;
-      padding: 0 $spacingLG;
+      padding: 0 $spacing-lg-px;
     }
   }
 
   h2 {
-    font-size: 3rem;
+    @include typography-heading-two();
     &.ivan {
       margin-top: -78px;
       text-align: center;
@@ -60,24 +59,23 @@
   }
 
   h3 {
-    font-weight: 400;
-    font-size: 2rem;
+    @include typography-heading-three();
     line-height: 2.72rem;
     @include phone {
       font-size: 1.7rem;
       line-height: 2.2rem;
-      padding: 0 $spacingLG;
+      padding: 0 $spacing-lg-px;
     }
   }
 
   h4 {
-    font-size: 1.46rem;
+    @include typography-heading-four();
     line-height: 2.2rem;
     margin-bottom: -12px;
   }
 
   li {
-    margin-top: $spacingMD;
+    margin-top: $spacing-md-px;
   }
 
   button,
@@ -96,16 +94,16 @@
   }
 
   .card {
-    border-radius: $borderRadiusCard;
-    background-color: $cardColor;
-    box-shadow: 0 5px 0 $cardShadow, inset 0 2px 0 $cardInsetShadow;
+    border-radius: $border-radius-card-px;
+    background-color: $palette-card-color;
+    box-shadow: 0 5px 0 $palette-card-shadow, inset 0 2px 0 $palette-card-inset-shadow;
     overflow: hidden;
     &.third {
       width: calc(33% - 24px);
-      margin: $spacingMD;
+      margin: $spacing-md-px;
       text-align: center;
       font-weight: 700;
-      padding: $spacingLG;
+      padding: $spacing-lg-px;
       @include tablet-large {
         width: calc(50% - 24px);
       }
@@ -113,7 +111,7 @@
         height: 60px;
         width: 100%;
         pointer-events: none;
-        margin: $spacingLG 0;
+        margin: $spacing-lg-px 0;
       }
       &.mono img {
         height: 35px;
@@ -121,13 +119,13 @@
     }
     &.fourth {
       @extend .third;
-      padding: $spacingMD;
+      padding: $spacing-md-px;
       font-size: 0.75em;
       width: calc(25% - 24px);
       img {
         height: 2em;
         width: 100%;
-        margin: $spacingXS 0;
+        margin: $spacing-xs-px 0;
       }
       @include tablet-large {
         span {
@@ -136,9 +134,9 @@
       }
     }
     &.extensible {
-      background-color: $mauve;
-      color: $white;
-      box-shadow: 0 5px 0 $mauve700, inset 0 2px 0 $cardInsetShadow;
+      background-color: $palette-mauve;
+      color: $palette-white;
+      box-shadow: 0 5px 0 $palette-mauve700, inset 0 2px 0 $palette-card-inset-shadow;
 
       &:hover {
         text-decoration: none;
@@ -147,16 +145,16 @@
   }
 
   a.card {
-    color: $black;
+    color: $palette-black;
     transition: background-color 120ms ease;
     &:hover {
       text-decoration: none;
-      background-color: darken($cardColor, 1.3%);
+      background-color: darken($palette-card-color, 1.3%);
     }
   }
 
   .strike {
-    text-decoration: line-through wavy $purple;
+    text-decoration: line-through wavy $palette-purple;
   }
 
   .correction-container {
@@ -168,7 +166,7 @@
 
 
   .correction {
-    color: $purple;
+    color: $palette-purple;
     font-size: .8em;
     font-weight: bolder;
     position: absolute;
@@ -181,9 +179,9 @@
   .code-block {
     @extend .card;
     width: 67%;
-    padding: $spacingMD $spacingXL;
+    padding: $spacing-md-px $spacing-xl-px;
     overflow: auto;
-    margin-top: $spacing2XL;
+    margin-top: $spacing-xxl-px;
     @include phone {
       width: 100%;
     }
@@ -191,20 +189,19 @@
 
   .card-code {
     @extend .card;
-    @include font-family($source-code-pro);
-    padding: $spacingLG;
+    @include typography-code-small();
+    padding: $spacing-lg-px;
     width: 100%;
-    height: $sizingLG;
-    margin-top: $spacingLG;
+    height: $sizing-lg-px;
+    margin-top: $spacing-lg-px;
     overflow: auto;
-    font-size: 15px;
     @include phone {
       font-size: 12px;
     }
   }
 
   .get-in-touch {
-    @include font-family($source-code-pro);
+    @include typography-code-large();
     font-size: 1.5rem;
     margin-bottom: 10px;
   }
@@ -212,33 +209,33 @@
   .hljs {
     display: block;
     overflow-x: auto;
-    padding: $spacingSM $spacingLG;
+    padding: $spacing-sm-px $spacing-lg-px;
     background-color: transparent;
   }
 
   .tab-links {
     font-weight: 700;
     font-size: $smallText;
-    border-radius: $borderRadiusButton;
-    padding: $spacingXS $spacingLG;
+    border-radius: $border-radius-button-px;
+    padding: $spacing-xs-px $spacing-lg-px;
     cursor: pointer;
     &.active {
-      background-color: $mauve;
-      color: $white;
+      background-color: $palette-mauve;
+      color: $palette-white;
     }
   }
 
   .small-text-indented {
     font-size: $smallText;
     font-weight: 700;
-    margin-left: $spacingLG;
+    margin-left: $spacing-lg-px;
   }
 
   .note {
     font-size: $smallText;
-    margin-top: $spacingLG;
+    margin-top: $spacing-lg-px;
     line-height: 1.5rem;
-    color: $gray900;
+    color: $palette-gray900;
     code {
       font-weight: 400 !important;
       font-size: 16px;
@@ -246,15 +243,18 @@
   }
 
   .aside {
-    margin-top: $spacing2XL;
+    margin-top: $spacing-xxl-px;
     font-size: 17px;
-    padding: $spacingXS $spacingXL;
-    background-color: $gray400;
-    color: $purple;
-    border: 4px solid $purple;
-    border-radius: $borderRadiusCard;
+    padding: $spacing-xs-px $spacing-xl-px;
+    background-color: $palette-gray400;
+    color: $palette-purple;
+    border: 4px solid $palette-purple;
+    border-radius: $border-radius-card-px;
     li, p {
       line-height: 30px;
+    }
+    h4 {
+      color: inherit;
     }
   }
 }

@@ -53,7 +53,7 @@ export default {
   @import '@theme/styles/_utils.scss';
 
   section {
-    margin-top: $sizingXS !important;
+    margin-top: $sizing-xs-px !important;
     @include tablet {
       margin-top: 0 !important;
     }
@@ -67,7 +67,7 @@ export default {
     margin-top: 0;
   }
   .block {
-    margin-bottom: $spacing3XL;
+    margin-bottom: $spacing-xxxl-px;
   }
   .one-quarter {
     position: relative;
@@ -79,7 +79,7 @@ export default {
     top: 200;
     a {
       display: block;
-      margin-bottom: $spacingLG;
+      margin-bottom: $spacing-lg-px;
     }
     @include tablet {
       display: none;

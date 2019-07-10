@@ -23,17 +23,17 @@ export default {
   @import '../styles/_utils.scss';
 
   .section {
-    padding: 0 $spacing3XL;
+    padding: 0 $spacing-xxxl-px;
   }
 
   footer {
-    font-family: 'Source Sans Pro', sans-serif;
-    background-color: $gray400;
+    @include typography-copy();
+    background-color: $palette-gray400;
     text-align: center;
     @include phone {
       flex-direction: column;
       a.button {
-        margin-top: $spacingLG !important;
+        margin-top: $spacing-lg-px !important;
       }
     }
   }
@@ -46,11 +46,10 @@ export default {
   }
 
   #footer {
-    font-size: 16px;
-    padding: $spacing2XL 0;
+    padding: $spacing-xxl-px 0;
 
     a {
-      padding: 0 $spacingLG;
+      padding: 0 $spacing-lg-px;
 
       @include phone{
         display: block;
@@ -58,7 +57,7 @@ export default {
       }
 
       &.inline-link {
-        padding: 0 0 0 $spacingXS;
+        padding: 0 0 0 $spacing-xs-px;
         display: inline-block;
         @include phone {
           padding: 0;
@@ -78,7 +77,7 @@ export default {
   }
 
   .farewell {
-    padding-left: $spacingSM;
+    padding-left: $spacing-sm-px;
     float: left;
     @include phone {
       float: none;

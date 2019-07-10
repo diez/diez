@@ -12,6 +12,8 @@ const binding: WebBinding<Image> = {
     output.styles.variables.set(name, getQualifiedCssUrl(output, instance.file.src));
     output.styles.variables.set(`${name}-2x`, getQualifiedCssUrl(output, instance.file2x.src));
     output.styles.variables.set(`${name}-3x`, getQualifiedCssUrl(output, instance.file3x.src));
+    output.styles.variables.set(`${name}-width`, `${instance.width}px`);
+    output.styles.variables.set(`${name}-height`, `${instance.height}px`);
   },
 };
 

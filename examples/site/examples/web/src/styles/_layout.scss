@@ -5,17 +5,17 @@
 }
 
 .section {
-  padding: $spacing3XL;
-  margin: 0 auto $sizingXS;
+  padding: $spacing-xxxl-px;
+  margin: 0 auto $sizing-xs-px;
   max-width: $page-width;
   @include phone {
-    padding: $spacingSM;
+    padding: $spacing-sm-px;
   }
 }
 
 .section-narrow {
   @extend .section;
-  max-width: $sizing2XL;
+  max-width: $sizing-xxl-px;
 }
 
 .github-container{
@@ -50,7 +50,7 @@
 }
 
 .content-holster {
-  padding: 0 $spacingLG;
+  padding: 0 $spacing-lg-px;
 }
 
 .one-quarter {
@@ -106,13 +106,13 @@
 }
 
 .button-following-text {
-  margin-top: $spacingLG
+  margin-top: $spacing-lg-px
 }
 
 .staggered {
-  // margin-top: $sizingLG / 2;
+  // margin-top: $sizing-lg-px / 2;
   @include tablet {
-    margin-top: $spacing3XL;
+    margin-top: $spacing-xxxl-px;
   }
 }
 

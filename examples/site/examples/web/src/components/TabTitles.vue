@@ -35,9 +35,9 @@ ul {
 li {
   margin: 0;
   list-style: none;
-  padding: 0 $spacingLG $spacingXS;
-  color: $gray900;
-  background: fade-out($gray700, .36);
+  padding: 0 $spacing-lg-px $spacing-xs-px;
+  color: $palette-gray900;
+  background: fade-out($palette-gray700, .36);
   margin-right: 8px;
   border-radius: 4px 4px 0px 0;
   cursor: pointer;
@@ -45,13 +45,13 @@ li {
   transition: background 140ms ease;
 
   &:hover {
-    background: fade-out($gray700, .2);
+    background: fade-out($palette-gray700, .2);
   }
 
   &.active {
-    background: $cardColor;
-    color: $black;
-    border-color: $purple;
+    background: $palette-card-color;
+    color: $palette-black;
+    border-color: $palette-purple;
   }
 }
 </style>

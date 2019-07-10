@@ -59,15 +59,15 @@ export default {
   $mobile-toggle-height: 25px;
   $mobile-toggle-margin: 20px;
   .navbar {
-    @include navfont();
+    @include nav();
     @include tablet {
       position: fixed;
       width: 100%;
       z-index: 999;
       top: 0;
       padding-top: 2 * $mobile-toggle-margin + $mobile-toggle-height;
-      background-color: $white;
-      border-bottom: 1px solid $gray700;
+      background-color: $palette-white;
+      border-bottom: 1px solid $palette-gray700;
     }
   }
   .nav {
@@ -75,12 +75,12 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    background-color: $white;
+    background-color: $palette-white;
     z-index: 1000;
-    border-bottom: 1px solid $gray700;
+    border-bottom: 1px solid $palette-gray700;
     @include tablet {
-      background-color: $purple;
-      color: $white;
+      background-color: $palette-purple;
+      color: $palette-white;
       bottom: 0;
     }
   }
@@ -93,16 +93,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: $spacingMD 60px;
+    padding: $spacing-md-px 60px;
     @include tablet {
       flex-direction: column;
       height: 100%;
     }
   }
   .logo {
-    @include font-family ($source-code-pro);
-    font-weight: 900;
-    font-size: 30px;
+    @include typography-logo();
     display: flex;
     padding-left: 0 !important;
     align-items: center;
@@ -114,16 +112,16 @@ export default {
     @include link();
   }
   a:not(.button) {
-    padding: 0 $spacingLG;
-    color: $black;
+    padding: 0 $spacing-lg-px;
+    color: $palette-black;
     @include tablet {
-      color: $white;
+      color: $palette-white;
       font-size: 26px;
     }
   }
   .button {
     @include button();
-    margin-left: $spacingLG;
+    margin-left: $spacing-lg-px;
   }
   .show-on-mobile {
     display: none;

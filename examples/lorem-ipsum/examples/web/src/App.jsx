@@ -1,17 +1,6 @@
 import React from 'react';
 import { Diez, DesignSystem } from 'diez-lorem-ipsum';
-import styles from './App.module.css';
-
-const Masthead = ({ ds }) => (
-  <div
-    className={styles.masthead}
-    style={{
-      backgroundColor: ds.colors.darkBackground.color,
-      backgroundImage: ds.images.masthead.urlCss,
-      backgroundSize: `${ds.images.masthead.width}px ${ds.images.masthead.height}px`
-    }}
-  />
-);
+import styles from './App.module.scss';
 
 const Icon = ({ image, marginLeft }) => (
   <img
@@ -24,42 +13,6 @@ const Icon = ({ image, marginLeft }) => (
       marginLeft: marginLeft,
     }}
   />
-);
-
-const Title = ({ text, ds, style }) => (
-  <h2 style={{
-    ...ds.typographs.heading1.style,
-    ...style,
-  }}>
-    {text}
-  </h2>
-);
-
-const Caption = ({ text, ds, style }) => (
-  <h3 style={{
-    ...ds.typographs.caption.style,
-    ...style,
-  }}>
-    {text}
-  </h3>
-);
-
-const Body = ({ text, ds, style }) => (
-  <p style={{
-    ...ds.typographs.body.style,
-    ...style,
-  }}>
-    {text}
-  </p>
-);
-
-const MoreInfo = ({ ds, style }) => (
-  <div style={{
-    ...ds.typographs.body.style,
-    ...style,
-  }}>
-    Refer to <a href="https://beta.diez.org/getting-started/" target="_blank">The Guides</a> for more information.
-  </div>
 );
 
 class Animation extends React.Component {
@@ -96,49 +49,24 @@ export default class App extends React.PureComponent {
 
     return (
       <div className={styles.wrapper}>
-        <Masthead ds={ds} />
-        <div
-          className={styles.contentContainer}
-          style={{
-            backgroundColor: ds.colors.lightBackground.color,
-          }}
-        >
+        <div className={styles.masthead} />
+        <div className={styles.contentContainer}>
           <div className={styles.content}>
             <Icon
               image={ds.images.logo}
               marginLeft={ds.layoutValues.contentMargin.left}
             />
-            <div
-              className={styles.innerContent}
-              style={{
-                paddingTop: ds.layoutValues.contentMargin.top,
-                paddingRight: ds.layoutValues.contentMargin.right,
-                paddingBottom: ds.layoutValues.contentMargin.bottom,
-                paddingLeft: ds.layoutValues.contentMargin.left,
-              }}
-            >
-              <Title
-                text={ds.strings.title}
-                ds={ds}
-              />
-              <Caption
-                text={ds.strings.caption}
-                ds={ds}
-                style={{marginTop: ds.layoutValues.spacingSmall}}
-              />
+            <div className={styles.innerContent}>
+              <h2 className={styles.title}>{ds.strings.title}</h2>
+              <h3 className={styles.caption}>{ds.strings.caption}</h3>
               <div className={styles.animationContainer}>
                 <Animation
                   lottie={ds.loadingAnimation}
                 />
-                <Body
-                  text={ds.strings.helper}
-                  ds={ds}
-                  style={{marginTop: ds.layoutValues.spacingMedium}}
-                />
-                <MoreInfo
-                  ds={ds}
-                  style={{marginTop: ds.layoutValues.spacingMedium}}
-                />
+                <p className={styles.body}>{ds.strings.helper}</p>
+                <div className={styles.footer}>
+                    Refer to <a href="https://beta.diez.org/getting-started/" target="_blank">The Guides</a> for more information.
+                </div>
               </div>
             </div>
           </div>

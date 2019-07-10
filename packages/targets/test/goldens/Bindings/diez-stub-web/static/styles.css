@@ -9,6 +9,8 @@
   --bindings-image: url("/diez/assets/image with spaces.jpg");
   --bindings-image-2x: url("/diez/assets/image with spaces@2x.jpg");
   --bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
+  --bindings-image-width: 246px;
+  --bindings-image-height: 246px;
 }
 
 .bindings-typograph {

@@ -46,12 +46,12 @@ export default {
     position: fixed;
     height: 100%;
     top: 0;
-    padding: 153px $spacing3XL 0 0;
+    padding: 153px $spacing-xxxl-px 0 0;
     overflow-y: auto;
     overflow-x: hidden;
     a {
       display: block;
-      margin-bottom: $spacingLG;
+      margin-bottom: $spacing-lg-px;
     }
     @include tablet {
       display: none;
@@ -61,18 +61,16 @@ export default {
     margin-bottom: 0 !important;
   }
   .sub-category {
-    color: $black;
-    font-size: $smallText;
-    font-weight: 700;
-    margin: $spacingSM 0 $spacingSM $spacingSM;
+    @include typography-subcategory();
+    margin: $spacing-sm-px 0 $spacing-sm-px $spacing-sm-px;
   }
   .sub-link {
-    color: $mauve;
+    color: $palette-mauve;
     font-size: $smallText;
-    margin-left: $spacingLG;
-    margin-bottom: $spacingSM !important;
+    margin-left: $spacing-lg-px;
+    margin-bottom: $spacing-sm-px !important;
     &.soon {
-      color: $gray700;
+      color: $palette-gray700;
       font-style: italic;
       &:hover:after {
         opacity: 1;
@@ -81,14 +79,14 @@ export default {
         content: "SOON";
         opacity: 0;
         font-size: 10px;
-        padding: 0 $spacingXS;
+        padding: 0 $spacing-xs-px;
         margin-left:6px;
         transform: translateY(5px);
         position: absolute;
         z-index: 1000;
-        color: $white;
-        background-color: $mauve;
-        border-radius: $borderRadiusButton;
+        color: $palette-white;
+        background-color: $palette-mauve;
+        border-radius: $border-radius-button-px;
         transition: opacity 130ms ease;
       }
     }

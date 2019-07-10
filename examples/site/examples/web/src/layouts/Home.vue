@@ -8,9 +8,9 @@
         <div style="text-align:center;"><router-link class="button" to="/getting-started">Get Started</router-link></div>
       </section>
 
-      <section class="section-narrow" style="margin-top:0;">
+      <section class="section-narrow early-access" style="margin-top:0;">
         <div class="aside" style="margin-top:0;">
-          <H2>Welcome to Diez Early Access! 😎</H2>
+          <h2>Welcome to Diez Early Access! 😎</h2>
           <p>We're still sanding and varnishing and sweeping the broom around here, but Diez is already fine-tuned in many ways and we're excited to get it into your hands.</p>
           <p>First things first, we want to say <strong>thank you so much</strong> for taking part in this before we release open-source. We're fairly certain you'll be excited when you experience its power, but we want to dillgently carve out this short period to learn from you and your experience with Diez and design systems in general.</p>
           <p>What should a cross-platform design system be? We're hoping you can help us with this answer. Please don't hesitate to reach out — we're all ears. If you'd like to schedule some time for a one-on-one we're on standby for that too.</p>
@@ -139,56 +139,38 @@ export default {
     align-items: center;
     flex-direction: column;
     text-align: center;
-    margin: $spacing3XL auto 0;
+    margin: $spacing-xxxl-px auto 0;
     @include phone {
       height: auto;
       max-height: auto;
-      margin-bottom: $spacing3XL;
+      margin-bottom: $spacing-xxxl-px;
     }
   }
 
   h1 {
     margin-bottom: 0;
-    span {
-      font-size: 2.5em;
-      font-family: 'source code pro', monospace;
-      font-weight: 700;
-      line-height: 1.4;
-      @include tablet {
-        font-size: 2em;
-      }
-      @include phone {
-        font-size: 1.5em;
-        display: block;
-        margin: $spacing2XL auto 0;
-      }
-    }
-    img {
-      width: 2.35em;
-      transform: translateY(14px);
-      margin-left: 0.425em;
-      @include phone {
-        margin: 0 auto $spacing2XL;
-      }
-    }
+  }
+
+  .early-access h2 {
+    color: $palette-primary;
   }
 
   .cta {
-    font-family: 'Source Sans Pro', sans-serif;
-    background-color: $purple;
-    color: $white;
+    @include typography-copy();
+    background-color: $palette-purple;
+    color: $palette-white;
     text-align: center;
     @include phone {
       flex-direction: column;
       a.button {
-        margin-top: $spacingLG !important;
+        margin-top: $spacing-lg-px !important;
       }
     }
   }
 
   .cta {
-    margin-top: $spacing3XL;
-    padding: $spacing3XL $spacing3XL $spacing2XL;
+    margin-top: $spacing-xxxl-px;
+    padding: $spacing-xxxl-px $spacing-xxxl-px $spacing-xxl-px;
   }
 
   .handle-it {
@@ -223,15 +205,15 @@ export default {
   }
 
   .img-outline {
-    border: 1px solid $gray400;
+    border: 1px solid $palette-gray400;
   }
 
   .cta-holster {
-    margin-top: $spacingXS;
+    margin-top: $spacing-xs-px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: $sizingMD;
+    width: $sizing-md-px;
   }
 
   .video-holster {
@@ -250,6 +232,6 @@ export default {
   }
 
   .bottom-spacer {
-    margin-bottom: $sizingXS;
+    margin-bottom: $sizing-xs-px;
   }
 </style>

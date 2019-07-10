@@ -152,7 +152,7 @@ export default {
       padding-top: 52px;
     }
     h3 {
-      margin-top: $spacingLG;
+      margin-top: $spacing-lg-px;
     }
   }
   p, li {
