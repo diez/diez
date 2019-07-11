@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar/>
-    <div class="page shared">
+    <div class="page shared layout-default">
       <section class="section-split">
         <div class="one-quarter">
           <GettingStartedNav/>
@@ -26,7 +26,7 @@ export default {
 <style lang="scss">
   @import '@theme/styles/_utils.scss';
 
-  .shared {
+  .layout-default {
     section {
       margin-top: $sizing-xs-px !important;
       @include tablet {
