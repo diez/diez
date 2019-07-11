@@ -7,7 +7,8 @@
   "license": "SEE LICENSE.md",
   "devDependencies": {
     "@vuepress/plugin-google-analytics": "^1.0.0-rc.1",
-    "diez-diez-site-web": "link:../../build/diez-diez-site-web",
+    "diez-webpack-plugin": "^10.0.0-beta.1",
+    "diez-diez-site": "link:../../build/diez-diez-site-web",
     "eslint": "^5.16.0",
     "eslint-plugin-vue-libs": "^3.0.0",
     "node-sass": "^4.12.0",

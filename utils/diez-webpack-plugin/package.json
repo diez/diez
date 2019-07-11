@@ -1,0 +1,28 @@
+{
+  "name": "diez-webpack-plugin",
+  "version": "10.0.0-beta.1",
+  "private": true,
+  "description": "Webpack plugin to plug Diez into a web codebase with hot updates.",
+  "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "SEE LICENSE.md",
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
+  "peerDependencies": {
+    "webpack": "^4.3.0"
+  },
+  "dependencies": {
+    "change-case": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/webpack": "^4.4.34",
+    "tslint": "^5.15.0",
+    "tslint-config-haiku": "^1.0.21",
+    "typescript": "^3.5.1"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc --watch",
+    "lint": "tslint -p . -t stylish",
+    "fix": "tslint -p . -t stylish --fix"
+  }
+}

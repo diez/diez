@@ -1,6 +1,4 @@
-const {join, resolve} = require('path');
-const {existsSync} = require('fs');
-
+const DiezWebpackPlugin = require('diez-webpack-plugin');
 const siteTitle = 'Diez - Cross-platform design system framework for native iOS, Android, and Web';
 const siteDesc = 'Diez makes it easy to adopt a unified design language across codebases, platforms, and teams.';
 
@@ -80,14 +78,7 @@ module.exports = {
       },
     ],
   ],
-  chainWebpack: (config) => {
-    const diezProject = resolve(__dirname, '..', '..', '..' , '..');
-    const hotFilePath = join(diezProject, '.diez', 'web-hot-url');
-    config.resolve.alias.set(
-      '@diez',
-      existsSync(hotFilePath) ?
-        join(diezProject, '.diez', 'web-assets') :
-        join(diezProject, 'build', 'diez-diez-site-web', 'static'),
-    );
+  configureWebpack: {
+    plugins: [new DiezWebpackPlugin({sdk: 'diez-diez-site'})],
   },
 };

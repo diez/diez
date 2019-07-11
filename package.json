@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "clis/*",
+    "utils/*",
     "examples/*",
     "examples/*/*/web",
     "services/*"

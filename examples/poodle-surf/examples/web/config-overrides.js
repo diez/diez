@@ -1,7 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const {existsSync, readFileSync} = require('fs');
+const {existsSync} = require('fs');
 const {join} = require('path');
-const {DefinePlugin} = require('webpack');
+const DiezWebpackPlugin = require('diez-webpack-plugin');
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 
 const hotFilePath = join(__dirname, '..', '..', '.diez', 'web-hot-url');
@@ -21,9 +21,7 @@ module.exports = function override(config, env) {
     return config;
   }
 
-  config.plugins.push(new DefinePlugin({
-    'process.env.DIEZ_IS_HOT': JSON.stringify(true),
-    'process.env.DIEZ_SERVER_URL': JSON.stringify(readFileSync(hotFilePath).toString().trim()),
-  }));
+  config.plugins.push(new DiezWebpackPlugin({sdk: 'diez-poodle-surf'}));
+
   return config;
 }

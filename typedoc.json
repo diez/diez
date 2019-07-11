@@ -11,6 +11,7 @@
   "readme": "./docs/API.md",
   "exclude": [
     "scripts/**/*.ts",
-    "packages/site/**/*.ts"
+    "packages/site/**/*.ts",
+    "utils/**/*.ts"
   ]
 }
