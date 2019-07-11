@@ -1,19 +1,5 @@
 ## Getting Started
 
-<div class="aside">
-
-#### 🚨 Early Beta Warning 🚨
-
-Although we’re in early beta, we think you can get your first Diez project set up and powering a codebase in 5 minutes!
-
-Please keep in mind that Diez is under active development. And there are a few notable pieces of functionality that will be dropping into the repo soon including:
-
-*   CSS & Sass support
-*   Wider Sketch support (currently only image syncing)
-*   More guides and demos
-
-</div>
-
 <h3 id="set-up">Setting up your Diez project</h3>
 
 <h4 id="intro">Introduction</h4>
@@ -29,7 +15,7 @@ The best way to get up and running with Diez is by using our official template p
 Run the following command in your terminal and follow the prompts. 
 
 ```bash
-yarn create diez-project
+yarn create diez
 ```
 <div class="note">The above command will prompt you to choose a name for your Diez project. Please note that for the duration of the guides, your project will be referred to as <code class="inline">your-ds-name</code>.</div>
 
@@ -38,13 +24,25 @@ cd your-ds-name
 ```
 That's it! You now have a Diez project set up and ready to power your apps. Let's take a look at what you just made.
 
-By default, the `create diez-project` CLI functionality scaffolds out not only a Diez project, but example codebases that demonstrate how to consume your Compiler-baked Diez SDKs in real apps. **Note that the example apps are only present for demonstration purposes**. They can be discarded when you connect your Diez project to your own apps.
+By default, the `yarn create diez` CLI functionality scaffolds out not only a Diez project, but example codebases that demonstrate how to consume your Compiler-baked Diez SDKs in real apps.
 
 <img width="100%" src="@theme/assets/imgs/infographic.png">
 
+<div class="note">Note that the example apps are only present for demonstration purposes. They can be safely discarded when you connect your Diez project to your own apps.</div>
+
+#### Now for the experience
+Run the following command to experience the demo.
+
+```bash
+yarn demo
+```
+
+This demo is running in [hot mode](/glossary/#hot-mode). Try modifying the contents of `src/DesignSystem.ts` (relative to the root of the Diez project) to see changes to the design system take effect in real time.
+
+
 ### Next Steps
 
-#### Explore your example app codebases to see Diez in action
+#### Explore the example app codebases
 
  We've written platform specific guides for walking through this new Diez project you've just created. We recommend picking your flavor(s) and jumping right in. 
  
@@ -59,6 +57,7 @@ By default, the `create diez-project` CLI functionality scaffolds out not only a
     <img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript Guide</span>
   </router-link>
 </div>
+
 
 #### Additional guides
 If you'd prefer to first learn a bit more about your Diez project and how to compose your design token components, we have you covered with the Diez Basics guide. Want to hook your new Diez project up to Figma? We've got you there too.

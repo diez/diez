@@ -149,10 +149,12 @@ export default {
   #faq {
     .question, .answer {
       align-self: flex-start;
+    }
+    .question {
       padding-top: 52px;
     }
-    h3 {
-      margin-top: $spacing-lg-px;
+    .answer {
+      padding-top: 65px;
     }
   }
   p, li {

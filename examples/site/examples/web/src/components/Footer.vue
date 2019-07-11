@@ -47,8 +47,12 @@ export default {
 
   #footer {
     padding: $spacing-xxl-px 0;
+    font-size: 16px;
+    font-weight: 700;
 
     a {
+      @include link();
+      font-size: 16px;
       padding: 0 $spacing-lg-px;
 
       @include phone{
