@@ -20,8 +20,8 @@ class Palette extends Component {
  * Sometimes, it's helpful to keep a copy of a component instance you intend to
  * reuse while defining higher-level components in your design system.
  *
- * For example, you can use this instance of the `Palette` component to build your
- * typographs.
+ * For example, you can use this instance of the `Palette` component to design your
+ * typography.
  */
 const palette = new Palette();
 
@@ -51,7 +51,7 @@ const Fonts = {
  * Typographs encapsulate type styles with support for a specific font, font size,
  * and color. More typograph properties are coming soon.
  */
-class Typographs extends Component {
+class Typography extends Component {
   @property heading1 = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 24,
@@ -72,7 +72,7 @@ class Typographs extends Component {
 }
 
 /**
- * In addition to colors and typographs, you can also collect other types of
+ * In addition to colors and typography, you can also collect other types of
  * design system primitives in components as well — such as images, icons &
  * animations.
  */
@@ -122,7 +122,7 @@ class Strings extends Component {
  */
 export class DesignSystem extends Component {
   @property colors = colors;
-  @property typographs = new Typographs();
+  @property typography = new Typography();
   @property images = new Images();
   @property layoutValues = new LayoutValues();
   @property strings = new Strings();

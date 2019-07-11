@@ -1,3 +1,6 @@
+// The Diez web compiler creates shared styles for Sass and CSS. The styles
+// imported here can be found at `build/diez-lorem-ipsum-web/static/styles.scss`,
+// relative to the project root.
 @import '@diez/styles.scss';
 
 .wrapper {
@@ -7,6 +10,8 @@
 }
 
 .masthead {
+  // Sass variables from `@diez/styles` provide a variety of directives. Here,
+  // we are using colors, URLs, and numbers.
   background-color: $colors-dark-background;
   background-image: $images-masthead-3x;
   background-size: $images-masthead-width $images-masthead-height;
@@ -14,16 +19,17 @@
 }
 
 .title {
-  @include typographs-heading1();
+  // Higher-order design tokens like `Typograph` provide reusable mixins.
+  @include typography-heading1();
 }
 
 .caption {
-  @include typographs-caption();
+  @include typography-caption();
   margin-top: $layout-values-spacing-small-px;
 }
 
 .body {
-  @include typographs-body();
+  @include typography-body();
   margin-top: $layout-values-spacing-medium-px;
 }
 
@@ -75,6 +81,6 @@
 }
 
 .footer {
-  @include typographs-body();
+  @include typography-body();
   margin-top: $layout-values-spacing-medium-px;
 }

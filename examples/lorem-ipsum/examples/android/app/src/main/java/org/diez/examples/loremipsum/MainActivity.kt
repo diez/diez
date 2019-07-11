@@ -43,18 +43,18 @@ class MainActivity : AppCompatActivity() {
         contentLayout.setPadding(padding.left.toPx(), padding.top.toPx(), padding.right.toPx(), padding.bottom.toPx())
 
         titleTextView.text = designSystem.strings.title
-        titleTextView.apply(designSystem.typographs.heading1)
+        titleTextView.apply(designSystem.typography.heading1)
         titleSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
 
         captionTextView.text = designSystem.strings.caption
-        captionTextView.apply(designSystem.typographs.caption)
+        captionTextView.apply(designSystem.typography.caption)
         captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
 
         animationView.load(designSystem.loadingAnimation)
         animationSpacer.layoutParams.height = designSystem.layoutValues.spacingMedium.toPx()
 
         animationTextView.text = designSystem.strings.helper
-        animationTextView.apply(designSystem.typographs.body)
+        animationTextView.apply(designSystem.typography.body)
     }
 
     // TODO: add to --target android core.

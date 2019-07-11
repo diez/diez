@@ -44,16 +44,16 @@ class ViewController: UIViewController {
         )
         view.contentStackView.spacing = designSystem.layoutValues.spacingSmall
 
-        view.titleLabel.apply(designSystem.typographs.heading1)
+        view.titleLabel.apply(designSystem.typography.heading1)
         view.titleLabel.text = designSystem.strings.title
 
-        view.captionLabel.apply(designSystem.typographs.caption)
+        view.captionLabel.apply(designSystem.typography.caption)
         view.captionLabel.text = designSystem.strings.caption
 
         view.animationStackView.spacing = designSystem.layoutValues.spacingMedium
 
         view.animationView.load(designSystem.loadingAnimation)
-        view.animationLabel.apply(designSystem.typographs.body)
+        view.animationLabel.apply(designSystem.typography.body)
 
         view.animationLabel.text = designSystem.strings.helper
     }
