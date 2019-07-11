@@ -5,12 +5,6 @@ import CoreGraphics
 public final class ChildComponent: NSObject, Decodable {
     @objc public internal(set) var diez: CGFloat
 
-    convenience override init() {
-        self.init(
-            diez: 10
-        )
-    }
-
     init(
         diez: CGFloat
     ) {

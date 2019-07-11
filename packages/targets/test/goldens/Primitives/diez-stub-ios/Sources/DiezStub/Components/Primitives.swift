@@ -11,6 +11,7 @@ public final class Primitives: NSObject, StateBag {
     @objc public internal(set) var integers: [[CGFloat]]
     @objc public internal(set) var strings: [[[String]]]
     @objc public internal(set) var child: ChildComponent
+    @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent
 
     convenience public override init() {
@@ -22,7 +23,8 @@ public final class Primitives: NSObject, StateBag {
             boolean: true,
             integers: [[1, 2], [3, 4], [5]],
             strings: [[["6"], ["7"]], [["8"], ["9"]], [["10"]]],
-            child: ChildComponent(),
+            child: ChildComponent(diez: 10),
+            childs: [[ChildComponent(diez: 10)]],
             emptyChild: EmptyComponent()
         )
     }
@@ -36,6 +38,7 @@ public final class Primitives: NSObject, StateBag {
         integers: [[CGFloat]],
         strings: [[[String]]],
         child: ChildComponent,
+        childs: [[ChildComponent]],
         emptyChild: EmptyComponent
     ) {
         self.number = number
@@ -46,6 +49,7 @@ public final class Primitives: NSObject, StateBag {
         self.integers = integers
         self.strings = strings
         self.child = child
+        self.childs = childs
         self.emptyChild = emptyChild
     }
 

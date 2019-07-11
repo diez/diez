@@ -12,18 +12,10 @@ const Environment = {
 module.exports = {};
 
 class ChildComponent {
-  constructor () {
-    this.diez = 10;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.diez = payload.diez;
-
-    return this;
+  constructor({
+    diez
+  }) {
+    this.diez = diez;
   }
 }
 
@@ -31,16 +23,8 @@ class ChildComponent {
 module.exports.ChildComponent = ChildComponent;
 
 class EmptyComponent {
-  constructor () {
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-
-    return this;
+  constructor({
+  } = {}) {
   }
 }
 
@@ -48,34 +32,28 @@ class EmptyComponent {
 module.exports.EmptyComponent = EmptyComponent;
 
 class Primitives {
-  constructor () {
-    this.number = 10;
-    this.integer = 10;
-    this.float = 10;
-    this.string = "ten";
-    this.boolean = true;
-    this.integers = [[1, 2], [3, 4], [5]];
-    this.strings = [[["6"], ["7"]], [["8"], ["9"]], [["10"]]];
-    this.child = new ChildComponent();
-    this.emptyChild = new EmptyComponent();
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.number = payload.number;
-    this.integer = payload.integer;
-    this.float = payload.float;
-    this.string = payload.string;
-    this.boolean = payload.boolean;
-    this.integers = payload.integers;
-    this.strings = payload.strings;
-    this.child = Object.assign(Object.create(Object.getPrototypeOf(this.child)), this.child.update(payload.child));
-    this.emptyChild = Object.assign(Object.create(Object.getPrototypeOf(this.emptyChild)), this.emptyChild.update(payload.emptyChild));
-
-    return this;
+  constructor({
+    number = 10,
+    integer = 10,
+    float = 10,
+    string = "ten",
+    boolean = true,
+    integers = [[1, 2], [3, 4], [5]],
+    strings = [[["6"], ["7"]], [["8"], ["9"]], [["10"]]],
+    child = {diez: 10},
+    childs = [[{diez: 10}]],
+    emptyChild = {}
+  } = {}) {
+    this.number = number;
+    this.integer = integer;
+    this.float = float;
+    this.string = string;
+    this.boolean = boolean;
+    this.integers = integers;
+    this.strings = strings;
+    this.child = new ChildComponent(child);
+    this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));
+    this.emptyChild = new EmptyComponent(emptyChild);
   }
 }
 

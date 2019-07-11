@@ -9,10 +9,10 @@ import {
 } from '@diez/compiler';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
-import {compile} from 'handlebars';
+import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {joinToKebabCase, sourcesPath} from '../utils';
+import {joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
 import {StyleTokens, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
@@ -95,20 +95,21 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     return {
       type: `${reference.type}[]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      updatable: false,
+      isPrimitive: reference.isPrimitive,
+      depth: reference.depth + 1,
     };
   }
 
   /**
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+  protected getInitializer (spec: TargetComponentSpec): string {
     const propertyInitializers: string[] = [];
     for (const name in spec.properties) {
       propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
     }
 
-    return `new ${spec.componentName}({${propertyInitializers.join(', ')}})`;
+    return `{${propertyInitializers.join(', ')}}`;
   }
 
   /**
@@ -120,7 +121,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         return {
           type: 'string',
           initializer: `"${instance}"`,
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
@@ -128,13 +130,15 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         return {
           type: 'number',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'boolean',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       default:
         Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
@@ -293,11 +297,14 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 
     const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
+
+    // Register our list helper for producing list outputs.
+    registerHelper('list', webComponentListHelper);
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
         if (singletons.has(property.type)) {
-          property.initializer = `new ${property.type}()`;
+          property.initializer = '{}';
         }
       }
 

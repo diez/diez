@@ -24,5 +24,8 @@ export class Primitives extends Component {
   // This child component should override the default value.
   @property child = new ChildComponent({diez: 10});
 
+  // Lists of components should also succeed.
+  @property childs = [[new ChildComponent({diez: 10})]];
+
   @property emptyChild = new EmptyComponent();
 }

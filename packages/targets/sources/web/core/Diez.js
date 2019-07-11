@@ -3,7 +3,8 @@ const diezHTMLExtensions = [];
 class Diez {
   constructor (componentType) {
     this.iframe = document.createElement('iframe');
-    this.component = new componentType();
+    this.componentType = componentType;
+    this.component = new this.componentType();
     this.subscribers = [];
   }
 
@@ -40,11 +41,8 @@ class Diez {
     this.iframe.style.display = 'none';
     document.body.appendChild(this.iframe);
     window.addEventListener('message', (event) => {
-      if (event.origin.startsWith(Environment.serverUrl)) {
-        this.component = Object.assign(
-          Object.create(Object.getPrototypeOf(this.component)),
-          this.component.update(JSON.parse(event.data)),
-        );
+      if (event.source === this.iframe.contentWindow && event.origin.startsWith(Environment.serverUrl)) {
+        this.component = new this.componentType(JSON.parse(event.data));
         this.broadcast();
       }
     });

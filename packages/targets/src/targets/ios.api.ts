@@ -1,4 +1,4 @@
-import {PropertyType, TargetBinding, TargetOutput} from '@diez/compiler';
+import {TargetBinding, TargetOutput} from '@diez/compiler';
 import {Component} from '@diez/engine';
 
 declare module '@diez/compiler/types/api' {
@@ -31,24 +31,6 @@ export interface IosDependency {
  */
 export interface IosBinding<T extends Component = Component> extends TargetBinding<T, IosOutput> {
   dependencies?: IosDependency[];
-}
-
-/**
- * Specifies an iOS component property.
- */
-export interface IosComponentProperty {
-  type: PropertyType;
-  updatable: boolean;
-  initializer: string;
-}
-
-/**
- * Specifies an iOS component.
- */
-export interface IosComponentSpec {
-  componentName: PropertyType;
-  properties: {[name: string]: IosComponentProperty};
-  public: boolean;
 }
 
 /**

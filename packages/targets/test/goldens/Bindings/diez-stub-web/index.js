@@ -19,17 +19,6 @@ class File {
     this.src = src;
     this.type = type;
   }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.src = payload.src;
-    this.type = payload.type;
-
-    return this;
-  }
 }
 
 
@@ -56,25 +45,11 @@ class Image {
     width,
     height
   }) {
-    this.file = file;
-    this.file2x = file2x;
-    this.file3x = file3x;
+    this.file = new File(file);
+    this.file2x = new File(file2x);
+    this.file3x = new File(file3x);
     this.width = width;
     this.height = height;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
-    this.file2x = Object.assign(Object.create(Object.getPrototypeOf(this.file2x)), this.file2x.update(payload.file2x));
-    this.file3x = Object.assign(Object.create(Object.getPrototypeOf(this.file3x)), this.file3x.update(payload.file3x));
-    this.width = payload.width;
-    this.height = payload.height;
-
-    return this;
   }
 }
 
@@ -116,21 +91,9 @@ class Lottie {
     loop,
     autoplay
   }) {
-    this.file = file;
+    this.file = new File(file);
     this.loop = loop;
     this.autoplay = autoplay;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
-    this.loop = payload.loop;
-    this.autoplay = payload.autoplay;
-
-    return this;
   }
 }
 
@@ -163,26 +126,18 @@ diezHTMLExtensions.push(() => {
 });
 
 class Font {
-  constructor () {
-    this.file = new File({src: "assets/SomeFont.ttf", type: "font"});
-    this.name = "SomeFont";
-    this.fallbacks = ["Verdana", "serif"];
-    this.weight = 700;
-    this.style = "normal";
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.file = Object.assign(Object.create(Object.getPrototypeOf(this.file)), this.file.update(payload.file));
-    this.name = payload.name;
-    this.fallbacks = payload.fallbacks;
-    this.weight = payload.weight;
-    this.style = payload.style;
-
-    return this;
+  constructor({
+    file = {src: "assets/SomeFont.ttf", type: "font"},
+    name = "SomeFont",
+    fallbacks = ["Verdana", "serif"],
+    weight = 700,
+    style = "normal"
+  } = {}) {
+    this.file = new File(file);
+    this.name = name;
+    this.fallbacks = fallbacks;
+    this.weight = weight;
+    this.style = style;
   }
 }
 
@@ -200,19 +155,6 @@ class Color {
     this.s = s;
     this.l = l;
     this.a = a;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.h = payload.h;
-    this.s = payload.s;
-    this.l = payload.l;
-    this.a = payload.a;
-
-    return this;
   }
 }
 
@@ -261,21 +203,9 @@ class Typograph {
     fontSize,
     color
   }) {
-    this.font = font;
+    this.font = new Font(font);
     this.fontSize = fontSize;
-    this.color = color;
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.font = Object.assign(Object.create(Object.getPrototypeOf(this.font)), this.font.update(payload.font));
-    this.fontSize = payload.fontSize;
-    this.color = Object.assign(Object.create(Object.getPrototypeOf(this.color)), this.color.update(payload.color));
-
-    return this;
+    this.color = new Color(color);
   }
 }
 
@@ -369,22 +299,14 @@ diezHTMLExtensions.push(() => {
 });
 
 class Bindings {
-  constructor () {
-    this.image = new Image({file: new File({src: "assets/image%20with%20spaces.jpg", type: "image"}), file2x: new File({src: "assets/image%20with%20spaces@2x.jpg", type: "image"}), file3x: new File({src: "assets/image%20with%20spaces@3x.jpg", type: "image"}), width: 246, height: 246});
-    this.lottie = new Lottie({file: new File({src: "assets/lottie.json", type: "raw"}), loop: true, autoplay: true});
-    this.typograph = new Typograph({font: new Font({file: new File({src: "assets/SomeFont.ttf", type: "font"}), name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}), fontSize: 50, color: new Color({h: 0.16666666666666666, s: 1, l: 0.5, a: 1})});
-  }
-
-  update (payload) {
-    if (!payload) {
-      return this;
-    }
-
-    this.image = Object.assign(Object.create(Object.getPrototypeOf(this.image)), this.image.update(payload.image));
-    this.lottie = Object.assign(Object.create(Object.getPrototypeOf(this.lottie)), this.lottie.update(payload.lottie));
-    this.typograph = Object.assign(Object.create(Object.getPrototypeOf(this.typograph)), this.typograph.update(payload.typograph));
-
-    return this;
+  constructor({
+    image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, width: 246, height: 246},
+    lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
+    typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}}
+  } = {}) {
+    this.image = new Image(image);
+    this.lottie = new Lottie(lottie);
+    this.typograph = new Typograph(typograph);
   }
 }
 

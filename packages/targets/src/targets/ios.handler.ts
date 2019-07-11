@@ -124,7 +124,8 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
     return {
       type: `[${reference.type}]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      updatable: false,
+      isPrimitive: reference.isPrimitive,
+      depth: reference.depth,
     };
   }
 
@@ -135,7 +136,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    *
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+  protected getInitializer (spec: TargetComponentSpec): string {
     const propertyInitializers: string[] = [];
     for (const name in spec.properties) {
       propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
@@ -152,26 +153,30 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
         return {
           type: 'String',
           initializer: `"${instance}"`,
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Float:
       case PrimitiveType.Number:
         return {
           type: 'CGFloat',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Int:
         return {
           type: 'Int',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'Bool',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       default:
         Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);

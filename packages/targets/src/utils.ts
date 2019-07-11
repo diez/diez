@@ -1,4 +1,4 @@
-import {CompilerOptions} from '@diez/compiler';
+import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
 import {Color} from '@diez/prefabs';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
@@ -44,4 +44,25 @@ export const upsertStyleGroup = (ruleGroup: StyleGroups, groupName: string, rule
   for (const [rule, value] of rules) {
     groupDeclaration.set(rule, value);
   }
+};
+
+/**
+ * A handlebars helper for mapping serialized array structures to a constructor assignment.
+ *
+ * For example, given a component property like `fonts: Fonts[][]`, we want to create output like:
+ *
+ * `this.fonts = fonts.map((value1) => value1.map((value2) => new Font(value2)));`
+ * @ignore
+ */
+export const webComponentListHelper = (key: string, property: TargetComponentProperty) => {
+  if (!property.depth || property.isPrimitive) {
+    throw new Error(`Property ${key} is not a component list type.`);
+  }
+
+  const rawType = (property.type as string).replace(/\[\]/g, '');
+  let listAssignment = `(value${property.depth}) => new ${rawType}(value${property.depth})`;
+  for (let i = property.depth - 1; i > 0; --i) {
+    listAssignment = `(value${i}) => value${i}.map(${listAssignment})`;
+  }
+  return `this.${key} = ${key}.map(${listAssignment});`;
 };

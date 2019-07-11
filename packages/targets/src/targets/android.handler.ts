@@ -133,14 +133,15 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
     return {
       type: `Array<${reference.type}>`,
       initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
-      updatable: reference.updatable,
+      isPrimitive: reference.isPrimitive,
+      depth: reference.depth + 1,
     };
   }
 
   /**
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec<TargetComponentProperty>): string {
+  protected getInitializer (spec: TargetComponentSpec): string {
     const propertyInitializers: string[] = [];
     for (const name in spec.properties) {
       propertyInitializers.push(spec.properties[name].initializer);
@@ -158,26 +159,30 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
         return {
           type: 'String',
           initializer: `"${instance}"`,
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
         return {
           type: 'Float',
           initializer: `${instance.toString()}F`,
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Int:
         return {
           type: 'Int',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
           type: 'Boolean',
           initializer: instance.toString(),
-          updatable: false,
+          isPrimitive: true,
+          depth: 0,
         };
       default:
         Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);

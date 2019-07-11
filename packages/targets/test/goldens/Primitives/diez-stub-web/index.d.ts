@@ -14,6 +14,7 @@ export declare class Primitives extends StateBag {
   integers: number[][];
   strings: string[][][];
   child: ChildComponent;
+  childs: ChildComponent[][];
   emptyChild: EmptyComponent;
 }
 

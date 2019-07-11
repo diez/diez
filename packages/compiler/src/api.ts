@@ -249,16 +249,17 @@ export enum CompilerEvent {
  */
 export interface TargetComponentProperty {
   type: PropertyType;
-  updatable: boolean;
   initializer: string;
+  isPrimitive: boolean;
+  depth: number;
 }
 
 /**
  * Specifies an entire component.
  */
-export interface TargetComponentSpec<T = TargetComponentProperty> {
+export interface TargetComponentSpec {
   componentName: PropertyType;
-  properties: {[name: string]: T};
+  properties: {[name: string]: TargetComponentProperty};
   public: boolean;
 }
 
@@ -284,10 +285,9 @@ export type AssetBindings = Map<string, AssetBinding>;
 export interface TargetOutput<
   Dependency = {},
   Binding = {},
-  Spec = TargetComponentSpec,
 > {
   hotUrl?: string;
-  processedComponents: Map<PropertyType, TargetSpecLedger<Spec, Binding>>;
+  processedComponents: Map<PropertyType, TargetSpecLedger<TargetComponentSpec, Binding>>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;
   projectName: string;
