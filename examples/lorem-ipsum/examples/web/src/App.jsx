@@ -49,7 +49,9 @@ export default class App extends React.PureComponent {
 
     return (
       <div className={styles.wrapper}>
-        <div className={styles.masthead} />
+        <div className={styles.mastheadContainer}>
+          <div className={styles.masthead} />
+        </div>
         <div className={styles.contentContainer}>
           <div className={styles.content}>
             <Icon

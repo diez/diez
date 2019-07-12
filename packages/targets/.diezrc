@@ -25,10 +25,20 @@
       "android": "./lib/bindings/Image/android",
       "web": "./lib/bindings/Image/web"
     },
+    "@diez/prefabs:LinearGradient": {
+      "ios": "./lib/bindings/LinearGradient/ios",
+      "android": "./lib/bindings/LinearGradient/android",
+      "web": "./lib/bindings/LinearGradient/web"
+    },
     "@diez/prefabs:Lottie": {
       "ios": "./lib/bindings/Lottie/ios",
       "android": "./lib/bindings/Lottie/android",
       "web": "./lib/bindings/Lottie/web"
+    },
+    "@diez/prefabs:Point2D": {
+      "ios": "./lib/bindings/Point2D/ios",
+      "android": "./lib/bindings/Point2D/android",
+      "web": "./lib/bindings/Point2D/web"
     },
     "@diez/prefabs:Typograph": {
       "ios": "./lib/bindings/Typograph/ios",

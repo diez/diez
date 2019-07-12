@@ -28,7 +28,7 @@ export = {
     await copy(templateLocation, destination);
     const replacements = new Map([
       ['REPLACEME', packageName],
-      [packageName, currentVersion],
+      ['VERSION', currentVersion],
     ]);
     await replaceOccurrencesInFile(join(destination, 'README.md'), replacements);
     await replaceOccurrencesInFile(join(destination, 'package.json'), replacements);

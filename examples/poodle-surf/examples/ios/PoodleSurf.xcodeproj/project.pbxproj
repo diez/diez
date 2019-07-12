@@ -27,11 +27,8 @@
 		46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C38225FD3F500F4B63F /* CardViewDescribable.swift */; };
 		46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */; };
 		46087C45225FF79C00F4B63F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C44225FF79C00F4B63F /* GradientView.swift */; };
-		46087C47225FFC1800F4B63F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C46225FFC1800F4B63F /* Gradient.swift */; };
-		46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C48225FFC3000F4B63F /* Gradient+Example.swift */; };
 		46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */; };
 		46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */; };
-		46087C552261499000F4B63F /* Gradient+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C542261499000F4B63F /* Gradient+Diez.swift */; };
 		46087C572261758D00F4B63F /* ReportModel+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C562261758D00F4B63F /* ReportModel+Diez.swift */; };
 		46087C5922617A9000F4B63F /* UIImage+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5822617A9000F4B63F /* UIImage+URL.swift */; };
 		46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */; };
@@ -64,11 +61,8 @@
 		46087C38225FD3F500F4B63F /* CardViewDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDescribable.swift; sourceTree = "<group>"; };
 		46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Named.swift"; sourceTree = "<group>"; };
 		46087C44225FF79C00F4B63F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		46087C46225FFC1800F4B63F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
-		46087C48225FFC3000F4B63F /* Gradient+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Example.swift"; sourceTree = "<group>"; };
 		46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewModelBinder.swift; sourceTree = "<group>"; };
 		46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Diez.swift"; sourceTree = "<group>"; };
-		46087C542261499000F4B63F /* Gradient+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+Diez.swift"; sourceTree = "<group>"; };
 		46087C562261758D00F4B63F /* ReportModel+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportModel+Diez.swift"; sourceTree = "<group>"; };
 		46087C5822617A9000F4B63F /* UIImage+URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+URL.swift"; sourceTree = "<group>"; };
 		46087C5E22623D8800F4B63F /* ReportViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportViewController+Diez.swift"; sourceTree = "<group>"; };
@@ -144,9 +138,6 @@
 				46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */,
 				46087BFE225D544400F4B63F /* StrokedCircularImageView.swift */,
 				46087C44225FF79C00F4B63F /* GradientView.swift */,
-				46087C46225FFC1800F4B63F /* Gradient.swift */,
-				46087C542261499000F4B63F /* Gradient+Diez.swift */,
-				46087C48225FFC3000F4B63F /* Gradient+Example.swift */,
 			);
 			path = "Generic Views";
 			sourceTree = "<group>";
@@ -389,7 +380,6 @@
 				46087BFF225D544400F4B63F /* StrokedCircularImageView.swift in Sources */,
 				46087C572261758D00F4B63F /* ReportModel+Diez.swift in Sources */,
 				46087BFC225D419500F4B63F /* ReportHeaderView.swift in Sources */,
-				46087C552261499000F4B63F /* Gradient+Diez.swift in Sources */,
 				46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */,
 				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
@@ -397,8 +387,6 @@
 				46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */,
 				46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */,
 				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
-				46087C47225FFC1800F4B63F /* Gradient.swift in Sources */,
-				46087C49225FFC3000F4B63F /* Gradient+Example.swift in Sources */,
 				46087BFA225D3F9900F4B63F /* ReportView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

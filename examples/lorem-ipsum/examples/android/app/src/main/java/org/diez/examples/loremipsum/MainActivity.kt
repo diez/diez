@@ -1,6 +1,8 @@
 package org.diez.examples.loremipsum
 
 import android.content.res.Resources
+import android.graphics.drawable.PaintDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private fun apply(designSystem: DesignSystem) {
         root.setBackgroundColor(designSystem.colors.lightBackground.color)
 
-        headerLayout.setBackgroundColor(designSystem.colors.darkBackground.color)
+        headerLayout.background = backgroundFromGradient(designSystem.gradients.midnight)
 
         headerView.loadBackgroundImage(designSystem.images.masthead)
 
@@ -55,6 +57,13 @@ class MainActivity : AppCompatActivity() {
 
         animationTextView.text = designSystem.strings.helper
         animationTextView.apply(designSystem.typography.body)
+    }
+
+    private fun backgroundFromGradient(gradient: LinearGradient): PaintDrawable {
+        val drawable = PaintDrawable()
+        drawable.shape = RectShape()
+        drawable.shaderFactory = gradient.shaderFactory
+        return drawable
     }
 
     // TODO: add to --target android core.

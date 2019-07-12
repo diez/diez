@@ -27,6 +27,8 @@ class ViewController: UIViewController {
         }
 
         view.backgroundColor = designSystem.colors.darkBackground.uiColor
+        
+        view.headerBackgroundView.gradientLayer.apply(designSystem.gradients.midnight);
 
         if let mastheadImage = designSystem.images.masthead.uiImage {
             view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)

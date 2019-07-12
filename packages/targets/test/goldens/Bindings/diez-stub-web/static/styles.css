@@ -11,6 +11,8 @@
   --bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
   --bindings-image-width: 246px;
   --bindings-image-height: 246px;
+  --gradient-stop-color: hsla(240, 100%, 50%, 1);
+  --bindings-linear-gradient: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }
 
 .bindings-typograph {
@@ -19,4 +21,16 @@
   font-style: normal;
   font-size: 50px;
   color: hsla(60, 100%, 50%, 1);
+}
+.gradient-stop-color-background-color {
+  background-color: hsla(240, 100%, 50%, 1);
+}
+.gradient-stop-color-color {
+  color: hsla(240, 100%, 50%, 1);
+}
+.bindings-linear-gradient-background {
+  background: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
+}
+.bindings-linear-gradient-background-image {
+  background-image: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }

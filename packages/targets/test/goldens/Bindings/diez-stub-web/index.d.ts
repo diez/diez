@@ -99,9 +99,38 @@ declare global {
   }
 }
 
+export declare class GradientStop {
+  position: number;
+  color: Color;
+}
+
+export declare class Point2D {
+  x: number;
+  y: number;
+}
+
+export declare class LinearGradient {
+  /**
+   * The CSS linear-gradient represntation of the `LinearGradient`.
+   * @example
+   * linear-gradient(45deg, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 0%, 1) 100%)
+   */
+  linearGradient: string;
+  /**
+   * CSS declarations for the `background-image` CSS property.
+   */
+  backgroundImageStyle: {backgroundImage: string};
+  /**
+   * CSS declarations for the `background` CSS property.
+   */
+  backgroundStyle: {background: string};
+}
+
 export declare class Bindings extends StateBag {
   image: Image;
   lottie: Lottie;
   typograph: Typograph;
+  linearGradient: LinearGradient;
+  point: Point2D;
 }
 

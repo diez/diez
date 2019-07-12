@@ -3,6 +3,7 @@ import Lottie
 import DiezLoremIpsum
 
 class View: UIView {
+    let headerBackgroundView = GradientView()
     let headerView = UIView()
     let contentBackgroundView = UIView()
     let contentStackView = UIStackView()
@@ -43,7 +44,16 @@ class View: UIView {
     }
     
     private func addHeaderView() {
+        headerBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        insertSubview(headerBackgroundView, belowSubview: stackView)
+        
+        headerBackgroundView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        headerBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        headerBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        
         stackView.addArrangedSubview(headerView)
+        
+        headerView.bottomAnchor.constraint(equalTo: headerBackgroundView.bottomAnchor).isActive = true
         headerView.heightAnchor.constraint(equalToConstant: 112).isActive = true
     }
     
@@ -105,4 +115,9 @@ class View: UIView {
     
     @available(*, unavailable)
     required init(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }
+}
+
+class GradientView: UIView {
+    var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
+    override class var layerClass: AnyClass { return CAGradientLayer.self }
 }

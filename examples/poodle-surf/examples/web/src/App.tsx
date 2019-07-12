@@ -4,7 +4,6 @@ import ForecastCard from './components/ForecastCard';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import WaterTemperatureCard from './components/WaterTemperatureCard';
-import {generateGradient} from './helpers';
 
 class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}> {
   private diezDs = new Diez<DesignSystem>(DesignSystem);
@@ -29,7 +28,6 @@ class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}>
           style={{marginBottom: ds.designs.report.contentLayoutMargins.bottom}}
           mocks={mocks.report.location}
           ds={ds.designs.report.header}
-          backgroundImage={generateGradient(ds.palette.gradient)}
         />
         <div
           style={{

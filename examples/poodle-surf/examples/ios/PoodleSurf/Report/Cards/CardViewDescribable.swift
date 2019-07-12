@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 protocol CardViewDescribable: UIView {
     var titleLabel: UILabel { get }
     var layoutMargins: UIEdgeInsets { get }
     var titleContentSpacing: CGFloat { get set }
-    var gradient: Gradient? { get set }
+    var backgroundView: GradientView { get }
 }
 
 extension ForecastCardView: CardViewDescribable { }

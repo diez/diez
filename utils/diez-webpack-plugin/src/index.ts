@@ -46,9 +46,9 @@ class DiezWebpackPlugin {
       const hotFilePath = join(this.options.projectPath, '.diez', 'web-hot-url');
       compiler.options.resolve = compiler.options.resolve || {};
       compiler.options.resolve.alias = compiler.options.resolve.alias || {};
-      compiler.options.resolve.alias['@diez'] = existsSync(hotFilePath)
-        ? join(this.options.projectPath, '.diez', 'web-assets')
-        : join(this.options.projectPath, 'build', `${this.options.sdk}-web`, 'static');
+      compiler.options.resolve.alias['@diez/styles.scss'] = existsSync(hotFilePath)
+        ? join(this.options.projectPath, '.diez', 'web-assets', 'styles.scss')
+        : join(this.options.projectPath, 'build', `${this.options.sdk}-web`, 'static', 'styles.scss');
     }
   }
 

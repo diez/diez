@@ -1,12 +1,10 @@
 import {HeaderDesign, LocationMock} from 'diez-poodle-surf';
 import * as React from 'react';
-import {generateGradient} from '../helpers';
 
 interface HeroProps {
   ds: HeaderDesign;
   mocks: LocationMock;
   style?: React.CSSProperties;
-  backgroundImage?: string;
 }
 
 /**
@@ -28,7 +26,7 @@ export default class Hero extends React.PureComponent<HeroProps> {
         <div style={{textAlign: 'center', marginTop:  - ds.locationImage.widthAndHeight / 2}}>
           <div
             style={{
-              backgroundImage: generateGradient(ds.locationImage.strokeGradient),
+              backgroundImage: ds.locationImage.strokeGradient.linearGradient,
               width: ds.locationImage.widthAndHeight,
               height: ds.locationImage.widthAndHeight,
               padding: ds.locationImage.strokeWidth,

@@ -1,11 +1,25 @@
-import { Color, File, Font, Image, Typograph } from "@diez/prefabs";
+import { Color, File, Font, GradientStop, Image, LinearGradient, Point2D, Typograph } from "@diez/prefabs";
 import { Component, property } from "@diez/engine";
 
-class MyDesignSystemPalette extends Component {
+class MyDesignSystemColors extends Component {
     @property
     untitledColor = 2;
     @property
     someColor = 3;
+}
+
+class MyDesignSystemGradients extends Component {
+    @property
+    untitledLinearGradient = 4;
+    @property
+    someGradient = 5;
+}
+
+class MyDesignSystemPalette extends Component {
+    @property
+    colors = new MyDesignSystemColors();
+    @property
+    gradients = new MyDesignSystemGradients();
 }
 
 class MyDesignSystemTypographs extends Component {

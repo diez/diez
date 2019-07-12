@@ -109,6 +109,17 @@ describe('codegen.e2e', () => {
       },
     );
 
+    spec.gradients.push(
+      {
+        name: '',
+        initializer: '4',
+      },
+      {
+        name: 'Some Gradient',
+        initializer: '5',
+      },
+    );
+
     registerAsset(
       {
         src: 'assets/blah/Foobar.png',

@@ -1,10 +1,12 @@
 import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import {
   AssetFolder,
+  CodegenDesignSystem,
   codegenDesignSystem,
   createDesignSystemSpec,
   GeneratedAssets,
   getColorInitializer,
+  getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
   pascalCase,
@@ -31,17 +33,50 @@ const runExportCommand = (sketchtoolPath: string, source: string, folder: string
   return execAsync(command);
 };
 
+interface SketchColor {
+  value: string;
+}
+
 interface SketchColorAsset {
   name: string;
-  color: {
-    value: string;
-  };
+  color: SketchColor;
+}
+
+interface SketchPoint {
+  x: number;
+  y: number;
+}
+
+interface SketchGradientStop {
+  position: number;
+  color: SketchColor;
+}
+
+const enum SketchGradientType {
+  Linear = 0,
+}
+
+interface SketchLinearGradient {
+  gradientType: SketchGradientType.Linear;
+  from: SketchPoint;
+  to: SketchPoint;
+  stops: SketchGradientStop[];
+}
+
+type SketchGradient = SketchLinearGradient | {gradientType: unknown};
+
+const isSketchLinearGradient = (gradient: SketchGradient): gradient is SketchLinearGradient => {
+  return gradient.gradientType === SketchGradientType.Linear;
+};
+
+interface SketchGradientAsset {
+  name: string;
+  gradient: SketchGradient;
 }
 
 interface SketchAssets {
   colorAssets: SketchColorAsset[];
-  // TODO: support gradients.
-  gradientAssets: never[];
+  gradientAssets: SketchGradientAsset[];
   // TODO: support images.
   imageCollection: never[];
 }
@@ -106,6 +141,26 @@ const populateAssets = (assetsDirectory: string, layers: SketchLayer[], extracte
       populateAssets(assetsDirectory, layer.layers, extractedAssets);
     }
   }
+};
+
+const populateInitializerForSketchGradient = (gradient: SketchGradient, name: string, spec: CodegenDesignSystem) => {
+  if (isSketchLinearGradient(gradient)) {
+    spec.gradients.push({
+      name,
+      initializer: getLinearGradientInitializerForSketchGradient(gradient),
+    });
+    return;
+  }
+};
+
+const getLinearGradientInitializerForSketchGradient = (gradient: SketchLinearGradient) => {
+  const stops = gradient.stops.map((stop) => {
+    return {
+      position: stop.position,
+      colorInitializer: getColorInitializer(stop.color.value),
+    };
+  });
+  return getLinearGradientInitializer(stops, gradient.from, gradient.to);
 };
 
 class SketchExporterImplementation implements Exporter {
@@ -175,6 +230,10 @@ class SketchExporterImplementation implements Exporter {
         name,
         initializer: getColorInitializer(value),
       });
+    }
+
+    for (const gradient of dump.assets.gradientAssets) {
+      populateInitializerForSketchGradient(gradient.gradient, gradient.name, codegenSpec);
     }
 
     for (const {name, value: {textStyle}} of dump.layerTextStyles.objects) {

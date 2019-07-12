@@ -3,6 +3,8 @@ package org.diez.examples.poodlesurf
 import android.animation.Animator
 import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.PaintDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Header > LocationImage (Circle Image)
-        locationImage.borderColor = diez.designs.report.header.locationImage.strokeGradient.startColor.color
+        locationImage.borderColor = diez.designs.report.header.locationImage.strokeGradient.stops.first().color.color
         locationImage.borderWidth = diez.designs.report.header.locationImage.strokeWidth.toPx()
         locationImage.layoutParams = (locationImage.layoutParams as FrameLayout.LayoutParams).apply {
             width = diez.designs.report.header.locationImage.widthAndHeight.toPx()
@@ -126,8 +128,6 @@ class MainActivity : AppCompatActivity() {
         cardRoot: LinearLayout,
         cardTitle: TextView
     ) {
-        val gradient = diez.palette.gradient
-
         cardRoot.setPadding(
             shared.layoutMargins.left.toPx(),
             shared.layoutMargins.top.toPx(),
@@ -138,11 +138,12 @@ class MainActivity : AppCompatActivity() {
             bottomMargin = diez.designs.report.contentSpacing.toPx()
         }
 
-        cardRoot.background = GradientDrawable(
-            getOrientation(gradient),
-            intArrayOf(gradient.startColor.color, gradient.endColor.color)
-        ).apply {
-            cornerRadius = shared.cornerRadius.toPx().toFloat()
+        val background = PaintDrawable()
+        background.shape = RectShape()
+        background.shaderFactory = diez.palette.gradients.gradient.shaderFactory
+
+        cardRoot.background = background.apply {
+            setCornerRadius(shared.cornerRadius.toPx().toFloat())
         }
 
         cardTitle.text = shared.title
@@ -340,11 +341,6 @@ class MainActivity : AppCompatActivity() {
         tideLateValue.text = mocks.report.tide.late.value
     }
 
-    // TODO: implement.
-    private fun getOrientation(gradient: SimpleGradient): GradientDrawable.Orientation {
-        return GradientDrawable.Orientation.TL_BR
-    }
-
     private val animationListener = object : Animator.AnimatorListener {
         override fun onAnimationEnd(animation: Animator?) {}
 
@@ -384,4 +380,3 @@ class MainActivity : AppCompatActivity() {
         ).toInt()
     }
 }
-

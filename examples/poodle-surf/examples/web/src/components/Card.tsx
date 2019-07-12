@@ -1,6 +1,5 @@
 import {SharedCardDesign} from 'diez-poodle-surf';
 import * as React from 'react';
-import {generateGradient} from '../helpers';
 
 interface CardProps {
   ds: SharedCardDesign;
@@ -16,7 +15,7 @@ export default class Card extends React.PureComponent<CardProps> {
     return (
       <div
         style={{
-          backgroundImage: generateGradient(ds.gradient),
+          backgroundImage: ds.gradient.linearGradient,
           paddingTop: ds.layoutMargins.top,
           paddingLeft: ds.layoutMargins.left,
           paddingBottom: ds.layoutMargins.bottom,

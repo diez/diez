@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class StrokedCirularImageView: UIView {
+    let strokeView = GradientView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -21,26 +24,12 @@ class StrokedCirularImageView: UIView {
         set { imageView.image = newValue }
     }
 
-    var strokeGradient: Gradient? {
-        get { return strokeView.gradient }
-        set { strokeView.gradient = newValue }
-    }
-
     var strokeWidth: CGFloat {
         get { return strokeMaskLayer.lineWidth }
         set {
             strokeMaskLayer.lineWidth = newValue
             updateStrokePath(forWidth: newValue)
         }
-    }
-
-    func setStrokeColor(_ color: UIColor?) {
-        guard let color = color else {
-            strokeGradient = nil
-            return
-        }
-
-        strokeGradient = Gradient(color: color)
     }
 
     override func layoutSubviews() {
@@ -90,7 +79,6 @@ class StrokedCirularImageView: UIView {
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let imageView = UIImageView()
-    private let strokeView = GradientView()
     private let strokeMaskLayer = CAShapeLayer()
 
     @available(*, unavailable)

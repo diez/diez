@@ -1,9 +1,10 @@
 import {findOpenPort, Log} from '@diez/cli-core';
 import {
   AssetFolder,
-  CodegenDesignSystem,
   codegenDesignSystem,
+  CodegenDesignSystem,
   createDesignSystemSpec,
+  getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
   pascalCase,
@@ -50,13 +51,51 @@ const folders = new Map<FigmaType, AssetFolder>([
   [FigmaType.Component, AssetFolder.Component],
 ]);
 
-interface FigmaFill {
-  color: {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-  };
+/**
+ * Describes a Figma paint type retrieved from the Figma API.
+ * @ignore
+ */
+export const enum FigmaPaintType {
+  Solid = 'SOLID',
+  GradientLinear = 'GRADIENT_LINEAR',
+}
+
+interface FigmaColor {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+interface FigmaLinearGradient {
+  type: FigmaPaintType.GradientLinear;
+  gradientHandlePositions: FigmaVector[];
+  gradientStops: FigmaColorStop[];
+}
+
+interface FigmaSolid {
+  type: FigmaPaintType.Solid;
+  color: FigmaColor;
+}
+
+type FigmaPaint = FigmaSolid | FigmaLinearGradient | {type: unknown};
+
+const isFigmaLinearGradient = (paint: FigmaPaint): paint is FigmaLinearGradient => {
+  return paint.type === FigmaPaintType.GradientLinear;
+};
+
+const isFigmaSolid = (paint: FigmaPaint): paint is FigmaSolid => {
+  return paint.type === FigmaPaintType.Solid;
+};
+
+interface FigmaVector {
+  x: number;
+  y: number;
+}
+
+interface FigmaColorStop {
+  position: number;
+  color: FigmaColor;
 }
 
 interface FigmaTextStyle {
@@ -75,7 +114,7 @@ interface FigmaNode {
   name: string;
   children?: FigmaNode[];
   absoluteBoundingBox?: FigmaDimensions;
-  fills?: FigmaFill[];
+  fills?: FigmaPaint[];
   style?: FigmaTextStyle;
   styles?: {
     fill?: string;
@@ -194,28 +233,75 @@ const downloadAssets = async (
   return Promise.all(streams);
 };
 
-const getColorInitializerFromFigma = ({color: {r, g, b, a}}: FigmaFill) =>
+const populateInitializerForFigmaPaint = (paint: FigmaPaint, name: string, spec: CodegenDesignSystem) => {
+  if (isFigmaSolid(paint)) {
+    spec.colors.push({
+      name,
+      initializer: getSolidInitializerFromFigma(paint),
+    });
+    return;
+  }
+
+  if (isFigmaLinearGradient(paint)) {
+    spec.gradients.push({
+      name,
+      initializer: getLinearGradientInitializerFromFigma(paint),
+    });
+    return;
+  }
+};
+
+const getSolidInitializerFromFigma = (solid: FigmaSolid) =>
+  getColorInitializerFromFigma(solid.color);
+
+const getColorInitializerFromFigma = ({r, g, b, a}: FigmaColor) =>
   `Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+
+const getLinearGradientInitializerFromFigma = (gradient: FigmaLinearGradient) => {
+  const stops = gradient.gradientStops.map((stop) => {
+    return {
+      position: stop.position,
+      colorInitializer: getColorInitializerFromFigma(stop.color),
+    };
+  });
+  return getLinearGradientInitializer(stops, gradient.gradientHandlePositions[0], gradient.gradientHandlePositions[1]);
+};
+
+const getInitializerForTypographColorFromFigma = (node: FigmaNode) => {
+  const fill = node.fills && node.fills[0];
+  if (!fill) {
+    return undefined;
+  }
+
+  if (isFigmaSolid(fill)) {
+    return getSolidInitializerFromFigma(fill);
+  }
+
+  if (isFigmaLinearGradient(fill) && fill.gradientStops[0]) {
+    Log.warning(`A linear gradient fill was found on the "${node.name}" text style which is not supported. The gradient's first stop color will be used instead.`);
+    return getColorInitializerFromFigma(fill.gradientStops[0].color);
+  }
+
+  Log.warning(`An unsupported Text Style fill was found on ${node.name}. The default color will be used instead.`);
+  return undefined;
+};
 
 const processFigmaNode = async (
   spec: CodegenDesignSystem,
-  colors: Map<string, string>,
+  fills: Map<string, string>,
   typographs: Map<string, string>,
   components: Set<string>,
   componentDimensions: Map<string, FigmaDimensions>,
   node: FigmaNode,
 ) => {
-  if (!colors.size && !typographs.size && !components.size) {
+  if (!fills.size && !typographs.size && !components.size) {
     return;
   }
 
   if (node.styles) {
-    if (colors.size && node.styles.fill && colors.has(node.styles.fill) && node.fills && node.fills.length) {
-      spec.colors.push({
-        name: colors.get(node.styles.fill)!,
-        initializer: getColorInitializerFromFigma(node.fills[0]),
-      });
-      colors.delete(node.styles.fill);
+    if (fills.size && node.styles.fill && fills.has(node.styles.fill) && node.fills && node.fills.length) {
+      populateInitializerForFigmaPaint(node.fills[0], fills.get(node.styles.fill)!, spec);
+      fills.delete(node.styles.fill);
     }
 
     if (typographs.size && node.styles.text && typographs.has(node.styles.text) && node.style) {
@@ -236,7 +322,7 @@ const processFigmaNode = async (
           candidateFont,
           node.style.fontPostScriptName,
           node.style.fontSize,
-          node.fills && node.fills[0] && getColorInitializerFromFigma(node.fills[0]),
+          getInitializerForTypographColorFromFigma(node),
         ),
       });
       typographs.delete(node.styles.text);
@@ -250,7 +336,7 @@ const processFigmaNode = async (
 
   if (node.children) {
     for (const childNode of node.children) {
-      await processFigmaNode(spec, colors, typographs, components, componentDimensions, childNode);
+      await processFigmaNode(spec, fills, typographs, components, componentDimensions, childNode);
     }
   }
 };
@@ -264,14 +350,14 @@ const parseFigmaFile = async (
   // Build lookup tables for colors, fills, and components. As we discover color and fill definitions,
   // we can delete them from the lookup table.
   const styles = Object.entries(file.styles || {});
-  const colors = new Map(styles.filter(
+  const fills = new Map(styles.filter(
     ([_, {styleType}]) => styleType === 'FILL').map(([id, {name}]) => [id, name]));
   const typographs = new Map(styles.filter(
     ([_, {styleType}]) => styleType === 'TEXT').map(([id, {name}]) => [id, name]));
   const components = new Set(filenameMap.keys());
   const componentDimensions = new Map<string, FigmaDimensions>();
   for (const node of file.document.children) {
-    await processFigmaNode(spec, colors, typographs, components, componentDimensions, node);
+    await processFigmaNode(spec, fills, typographs, components, componentDimensions, node);
   }
 
   for (const [id, filename] of filenameMap) {

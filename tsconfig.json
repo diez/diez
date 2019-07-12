@@ -13,6 +13,7 @@
   ],
   "exclude": [
     "packages/createproject/**",
-    "packages/test-utils/**"
+    "packages/test-utils/**",
+    "packages/web-sdk-common/**"
   ]
 }

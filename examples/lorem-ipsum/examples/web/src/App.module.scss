@@ -12,10 +12,13 @@
 .masthead {
   // Sass variables from `@diez/styles` provide a variety of directives. Here,
   // we are using colors, URLs, and numbers.
-  background-color: $colors-dark-background;
   background-image: $images-masthead-3x;
   background-size: $images-masthead-width $images-masthead-height;
   height: 194px;
+}
+
+.mastheadContainer {
+  background-image: $gradients-midnight;
 }
 
 .title {

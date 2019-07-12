@@ -298,15 +298,84 @@ diezHTMLExtensions.push(() => {
   };
 });
 
+class GradientStop {
+  constructor({
+    position = 1,
+    color = {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}
+  } = {}) {
+    this.position = position;
+    this.color = new Color(color);
+  }
+}
+
+
+module.exports.GradientStop = GradientStop;
+
+class Point2D {
+  constructor({
+    x,
+    y
+  }) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+
+module.exports.Point2D = Point2D;
+
+class LinearGradient {
+  constructor({
+    stops,
+    start,
+    end
+  }) {
+    this.stops = stops.map((value1) => new GradientStop(value1));
+    this.start = new Point2D(start);
+    this.end = new Point2D(end);
+  }
+}
+
+
+module.exports.LinearGradient = LinearGradient;
+
+const {linearGradientToCss} = require('@diez/web-sdk-common');
+
+Object.defineProperties(LinearGradient.prototype, {
+  linearGradient: {
+    get () {
+      return linearGradientToCss(this);
+    },
+  },
+  backgroundImageStyle: {
+    get () {
+      return {
+        backgroundImage: this.linearGradient,
+      };
+    },
+  },
+  backgroundStyle: {
+    get () {
+      return {
+        background: this.linearGradient,
+      };
+    },
+  },
+});
+
 class Bindings {
   constructor({
     image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, width: 246, height: 246},
     lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
-    typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}}
+    typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}},
+    linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
+    point = {x: 0.5, y: 0.5}
   } = {}) {
     this.image = new Image(image);
     this.lottie = new Lottie(lottie);
     this.typograph = new Typograph(typograph);
+    this.linearGradient = new LinearGradient(linearGradient);
+    this.point = new Point2D(point);
   }
 }
 

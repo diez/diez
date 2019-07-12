@@ -52,6 +52,7 @@ export interface CodegenDesignSystem {
   filename: string;
   projectRoot: string;
   colors: CodegenEntity[];
+  gradients: CodegenEntity[];
   typographs: CodegenEntity[];
   fonts: GeneratedFonts;
   assets: GeneratedAssets;

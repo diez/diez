@@ -1,13 +1,12 @@
-import {Typograph} from '@diez/prefabs';
+import {Typograph, LinearGradient} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
-import {SimpleGradient} from './components/SimpleGradient';
 import {LayoutValues, palette, typographs} from './constants';
 
 class LocationImageDesign extends Component {
   @property strokeWidth = 3;
-  @property strokeGradient = palette.gradient;
+  @property strokeGradient = palette.gradients.gradient;
   @property widthAndHeight = 106;
 }
 
@@ -29,7 +28,7 @@ interface SharedCardDesignState {
   title: string;
   titleTypograph: Typograph;
   titleContentSpacing: number;
-  gradient: SimpleGradient;
+  gradient: LinearGradient;
   layoutMargins: EdgeInsets;
   cornerRadius: number;
 }
@@ -38,7 +37,7 @@ class SharedCardDesign extends Component<SharedCardDesignState> {
   @property title = '';
   @property titleTypograph = typographs.cardTitle;
   @property titleContentSpacing = LayoutValues.DefaultMargin;
-  @property gradient = palette.gradient;
+  @property gradient = palette.gradients.gradient;
   @property layoutMargins = new EdgeInsets({
     top: LayoutValues.DefaultMargin,
     bottom: LayoutValues.LooseMargin,
@@ -102,7 +101,7 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
   @property dayPartsHorizontalSpacing = LayoutValues.DefaultMargin;
   @property dayPartVerticalSpacing = LayoutValues.LooseMargin;
   @property separatorWidth = 1;
-  @property separatorColor = palette.whiteA40;
+  @property separatorColor = palette.colors.whiteA40;
   @property valueUnitMargins = new EdgeInsets();
 }
 
@@ -110,7 +109,7 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
  * The report design.
  */
 export class ReportDesign extends Component {
-  @property backgroundColor = palette.white;
+  @property backgroundColor = palette.colors.white;
   @property contentLayoutMargins = EdgeInsets.simple(LayoutValues.DefaultMargin);
   @property contentSpacing = LayoutValues.DefaultMargin;
   @property header = new HeaderDesign();

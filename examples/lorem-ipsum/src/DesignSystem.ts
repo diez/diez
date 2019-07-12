@@ -1,4 +1,4 @@
-import {Color, Image, Lottie, Typograph, Font} from '@diez/prefabs';
+import {Color, Image, Lottie, Typograph, Font, LinearGradient} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Margin} from './components/Margin';
 
@@ -13,6 +13,7 @@ class Palette extends Component {
   @property white = Color.hex('#FFFFFF');
   @property black = Color.hex('#000010');
   @property purple = Color.rgb(86, 35, 238);
+  @property darkPurple = Color.rgb(22, 11, 54);
   @property lightPurple = this.purple.lighten(this.lightener);
 }
 
@@ -36,6 +37,10 @@ class Colors extends Component {
 }
 
 const colors = new Colors();
+
+class Gradients extends Component {
+  @property midnight = LinearGradient.simpleVertical(palette.darkPurple, palette.black);
+}
 
 /**
  * All of rich language features of TypeScript are at your disposal; for example,
@@ -122,6 +127,7 @@ class Strings extends Component {
  */
 export class DesignSystem extends Component {
   @property colors = colors;
+  @property gradients = new Gradients();
   @property typography = new Typography();
   @property images = new Images();
   @property layoutValues = new LayoutValues();

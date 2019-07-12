@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class ForecastCardView: UIView {
     let titleLabel = UILabel()
@@ -14,6 +15,7 @@ class ForecastCardView: UIView {
     let middlePart = DayPartView()
     let latePart = DayPartView()
     let dayParts: [DayPartView]
+    let backgroundView = GradientView()
     private(set) var separators: [UIView] = []
 
     override init(frame: CGRect) {
@@ -56,20 +58,14 @@ class ForecastCardView: UIView {
         set { separatorWidthConstraints.forEach { $0.constant = newValue } }
     }
 
-    var gradient: Gradient? {
-        get { return gradientView.gradient }
-        set { gradientView.gradient = newValue }
-    }
-
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let partsStackView: UIStackView
     private var separatorWidthConstraints: [NSLayoutConstraint] = []
-    private let gradientView = GradientView()
 
     private func setupLayout() {
-        var constraints = embed(gradientView, shouldActivateConstraints: false)
+        var constraints = embed(backgroundView, shouldActivateConstraints: false)
 
         constraints += embed(outterStackView, shouldActivateConstraints: false)
 

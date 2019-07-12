@@ -19,7 +19,7 @@ jest.doMock('@diez/storage', () => ({
 }));
 
 import {Readable} from 'stream';
-import {FigmaExporter, FigmaFile} from '../../src/exporters/figma';
+import {FigmaExporter, FigmaFile, FigmaPaintType} from '../../src/exporters/figma';
 
 const figma = FigmaExporter.create('mock-token');
 
@@ -50,6 +50,7 @@ const mockFullResponse: FigmaFile = {
           id: '',
           name: '',
           fills: [{
+            type: FigmaPaintType.Solid,
             color: {
               r: 0.03921568627451,
               g: 0.03921568627451,
@@ -60,26 +61,132 @@ const mockFullResponse: FigmaFile = {
           styles: {
             fill: 'color',
           },
-          children: [{
-            id: '',
-            name: '',
-            fills: [{
-              color: {
-                r: 0.392156862745098,
-                g: 0.392156862745098,
-                b: 0.392156862745098,
-                a: 1,
+          children: [
+            {
+              id: '',
+              name: '',
+              fills: [{
+                type: FigmaPaintType.Solid,
+                color: {
+                  r: 0.392156862745098,
+                  g: 0.392156862745098,
+                  b: 0.392156862745098,
+                  a: 1,
+                },
+              }],
+              style: {
+                fontFamily: 'Foobar',
+                fontPostScriptName: 'Foobar-BoldItalic',
+                fontSize: 9001,
               },
-            }],
-            style: {
-              fontFamily: 'Foobar',
-              fontPostScriptName: 'Foobar-BoldItalic',
-              fontSize: 9001,
+              styles: {
+                text: 'text',
+              },
             },
-            styles: {
-              text: 'text',
+            {
+              id: '',
+              name: '',
+              fills: [{
+                type: FigmaPaintType.GradientLinear,
+                gradientHandlePositions: [
+                  {
+                    x: 2.220446049250313e-16,
+                    y: 1.6653345369377348e-16,
+                  },
+                  {
+                    x: 1.0000000000000002,
+                    y: 1.0000000000000002,
+                  },
+                  {
+                    x: -0.4999999999999998,
+                    y: 0.4302501568324906,
+                  },
+                ],
+                gradientStops: [
+                  {
+                    color:{
+                      r: 1,
+                      g: 0,
+                      b: 0,
+                      a: 1,
+                    },
+                    position: 0,
+                  },
+                  {
+                    color: {
+                      r: 0.679999828338623,
+                      g: 0,
+                      b: 1,
+                      a: 1,
+                    },
+                    position: 1,
+                  },
+                ],
+              }],
+              style: {
+                fontFamily: 'Foobar',
+                fontPostScriptName: 'Foobar-BoldItalic',
+                fontSize: 9001,
+              },
+              styles: {
+                text: 'gradientText',
+              },
             },
+          ],
+        },
+        {
+          id: '',
+          name: '',
+          fills: [{
+            type: FigmaPaintType.GradientLinear,
+            gradientHandlePositions: [
+              {
+                x: 2.220446049250313e-16,
+                y: 1.6653345369377348e-16,
+              },
+              {
+                x: 1.0000000000000002,
+                y: 1.0000000000000002,
+              },
+              {
+                x: -0.4999999999999998,
+                y: 0.4302501568324906,
+              },
+            ],
+            gradientStops: [
+              {
+                color:{
+                  r: 1,
+                  g: 0,
+                  b: 0,
+                  a: 1,
+                },
+                position: 0,
+              },
+              {
+                color: {
+                  r: 0.679999828338623,
+                  g: 0,
+                  b: 1,
+                  a: 1,
+                },
+                position: 1,
+              },
+            ],
           }],
+          styles: {
+            fill: 'linearGradient',
+          },
+        },
+        {
+          id: '',
+          name: '',
+          fills: [{
+            type: 'unrecognized',
+          }],
+          styles: {
+            fill: 'unrecognizedFill',
+          },
         },
       ],
     }],
@@ -94,8 +201,20 @@ const mockFullResponse: FigmaFile = {
       name: 'Diez Black',
       styleType: 'FILL',
     },
+    linearGradient: {
+      name: 'Diez Red To Purple',
+      styleType: 'FILL',
+    },
+    unrecognizedFill: {
+      name: 'Unrecognized Fill',
+      styleType: 'FILL',
+    },
     text: {
       name: 'Foobar Typograph',
+      styleType: 'TEXT',
+    },
+    gradientText: {
+      name: 'Gradient Typograph',
       styleType: 'TEXT',
     },
   },
@@ -239,10 +358,18 @@ describe('Figma', () => {
           ]]),
         ]]),
         assetsDirectory: 'out/Hello.figma.contents',
-        colors: [{
-          initializer: 'Color.rgba(10, 10, 10, 1)',
-          name: 'Diez Black',
-        }],
+        colors: [
+          {
+            initializer: 'Color.rgba(10, 10, 10, 1)',
+            name: 'Diez Black',
+          },
+        ],
+        gradients: [
+          {
+            initializer: 'new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 0, 0, 1)), GradientStop.make(1.000000, Color.rgba(173, 0, 255, 1))], start: Point2D.make(0.000000, 0.000000), end: Point2D.make(1.000000, 1.000000)})',
+            name: 'Diez Red To Purple',
+          },
+        ],
         designSystemName: 'Hello',
         filename: 'src/Hello.figma.ts',
         fonts: new Map([[
@@ -250,11 +377,17 @@ describe('Figma', () => {
           new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]]),
         ]]),
         projectRoot: '.',
-        typographs: [{
-          name: 'Foobar Typograph',
-          initializer:
-            'new Typograph({color: Color.rgba(100, 100, 100, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
-        }],
+        typographs: [
+          {
+            name: 'Foobar Typograph',
+            initializer:
+              'new Typograph({color: Color.rgba(100, 100, 100, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
+          },
+          {
+            name: 'Gradient Typograph',
+            initializer: 'new Typograph({color: Color.rgba(255, 0, 0, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
+          },
+        ],
       });
 
       process.nextTick(() => {

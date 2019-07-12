@@ -32,5 +32,8 @@
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

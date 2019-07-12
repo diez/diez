@@ -1,5 +1,32 @@
-import { File, Image } from "@diez/prefabs";
-import { Component } from "@diez/engine";
+import { Color, File, GradientStop, Image, LinearGradient, Point2D } from "@diez/prefabs";
+import { Component, property } from "@diez/engine";
+
+class PoodleSurfColors extends Component {
+    @property
+    pink = Color.rgba(255, 63, 112, 1);
+    @property
+    orange = Color.rgba(255, 154, 58, 1);
+    @property
+    blue = Color.rgba(120, 207, 253, 1);
+    @property
+    white = Color.rgba(255, 255, 255, 1);
+    @property
+    whiteA40 = Color.rgba(255, 255, 255, 0.4);
+    @property
+    black = Color.rgba(0, 0, 0, 1);
+}
+
+class PoodleSurfGradients extends Component {
+    @property
+    gradient = new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)});
+}
+
+class PoodleSurfPalette extends Component {
+    @property
+    colors = new PoodleSurfColors();
+    @property
+    gradients = new PoodleSurfGradients();
+}
 
 export class PoodleSurfSlicesFiles {
     static Thermometer = new File({src: "assets/PoodleSurf.sketch.contents/slices/Thermometer.png"});
@@ -53,6 +80,8 @@ export class PoodleSurfSlices {
 }
 
 export class PoodleSurfDesignSystem extends Component {
+    @property
+    palette = new PoodleSurfPalette();
 }
 
 export const poodleSurfDesignSystem = new PoodleSurfDesignSystem();

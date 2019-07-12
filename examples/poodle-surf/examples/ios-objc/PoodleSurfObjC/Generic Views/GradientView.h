@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GradientView : UIView
 
-- (void)applyGradient:(DEZSimpleGradient *)gradient;
+@property (nonatomic, readonly) CAGradientLayer *gradientLayer;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder __attribute__((unavailable("This class does not support NSCoding.")));
 

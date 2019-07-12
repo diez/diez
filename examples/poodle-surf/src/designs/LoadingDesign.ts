@@ -12,6 +12,6 @@ enum LottieJsons {
  * The loading design.
  */
 export class LoadingDesign extends Component {
-  @property backgroundColor = palette.blue;
+  @property backgroundColor = palette.colors.blue;
   @property animation = Lottie.fromJson(LottieJsons.PoodleSurf);
 }

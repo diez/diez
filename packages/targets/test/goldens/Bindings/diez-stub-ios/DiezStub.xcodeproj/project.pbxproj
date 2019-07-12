@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		012EB76A870CB4A7D7527102E13F0AFD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D80839BA9666C276FD55637472736C1A /* assets */; };
+		0223CD8425934D209393C5C458FEDE68 /* LinearGradient+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C61241B372972554AA1D66DF18F052 /* LinearGradient+Binding.swift */; };
 		0DB8AE953361A038D914C3C5F1E46FDB /* Bundle+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE97E7A473C2D663F9221BBCFB0D6E5 /* Bundle+Environment.swift */; };
 		108A4498340BC4C0482D8D2AA211D236 /* Lottie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263AFEF2C4505E942A50A2C3FFCB425F /* Lottie.swift */; };
 		1B0A959296A666217D7A0B4C315371A9 /* Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5200545FEA8D9036054F764B19EEC102 /* Diez.swift */; };
@@ -18,16 +19,20 @@
 		35C4CB5F2F0A994E4D65F1145C6CBCCC /* Bundle+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2033D197C87132619563FDCBF3076E /* Bundle+Static.swift */; };
 		43F025A40CF48D48F83C7F712D32F9BE /* Lottie+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA91049CF649A1AE50E700DB149E5 /* Lottie+Binding.swift */; };
 		48EEAB321103D62DCD14567E8777BBD2 /* Typograph+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134BF4AC055DADAD76630D14C02E8A2 /* Typograph+Binding.swift */; };
+		4A0ADC8D0F776D1DB4A99ABC0DE8F1F9 /* Point2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE20D5466E834322461A7693EB8C949 /* Point2D.swift */; };
 		5340E71A3CD2A2FEC7A894D47BA1303F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B0CBAF15611244D045E7999114C8A /* Image.swift */; };
+		535887A1E1AA83159970674B6768228D /* Point2D+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA97DDD9A7081279C2BF2D9D3FE190CD /* Point2D+Binding.swift */; };
 		590199FD7F62DE6DD27278065498D65E /* ReflectedCustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D95D9BD0E84421610DD95EEAAEFDA3B /* ReflectedCustomStringConvertible.swift */; };
 		64623CF1B84B7964CC33E272B5165330 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3079B1384BD06EE8EBB48505985BAC9 /* Color.swift */; };
 		676F77F5215F673ACC754384A591C47B /* Bindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123F5E73C868209F9A884D6D03B826D6 /* Bindings.swift */; };
+		799AE05A93E085E50C7234CEEEFAA79B /* LinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813812AEFCC1BB5B22C557244A1BE5F5 /* LinearGradient.swift */; };
 		7D0217CB7D6176C95FF366DC4DBE1650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482EC2C4189B3B8B304576B38E254083 /* Images.xcassets */; };
 		8D9791B31E062FDF6D571E331FA0D50E /* Typograph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74433DE600D9C72B6D36287376EE502 /* Typograph.swift */; };
 		97FA5C6B9E88E84AE2A3D20AE927D59E /* Static.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5E108BF140BD685D659A258A78A32A4C /* Static.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A5ED586E5DDBC2FEE4D356C913B1197B /* Bundle+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81C57324B94295575E3676C0F32C8D0 /* Bundle+File.swift */; };
 		BA3861C33773396382B30BD9AB6F0D3B /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A0B8DEBE9CB8D94DACCED192B2D4E6 /* Lottie.framework */; };
 		BA503BB9F3C1F14E9E0521FB0144E94D /* Image+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC81DA6485DC5CEADF4FB56A15C36F3 /* Image+Binding.swift */; };
+		C2EE21012304852D84A336CE164EB6DF /* GradientStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CBE006ECEAF9C243C561883C13A8CE /* GradientStop.swift */; };
 		CB77CEDF8462794317E629439E5483D6 /* Color+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A67FEB60DD6033589048DEE59E4C2A8 /* Color+Binding.swift */; };
 		EE60578FFB630A1C71BFD87CBD693839 /* File+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532372957C7BF2D47B40B9DD6C61D279 /* File+Binding.swift */; };
 /* End PBXBuildFile section */
@@ -55,19 +60,24 @@
 		5E108BF140BD685D659A258A78A32A4C /* Static.bundle */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; path = Static.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		6639302602D066191557EE67F2F3A8BB /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		6A2033D197C87132619563FDCBF3076E /* Bundle+Static.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Static.swift"; sourceTree = "<group>"; };
+		70CBE006ECEAF9C243C561883C13A8CE /* GradientStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientStop.swift; sourceTree = "<group>"; };
+		813812AEFCC1BB5B22C557244A1BE5F5 /* LinearGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradient.swift; sourceTree = "<group>"; };
 		853B0CBAF15611244D045E7999114C8A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		8778BD519B243F8B2E2F9E6B58B6660F /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		8DC81DA6485DC5CEADF4FB56A15C36F3 /* Image+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Binding.swift"; sourceTree = "<group>"; };
 		9BE97E7A473C2D663F9221BBCFB0D6E5 /* Bundle+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Environment.swift"; sourceTree = "<group>"; };
+		A6C61241B372972554AA1D66DF18F052 /* LinearGradient+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+Binding.swift"; sourceTree = "<group>"; };
 		A9CF698BEF6434F69456E0191B649BA7 /* Lottie+LOTAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lottie+LOTAnimationView.swift"; sourceTree = "<group>"; };
 		C3079B1384BD06EE8EBB48505985BAC9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		C74433DE600D9C72B6D36287376EE502 /* Typograph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typograph.swift; sourceTree = "<group>"; };
 		C9A0B8DEBE9CB8D94DACCED192B2D4E6 /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Lottie.framework; sourceTree = "<group>"; };
+		CA97DDD9A7081279C2BF2D9D3FE190CD /* Point2D+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Point2D+Binding.swift"; sourceTree = "<group>"; };
 		CF6D6468DECE18204492CA00282CCC8F /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D7BEA91049CF649A1AE50E700DB149E5 /* Lottie+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lottie+Binding.swift"; sourceTree = "<group>"; };
 		D80839BA9666C276FD55637472736C1A /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = Sources/Static/assets; sourceTree = SOURCE_ROOT; };
 		D81C57324B94295575E3676C0F32C8D0 /* Bundle+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+File.swift"; sourceTree = "<group>"; };
 		DBA378500CBA8DF7D7D2779A86A54AAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDE20D5466E834322461A7693EB8C949 /* Point2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +135,10 @@
 				2A67FEB60DD6033589048DEE59E4C2A8 /* Color+Binding.swift */,
 				532372957C7BF2D47B40B9DD6C61D279 /* File+Binding.swift */,
 				8DC81DA6485DC5CEADF4FB56A15C36F3 /* Image+Binding.swift */,
+				A6C61241B372972554AA1D66DF18F052 /* LinearGradient+Binding.swift */,
 				D7BEA91049CF649A1AE50E700DB149E5 /* Lottie+Binding.swift */,
 				A9CF698BEF6434F69456E0191B649BA7 /* Lottie+LOTAnimationView.swift */,
+				CA97DDD9A7081279C2BF2D9D3FE190CD /* Point2D+Binding.swift */,
 				1134BF4AC055DADAD76630D14C02E8A2 /* Typograph+Binding.swift */,
 			);
 			path = Bindings;
@@ -160,8 +172,11 @@
 				C3079B1384BD06EE8EBB48505985BAC9 /* Color.swift */,
 				6639302602D066191557EE67F2F3A8BB /* File.swift */,
 				CF6D6468DECE18204492CA00282CCC8F /* Font.swift */,
+				70CBE006ECEAF9C243C561883C13A8CE /* GradientStop.swift */,
 				853B0CBAF15611244D045E7999114C8A /* Image.swift */,
+				813812AEFCC1BB5B22C557244A1BE5F5 /* LinearGradient.swift */,
 				263AFEF2C4505E942A50A2C3FFCB425F /* Lottie.swift */,
+				EDE20D5466E834322461A7693EB8C949 /* Point2D.swift */,
 				C74433DE600D9C72B6D36287376EE502 /* Typograph.swift */,
 			);
 			path = Components;
@@ -293,11 +308,16 @@
 				EE60578FFB630A1C71BFD87CBD693839 /* File+Binding.swift in Sources */,
 				31D405B5F5E3947ED5EC505C44F4868D /* File.swift in Sources */,
 				1E6B4DB1C871835F5C4BD84CC3A5370C /* Font.swift in Sources */,
+				C2EE21012304852D84A336CE164EB6DF /* GradientStop.swift in Sources */,
 				BA503BB9F3C1F14E9E0521FB0144E94D /* Image+Binding.swift in Sources */,
 				5340E71A3CD2A2FEC7A894D47BA1303F /* Image.swift in Sources */,
+				0223CD8425934D209393C5C458FEDE68 /* LinearGradient+Binding.swift in Sources */,
+				799AE05A93E085E50C7234CEEEFAA79B /* LinearGradient.swift in Sources */,
 				43F025A40CF48D48F83C7F712D32F9BE /* Lottie+Binding.swift in Sources */,
 				2D0E231FCC3BB58D4B1997827337661F /* Lottie+LOTAnimationView.swift in Sources */,
 				108A4498340BC4C0482D8D2AA211D236 /* Lottie.swift in Sources */,
+				535887A1E1AA83159970674B6768228D /* Point2D+Binding.swift in Sources */,
+				4A0ADC8D0F776D1DB4A99ABC0DE8F1F9 /* Point2D.swift in Sources */,
 				590199FD7F62DE6DD27278065498D65E /* ReflectedCustomStringConvertible.swift in Sources */,
 				48EEAB321103D62DCD14567E8777BBD2 /* Typograph+Binding.swift in Sources */,
 				8D9791B31E062FDF6D571E331FA0D50E /* Typograph.swift in Sources */,

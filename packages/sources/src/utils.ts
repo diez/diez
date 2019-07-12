@@ -35,6 +35,10 @@ export const locateBinaryMacOS = async (bundleId: string) => {
   }
 
   const result = await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
+  if (!result) {
+    return undefined;
+  }
+
   return result.split('\n')[0];
 };
 

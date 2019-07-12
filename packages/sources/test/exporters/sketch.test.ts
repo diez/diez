@@ -37,7 +37,42 @@ beforeEach(() => {
               },
             },
           ],
-          gradientAssets: [],
+          gradientAssets: [
+            {
+              gradient: {
+                from: {
+                  x: 0.2569052827206286,
+                  y: -0.05298834628054177,
+                },
+                gradientType: 0,
+                stops: [
+                  {
+                    color:{
+                      value: '#ff3f70',
+                    },
+                    position: 0,
+                  },
+                  {
+                    color: {
+                      value: '#ff9a3a',
+                    },
+                    position: 1,
+                  },
+                ],
+                to: {
+                  x: 0.9120054676554693,
+                  y: 1.0394243442406286,
+                },
+              },
+              name: 'Pink To Orange',
+            },
+            {
+              gradient: {
+                gradientType: 9999,
+              },
+              name: 'Unrecognized Gradient',
+            },
+          ],
           imageCollection: [],
         },
         layerTextStyles: {
@@ -163,6 +198,10 @@ describe('Sketch', () => {
         ]]),
         assetsDirectory: 'out/Test.sketch.contents',
         colors: [{initializer: 'Color.rgba(255, 0, 0, 1)', name: 'Red'}],
+        gradients: [{
+          name: 'Pink To Orange',
+          initializer: 'new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)})',
+        }],
         designSystemName: 'Test',
         filename: 'src/Test.sketch.ts',
         fonts: new Map([['Foobar', new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]])]]),

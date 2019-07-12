@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class TemperatureCardView: UIView {
     let titleLabel = UILabel()
     let temperatureView = HorizontalImageLabelView()
     let wetsuitView = HorizontalImageVerticalLabelsView()
+    let backgroundView = GradientView()
 
     override init(frame: CGRect) {
         innerStackView = UIStackView(arrangedSubviews: [
@@ -45,19 +47,13 @@ class TemperatureCardView: UIView {
         set { outterStackView.layoutMargins = newValue }
     }
 
-    var gradient: Gradient? {
-        get { return gradientView.gradient }
-        set { gradientView.gradient = newValue }
-    }
-
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let innerStackView: UIStackView
-    private let gradientView = GradientView()
 
     private func setupLayout() {
-        var constraints = embed(gradientView, shouldActivateConstraints: false)
+        var constraints = embed(backgroundView, shouldActivateConstraints: false)
 
         constraints += embed(outterStackView, shouldActivateConstraints: false)
 

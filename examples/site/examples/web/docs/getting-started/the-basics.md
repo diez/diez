@@ -90,7 +90,7 @@ There are several more prefabs available [here](/docs/latest/modules/prefabs.htm
 
 Have something else in mind? You're in luck — Diez was carefully designed with extensibility and customizability as core principles. You're able to use Diez without leveraging _any_ of its prefabs if you so choose — you'll just need to define your own custom components.
 
-Two examples of custom components are demonstrated in example projects [here](https://github.com/diez/diez/blob/master/examples/lorem-ipsum/src/components/Margin.ts) and [here.](https://github.com/diez/diez/blob/master/examples/poodle-surf/src/designs/components/SimpleGradient.ts)
+An example of a custom component is demonstrated in an example project [here](https://github.com/diez/diez/blob/master/examples/lorem-ipsum/src/components/Margin.ts).
 
 ### Next steps
 

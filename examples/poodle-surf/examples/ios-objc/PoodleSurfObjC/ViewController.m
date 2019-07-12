@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         imageView.image = component.designs.navigationTitle.icon.uiImage;
 
-        [gradientView applyGradient:component.designs.report.waterTemperature.shared.gradient];
+        [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.gradient];
 
         [animationView dez_loadLottie:component.designs.loading.animation withSession:NSURLSession.sharedSession completion:nil];
     }];

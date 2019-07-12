@@ -29,7 +29,7 @@ extension ReportViewController {
         view.placeLabel.apply(design.placeLabel)
         view.pinIconImageView.image = design.mapPinIcon.uiImage
         view.locationImageView.strokeWidth = design.locationImage.strokeWidth
-        view.locationImageView.strokeGradient = Gradient(design.locationImage.strokeGradient)
+        view.locationImageView.strokeView.gradientLayer.apply(design.locationImage.strokeGradient)
         view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
         view.bannerHeight = design.bannerHeight
         view.labelsStackViewLayoutMargins = UIEdgeInsets(design.labelsLayoutMargin)
@@ -76,9 +76,9 @@ extension ReportViewController {
         view.titleLabel.text = design.title
         view.titleLabel.apply(design.titleTypograph)
         view.titleContentSpacing = design.titleContentSpacing
-        view.gradient = Gradient(design.gradient)
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
         view.cornerRadius = design.cornerRadius
+        view.backgroundView.gradientLayer.apply(design.gradient)
     }
 
     private func apply(_ design: DayPartDesign, to view: DayPartView) {

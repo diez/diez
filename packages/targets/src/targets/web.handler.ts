@@ -249,13 +249,19 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       for (const [propertyName, property] of Object.entries(component.spec.properties)) {
         const propertyType = property.type.toString();
         // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
-        if (['number', 'string', 'boolean'].includes(propertyType) && !component.binding && componentName !== 'Font') {
-          const variableName = joinToKebabCase(componentName, propertyName);
-          this.output.styles.variables.set(variableName, property.initializer);
+        if (!['number', 'string', 'boolean'].includes(propertyType) || component.binding) {
+          continue;
+        }
 
-          if (propertyType === 'number') {
-            numberVariables.add(variableName);
-          }
+        if (componentName === 'Font' || componentName === 'GradientStop') {
+          continue;
+        }
+
+        const variableName = joinToKebabCase(componentName, propertyName);
+        this.output.styles.variables.set(variableName, property.initializer);
+
+        if (propertyType === 'number') {
+          numberVariables.add(variableName);
         }
       }
     }
