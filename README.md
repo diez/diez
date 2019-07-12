@@ -1,11 +1,23 @@
 # Diez &middot; [![Build Status](https://travis-ci.com/diez/diez.svg?token=R7p5y7u83p1oNU4bsu1p&branch=master)](https://travis-ci.com/diez/diez) [![codecov](https://codecov.io/gh/diez/diez/branch/master/graph/badge.svg?token=pgB9U8YLUU)](https://codecov.io/gh/diez/diez)
 
-This is the monorepo for Diez.
+Diez is a tool for creating highly scalable, cross-platform design systems.  The core of Diez is a framework for composing design tokens in TypeScript, plus a [compiler](https://github.com/diez/diez/tree/master/packages/compiler) (transpiler) that builds those tokens into pure-native SDKs for iOS, Android, and the Web.
 
-## Experiencing Diez
-Diez aims to make it easy to adopt a unified design language across codebases, platforms, and teams. It is intended to be used as the source of truth for your design system.
+This monorepo also includes:
 
-Please refer to [beta.diez.org/getting-started](https://beta.diez.org/getting-started) for installation instructions and a thorough set of getting started guides.
+ * [Design extractors](https://github.com/diez/diez/tree/master/packages/sources): Extract image assets and strongly typed style definitions from any Sketch, Figma, InVision DSM, or Adobe XD file
+ * [Prefabs](https://github.com/diez/diez/tree/master/packages/prefabs): Pre-built, reusable components for common design system elements like Colors and Typography
+ * [Diez CLI](https://github.com/diez/diez/tree/master/packages/cli-core): Generate, configure, and manage Diez projects
+ * You can find all of the packages in the repo [here](https://github.com/diez/diez/tree/master/packages).  Feel free to take a look around!
+
+## Getting Started
+
+Please refer to [beta.diez.org/getting-started](https://diez:supersecure@beta.diez.org/getting-started) for installation instructions and a thorough set of getting started guides. If prompted, the username is `diez` and the password is `supersecure`.
+
+## Questions, guides, FAQ
+
+Join our [Spectrum Community](https://spectrum.chat/diez) to open a direct line to our team.  Feel free also to file a GitHub issue if you encounter any bugs or problems.
+
+Also check out the beta website:  [beta.diez.org](https://diez:supersecure@beta.diez.org/).  If prompted, the username is `diez` and the password is `supersecure`.
 
 ## Universal commands
 
