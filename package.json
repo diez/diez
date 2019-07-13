@@ -35,7 +35,7 @@
     "tslint-config-haiku": "^1.0.21",
     "typedoc": "^0.14.2",
     "typedoc-plugin-no-inherit": "^1.1.6",
-    "typescript": "^3.5.1",
+    "typescript": "^3.5.3",
     "uglify-es": "^3.3.9"
   },
   "scripts": {
@@ -59,7 +59,7 @@
   },
   "resolutions": {
     "istanbul-api": "^2.0.0",
-    "typescript": "^3.5.1",
+    "typescript": "^3.5.3",
     "webpack": "^4.35.0"
   }
 }

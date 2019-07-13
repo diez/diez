@@ -44,7 +44,7 @@
     "ts-node": "^8.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3"
   },
   "publishConfig": {
     "access": "public"
