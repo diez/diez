@@ -1,20 +1,20 @@
-import {Color, GradientStop, LinearGradient, Point2D} from '@diez/prefabs';
+import {Color, GradientStop, LinearGradient, Point2D, Toward} from '@diez/prefabs';
 import {linearGradientToCss} from '../src/css-linear-gradient';
 
 describe('linearGradientToCss', () => {
   test('simple two color', () => {
-    const gradient = LinearGradient.simpleHorizontal(Color.rgb(255, 255, 255), Color.rgb(0, 0, 0));
+    const gradient = LinearGradient.make(Toward.Right, Color.rgb(255, 255, 255), Color.rgb(0, 0, 0));
     expect(linearGradientToCss(gradient))
       .toBe('linear-gradient(90deg, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 0%, 1) 100%)');
   });
 
   test('simple single color', () => {
-    const gradient = LinearGradient.simpleHorizontal(Color.rgb(255, 255, 255));
+    const gradient = LinearGradient.make(Toward.Right, Color.rgb(255, 255, 255));
     expect(linearGradientToCss(gradient)).toBe('linear-gradient(90deg, hsla(0, 0%, 100%, 1) 0%)');
   });
 
   test('simple no color provided', () => {
-    const gradient = LinearGradient.simpleHorizontal();
+    const gradient = LinearGradient.make(Toward.Right);
     expect(linearGradientToCss(gradient)).toBe('linear-gradient(none)');
   });
 
@@ -24,7 +24,7 @@ describe('linearGradientToCss', () => {
       Color.rgb(0, 255, 0),
       Color.rgb(0, 0, 255),
     ];
-    const gradient = LinearGradient.simpleHorizontal(...colors);
+    const gradient = LinearGradient.make(Toward.Right, ...colors);
     expect(linearGradientToCss(gradient))
       .toBe('linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(120, 100%, 50%, 1) 50%, hsla(240, 100%, 50%, 1) 100%)');
   });

@@ -1,4 +1,4 @@
-import {LinearGradientState, Point2DState} from '@diez/prefabs';
+import {cssLinearGradientLength, linearGradientStartAndEndPoints, LinearGradientState, Point2DState} from '@diez/prefabs';
 
 /**
  * @returns The hypotenuse of the provided point.
@@ -13,16 +13,6 @@ const normalizePoint = (point: Point2DState) => {
   return {
     x: point.x / length,
     y: point.y / length,
-  };
-};
-
-/**
- * @returns A Point2D where `x = pointA.x + pointB.x` and `y = pointA.y + pointB.y`.
- */
-const addPoints = (pointA: Point2DState, pointB: Point2DState) => {
-  return {
-    x: pointA.x + pointB.x,
-    y: pointA.y + pointB.y,
   };
 };
 
@@ -119,19 +109,19 @@ const isPointInDirection = (lineStart: Point2DState, lineEnd: Point2DState, poin
 };
 
 /**
- * Gets the length of a CSS linear gradient line.
- *
- * See https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient
- */
-const cssLinearGradientLength = (angle: number) =>
-  Math.abs(Math.sin(angle)) + Math.abs(Math.cos(angle));
-
-/**
- * Converts from an angle where 0deg is right and a positive counter-clockwise, to an angle where 0deg is up and
+ * Converts from an angle where 0deg is right and a positive counter-clockwise, to an angle where 0 degrees is up and
  * positive is clockwise.
  */
 const convertToCSSLinearGradientAngle = (angle: number) =>
   -angle + Math.PI / 2;
+
+/**
+ * @returns A normalized direction vector for the provided start and end points.
+ */
+const normalizedDirectionFromPoints = (start: Point2DState, end: Point2DState) => {
+  const direction = subtractPoints(end, start);
+  return normalizePoint(direction);
+};
 
 /**
  * Determines the linear gradient stop position for the provided point projected onto a CSS linear gradient line
@@ -165,17 +155,11 @@ const convertToCSSLinearGradientAngle = (angle: number) =>
  */
 const stopPositionForPoint = (angle: number, point: Point2DState) => {
   const length = cssLinearGradientLength(angle);
-  // The length of a CSS linear gradient line is `abs(width * sin(angle)) + abs(height * cos(angle))`. Since our width
-  // and height are 1 we can omit them from the equation.
-  // See https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient
-  const differenceVector = {
-    x: Math.sin(angle) * length / 2,
-    y: Math.cos(angle) * length / 2,
-  };
   const center = {x: 0.5, y: 0.5};
-  const start = subtractPoints(center, differenceVector);
-  const end = addPoints(center, differenceVector);
-  const direction = normalizePoint(differenceVector);
+  const points = linearGradientStartAndEndPoints(angle, length, center);
+  const start = convertPoint(points.start);
+  const end = convertPoint(points.end);
+  const direction = normalizedDirectionFromPoints(start, end);
 
   const projectedPoint = nearestPointOnLine(center, direction, point);
 
@@ -189,10 +173,11 @@ const stopPositionForPoint = (angle: number, point: Point2DState) => {
 };
 
 /**
- * Converts the provided point from a coordinate space where (0, 0) is top left and (1, 1) is bottom right, to a space
- * where (0, 0) is bottom left and (1, 1) is top right.
+ * Converts the provided point between the following coordinate spaces:
+ * - (0, 0) is top left and (1, 1) is bottom right,
+ * - (0, 0) is bottom left and (1, 1) is top right.
  */
-const convertPoint = (point: Point2DState) => {
+export const convertPoint = (point: Point2DState) => {
   return {
     x: point.x,
     y: 1 - point.y,

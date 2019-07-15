@@ -1,4 +1,4 @@
-import {Color, Image, Lottie, Typograph, Font, LinearGradient} from '@diez/prefabs';
+import {Color, Image, Lottie, Toward, Typograph, Font, LinearGradient} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {Margin} from './components/Margin';
 
@@ -39,7 +39,7 @@ class Colors extends Component {
 const colors = new Colors();
 
 class Gradients extends Component {
-  @property midnight = LinearGradient.simpleVertical(palette.darkPurple, palette.black);
+  @property midnight = LinearGradient.make(Toward.Bottom, palette.darkPurple, palette.black);
 }
 
 /**
