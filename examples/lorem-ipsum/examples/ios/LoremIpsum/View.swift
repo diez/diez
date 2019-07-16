@@ -11,7 +11,7 @@ class View: UIView {
     let titleLabel = UILabel()
     let captionLabel = UILabel()
     let animationStackView = UIStackView()
-    let animationView = LOTAnimationView()
+    let animationView = AnimationView()
     let animationLabel = UILabel()
     
     override init(frame: CGRect) {

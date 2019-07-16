@@ -6,6 +6,8 @@ matrix:
     language: objective-c
     osx_image: xcode10.2
     cache: yarn
+    before_script:
+    - pod repo update
     script:
     - yarn health
     after_success:
@@ -27,8 +29,10 @@ matrix:
     - yarn build-examples --target android
   - name: iOS Examples
     language: objective-c
-    cache: cocoapods
     osx_image: xcode10.2
+    cache: cocoapods
+    before_script:
+    - pod repo update
     script:
     - yarn build-examples --target ios
     addons:
@@ -43,6 +47,7 @@ before_install:
 - nvm alias default 10.15.3
 - nvm use 10.15.3
 - export PATH="$HOME/.yarn/bin:$PATH"
+- gem install cocoapods -v '1.7.4'
 install: yarn
 branches:
   only:

@@ -94,13 +94,13 @@ extension Lottie {
 }
 ```
 
-#### LOTAnimationView Loader
+#### AnimationView Loader
 
 ```swift
-extension LOTAnimationView {
-    typealias LoadCompletion = (Result<Void, LottieError>) -> Void
+extension AnimationView {
+    typealias LoadCompletion = (Bool) -> Void
 
-    func load(_ lottie: Lottie, session: URLSession = .shared, completion: LoadCompletion? = nil) -> URLSessionDataTask?
+    func load(_ lottie: Lottie, completion: LoadCompletion? = nil)
 }
 ```
 

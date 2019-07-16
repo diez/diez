@@ -5,5 +5,5 @@ target 'PoodleSurf' do
 
   pod 'DiezPoodleSurf', :path => '../../build/diez-poodle-surf-ios'
 
-  pod 'lottie-ios', '2.5.2'
+  pod 'lottie-ios', '3.1.1'
 end

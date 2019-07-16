@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.stackView appendView:imageView];
 
-    LOTAnimationView *animationView = [[LOTAnimationView alloc] init];
+    AnimationView *animationView = [[AnimationView alloc] init];
     [self.stackView appendView:animationView];
     [animationView.heightAnchor constraintEqualToAnchor:animationView.widthAnchor].active = YES;
 
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.gradient];
 
-        [animationView dez_loadLottie:component.designs.loading.animation withSession:NSURLSession.sharedSession completion:nil];
+        [animationView dez_loadLottie:component.designs.loading.animation completion:nil];
     }];
 }
 

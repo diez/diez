@@ -10,12 +10,13 @@ import UIKit
 import Lottie
 
 class LoadingView: UIView {
-    let animationView = LOTAnimationView()
+    let animationView = AnimationView()
 
     override init(frame: CGRect) {
         super.init(frame: CGRect.zero)
 
         setupLayout()
+        configureViews()
     }
 
     override class var requiresConstraintBasedLayout: Bool {
@@ -29,6 +30,10 @@ class LoadingView: UIView {
             animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
+    }
+    
+    private func configureViews() {
+        animationView.backgroundBehavior = .pauseAndRestore
     }
 
     @available(*, unavailable)

@@ -1,11 +1,11 @@
 PODS:
   - DiezLoremIpsum (0.1.0):
-    - lottie-ios (~> 2.5.2)
-  - lottie-ios (2.5.2)
+    - lottie-ios (~> 3.1.1)
+  - lottie-ios (3.1.1)
 
 DEPENDENCIES:
   - DiezLoremIpsum (from `../../build/diez-lorem-ipsum-ios`)
-  - lottie-ios (= 2.5.2)
+  - lottie-ios (= 3.1.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -16,9 +16,9 @@ EXTERNAL SOURCES:
     :path: "../../build/diez-lorem-ipsum-ios"
 
 SPEC CHECKSUMS:
-  DiezLoremIpsum: 4dccf7d4536f9e1d8ca23aef41237380eeb21a91
-  lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
+  DiezLoremIpsum: 3b02836469ae9dd33886900e766abcbaab33cc2c
+  lottie-ios: 43a472d22b2dd2bed292cc4010c0b4d2e66d3ba8
 
-PODFILE CHECKSUM: a79aa59f925d2c472d63b1d2344ba6da58241ee9
+PODFILE CHECKSUM: 0252dab712b9ae8559f499051289c6c08eadc0f9
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.4

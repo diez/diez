@@ -13,7 +13,7 @@
 		108A4498340BC4C0482D8D2AA211D236 /* Lottie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263AFEF2C4505E942A50A2C3FFCB425F /* Lottie.swift */; };
 		1B0A959296A666217D7A0B4C315371A9 /* Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5200545FEA8D9036054F764B19EEC102 /* Diez.swift */; };
 		1E6B4DB1C871835F5C4BD84CC3A5370C /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6D6468DECE18204492CA00282CCC8F /* Font.swift */; };
-		2D0E231FCC3BB58D4B1997827337661F /* Lottie+LOTAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CF698BEF6434F69456E0191B649BA7 /* Lottie+LOTAnimationView.swift */; };
+		1F47EA530E7E5A009852D1CE32ED2B0A /* Lottie+AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207823425A8359D695B824521CC53A7B /* Lottie+AnimationView.swift */; };
 		30D8DCC71661D0ECFB778AA59754131A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778BD519B243F8B2E2F9E6B58B6660F /* Environment.swift */; };
 		31D405B5F5E3947ED5EC505C44F4868D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639302602D066191557EE67F2F3A8BB /* File.swift */; };
 		35C4CB5F2F0A994E4D65F1145C6CBCCC /* Bundle+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2033D197C87132619563FDCBF3076E /* Bundle+Static.swift */; };
@@ -51,6 +51,7 @@
 		1134BF4AC055DADAD76630D14C02E8A2 /* Typograph+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Typograph+Binding.swift"; sourceTree = "<group>"; };
 		123F5E73C868209F9A884D6D03B826D6 /* Bindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindings.swift; sourceTree = "<group>"; };
 		1D95D9BD0E84421610DD95EEAAEFDA3B /* ReflectedCustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectedCustomStringConvertible.swift; sourceTree = "<group>"; };
+		207823425A8359D695B824521CC53A7B /* Lottie+AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lottie+AnimationView.swift"; sourceTree = "<group>"; };
 		263AFEF2C4505E942A50A2C3FFCB425F /* Lottie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lottie.swift; sourceTree = "<group>"; };
 		2A67FEB60DD6033589048DEE59E4C2A8 /* Color+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Binding.swift"; sourceTree = "<group>"; };
 		465941092F6455C3C1C480BD71338E3E /* DiezStub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DiezStub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +68,6 @@
 		8DC81DA6485DC5CEADF4FB56A15C36F3 /* Image+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Binding.swift"; sourceTree = "<group>"; };
 		9BE97E7A473C2D663F9221BBCFB0D6E5 /* Bundle+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Environment.swift"; sourceTree = "<group>"; };
 		A6C61241B372972554AA1D66DF18F052 /* LinearGradient+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+Binding.swift"; sourceTree = "<group>"; };
-		A9CF698BEF6434F69456E0191B649BA7 /* Lottie+LOTAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lottie+LOTAnimationView.swift"; sourceTree = "<group>"; };
 		C3079B1384BD06EE8EBB48505985BAC9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		C74433DE600D9C72B6D36287376EE502 /* Typograph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typograph.swift; sourceTree = "<group>"; };
 		C9A0B8DEBE9CB8D94DACCED192B2D4E6 /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Lottie.framework; sourceTree = "<group>"; };
@@ -136,8 +136,8 @@
 				532372957C7BF2D47B40B9DD6C61D279 /* File+Binding.swift */,
 				8DC81DA6485DC5CEADF4FB56A15C36F3 /* Image+Binding.swift */,
 				A6C61241B372972554AA1D66DF18F052 /* LinearGradient+Binding.swift */,
+				207823425A8359D695B824521CC53A7B /* Lottie+AnimationView.swift */,
 				D7BEA91049CF649A1AE50E700DB149E5 /* Lottie+Binding.swift */,
-				A9CF698BEF6434F69456E0191B649BA7 /* Lottie+LOTAnimationView.swift */,
 				CA97DDD9A7081279C2BF2D9D3FE190CD /* Point2D+Binding.swift */,
 				1134BF4AC055DADAD76630D14C02E8A2 /* Typograph+Binding.swift */,
 			);
@@ -313,8 +313,8 @@
 				5340E71A3CD2A2FEC7A894D47BA1303F /* Image.swift in Sources */,
 				0223CD8425934D209393C5C458FEDE68 /* LinearGradient+Binding.swift in Sources */,
 				799AE05A93E085E50C7234CEEEFAA79B /* LinearGradient.swift in Sources */,
+				1F47EA530E7E5A009852D1CE32ED2B0A /* Lottie+AnimationView.swift in Sources */,
 				43F025A40CF48D48F83C7F712D32F9BE /* Lottie+Binding.swift in Sources */,
-				2D0E231FCC3BB58D4B1997827337661F /* Lottie+LOTAnimationView.swift in Sources */,
 				108A4498340BC4C0482D8D2AA211D236 /* Lottie.swift in Sources */,
 				535887A1E1AA83159970674B6768228D /* Point2D+Binding.swift in Sources */,
 				4A0ADC8D0F776D1DB4A99ABC0DE8F1F9 /* Point2D.swift in Sources */,
