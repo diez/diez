@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.2](https://github.com/stristr/diez/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2019-07-16)
+
+
+### Features
+
+* add a new package featuring a webpack plugin to integrate Diez with web ([#193](https://github.com/stristr/diez/issues/193)) ([6bd7932](https://github.com/stristr/diez/commit/6bd7932))
+* **examples:** use palette to map raw colors names that describe their usage ([#202](https://github.com/stristr/diez/issues/202)) ([ed91430](https://github.com/stristr/diez/commit/ed91430))
+* **prefabs:** add linear gradient prefab ([#191](https://github.com/stristr/diez/issues/191)) ([d01700a](https://github.com/stristr/diez/commit/d01700a))
+* **targets:** add NSAttributedString helpers for Typograph on iOS. ([#201](https://github.com/stristr/diez/issues/201)) ([af93c42](https://github.com/stristr/diez/commit/af93c42))
+
+
+
+
+
 # [10.0.0-beta.1](https://github.com/diez/diez/compare/v10.0.0-beta.0...v10.0.0-beta.1) (2019-07-02)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "diez-site",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "private": true,
   "description": "The Diez website - https://diez.org",
   "author": "The Haiku Team <contact@haiku.ai>",
@@ -11,14 +11,14 @@
     "start": "node ./scripts/start"
   },
   "dependencies": {
-    "@diez/engine": "^10.0.0-beta.0",
-    "@diez/prefabs": "^10.0.0-beta.0"
+    "@diez/engine": "^10.0.0-beta.2",
+    "@diez/prefabs": "^10.0.0-beta.2"
   },
   "devDependencies": {
-    "@diez/compiler": "^10.0.0-beta.0",
-    "@diez/sources": "^10.0.0-beta.0",
-    "@diez/targets": "^10.0.0-beta.0",
-    "diez": "^10.0.0-beta.0",
+    "@diez/compiler": "^10.0.0-beta.2",
+    "@diez/sources": "^10.0.0-beta.2",
+    "@diez/targets": "^10.0.0-beta.2",
+    "diez": "^10.0.0-beta.2",
     "typescript": "^3.5.3"
   }
 }
