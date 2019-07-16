@@ -1,4 +1,4 @@
 {
-  "extends": "../tsconfig.packages.json",
+  "extends": "../../tsconfig.shared.json",
   "include": ["src/**/*.ts", "playground/**/*.ts"]
 }
