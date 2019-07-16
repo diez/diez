@@ -26,9 +26,9 @@ class ViewController: UIViewController {
             fatalError("Unexpected view type: \(String(describing: self.view))")
         }
 
-        view.backgroundColor = designSystem.colors.darkBackground.uiColor
+        view.backgroundColor = designSystem.palette.background.uiColor
         
-        view.headerBackgroundView.gradientLayer.apply(designSystem.gradients.midnight);
+        view.headerBackgroundView.gradientLayer.apply(designSystem.palette.headerBackground);
 
         if let mastheadImage = designSystem.images.masthead.uiImage {
             view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
 
         view.iconView.image = designSystem.images.logo.uiImage
 
-        view.contentBackgroundView.backgroundColor = designSystem.colors.lightBackground.uiColor
+        view.contentBackgroundView.backgroundColor = designSystem.palette.contentBackground.uiColor
         let margin = designSystem.layoutValues.contentMargin
         view.contentStackView.layoutMargins = UIEdgeInsets(
             top: margin.top,

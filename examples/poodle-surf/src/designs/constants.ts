@@ -1,11 +1,22 @@
-import {Typograph, Font} from '@diez/prefabs';
+import {Font, LinearGradient, Toward, Typograph} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
 import {poodleSurfDesignSystem} from './PoodleSurf.sketch';
+
+class Palette extends Component {
+  @property foreground = poodleSurfDesignSystem.colors.black;
+  @property background = poodleSurfDesignSystem.colors.white;
+  @property loadingBackground = poodleSurfDesignSystem.colors.blue;
+  @property primary = poodleSurfDesignSystem.colors.pink;
+  @property secondary = poodleSurfDesignSystem.colors.orange;
+  @property separator = poodleSurfDesignSystem.colors.whiteA40;
+  @property contentForeground = poodleSurfDesignSystem.colors.white;
+  @property contentBackground = LinearGradient.make(Toward.BottomRight, this.primary, this.secondary);
+}
 
 /**
  * A palette singleton, used throughout the design system.
  */
-export const {palette} = poodleSurfDesignSystem;
+export const palette = new Palette();
 
 /**
  * A registry of all of the design's fonts.
@@ -35,37 +46,37 @@ class Typographs extends Component {
   @property headerTitle = new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Title,
-    color: palette.colors.black,
+    color: palette.foreground,
   });
   @property headerCaption = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
-    color: palette.colors.black,
+    color: palette.foreground,
   });
   @property cardTitle = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.CardTitle,
-    color: palette.colors.white,
+    color: palette.contentForeground,
   });
   @property value = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Value,
-    color: palette.colors.white,
+    color: palette.contentForeground,
   });
   @property unit = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Unit,
-    color: palette.colors.white,
+    color: palette.contentForeground,
   });
   @property caption = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
-    color: palette.colors.white,
+    color: palette.contentForeground,
   });
   @property captionHeader = new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Caption,
-    color: palette.colors.white,
+    color: palette.contentForeground,
   });
 }
 

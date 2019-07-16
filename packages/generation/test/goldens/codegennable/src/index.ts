@@ -15,13 +15,6 @@ class MyDesignSystemGradients extends Component {
     someGradient = 5;
 }
 
-class MyDesignSystemPalette extends Component {
-    @property
-    colors = new MyDesignSystemColors();
-    @property
-    gradients = new MyDesignSystemGradients();
-}
-
 class MyDesignSystemTypographs extends Component {
     @property
     untitledTypograph = 0;
@@ -54,7 +47,9 @@ export const MyDesignSystemFonts = {
 
 export class MyDesignSystemDesignSystem extends Component {
     @property
-    palette = new MyDesignSystemPalette();
+    colors = new MyDesignSystemColors();
+    @property
+    gradients = new MyDesignSystemGradients();
     @property
     typographs = new MyDesignSystemTypographs();
 }

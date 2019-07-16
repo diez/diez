@@ -18,7 +18,7 @@
 }
 
 .mastheadContainer {
-  background-image: $gradients-midnight;
+  background-image: $palette-header-background;
 }
 
 .title {
@@ -41,7 +41,7 @@
   flex-direction: column;
   display: flex;
   align-items: center;
-  background-color: $colors-light-background;
+  background-color: $palette-content-background;
 }
 
 .content {

@@ -21,13 +21,6 @@ class PoodleSurfGradients extends Component {
     gradient = new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)});
 }
 
-class PoodleSurfPalette extends Component {
-    @property
-    colors = new PoodleSurfColors();
-    @property
-    gradients = new PoodleSurfGradients();
-}
-
 export class PoodleSurfSlicesFiles {
     static Thermometer = new File({src: "assets/PoodleSurf.sketch.contents/slices/Thermometer.png"});
     static Thermometer2x = new File({src: "assets/PoodleSurf.sketch.contents/slices/Thermometer@2x.png"});
@@ -81,7 +74,9 @@ export class PoodleSurfSlices {
 
 export class PoodleSurfDesignSystem extends Component {
     @property
-    palette = new PoodleSurfPalette();
+    colors = new PoodleSurfColors();
+    @property
+    gradients = new PoodleSurfGradients();
 }
 
 export const poodleSurfDesignSystem = new PoodleSurfDesignSystem();

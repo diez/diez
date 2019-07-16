@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
         val background = PaintDrawable()
         background.shape = RectShape()
-        background.shaderFactory = diez.palette.gradients.gradient.shaderFactory
+        background.shaderFactory = diez.palette.contentBackground.shaderFactory
 
         cardRoot.background = background.apply {
             setCornerRadius(shared.cornerRadius.toPx().toFloat())

@@ -7,7 +7,7 @@ import {Margin} from './components/Margin';
  * @property will be made available in the SDKs transpiled with Diez. Everything
  * else is purely internal.
  */
-class Palette extends Component {
+class Colors extends Component {
   private lightener = 0.2;
 
   @property white = Color.hex('#FFFFFF');
@@ -24,23 +24,20 @@ class Palette extends Component {
  * For example, you can use this instance of the `Palette` component to design your
  * typography.
  */
-const palette = new Palette();
+const colors = new Colors();
 
 /**
  * You can reference properties from other components.
  */
-class Colors extends Component {
-  @property lightBackground = palette.white;
-  @property darkBackground = palette.black;
-  @property text = palette.black;
-  @property caption = palette.purple;
+class Palette extends Component {
+  @property background = colors.black;
+  @property contentBackground = colors.white;
+  @property text = colors.black;
+  @property caption = colors.purple;
+  @property headerBackground = LinearGradient.make(Toward.Bottom, colors.darkPurple, colors.black);
 }
 
-const colors = new Colors();
-
-class Gradients extends Component {
-  @property midnight = LinearGradient.make(Toward.Bottom, palette.darkPurple, palette.black);
-}
+const palette = new Palette();
 
 /**
  * All of rich language features of TypeScript are at your disposal; for example,
@@ -60,19 +57,19 @@ class Typography extends Component {
   @property heading1 = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 24,
-    color: colors.text,
+    color: palette.text,
   });
 
   @property body = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 18,
-    color: colors.text,
+    color: palette.text,
   });
 
   @property caption = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 14,
-    color: colors.caption,
+    color: palette.caption,
   });
 }
 
@@ -126,8 +123,7 @@ class Strings extends Component {
  *     use Diez in an Android codebase.
  */
 export class DesignSystem extends Component {
-  @property colors = colors;
-  @property gradients = new Gradients();
+  @property palette = palette;
   @property typography = new Typography();
   @property images = new Images();
   @property layoutValues = new LayoutValues();

@@ -156,77 +156,52 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
 
   const engineImports = new Set(['Component']);
   const designSystemImports = new Set<string>();
-  const paletteName = localResolver.getComponentName(`${designSystemName} Palette`);
   const colorsName = localResolver.getComponentName(`${designSystemName} Colors`);
   const gradientsName = localResolver.getComponentName(`${designSystemName} Gradients`);
   const typographsName = localResolver.getComponentName(`${designSystemName} Typographs`);
 
   const hasColors = spec.colors.length > 0;
   const hasGradients = spec.gradients.length > 0;
-  const hasPalette = hasColors || hasGradients;
+  const hasTypographs = spec.typographs.length > 0;
 
-  if (hasPalette) {
-    if (hasColors) {
-      engineImports.add('property');
-      designSystemImports.add('Color');
-      sourceFile.addClass({
-        name: colorsName,
-        extends: 'Component',
-        properties: spec.colors.map(({name, initializer}) => {
-          const colorName = localResolver.getPropertyName(name || 'Untitled Color', colorsName);
-          return {
-            initializer,
-            name: colorName,
-            decorators: [{name: 'property'}],
-          };
-        }),
-      });
-    }
-
-    if (hasGradients) {
-      engineImports.add('property');
-      designSystemImports.add('LinearGradient');
-      designSystemImports.add('Color');
-      designSystemImports.add('GradientStop');
-      designSystemImports.add('Point2D');
-      sourceFile.addClass({
-        name: gradientsName,
-        extends: 'Component',
-        properties: spec.gradients.map(({name, initializer}) => {
-          const gradientName = localResolver.getPropertyName(name || 'Untitled Linear Gradient', gradientsName);
-          return {
-            initializer,
-            name: gradientName,
-            decorators: [{name: 'property'}],
-          };
-        }),
-      });
-    }
-
+  if (hasColors) {
     engineImports.add('property');
-    const palette = sourceFile.addClass({
-      name: paletteName,
+    designSystemImports.add('Color');
+    sourceFile.addClass({
+      name: colorsName,
       extends: 'Component',
+      properties: spec.colors.map(({name, initializer}) => {
+        const colorName = localResolver.getPropertyName(name || 'Untitled Color', colorsName);
+        return {
+          initializer,
+          name: colorName,
+          decorators: [{name: 'property'}],
+        };
+      }),
     });
-
-    if (hasColors) {
-      palette.addProperty({
-        initializer: `new ${colorsName}()`,
-        name: localResolver.getPropertyName('Colors', paletteName),
-        decorators: [{name: 'property'}],
-      });
-    }
-
-    if (hasGradients) {
-      palette.addProperty({
-        initializer: `new ${gradientsName}()`,
-        name: localResolver.getPropertyName('Gradients', paletteName),
-        decorators: [{name: 'property'}],
-      });
-    }
   }
 
-  if (spec.typographs.length) {
+  if (hasGradients) {
+    engineImports.add('property');
+    designSystemImports.add('LinearGradient');
+    designSystemImports.add('Color');
+    designSystemImports.add('GradientStop');
+    designSystemImports.add('Point2D');
+    sourceFile.addClass({
+      name: gradientsName,
+      extends: 'Component',
+      properties: spec.gradients.map(({name, initializer}) => {
+        const gradientName = localResolver.getPropertyName(name || 'Untitled Linear Gradient', gradientsName);
+        return {
+          initializer,
+          name: gradientName,
+          decorators: [{name: 'property'}],
+        };
+      }),
+    });
+  }
+
+  if (hasTypographs) {
     engineImports.add('property');
     designSystemImports.add('Color');
     designSystemImports.add('Typograph');
@@ -326,15 +301,23 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     extends: 'Component',
   });
 
-  if (hasPalette) {
+  if (hasColors) {
     exportedClassDeclaration.addProperty({
-      name: 'palette',
+      name: 'colors',
       decorators: [{name: 'property'}],
-      initializer: `new ${paletteName}()`,
+      initializer: `new ${colorsName}()`,
     });
   }
 
-  if (spec.typographs.length) {
+  if (hasGradients) {
+    exportedClassDeclaration.addProperty({
+      name: 'gradients',
+      decorators: [{name: 'property'}],
+      initializer: `new ${gradientsName}()`,
+    });
+  }
+
+  if (hasTypographs) {
     designSystemImports.add('Font');
     exportedClassDeclaration.addProperty({
       name: 'typographs',

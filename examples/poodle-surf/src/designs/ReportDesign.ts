@@ -6,7 +6,7 @@ import {LayoutValues, palette, typographs} from './constants';
 
 class LocationImageDesign extends Component {
   @property strokeWidth = 3;
-  @property strokeGradient = palette.gradients.gradient;
+  @property strokeGradient = palette.contentBackground;
   @property widthAndHeight = 106;
 }
 
@@ -37,7 +37,7 @@ class SharedCardDesign extends Component<SharedCardDesignState> {
   @property title = '';
   @property titleTypograph = typographs.cardTitle;
   @property titleContentSpacing = LayoutValues.DefaultMargin;
-  @property gradient = palette.gradients.gradient;
+  @property gradient = palette.contentBackground;
   @property layoutMargins = new EdgeInsets({
     top: LayoutValues.DefaultMargin,
     bottom: LayoutValues.LooseMargin,
@@ -101,7 +101,7 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
   @property dayPartsHorizontalSpacing = LayoutValues.DefaultMargin;
   @property dayPartVerticalSpacing = LayoutValues.LooseMargin;
   @property separatorWidth = 1;
-  @property separatorColor = palette.colors.whiteA40;
+  @property separatorColor = palette.separator;
   @property valueUnitMargins = new EdgeInsets();
 }
 
@@ -109,7 +109,7 @@ class ForecastCardDesign extends Component<ForecastCardDesignState> {
  * The report design.
  */
 export class ReportDesign extends Component {
-  @property backgroundColor = palette.colors.white;
+  @property backgroundColor = palette.background;
   @property contentLayoutMargins = EdgeInsets.simple(LayoutValues.DefaultMargin);
   @property contentSpacing = LayoutValues.DefaultMargin;
   @property header = new HeaderDesign();

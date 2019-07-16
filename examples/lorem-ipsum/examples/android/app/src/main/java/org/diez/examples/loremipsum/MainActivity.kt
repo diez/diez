@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun apply(designSystem: DesignSystem) {
-        root.setBackgroundColor(designSystem.colors.lightBackground.color)
+        root.setBackgroundColor(designSystem.palette.contentBackground.color)
 
-        headerLayout.background = backgroundFromGradient(designSystem.gradients.midnight)
+        headerLayout.background = backgroundFromGradient(designSystem.palette.headerBackground)
 
         headerView.loadBackgroundImage(designSystem.images.masthead)
 
