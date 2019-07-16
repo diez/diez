@@ -73,8 +73,7 @@ extension ReportViewController {
     }
 
     private func apply(_ design: SharedCardDesign, to view: CardViewDescribable) {
-        view.titleLabel.text = design.title
-        view.titleLabel.apply(design.titleTypograph)
+        view.titleLabel.attributedText = design.titleTypograph.attributedString(decorating: design.title)
         view.titleContentSpacing = design.titleContentSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
         view.cornerRadius = design.cornerRadius

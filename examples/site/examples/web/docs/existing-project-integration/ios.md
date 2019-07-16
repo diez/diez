@@ -104,6 +104,27 @@ extension LOTAnimationView {
 }
 ```
 
+### [LinearGradient](TODO:)
+
+#### CAGradientLayer Style Application
+
+```swift
+extension CAGradientLayer {
+    func apply(_ gradient: LinearGradient)
+}
+```
+
+### [Point2D](TODO:)
+
+#### CGPoint representation
+
+```swift
+extension Point2D {
+    var cgPoint: CGPoint
+}
+
+```
+
 ### [Typograph](TODO:)
 
 #### UIFont Representation
@@ -111,6 +132,16 @@ extension LOTAnimationView {
 ```swift
 extension Typograph {
     var uiFont: UIFont?
+    var attributedStringAttributes: [NSAttributedString.Key: Any]
+    func attributedString(describing string: String) -> NSAttributedString
+}
+```
+
+#### NSAttributedString Initializer
+
+```swift
+extension NSAttributedString {
+    convenience init(string: String, typograph: Typograph)
 }
 ```
 

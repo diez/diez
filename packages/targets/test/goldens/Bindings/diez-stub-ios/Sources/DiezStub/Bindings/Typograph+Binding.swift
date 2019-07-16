@@ -32,6 +32,40 @@ extension Typograph {
 
         return UIFont(name: font.name, size: fontSize)
     }
+    
+    /**
+     `NSAttributedString` attributes of the `Typograph`.
+     */
+    @objc
+    public var attributedStringAttributes: [NSAttributedString.Key: Any] {
+        var attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: color.uiColor,
+        ]
+        
+        if let font = uiFont {
+            attributes[.font] = font
+        }
+        
+        return attributes
+    }
+    
+    /**
+     Constructs an `NSAttributedString` decorating the provided `String`.
+     */
+    @objc
+    public func attributedString(decorating string: String) -> NSAttributedString {
+        return NSAttributedString(string: string, typograph: self)
+    }
+}
+
+extension NSAttributedString {
+    /**
+     Initializes an `NSAttributedString` with the provided string and `Typograph`.
+     */
+    @objc
+    public convenience init(string: String, typograph: Typograph) {
+        self.init(string: string, attributes: typograph.attributedStringAttributes)
+    }
 }
 
 extension UILabel {
