@@ -13,7 +13,7 @@ import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
 import {joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
-import {StyleTokens, WebBinding, WebDependency, WebOutput} from './web.api';
+import {RuleList, StyleTokens, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
  * The root location for source files.
@@ -184,10 +184,11 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       declarationImports: new Set<string>(),
       dependencies: new Set<WebDependency>(),
       assetBindings: new Map(),
-      styles: {
+      styleSheet: {
         variables: new Map(),
-        ruleGroups: new Map(),
-        fonts: new Map(),
+        font: new RuleList(),
+        media: new RuleList(),
+        styles: new RuleList(),
       },
     };
   }
@@ -205,7 +206,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   printUsageInstructions () {
     const diez = Format.code('Diez');
     const component = this.program.localComponentNames[0];
-    const styleVarName = this.output.styles.variables.keys().next().value;
+    const styleVarName = this.output.styleSheet.variables.keys().next().value;
 
     Log.info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
 
@@ -238,9 +239,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     this.output.processedComponents.clear();
     this.output.dependencies.clear();
     this.output.assetBindings.clear();
-    this.output.styles.variables.clear();
-    this.output.styles.ruleGroups.clear();
-    this.output.styles.fonts.clear();
+    this.output.styleSheet.variables.clear();
+    this.output.styleSheet.styles.clear();
   }
 
   private getStyleTokens (): StyleTokens {
@@ -258,7 +258,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         }
 
         const variableName = joinToKebabCase(componentName, propertyName);
-        this.output.styles.variables.set(variableName, property.initializer);
+        this.output.styleSheet.variables.set(variableName, property.initializer);
 
         if (propertyType === 'number') {
           numberVariables.add(variableName);
@@ -267,13 +267,12 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     }
 
     return {
-      styleVariables: Array.from(this.output.styles.variables).map(([name, value]) => {
+      styleVariables: Array.from(this.output.styleSheet.variables).map(([name, value]) => {
         return {name, value, isNumber: numberVariables.has(name)};
       }),
-      styleRuleGroups: Array.from(this.output.styles.ruleGroups).map(([name, values]) => {
-        return {name, values: Array.from(values)};
-      }),
-      styleFonts: Array.from(this.output.styles.fonts).map(([key, val]) => Array.from(val)),
+      styleFonts: this.output.styleSheet.font.serialize(),
+      styleMedias: this.output.styleSheet.media.serialize(),
+      styleSheets: this.output.styleSheet.styles.serialize(),
     };
   }
 

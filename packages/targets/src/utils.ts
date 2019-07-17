@@ -2,7 +2,6 @@ import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
 import {Color} from '@diez/prefabs';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
-import {RuleTuples, StyleGroups} from './targets/web.api';
 
 /**
  * The root of all native sources provided by this package.
@@ -30,21 +29,6 @@ export const colorToCss = ({h, s, l, a}: Color) => `hsla(${h * 360}, ${s * 100}%
  * @ignore
  */
 export const joinToKebabCase = (...args: any[]) => kebabCase(args.join('-'));
-
-/**
- * Creates or retrieves a style group and adds the provided style rules.
- * @ignore
- */
-export const upsertStyleGroup = (ruleGroup: StyleGroups, groupName: string, rules: RuleTuples) => {
-  if (!ruleGroup.has(groupName)) {
-    ruleGroup.set(groupName, new Map());
-  }
-
-  const groupDeclaration = ruleGroup.get(groupName)!;
-  for (const [rule, value] of rules) {
-    groupDeclaration.set(rule, value);
-  }
-};
 
 /**
  * A handlebars helper for mapping serialized array structures to a constructor assignment.

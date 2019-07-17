@@ -20,10 +20,66 @@ export interface WebBinding<T extends Component = Component> extends TargetBindi
 }
 
 /**
- * Describes a collection of groups of CSS rules.
+ * Describes a style Declaration.
  * @ignore
  */
-export type StyleGroups = Map<string, Map<string, string>>;
+interface Declaration {
+  [key: string]: string;
+}
+
+/**
+ * Describes a single style Rule.
+ * @ignore
+ */
+interface Rule {
+  selector: string;
+  declaration: Declaration;
+  rules?: RuleList;
+}
+
+/**
+ * Provides a common interface to manage lists of nested Style rules.
+ *
+ * For example, you can manage inserting, deleting and serializing `Rule` objects.
+ *
+ * @ignore
+ */
+export class RuleList {
+  private rules: Map<string, Rule> = new Map();
+
+  constructor (baseRules: Rule[] = []) {
+    for (const rule of baseRules) {
+      this.insertRule(rule);
+    }
+  }
+
+  insertRule (rule: Rule) {
+    if (!this.rules.has(rule.selector)) {
+      this.rules.set(rule.selector, rule);
+    }
+
+    const ourRule = this.rules.get(rule.selector)!;
+    Object.assign(ourRule.declaration, rule.declaration);
+    return ourRule;
+  }
+
+  deleteRule (rule: Rule) {
+    this.rules.delete(rule.selector);
+  }
+
+  clear () {
+    this.rules.clear();
+  }
+
+  serialize (): Rule[] {
+    return Array.from(this.rules).map(([_, value]) => {
+      if (value.rules) {
+        return Object.assign(value, {rules: value.rules.serialize()});
+      }
+      return value;
+    });
+  }
+}
 
 /**
  * Describes a collection of tuples containing CSS rules and values.
@@ -35,10 +91,11 @@ export type RuleTuples = [string, string][];
  * Describes interfaces related to style rules.
  * @ignore
  */
-export interface Styles {
+export interface StyleSheet {
   variables: Map<string, string>;
-  ruleGroups: StyleGroups;
-  fonts: StyleGroups;
+  font: RuleList;
+  media: RuleList;
+  styles: RuleList;
 }
 
 /**
@@ -52,21 +109,13 @@ export interface StyleVariableToken {
 }
 
 /**
- * A handlebars token for a style rule group.
- * @ignore
- */
-export interface StyleRuleGroupToken {
-  name: string;
-  values: RuleTuples;
-}
-
-/**
  * A collection of handlebars tokens for styles.
  */
 export interface StyleTokens {
   styleVariables: StyleVariableToken[];
-  styleRuleGroups: StyleRuleGroupToken[];
-  styleFonts: RuleTuples[];
+  styleFonts: Rule[];
+  styleMedias: Rule[];
+  styleSheets: Rule[];
 }
 
 /**
@@ -76,5 +125,5 @@ export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   sources: Set<string>;
   declarations: Set<string>;
   declarationImports: Set<string>;
-  styles: Styles;
+  styleSheet: StyleSheet;
 }

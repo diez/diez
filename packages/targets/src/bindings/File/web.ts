@@ -14,7 +14,7 @@ const binding: WebBinding<File> = {
     // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
     if (instance.type === FileType.Raw && property.parentType !== 'Lottie') {
       const name = joinToKebabCase(property.parentType, property.name);
-      output.styles.variables.set(name, getQualifiedCssUrl(output, instance.src));
+      output.styleSheet.variables.set(name, getQualifiedCssUrl(output, instance.src));
     }
   },
 };

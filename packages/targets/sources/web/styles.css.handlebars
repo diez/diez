@@ -1,7 +1,7 @@
-{{#each styleFonts as |fontDeclaration|}}
+{{#each styleFonts as |font|}}
 @font-face {
-  {{#each fontDeclaration}}
-  {{this.[0]}}: {{{this.[1]}}};
+  {{#each font.declaration}}
+  {{@key}}: {{{this}}};
   {{/each}}
 }
 {{/each}}
@@ -18,10 +18,25 @@
   {{/each}}
 }
 
-{{#each styleRuleGroups as |group|}}
-.{{group.name}} {
-  {{#each group.values}}
-  {{this.[0]}}: {{{this.[1]}}};
+{{#each styleSheets as |group|}}
+.{{group.selector}} {
+  {{#each group.declaration}}
+  {{@key}}: {{{this}}};
+  {{/each}}
+}
+
+{{/each}}
+{{#each styleMedias as |media|}}
+@media {{media.selector}} {
+  {{#each media.declaration}}
+  {{@key}}: {{{this}}};
+  {{/each}}
+  {{#each media.rules as |mediaRule|}}
+  .{{mediaRule.selector}} {
+    {{#each mediaRule.declaration}}
+    {{@key}}: {{{this}}};
+    {{/each}}
+  }
   {{/each}}
 }
 {{/each}}

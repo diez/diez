@@ -15,6 +15,13 @@
   --bindings-linear-gradient: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }
 
+.bindings-image-background-image {
+  background-image: url("/diez/assets/image with spaces.jpg");
+  width: 246px;
+  height: 246px;
+  background-size: 246px 246px;
+}
+
 .bindings-typograph {
   font-family: "SomeFont","Verdana",serif;
   font-weight: 700;
@@ -22,15 +29,30 @@
   font-size: 50px;
   color: hsla(60, 100%, 50%, 1);
 }
+
 .gradient-stop-color-background-color {
   background-color: hsla(240, 100%, 50%, 1);
 }
+
 .gradient-stop-color-color {
   color: hsla(240, 100%, 50%, 1);
 }
+
 .bindings-linear-gradient-background {
   background: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }
+
 .bindings-linear-gradient-background-image {
   background-image: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
+}
+
+@media (min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  .bindings-image-background-image {
+    background-image: url("/diez/assets/image with spaces@2x.jpg");
+  }
+}
+@media (min-device-pixel-ratio: 3), (min-resolution: 3dppx) {
+  .bindings-image-background-image {
+    background-image: url("/diez/assets/image with spaces@3x.jpg");
+  }
 }
