@@ -1,6 +1,4 @@
-## Swift Guide (iOS)
-
-### Getting Started
+## Swift - Getting Started
 
 #### Prerequisites
 
@@ -53,4 +51,4 @@ Save your changes to see the background color update in real time! Feel free to 
 
 Note that if you make any changes to the structure of your design token components (e.g. you add/remove a property to any component) you will need to regenerate the SDK (`yarn start ios`), clean your Xcode project (`⌘ + shift + K`), and then build/run (`⌘ + r`).
 
-Please see [The Basics Guide](/getting-started/the-basics) for more information on how to compose and edit your design token components.
+Please see [The Basics guide](/getting-started/the-basics) for more information on how to compose and edit your design token components.

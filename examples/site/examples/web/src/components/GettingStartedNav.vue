@@ -1,36 +1,40 @@
 <template>
   <div class="nav-wrap">
-    <div>
-      <router-link to="/getting-started/#set-up">Set Up</router-link>
-      <router-link to="/getting-started/the-basics">The Basics</router-link>
+      <router-link class="category" to="/getting-started/diez">Diez</router-link>
       <div>
-        <router-link to="/getting-started/#next-steps" class="category">Guides</router-link>
-        <div>
-          <div class="sub-category">iOS</div>
-          <router-link class="sub-link" to="/getting-started/swift">Swift</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Objective-C</router-link>
-        </div>
-        <div>
-          <div class="sub-category">Android</div>
-          <router-link class="sub-link" to="/getting-started/kotlin">Kotlin</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Java</router-link>
-        </div>
-        <div>
-          <div class="sub-category">Web</div>
-          <router-link class="sub-link" to="/getting-started/javascript">JavaScript</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">CSS</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Sass</router-link>
-        </div>
-        <div>
-          <div class="sub-category">Design Tools</div>
-          <router-link class="sub-link" to="/getting-started/figma">Figma</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Adobe XD</router-link>
-          <router-link class="sub-link soon" to="#" title="Guide coming soon">Sketch</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">InVision DSM</router-link>
-          <router-link class="sub-link soon" title="Guide coming soon" to="#">Abstract</router-link>
-        </div>
+        <router-link class="sub-link" to="/getting-started/#set-up">Set Up</router-link>
+        <router-link class="sub-link" to="/getting-started/the-basics">The Basics</router-link>
+        <router-link class="sub-link" to="/getting-started/your-codebase">Diez + Your Codebase</router-link>
       </div>
-    </div>
+
+      <router-link class="category" to="/getting-started/ios">iOS</router-link>
+      <div>
+        <router-link class="sub-link" to="/getting-started/swift">Swift <span class="secondary">- Getting Started</span></router-link>
+        <router-link class="sub-link" to="/getting-started/obj-c">Obj-C <span class="secondary">- Getting Started</span></router-link>
+        <router-link class="sub-link" to="/existing-project-integration/ios">iOS <span class="secondary">- Integration</span></router-link>
+      </div>
+
+      <router-link class="category" to="/getting-started/android">Android</router-link>
+      <div>
+        <router-link class="sub-link" to="/getting-started/kotlin">Kotlin <span class="secondary">- Getting Started</span></router-link>
+        <router-link class="sub-link" to="/getting-started/java">Java <span class="secondary">- Getting Started</span></router-link>
+      </div>
+
+      <router-link class="category" to="/getting-started/web">Web</router-link>
+      <div>
+        <router-link class="sub-link" to="/getting-started/javascript">JavaScript <span class="secondary">- Getting Started</span></router-link>
+        <router-link class="sub-link" to="/existing-project-integration/javascript">JavaScript <span class="secondary">- Integration</span></router-link>
+        <router-link class="sub-link" to="/getting-started/css-sass">CSS/Sass <span class="secondary">- Getting Started</span></router-link>
+        <router-link class="sub-link" to="/existing-project-integration/css-sass">CSS/Sass <span class="secondary">- Integration</span></router-link>
+      </div>
+
+      <router-link class="category" to="/getting-started/design-tools">Design Tools</router-link>
+      <div>
+        <router-link class="sub-link" to="/getting-started/figma">Figma</router-link>
+        <router-link class="sub-link" to="/getting-started/sketch">Sketch</router-link>
+        <router-link class="sub-link" to="/getting-started/dsm">InVision DSM</router-link>
+      </div>
+
   </div>
 </template>
 
@@ -46,7 +50,7 @@ export default {
     position: fixed;
     height: 100%;
     top: 0;
-    padding: 153px $spacing-xxxl-px 0 0;
+    padding: 138px $spacing-xxxl-px 0 0;
     overflow-y: auto;
     overflow-x: hidden;
     a {
@@ -58,17 +62,18 @@ export default {
     }
   }
   .category {
-    margin-bottom: 0 !important;
-  }
-  .sub-category {
-    @include typography-subcategory();
-    margin: $spacing-sm-px 0 $spacing-sm-px $spacing-sm-px;
+    margin-bottom: $spacing-sm-px !important;
+    margin-top: $spacing-lg-px !important;
+    color: $palette-black;
   }
   .sub-link {
-    color: $palette-mauve;
+    color: $palette-purple;
     font-size: $smallText;
     margin-left: $spacing-lg-px;
     margin-bottom: $spacing-sm-px !important;
+    .secondary {
+      font-weight: 400;
+    }
     &.soon {
       color: $palette-gray700;
       font-style: italic;

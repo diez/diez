@@ -1,8 +1,14 @@
-# Integrating A Diez Project into an Existing Web Application (JavaScript)
+## Integrating a Diez Project into an existing Web application (JavaScript)
 
-## Requirements and installation
+<div class="aside">
+This guide is currently being written. Please check back soon!
+</div>
 
-Diez works in macOS, Windows, and Linux and only requires Node.js >= 7.10.1. For specific instructions on how to install Diez please refer to the [installation guide][TODO:].
+<!--
+
+### Requirements and installation
+
+Diez works in macOS, Windows, and Linux and only requires Node.js >= 7.10.1. For specific instructions on how to install Diez please refer to the [Set Up guide](/getting-started/#set-up).
 
 This guide assumes that you already have a Diez project. If you don't have one, you can generate a starter project by running:
 
@@ -11,7 +17,7 @@ $ yarn create diez-project my-project
 $ cd my-project
 ```
 
-## Diez as a library
+### Diez as a library
 
 The output of the Diez compiler for a specific target is a library that is ready to use. For Web with JavaScript, this means that you can consume your Design System by `import`ing it.
 
@@ -40,7 +46,7 @@ dependencies: {
 
 The Diez compiler can compile your design system in two modes: normal and hot.
 
-### Development flow
+#### Development flow
 
 `hot` mode is used for development and will watch your Diez project for file changes and hot reload your code.
 
@@ -52,7 +58,7 @@ To start your development server you can run:
 $ diez hot -t web
 ```
 
-### Build flow
+#### Build flow
 
 Once you are ready to build your application, you need to compile your files:
 
@@ -60,23 +66,25 @@ Once you are ready to build your application, you need to compile your files:
 $ diez compile
 ```
 
-## Interacting with Prefabs
+### Interacting with Prefabs
 
-Diez comes packaged with many prefabs that you can use to define your [Design Token Components (DTCs)](TODO:). All of the properties defined on these components are available to you along with a number of extensions and helpers to make interacting with these components as seamless as possible.
+Diez comes packaged with many prefabs that you can use to define your [Design Token Components (DTCs)](/glossary#tokens). All of the properties defined on these components are available to you along with a number of extensions and helpers to make interacting with these components as seamless as possible.
 
-### [Color](TODO:)
-
-```javascript
-```
-
-### [Image](TODO:)
+#### [Color](TODO:)
 
 ```javascript
 ```
 
-### [Lottie](TODO:)
+#### [Image](TODO:)
 
 ```javascript
 ```
 
-### [Typograph](TODO:)
+#### [Lottie](TODO:)
+
+```javascript
+```
+
+#### [Typograph](TODO:)
+
+-->

@@ -1,6 +1,4 @@
-## Kotlin Guide (Android)
-
-### Getting Started
+## Kotlin Guide - Getting Started
 
 #### Prerequisites
 

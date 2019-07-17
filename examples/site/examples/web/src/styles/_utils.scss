@@ -1,7 +1,7 @@
 @import '@diez/styles.scss';
 
 $page-width: $sizing-xxxl-px;
-$smallText: 16px;
+$smallText: 17px;
 
 @mixin tablet-large {
   @media (max-width: 1100px) {

@@ -129,11 +129,6 @@ class Typography extends Component {
     font: Fonts.SourceCodePro.Regular,
     fontSize: 15,
   });
-  @property subcategory = new Typograph({
-    font: Fonts.SourceSansPro.Black,
-    fontSize: 16,
-    color: palette.black,
-  })
 }
 
 export const palette = new Palette();

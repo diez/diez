@@ -1,12 +1,12 @@
-# Integrating A Diez Project into an Existing iOS Application
+## Integrating a Diez project into an existing iOS application
 
-## Assumptions
+### Assumptions
 
 - You have an existing iOS application.
 - You have an existing Diez project.
 - You want to integrate your iOS project with a living source of truth.
 
-## Generating an SDK
+### Generating an SDK
 
 ```bash
 diez compile -t ios <dependency-type>
@@ -17,15 +17,18 @@ The supported dependency types are:
 - `--carthage`: Generates a [Carthage](https://github.com/Carthage/Carthage) supported framework.
 - `--cocoapods`: Generates a [CocoaPods](https://github.com/CocoaPods/CocoaPods) supported framework.
 
-> You can also supply `--carthage --cocoapods` to generate a project that supports both. You can omit them if you'd like to manage the dependency yourself.
->
-> [XcodeGen](https://github.com/yonaskolb/XcodeGen) is required to be installed for compiling an iOS SDK that uses Carthage, or without dependency support.
+<div class="note">
+    You can also supply `--carthage --cocoapods` to generate a project that supports both. You can omit them if you'd like to manage the dependency yourself.
+</div>
+<div class="note">
+    [XcodeGen](https://github.com/yonaskolb/XcodeGen) is required to be installed for compiling an iOS SDK that uses Carthage, or without dependency support.
+</div>
 
 The dependency will be generated in a location relative to the current working directly at `build/diez-<name>-ios`, where `<name>` is the name of your Diez project in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
 
-> For more information about creating a new Diez project, see our guide on [The Basics](TODO:).
+<div class="note"> For more information about creating a new Diez project, see our guide on <router-link to="/getting-started/the-basics">The Basics</router-link>.</div>
 
-## Accessing Components
+### Accessing Components
 
 We can access our Diez project's `Component`s in our application by importing the generated Diez SDK and instantiating the component. For example, assuming a project named `my-project` with an exported component named `DesignSystem`, you could do the following:
 
@@ -42,15 +45,18 @@ class ViewController: UIViewController {
 }
 ```
 
-> If you'd like to use hot updates to preview changes in real time, check out our [guide on setting up hot updates](TODO:).
+<div class="note"> If you'd like to use hot updates to preview changes in real time, check back soon for a guide on setting up hot updates. In the interim, please ask for help on <a href="https://spectrum.chat/diez" target="_blank">Spectrum</a>.</div
+>
 
-## Interacting with Prefabs
+<!--
 
-Diez comes packaged with a number of prefabs that you can use to define your [Design Token Components (DTCs)](TODO:). All of the properties defined on these components are available to you along with a number of extensions and helper `UIView` subclasses to make interacting with these components as seamless as possible.
+### Interacting with Prefabs
 
-### [Color](TODO:)
+Diez comes packaged with a number of prefabs that you can use to define your [Design Token Components (DTCs)](/glossary#tokens). All of the properties defined on these components are available to you along with a number of extensions and helper `UIView` subclasses to make interacting with these components as seamless as possible.
 
-#### UIColor Representation
+#### [Color](TODO:)
+
+##### UIColor Representation
 
 ```swift
 extension Color {
@@ -58,7 +64,7 @@ extension Color {
 }
 ```
 
-#### UIColor Initializer
+##### UIColor Initializer
 
 ```swift
 extension UIColor {
@@ -66,9 +72,9 @@ extension UIColor {
 }
 ```
 
-### [Image](TODO:)
+#### [Image](TODO:)
 
-#### UIImage Representation
+##### UIImage Representation
 
 ```swift
 extension Image {
@@ -76,7 +82,7 @@ extension Image {
 }
 ```
 
-#### UIImage Initializer
+##### UIImage Initializer
 
 ```swift
 extension UIImage {
@@ -84,9 +90,9 @@ extension UIImage {
 }
 ```
 
-### [Lottie](TODO:)
+#### [Lottie](TODO:)
 
-#### Resource URL
+##### Resource URL
 
 ```swift
 extension Lottie {
@@ -94,7 +100,7 @@ extension Lottie {
 }
 ```
 
-#### AnimationView Loader
+##### AnimationView Loader
 
 ```swift
 extension AnimationView {
@@ -104,9 +110,9 @@ extension AnimationView {
 }
 ```
 
-### [LinearGradient](TODO:)
+#### [LinearGradient](TODO:)
 
-#### CAGradientLayer Style Application
+##### CAGradientLayer Style Application
 
 ```swift
 extension CAGradientLayer {
@@ -114,9 +120,9 @@ extension CAGradientLayer {
 }
 ```
 
-### [Point2D](TODO:)
+#### [Point2D](TODO:)
 
-#### CGPoint representation
+##### CGPoint representation
 
 ```swift
 extension Point2D {
@@ -125,9 +131,9 @@ extension Point2D {
 
 ```
 
-### [Typograph](TODO:)
+#### [Typograph](TODO:)
 
-#### UIFont Representation
+##### UIFont Representation
 
 ```swift
 extension Typograph {
@@ -137,7 +143,7 @@ extension Typograph {
 }
 ```
 
-#### NSAttributedString Initializer
+##### NSAttributedString Initializer
 
 ```swift
 extension NSAttributedString {
@@ -145,7 +151,7 @@ extension NSAttributedString {
 }
 ```
 
-#### UILabel Style Application
+##### UILabel Style Application
 
 ```swift
 extension UILabel {
@@ -153,7 +159,7 @@ extension UILabel {
 }
 ```
 
-#### UITextView Style Application
+##### UITextView Style Application
 
 ```swift
 extension UITextView {
@@ -161,10 +167,12 @@ extension UITextView {
 }
 ```
 
-#### UITextField Style Application
+##### UITextField Style Application
 
 ```swift
 extension UITextField {
     func apply(_ typograph: Typograph)
 }
 ```
+
+-->

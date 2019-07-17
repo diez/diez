@@ -1,6 +1,4 @@
-## JavaScript Guide (web)
-
-### Getting Started
+## JavaScript Guide - Getting Started
 
 #### Prerequisites
 

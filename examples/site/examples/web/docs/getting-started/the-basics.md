@@ -1,4 +1,4 @@
-## The basics
+## Diez basics
 
 ### The moving pieces
 
@@ -96,4 +96,4 @@ An example of a custom component is demonstrated in an example project [here](ht
 
 After composing your Diez project you'll need to hook it up to your codebase(s). Platform specific guides are available in the side menu.
 
-Where should your Diez project itself live? This is up to you, but we've found success with this pattern: The Diez project lives in a stand-alone GitHub repo and compiles SDKs into its consumer codebases.
+Where should your Diez project itself live? Check out the [Diez + Your Codebase](/getting-started/your-codebase) guide.

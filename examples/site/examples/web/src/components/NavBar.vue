@@ -10,7 +10,7 @@
           <img width="34" src="../assets/imgs/logo.svg"/>
         </router-link>
         <div class="holster-right">
-          <router-link to="/getting-started">Get Started</router-link>
+          <router-link to="/getting-started">Guides</router-link>
           <router-link to="/docs">Docs</router-link>
           <router-link to="/faq">FAQ</router-link>
           <router-link to="/glossary">Glossary</router-link>
