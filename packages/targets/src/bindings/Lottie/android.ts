@@ -8,7 +8,7 @@ const binding: AndroidBinding<Lottie> = {
   dependencies: [{
     gradle: {
       name: 'lottie',
-      minVersion: '2.7.0',
+      minVersion: '3.0.1',
       source: 'com.airbnb.android:lottie',
     },
   }],

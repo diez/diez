@@ -1,7 +1,7 @@
 package org.diez.stub
 
 import android.graphics.Color as CoreColor
-import android.support.v4.graphics.ColorUtils
+import androidx.core.graphics.ColorUtils
 
 data class Color(
     val h: Float,

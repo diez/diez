@@ -4,8 +4,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget

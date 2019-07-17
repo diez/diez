@@ -3,7 +3,7 @@ package org.diez.examples.loremipsum
 import android.content.res.Resources
 import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.shapes.RectShape
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
 import kotlinx.android.synthetic.main.activity_main.*

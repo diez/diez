@@ -24,7 +24,7 @@ buildscript {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation "com.squareup.moshi:moshi:$moshi_min_version+"
     // Note: this adapter uses a bulky and slow reflection implementation.
     // TODO: replace this with codegen-based solution.
