@@ -1,0 +1,7 @@
+src/
+tsconfig.json
+tsconfig.tsbuildinfo
+tslint.json
+yarn-error.log
+types/**/*.d.ts.map
+lib/**/*.js.map
