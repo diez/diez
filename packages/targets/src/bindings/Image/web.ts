@@ -22,26 +22,20 @@ const binding: WebBinding<Image> = {
         height: `${instance.height}px`,
         'background-size': `${instance.width}px ${instance.height}px`,
       },
-    });
-    output.styleSheet.media.insertRule({
-      selector: '(min-device-pixel-ratio: 2), (min-resolution: 2dppx)',
-      declaration: {},
-      rules: new RuleList([{
-        selector: `${name}-background-image`,
-        declaration: {
-          'background-image': getQualifiedCssUrl(output, instance.file2x.src),
+      rules: new RuleList([
+        {
+          selector: '(min-device-pixel-ratio: 2), (min-resolution: 2dppx)',
+          declaration: {
+            'background-image': getQualifiedCssUrl(output, instance.file2x.src),
+          },
         },
-      }]),
-    });
-    output.styleSheet.media.insertRule({
-      selector: '(min-device-pixel-ratio: 3), (min-resolution: 3dppx)',
-      declaration: {},
-      rules: new RuleList([{
-        selector: `${name}-background-image`,
-        declaration: {
-          'background-image': getQualifiedCssUrl(output, instance.file3x.src),
+        {
+          selector: '(min-device-pixel-ratio: 3), (min-resolution: 3dppx)',
+          declaration: {
+            'background-image': getQualifiedCssUrl(output, instance.file3x.src),
+          },
         },
-      }]),
+      ]),
     });
   },
 };

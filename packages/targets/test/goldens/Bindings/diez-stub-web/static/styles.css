@@ -22,6 +22,18 @@
   background-size: 246px 246px;
 }
 
+@media (min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  .bindings-image-background-image {
+    background-image: url("/diez/assets/image with spaces@2x.jpg");
+  }
+}
+
+@media (min-device-pixel-ratio: 3), (min-resolution: 3dppx) {
+  .bindings-image-background-image {
+    background-image: url("/diez/assets/image with spaces@3x.jpg");
+  }
+}
+
 .bindings-typograph {
   font-family: "SomeFont","Verdana",serif;
   font-weight: 700;
@@ -46,13 +58,3 @@
   background-image: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }
 
-@media (min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
-  .bindings-image-background-image {
-    background-image: url("/diez/assets/image with spaces@2x.jpg");
-  }
-}
-@media (min-device-pixel-ratio: 3), (min-resolution: 3dppx) {
-  .bindings-image-background-image {
-    background-image: url("/diez/assets/image with spaces@3x.jpg");
-  }
-}

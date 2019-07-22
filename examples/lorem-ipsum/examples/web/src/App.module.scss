@@ -63,8 +63,10 @@
 }
 
 .icon {
+  @include images-logo-background-image();
   transform: translate(0, -50%);
   position: absolute;
+  margin-left: $layout-values-spacing-medium-px;
 }
 
 .animationContainer {

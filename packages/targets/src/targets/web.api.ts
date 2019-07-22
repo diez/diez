@@ -94,7 +94,6 @@ export type RuleTuples = [string, string][];
 export interface StyleSheet {
   variables: Map<string, string>;
   font: RuleList;
-  media: RuleList;
   styles: RuleList;
 }
 
@@ -114,7 +113,6 @@ export interface StyleVariableToken {
 export interface StyleTokens {
   styleVariables: StyleVariableToken[];
   styleFonts: Rule[];
-  styleMedias: Rule[];
   styleSheets: Rule[];
 }
 

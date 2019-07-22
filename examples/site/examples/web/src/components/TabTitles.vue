@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="title in titles" @click="handleClick(title)" :class="{active: title === currentActive}">
+    <li :key="title" v-for="title in titles" @click="handleClick(title)" :class="{active: title === currentActive}">
       {{title}}
     </li>
   </ul>

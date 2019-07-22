@@ -21,20 +21,14 @@ ${{this.name}}-rem: #{$ {{~this.name~}} }rem;
   {{#each group.declaration}}
   {{@key}}: {{{this}}};
   {{/each}}
-}
+  {{#each group.rules as |media|}}
 
-{{/each}}
-{{#each styleMedias as |media|}}
-@media {{media.selector}} {
-  {{#each media.declaration}}
-  {{@key}}: {{{this}}};
-  {{/each}}
-  {{#each media.rules as |mediaRule|}}
-  .{{mediaRule.selector}} {
-    {{#each mediaRule.declaration}}
+  @media {{media.selector}} {
+    {{#each media.declaration}}
     {{@key}}: {{{this}}};
     {{/each}}
   }
   {{/each}}
 }
+
 {{/each}}

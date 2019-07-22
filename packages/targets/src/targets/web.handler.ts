@@ -187,7 +187,6 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       styleSheet: {
         variables: new Map(),
         font: new RuleList(),
-        media: new RuleList(),
         styles: new RuleList(),
       },
     };
@@ -271,7 +270,6 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         return {name, value, isNumber: numberVariables.has(name)};
       }),
       styleFonts: this.output.styleSheet.font.serialize(),
-      styleMedias: this.output.styleSheet.media.serialize(),
       styleSheets: this.output.styleSheet.styles.serialize(),
     };
   }

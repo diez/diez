@@ -21,7 +21,7 @@ export default {
       }
     },
     inferTabName (prefix, className) {
-      return new RegExp(`${prefix}-([a-z]+)`).exec(className);
+      return new RegExp(`${prefix}-([a-zA-Z]+)`).exec(className);
     }
   },
   render (h) {
@@ -44,7 +44,7 @@ export default {
 
     this.$slots.default[0].data.staticClass += ' active';
 
-    return h('div', {}, [
+    return h('div', {class: {wrapper: true}}, [
       h('TabTitles', {props: {titles}, on: {tabChanged: this.changeTab}}),
       h('div', {class: {tabContents: true}}, this.$slots.default)
     ]);
@@ -53,6 +53,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@theme/styles/_utils.scss';
+
+.wrapper {
+  margin-top: $spacing-xl-px;
+}
+
 [class^='language-']:not(.active):not(pre) {
   display: none;
 }

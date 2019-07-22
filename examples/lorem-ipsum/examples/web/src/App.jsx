@@ -2,19 +2,6 @@ import React from 'react';
 import { Diez, DesignSystem } from 'diez-lorem-ipsum';
 import styles from './App.module.scss';
 
-const Icon = ({ image, marginLeft }) => (
-  <img
-    src={image.url}
-    width={image.width}
-    height={image.height}
-    alt="logo"
-    className={styles.icon}
-    style={{
-      marginLeft: marginLeft,
-    }}
-  />
-);
-
 class Animation extends React.Component {
   componentDidMount() {
     this.props.lottie.mount(this.refs.animation);
@@ -54,10 +41,7 @@ export default class App extends React.PureComponent {
         </div>
         <div className={styles.contentContainer}>
           <div className={styles.content}>
-            <Icon
-              image={ds.images.logo}
-              marginLeft={ds.layoutValues.contentMargin.left}
-            />
+            <div className={styles.icon}></div>
             <div className={styles.innerContent}>
               <h2 className={styles.title}>{ds.strings.title}</h2>
               <h3 className={styles.caption}>{ds.strings.caption}</h3>
