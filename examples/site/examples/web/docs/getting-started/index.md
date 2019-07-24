@@ -44,17 +44,20 @@ This demo is running in [hot mode](/glossary/#hot-mode). Try modifying the conte
 
 #### Explore the example app codebases
 
- We've written platform specific guides for walking through this new Diez project you've just created. We recommend picking your flavor(s) and jumping right in. 
+ We've written platform specific, getting started guides for walking through this new Diez project you've just created. We recommend picking your flavor(s) and jumping right in.
  
- <div class="holster-tri-card">
-  <router-link class="card third" to="/getting-started/swift">
-    <img src="@theme/assets/imgs/swift.svg" alt="Swift"><span>Swift Guide</span>
+ <div class="cards-holster">
+  <router-link class="card fourth" to="/getting-started/swift">
+    <img src="@theme/assets/imgs/swift.svg" alt="Swift"><span>Swift</span>
   </router-link>
-  <router-link class="card third" to="/getting-started/kotlin">
-    <img src="@theme/assets/imgs/kotlin.svg" alt="Kotlin"><span>Kotlin Guide</span>
+  <router-link class="card fourth" to="/getting-started/kotlin">
+    <img src="@theme/assets/imgs/kotlin.svg" alt="Kotlin"><span>Kotlin</span>
   </router-link>
-  <router-link class="card third" to="/getting-started/javascript">
-    <img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript Guide</span>
+  <router-link class="card fourth" to="/getting-started/javascript">
+    <img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript</span>
+  </router-link>
+  <router-link class="card fourth" to="/getting-started/css-sass">
+    <img src="@theme/assets/imgs/sass.svg" alt="Sass"><span>CSS & Sass</span>
   </router-link>
 </div>
 
@@ -62,12 +65,12 @@ This demo is running in [hot mode](/glossary/#hot-mode). Try modifying the conte
 #### Additional guides
 If you'd prefer to first learn a bit more about your Diez project and how to compose your design token components, we have you covered with the Diez Basics guide. Want to hook your new Diez project up to Figma? We've got you there too.
 
-<div class="holster-tri-card">
-  <router-link class="card third" to="/getting-started/the-basics">
+<div class="cards-holster">
+  <router-link class="card fourth" to="/getting-started/the-basics">
     <img src="@theme/assets/imgs/logo.svg" alt="Swift"><span>Diez Basics</span>
   </router-link>
-  <router-link class="card third" to="/getting-started/figma">
-    <img src="@theme/assets/imgs/figma.svg" alt="ObjectiveC"><span>Figma Guide</span>
+  <router-link class="card fourth" to="/getting-started/figma">
+    <img src="@theme/assets/imgs/figma.svg" alt="ObjectiveC"><span>Figma</span>
   </router-link>
 </div>
 

@@ -31,7 +31,7 @@
           <p>Design Token Components enable a "write once, use anywhere" paradigm for your design language, across codebases.</p>
         </div>
         <div class="half">
-          <div class="holster-tri-card">
+          <div class="cards-holster">
             <div class="card third mono"><img src="@theme/assets/icons/color.svg" alt="Color">Color</div>
             <div class="card third mono"><img src="@theme/assets/icons/number.svg" alt="Number">Number</div>
             <div class="card third mono"><img src="@theme/assets/icons/font.svg" alt="Font">Font</div>
@@ -50,20 +50,20 @@
             Diez Compiler
           </div>
           <img src="@theme/assets/imgs/outputs.svg" class="output-it" alt="output-arms">
-          <div class="holster-tri-card">
-            <div class="card fourth"><img src="@theme/assets/imgs/swift.svg" alt="Swift"><span>Swift</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/kotlin.svg" alt="Kotlin"><span>Kotlin</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/objc.svg" alt="ObjectiveC"><span>Objective-C</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/java.svg" alt="Java"><span>Java</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/typescript.svg" alt="TypeScript"><span>TypeScript</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/sass.svg" alt="Sass"><span>Sass</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/storybook.svg" alt="Storybook"><span>Storybook</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/vue.svg" alt="Vue"><span>Vue</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/react.svg" alt="React"><span>React</span></div>
-            <div class="card fourth"><img src="@theme/assets/imgs/angular.svg" alt="Angular"><span>Angular</span></div>
+          <div class="cards-holster">
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/swift.svg" alt="Swift"><span>Swift</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/kotlin.svg" alt="Kotlin"><span>Kotlin</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/javascript.svg" alt="JavaScript"><span>JavaScript</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/objc.svg" alt="ObjectiveC"><span>Objective-C</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/java.svg" alt="Java"><span>Java</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/typescript.svg" alt="TypeScript"><span>TypeScript</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/sass.svg" alt="Sass"><span>Sass</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/storybook.svg" alt="Storybook"><span>Storybook</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/vue.svg" alt="Vue"><span>Vue</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/react.svg" alt="React"><span>React</span></div>
+            <div class="card fourth-alt"><img src="@theme/assets/imgs/angular.svg" alt="Angular"><span>Angular</span></div>
 
-            <div class="card fourth extensible"><img src="@theme/assets/icons/plus.svg" alt="Extensible"><span>Extensible</span></div>
+            <div class="card fourth-alt extensible"><img src="@theme/assets/icons/plus.svg" alt="Extensible"><span>Extensible</span></div>
           </div>
         </div>
         <div class="half align-top">
@@ -79,7 +79,7 @@
           <p>Diez includes command-line tools for extracting normalized, strongly typed styles and images from many modern design tools.</p>
         </div>
         <div class="half mobile-reorder">
-          <div class="holster-tri-card">
+          <div class="cards-holster">
             <img width="100%" height="100%" src="@theme/assets/imgs/design-tool-extractors-1x.png" alt="Design File Extractors: Sketch, Figma, InVision DSM">
           </div>
         </div>
@@ -105,7 +105,7 @@
           <p>From code comments and static analysis, Diez can automatically build customizable, ready-to-deploy documentation for your design system. This is not yet available as part of Early Access, but it will be shipping soon!</p>
         </div>
         <div class="half mobile-reorder">
-          <div class="holster-tri-card">
+          <div class="cards-holster">
             <img width="100%" height="100%" class="card img-outline" src="@theme/assets/imgs/docz.jpg" alt="docs">
           </div>
         </div>

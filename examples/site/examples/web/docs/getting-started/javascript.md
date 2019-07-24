@@ -63,4 +63,4 @@ Go back to your browser and see the web app hot update! You can update and hot r
 Please see [The Basics Guide](/getting-started/the-basics) for more information on how to compose and edit your design token components (DTCs).
 
 
-Now you are ready to start! if you want to integrate Diez with an existing project, check out [Integrating Diez with an existing web project](/existing-project-integration/javascript/)
+Now you are ready to start! if you want to integrate Diez with an existing project, check out [Integrating Diez with an existing web project (JavaScript)](/existing-project-integration/javascript/)

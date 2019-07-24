@@ -87,7 +87,7 @@
     opacity: .57
   }
 
-  .holster-tri-card {
+  .cards-holster {
     display: flex;
     flex-wrap: wrap;
     margin: 0 -12px;
@@ -118,6 +118,10 @@
       }
     }
     &.fourth {
+      @extend .third;
+      width: calc(25% - 24px);
+    }
+    &.fourth-alt {
       @extend .third;
       padding: $spacing-md-px;
       font-size: 0.75em;
