@@ -1,15 +1,15 @@
 import {Font, LinearGradient, Toward, Typograph} from '@diez/prefabs';
 import {Component, property} from '@diez/engine';
-import {poodleSurfDesignSystem} from './PoodleSurf.sketch';
+import {poodleSurfTokens} from './PoodleSurf.sketch';
 
 class Palette extends Component {
-  @property foreground = poodleSurfDesignSystem.colors.black;
-  @property background = poodleSurfDesignSystem.colors.white;
-  @property loadingBackground = poodleSurfDesignSystem.colors.blue;
-  @property primary = poodleSurfDesignSystem.colors.pink;
-  @property secondary = poodleSurfDesignSystem.colors.orange;
-  @property separator = poodleSurfDesignSystem.colors.whiteA40;
-  @property contentForeground = poodleSurfDesignSystem.colors.white;
+  @property foreground = poodleSurfTokens.colors.black;
+  @property background = poodleSurfTokens.colors.white;
+  @property loadingBackground = poodleSurfTokens.colors.blue;
+  @property primary = poodleSurfTokens.colors.pink;
+  @property secondary = poodleSurfTokens.colors.orange;
+  @property separator = poodleSurfTokens.colors.whiteA40;
+  @property contentForeground = poodleSurfTokens.colors.white;
   @property contentBackground = LinearGradient.make(Toward.BottomRight, this.primary, this.secondary);
 }
 

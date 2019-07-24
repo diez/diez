@@ -294,7 +294,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     }
   }
 
-  const componentName = `${designSystemName}DesignSystem`;
+  const componentName = `${designSystemName}Tokens`;
   const exportedClassDeclaration = sourceFile.addClass({
     isExported: true,
     name: componentName,

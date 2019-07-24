@@ -45,7 +45,7 @@ export const MyDesignSystemFonts = {
     }
 };
 
-export class MyDesignSystemDesignSystem extends Component {
+export class MyDesignSystemTokens extends Component {
     @property
     colors = new MyDesignSystemColors();
     @property
@@ -54,4 +54,4 @@ export class MyDesignSystemDesignSystem extends Component {
     typographs = new MyDesignSystemTypographs();
 }
 
-export const myDesignSystemDesignSystem = new MyDesignSystemDesignSystem();
+export const myDesignSystemTokens = new MyDesignSystemTokens();

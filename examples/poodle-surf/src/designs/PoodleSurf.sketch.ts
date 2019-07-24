@@ -72,11 +72,11 @@ export class PoodleSurfSlices {
     static Icon = Image.responsive("assets/PoodleSurf.sketch.contents/slices/Icon.png", 29, 26);
 }
 
-export class PoodleSurfDesignSystem extends Component {
+export class PoodleSurfTokens extends Component {
     @property
     colors = new PoodleSurfColors();
     @property
     gradients = new PoodleSurfGradients();
 }
 
-export const poodleSurfDesignSystem = new PoodleSurfDesignSystem();
+export const poodleSurfTokens = new PoodleSurfTokens();
