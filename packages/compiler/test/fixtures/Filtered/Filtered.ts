@@ -1,7 +1,20 @@
-import {Component, property, Target} from '@diez/engine';
+import {prefab, Target} from '@diez/engine';
 
-export class Filtered extends Component {
-  @property({targets: ['not-test' as Target]}) excludeMe = false;
-  @property includeMe = true;
-  @property({targets: ['test' as Target]}) includeUs = [true, true, true];
+interface FilteredData {
+  excludeMe: boolean;
+  includeMe: boolean;
+  includeUs: boolean[];
+}
+
+export class Filtered extends prefab<FilteredData>() {
+  defaults = {
+    excludeMe: false,
+    includeMe: true,
+    includeUs: [true, true, true],
+  };
+
+  options = {
+    excludeMe: {targets: ['not-test' as Target]},
+    includeUs: {targets: ['test' as Target]},
+  };
 }

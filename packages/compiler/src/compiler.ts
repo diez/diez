@@ -1,16 +1,16 @@
-/* tslint:disable:max-line-length */
+/* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
-import {ConcreteComponent} from '@diez/engine';
+import {serialize} from '@diez/engine';
 import {noCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, SourceFile, Type, TypeChecker} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, sys} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {getBinding, getHotPort, getProject, loadComponentModule, purgeRequireCache} from './utils';
+import {getBinding, getHotPort, getProject, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
@@ -36,7 +36,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * The component declaration, which we can use to determine component-ness using the typechecker.
    */
-  private readonly componentDeclaration: ClassDeclaration;
+  private readonly prefabDeclaration: ClassDeclaration;
 
   /**
    * The active TypeScript program.
@@ -142,10 +142,29 @@ export class Program extends EventEmitter implements CompilerProgram {
       return false;
     }
 
-    const typeValue = typeSymbol.getValueDeclaration() as ClassDeclaration;
-    if (!isClassDeclaration(typeValue.compilerNode)) {
-      // FIXME: we are catching methods in this net as well, but should not.
+    const typeValue = typeSymbol.getValueDeclaration() as ClassDeclaration | undefined;
+
+    if (typeValue === undefined || !isClassDeclaration(typeValue.compilerNode)) {
+      // FIXME: we should allow non-class declarations as long as they use explicit types.
       return false;
+    }
+
+    const children: Symbol[] = [];
+    if (typeValue.getBaseClass() === this.prefabDeclaration) {
+      for (const symbol of type.getProperties()) {
+        if (symbol.getFlags() !== SymbolFlags.Property) {
+          continue;
+        }
+        children.push(symbol);
+      }
+    } else {
+      for (const property of typeValue.getProperties()) {
+        if (property.getScope() !== Scope.Public) {
+          continue;
+        }
+
+        children.push(typeSymbol.getMemberOrThrow(property.getName()));
+      }
     }
 
     const componentName = typeValue.getName();
@@ -167,10 +186,6 @@ export class Program extends EventEmitter implements CompilerProgram {
       return true;
     }
 
-    if (typeValue.getBaseClass() !== this.componentDeclaration) {
-      return false;
-    }
-
     const newTarget: TargetComponent = {
       type,
       properties: [],
@@ -180,10 +195,10 @@ export class Program extends EventEmitter implements CompilerProgram {
       source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
     };
 
-    for (const typeMember of typeSymbol.getMembers()) {
+    for (const typeMember of children) {
       const valueDeclaration = typeMember.getValueDeclaration() as PropertyDeclaration;
       if (!valueDeclaration) {
-        // We will skip e.g. @typeparams here.
+        // This should never happen?
         continue;
       }
       const propertyName = valueDeclaration.getName();
@@ -401,13 +416,13 @@ export class Program extends EventEmitter implements CompilerProgram {
     // Create a stub type file for typing the Component class and number primitives.
     const stubTypeFile = this.project.createSourceFile(
       join('src', '__stub.ts'),
-      'import {Component, Integer, Float} from \'@diez/engine\';',
+      'import {Prefab, Integer, Float} from \'@diez/engine\';',
       {overwrite: true},
     );
 
-    const [componentImport, intImport, floatImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
+    const [prefabImport, intImport, floatImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
     this.targetComponents = new Map();
-    this.componentDeclaration = this.checker.getTypeAtLocation(componentImport).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration;
+    this.prefabDeclaration = this.checker.getTypeAtLocation(prefabImport).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration;
     this.types = {
       [PrimitiveType.Int]: intImport.getSymbolOrThrow().getDeclaredType(),
       [PrimitiveType.Float]: floatImport.getSymbolOrThrow().getDeclaredType(),
@@ -589,7 +604,7 @@ export abstract class TargetCompiler<
   /**
    * Recursively processes a component instance and all its properties.
    */
-  protected async processComponentInstance (instance: ConcreteComponent, name: PropertyType) {
+  protected async processComponentInstance (instance: any, name: PropertyType) {
     const targetComponent = this.program.targetComponents.get(name);
     if (!targetComponent) {
       Log.warning(`Unable to find component definition for ${name}!`);
@@ -597,18 +612,24 @@ export abstract class TargetCompiler<
     }
 
     const spec = this.createSpec(name);
+    const serializedData = serialize(instance);
 
     for (const property of targetComponent.properties) {
-      const propertyOptions = instance.boundStates.get(property.name);
-      if (!propertyOptions || (propertyOptions.targets && !propertyOptions.targets.includes(this.program.options.target))) {
+      // TODO: move this check upstream of the target compiler, into the compiler metadata stream where it belongs.
+      if (
+        instance.options &&
+        instance.options[property.name] &&
+        Array.isArray(instance.options[property.name].targets) &&
+        !instance.options[property.name].targets.includes(this.program.options.target)
+      ) {
         // We are looking at a property that is either not a state or explicitly excluded by the host.
         continue;
       }
 
       const propertySpec = await this.processComponentProperty(
         property,
-        instance.get(property.name),
-        instance.serialize()[property.name],
+        instance[property.name],
+        serializedData[property.name],
         targetComponent,
       );
 
@@ -637,13 +658,13 @@ export abstract class TargetCompiler<
     purgeRequireCache(require.resolve(this.program.emitRoot));
     const componentModule = await loadComponentModule(this.program.emitRoot);
     for (const componentName of this.program.localComponentNames) {
-      const constructor = componentModule[componentName];
-      if (!constructor) {
+      const maybeConstructor = componentModule[componentName];
+      if (!maybeConstructor) {
         Log.warning(`Unable to resolve component instance from ${this.program.projectRoot}: ${componentName}.`);
         continue;
       }
 
-      const componentInstance = new constructor();
+      const componentInstance = isConstructible(maybeConstructor) ? new maybeConstructor() : maybeConstructor;
       await this.processComponentInstance(componentInstance, componentName);
     }
   }

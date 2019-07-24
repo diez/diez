@@ -1,6 +1,6 @@
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 
-interface EdgeInsetsState {
+interface EdgeInsetsData {
   top: number;
   bottom: number;
   left: number;
@@ -10,11 +10,13 @@ interface EdgeInsetsState {
 /**
  * Provides inset to be used for layout margins, etc.
  */
-export class EdgeInsets extends Component<EdgeInsetsState> {
-  @property top = 0;
-  @property bottom = 0;
-  @property left = 0;
-  @property right = 0;
+export class EdgeInsets extends prefab<EdgeInsetsData>() {
+  defaults = {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  };
 
   /**
    * A helper method for defining edge insets inspired by CSS shorthand.

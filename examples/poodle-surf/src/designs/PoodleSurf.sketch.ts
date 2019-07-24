@@ -1,23 +1,15 @@
 import { Color, File, GradientStop, Image, LinearGradient, Point2D } from "@diez/prefabs";
-import { Component, property } from "@diez/engine";
 
-class PoodleSurfColors extends Component {
-    @property
+class PoodleSurfColors {
     pink = Color.rgba(255, 63, 112, 1);
-    @property
     orange = Color.rgba(255, 154, 58, 1);
-    @property
     blue = Color.rgba(120, 207, 253, 1);
-    @property
     white = Color.rgba(255, 255, 255, 1);
-    @property
     whiteA40 = Color.rgba(255, 255, 255, 0.4);
-    @property
     black = Color.rgba(0, 0, 0, 1);
 }
 
-class PoodleSurfGradients extends Component {
-    @property
+class PoodleSurfGradients {
     gradient = new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)});
 }
 
@@ -72,10 +64,8 @@ export class PoodleSurfSlices {
     static Icon = Image.responsive("assets/PoodleSurf.sketch.contents/slices/Icon.png", 29, 26);
 }
 
-export class PoodleSurfTokens extends Component {
-    @property
+export class PoodleSurfTokens {
     colors = new PoodleSurfColors();
-    @property
     gradients = new PoodleSurfGradients();
 }
 

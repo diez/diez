@@ -42,10 +42,10 @@ For example, you can change the background color of the web app by modifying you
 First, open `src/DesignSystem.ts` in an editor of your choice. Look for the following block of code:
 
 ```typescript
-class Strings extends Component {
-  @property title = 'Diez';
-  @property caption = 'Keep your designs in sync with code';
-  @property helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
+class Strings {
+  title = 'Diez';
+  caption = 'Keep your designs in sync with code';
+  helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
 }
 ```
 
@@ -54,8 +54,8 @@ In this example, the `String`component maps semantic names to strings that are d
 Change the contents of `title` to something of your choice, for example:
 
 ```Diff
-- @property title = 'Diez';
-+ @property title = 'I <3 Diez!';
+- title = 'Diez';
++ title = 'I <3 Diez!';
 ```
 
 Go back to your browser and see the web app hot update! You can update and hot reload **any** value defined in your design system: strings, colors, images, fonts, etc.

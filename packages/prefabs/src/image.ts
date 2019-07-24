@@ -1,17 +1,16 @@
-import {Component, Integer, property, Target} from '@diez/engine';
+import {Integer, prefab, Target} from '@diez/engine';
 import {File, FileType} from './file';
 
 /**
- * Responsive image state.
- * @ignore
+ * Responsive image data.
  */
-export interface ImageState {
+export interface ImageData {
   file: File;
   file2x: File;
   file3x: File;
   file4x: File;
-  width: number;
-  height: number;
+  width: Integer;
+  height: Integer;
 }
 
 /**
@@ -22,7 +21,7 @@ export interface ImageState {
  *
  * @noinheritdoc
  */
-export class Image extends Component<ImageState> {
+export class Image extends prefab<ImageData>() {
   /**
    * Yields a raster image according to the convention that files should be located in the same directory using the
    * same filename prefix. For example:
@@ -37,7 +36,7 @@ export class Image extends Component<ImageState> {
    *
    * can be specified with:
    *
-   * `@property image = Image.responsive('assets/filename.png', 640, 480);`
+   * `image = Image.responsive('assets/filename.png', 640, 480);`
    */
   static responsive (src: string, width: number = 0, height: number = 0) {
     const pathComponents = src.split('/');
@@ -56,26 +55,26 @@ export class Image extends Component<ImageState> {
     });
   }
 
-  @property file = new File({type: FileType.Image});
+  defaults = {
+    file: new File({type: FileType.Image}),
+    file2x: new File({type: FileType.Image}),
+    file3x: new File({type: FileType.Image}),
+    file4x: new File({type: FileType.Image}),
+    width: 0,
+    height: 0,
+  };
 
-  @property file2x = new File({type: FileType.Image});
+  options = {
+    file4x: {
+      targets: [Target.Android],
+    },
+  };
 
-  @property file3x = new File({type: FileType.Image});
-
-  @property({targets: [Target.Android]}) file4x = new File({type: FileType.Image});
-
-  @property width: Integer = 0;
-
-  @property height: Integer = 0;
-
-  /**
-   * @ignore
-   */
-  serialize () {
+  protected sanitize (data: ImageData) {
     return {
-      ...super.serialize(),
-      width: Math.round(this.width),
-      height: Math.round(this.height),
+      ...data,
+      width: Math.round(data.width),
+      height: Math.round(data.height),
     };
   }
 }

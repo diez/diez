@@ -1,13 +1,19 @@
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 import {Color} from './color';
-import {Point2D, Point2DState} from './point2d';
+import {Point2D, Point2DData} from './point2d';
 
 /**
- * GradientStop state.
- * @ignore
+ * GradientStop data.
  */
-export interface GradientStopState {
+export interface GradientStopData {
+  /**
+   * The position of this color within a gradient as percentage value where 1.0 is 100%. The stop position can be less
+   * than 0 or greater than 1.
+   */
   position: number;
+  /**
+   * The color at this stop position within a gradient.
+   */
   color: Color;
 }
 
@@ -16,16 +22,11 @@ export interface GradientStopState {
  *
  * @noinheritdoc
  */
-export class GradientStop extends Component<GradientStopState> {
-  /**
-   * The position of this color within a gradient as percentage value where 1.0 is 100%. The stop position can be less
-   * than 0 or greater than 1.
-   */
-  @property position = 0;
-  /**
-   * The color at this stop position within a gradient.
-   */
-  @property color = Color.rgb(0, 0, 0);
+export class GradientStop extends prefab<GradientStopData>() {
+  defaults = {
+    position: 0,
+    color: Color.rgb(0, 0, 0),
+  };
 
   /**
    * Creates an gradient stop.
@@ -38,19 +39,9 @@ export class GradientStop extends Component<GradientStopState> {
 }
 
 /**
- * LinearGradient state.
- * @ignore
- */
-export interface LinearGradientState {
-  stops: GradientStop[];
-  start: Point2D;
-  end: Point2D;
-}
-
-/**
  * The direction of a linear gradient relative to the containing view's edges.
  */
-export enum Toward {
+export const enum Toward {
   Top = 0,
   TopRight = 45,
   Right = 90,
@@ -64,7 +55,7 @@ export enum Toward {
 /**
  * Gets the length of a CSS linear gradient line.
  *
- * See https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient
+ * @see {@link https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient}
  */
 export const cssLinearGradientLength = (angle: number) =>
   Math.abs(Math.sin(angle)) + Math.abs(Math.cos(angle));
@@ -79,7 +70,7 @@ export const cssLinearGradientLength = (angle: number) =>
  * @returns The `start` and `end` points of a line in a coordinate space where positive x is to the right and positive
  *          y is downward.
  */
-export const linearGradientStartAndEndPoints = (angle: number, lineLength: number, center: Point2DState) => {
+export const linearGradientStartAndEndPoints = (angle: number, lineLength: number, center: Point2DData) => {
   const differenceVector = {
     x: Math.sin(angle) * lineLength / 2,
     y: Math.cos(angle) * lineLength / 2,
@@ -100,7 +91,7 @@ const FloatPrecision = 6;
 const roundFloat = (value: number) =>
   parseFloat(value.toFixed(FloatPrecision));
 
-const roundPoint = (point: Point2DState) => {
+const roundPoint = (point: Point2DData) => {
   return {
     x: roundFloat(point.x),
     y: roundFloat(point.y),
@@ -124,29 +115,40 @@ const stopsFromColors = (...colors: Color[]) => {
 };
 
 /**
- * Provides a linear gradient.
- *
- * @noinheritdoc
+ * LinearGradient data.
  */
-export class LinearGradient extends Component<LinearGradientState> {
+export interface LinearGradientData {
   /**
    * The color stops within the gradient.
    *
    * The position of a stop is represented as a percentage value where 1.0 is 100%. The stop position can be less than
    * 0 or greater than 1.
    */
-  @property stops = [
-    GradientStop.make(0, Color.rgb(0, 0, 0)),
-    GradientStop.make(1, Color.rgb(255, 255, 255)),
-  ];
+  stops: GradientStop[];
   /**
    * The start position of the gradient in a coordinate space where (0, 0) is top left and (1, 1) is bottom right.
    */
-  @property start = Point2D.make(0, 0);
+  start: Point2D;
   /**
    * The end position of the gradient in a coordinate space where (0, 0) is top left and (1, 1) is bottom right.
    */
-  @property end = Point2D.make(1, 1);
+  end: Point2D;
+}
+
+/**
+ * Provides a linear gradient.
+ *
+ * @noinheritdoc
+ */
+export class LinearGradient extends prefab<LinearGradientData>() {
+  defaults = {
+    stops: [
+      GradientStop.make(0, Color.rgb(0, 0, 0)),
+      GradientStop.make(1, Color.rgb(255, 255, 255)),
+    ],
+    start: Point2D.make(0, 0),
+    end: Point2D.make(1, 1),
+  };
 
   /**
    * Constructs a linear gradient using an angle in degrees, or a [[Toward]] value, that specifies the direction of the
@@ -156,7 +158,7 @@ export class LinearGradient extends Component<LinearGradientState> {
    *               [[Toward]] value (e.g. `Toward.TopRight`).
    * @param colors: The colors that make up the gradient.
    *
-   * `@property gradient = LinearGradient.make(Toward.TopRight, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));`
+   * `gradient = LinearGradient.make(Toward.TopRight, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));`
    */
   static make (angle: Toward | number, ...colors: Color[]) {
     const {start, end} = pointsFromAngle(angle);
@@ -174,7 +176,7 @@ export class LinearGradient extends Component<LinearGradientState> {
    * (0, 0) represents the top left.
    * (1, 1) represents the bottom right.
    *
-   * `@property gradient = LinearGradient.makeWithPoints(0, 0, 1, 1, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));`
+   * `gradient = LinearGradient.makeWithPoints(0, 0, 1, 1, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));`
    */
   static makeWithPoints (x1: number, y1: number, x2: number, y2: number, ...colors: Color[]) {
     const stops = stopsFromColors(...colors);

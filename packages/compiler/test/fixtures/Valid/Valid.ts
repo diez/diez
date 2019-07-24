@@ -1,4 +1,4 @@
-import {Component, Float, Integer, property} from '@diez/engine';
+import {Float, Integer} from '@diez/engine';
 
 enum StringEnum {
   Foo = 'Foo',
@@ -16,50 +16,52 @@ enum HeterogeneousEnum {
   Baz = 'Bat',
 }
 
-class GrandchildComponent extends Component {
-  @property diez = 'diez';
+class GrandchildComponent {
+  diez = 'diez';
 }
 
-class ChildComponent extends Component {
-  @property grandchild = new GrandchildComponent();
+class ChildComponent {
+  grandchild = new GrandchildComponent();
 }
 
-class NotAComponent {
-  ignoreMe = true;
-}
+export class Valid {
+  // Private and protected members should be ignored.
+  private five = 5;
+  protected cinco = 5.0;
 
-export class Valid extends Component {
   // Primitive types.
-  @property int: Integer = 10;
-  @property number = 10;
-  @property float: Float = 10.0;
-  @property string = 'ten';
-  @property boolean = !!10;
+  int: Integer = this.five + this.cinco;
+  number = 10;
+  float: Float = 10.0;
+  string = 'ten';
+  boolean = !!10;
 
   // Homogenous enums should compile with the correct type.
-  @property stringEnum = StringEnum.Foo;
-  @property numberEnum = NumberEnum.Bar;
+  stringEnum = StringEnum.Foo;
+  numberEnum = NumberEnum.Bar;
 
   // Child components should be processed on the parse.
-  @property child = new ChildComponent();
+  child = new ChildComponent();
 
   // This noncomponent should be safely skipped.
-  @property badChild = new NotAComponent();
+  badChild = {
+    ignoreMe: true,
+  };
 
   // Heterogenous enums are incompatible with the type system, and are banned, as are other properties with ambiguous
   // types.
-  @property invalidEnum = HeterogeneousEnum.Baz;
-  @property unknown: unknown = 10;
-  @property any: any = 10;
-  @property union: number | string = 10;
+  invalidEnum = HeterogeneousEnum.Baz;
+  unknown: unknown = 10;
+  any: any = 10;
+  union: number | string = 10;
 
   // These valid list types have uniform depth of a supported type.
-  @property validListDepth1 = [10, 10, 10, 10];
-  @property validListDepth2 = [['10', '10'], ['10', '10']];
+  validListDepth1 = [10, 10, 10, 10];
+  validListDepth2 = [['10', '10'], ['10', '10']];
 
   // This list type has uniform depth, but of an underlying union.
-  @property invalidListUniformDepth = [10, '10'];
+  invalidListUniformDepth = [10, '10'];
 
   // This list type has uniform types, but inconsistent depth.
-  @property invalidListUniformType = [10, [10]];
+  invalidListUniformType = [10, [10]];
 }

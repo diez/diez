@@ -1,4 +1,4 @@
-import {Component, ConcreteComponent, ConcreteComponentType, Target} from '@diez/engine';
+import {Prefab, Target} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {Type} from 'ts-morph';
 
@@ -144,7 +144,7 @@ export interface CompilerTargetProvider {
  * @ignore
  */
 export interface ComponentModule {
-  [key: string]: ConcreteComponentType;
+  [key: string]: object | Constructor;
 }
 
 /**
@@ -219,7 +219,7 @@ export interface AssetBinding {
  * Provides 0 or more bindings from a component instance.
  */
 export type AssetBinder<
-  ComponentType extends Component,
+  ComponentType extends object,
   OutputType = TargetOutput,
 > = (
   instance: ComponentType,
@@ -241,7 +241,7 @@ export enum CompilerEvent {
   /**
    * Sent by the compiler when it encounters an error.
    */
-  Error = 'error',
+  Error = 'compilerError',
 }
 
 /**
@@ -270,7 +270,7 @@ export interface TargetComponentSpec {
  */
 export interface TargetSpecLedger<Spec, Binding> {
   spec: Spec;
-  instances: Set<ConcreteComponent>;
+  instances: Set<object>;
   binding?: Binding;
 }
 
@@ -298,9 +298,15 @@ export interface TargetOutput<
  * Provides a base binding interfaces for target compilers can extend as needed.
  */
 export interface TargetBinding<
-  T extends Component = Component,
+  T extends Prefab<any> = Prefab<any>,
   OutputType = TargetOutput,
 > {
   sources: string[];
   assetsBinder?: AssetBinder<T, OutputType>;
 }
+
+/**
+ * A general type for an object that supports construction.
+ * @ignore
+ */
+export type Constructor = new () => object;

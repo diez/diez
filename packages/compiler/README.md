@@ -17,15 +17,14 @@ Additionally, the compiler expects the TypeScript configuration is set up to com
 At compile time, the compiler first parses the TypeScript AST of every component exported in `src/index.ts`, and recursively parses its component properties. For example, given these contents:
 
 ```
-import {Component, property} from '@diez/engine';
 import {Color} from '@diez/prefabs';
 
-class Palette extends Component {
-  @property red = Color.rgb(255, 0, 0);
+class Palette {
+  red = Color.rgb(255, 0, 0);
 }
 
 export class DesignSystem {
-  @property palette = new Palette();
+  palette = new Palette();
 }
 ```
 

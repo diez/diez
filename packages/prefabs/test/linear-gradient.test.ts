@@ -95,9 +95,9 @@ describe('linear-gradient', () => {
     const colors = [
       Color.hsl(0.25, 1, 0.5),
     ];
-    const start = Point2D.make(0.0, 0);
+    const start = Point2D.make(0, 0);
     const end = Point2D.make(1, 1);
-    const gradient = LinearGradient.makeWithPoints(start.x, start.y, end.x, end.y, ...colors);
+    const gradient = LinearGradient.makeWithPoints(0, 0, 1, 1, ...colors);
     expect(gradient.serialize()).toEqual({
       start: start.serialize(),
       end: end.serialize(),

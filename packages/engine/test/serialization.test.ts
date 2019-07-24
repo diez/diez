@@ -1,7 +1,7 @@
 import {Serializable} from '../src/api';
-import {Serializer} from '../src/serialization';
+import {serialize} from '../src/serialization';
 
-class FooString implements Serializable {
+class FooString implements Serializable<string> {
   constructor (private readonly input: string) {}
 
   serialize () {
@@ -11,18 +11,12 @@ class FooString implements Serializable {
 
 describe('serialization', () => {
   test('payload', () => {
-    interface SerializableState {
-      justbar: string;
-      foobar: FooString[];
-    }
-
-    const state: SerializableState = {
+    const values = {
       justbar: 'bar',
       foobar: [new FooString('bar')],
     };
 
-    const serializer = new Serializer<SerializableState>(state);
-    expect(serializer.payload).toEqual({
+    expect(serialize(values)).toEqual({
       justbar: 'bar',
       foobar: ['foobar'],
     });

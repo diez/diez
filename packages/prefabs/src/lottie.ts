@@ -1,11 +1,10 @@
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 import {File} from './file';
 
 /**
- * Lottie state.
- * @ignore
+ * Lottie data.
  */
-export interface LottieState {
+export interface LottieData {
   file: File;
   loop: boolean;
   autoplay: boolean;
@@ -16,10 +15,12 @@ export interface LottieState {
  *
  * @noinheritdoc
  */
-export class Lottie extends Component<LottieState> {
-  @property file: File = new File();
-  @property loop = true;
-  @property autoplay = true;
+export class Lottie extends prefab<LottieData>() {
+  defaults = {
+    file: new File(),
+    loop: true,
+    autoplay: true,
+  };
 
   /**
    * Creates a Lottie component from a source file, e.g.

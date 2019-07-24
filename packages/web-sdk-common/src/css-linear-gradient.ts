@@ -1,14 +1,14 @@
-import {cssLinearGradientLength, linearGradientStartAndEndPoints, LinearGradientState, Point2DState} from '@diez/prefabs';
+import {cssLinearGradientLength, LinearGradientData, linearGradientStartAndEndPoints, Point2DData} from '@diez/prefabs';
 
 /**
  * @returns The hypotenuse of the provided point.
  */
-const hypot = (point: Point2DState) => Math.sqrt(point.x * point.x + point.y * point.y);
+const hypot = (point: Point2DData) => Math.sqrt(point.x * point.x + point.y * point.y);
 
 /**
  * @returns A normalized copy of the provided point.
  */
-const normalizePoint = (point: Point2DState) => {
+const normalizePoint = (point: Point2DData) => {
   const length = hypot(point);
   return {
     x: point.x / length,
@@ -19,7 +19,7 @@ const normalizePoint = (point: Point2DState) => {
 /**
  * @returns A Point2D where `x = pointA.x - pointB.x` and `y = pointA.y - pointB.y`.
  */
-const subtractPoints = (pointA: Point2DState, pointB: Point2DState) => {
+const subtractPoints = (pointA: Point2DData, pointB: Point2DData) => {
   return {
     x: pointA.x - pointB.x,
     y: pointA.y - pointB.y,
@@ -29,13 +29,13 @@ const subtractPoints = (pointA: Point2DState, pointB: Point2DState) => {
 /**
  * @returns The dot product of the two provided points.
  */
-const dotProduct = (pointA: Point2DState, pointB: Point2DState) =>
+const dotProduct = (pointA: Point2DData, pointB: Point2DData) =>
   pointA.x * pointB.x + pointA.y * pointB.y;
 
 /**
  * @returns The cross product of the two provided points.
  */
-const crossProduct = (pointA: Point2DState, pointB: Point2DState) =>
+const crossProduct = (pointA: Point2DData, pointB: Point2DData) =>
   pointA.x * pointB.y - pointA.y * pointB.x;
 
 /**
@@ -45,7 +45,7 @@ const crossProduct = (pointA: Point2DState, pointB: Point2DState) =>
  * @param lineVector A normalized vector representing the direction of the line.
  * @param point The point to compare with.
  */
-const nearestPointOnLine = (linePoint: Point2DState, lineVector: Point2DState, point: Point2DState) => {
+const nearestPointOnLine = (linePoint: Point2DData, lineVector: Point2DData, point: Point2DData) => {
   const linePointToPoint = subtractPoints(point, linePoint);
   const t = dotProduct(linePointToPoint, lineVector);
   return {
@@ -66,7 +66,7 @@ const nearestPointOnLine = (linePoint: Point2DState, lineVector: Point2DState, p
  *    start
  * ```
  */
-const angleBetween = (start: Point2DState, endA: Point2DState, endB: Point2DState) => {
+const angleBetween = (start: Point2DData, endA: Point2DData, endB: Point2DData) => {
   const lineA = subtractPoints(start, endA);
   const lineB = subtractPoints(start, endB);
 
@@ -103,7 +103,7 @@ const angleBetween = (start: Point2DState, endA: Point2DState, endB: Point2DStat
  *  point
  * ```
  */
-const isPointInDirection = (lineStart: Point2DState, lineEnd: Point2DState, point: Point2DState) => {
+const isPointInDirection = (lineStart: Point2DData, lineEnd: Point2DData, point: Point2DData) => {
   const angle = angleBetween(lineStart, lineEnd, point);
   return Math.abs(angle) < Math.PI / 2;
 };
@@ -118,7 +118,7 @@ const convertToCSSLinearGradientAngle = (angle: number) =>
 /**
  * @returns A normalized direction vector for the provided start and end points.
  */
-const normalizedDirectionFromPoints = (start: Point2DState, end: Point2DState) => {
+const normalizedDirectionFromPoints = (start: Point2DData, end: Point2DData) => {
   const direction = subtractPoints(end, start);
   return normalizePoint(direction);
 };
@@ -153,7 +153,7 @@ const normalizedDirectionFromPoints = (start: Point2DState, end: Point2DState) =
  * @returns The corresponding stop position of the provided point where 1.0 is 100%. This value can be less than 0 or
  *          greater than 1.0.
  */
-const stopPositionForPoint = (angle: number, point: Point2DState) => {
+const stopPositionForPoint = (angle: number, point: Point2DData) => {
   const length = cssLinearGradientLength(angle);
   const center = {x: 0.5, y: 0.5};
   const points = linearGradientStartAndEndPoints(angle, length, center);
@@ -177,7 +177,7 @@ const stopPositionForPoint = (angle: number, point: Point2DState) => {
  * - (0, 0) is top left and (1, 1) is bottom right,
  * - (0, 0) is bottom left and (1, 1) is top right.
  */
-export const convertPoint = (point: Point2DState) => {
+export const convertPoint = (point: Point2DData) => {
   return {
     x: point.x,
     y: 1 - point.y,
@@ -189,7 +189,7 @@ export const convertPoint = (point: Point2DState) => {
  *
  * See https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient
  */
-export const linearGradientToCss = (gradient: LinearGradientState) => {
+export const linearGradientToCss = (gradient: LinearGradientData) => {
   if (gradient.stops.length === 0) {
     return 'linear-gradient(none)';
   }

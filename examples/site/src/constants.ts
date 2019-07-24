@@ -1,4 +1,3 @@
-import {Component, property} from '@diez/engine';
 import {Color, Font, Typograph, FontStyle} from '@diez/prefabs';
 
 const baseColors = {
@@ -12,48 +11,48 @@ const baseColors = {
   black: Color.hex('#000010'),
 }
 
-class Palette extends Component {
-  @property purple = baseColors.purple;
-  @property mauve = baseColors.mauve;
-  @property mauve700 = baseColors.mauve.darken(0.20);
-  @property white = baseColors.white;
-  @property gray100 = baseColors.gray100;
-  @property gray400 = baseColors.gray400;
-  @property gray700 = baseColors.gray700;
-  @property gray900 = baseColors.gray900;
-  @property black = baseColors.black;
-  @property primary = baseColors.purple;
-  @property secondary = baseColors.mauve;
-  @property cardInsetShadow = baseColors.gray100;
-  @property cardColor = baseColors.gray400;
-  @property cardShadow = baseColors.gray700;
+class Palette {
+  purple = baseColors.purple;
+  mauve = baseColors.mauve;
+  mauve700 = baseColors.mauve.darken(0.20);
+  white = baseColors.white;
+  gray100 = baseColors.gray100;
+  gray400 = baseColors.gray400;
+  gray700 = baseColors.gray700;
+  gray900 = baseColors.gray900;
+  black = baseColors.black;
+  primary = baseColors.purple;
+  secondary = baseColors.mauve;
+  cardInsetShadow = baseColors.gray100;
+  cardColor = baseColors.gray400;
+  cardShadow = baseColors.gray700;
 }
 
-class Spacing extends Component {
-  @property xxs = 2;
-  @property xs = 4;
-  @property sm = 8;
-  @property md = 12;
-  @property lg = 18;
-  @property xl = 24;
-  @property xxl = 32;
-  @property xxxl = 44;
+class Spacing {
+  xxs = 2;
+  xs = 4;
+  sm = 8;
+  md = 12;
+  lg = 18;
+  xl = 24;
+  xxl = 32;
+  xxxl = 44;
 }
 
-class Sizing extends Component {
-  @property xxs = 60;
-  @property xs = 100;
-  @property sm = 200;
-  @property md = 300;
-  @property lg = 500;
-  @property xl = 640;
-  @property xxl = 860;
-  @property xxxl = 1300;
+class Sizing {
+  xxs = 60;
+  xs = 100;
+  sm = 200;
+  md = 300;
+  lg = 500;
+  xl = 640;
+  xxl = 860;
+  xxxl = 1300;
 }
 
-class BorderRadius extends Component {
-  @property card = 7;
-  @property button = 4;
+class BorderRadius {
+  card = 7;
+  button = 4;
 }
 
 /**
@@ -71,61 +70,61 @@ const Fonts = {
   }
 };
 
-class Typography extends Component {
-  @property headingOne = new Typograph({
+class Typography {
+  headingOne = new Typograph({
     font: Fonts.SourceSansPro.Black,
     fontSize: 64,
     color: palette.black,
   });
-  @property headingTwo = new Typograph({
+  headingTwo = new Typograph({
     font: Fonts.SourceSansPro.Black,
     fontSize: 48,
     color: palette.black,
   });
-  @property headingThree = new Typograph({
+  headingThree = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 32,
     color: palette.black,
   });
-  @property headingFour = new Typograph({
+  headingFour = new Typograph({
     font: Fonts.SourceSansPro.Black,
     fontSize: 23,
     color: palette.black,
   });
-  @property copy = new Typograph({
+  copy = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 16,
     color: palette.black,
   });
-  @property nav = new Typograph({
+  nav = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 20,
     color: palette.black,
   });
-  @property link = new Typograph({
+  link = new Typograph({
     font: Fonts.SourceSansPro.Black,
     fontSize: 20,
     color: palette.primary,
   });
-  @property button = new Typograph({
+  button = new Typograph({
     font: Fonts.SourceCodePro.Black,
     fontSize: 20,
     color: palette.primary,
   });
-  @property logo = new Typograph({
+  logo = new Typograph({
     font: Fonts.SourceCodePro.Black,
     fontSize: 30,
     color: palette.black,
   });
-  @property code = new Typograph({
+  code = new Typograph({
     font: Fonts.SourceCodePro.Regular,
     fontSize: 16,
   });
-  @property codeLarge = new Typograph({
+  codeLarge = new Typograph({
     font: Fonts.SourceCodePro.Regular,
     fontSize: 18,
   });
-  @property codeSmall = new Typograph({
+  codeSmall = new Typograph({
     font: Fonts.SourceCodePro.Regular,
     fontSize: 15,
   });

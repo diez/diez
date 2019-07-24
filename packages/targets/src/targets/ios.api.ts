@@ -1,5 +1,5 @@
 import {TargetBinding, TargetOutput} from '@diez/compiler';
-import {Component} from '@diez/engine';
+import {Prefab} from '@diez/engine';
 
 declare module '@diez/compiler/types/api' {
   /**
@@ -29,7 +29,7 @@ export interface IosDependency {
 /**
  * Describes an iOS binding.
  */
-export interface IosBinding<T extends Component = Component> extends TargetBinding<T, IosOutput> {
+export interface IosBinding<T extends Prefab<{}> = Prefab<{}>> extends TargetBinding<T, IosOutput> {
   dependencies?: IosDependency[];
 }
 

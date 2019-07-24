@@ -1,12 +1,11 @@
 import {AssetBinder} from '@diez/compiler';
-import {ConcreteComponentType} from '@diez/engine';
 import {File, FileType, Font, Image} from '@diez/prefabs';
 // Note: we are careful to import the full module so we can monkey-patch it in our test harness.
 import fontkit from 'fontkit';
 import {stat} from 'fs-extra';
 import {extname, join} from 'path';
 
-const requireFileTypeForChild = (instance: File, fileType: FileType, type: ConcreteComponentType) => {
+const requireFileTypeForChild = (instance: File, fileType: FileType, type: any) => {
   if (instance.host && instance.host instanceof type && instance.type !== fileType) {
     throw new Error(`${instance.host.constructor.name} file ${instance.src} does not specify file type ${fileType}.`);
   }

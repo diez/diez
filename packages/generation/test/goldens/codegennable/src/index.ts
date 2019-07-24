@@ -1,24 +1,17 @@
 import { Color, File, Font, GradientStop, Image, LinearGradient, Point2D, Typograph } from "@diez/prefabs";
-import { Component, property } from "@diez/engine";
 
-class MyDesignSystemColors extends Component {
-    @property
+class MyDesignSystemColors {
     untitledColor = 2;
-    @property
     someColor = 3;
 }
 
-class MyDesignSystemGradients extends Component {
-    @property
+class MyDesignSystemGradients {
     untitledLinearGradient = 4;
-    @property
     someGradient = 5;
 }
 
-class MyDesignSystemTypographs extends Component {
-    @property
+class MyDesignSystemTypographs {
     untitledTypograph = 0;
-    @property
     someTypograph = 1;
 }
 
@@ -45,12 +38,9 @@ export const MyDesignSystemFonts = {
     }
 };
 
-export class MyDesignSystemTokens extends Component {
-    @property
+export class MyDesignSystemTokens {
     colors = new MyDesignSystemColors();
-    @property
     gradients = new MyDesignSystemGradients();
-    @property
     typographs = new MyDesignSystemTypographs();
 }
 

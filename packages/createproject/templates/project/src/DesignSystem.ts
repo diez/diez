@@ -1,4 +1,3 @@
-import {Component, property} from '@diez/engine';
 import {Color} from '@diez/prefabs';
 
 /**
@@ -7,6 +6,6 @@ import {Color} from '@diez/prefabs';
  *
  * Check out https://beta.diez.org/getting-started to learn more.
  */
-export class DesignSystem extends Component {
-  @property red = Color.hex('#f00');
+export class DesignSystem {
+  red = Color.hex('#f00');
 }

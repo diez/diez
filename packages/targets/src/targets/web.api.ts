@@ -1,5 +1,5 @@
 import {TargetBinding, TargetOutput} from '@diez/compiler';
-import {Component} from '@diez/engine';
+import {Prefab} from '@diez/engine';
 
 /**
  * Describes an Web third party dependency.
@@ -14,7 +14,7 @@ export interface WebDependency {
 /**
  * Describes a Web binding.
  */
-export interface WebBinding<T extends Component = Component> extends TargetBinding<T, WebOutput> {
+export interface WebBinding<T extends Prefab<{}> = Prefab<{}>> extends TargetBinding<T, WebOutput> {
   declarations?: string[];
   dependencies?: WebDependency[];
 }

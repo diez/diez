@@ -1,5 +1,5 @@
 import {AssetBinding, TargetBinding, TargetOutput} from '@diez/compiler';
-import {Component} from '@diez/engine';
+import {Prefab} from '@diez/engine';
 
 /**
  * Describes an Android third party dependency.
@@ -15,7 +15,7 @@ export interface AndroidDependency {
 /**
  * Describes an Android binding.
  */
-export interface AndroidBinding<T extends Component = Component> extends TargetBinding<T, AndroidOutput> {
+export interface AndroidBinding<T extends Prefab<{}> = Prefab<{}>> extends TargetBinding<T, AndroidOutput> {
   dependencies?: AndroidDependency[];
 }
 

@@ -1,80 +1,86 @@
 import {File} from '@diez/prefabs';
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 import {DayPartTimes} from './constants';
 import {PoodleSurfSlicesFiles} from '../designs/PoodleSurf.sketch';
 
-class LocationMock extends Component {
-  @property region = 'Santa Cruz, CA';
-  @property place = 'Natural Bridges State Park';
-  @property mapImage = PoodleSurfSlicesFiles.SantaCruzMap3x;
-  @property bannerImage = PoodleSurfSlicesFiles.SantaCruzBanner3x;
+class LocationMock {
+  region = 'Santa Cruz, CA';
+  place = 'Natural Bridges State Park';
+  mapImage = PoodleSurfSlicesFiles.SantaCruzMap3x;
+  bannerImage = PoodleSurfSlicesFiles.SantaCruzBanner3x;
 }
 
-class TemperatureMock extends Component {
-  @property value = '55°F';
-  @property gear = '4mm Wetsuit';
+class TemperatureMock {
+  value = '55°F';
+  gear = '4mm Wetsuit';
 }
 
-interface WindDayPartMockState {
+interface WindDayPartMockData {
   direction: File;
   value: string;
   dayPart: string;
 }
 
-class WindDayPartMock extends Component<WindDayPartMockState> {
-  @property direction = PoodleSurfSlicesFiles.DirectionNorthEast3x;
-  @property value = '';
-  @property dayPart = '';
+class WindDayPartMock extends prefab<WindDayPartMockData>() {
+  defaults = {
+    direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
+    value: '',
+    dayPart: '',
+  };
 }
 
-class WindMock extends Component {
-  @property early = new WindDayPartMock({
+class WindMock {
+  early = new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionSouthWest3x,
     value: '4',
     dayPart: DayPartTimes.Early,
   });
-  @property middle = new WindDayPartMock({
+  middle = new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionSouth3x,
     value: '12',
     dayPart: DayPartTimes.Middle,
   });
-  @property late = new WindDayPartMock({
+  late = new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
     value: '17',
     dayPart: DayPartTimes.Late,
   });
 }
 
-interface ForecastDayPartMockState {
+interface ForecastDayPartMockData {
   value: string;
   dayPart: string;
 }
 
-class ForecastDayPartMock extends Component<ForecastDayPartMockState> {
-  @property value = '';
-  @property dayPart = '';
+class ForecastDayPartMock extends prefab<ForecastDayPartMockData>() {
+  defaults = {
+    value: '',
+    dayPart: '',
+  };
 }
 
-interface ForecastMockState {
+interface ForecastMockData {
   early: ForecastDayPartMock;
   middle: ForecastDayPartMock;
   late: ForecastDayPartMock;
 }
 
-class ForecastMock extends Component<ForecastMockState> {
-  @property early = new ForecastDayPartMock();
-  @property middle = new ForecastDayPartMock();
-  @property late = new ForecastDayPartMock();
+class ForecastMock extends prefab<ForecastMockData>() {
+  defaults = {
+    early: new ForecastDayPartMock(),
+    middle: new ForecastDayPartMock(),
+    late: new ForecastDayPartMock(),
+  };
 }
 
 /**
  * A mock API report object.
  */
-export class ReportModelMock extends Component {
-  @property location = new LocationMock();
-  @property temperature = new TemperatureMock();
-  @property wind = new WindMock();
-  @property swell = new ForecastMock({
+export class ReportModelMock {
+  location = new LocationMock();
+  temperature = new TemperatureMock();
+  wind = new WindMock();
+  swell = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '6.3',
       dayPart: DayPartTimes.Early,
@@ -88,7 +94,7 @@ export class ReportModelMock extends Component {
       dayPart: DayPartTimes.Late,
     }),
   });
-  @property tide = new ForecastMock({
+  tide = new ForecastMock({
     early: new ForecastDayPartMock({
       value: '5',
       dayPart: DayPartTimes.Early,

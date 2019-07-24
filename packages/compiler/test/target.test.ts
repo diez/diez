@@ -15,12 +15,6 @@ describe('target compiler', () => {
     expect(ledger.spec.componentName).toEqual('Filtered');
     // The ledger does not have `excludeMe` even though it was defined on the component.
     expect(ledger.instances.size).toBe(1);
-    const instance = ledger.instances.values().next().value;
-    expect(instance.boundStates.has('excludeMe'));
-    expect(instance.boundStates.has('includeMe'));
-    expect(instance.boundStates.has('includeUs'));
-
-    expect(instance.boundStates.get('excludeMe')).toEqual({targets: ['not-test']});
 
     // The excluded property is not included in the ledger spec.
     expect(ledger.spec.properties).toEqual({

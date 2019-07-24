@@ -1,14 +1,14 @@
-import {AnySerializable, Primitive, Serializable} from './api';
+import {Serializable} from './api';
 
-const isSerializable = (value: object | AnySerializable): value is Serializable => {
-  return value !== null && (value as Serializable).serialize instanceof Function;
-};
+const isSerializable = (value: any): value is Serializable<any> => value && value.serialize instanceof Function;
 
-const isPrimitive = (value: object | AnySerializable): value is Primitive => {
-  return value === null || typeof value !== 'object';
-};
+const isPrimitive = (value: any) => value === null || typeof value !== 'object';
 
-const serialize = (value: any): AnySerializable => {
+/**
+ * An agnostic serializer for design token components, producing a stable and noncircular
+ * representation of the data held in components.
+ */
+export const serialize = <T>(value: T): any => {
   if (isSerializable(value)) {
     // Important! We must recursively serialize any subcomponents below.
     return serialize(value.serialize());
@@ -19,7 +19,7 @@ const serialize = (value: any): AnySerializable => {
   }
 
   if (Array.isArray(value)) {
-    return value.map((arrayValue) => serialize(arrayValue)) as AnySerializable;
+    return value.map(serialize);
   }
 
   const serialized: any = {};
@@ -28,20 +28,3 @@ const serialize = (value: any): AnySerializable => {
   }
   return serialized;
 };
-
-/**
- * Generically typed serializer for a given state shape.
- *
- * @typeparam T - The type of state we are expected to serialize.
- */
-export class Serializer<T> {
-  constructor (private readonly state: T) {}
-
-  /**
-   * @ignore
-   * @todo - track dirty state and use an internal cache so we don't have to reserialize values that haven't changed.
-   */
-  get payload (): {[property: string]: AnySerializable} {
-    return serialize(this.state) as {[property: string]: AnySerializable};
-  }
-}

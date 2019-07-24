@@ -1,8 +1,10 @@
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 
-export class BoundComponent extends Component {}
+export class BoundComponent extends prefab<{}>() {
+  defaults = {};
+}
 
-export class Bindings extends Component {
-  @property bound = new BoundComponent();
-  @property ambiguous: any = '12';
+export class Bindings {
+  bound = new BoundComponent();
+  ambiguous: any = '12';
 }

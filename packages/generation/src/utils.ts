@@ -154,7 +154,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const project = getProject(projectRoot);
   const sourceFile = project.createSourceFile(spec.filename, '', {overwrite: true});
 
-  const engineImports = new Set(['Component']);
   const designSystemImports = new Set<string>();
   const colorsName = localResolver.getComponentName(`${designSystemName} Colors`);
   const gradientsName = localResolver.getComponentName(`${designSystemName} Gradients`);
@@ -165,49 +164,41 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const hasTypographs = spec.typographs.length > 0;
 
   if (hasColors) {
-    engineImports.add('property');
     designSystemImports.add('Color');
     sourceFile.addClass({
       name: colorsName,
-      extends: 'Component',
       properties: spec.colors.map(({name, initializer}) => {
         const colorName = localResolver.getPropertyName(name || 'Untitled Color', colorsName);
         return {
           initializer,
           name: colorName,
-          decorators: [{name: 'property'}],
         };
       }),
     });
   }
 
   if (hasGradients) {
-    engineImports.add('property');
     designSystemImports.add('LinearGradient');
     designSystemImports.add('Color');
     designSystemImports.add('GradientStop');
     designSystemImports.add('Point2D');
     sourceFile.addClass({
       name: gradientsName,
-      extends: 'Component',
       properties: spec.gradients.map(({name, initializer}) => {
         const gradientName = localResolver.getPropertyName(name || 'Untitled Linear Gradient', gradientsName);
         return {
           initializer,
           name: gradientName,
-          decorators: [{name: 'property'}],
         };
       }),
     });
   }
 
   if (hasTypographs) {
-    engineImports.add('property');
     designSystemImports.add('Color');
     designSystemImports.add('Typograph');
     sourceFile.addClass({
       name: typographsName,
-      extends: 'Component',
       properties: spec.typographs.map(({name, initializer}) => {
         const typographName = localResolver.getPropertyName(
           name || 'Untitled Typograph',
@@ -216,7 +207,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
         return {
           initializer,
           name: typographName,
-          decorators: [{name: 'property'}],
         };
       }),
     });
@@ -298,13 +288,11 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const exportedClassDeclaration = sourceFile.addClass({
     isExported: true,
     name: componentName,
-    extends: 'Component',
   });
 
   if (hasColors) {
     exportedClassDeclaration.addProperty({
       name: 'colors',
-      decorators: [{name: 'property'}],
       initializer: `new ${colorsName}()`,
     });
   }
@@ -312,7 +300,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   if (hasGradients) {
     exportedClassDeclaration.addProperty({
       name: 'gradients',
-      decorators: [{name: 'property'}],
       initializer: `new ${gradientsName}()`,
     });
   }
@@ -321,7 +308,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     designSystemImports.add('Font');
     exportedClassDeclaration.addProperty({
       name: 'typographs',
-      decorators: [{name: 'property'}],
       initializer: `new ${typographsName}()`,
     });
   }
@@ -341,11 +327,6 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
       namedImports: Array.from(designSystemImports).sort().map((name) => ({name})),
     });
   }
-
-  sourceFile.addImportDeclaration({
-    moduleSpecifier: '@diez/engine',
-    namedImports: Array.from(engineImports).sort().map((name) => ({name})),
-  });
 
   return sourceFile.save();
 };

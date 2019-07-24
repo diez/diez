@@ -37,7 +37,7 @@ class DiezWebpackPlugin {
 
     if (!existsSync(this.options.projectPath)) {
       // tslint:disable-next-line:max-line-length
-      console.warn("DiezWebpackPlugin: unable to determine the location of your Diez project. Note that hot mode will not work unless you provide an explicit path via 'projectPath'.");
+      console.warn('DiezWebpackPlugin: unable to determine the location of your Diez project. Note that hot mode will not work unless you provide an explicit path via \'projectPath\'.');
     }
   }
 

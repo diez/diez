@@ -30,11 +30,11 @@ Let's change the background color of our application by modifying our design sys
 Open `src/DesignSystem.ts`, in an editor of your choice, and look for the following block of code:
 
 ```typescript
-class Colors extends Component {
-  @property lightBackground = palette.white;
-  @property darkBackground = palette.black;
-  @property text = palette.black;
-  @property caption = palette.purple;
+class Colors {
+  lightBackground = palette.white;
+  darkBackground = palette.black;
+  text = palette.black;
+  caption = palette.purple;
 }
 ```
 
@@ -43,8 +43,8 @@ In this example, the `Colors` component maps semantic names to the `Palette` com
 Let's change `lightBackground` to `palette.lightPurple` like so:
 
 ```Diff
-- @property lightBackground = palette.white;
-+ @property lightBackground = palette.lightPurple;
+- lightBackground = palette.white;
++ lightBackground = palette.lightPurple;
 ```
 
 Save your changes to see the background color update in real time! Feel free to experiment with changing other values to see Diez in action.

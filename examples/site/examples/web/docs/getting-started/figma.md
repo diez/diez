@@ -74,8 +74,8 @@ import { yourFigmaProjNameTokens } from './designs/YourFigmaProjName.figma';
 Then use it as you see fit. As shown here, we've used the Color Style from Figma named `fuss` and set it as the 'lightBackground' color of our design system.
 
 ```typescript
-class Palette extends Component {
-  @property lightBackground = yourFigmaProjNameTokens.palette.fuss
+class Palette {
+  lightBackground = yourFigmaProjNameTokens.palette.fuss
 }
 ```
 

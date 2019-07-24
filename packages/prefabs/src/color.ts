@@ -1,10 +1,9 @@
-import {Component, HashMap, property} from '@diez/engine';
+import {HashMap, prefab} from '@diez/engine';
 
 /**
- * Provides simple hue-saturation-lightness-alpha color state.
- * @ignore
+ * Provides simple hue-saturation-lightness-alpha color data.
  */
-export interface ColorState {
+export interface ColorData {
   h: number;
   s: number;
   l: number;
@@ -55,11 +54,18 @@ const hexRgb = (r: number, g: number, b: number, a: number = 255) => Color.rgba(
  *
  * @noinheritdoc
  */
-export class Color extends Component<ColorState> {
+export class Color extends prefab<ColorData>() {
+  defaults = {
+    h: 0,
+    s: 0,
+    l: 0,
+    a: 1,
+  };
+
   /**
    * Creates an RGBA color.
    *
-   * `@property red = Color.rgba(255, 0, 0, 1);`
+   * `red = Color.rgba(255, 0, 0, 1);`
    */
   static rgba (rIn: number, gIn: number, bIn: number, a: number) {
     const r = rIn / 255;
@@ -76,7 +82,7 @@ export class Color extends Component<ColorState> {
   /**
    * Creates an RGB color.
    *
-   * `@property red = Color.rgb(255, 0, 0);`
+   * `red = Color.rgb(255, 0, 0);`
    */
   static rgb (r: number, g: number, b: number) {
     return Color.rgba(r, g, b, 1);
@@ -85,7 +91,7 @@ export class Color extends Component<ColorState> {
   /**
    * Creates an HSLA color.
    *
-   * `@property red = Color.hsla(0, 1, 0.5, 1);`
+   * `red = Color.hsla(0, 1, 0.5, 1);`
    */
   static hsla (h: number, s: number, l: number, a: number) {
     return new Color({h, s, l, a});
@@ -94,7 +100,7 @@ export class Color extends Component<ColorState> {
   /**
    * Creates an HSL color.
    *
-   * `@property red = Color.hsl(0, 1, 0.5);`
+   * `red = Color.hsl(0, 1, 0.5);`
    */
   static hsl (h: number, s: number, l: number) {
     return Color.hsla(h, s, l, 1);
@@ -103,7 +109,7 @@ export class Color extends Component<ColorState> {
   /**
    * Creates a color from a hex code
    *
-   * `@property red = Color.hex('#ff0');`
+   * `red = Color.hex('#ff0');`
    *
    * 3, 4, 6, and 8 character hex specifications are supported. `#ff0`, `#ff0f`, `#ffff00`, and `#ffff00ff` should
    * all work.
@@ -126,31 +132,22 @@ export class Color extends Component<ColorState> {
     return new Color();
   }
 
-  @property h = 0;
-
-  @property s = 0;
-
-  @property l = 0;
-
-  @property a = 1;
-
   /**
-   * @ignore
+   * Ensures all values are normalized in [0, 1] before serialization.
    */
-  serialize () {
-    // Important: ensure all values are normalized in [0, 1] before serializing.
+  sanitize (data: ColorData) {
     return {
-      h: normalizeUnit(this.h),
-      s: normalizeUnit(this.s),
-      l: normalizeUnit(this.l),
-      a: normalizeUnit(this.a),
+      h: normalizeUnit(data.h),
+      s: normalizeUnit(data.s),
+      l: normalizeUnit(data.l),
+      a: normalizeUnit(data.a),
     };
   }
 
   /**
    * Lightens a color by the specified amount.
    *
-   * `@property pink = this.red.lighten(0.5);`
+   * `pink = this.red.lighten(0.5);`
    *
    * @returns A new Color instance after applying the specified lightener.
    */
@@ -161,7 +158,7 @@ export class Color extends Component<ColorState> {
   /**
    * Darkens a color by the specified amount.
    *
-   * `@property maroon = this.red.darken(0.25);`
+   * `maroon = this.red.darken(0.25);`
    *
    * @returns A new Color instance after applying the specified darkener.
    */
@@ -172,7 +169,7 @@ export class Color extends Component<ColorState> {
   /**
    * Saturates a color by the specified amount.
    *
-   * `@property bloodRed = this.mediumRed.saturate(0.25);`
+   * `bloodRed = this.mediumRed.saturate(0.25);`
    *
    * @returns A new Color instance after applying the specified saturater.
    */
@@ -183,7 +180,7 @@ export class Color extends Component<ColorState> {
   /**
    * Desaturates a color by the specified amount
    *
-   * `@property grayRed = this.mediumRed.desaturate(0.25);`
+   * `grayRed = this.mediumRed.desaturate(0.25);`
    *
    * @returns A new Color instance after applying the specified desaturater.
    */

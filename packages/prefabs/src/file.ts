@@ -1,4 +1,4 @@
-import {Component, property} from '@diez/engine';
+import {prefab} from '@diez/engine';
 
 /**
  * The type of a file resource.
@@ -10,10 +10,9 @@ export enum FileType {
 }
 
 /**
- * File state.
- * @ignore
+ * File data.
  */
-export interface FileState {
+export interface FileData {
   src: string;
   type: FileType;
 }
@@ -24,22 +23,20 @@ export interface FileState {
  *
  * The compiler may enforce certain restrictions on the `type` of a `File` instance.
  *
- * Usage: `@property file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
+ * Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
  *
  * @noinheritdoc
  */
-export class File extends Component<FileState> {
-  @property src = '';
+export class File extends prefab<FileData>() {
+  defaults = {
+    src: '',
+    type: FileType.Raw,
+  };
 
-  @property type = FileType.Raw;
-
-  /**
-   * @ignore
-   */
-  serialize () {
+  protected sanitize (data: FileData) {
     return {
-      src: encodeURI(this.src),
-      type: this.type,
+      src: encodeURI(data.src),
+      type: data.type,
     };
   }
 }

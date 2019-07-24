@@ -5,6 +5,6 @@
  */
 
 export * from './api';
-export * from './component';
-export * from './decorators';
-export * from './expression';
+export * from './prefab';
+export * from './serialization';
+export * from './legacy';

@@ -3,7 +3,14 @@ import {Target} from '@diez/engine';
 import {dirname, join} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
-import {CompilerTargetProvider, ComponentModule, NamedComponentMap, PropertyType} from './api';
+import {CompilerTargetProvider, ComponentModule, Constructor, NamedComponentMap, PropertyType} from './api';
+
+/**
+ * A type guard for identifying a [[Constructor]] vs. a plain object.
+ * @ignore
+ */
+export const isConstructible = (maybeConstructible: any): maybeConstructible is Constructor =>
+  maybeConstructible.prototype !== undefined && maybeConstructible.prototype.constructor instanceof Function;
 
 /**
  * Shared singleton for retrieving Projects.

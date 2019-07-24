@@ -27,12 +27,12 @@ In general, you define `Component`(s) composed of `Property`(ies) and compose th
 ```typescript
 import {Component, property} from '@diez/engine';
 
-class LayoutValues extends Component {
-  @property spacingSmall = 5;
+class LayoutValues {
+  spacingSmall = 5;
 }
 
-export class DesignSystem extends Component {
-  @property layoutValues = new LayoutValues();
+export class DesignSystem {
+  layoutValues = new LayoutValues();
 }
 ```
 
@@ -49,8 +49,8 @@ Use the `Color` prefab to create color palettes.
 ```typescript
 import {Color} from '@diez/prefabs';
 
-class MyColors extends Component {
-  @property purple = Color.rgb(86, 35, 238);
+class MyColors {
+  purple = Color.rgb(86, 35, 238);
 }
 ```
 
@@ -61,8 +61,8 @@ View the full `Color` API [here](/docs/latest/classes/color.image.html).
 ```typescript
 import {Image} from '@diez/prefabs';
 
-class Images extends Component {
-  @property logo = Image.responsive('assets/logo.png');
+class Images {
+  logo = Image.responsive('assets/logo.png');
 }
 ```
 
@@ -75,8 +75,8 @@ Typography is a bit more complicated. You'll need to _compose_ two prefabs (`Fon
 ```typescript
 import {Font, Typograph} from '@diez/prefabs';
 
-class TextStyles extends Component {
-  @property heading1 = new Typograph({
+class TextStyles {
+  heading1 = new Typograph({
     font: Font.fromFile('assets/SourceSansPro-Regular.ttf'),
     fontSize: 24,
     color: colors.text,

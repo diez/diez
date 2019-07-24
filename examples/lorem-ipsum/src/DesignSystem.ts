@@ -1,20 +1,19 @@
 import {Color, Image, Lottie, Toward, Typograph, Font, LinearGradient} from '@diez/prefabs';
-import {Component, property} from '@diez/engine';
 import {Margin} from './components/Margin';
 
 /**
- * You can collect anything inside a Diez component. Design tokens labeled with
- * @property will be made available in the SDKs transpiled with Diez. Everything
+ * You can collect anything inside a Diez component. Design tokens specified as public
+ * properties will be made available in the SDKs transpiled with Diez. Everything
  * else is purely internal.
  */
-class Colors extends Component {
+class Colors {
   private lightener = 0.2;
 
-  @property white = Color.hex('#FFFFFF');
-  @property black = Color.hex('#000010');
-  @property purple = Color.rgb(86, 35, 238);
-  @property darkPurple = Color.rgb(22, 11, 54);
-  @property lightPurple = this.purple.lighten(this.lightener);
+  white = Color.hex('#FFFFFF');
+  black = Color.hex('#000010');
+  purple = Color.rgb(86, 35, 238);
+  darkPurple = Color.rgb(22, 11, 54);
+  lightPurple = this.purple.lighten(this.lightener);
 }
 
 /**
@@ -29,12 +28,12 @@ const colors = new Colors();
 /**
  * You can reference properties from other components.
  */
-class Palette extends Component {
-  @property background = colors.black;
-  @property contentBackground = colors.white;
-  @property text = colors.black;
-  @property caption = colors.purple;
-  @property headerBackground = LinearGradient.make(Toward.Bottom, colors.darkPurple, colors.black);
+class Palette {
+  background = colors.black;
+  contentBackground = colors.white;
+  text = colors.black;
+  caption = colors.purple;
+  headerBackground = LinearGradient.make(Toward.Bottom, colors.darkPurple, colors.black);
 }
 
 const palette = new Palette();
@@ -53,20 +52,20 @@ const Fonts = {
  * Typographs encapsulate type styles with support for a specific font, font size,
  * and color. More typograph properties are coming soon.
  */
-class Typography extends Component {
-  @property heading1 = new Typograph({
+class Typography {
+  heading1 = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 24,
     color: palette.text,
   });
 
-  @property body = new Typograph({
+  body = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 18,
     color: palette.text,
   });
 
-  @property caption = new Typograph({
+  caption = new Typograph({
     font: Fonts.SourceSansPro.Regular,
     fontSize: 14,
     color: palette.caption,
@@ -78,19 +77,19 @@ class Typography extends Component {
  * design system primitives in components as well — such as images, icons &
  * animations.
  */
-class Images extends Component {
-  @property logo = Image.responsive('assets/logo.png', 52, 48);
-  @property masthead = Image.responsive('assets/masthead.png', 208, 88);
+class Images {
+  logo = Image.responsive('assets/logo.png', 52, 48);
+  masthead = Image.responsive('assets/masthead.png', 208, 88);
 }
 
 /**
  * You can even collect your own custom components.
  */
-class LayoutValues extends Component {
-  @property spacingSmall = 5;
-  @property spacingMedium = 25;
-  @property spacingLarge = 40;
-  @property contentMargin = new Margin({
+class LayoutValues {
+  spacingSmall = 5;
+  spacingMedium = 25;
+  spacingLarge = 40;
+  contentMargin = new Margin({
     top: this.spacingLarge,
     left: this.spacingMedium,
     right: this.spacingMedium,
@@ -101,10 +100,10 @@ class LayoutValues extends Component {
 /**
  * You can also define strings.
  */
-class Strings extends Component {
-  @property title = 'Diez';
-  @property caption = 'Keep your designs in sync with code';
-  @property helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
+class Strings {
+  title = 'Diez';
+  caption = 'Keep your designs in sync with code';
+  helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
 }
 
 /**
@@ -122,11 +121,11 @@ class Strings extends Component {
  *     Look for `MainActivity.kt` inside `examples/android` to see how you can
  *     use Diez in an Android codebase.
  */
-export class DesignSystem extends Component {
-  @property palette = palette;
-  @property typography = new Typography();
-  @property images = new Images();
-  @property layoutValues = new LayoutValues();
-  @property strings = new Strings();
-  @property loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json', false);
+export class DesignSystem {
+  palette = palette;
+  typography = new Typography();
+  images = new Images();
+  layoutValues = new LayoutValues();
+  strings = new Strings();
+  loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json', false);
 }

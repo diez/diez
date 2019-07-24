@@ -1,16 +1,15 @@
 import {Font, LinearGradient, Toward, Typograph} from '@diez/prefabs';
-import {Component, property} from '@diez/engine';
 import {poodleSurfTokens} from './PoodleSurf.sketch';
 
-class Palette extends Component {
-  @property foreground = poodleSurfTokens.colors.black;
-  @property background = poodleSurfTokens.colors.white;
-  @property loadingBackground = poodleSurfTokens.colors.blue;
-  @property primary = poodleSurfTokens.colors.pink;
-  @property secondary = poodleSurfTokens.colors.orange;
-  @property separator = poodleSurfTokens.colors.whiteA40;
-  @property contentForeground = poodleSurfTokens.colors.white;
-  @property contentBackground = LinearGradient.make(Toward.BottomRight, this.primary, this.secondary);
+class Palette {
+  foreground = poodleSurfTokens.colors.black;
+  background = poodleSurfTokens.colors.white;
+  loadingBackground = poodleSurfTokens.colors.blue;
+  primary = poodleSurfTokens.colors.pink;
+  secondary = poodleSurfTokens.colors.orange;
+  separator = poodleSurfTokens.colors.whiteA40;
+  contentForeground = poodleSurfTokens.colors.white;
+  contentBackground = LinearGradient.make(Toward.BottomRight, this.primary, this.secondary);
 }
 
 /**
@@ -42,38 +41,38 @@ enum FontSizes {
   Unit = 16,
 }
 
-class Typographs extends Component {
-  @property headerTitle = new Typograph({
+class Typographs {
+  headerTitle = new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Title,
     color: palette.foreground,
   });
-  @property headerCaption = new Typograph({
+  headerCaption = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.foreground,
   });
-  @property cardTitle = new Typograph({
+  cardTitle = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.CardTitle,
     color: palette.contentForeground,
   });
-  @property value = new Typograph({
+  value = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Value,
     color: palette.contentForeground,
   });
-  @property unit = new Typograph({
+  unit = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Unit,
     color: palette.contentForeground,
   });
-  @property caption = new Typograph({
+  caption = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.contentForeground,
   });
-  @property captionHeader = new Typograph({
+  captionHeader = new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Caption,
     color: palette.contentForeground,

@@ -1,7 +1,7 @@
 declare global {
   interface Window {
     componentName: string;
-    component: ConcreteComponent;
+    component: object;
     __resourceQuery: string;
   }
 }
@@ -9,22 +9,30 @@ declare global {
 // Shim in a resource query indicating a shorter timeout before reconnecting.
 window.__resourceQuery = '?timeout=1000';
 
-import {ConcreteComponent, ConcreteComponentType, Patcher} from '@diez/engine';
+import {Patcher, serialize} from '@diez/engine';
 import {subscribe} from 'webpack-hot-middleware/client';
+
+// Mirrored in ../api.ts, but required at runtime in the web.
+type Constructor = new () => object;
+
+// Mirrored in ../utils.ts, but required at runtime in the web.
+const isConstructible = (maybeConstructible: any): maybeConstructible is Constructor =>
+  maybeConstructible.prototype !== undefined && maybeConstructible.prototype.constructor instanceof Function;
+
 subscribe((message) => {
   if (message.reload) {
     window.location.reload(true);
   }
 });
 
-const getComponentDefinition = async (): Promise<ConcreteComponentType> => {
+const getComponentDefinition = async (): Promise<object | Constructor> => {
   const componentFile = await import(`${'@'}`) as any;
   return componentFile[window.componentName];
 };
 
 const loadComponent = async () => {
-  const constructor = await getComponentDefinition();
-  return window.component = new constructor();
+  const maybeConstructor = await getComponentDefinition();
+  return window.component = (isConstructible(maybeConstructor) ? new maybeConstructor() : maybeConstructor);
 };
 
 /**
@@ -32,6 +40,5 @@ const loadComponent = async () => {
  */
 export const activate = async (patcher: Patcher) => {
   const component = await loadComponent();
-  component.dirty();
-  component.tick(Date.now(), patcher);
+  patcher(serialize(component));
 };

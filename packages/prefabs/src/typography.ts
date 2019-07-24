@@ -1,18 +1,6 @@
-import {Component, property, Target} from '@diez/engine';
+import {prefab, Target} from '@diez/engine';
 import {Color} from './color';
 import {File, FileType} from './file';
-
-/**
- * Font state.
- * @ignore
- */
-export interface FontState {
-  file: File;
-  name: string;
-  fallbacks: string[];
-  weight: number;
-  style: FontStyle;
-}
 
 /**
  * Valid face forms for `@font-face` declarations in web.
@@ -22,9 +10,6 @@ export enum FontStyle {
   Italic = 'italic',
 }
 
-/**
- * @internal
- */
 const inferNameFromPath = (src: string) => {
   const pathComponents = src.split('/');
   const filename = pathComponents.pop() || '';
@@ -32,35 +17,50 @@ const inferNameFromPath = (src: string) => {
 };
 
 /**
- * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
- * @noinheritdoc
+ * Font data.
  */
-export class Font extends Component<FontState> {
+export interface FontData {
   /**
    * The font file containing the font's definition. Due to target limitations, the file _must_ be a TrueType file
    * with a `.ttf` extension or an OpenType file with an `.otf` extension.
    */
-  @property file = new File({type: FileType.Font});
-
+  file: File;
   /**
    * The exact, correct PostScript name of the font.
    */
-  @property name = '';
-
+  name: string;
   /**
    * An array of fallback fonts (web only).
    */
-  @property({targets: [Target.Web]}) fallbacks = ['sans-serif'];
-
+  fallbacks: string[];
   /**
    * The weight or boldness of the font (web only).
    */
-  @property({targets: [Target.Web]}) weight = 400;
-
+  weight: number;
   /**
    * The font style (web only).
    */
-  @property({targets: [Target.Web]}) style = FontStyle.Normal;
+  style: FontStyle;
+}
+
+/**
+ * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
+ * @noinheritdoc
+ */
+export class Font extends prefab<FontData>() {
+  defaults = {
+    file: new File({type: FileType.Font}),
+    name: '',
+    fallbacks: ['sans-serif'],
+    weight: 400,
+    style: FontStyle.Normal,
+  };
+
+  options = {
+    fallbacks: {targets: [Target.Web]},
+    weight: {targets: [Target.Web]},
+    style: {targets: [Target.Web]},
+  };
 
   /**
    * Creates a Font component from a source file and its PostScript name.
@@ -77,10 +77,9 @@ export class Font extends Component<FontState> {
 }
 
 /**
- * Typograph state.
- * @ignore
+ * Typograph data.
  */
-export interface TypographState {
+export interface TypographData {
   font: Font;
   fontSize: number;
   color: Color;
@@ -92,10 +91,12 @@ export interface TypographState {
  *
  * @noinheritdoc
  */
-export class Typograph extends Component<TypographState> {
-  @property font = new Font();
-  @property fontSize = 12;
-  @property color = Color.hsla(0, 0, 0, 1);
+export class Typograph extends prefab<TypographData>() {
+  defaults = {
+    font: new Font(),
+    fontSize: 12,
+    color: Color.hsla(0, 0, 0, 1),
+  };
 }
 
 /**

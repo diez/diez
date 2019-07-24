@@ -1,5 +1,5 @@
-import {CompilerOptions, Program, projectCache} from '@diez/compiler';
-import {ConcreteComponentType, Target} from '@diez/engine';
+import {CompilerOptions, Constructor, Program, projectCache} from '@diez/compiler';
+import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.handler';
@@ -34,7 +34,7 @@ export const getFixtures = () => readdirSync(fixturesRoot);
  */
 export const getFixtureComponentDeclaration = async (fixture: string) => {
   const {[fixture]: constructor} = await import(join(fixturesRoot, fixture, fixture));
-  return constructor as ConcreteComponentType;
+  return constructor as Constructor;
 };
 
 /**

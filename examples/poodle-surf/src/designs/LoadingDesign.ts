@@ -1,5 +1,4 @@
 import {Lottie} from '@diez/prefabs';
-import {Component, property} from '@diez/engine';
 import {palette} from './constants';
 
 enum LottieJsons {
@@ -11,7 +10,7 @@ enum LottieJsons {
 /**
  * The loading design.
  */
-export class LoadingDesign extends Component {
-  @property backgroundColor = palette.loadingBackground;
-  @property animation = Lottie.fromJson(LottieJsons.PoodleSurf);
+export class LoadingDesign {
+  backgroundColor = palette.loadingBackground;
+  animation = Lottie.fromJson(LottieJsons.PoodleSurf);
 }
