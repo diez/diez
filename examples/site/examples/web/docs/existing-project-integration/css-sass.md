@@ -15,17 +15,11 @@ $ cd my-project
 
 The output of the Diez compiler for a specific target is a library that is ready to use. For Web with CSS/Sass, this is `.css` and `.scss` files ready to import.
 
-Generally, you'll have a folder that contains your design system definitions and a separate folder with your web project. To use the compiled files in your project, you need to do two things:
+Generally, you'll have a folder that contains your design system definitions and a separate folder with your web project.
 
-First, add the design system as a local dependency in `package.json`:
+After you [compile](#compiling) your project, a Node package with your design system will be generated in a location relative to the current working directory at `build/diez-<name>-web`, `where <name>` is the name of your Diez project in kebab case. You can use this package like any Node dependency: you can link it, publish it to NPM, or deploy it to Git.
 
-```json
-dependencies: {
-  "diez-my-project": "./your-ds-path/build/diez-my-project"
-}
-```
-
-Finally, install our Webpack plugin: `diez-webpack-plugin`:
+Then, install our Webpack plugin: `diez-webpack-plugin`:
 
 <CodeTabs>
 ```bash tabname-yarn

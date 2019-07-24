@@ -15,19 +15,13 @@ $ cd my-project
 
 In a typical setup, you'll have a folder that contains your design system definitions and a separate folder with your web project.
 
-To use the compiled files in your project, you need to add the design system as a local dependency in your `package.json`:
+After you [compile](#compiling), a Node package with your design system will be generated in a location relative to the current working directory at `build/diez-<name>-web`, where `<name>` is the name of your Diez project in kebab case. You can use this package like any Node dependency: you can link it, publish it to NPM, or deploy it to Git.
 
-```json
-dependencies: {
-  "diez-my-project": "./your-ds-path/build/diez-my-project"
-}
-```
-
-The output of the Diez compiler for a specific target is a library that is ready to use. For Web with JavaScript, this means that you can consume your Design System by `import`ing it.
+After that, you can consume your Design System by `import`ing it.
 
 ```js
 // Import your DesignSystem and Diez
-import {DesignSystem, Diez} from 'diez-my-project';
+import {DesignSystem, Diez} from 'diez-my-project-web';
 
 // Create a new Diez instance providing your DesignSystem as a source
 const diezDs = new Diez(DesignSystem);
@@ -52,7 +46,7 @@ title.applyTypograph(ds.typography.headerOne);
 Since you may not want to modify DOM interfaces, these prototype extensions are completely optional and you have to explicitly opt-in by calling `applyHTMLExtensions` somewhere in your code:
 
 ```js
-import {Diez} from 'diez-my-project';
+import {Diez} from 'diez-my-project-web';
 Diez.applyHTMLExtensions();
 ```
 
