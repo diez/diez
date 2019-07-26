@@ -19,6 +19,7 @@ matrix:
         - xcodegen
   - name: Android Examples
     language: android
+    dist: trusty
     jdk: oraclejdk8
     android:
       components:
