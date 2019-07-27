@@ -6,7 +6,7 @@ This package provides utilities and metaprogramming extensions for design source
 
 Extraction as a service is provided via the CLI command `diez extract` for any Diez project that depends on `@diez/sources`. Services can be registered in `.diezrc` like so:
 
-```
+```json
 {
   "designs": {
     "services": [
@@ -22,7 +22,7 @@ In addition to services you register, `diez extract` will automatically look for
 
 If desired, these directories can be customized using `.diezrc`:
 
-```
+```json
 {
   "designs": {
     "sources": "./my-designs",
