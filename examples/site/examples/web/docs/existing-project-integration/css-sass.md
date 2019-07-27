@@ -111,7 +111,7 @@ Diez comes packaged with many prefabs that you can use to define your [Design To
 Or via multiple built-in `@mixins` and classes:
 
 <CodeTabs>
-```HTML
+```HTML tabname-CSS
 <div class="palette-purple-background-color"></div>
 ```
 ```Sass
@@ -141,7 +141,7 @@ Linear gradients can be consumed via variables:
 The SDK also provides classes and `@mixins` that define `background` and `background-image` for you:
 
 <CodeTabs>
-```HTML
+```HTML tabname-CSS
 <div class="my-gradient-background"></div>
 ```
 ```Sass
@@ -176,7 +176,7 @@ For `Image`s, the SDK provides variables for:
 The SDK also includes a `background-image` helper, which automatically sets width, height and the proper image size for the screen resolution.
 
 <CodeTabs>
-```HTML
+```HTML tabname-CSS
 <div class="my-image-background-image"></div>
 ```
 ```Sass
@@ -191,7 +191,7 @@ The SDK also includes a `background-image` helper, which automatically sets widt
 Using a `Typograph` is a matter of using the corresponding `@mixin` or class:
 
 <CodeTabs>
-```HTML
+```HTML tabname-CSS
 <h2 class="typography-heading-two"></h2>
 ```
 ```Sass

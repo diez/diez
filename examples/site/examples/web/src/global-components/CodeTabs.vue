@@ -7,17 +7,20 @@ export default {
   components: {
     TabTitles
   },
+  mounted () {
+    this.$root.$on('tabChanged', this.changeTab);
+  },
+  beforeDestroy () {
+    this.$root.$off('tabChanged', this.changeTab);
+  },
   methods: {
     changeTab (tabName) {
       const active = this.$el.querySelector(`.tabContents .${activeClass}`);
       const newActive = this.$el.querySelector(`.tabContents .tabname-${tabName}, .tabContents .language-${tabName}`);
 
-      if (active) {
+      if (active && newActive) {
         active.classList.remove(activeClass);
-
-        if (newActive) {
-          newActive.classList.add(activeClass);
-        }
+        newActive.classList.add(activeClass);
       }
     },
     inferTabName (prefix, className) {
@@ -25,15 +28,14 @@ export default {
     }
   },
   render (h) {
-    const titles = this.$slots.default.map((vnode) => {
-      const {staticClass} = vnode.data;
-      const tabName = this.inferTabName('tabname', staticClass);
+    const titles = this.$slots.default.map(({data}) => {
+      const tabName = this.inferTabName('tabname', data.staticClass);
 
       if (tabName) {
         return tabName[1];
       }
 
-      const language = this.inferTabName('language', staticClass);
+      const language = this.inferTabName('language', data.staticClass);
 
       if (language) {
         return language[1];
@@ -45,7 +47,7 @@ export default {
     this.$slots.default[0].data.staticClass += ' active';
 
     return h('div', {class: {wrapper: true}}, [
-      h('TabTitles', {props: {titles}, on: {tabChanged: this.changeTab}}),
+      h('TabTitles', {props: {titles}}),
       h('div', {class: {tabContents: true}}, this.$slots.default)
     ]);
   }

@@ -14,10 +14,21 @@ export default {
       currentActive: this.$props.titles && this.$props.titles[0]
     };
   },
+  mounted () {
+    this.$root.$on('tabChanged', this.setActive);
+  },
+  beforeDestroy () {
+    this.$root.$off('tabChanged', this.setActive);
+  },
   methods: {
     handleClick (title) {
-      this.$emit('tabChanged', title);
-      this.$data.currentActive = title;
+      this.$root.$emit('tabChanged', title);
+      this.setActive(title);
+    },
+    setActive (title) {
+      if (this.$props.titles.includes(title)) {
+        this.$data.currentActive = title;
+      }
     }
   }
 };
