@@ -22,17 +22,20 @@ The Diez CLI is used to generate your Diez project, cut new versions of your Die
 
 To compose your Diez project you will componentize your team's design tokens in order to make them customizable, composable, reusable, and developer-friendly within your consuming codebase(s). TypeScript is used for making these definitions. Read more about that choice [here](/faq/#typescript).
 
-In general, you define `Component`(s) composed of `Property`(ies) and compose them together to create your full "Design System."
+In general, you define components and compose them together to create your full "Design System."
 
 ```typescript
-import {Component, property} from '@diez/engine';
-
 class LayoutValues {
   spacingSmall = 5;
 }
 
+class Strings {
+  title = 'Living source of truth';
+}
+
 export class DesignSystem {
   layoutValues = new LayoutValues();
+  strings = new Strings();
 }
 ```
 
