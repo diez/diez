@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.3](https://github.com/stristr/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
+# [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 **Note:** Version bump only for package @diez/analytics
 

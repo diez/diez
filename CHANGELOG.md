@@ -3,21 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.3](https://github.com/stristr/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
+# [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 
 ### Bug Fixes
 
-* remove `web-sdk-common` from docs ([#207](https://github.com/stristr/diez/issues/207)) ([f7a196d](https://github.com/stristr/diez/commit/f7a196d))
-* use trusty build environment for Travis to enable support for oraclejdk8 ([#221](https://github.com/stristr/diez/issues/221)) ([0b4a855](https://github.com/stristr/diez/commit/0b4a855))
+* remove `web-sdk-common` from docs ([#207](https://github.com/diez/diez/issues/207)) ([f7a196d](https://github.com/diez/diez/commit/f7a196d))
+* use trusty build environment for Travis to enable support for oraclejdk8 ([#221](https://github.com/diez/diez/issues/221)) ([0b4a855](https://github.com/diez/diez/commit/0b4a855))
 
 
 ### Features
 
-* **compiler:** add support for plain TypeScript classes without decorators ([#215](https://github.com/stristr/diez/issues/215)) ([59960c9](https://github.com/stristr/diez/commit/59960c9))
-* **site:** improve <CodeTabs> to select all tabs of the same language ([#217](https://github.com/stristr/diez/issues/217)) ([3b81af6](https://github.com/stristr/diez/commit/3b81af6))
-* **targets:** update lottie-android to 3.0.1 ([#206](https://github.com/stristr/diez/issues/206)) ([c5a3b97](https://github.com/stristr/diez/commit/c5a3b97))
-* **targets:** update lottie-ios to 3.1.1 ([#203](https://github.com/stristr/diez/issues/203)) ([119b85e](https://github.com/stristr/diez/commit/119b85e))
+* **compiler:** add support for plain TypeScript classes without decorators ([#215](https://github.com/diez/diez/issues/215)) ([59960c9](https://github.com/diez/diez/commit/59960c9))
+* **site:** improve <CodeTabs> to select all tabs of the same language ([#217](https://github.com/diez/diez/issues/217)) ([3b81af6](https://github.com/diez/diez/commit/3b81af6))
+* **targets:** update lottie-android to 3.0.1 ([#206](https://github.com/diez/diez/issues/206)) ([c5a3b97](https://github.com/diez/diez/commit/c5a3b97))
+* **targets:** update lottie-ios to 3.1.1 ([#203](https://github.com/diez/diez/issues/203)) ([119b85e](https://github.com/diez/diez/commit/119b85e))
 
 
 

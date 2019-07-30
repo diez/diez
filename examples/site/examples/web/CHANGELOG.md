@@ -3,14 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.3](https://github.com/stristr/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
+# [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 
 ### Features
 
-* **compiler:** add support for plain TypeScript classes without decorators ([#215](https://github.com/stristr/diez/issues/215)) ([59960c9](https://github.com/stristr/diez/commit/59960c9))
-* **site:** improve <CodeTabs> to select all tabs of the same language ([#217](https://github.com/stristr/diez/issues/217)) ([3b81af6](https://github.com/stristr/diez/commit/3b81af6))
-* **targets:** update lottie-ios to 3.1.1 ([#203](https://github.com/stristr/diez/issues/203)) ([119b85e](https://github.com/stristr/diez/commit/119b85e))
+* **compiler:** add support for plain TypeScript classes without decorators ([#215](https://github.com/diez/diez/issues/215)) ([59960c9](https://github.com/diez/diez/commit/59960c9))
+* **site:** improve <CodeTabs> to select all tabs of the same language ([#217](https://github.com/diez/diez/issues/217)) ([3b81af6](https://github.com/diez/diez/commit/3b81af6))
+* **targets:** update lottie-ios to 3.1.1 ([#203](https://github.com/diez/diez/issues/203)) ([119b85e](https://github.com/diez/diez/commit/119b85e))
 
 
 
