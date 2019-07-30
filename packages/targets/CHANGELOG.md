@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
+
+
+### Features
+
+* **compiler:** add support for plain TypeScript classes without decorators ([#215](https://github.com/diez/diez/issues/215)) ([59960c9](https://github.com/diez/diez/commit/59960c9))
+* **targets:** update lottie-android to 3.0.1 ([#206](https://github.com/diez/diez/issues/206)) ([c5a3b97](https://github.com/diez/diez/commit/c5a3b97))
+* **targets:** update lottie-ios to 3.1.1 ([#203](https://github.com/diez/diez/issues/203)) ([119b85e](https://github.com/diez/diez/commit/119b85e))
+
+
+
+
+
 # [10.0.0-beta.2](https://github.com/diez/diez/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2019-07-16)
 
 
