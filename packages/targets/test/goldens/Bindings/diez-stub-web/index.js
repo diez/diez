@@ -30,11 +30,6 @@ Object.defineProperties(File.prototype, {
       return `${Environment.serverUrl}/${this.src}`;
     },
   },
-  urlCss: {
-    get () {
-      return `url("${this.url}")`;
-    },
-  },
 });
 
 class Size2D {
@@ -51,33 +46,18 @@ class Size2D {
 module.exports.Size2D = Size2D;
 
 Object.defineProperties(Size2D.prototype, {
-  widthCss: {
-    get () {
-      return `${this.width}px`;
-    },
-  },
-  heightCss: {
-    get () {
-      return `${this.height}px`;
-    },
-  },
   style: {
     get () {
       return {
-        width: this.widthCss,
-        height: this.heightCss,
+        width: `${this.width}px`,
+        height: `${this.height}px`,
       };
-    },
-  },
-  backgroundSizeCss: {
-    get () {
-      return `${this.widthCss} ${this.heightCss}`;
     },
   },
   backgroundSizeStyle: {
     get () {
       return {
-        backgroundSize: this.backgroundSizeCss,
+        backgroundSize: `${this.style.width} ${this.style.height}`,
       };
     },
   },
@@ -115,15 +95,10 @@ Object.defineProperties(Image.prototype, {
       }
     },
   },
-  urlCss: {
-    get () {
-      return `url("${this.url}")`;
-    },
-  },
   backgroundImageStyle: {
     get () {
       return {
-        backgroundImage: this.urlCss,
+        backgroundImage: `url("${this.url}")`,
       };
     },
   },

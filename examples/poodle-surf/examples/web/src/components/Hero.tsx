@@ -18,7 +18,7 @@ export default class Hero extends React.PureComponent<HeroProps> {
       <div style={style}>
         <div
           style={{
-            backgroundImage: mocks.bannerImage.urlCss,
+            backgroundImage: `url("${mocks.bannerImage.url}")`,
             backgroundSize: 'cover',
             height: ds.bannerHeight,
           }}

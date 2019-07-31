@@ -3,12 +3,6 @@ export declare class File {
    * The URL of the `File`
    */
   url: string;
-  /**
-   * The CSS URL of the `File`.
-   * @example
-   * url("/path/to/file")
-   */
-  urlCss: string;
 }
 
 export declare class Size2D {
@@ -21,27 +15,9 @@ export declare class Size2D {
    */
   height: number;
   /**
-   * The CSS `width` value.
-   * @example
-   * 400px
-   */
-  widthCss: string;
-  /**
-   * The CSS `height` value.
-   * @example
-   * 300px
-   */
-  heightCss: string;
-  /**
    * CSS declarations for the `width` and `height` CSS properties.
    */
   style: {width: string, height: string};
-  /**
-   * The CSS `background-size` value.
-   * @example
-   * 400px 300px
-   */
-  backgroundSizeCss: string;
   /**
    * CSS declarations for the `background-size` CSS property.
    */
@@ -53,12 +29,6 @@ export declare class Image {
    * The URL of the `Image`
    */
   url: string;
-  /**
-   * The CSS URL of the `Image`.
-   * @example
-   * url("/path/to/image.jpg")
-   */
-  urlCss: string;
   /**
    * CSS declarations for the `background-image` CSS property.
    */

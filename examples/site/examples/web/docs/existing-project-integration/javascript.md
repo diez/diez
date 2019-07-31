@@ -149,13 +149,7 @@ siteImage.url = ds.myImage.url;
 ```
 </CodeTabs>
 
-Or you can use the `urlCss` helper that returns a valid CSS `url()` string with the URL of the image:
-
-```js
-div.style.backgroundImage = ds.myImage.urlCss;
-```
-
-You can also use other getters to get style objects:
+Or you can also use other getters to get style objects:
 
 <CodeTabs>
 ```jsx tabname-React
