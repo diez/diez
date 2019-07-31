@@ -75,6 +75,26 @@ beforeEach(() => {
           ],
           imageCollection: [],
         },
+        layerStyles: {
+          objects: [
+            {
+              name: 'Card Style',
+              value: {
+                shadows: [
+                  {
+                    blurRadius: 30,
+                    color: {
+                      value: 'rgba(255,63,112,0.70)',
+                    },
+                    isEnabled: 1,
+                    offsetX: 0,
+                    offsetY: 2,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         layerTextStyles: {
           objects: [
             {
@@ -202,6 +222,12 @@ describe('Sketch', () => {
           name: 'Pink To Orange',
           initializer: 'new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)})',
         }],
+        shadows: [
+          {
+            name: 'Card Style Drop Shadow',
+            initializer: 'new DropShadow({offset: Point2D.make(0.000000, 2.000000), radius: 30.000000, color: Color.rgba(255, 63, 112, 0.7)})',
+          },
+        ],
         designSystemName: 'Test',
         filename: 'src/Test.sketch.ts',
         fonts: new Map([['Foobar', new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]])]]),

@@ -1,4 +1,4 @@
-import { Color, File, GradientStop, Image, LinearGradient, Point2D } from "@diez/prefabs";
+import { Color, DropShadow, File, GradientStop, Image, LinearGradient, Point2D } from "@diez/prefabs";
 
 class PoodleSurfColors {
     pink = Color.rgba(255, 63, 112, 1);
@@ -11,6 +11,10 @@ class PoodleSurfColors {
 
 class PoodleSurfGradients {
     gradient = new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)});
+}
+
+class PoodleSurfShadows {
+    cardStyleDropShadow = new DropShadow({offset: Point2D.make(0.000000, 2.000000), radius: 30.000000, color: Color.rgba(255, 63, 112, 0.7)});
 }
 
 export class PoodleSurfSlicesFiles {
@@ -67,6 +71,7 @@ export class PoodleSurfSlices {
 export class PoodleSurfTokens {
     colors = new PoodleSurfColors();
     gradients = new PoodleSurfGradients();
+    shadows = new PoodleSurfShadows();
 }
 
 export const poodleSurfTokens = new PoodleSurfTokens();

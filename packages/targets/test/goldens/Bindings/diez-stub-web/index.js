@@ -407,6 +407,62 @@ Object.defineProperties(LinearGradient.prototype, {
   },
 });
 
+class DropShadow {
+  constructor({
+    offset,
+    radius,
+    color
+  }) {
+    this.offset = new Point2D(offset);
+    this.radius = radius;
+    this.color = new Color(color);
+  }
+}
+
+
+module.exports.DropShadow = DropShadow;
+
+const {dropShadowToCss, dropShadowToFilterCss} = require('@diez/web-sdk-common');
+
+Object.defineProperties(DropShadow.prototype, {
+  boxShadow: {
+    get () {
+      return dropShadowToCss(this);
+    },
+  },
+  textShadow: {
+    get () {
+      return dropShadowToCss(this);
+    },
+  },
+  filter: {
+    get () {
+      return dropShadowToFilterCss(this);
+    },
+  },
+  boxShadowStyle: {
+    get () {
+      return {
+        boxShadow: this.boxShadow,
+      };
+    },
+  },
+  textShadowStyle: {
+    get () {
+      return {
+        textShadow: this.textShadow,
+      };
+    },
+  },
+  filterStyle: {
+    get () {
+      return {
+        filter: this.filter,
+      };
+    },
+  },
+});
+
 class Bindings {
   constructor({
     image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, size: {width: 246, height: 246}},
@@ -414,7 +470,8 @@ class Bindings {
     typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}},
     linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
     point = {x: 0.5, y: 0.5},
-    size = {width: 400, height: 300}
+    size = {width: 400, height: 300},
+    shadow = {offset: {x: 1, y: 2}, radius: 3, color: {h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5}}
   } = {}) {
     this.image = new Image(image);
     this.lottie = new Lottie(lottie);
@@ -422,6 +479,7 @@ class Bindings {
     this.linearGradient = new LinearGradient(linearGradient);
     this.point = new Point2D(point);
     this.size = new Size2D(size);
+    this.shadow = new DropShadow(shadow);
   }
 }
 

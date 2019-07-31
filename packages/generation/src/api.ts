@@ -53,6 +53,7 @@ export interface CodegenDesignSystem {
   projectRoot: string;
   colors: CodegenEntity[];
   gradients: CodegenEntity[];
+  shadows: CodegenEntity[];
   typographs: CodegenEntity[];
   fonts: GeneratedFonts;
   assets: GeneratedAssets;

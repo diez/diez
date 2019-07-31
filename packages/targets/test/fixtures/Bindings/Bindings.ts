@@ -1,5 +1,6 @@
 import {
   Color,
+  DropShadow,
   File,
   FileType,
   Font,
@@ -9,7 +10,7 @@ import {
   Point2D,
   Size2D,
   Toward,
-  Typograph
+  Typograph,
 } from '@diez/prefabs';
 
 export class Bindings {
@@ -33,4 +34,10 @@ export class Bindings {
   point = Point2D.make(0.5, 0.5);
 
   size = Size2D.make(400, 300);
+
+  shadow = new DropShadow({
+    offset: Point2D.make(1, 2),
+    radius: 3,
+    color: Color.rgba(0, 255, 0, 0.5),
+  });
 }

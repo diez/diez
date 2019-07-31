@@ -1,7 +1,7 @@
 import {getLinearGradientInitializer} from '../src/linear-gradient';
 
 describe('linear-gradient', () => {
-  test('initializers', () => {
+  test('initializer', () => {
     const start = {x: 0.1234567890, y:  0.1234567890};
     const end = {x: 1.1234567890, y: 1.1234567890};
     const stops = [

@@ -148,7 +148,7 @@ export declare class Point2D {
 
 export declare class LinearGradient {
   /**
-   * The CSS linear-gradient represntation of the `LinearGradient`.
+   * The CSS linear-gradient representation of the `LinearGradient`.
    * @example
    * linear-gradient(45deg, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 0%, 1) 100%)
    */
@@ -163,6 +163,39 @@ export declare class LinearGradient {
   backgroundStyle: {background: string};
 }
 
+export declare class DropShadow {
+  /**
+   * The CSS box-shadow representation of the `DropShadow`.
+   * @example
+   * 0px 1px 16px rgba(0, 0, 16, .4)
+   */
+  boxShadow: string;
+  /**
+   * The CSS text-shadow representation of the `DropShadow`.
+   * @example
+   * 0px 1px 16px rgba(0, 0, 16, .4)
+   */
+  textShadow: string;
+  /**
+   * The CSS filter representation of the `DropShadow`.
+   * @example
+   * drop-shadow(0px 1px 16px rgba(0, 0, 16, .4))
+   */
+  filter: string;
+  /**
+   * CSS declarations for the `box-shadow` CSS property.
+   */
+  boxShadowStyle: {boxShadow: string};
+  /**
+   * CSS declarations for the `text-shadow` CSS property.
+   */
+  textShadowStyle: {textShadow: string};
+  /**
+   * CSS declarations for the `filter` CSS property.
+   */
+  filterStyle: {filter: string};
+}
+
 export declare class Bindings extends StateBag {
   image: Image;
   lottie: Lottie;
@@ -170,5 +203,6 @@ export declare class Bindings extends StateBag {
   linearGradient: LinearGradient;
   point: Point2D;
   size: Size2D;
+  shadow: DropShadow;
 }
 

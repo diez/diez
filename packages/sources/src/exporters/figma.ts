@@ -4,6 +4,7 @@ import {
   codegenDesignSystem,
   CodegenDesignSystem,
   createDesignSystemSpec,
+  getDropShadowInitializer,
   getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
@@ -55,7 +56,7 @@ const folders = new Map<FigmaType, AssetFolder>([
  * Describes a Figma paint type retrieved from the Figma API.
  * @ignore
  */
-export const enum FigmaPaintType {
+const enum FigmaPaintType {
   Solid = 'SOLID',
   GradientLinear = 'GRADIENT_LINEAR',
 }
@@ -65,6 +66,11 @@ interface FigmaColor {
   g: number;
   b: number;
   a: number;
+}
+
+interface FigmaColorStop {
+  position: number;
+  color: FigmaColor;
 }
 
 interface FigmaLinearGradient {
@@ -88,15 +94,31 @@ const isFigmaSolid = (paint: FigmaPaint): paint is FigmaSolid => {
   return paint.type === FigmaPaintType.Solid;
 };
 
+/**
+ * Describes a Figma effect type retrieved from the Figma API.
+ * @ignore
+ */
+const enum FigmaEffectType {
+  DropShadow = 'DROP_SHADOW',
+}
+
 interface FigmaVector {
   x: number;
   y: number;
 }
 
-interface FigmaColorStop {
-  position: number;
+interface FigmaDropShadow {
+  type: FigmaEffectType.DropShadow;
   color: FigmaColor;
+  offset: FigmaVector;
+  radius: number;
 }
+
+type FigmaEffect = FigmaDropShadow | {type: unknown};
+
+const isFigmaDropShadow = (effect: FigmaEffect): effect is FigmaDropShadow => {
+  return effect.type === FigmaEffectType.DropShadow;
+};
 
 interface FigmaTextStyle {
   fontFamily: string;
@@ -114,9 +136,11 @@ interface FigmaNode {
   name: string;
   children?: FigmaNode[];
   absoluteBoundingBox?: FigmaDimensions;
+  effects?: FigmaEffect[];
   fills?: FigmaPaint[];
   style?: FigmaTextStyle;
   styles?: {
+    effect?: string;
     fill?: string;
     text?: string;
   };
@@ -134,7 +158,7 @@ export interface FigmaFile {
   styles?: {
     [id: string]: {
       name: string;
-      styleType: 'FILL' | 'TEXT';
+      styleType: 'FILL' | 'TEXT' | 'EFFECT';
     };
   };
   components?: {
@@ -233,6 +257,39 @@ const downloadAssets = async (
   return Promise.all(streams);
 };
 
+const getDropShadowInitializerFromFigma = (shadow: FigmaDropShadow) =>
+  getDropShadowInitializer({
+    offset: shadow.offset,
+    radius: shadow.radius,
+    colorInitializer: getColorInitializerFromFigma(shadow.color),
+  });
+
+const populateInitializerForFigmaEffect = (effect: FigmaEffect, name: string, spec: CodegenDesignSystem) => {
+  if (isFigmaDropShadow(effect)) {
+    spec.shadows.push({
+      name,
+      initializer: getDropShadowInitializerFromFigma(effect),
+    });
+    return;
+  }
+};
+
+const getColorInitializerFromFigma = ({r, g, b, a}: FigmaColor) =>
+  `Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+
+const getSolidInitializerFromFigma = (solid: FigmaSolid) =>
+  getColorInitializerFromFigma(solid.color);
+
+const getLinearGradientInitializerFromFigma = (gradient: FigmaLinearGradient) => {
+  const stops = gradient.gradientStops.map((stop) => {
+    return {
+      position: stop.position,
+      colorInitializer: getColorInitializerFromFigma(stop.color),
+    };
+  });
+  return getLinearGradientInitializer(stops, gradient.gradientHandlePositions[0], gradient.gradientHandlePositions[1]);
+};
+
 const populateInitializerForFigmaPaint = (paint: FigmaPaint, name: string, spec: CodegenDesignSystem) => {
   if (isFigmaSolid(paint)) {
     spec.colors.push({
@@ -249,22 +306,6 @@ const populateInitializerForFigmaPaint = (paint: FigmaPaint, name: string, spec:
     });
     return;
   }
-};
-
-const getSolidInitializerFromFigma = (solid: FigmaSolid) =>
-  getColorInitializerFromFigma(solid.color);
-
-const getColorInitializerFromFigma = ({r, g, b, a}: FigmaColor) =>
-  `Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
-
-const getLinearGradientInitializerFromFigma = (gradient: FigmaLinearGradient) => {
-  const stops = gradient.gradientStops.map((stop) => {
-    return {
-      position: stop.position,
-      colorInitializer: getColorInitializerFromFigma(stop.color),
-    };
-  });
-  return getLinearGradientInitializer(stops, gradient.gradientHandlePositions[0], gradient.gradientHandlePositions[1]);
 };
 
 const getInitializerForTypographColorFromFigma = (node: FigmaNode) => {
@@ -288,17 +329,23 @@ const getInitializerForTypographColorFromFigma = (node: FigmaNode) => {
 
 const processFigmaNode = async (
   spec: CodegenDesignSystem,
+  effects: Map<string, string>,
   fills: Map<string, string>,
   typographs: Map<string, string>,
   components: Set<string>,
   componentDimensions: Map<string, FigmaDimensions>,
   node: FigmaNode,
 ) => {
-  if (!fills.size && !typographs.size && !components.size) {
+  if (!fills.size && !effects.size && !typographs.size && !components.size) {
     return;
   }
 
   if (node.styles) {
+    if (effects.size && node.styles.effect && effects.has(node.styles.effect) && node.effects && node.effects.length) {
+      populateInitializerForFigmaEffect(node.effects[0], effects.get(node.styles.effect)!, spec);
+      effects.delete(node.styles.effect);
+    }
+
     if (fills.size && node.styles.fill && fills.has(node.styles.fill) && node.fills && node.fills.length) {
       populateInitializerForFigmaPaint(node.fills[0], fills.get(node.styles.fill)!, spec);
       fills.delete(node.styles.fill);
@@ -336,7 +383,7 @@ const processFigmaNode = async (
 
   if (node.children) {
     for (const childNode of node.children) {
-      await processFigmaNode(spec, fills, typographs, components, componentDimensions, childNode);
+      await processFigmaNode(spec, effects, fills, typographs, components, componentDimensions, childNode);
     }
   }
 };
@@ -352,12 +399,14 @@ const parseFigmaFile = async (
   const styles = Object.entries(file.styles || {});
   const fills = new Map(styles.filter(
     ([_, {styleType}]) => styleType === 'FILL').map(([id, {name}]) => [id, name]));
+  const effects = new Map(styles.filter(
+    ([_, {styleType}]) => styleType === 'EFFECT').map(([id, {name}]) => [id, name]));
   const typographs = new Map(styles.filter(
     ([_, {styleType}]) => styleType === 'TEXT').map(([id, {name}]) => [id, name]));
   const components = new Set(filenameMap.keys());
   const componentDimensions = new Map<string, FigmaDimensions>();
   for (const node of file.document.children) {
-    await processFigmaNode(spec, fills, typographs, components, componentDimensions, node);
+    await processFigmaNode(spec, effects, fills, typographs, components, componentDimensions, node);
   }
 
   for (const [id, filename] of filenameMap) {

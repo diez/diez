@@ -8,7 +8,7 @@ const binding: WebBinding<Point2D> = {
   sources: [],
   assetsBinder: async (instance, program, output, spec, property) => {
     // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
-    if (property.parentType !== 'LinearGradient') {
+    if (property.parentType !== 'LinearGradient' && property.parentType !== 'DropShadow') {
       const name = joinToKebabCase(property.parentType, property.name);
       output.styleSheet.variables.set(`${name}-x-px`, `${instance.x}px`);
       output.styleSheet.variables.set(`${name}-x-rem`, `${instance.x}rem`);

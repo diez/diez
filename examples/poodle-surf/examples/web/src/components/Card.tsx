@@ -14,6 +14,7 @@ export default class Card extends React.PureComponent<CardProps> {
 
     return (
       <div
+        className="card"
         style={{
           backgroundImage: ds.gradient.linearGradient,
           paddingTop: ds.layoutMargins.top,
@@ -22,10 +23,11 @@ export default class Card extends React.PureComponent<CardProps> {
           paddingRight: ds.layoutMargins.right,
           borderRadius: ds.cornerRadius,
           marginBottom: ds.layoutMargins.bottom,
-          breakInside: 'avoid',
+          boxShadow: ds.dropShadow.boxShadow,
           display: 'flex',
           flexWrap: 'wrap',
           flexDirection: 'column',
+          width: '42%',
         }}
       >
         <h3 style={{marginBottom: 20, ...ds.titleTypograph.style}}>{ds.title}</h3>

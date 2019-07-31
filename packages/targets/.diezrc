@@ -15,6 +15,11 @@
       "android": "./lib/bindings/Color/android",
       "web": "./lib/bindings/Color/web"
     },
+    "@diez/prefabs:DropShadow": {
+      "ios": "./lib/bindings/DropShadow/ios",
+      "android": "./lib/bindings/DropShadow/android",
+      "web": "./lib/bindings/DropShadow/web"
+    },
     "@diez/prefabs:File": {
       "ios": "./lib/bindings/File/ios",
       "android": "./lib/bindings/File/android",

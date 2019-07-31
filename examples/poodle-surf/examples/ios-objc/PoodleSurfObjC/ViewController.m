@@ -87,6 +87,8 @@ NS_ASSUME_NONNULL_BEGIN
 
         imageView.image = component.designs.navigationTitle.icon.uiImage;
 
+        [imageView.layer dez_applyDropShadow:component.designs.report.wind.shared.dropShadow];
+
         [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.gradient];
 
         [animationView dez_loadLottie:component.designs.loading.animation completion:nil];

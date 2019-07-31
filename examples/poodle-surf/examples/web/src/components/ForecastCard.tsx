@@ -19,15 +19,12 @@ export default class ForecastCard extends React.PureComponent<ForecastCardProps>
       <Card ds={ds.shared}>
         <div
           style={{
-            columns: 3,
-            columnGap: ds.dayPartsHorizontalSpacing,
-            columnRule: `${ds.separatorWidth}px solid ${ds.separatorColor}`,
-            display: 'inline-block',
+            display: 'flex',
+            justifyContent: 'space-around',
           }}
         >
           {Object.values(mocks).map((dayPart: WindDayPartMock) => (
             <Column
-              // style={{marginRight: ds.dayPartsHorizontalSpacing}}
               key={dayPart.dayPart}
               ds={ds.dayPart}
               icon={dayPart.direction && dayPart.direction.url}

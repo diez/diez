@@ -1,8 +1,8 @@
-import {Color, LinearGradient, Size2D, Typograph} from '@diez/prefabs';
+import {Color, DropShadow, LinearGradient, Size2D, Typograph} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
 import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
-import {LayoutValues, palette, typographs} from './constants';
+import {LayoutValues, palette, shadows, typographs} from './constants';
 
 class LocationImageDesign {
   strokeWidth = 3;
@@ -31,6 +31,7 @@ interface SharedCardDesignData {
   gradient: LinearGradient;
   layoutMargins: EdgeInsets;
   cornerRadius: number;
+  dropShadow: DropShadow;
 }
 
 class SharedCardDesign extends prefab<SharedCardDesignData>() {
@@ -45,7 +46,8 @@ class SharedCardDesign extends prefab<SharedCardDesignData>() {
       left: LayoutValues.DefaultMargin,
       right: LayoutValues.DefaultMargin,
     }),
-    cornerRadius: 5,
+    cornerRadius: 8,
+    dropShadow: shadows.card,
   };
 }
 

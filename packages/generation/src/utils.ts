@@ -67,6 +67,7 @@ export const createDesignSystemSpec = (
   projectRoot,
   colors: [],
   gradients: [],
+  shadows: [],
   typographs: [],
   fonts: new Map(),
   assets: new Map(),
@@ -157,10 +158,12 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const designSystemImports = new Set<string>();
   const colorsName = localResolver.getComponentName(`${designSystemName} Colors`);
   const gradientsName = localResolver.getComponentName(`${designSystemName} Gradients`);
+  const shadowsName = localResolver.getComponentName(`${designSystemName} Shadows`);
   const typographsName = localResolver.getComponentName(`${designSystemName} Typographs`);
 
   const hasColors = spec.colors.length > 0;
   const hasGradients = spec.gradients.length > 0;
+  const hasShadows = spec.shadows.length > 0;
   const hasTypographs = spec.typographs.length > 0;
 
   if (hasColors) {
@@ -189,6 +192,22 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
         return {
           initializer,
           name: gradientName,
+        };
+      }),
+    });
+  }
+
+  if (hasShadows) {
+    designSystemImports.add('Color');
+    designSystemImports.add('Point2D');
+    designSystemImports.add('DropShadow');
+    sourceFile.addClass({
+      name: shadowsName,
+      properties: spec.shadows.map(({name, initializer}) => {
+        const shadowName = localResolver.getPropertyName(name || 'Untitled Shadow', shadowsName);
+        return {
+          initializer,
+          name: shadowName,
         };
       }),
     });
@@ -301,6 +320,13 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     exportedClassDeclaration.addProperty({
       name: 'gradients',
       initializer: `new ${gradientsName}()`,
+    });
+  }
+
+  if (hasShadows) {
+    exportedClassDeclaration.addProperty({
+      name: 'shadows',
+      initializer: `new ${shadowsName}()`,
     });
   }
 

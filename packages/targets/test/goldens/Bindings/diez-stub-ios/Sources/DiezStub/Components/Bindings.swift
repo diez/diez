@@ -9,6 +9,7 @@ public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var linearGradient: LinearGradient
     @objc public internal(set) var point: Point2D
     @objc public internal(set) var size: Size2D
+    @objc public internal(set) var shadow: DropShadow
 
     convenience public override init() {
         self.init(
@@ -17,7 +18,8 @@ public final class Bindings: NSObject, StateBag {
             typograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1)),
             linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 1, l: 0.5, a: 1)), GradientStop(position: 1, color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1))], start: Point2D(x: 0, y: 0.5), end: Point2D(x: 1, y: 0.5)),
             point: Point2D(x: 0.5, y: 0.5),
-            size: Size2D(width: 400, height: 300)
+            size: Size2D(width: 400, height: 300),
+            shadow: DropShadow(offset: Point2D(x: 1, y: 2), radius: 3, color: Color(h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5))
         )
     }
 
@@ -27,7 +29,8 @@ public final class Bindings: NSObject, StateBag {
         typograph: Typograph,
         linearGradient: LinearGradient,
         point: Point2D,
-        size: Size2D
+        size: Size2D,
+        shadow: DropShadow
     ) {
         self.image = image
         self.lottie = lottie
@@ -35,6 +38,7 @@ public final class Bindings: NSObject, StateBag {
         self.linearGradient = linearGradient
         self.point = point
         self.size = size
+        self.shadow = shadow
     }
 
     public static let name = "Bindings"

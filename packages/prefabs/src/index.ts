@@ -1,4 +1,5 @@
 export * from './color';
+export * from './drop-shadow';
 export * from './file';
 export * from './image';
 export * from './linear-gradient';

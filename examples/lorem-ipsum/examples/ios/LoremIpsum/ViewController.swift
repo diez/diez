@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         }
 
         view.iconView.image = designSystem.images.logo.uiImage
+        view.iconView.layer.apply(designSystem.shadows.logo)
 
         view.contentBackgroundView.backgroundColor = designSystem.palette.contentBackground.uiColor
         let margin = designSystem.layoutValues.contentMargin

@@ -120,6 +120,17 @@ describe('codegen.e2e', () => {
       },
     );
 
+    spec.shadows.push(
+      {
+        name: '',
+        initializer: '6',
+      },
+      {
+        name: 'Some Shadow',
+        initializer: '7',
+      },
+    );
+
     registerAsset(
       {
         src: 'assets/blah/Foobar.png',

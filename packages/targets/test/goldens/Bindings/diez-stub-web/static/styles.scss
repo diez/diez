@@ -21,6 +21,8 @@ $bindings-size-width-px: 400px;
 $bindings-size-width-rem: 400rem;
 $bindings-size-height-px: 300px;
 $bindings-size-height-rem: 300rem;
+$bindings-shadow: 1px 2px 3px hsla(120, 100%, 50%, 0.5);
+$bindings-shadow-filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
 
 @mixin bindings-image-background-image {
   background-image: url("/diez/assets/image with spaces.jpg");
@@ -59,5 +61,17 @@ $bindings-size-height-rem: 300rem;
 
 @mixin bindings-linear-gradient-background-image {
   background-image: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
+}
+
+@mixin bindings-shadow-box-shadow {
+  box-shadow: 1px 2px 3px hsla(120, 100%, 50%, 0.5);
+}
+
+@mixin bindings-shadow-text-shadow {
+  text-shadow: 1px 2px 3px hsla(120, 100%, 50%, 0.5);
+}
+
+@mixin bindings-shadow-filter {
+  filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
 }
 

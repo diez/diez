@@ -1,4 +1,4 @@
-import {Color, Image, Lottie, Toward, Typograph, Font, LinearGradient} from '@diez/prefabs';
+import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D} from '@diez/prefabs';
 import {Margin} from './components/Margin';
 
 /**
@@ -106,6 +106,14 @@ class Strings {
   helper = 'Modify the contents of “src/DesignSystem.ts” (relative to the root of the Diez project) to see changes to the design system in real time.';
 }
 
+class Shadows {
+  logo = new DropShadow({
+    offset: Point2D.make(0, 1),
+    radius: 16,
+    color: colors.black.fade(0.59),
+  });
+}
+
 /**
  * Note how this component is exported from `index.ts`. Diez compiles these
  * exported components for your apps' codebases.
@@ -128,4 +136,5 @@ export class DesignSystem {
   layoutValues = new LayoutValues();
   strings = new Strings();
   loadingAnimation = Lottie.fromJson('assets/loadingAnimation.json', false);
+  shadows = new Shadows();
 }

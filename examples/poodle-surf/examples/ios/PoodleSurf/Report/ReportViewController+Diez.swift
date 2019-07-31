@@ -76,8 +76,9 @@ extension ReportViewController {
         view.titleLabel.attributedText = design.titleTypograph.attributedString(decorating: design.title)
         view.titleContentSpacing = design.titleContentSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
-        view.cornerRadius = design.cornerRadius
         view.backgroundView.gradientLayer.apply(design.gradient)
+        view.backgroundView.cornerRadius = design.cornerRadius
+        view.layer.apply(design.dropShadow)
     }
 
     private func apply(_ design: DayPartDesign, to view: DayPartView) {

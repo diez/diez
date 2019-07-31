@@ -19,7 +19,7 @@ jest.doMock('@diez/storage', () => ({
 }));
 
 import {Readable} from 'stream';
-import {FigmaExporter, FigmaFile, FigmaPaintType} from '../../src/exporters/figma';
+import {FigmaExporter, FigmaFile} from '../../src/exporters/figma';
 
 const figma = FigmaExporter.create('mock-token');
 
@@ -50,7 +50,7 @@ const mockFullResponse: FigmaFile = {
           id: '',
           name: '',
           fills: [{
-            type: FigmaPaintType.Solid,
+            type: 'SOLID',
             color: {
               r: 0.03921568627451,
               g: 0.03921568627451,
@@ -66,7 +66,7 @@ const mockFullResponse: FigmaFile = {
               id: '',
               name: '',
               fills: [{
-                type: FigmaPaintType.Solid,
+                type: 'SOLID',
                 color: {
                   r: 0.392156862745098,
                   g: 0.392156862745098,
@@ -87,7 +87,7 @@ const mockFullResponse: FigmaFile = {
               id: '',
               name: '',
               fills: [{
-                type: FigmaPaintType.GradientLinear,
+                type: 'GRADIENT_LINEAR',
                 gradientHandlePositions: [
                   {
                     x: 2.220446049250313e-16,
@@ -138,7 +138,7 @@ const mockFullResponse: FigmaFile = {
           id: '',
           name: '',
           fills: [{
-            type: FigmaPaintType.GradientLinear,
+            type: 'GRADIENT_LINEAR',
             gradientHandlePositions: [
               {
                 x: 2.220446049250313e-16,
@@ -174,7 +174,22 @@ const mockFullResponse: FigmaFile = {
               },
             ],
           }],
+          effects: [{
+            type: 'DROP_SHADOW',
+            color: {
+              r: 0,
+              g: 0,
+              b: 0.062745101749897,
+              a: 0.4099999964237213,
+            },
+            offset: {
+              x: 0,
+              y: 1,
+            },
+            radius: 16,
+          }],
           styles: {
+            effect: 'dropShadow',
             fill: 'linearGradient',
           },
         },
@@ -200,6 +215,10 @@ const mockFullResponse: FigmaFile = {
     color: {
       name: 'Diez Black',
       styleType: 'FILL',
+    },
+    dropShadow: {
+      name: 'Diez Drop Shadow',
+      styleType: 'EFFECT',
     },
     linearGradient: {
       name: 'Diez Red To Purple',
@@ -377,6 +396,12 @@ describe('Figma', () => {
           new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]]),
         ]]),
         projectRoot: '.',
+        shadows: [
+          {
+            initializer: 'new DropShadow({offset: Point2D.make(0.000000, 1.000000), radius: 16.000000, color: Color.rgba(0, 0, 16, 0.4099999964237213)})',
+            name: 'Diez Drop Shadow',
+          },
+        ],
         typographs: [
           {
             name: 'Foobar Typograph',

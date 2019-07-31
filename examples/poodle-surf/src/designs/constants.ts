@@ -17,6 +17,12 @@ class Palette {
  */
 export const palette = new Palette();
 
+class Shadows {
+  card = poodleSurfTokens.shadows.cardStyleDropShadow;
+}
+
+export const shadows = new Shadows();
+
 /**
  * A registry of all of the design's fonts.
  */

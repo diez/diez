@@ -17,3 +17,9 @@ h1, h2, h3, h4, h5 {
   margin: 0;
   font-weight: normal;
 }
+
+@media (max-width: 680px) {
+  .card {
+    width: 100%!important;
+  }
+}

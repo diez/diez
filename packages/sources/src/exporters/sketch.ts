@@ -1,11 +1,12 @@
 import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import {
   AssetFolder,
-  CodegenDesignSystem,
   codegenDesignSystem,
+  CodegenDesignSystem,
   createDesignSystemSpec,
   GeneratedAssets,
   getColorInitializer,
+  getDropShadowInitializer,
   getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
@@ -99,6 +100,20 @@ interface SketchSharedTypograph {
   };
 }
 
+interface SketchDropShadow {
+  offsetX: number;
+  offsetY: number;
+  blurRadius: number;
+  color: SketchColor;
+}
+
+interface SketchSharedLayerStyle {
+  name: string;
+  value: {
+    shadows: SketchDropShadow[];
+  };
+}
+
 interface SketchLayer {
   ['<class>']: string;
   exportOptions: {
@@ -116,6 +131,9 @@ interface SketchDump {
   assets: SketchAssets;
   layerTextStyles: {
     objects: SketchSharedTypograph[];
+  };
+  layerStyles: {
+    objects: SketchSharedLayerStyle[];
   };
   pages: SketchLayer[];
 }
@@ -143,16 +161,6 @@ const populateAssets = (assetsDirectory: string, layers: SketchLayer[], extracte
   }
 };
 
-const populateInitializerForSketchGradient = (gradient: SketchGradient, name: string, spec: CodegenDesignSystem) => {
-  if (isSketchLinearGradient(gradient)) {
-    spec.gradients.push({
-      name,
-      initializer: getLinearGradientInitializerForSketchGradient(gradient),
-    });
-    return;
-  }
-};
-
 const getLinearGradientInitializerForSketchGradient = (gradient: SketchLinearGradient) => {
   const stops = gradient.stops.map((stop) => {
     return {
@@ -161,6 +169,16 @@ const getLinearGradientInitializerForSketchGradient = (gradient: SketchLinearGra
     };
   });
   return getLinearGradientInitializer(stops, gradient.from, gradient.to);
+};
+
+const populateInitializerForSketchGradient = (gradient: SketchGradient, name: string, spec: CodegenDesignSystem) => {
+  if (isSketchLinearGradient(gradient)) {
+    spec.gradients.push({
+      name,
+      initializer: getLinearGradientInitializerForSketchGradient(gradient),
+    });
+    return;
+  }
 };
 
 class SketchExporterImplementation implements Exporter {
@@ -234,6 +252,22 @@ class SketchExporterImplementation implements Exporter {
 
     for (const gradient of dump.assets.gradientAssets) {
       populateInitializerForSketchGradient(gradient.gradient, gradient.name, codegenSpec);
+    }
+
+    for (const style of dump.layerStyles.objects.filter((object) => object.value.shadows.length)) {
+      const shadow = style.value.shadows[0]!;
+      const initializer = getDropShadowInitializer({
+        colorInitializer: getColorInitializer(shadow.color.value),
+        offset: {
+          x: shadow.offsetX,
+          y: shadow.offsetY,
+        },
+        radius: shadow.blurRadius,
+      });
+      codegenSpec.shadows.push({
+        initializer,
+        name: `${style.name} Drop Shadow`,
+      });
     }
 
     for (const {name, value: {textStyle}} of dump.layerTextStyles.objects) {

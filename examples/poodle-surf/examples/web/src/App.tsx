@@ -31,8 +31,10 @@ class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}>
         />
         <div
           style={{
-            columns: '320px 2',
-            columnGap: ds.designs.report.contentSpacing,
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            alignItems: 'baseline',
             maxWidth: 680,
             margin: '0 auto',
             paddingLeft: ds.designs.report.contentLayoutMargins.left,
@@ -40,8 +42,8 @@ class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}>
           }}
         >
           <WaterTemperatureCard ds={ds.designs.report.waterTemperature} mocks={mocks.report.temperature} />
-          <ForecastCard ds={ds.designs.report.wind} mocks={mocks.report.wind} />
           <ForecastCard ds={ds.designs.report.swell} mocks={mocks.report.swell} />
+          <ForecastCard ds={ds.designs.report.wind} mocks={mocks.report.wind} />
           <ForecastCard ds={ds.designs.report.tide} mocks={mocks.report.tide} />
         </div>
       </div>

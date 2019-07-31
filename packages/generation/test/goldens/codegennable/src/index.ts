@@ -1,4 +1,4 @@
-import { Color, File, Font, GradientStop, Image, LinearGradient, Point2D, Typograph } from "@diez/prefabs";
+import { Color, DropShadow, File, Font, GradientStop, Image, LinearGradient, Point2D, Typograph } from "@diez/prefabs";
 
 class MyDesignSystemColors {
     untitledColor = 2;
@@ -8,6 +8,11 @@ class MyDesignSystemColors {
 class MyDesignSystemGradients {
     untitledLinearGradient = 4;
     someGradient = 5;
+}
+
+class MyDesignSystemShadows {
+    untitledShadow = 6;
+    someShadow = 7;
 }
 
 class MyDesignSystemTypographs {
@@ -41,6 +46,7 @@ export const MyDesignSystemFonts = {
 export class MyDesignSystemTokens {
     colors = new MyDesignSystemColors();
     gradients = new MyDesignSystemGradients();
+    shadows = new MyDesignSystemShadows();
     typographs = new MyDesignSystemTypographs();
 }
 
