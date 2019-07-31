@@ -12,15 +12,19 @@ const binding: WebBinding<Image> = {
     output.styleSheet.variables.set(name, getQualifiedCssUrl(output, instance.file.src));
     output.styleSheet.variables.set(`${name}-2x`, getQualifiedCssUrl(output, instance.file2x.src));
     output.styleSheet.variables.set(`${name}-3x`, getQualifiedCssUrl(output, instance.file3x.src));
-    output.styleSheet.variables.set(`${name}-width`, `${instance.width}px`);
-    output.styleSheet.variables.set(`${name}-height`, `${instance.height}px`);
+    const widthValue = `${instance.size.width}px`;
+    const heightValue = `${instance.size.height}px`;
+    const sizeValue = `${widthValue} ${heightValue}`;
+    output.styleSheet.variables.set(`${name}-width`, widthValue);
+    output.styleSheet.variables.set(`${name}-height`, heightValue);
+    output.styleSheet.variables.set(`${name}-size`, sizeValue);
     output.styleSheet.styles.insertRule({
       selector: `${name}-background-image`,
       declaration: {
         'background-image': getQualifiedCssUrl(output, instance.file.src),
-        width: `${instance.width}px`,
-        height: `${instance.height}px`,
-        'background-size': `${instance.width}px ${instance.height}px`,
+        width: widthValue,
+        height: heightValue,
+        'background-size': sizeValue,
       },
       rules: new RuleList([
         {

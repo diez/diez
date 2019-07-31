@@ -1,10 +1,11 @@
-import {DayPartDesign} from 'diez-poodle-surf';
+import {DayPartDesign, Size2D} from 'diez-poodle-surf';
 import * as React from 'react';
 
 interface ColumnProps {
   value: string;
   name: string;
   icon?: string;
+  iconSize?: Size2D;
   ds: DayPartDesign;
   style?: React.CSSProperties;
 }
@@ -14,11 +15,11 @@ interface ColumnProps {
  */
 export default class Column extends React.PureComponent<ColumnProps> {
   render () {
-    const {name, value, icon, ds, style} = this.props;
+    const {name, value, icon, iconSize, ds, style} = this.props;
 
     return (
       <div style={{textAlign: 'center', ...style}}>
-        {icon && <img src={icon} alt="" style={{width: '67px', height: '67px'}} />}
+        {icon && iconSize && <img src={icon} alt="" style={iconSize.style} />}
         <p style={{margin: 0, ...ds.valueTypograph.style}}>{value} <span style={ds.unitTypograph.style}>ft</span></p>
         <span style={ds.timeTypograph.style}>{name}</span>
       </div>

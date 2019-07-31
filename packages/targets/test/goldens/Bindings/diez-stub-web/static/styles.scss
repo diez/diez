@@ -10,8 +10,17 @@ $bindings-image-2x: url("/diez/assets/image with spaces@2x.jpg");
 $bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
 $bindings-image-width: 246px;
 $bindings-image-height: 246px;
+$bindings-image-size: 246px 246px;
 $gradient-stop-color: hsla(240, 100%, 50%, 1);
 $bindings-linear-gradient: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
+$bindings-point-x-px: 0.5px;
+$bindings-point-x-rem: 0.5rem;
+$bindings-point-y-px: 0.5px;
+$bindings-point-y-rem: 0.5rem;
+$bindings-size-width-px: 400px;
+$bindings-size-width-rem: 400rem;
+$bindings-size-height-px: 300px;
+$bindings-size-height-rem: 300rem;
 
 @mixin bindings-image-background-image {
   background-image: url("/diez/assets/image with spaces.jpg");

@@ -52,31 +52,19 @@ class DayPartView: UIView {
         set { valueStackView.layoutMargins = newValue }
     }
 
-    var iconWidth: CGFloat? {
+    var iconSize: CGSize? {
         get {
-            let constraintValue = iconWidthConstraint.isActive ? iconWidthConstraint.constant : 0
-            if constraintValue > 0 {
-                return constraintValue
+            guard
+                let iconWidth = iconWidth,
+                let iconHeight = iconHeight else {
+                    return nil
             }
 
-            return iconView.image?.size.width
+            return CGSize(width: iconWidth, height: iconHeight)
         }
         set {
-            update(iconWidthConstraint, with: newValue)
-        }
-    }
-
-    var iconHeight: CGFloat? {
-        get {
-            let constraintValue = iconHeightConstraint.isActive ? iconHeightConstraint.constant : 0
-            if constraintValue > 0 {
-                return constraintValue
-            }
-
-            return iconView.image?.size.height
-        }
-        set {
-            update(iconHeightConstraint, with: newValue)
+            iconWidth = newValue?.width
+            iconHeight = newValue?.height
         }
     }
 
@@ -126,6 +114,16 @@ class DayPartView: UIView {
 
         constraint.constant = newValue
         constraint.isActive = true
+    }
+
+    private var iconWidth: CGFloat? {
+        get { return iconWidthConstraint.isActive ? iconWidthConstraint.constant : iconView.image?.size.width }
+        set { update(iconWidthConstraint, with: newValue) }
+    }
+
+    private var iconHeight: CGFloat? {
+        get { return iconHeightConstraint.isActive ? iconHeightConstraint.constant : iconView.image?.size.height }
+        set { update(iconHeightConstraint, with: newValue) }
     }
 
     @available(*, unavailable)

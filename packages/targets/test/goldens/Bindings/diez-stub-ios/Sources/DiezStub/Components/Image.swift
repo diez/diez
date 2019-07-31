@@ -6,21 +6,18 @@ public final class Image: NSObject, Decodable {
     @objc public internal(set) var file: File
     @objc public internal(set) var file2x: File
     @objc public internal(set) var file3x: File
-    @objc public internal(set) var width: Int
-    @objc public internal(set) var height: Int
+    @objc public internal(set) var size: Size2D
 
     init(
         file: File,
         file2x: File,
         file3x: File,
-        width: Int,
-        height: Int
+        size: Size2D
     ) {
         self.file = file
         self.file2x = file2x
         self.file3x = file3x
-        self.width = width
-        self.height = height
+        self.size = size
     }
 }
 

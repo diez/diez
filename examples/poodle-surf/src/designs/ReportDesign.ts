@@ -1,4 +1,4 @@
-import {Typograph, LinearGradient, Color} from '@diez/prefabs';
+import {Color, LinearGradient, Size2D, Typograph} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
 import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
@@ -81,8 +81,7 @@ class DayPartDesign {
   timeTypograph = typographs.caption;
   valueUnitSpacing = LayoutValues.CompactSpacing;
   layoutMargins = new EdgeInsets();
-  iconWidth = DayPartIconSize;
-  iconHeight = DayPartIconSize;
+  iconSize = Size2D.make(DayPartIconSize, DayPartIconSize);
 }
 
 interface ForecastCardDesignData {

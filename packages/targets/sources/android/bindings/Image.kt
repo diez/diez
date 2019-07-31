@@ -13,6 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import android.widget.ImageView
 import android.widget.TextView
+import kotlin.math.roundToInt
 
 {{> androidDataClassStart }}
 
@@ -113,8 +114,8 @@ private val effectiveDensity: Int
     }
 
 private fun getFromNetwork(image: Image, view: View, callback: (BitmapDrawable) -> Unit) {
-    val width = (image.width * Environment.resources.displayMetrics.density.toDouble()).toInt()
-    val height = (image.height * Environment.resources.displayMetrics.density.toDouble()).toInt()
+    val width = (image.size.width * Environment.resources.displayMetrics.density.toDouble()).roundToInt()
+    val height = (image.size.height * Environment.resources.displayMetrics.density.toDouble()).roundToInt()
     Glide
         .with(view.context)
         .load(image.correctDensityFile.url)

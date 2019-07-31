@@ -177,8 +177,8 @@ class MainActivity : AppCompatActivity() {
         time: TextView
     ) {
         icon?.layoutParams = (icon?.layoutParams as LinearLayout.LayoutParams).apply {
-            width = cardDesign.dayPart.iconWidth.toPx()
-            height = cardDesign.dayPart.iconHeight.toPx()
+            width = cardDesign.dayPart.iconSize.width.toPx()
+            height = cardDesign.dayPart.iconSize.height.toPx()
         }
 
         valueUnit.setPadding(0, 0, 0, cardDesign.dayPartVerticalSpacing.toPx())

@@ -1,4 +1,16 @@
-import {Color, File, FileType, Font, Image, LinearGradient, Lottie, Point2D, Toward, Typograph} from '@diez/prefabs';
+import {
+  Color,
+  File,
+  FileType,
+  Font,
+  Image,
+  LinearGradient,
+  Lottie,
+  Point2D,
+  Size2D,
+  Toward,
+  Typograph
+} from '@diez/prefabs';
 
 export class Bindings {
   image = Image.responsive('assets/image with spaces.jpg', 246, 246);
@@ -19,4 +31,6 @@ export class Bindings {
   linearGradient = LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));
 
   point = Point2D.make(0.5, 0.5);
+
+  size = Size2D.make(400, 300);
 }

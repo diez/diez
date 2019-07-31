@@ -1,4 +1,5 @@
 import {Image} from '../src/image';
+import {Size2D} from '../src/size2d';
 
 describe('image', () => {
   test('basic functionality', () => {
@@ -8,8 +9,7 @@ describe('image', () => {
       file2x: {src: 'path/to/image@2x.png', type: 'image'},
       file3x: {src: 'path/to/image@3x.png', type: 'image'},
       file4x: {src: 'path/to/image@4x.png', type: 'image'},
-      width: 640,
-      height: 480,
+      size: Size2D.make(640, 480).serialize(),
     });
   });
 });

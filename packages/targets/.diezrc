@@ -40,6 +40,11 @@
       "android": "./lib/bindings/Point2D/android",
       "web": "./lib/bindings/Point2D/web"
     },
+    "@diez/prefabs:Size2D": {
+      "ios": "./lib/bindings/Size2D/ios",
+      "android": "./lib/bindings/Size2D/android",
+      "web": "./lib/bindings/Size2D/web"
+    },
     "@diez/prefabs:Typograph": {
       "ios": "./lib/bindings/Typograph/ios",
       "android": "./lib/bindings/Typograph/android",

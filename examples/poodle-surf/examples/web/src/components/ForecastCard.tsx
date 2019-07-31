@@ -31,6 +31,7 @@ export default class ForecastCard extends React.PureComponent<ForecastCardProps>
               key={dayPart.dayPart}
               ds={ds.dayPart}
               icon={dayPart.direction && dayPart.direction.url}
+              iconSize={ds.dayPart.iconSize}
               name={dayPart.dayPart}
               value={dayPart.value}
             />

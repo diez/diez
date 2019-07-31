@@ -37,19 +37,63 @@ Object.defineProperties(File.prototype, {
   },
 });
 
+class Size2D {
+  constructor({
+    width,
+    height
+  }) {
+    this.width = width;
+    this.height = height;
+  }
+}
+
+
+module.exports.Size2D = Size2D;
+
+Object.defineProperties(Size2D.prototype, {
+  widthCss: {
+    get () {
+      return `${this.width}px`;
+    },
+  },
+  heightCss: {
+    get () {
+      return `${this.height}px`;
+    },
+  },
+  style: {
+    get () {
+      return {
+        width: this.widthCss,
+        height: this.heightCss,
+      };
+    },
+  },
+  backgroundSizeCss: {
+    get () {
+      return `${this.widthCss} ${this.heightCss}`;
+    },
+  },
+  backgroundSizeStyle: {
+    get () {
+      return {
+        backgroundSize: this.backgroundSizeCss,
+      };
+    },
+  },
+});
+
 class Image {
   constructor({
     file,
     file2x,
     file3x,
-    width,
-    height
+    size
   }) {
     this.file = new File(file);
     this.file2x = new File(file2x);
     this.file3x = new File(file3x);
-    this.width = width;
-    this.height = height;
+    this.size = new Size2D(size);
   }
 }
 
@@ -365,17 +409,19 @@ Object.defineProperties(LinearGradient.prototype, {
 
 class Bindings {
   constructor({
-    image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, width: 246, height: 246},
+    image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, size: {width: 246, height: 246}},
     lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
     typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}},
     linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
-    point = {x: 0.5, y: 0.5}
+    point = {x: 0.5, y: 0.5},
+    size = {width: 400, height: 300}
   } = {}) {
     this.image = new Image(image);
     this.lottie = new Lottie(lottie);
     this.typograph = new Typograph(typograph);
     this.linearGradient = new LinearGradient(linearGradient);
     this.point = new Point2D(point);
+    this.size = new Size2D(size);
   }
 }
 

@@ -86,8 +86,7 @@ extension ReportViewController {
         view.timeLabel.apply(design.timeTypograph)
         view.valueUnitSpacing = design.valueUnitSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
-        view.iconWidth = design.iconWidth
-        view.iconHeight = design.iconHeight
+        view.iconSize = design.iconSize.cgSize
     }
 }
 
@@ -97,11 +96,11 @@ extension ReportViewController {
     func apply(_ design: NavigationTitleDesign, toView view: HorizontalImageLabelView, navigationBar: UINavigationBar) {
         view.label.text = design.title
         view.spacing = design.iconToTitleSpacing
-        
+
         // Using the UIKit class initializers for test coverage.
         navigationBar.barTintColor = UIColor(design.barTintColor)
         view.imageView.image = UIImage(design.icon)
-        
+
         // Applying the typograph manually to add test coverage for the .uiFont getter.
         view.label.font = design.typograph.uiFont
         view.label.textColor = design.typograph.color.uiColor

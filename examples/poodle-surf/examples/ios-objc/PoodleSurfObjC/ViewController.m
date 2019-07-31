@@ -57,6 +57,14 @@ NS_ASSUME_NONNULL_BEGIN
     [self.stackView appendView:gradientView];
     [gradientView.heightAnchor constraintEqualToAnchor:gradientView.widthAnchor multiplier:0.25].active = YES;
 
+    UILabel *pointLabel = [[UILabel alloc] init];
+    pointLabel.textAlignment = NSTextAlignmentCenter;
+    [self.stackView appendView:pointLabel];
+
+    UILabel *sizeLabel = [[UILabel alloc] init];
+    sizeLabel.textAlignment = NSTextAlignmentCenter;
+    [self.stackView appendView:sizeLabel];
+
     self.diez = [[DEZDiezDesignSystem alloc] initWithView:self.view];
     [self.diez attach:^(DEZDesignSystem  * _Nullable component, NSError * _Nullable error) {
         if (error != nil) {
@@ -82,6 +90,10 @@ NS_ASSUME_NONNULL_BEGIN
         [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.gradient];
 
         [animationView dez_loadLottie:component.designs.loading.animation completion:nil];
+
+        pointLabel.text = [NSString stringWithFormat:@"Point: %@", NSStringFromCGPoint(component.palette.contentBackground.end.cgPoint)];
+
+        sizeLabel.text = [NSString stringWithFormat:@"Size: %@", NSStringFromCGSize(component.designs.report.wind.dayPart.iconSize.cgSize)];
     }];
 }
 

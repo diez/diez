@@ -1,5 +1,6 @@
-import {Integer, prefab, Target} from '@diez/engine';
+import {prefab, Target} from '@diez/engine';
 import {File, FileType} from './file';
+import {Size2D} from './size2d';
 
 /**
  * Responsive image data.
@@ -9,8 +10,7 @@ export interface ImageData {
   file2x: File;
   file3x: File;
   file4x: File;
-  width: Integer;
-  height: Integer;
+  size: Size2D;
 }
 
 /**
@@ -46,12 +46,11 @@ export class Image extends prefab<ImageData>() {
     const name = filename.slice(0, extensionLocation);
     const ext = filename.slice(extensionLocation);
     return new Image({
-      width,
-      height,
       file: new File({src, type: FileType.Image}),
       file2x: new File({src: `${dir}/${name}@2x${ext}`, type: FileType.Image}),
       file3x: new File({src: `${dir}/${name}@3x${ext}`, type: FileType.Image}),
       file4x: new File({src: `${dir}/${name}@4x${ext}`, type: FileType.Image}),
+      size: Size2D.make(width, height),
     });
   }
 
@@ -60,8 +59,7 @@ export class Image extends prefab<ImageData>() {
     file2x: new File({type: FileType.Image}),
     file3x: new File({type: FileType.Image}),
     file4x: new File({type: FileType.Image}),
-    width: 0,
-    height: 0,
+    size: Size2D.make(0, 0),
   };
 
   options = {
@@ -69,12 +67,4 @@ export class Image extends prefab<ImageData>() {
       targets: [Target.Android],
     },
   };
-
-  protected sanitize (data: ImageData) {
-    return {
-      ...data,
-      width: Math.round(data.width),
-      height: Math.round(data.height),
-    };
-  }
 }
