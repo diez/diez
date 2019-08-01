@@ -29,7 +29,6 @@ const colors = new Colors();
  * You can reference properties from other components.
  */
 class Palette {
-  background = colors.black;
   contentBackground = colors.white;
   text = colors.black;
   caption = colors.purple;
