@@ -186,4 +186,18 @@ export class LinearGradient extends prefab<LinearGradientData>() {
       end: Point2D.make(x2, y2),
     });
   }
+
+  sanitize (data: LinearGradientData) {
+    if (!data.stops.length) {
+      const stop = GradientStop.make(0, Color.rgb(0, 0, 0));
+      data.stops.push(stop);
+    }
+
+    if (data.stops.length < 2) {
+      const stop = GradientStop.make(1, data.stops[0].color);
+      data.stops.push(stop);
+    }
+
+    return data;
+  }
 }
