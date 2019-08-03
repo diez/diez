@@ -12,14 +12,12 @@
         <div class="holster-right">
           <router-link to="/getting-started">Guides</router-link>
           <router-link to="/docs">Docs</router-link>
-          <router-link to="/faq">FAQ</router-link>
           <router-link to="/glossary">Glossary</router-link>
+          <router-link to="/faq">FAQ</router-link>
           <router-link to="http://twitter.com/dieznative" class="show-on-mobile">Twitter</router-link>
-          <a href="https://spectrum.chat/diez" class="hide-on-mobile" target="_blank"><img height="20px" width="20px" src="../assets/imgs/spectrum.svg" alt="spectrum"></a>
-          <a href="https://twitter.com/dieznative" class="hide-on-mobile" target="_blank"><img height="20px" width="24px" src="../assets/imgs/twitter.svg" alt="twitter"></a>
-          <a href="https://github.com/diez/diez" class="hide-on-mobile" target="_blank"><img height="24px" width="24px" src="../assets/imgs/github.svg" alt="github"></a>
+          <a href="https://medium.com/dieznative" target="_blank">Blog</a>
           <a href="https://spectrum.chat/diez" class="show-on-mobile">Spectrum</a>
-          <a href="https://github.com/diez/diez" class="show-on-mobile">Github</a>
+          <a href="https://github.com/diez/diez">Github</a>
           <div @click="toggleMenu" class="menu-icon show-on-mobile">
             <img v-show="!isOpen" width="25px" src="../assets/icons/close.svg" alt="close">
           </div>

@@ -7,7 +7,7 @@
           <h3>What platforms does Diez support?</h3>
         </div>
         <div class="two-thirds answer">
-          <p>Diez has no intrinsic limitations in terms of target platforms or technologies. The current Diez beta includes compiler <router-link to="/glossary#targets">targets</router-link> for <strong>iOS SDKs</strong> written in Swift with Objective-C bridging, <strong>Android SDKs</strong> written in Kotlin, and <strong>Web SDKs</strong> written in JavaScript with TypeScript typings. Most essentially, these are useful reference implementations of the Diez compiler API, which is arbitrarily extensible — our roadmap already includes additional configuration options for these compiler targets, and entirely new compiler targets (including CSS and Sass SDKs for the web).</p>
+          <p>Diez has no intrinsic limitations in terms of target platforms or technologies. The current Diez beta includes compiler <router-link to="/glossary#targets">targets</router-link> for <strong>iOS SDKs</strong> written in Swift with Objective-C bridging, <strong>Android SDKs</strong> written in Kotlin, and <strong>Web SDKs</strong> written in JavaScript, TypeScript, CSS, and Sass. Most essentially, these are useful reference implementations of the Diez compiler API, which is arbitrarily extensible — our roadmap already includes additional configuration options for these compiler targets, and entirely new compiler targets.</p>
         </div>
         <div class="one-third question">
           <h3>How is this different from React Native, Flutter, et al?</h3>

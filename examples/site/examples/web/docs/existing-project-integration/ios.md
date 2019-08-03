@@ -21,7 +21,7 @@ The supported dependency types are:
     You can also supply `--carthage --cocoapods` to generate a project that supports both. You can omit them if you'd like to manage the dependency yourself.
 </div>
 <div class="note">
-    [XcodeGen](https://github.com/yonaskolb/XcodeGen) is required to be installed for compiling an iOS SDK that uses Carthage, or without dependency support.
+    <a href="https://github.com/yonaskolb/XcodeGen" target="_blank">XcodeGen</a> is required to be installed for compiling an iOS SDK that uses Carthage, or without dependency support.
 </div>
 
 The dependency will be generated in a location relative to the current working directly at `build/diez-<name>-ios`, where `<name>` is the name of your Diez project in [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
