@@ -1,5 +1,4 @@
 import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
-import {ColorData} from '@diez/prefabs';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
 
@@ -17,12 +16,6 @@ export const onlyTarget = (option: keyof CompilerOptions, options: CompilerOptio
     throw new Error(`--${option} is invalid unless --target=${target}`);
   }
 };
-
-/**
- * Returns a string with a valid CSS <color> value from a Color prefab instance.
- * @ignore
- */
-export const colorToCss = ({h, s, l, a}: ColorData) => `hsla(${h * 360}, ${s * 100}%, ${l * 100}%, ${a})`;
 
 /**
  * Casts to `string` and joins all arguments in kebab-case.

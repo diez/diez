@@ -1,7 +1,9 @@
+const {colorToCss} = require('@diez/web-sdk-common');
+
 Object.defineProperties(Color.prototype, {
   color: {
     get () {
-      return `hsla(${this.h * 360}, ${this.s * 100}%, ${this.l * 100}%, ${this.a})`;
+      return colorToCss(this);
     },
   },
   colorStyle: {

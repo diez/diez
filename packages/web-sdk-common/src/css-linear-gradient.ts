@@ -1,4 +1,5 @@
 import {cssLinearGradientLength, LinearGradientData, linearGradientStartAndEndPoints, Point2DData} from '@diez/prefabs';
+import {colorToCss} from './css-color';
 
 /**
  * @returns The hypotenuse of the provided point.
@@ -213,10 +214,7 @@ export const linearGradientToCss = (gradient: LinearGradientData) => {
     const adjustedPosition = stopPositionOffset + (stop.position * length / cssGradientLength);
     const percentage = Math.round(adjustedPosition * 100);
 
-    // TODO: Use `colorToCss` once it's moved into this package.
-    const {h, s, l, a} = stop.color;
-    const color = `hsla(${h * 360}, ${s * 100}%, ${l * 100}%, ${a})`;
-    return `${color} ${percentage}%`;
+    return `${colorToCss(stop.color)} ${percentage}%`;
   });
 
   const degrees = Math.round(cssGradientAngle * 180 / Math.PI);

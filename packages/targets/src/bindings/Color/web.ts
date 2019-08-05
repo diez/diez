@@ -1,7 +1,9 @@
+import {diezVersion} from '@diez/cli-core';
 import {Color} from '@diez/prefabs';
+import {colorToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
 import {WebBinding} from '../../targets/web.api';
-import {colorToCss, joinToKebabCase, sourcesPath} from '../../utils';
+import {joinToKebabCase, sourcesPath} from '../../utils';
 
 const binding: WebBinding<Color> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'Color.js')],
@@ -31,6 +33,12 @@ const binding: WebBinding<Color> = {
 
     output.styleSheet.variables.set(name, value);
   },
+  dependencies: [{
+    packageJson: {
+      name: '@diez/web-sdk-common',
+      versionConstraint: `^${diezVersion}`,
+    },
+  }],
 };
 
 export = binding;

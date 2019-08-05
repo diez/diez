@@ -1,13 +1,4 @@
-const FontFormats = {
-  eot: 'embedded-opentype',
-  woff: 'woff',
-  woff2: 'woff2',
-  otf: 'opentype',
-  ttf: 'truetype',
-  svg: 'svg',
-};
-
-const keywords = ['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'math', 'emoji', 'fangsong'];
+const {fontToCss, FontFormats} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -40,20 +31,7 @@ Object.defineProperties(Typograph.prototype, {
   fontFamily: {
     get () {
       registerFont(this.font);
-      const fontFamilies = [];
-
-      if (this.font.name) {
-        fontFamilies.push(this.font.name);
-      }
-
-      fontFamilies.push(...this.font.fallbacks);
-
-      // Generic family names are keywords and must not be quoted.
-      const sanitizedFonts = fontFamilies.map((font) =>
-        keywords.includes(font) ? font : `"${font}"`,
-      );
-
-      return sanitizedFonts.join();
+      return fontToCss(this.font);
     },
   },
   style: {
