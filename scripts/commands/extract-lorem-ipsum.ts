@@ -56,6 +56,7 @@ const populateTemplateMapForCasedName = (name: string, map: Map<string, string>)
 const removeUnwantedFiles = (directory: string) => {
   removeSync(join(directory, exampleProject, 'scripts', 'build-ios-ci.sh'));
   removeSync(join(directory, exampleProject, 'CHANGELOG.md'));
+  removeSync(join(directory, exampleProject, 'designs'));
 };
 
 const removeGitIgnoredFiles = (directory: string) => {
