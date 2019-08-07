@@ -12,8 +12,8 @@ import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
-import {RuleList, StyleTokens, WebBinding, WebDependency, WebOutput} from './web.api';
+import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
+import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
  * The root location for source files.
@@ -265,10 +265,17 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       }
     }
 
+    const styleVariables: StyleVariableToken[] = [];
+    this.output.styleSheet.variables.forEach((value, name) => {
+      styleVariables.push({name, value});
+
+      if (numberVariables.has(name)) {
+        styleVariables.push(...getUnitedStyleSheetVariables(name, value));
+      }
+    });
+
     return {
-      styleVariables: Array.from(this.output.styleSheet.variables).map(([name, value]) => {
-        return {name, value, isNumber: numberVariables.has(name)};
-      }),
+      styleVariables,
       styleFonts: this.output.styleSheet.font.serialize(),
       styleSheets: this.output.styleSheet.styles.serialize(),
     };

@@ -9,12 +9,6 @@
 :root {
   {{#each styleVariables}}
   --{{this.name}}: {{{this.value}}};
-  {{#if this.isNumber}}
-  --{{this.name}}-px: {{{this.value}}}px;
-  --{{this.name}}-pt: {{{this.value}}}pt;
-  --{{this.name}}-em: {{{this.value}}}em;
-  --{{this.name}}-rem: {{{this.value}}}rem;
-  {{/if}}
   {{/each}}
 }
 

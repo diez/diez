@@ -1,6 +1,7 @@
 import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
+import {StyleSheet} from './targets/web.api';
 
 /**
  * The root of all native sources provided by this package.
@@ -42,4 +43,28 @@ export const webComponentListHelper = (key: string, property: TargetComponentPro
     listAssignment = `(value${i}) => value${i}.map(${listAssignment})`;
   }
   return `this.${key} = ${key}.map(${listAssignment});`;
+};
+
+/**
+ * Generates an array of united style sheet variables from the provided unitless variable.
+ *
+ * The returned array does not include a variable definition for the unitless value.
+ */
+export const getUnitedStyleSheetVariables = (name: string, value: string) => {
+  return ['px', 'pt', 'em', 'rem'].map((unit) => {
+    return {
+      name: `${name}-${unit}`,
+      value: `${value}${unit}`,
+    };
+  });
+};
+
+/**
+ * Sets the provided variable along with its united variants on the style sheet.
+ */
+export const updateStyleSheetWithUnitedVariables = (name: string, value: string, styleSheet: StyleSheet) => {
+  styleSheet.variables.set(name, value);
+  getUnitedStyleSheetVariables(name, value).forEach((variable) => {
+    styleSheet.variables.set(variable.name, variable.value);
+  });
 };

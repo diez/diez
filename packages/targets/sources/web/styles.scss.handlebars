@@ -8,12 +8,6 @@
 
 {{#each styleVariables}}
 ${{this.name}}: {{{this.value}}};
-{{#if this.isNumber}}
-${{this.name}}-px: #{$ {{~this.name~}} }px;
-${{this.name}}-pt: #{$ {{~this.name~}} }pt;
-${{this.name}}-em: #{$ {{~this.name~}} }em;
-${{this.name}}-rem: #{$ {{~this.name~}} }rem;
-{{/if}}
 {{/each}}
 
 {{#each styleSheets as |group|}}

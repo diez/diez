@@ -104,7 +104,6 @@ export interface StyleSheet {
 export interface StyleVariableToken {
   name: string;
   value: string;
-  isNumber: boolean;
 }
 
 /**
