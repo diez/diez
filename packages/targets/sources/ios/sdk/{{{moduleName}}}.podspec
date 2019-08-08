@@ -12,9 +12,7 @@ Pod::Spec.new do |s|
   s.author = 'Diez'
   s.homepage = 'https://diez.org'
   s.source = { :git => 'https://github.com/diez/diez' }
-  # TODO: What are these, actually?
-  s.platforms = { :ios => '12.1' }
-  # TODO: Support new Lottie iOS
+  s.platforms = { :ios => '11' }
   {{#each dependencies}}
   s.dependency '{{{this.cocoapods.name}}}', '{{{this.cocoapods.versionConstraint}}}'
   {{/each}}

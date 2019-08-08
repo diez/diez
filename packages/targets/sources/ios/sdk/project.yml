@@ -1,6 +1,7 @@
 name: {{{moduleName}}}
 options:
   bundleIdPrefix: {{{bundleIdPrefix}}}
+  deploymentTarget: 11
 targets:
   {{{moduleName}}}:
     type: framework

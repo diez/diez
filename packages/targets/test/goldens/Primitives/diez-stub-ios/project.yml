@@ -1,6 +1,7 @@
 name: DiezStub
 options:
   bundleIdPrefix: org.diez.Stub
+  deploymentTarget: 11
 targets:
   DiezStub:
     type: framework

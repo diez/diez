@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "../../build/diez-poodle-surf-ios"
 
 SPEC CHECKSUMS:
-  DiezPoodleSurf: 408fc61002083b2dbe28b3f976f3cad66716ce3e
+  DiezPoodleSurf: eed8e66e89bf423cd65c8270b65b46196a96ef97
   lottie-ios: 43a472d22b2dd2bed292cc4010c0b4d2e66d3ba8
 
 PODFILE CHECKSUM: 677d35819389b4af10b2328fe426d72e2250ac2d
