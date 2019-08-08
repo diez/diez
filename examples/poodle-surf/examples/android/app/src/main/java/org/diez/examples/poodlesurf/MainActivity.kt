@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         // NavigationTitle
         toolbar.setBackgroundColor(diez.designs.navigationTitle.barTintColor.color)
         toolbar.loadIcon(diez.designs.navigationTitle.icon)
-        toolbar.contentInsetStartWithNavigation = diez.designs.navigationTitle.iconToTitleSpacing.toPx()
+        toolbar.contentInsetStartWithNavigation = diez.designs.navigationTitle.iconToTitleSpacing.dpToPx()
         toolbarTitle.text = diez.designs.navigationTitle.title
         toolbarTitle.apply(diez.designs.navigationTitle.typograph)
 
@@ -88,27 +88,27 @@ class MainActivity : AppCompatActivity() {
         // TODO: write an extension
         bannerImage.layoutParams = (bannerImage.layoutParams as FrameLayout.LayoutParams).apply {
             width = FrameLayout.LayoutParams.MATCH_PARENT
-            height = diez.designs.report.header.bannerHeight.toPx()
+            height = diez.designs.report.header.bannerHeight.dpToPx()
         }
 
         // Header > LocationImage (Circle Image)
         locationImage.borderColor = diez.designs.report.header.locationImage.strokeGradient.stops.first().color.color
-        locationImage.borderWidth = diez.designs.report.header.locationImage.strokeWidth.toPx()
+        locationImage.borderWidth = diez.designs.report.header.locationImage.strokeWidth.dpToPx()
         locationImage.layoutParams = (locationImage.layoutParams as FrameLayout.LayoutParams).apply {
-            width = diez.designs.report.header.locationImage.widthAndHeight.toPx()
-            height = diez.designs.report.header.locationImage.widthAndHeight.toPx()
+            width = diez.designs.report.header.locationImage.widthAndHeight.dpToPx()
+            height = diez.designs.report.header.locationImage.widthAndHeight.dpToPx()
             gravity = Gravity.CENTER_HORIZONTAL
             topMargin =
-                ((diez.designs.report.header.bannerHeight - (diez.designs.report.header.locationImage.widthAndHeight / 2))).toPx()
+                ((diez.designs.report.header.bannerHeight - (diez.designs.report.header.locationImage.widthAndHeight / 2))).dpToPx()
         }
 
         // Header > Labels + Text
         regionLabel.apply(diez.designs.report.header.regionLabel)
         placeLabel.apply(diez.designs.report.header.placeLabel)
         placeLabel.loadLeftDrawable(diez.designs.report.header.mapPinIcon)
-        placeLabel.compoundDrawablePadding = diez.designs.report.header.pinIconToLabelSpacing.toPx()
+        placeLabel.compoundDrawablePadding = diez.designs.report.header.pinIconToLabelSpacing.dpToPx()
         regionLabel.layoutParams = (regionLabel.layoutParams as LinearLayout.LayoutParams).apply {
-            bottomMargin = diez.designs.report.header.labelsSpacing.toPx()
+            bottomMargin = diez.designs.report.header.labelsSpacing.dpToPx()
         }
         labelsLayout.layoutParams = (labelsLayout.layoutParams as LinearLayout.LayoutParams).apply {
             setMargin(diez.designs.report.header.labelsLayoutMargin)
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
     private fun applyDividerStyles(divider: View, cardDesign: ForecastCardDesign) {
         divider.setBackgroundColor(cardDesign.separatorColor.color)
         divider.layoutParams = (divider.layoutParams as LinearLayout.LayoutParams).apply {
-            this.width = cardDesign.separatorWidth.toPx()
+            this.width = cardDesign.separatorWidth.dpToPx()
         }
     }
 
@@ -128,13 +128,13 @@ class MainActivity : AppCompatActivity() {
         cardTitle: TextView
     ) {
         cardRoot.setPadding(
-            shared.layoutMargins.left.toPx(),
-            shared.layoutMargins.top.toPx(),
-            shared.layoutMargins.right.toPx(),
-            shared.layoutMargins.bottom.toPx()
+            shared.layoutMargins.left.dpToPx(),
+            shared.layoutMargins.top.dpToPx(),
+            shared.layoutMargins.right.dpToPx(),
+            shared.layoutMargins.bottom.dpToPx()
         )
         cardRoot.layoutParams = (cardRoot.layoutParams as LinearLayout.LayoutParams).apply {
-            bottomMargin = diez.designs.report.contentSpacing.toPx()
+            bottomMargin = diez.designs.report.contentSpacing.dpToPx()
         }
 
         val background = PaintDrawable()
@@ -142,13 +142,13 @@ class MainActivity : AppCompatActivity() {
         background.shaderFactory = diez.palette.contentBackground.shaderFactory
 
         cardRoot.background = background.apply {
-            setCornerRadius(shared.cornerRadius.toPx().toFloat())
+            setCornerRadius(shared.cornerRadius.dpToPx().toFloat())
         }
 
         cardTitle.text = shared.title
         cardTitle.apply(shared.titleTypograph)
         cardTitle.layoutParams = (cardTitle.layoutParams as LinearLayout.LayoutParams).apply {
-            bottomMargin = shared.titleContentSpacing.toPx()
+            bottomMargin = shared.titleContentSpacing.dpToPx()
         }
     }
 
@@ -156,13 +156,13 @@ class MainActivity : AppCompatActivity() {
         // Card > Temperature
         applySharedCardStyles(diez.designs.report.waterTemperature.shared, temperatureCard, temperatureCardTitle)
         tempCardIcon.load( diez.designs.report.waterTemperature.temperature.icon)
-        tempCardIcon.setPadding(0, 0, diez.designs.report.waterTemperature.temperature.iconSpacing.toPx(), 0)
+        tempCardIcon.setPadding(0, 0, diez.designs.report.waterTemperature.temperature.iconSpacing.dpToPx(), 0)
         tempCardTempText.apply(diez.designs.report.waterTemperature.temperature.typograph)
         wetsuitIcon.load(diez.designs.report.waterTemperature.wetsuit.icon)
-        wetsuitIcon.setPadding(0, 0, diez.designs.report.waterTemperature.wetsuit.iconSpacing.toPx(), 0)
+        wetsuitIcon.setPadding(0, 0, diez.designs.report.waterTemperature.wetsuit.iconSpacing.dpToPx(), 0)
         wetsuitLabel.apply(diez.designs.report.waterTemperature.wetsuit.headerTypograph)
         wetsuitLabel.text = diez.designs.report.waterTemperature.wetsuit.headerText
-        wetsuitLabel.setPadding(0, 0, 0, diez.designs.report.waterTemperature.wetsuit.labelSpacing.toPx())
+        wetsuitLabel.setPadding(0, 0, 0, diez.designs.report.waterTemperature.wetsuit.labelSpacing.dpToPx())
         wetsuitValue.apply(diez.designs.report.waterTemperature.wetsuit.valueTypograph)
     }
 
@@ -177,21 +177,21 @@ class MainActivity : AppCompatActivity() {
         time: TextView
     ) {
         icon?.layoutParams = (icon?.layoutParams as LinearLayout.LayoutParams).apply {
-            width = cardDesign.dayPart.iconSize.width.toPx()
-            height = cardDesign.dayPart.iconSize.height.toPx()
+            width = cardDesign.dayPart.iconSize.width.dpToPx()
+            height = cardDesign.dayPart.iconSize.height.dpToPx()
         }
 
-        valueUnit.setPadding(0, 0, 0, cardDesign.dayPartVerticalSpacing.toPx())
+        valueUnit.setPadding(0, 0, 0, cardDesign.dayPartVerticalSpacing.dpToPx())
 
         time.apply(cardDesign.dayPart.timeTypograph)
         unit.apply(cardDesign.dayPart.unitTypograph)
         value.apply(cardDesign.dayPart.valueTypograph)
-        value.setPadding(0, 0, cardDesign.dayPart.valueUnitSpacing.toPx(), 0)
+        value.setPadding(0, 0, cardDesign.dayPart.valueUnitSpacing.dpToPx(), 0)
 
         dayPartRoot.setPadding(
-            cardDesign.dayPartsHorizontalSpacing.toPx(),
+            cardDesign.dayPartsHorizontalSpacing.dpToPx(),
             0,
-            cardDesign.dayPartsHorizontalSpacing.toPx(),
+            cardDesign.dayPartsHorizontalSpacing.dpToPx(),
             0
         )
 
@@ -367,15 +367,11 @@ class MainActivity : AppCompatActivity() {
 
     // TODO: possible candidate for bindings.
     fun ViewGroup.MarginLayoutParams.setMargin(margins: EdgeInsets) {
-        setMargins(margins.left.toPx(), margins.top.toPx(), margins.right.toPx(), margins.bottom.toPx())
-    }
-
-    // TODO: add to --target android core.
-    fun Number.toPx(): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            this.toFloat(),
-            Resources.getSystem().displayMetrics
-        ).toInt()
+        setMargins(
+          margins.left.dpToPx(),
+          margins.top.dpToPx(),
+          margins.right.dpToPx(),
+          margins.bottom.dpToPx()
+        )
     }
 }

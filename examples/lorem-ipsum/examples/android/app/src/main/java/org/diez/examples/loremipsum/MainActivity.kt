@@ -38,22 +38,22 @@ class MainActivity : AppCompatActivity() {
 
         imageView.afterLayout {
             val paddingBottom = -imageView.width / 2
-            imageView.setPadding(designSystem.layoutValues.contentMargin.left.toPx(), 0, 0, paddingBottom)
+            imageView.setPadding(designSystem.layoutValues.contentMargin.left.dpToPx(), 0, 0, paddingBottom)
         }
 
         val padding = designSystem.layoutValues.contentMargin
-        contentLayout.setPadding(padding.left.toPx(), padding.top.toPx(), padding.right.toPx(), padding.bottom.toPx())
+        contentLayout.setPadding(padding.left.dpToPx(), padding.top.dpToPx(), padding.right.dpToPx(), padding.bottom.dpToPx())
 
         titleTextView.text = designSystem.strings.title
         titleTextView.apply(designSystem.typography.heading1)
-        titleSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
+        titleSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.dpToPx()
 
         captionTextView.text = designSystem.strings.caption
         captionTextView.apply(designSystem.typography.caption)
-        captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.toPx()
+        captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.dpToPx()
 
         animationView.load(designSystem.loadingAnimation)
-        animationSpacer.layoutParams.height = designSystem.layoutValues.spacingMedium.toPx()
+        animationSpacer.layoutParams.height = designSystem.layoutValues.spacingMedium.dpToPx()
 
         animationTextView.text = designSystem.strings.helper
         animationTextView.apply(designSystem.typography.body)
@@ -64,15 +64,6 @@ class MainActivity : AppCompatActivity() {
         drawable.shape = RectShape()
         drawable.shaderFactory = gradient.shaderFactory
         return drawable
-    }
-
-    // TODO: add to --target android core.
-    private fun Number.toPx(): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            this.toFloat(),
-            Resources.getSystem().displayMetrics
-        ).toInt()
     }
 
     inline private fun View.afterLayout(crossinline afterLayout: () -> Unit) {

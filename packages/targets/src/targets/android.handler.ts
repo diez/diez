@@ -302,6 +302,7 @@ class MainActivity ... {
     const coreBasenames = [
       'Diez.kt',
       'Environment.kt',
+      'Extensions.kt',
     ];
     for (const filename of coreBasenames) {
       const template = readFileSync(join(coreAndroid, 'core', filename)).toString();

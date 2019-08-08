@@ -31,7 +31,7 @@ class LoadingView: UIView {
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
-    
+
     private func configureViews() {
         animationView.backgroundBehavior = .pauseAndRestore
     }

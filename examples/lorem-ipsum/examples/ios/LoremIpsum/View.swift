@@ -13,26 +13,26 @@ class View: UIView {
     let animationStackView = UIStackView()
     let animationView = AnimationView()
     let animationLabel = UILabel()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupLayout()
     }
-    
+
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
-    
+
     private let stackView = UIStackView()
-    
+
     private func setupLayout() {
         setupStackView()
         addHeaderView()
         addContentStackView()
         addIconView()
     }
-    
+
     private func setupStackView() {
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,35 +42,35 @@ class View: UIView {
         stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
-    
+
     private func addHeaderView() {
         headerBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         insertSubview(headerBackgroundView, belowSubview: stackView)
-        
+
         headerBackgroundView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         headerBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         headerBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
+
         stackView.addArrangedSubview(headerView)
-        
+
         headerView.bottomAnchor.constraint(equalTo: headerBackgroundView.bottomAnchor).isActive = true
         headerView.heightAnchor.constraint(equalToConstant: 112).isActive = true
     }
-    
+
     private func addContentStackView() {
         contentStackView.axis = .vertical
         contentStackView.isLayoutMarginsRelativeArrangement = true
         stackView.addArrangedSubview(contentStackView)
-        
+
         titleLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(titleLabel)
-        
+
         captionLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(captionLabel)
-        
+
         let animationContainerView = makeAnimationContainerView()
         contentStackView.addArrangedSubview(animationContainerView)
-        
+
         contentBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.insertSubview(contentBackgroundView, at: 0)
         contentBackgroundView.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor).isActive = true
@@ -78,7 +78,7 @@ class View: UIView {
         contentBackgroundView.topAnchor.constraint(equalTo: contentStackView.topAnchor).isActive = true
         contentBackgroundView.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor).isActive = true
     }
-    
+
     private func makeAnimationContainerView() -> UIView {
         animationStackView.axis = .vertical
 
@@ -105,14 +105,14 @@ class View: UIView {
 
         return animationStackViewContainerView
     }
-    
+
     private func addIconView() {
         iconView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addSubview(iconView)
         iconView.centerYAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         iconView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
     }
-    
+
     @available(*, unavailable)
     required init(coder aDecoder: NSCoder) { fatalError("\(#function) not implemented.") }
 }
