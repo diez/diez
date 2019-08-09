@@ -1,6 +1,7 @@
 import {findPlugins} from '@diez/cli-core';
 import {Target} from '@diez/engine';
-import {getTargets} from '../src/utils';
+import {join} from 'path';
+import {getProjectRoot, getTargets} from '../src/utils';
 
 describe('utils', () => {
   test('target discovery', async () => {
@@ -14,5 +15,14 @@ describe('utils', () => {
     });
     const targets = await getTargets();
     expect(targets.has('test' as Target)).toBe(true);
+  });
+
+  test('project root detection', async () => {
+    expect(await getProjectRoot()).toBe(global.process.cwd());
+    const plugins = await findPlugins();
+    plugins.set('.', {
+      projectRoot: './foobar',
+    });
+    expect(await getProjectRoot()).toBe(join(global.process.cwd(), 'foobar'));
   });
 });

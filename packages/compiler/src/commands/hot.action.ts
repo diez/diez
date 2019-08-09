@@ -2,7 +2,7 @@ import {CliAction} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {CompilerEvent, CompilerOptions} from '../api';
 import {Program} from '../compiler';
-import {getTargets, printWarnings} from '../utils';
+import {getProjectRoot, getTargets, printWarnings} from '../utils';
 
 const action: CliAction = (options: CompilerOptions) => new Promise(async (resolve, reject) => {
   options.target = options.target.toLowerCase() as Target;
@@ -11,10 +11,9 @@ const action: CliAction = (options: CompilerOptions) => new Promise(async (resol
   if (!targetProvider) {
     // This should never happen.
     throw new Error(`Invalid target: ${options.target}. See --help for options.`);
-    return;
   }
 
-  const program = new Program(global.process.cwd(), options, true);
+  const program = new Program(await getProjectRoot(), options, true);
   // Print warnings on every `Compiled` event.
   program.on(CompilerEvent.Compiled, () => printWarnings(program.targetComponents));
 

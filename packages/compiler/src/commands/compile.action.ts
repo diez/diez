@@ -3,7 +3,7 @@ import {Target} from '@diez/engine';
 import {valid} from 'semver';
 import {CompilerOptions} from '../api';
 import {Program} from '../compiler';
-import {getTargets, printWarnings} from '../utils';
+import {getProjectRoot, getTargets, printWarnings} from '../utils';
 
 export = async (options: CompilerOptions) => {
   options.target = options.target.toLowerCase() as Target;
@@ -24,7 +24,7 @@ export = async (options: CompilerOptions) => {
     throw new Error(`Invalid target: ${options.target}. See --help for options.`);
   }
 
-  const program = new Program(global.process.cwd(), options);
+  const program = new Program(await getProjectRoot(), options);
   await program.run();
 
   if (!program.localComponentNames.length) {

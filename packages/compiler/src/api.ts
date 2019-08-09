@@ -10,9 +10,10 @@ declare module '@diez/cli-core/types/api' {
     /**
      * Bindings, which associate a namespaced component to a [[TargetBinding]].
      */
-    bindings?: {
+    bindings: {
       [componentHash: string]: TargetBinding;
     };
+    projectRoot: string;
   }
 }
 

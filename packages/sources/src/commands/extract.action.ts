@@ -1,5 +1,5 @@
 import {exitTrap, findPlugins, Format, Log, socketTrap} from '@diez/cli-core';
-import {getHotPort} from '@diez/compiler';
+import {getHotPort, getProjectRoot} from '@diez/compiler';
 import {queue} from 'async';
 import {watch} from 'chokidar';
 import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 'fs-extra';
@@ -40,7 +40,7 @@ export = async ({hot}: SyncOptions) => {
     ...(rawConfiguration ? rawConfiguration.designs : undefined),
   };
 
-  const projectRoot = global.process.cwd();
+  const projectRoot = await getProjectRoot();
   configuration.sources = resolve(projectRoot, configuration.sources);
   configuration.assets = resolve(projectRoot, configuration.assets);
   configuration.code = resolve(projectRoot, configuration.code);

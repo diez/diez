@@ -1,6 +1,6 @@
 import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
-import {dirname, join} from 'path';
+import {dirname, join, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
 import {CompilerTargetProvider, ComponentModule, Constructor, NamedComponentMap, PropertyType} from './api';
@@ -11,6 +11,16 @@ import {CompilerTargetProvider, ComponentModule, Constructor, NamedComponentMap,
  */
 export const isConstructible = (maybeConstructible: any): maybeConstructible is Constructor =>
   maybeConstructible.prototype !== undefined && maybeConstructible.prototype.constructor instanceof Function;
+
+/**
+ * Gets the project root for the current process. The default project root is the current working directory
+ * of the process. This can be overridden using `projectRoot` in `.diezrc`.
+ */
+export const getProjectRoot = async () => {
+  const rawConfiguration = (await findPlugins()).get('.');
+  const configuredProjectRoot = rawConfiguration && rawConfiguration.projectRoot;
+  return resolve(configuredProjectRoot || global.process.cwd());
+};
 
 /**
  * Shared singleton for retrieving Projects.
