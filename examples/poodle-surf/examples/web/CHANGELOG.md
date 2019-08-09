@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
+
+
+### chore
+
+* **targets:** clean up JS SDK helpers  ([#227](https://github.com/diez/diez/issues/227)) ([f2baade](https://github.com/diez/diez/commit/f2baade))
+
+
+### Features
+
+* **prefabs:** add DropShadow ([#225](https://github.com/diez/diez/issues/225)) ([df7182d](https://github.com/diez/diez/commit/df7182d))
+* **prefabs:** add Size2D prefab ([#211](https://github.com/diez/diez/issues/211)) ([6d95d8a](https://github.com/diez/diez/commit/6d95d8a))
+
+
+### BREAKING CHANGES
+
+* **targets:** the JavaScript SDK no longer provides the `urlCss` method for `File` and `Image` prefabs.
+
+
+
+
+
 # [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 **Note:** Version bump only for package poodle-surf-web

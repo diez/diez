@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
+
+
+### Features
+
+* **prefabs:** add DropShadow ([#225](https://github.com/diez/diez/issues/225)) ([df7182d](https://github.com/diez/diez/commit/df7182d))
+
+
+
+
+
 # [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 

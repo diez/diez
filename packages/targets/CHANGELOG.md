@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
+
+
+### chore
+
+* **targets:** clean up JS SDK helpers  ([#227](https://github.com/diez/diez/issues/227)) ([f2baade](https://github.com/diez/diez/commit/f2baade))
+
+
+### Features
+
+* **android:** add dpToPx and spToPx to core generated library ([#240](https://github.com/diez/diez/issues/240)) ([2a988d5](https://github.com/diez/diez/commit/2a988d5))
+* **prefabs:** add DropShadow ([#225](https://github.com/diez/diez/issues/225)) ([df7182d](https://github.com/diez/diez/commit/df7182d))
+* **prefabs:** add Size2D prefab ([#211](https://github.com/diez/diez/issues/211)) ([6d95d8a](https://github.com/diez/diez/commit/6d95d8a))
+* **targets:** add missing unit types on Size2D and Point2D for generated web resources ([#238](https://github.com/diez/diez/issues/238)) ([adc9480](https://github.com/diez/diez/commit/adc9480))
+
+
+### BREAKING CHANGES
+
+* **targets:** the JavaScript SDK no longer provides the `urlCss` method for `File` and `Image` prefabs.
+
+
+
+
+
 # [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 

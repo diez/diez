@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
+
+
+### Bug Fixes
+
+* **site:** fix typos on Sketch guide ([#239](https://github.com/diez/diez/issues/239)) ([72422ac](https://github.com/diez/diez/commit/72422ac))
+
+
+### chore
+
+* **targets:** clean up JS SDK helpers  ([#227](https://github.com/diez/diez/issues/227)) ([f2baade](https://github.com/diez/diez/commit/f2baade))
+
+
+### BREAKING CHANGES
+
+* **targets:** the JavaScript SDK no longer provides the `urlCss` method for `File` and `Image` prefabs.
+
+
+
+
+
 # [10.0.0-beta.3](https://github.com/diez/diez/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2019-07-30)
 
 
