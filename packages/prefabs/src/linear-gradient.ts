@@ -86,10 +86,8 @@ export const linearGradientStartAndEndPoints = (angle: number, lineLength: numbe
   return {start, end};
 };
 
-const FloatPrecision = 6;
-
-const roundFloat = (value: number) =>
-  parseFloat(value.toFixed(FloatPrecision));
+const roundFloat = (value: number, decimals: number = 15) =>
+  Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 
 const roundPoint = (point: Point2DData) => {
   return {

@@ -1,5 +1,5 @@
-import {floatPrecision} from './constants';
 import {GeneratedPoint2D, getPoint2DInitializer} from './point2d';
+import {roundFloat} from './utils';
 
 interface GeneratedDropShadow {
   colorInitializer: string;
@@ -12,5 +12,5 @@ interface GeneratedDropShadow {
  * @ignore
  */
 export const getDropShadowInitializer = (shadow: GeneratedDropShadow) => {
-  return `new DropShadow({offset: ${getPoint2DInitializer(shadow.offset)}, radius: ${shadow.radius.toFixed(floatPrecision)}, color: ${shadow.colorInitializer}})`;
+  return `new DropShadow({offset: ${getPoint2DInitializer(shadow.offset)}, radius: ${roundFloat(shadow.radius)}, color: ${shadow.colorInitializer}})`;
 };

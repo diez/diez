@@ -12,6 +12,6 @@ describe('drop-shadow', () => {
       radius: 0.1234567890,
       colorInitializer: 'init',
     });
-    expect(initializer).toBe(`new DropShadow({offset: ${getPoint2DInitializer(offset)}, radius: 0.123457, color: init})`);
+    expect(initializer).toBe(`new DropShadow({offset: ${getPoint2DInitializer(offset)}, radius: 0.123456789, color: init})`);
   });
 });

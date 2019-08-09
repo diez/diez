@@ -1,4 +1,4 @@
-import {floatPrecision} from './constants';
+import {roundFloat} from './utils';
 
 /**
  * A 2D point.
@@ -14,4 +14,4 @@ export interface GeneratedPoint2D {
  * @ignore
  */
 export const getPoint2DInitializer = (point: GeneratedPoint2D) =>
-  `Point2D.make(${point.x.toFixed(floatPrecision)}, ${point.y.toFixed(floatPrecision)})`;
+  `Point2D.make(${roundFloat(point.x)}, ${roundFloat(point.y)})`;

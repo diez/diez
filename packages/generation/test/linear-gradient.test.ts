@@ -15,6 +15,6 @@ describe('linear-gradient', () => {
       },
     ];
     const initializer = getLinearGradientInitializer(stops, start, end);
-    expect(initializer).toBe('new LinearGradient({stops: [GradientStop.make(0.123457, init1), GradientStop.make(1.123457, init2)], start: Point2D.make(0.123457, 0.123457), end: Point2D.make(1.123457, 1.123457)})');
+    expect(initializer).toBe('new LinearGradient({stops: [GradientStop.make(0.123456789, init1), GradientStop.make(1.123456789, init2)], start: Point2D.make(0.123456789, 0.123456789), end: Point2D.make(1.123456789, 1.123456789)})');
   });
 });

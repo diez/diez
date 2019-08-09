@@ -10,11 +10,11 @@ class PoodleSurfColors {
 }
 
 class PoodleSurfGradients {
-    gradient = new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)});
+    gradient = new LinearGradient({stops: [GradientStop.make(0, Color.rgba(255, 63, 112, 1)), GradientStop.make(1, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.2569052827206286, -0.0529883462805418), end: Point2D.make(0.9120054676554692, 1.0394243442406286)});
 }
 
 class PoodleSurfShadows {
-    cardStyleDropShadow = new DropShadow({offset: Point2D.make(0.000000, 2.000000), radius: 30.000000, color: Color.rgba(255, 63, 112, 0.7)});
+    cardStyleDropShadow = new DropShadow({offset: Point2D.make(0, 2), radius: 30, color: Color.rgba(255, 63, 112, 0.7)});
 }
 
 export class PoodleSurfSlicesFiles {

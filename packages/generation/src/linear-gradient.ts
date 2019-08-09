@@ -1,5 +1,5 @@
-import {floatPrecision} from './constants';
 import {GeneratedPoint2D, getPoint2DInitializer} from './point2d';
+import {roundFloat} from './utils';
 
 interface GeneratedGradientStop {
   position: number;
@@ -16,7 +16,7 @@ export const getLinearGradientInitializer = (
   end: GeneratedPoint2D,
 ) => {
   const colorStopInitializers = stops.map((stop) => {
-    return `GradientStop.make(${stop.position.toFixed(floatPrecision)}, ${stop.colorInitializer})`;
+    return `GradientStop.make(${roundFloat(stop.position)}, ${stop.colorInitializer})`;
   });
   const colorStopInitializer = `[${colorStopInitializers.join(', ')}]`;
   return `new LinearGradient({stops: ${colorStopInitializer}, start: ${getPoint2DInitializer(start)}, end: ${getPoint2DInitializer(end)}})`;

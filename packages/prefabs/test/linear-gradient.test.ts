@@ -54,8 +54,8 @@ describe('linear-gradient', () => {
     ];
     const gradient = LinearGradient.make(233, ...colors);
     expect(gradient.serialize()).toEqual({
-      start: Point2D.make(1.059225, 0.078594).serialize(),
-      end: Point2D.make(-0.059225, 0.921406).serialize(),
+      start: Point2D.make(1.059224762938829, 0.07859391496967).serialize(),
+      end: Point2D.make(-0.059224762938829, 0.92140608503033).serialize(),
       stops: [
         {
           position: 0,

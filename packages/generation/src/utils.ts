@@ -356,3 +356,9 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
 
   return sourceFile.save();
 };
+
+/**
+ * Rounds the number to the provided number of decimal points.
+ */
+export const roundFloat = (value: number, decimals: number = 15) =>
+  Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);

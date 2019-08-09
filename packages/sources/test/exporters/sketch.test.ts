@@ -220,12 +220,12 @@ describe('Sketch', () => {
         colors: [{initializer: 'Color.rgba(255, 0, 0, 1)', name: 'Red'}],
         gradients: [{
           name: 'Pink To Orange',
-          initializer: 'new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 63, 112, 1)), GradientStop.make(1.000000, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905, -0.052988), end: Point2D.make(0.912005, 1.039424)})',
+          initializer: 'new LinearGradient({stops: [GradientStop.make(0, Color.rgba(255, 63, 112, 1)), GradientStop.make(1, Color.rgba(255, 154, 58, 1))], start: Point2D.make(0.256905282720629, -0.052988346280542), end: Point2D.make(0.912005467655469, 1.039424344240629)})',
         }],
         shadows: [
           {
             name: 'Card Style Drop Shadow',
-            initializer: 'new DropShadow({offset: Point2D.make(0.000000, 2.000000), radius: 30.000000, color: Color.rgba(255, 63, 112, 0.7)})',
+            initializer: 'new DropShadow({offset: Point2D.make(0, 2), radius: 30, color: Color.rgba(255, 63, 112, 0.7)})',
           },
         ],
         designSystemName: 'Test',

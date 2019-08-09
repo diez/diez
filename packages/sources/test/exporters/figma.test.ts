@@ -385,7 +385,7 @@ describe('Figma', () => {
         ],
         gradients: [
           {
-            initializer: 'new LinearGradient({stops: [GradientStop.make(0.000000, Color.rgba(255, 0, 0, 1)), GradientStop.make(1.000000, Color.rgba(173, 0, 255, 1))], start: Point2D.make(0.000000, 0.000000), end: Point2D.make(1.000000, 1.000000)})',
+            initializer: 'new LinearGradient({stops: [GradientStop.make(0, Color.rgba(255, 0, 0, 1)), GradientStop.make(1, Color.rgba(173, 0, 255, 1))], start: Point2D.make(0, 0), end: Point2D.make(1, 1)})',
             name: 'Diez Red To Purple',
           },
         ],
@@ -398,7 +398,7 @@ describe('Figma', () => {
         projectRoot: '.',
         shadows: [
           {
-            initializer: 'new DropShadow({offset: Point2D.make(0.000000, 1.000000), radius: 16.000000, color: Color.rgba(0, 0, 16, 0.4099999964237213)})',
+            initializer: 'new DropShadow({offset: Point2D.make(0, 1), radius: 16, color: Color.rgba(0, 0, 16, 0.4099999964237213)})',
             name: 'Diez Drop Shadow',
           },
         ],
