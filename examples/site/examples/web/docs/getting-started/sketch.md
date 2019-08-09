@@ -12,7 +12,7 @@ If you'd like to follow along, please first [create your own Diez project using 
 From your Diez project root, open the empty `designs/` folder and drop in your Sketch file.
 
 ### Setting up your Sketch file for extraction
-Your Sketch file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across wihin your Sketch file: **Text Styles**, **Document Colors**, **Document Gradients**, and **Slices**.
+Your Sketch file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Sketch file: **Text Styles**, **Document Colors**, **Document Gradients**, and **Slices**.
 
 <div class="aside">Support for <strong>Layer Styles</strong> will be released soon.</div>
 
@@ -38,8 +38,8 @@ Mark any visuals you want to use in your Diez project for export (or create slic
 </video>
 
 
-### Syncing your Figma file with your Diez project
-Make sure to save your changes. Now you're all set up to sync your Sketch file with your Diez project. Head back over to your Diez project folder within your terminal and run:
+### Syncing your Sketch file with your Diez project
+Make sure to save your changes. Now you're all set up to sync your Sketch file with your Diez project. Head back over to your terminal and within your Diez project folder run:
 
 ```bash
 yarn diez extract
