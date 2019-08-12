@@ -12,9 +12,7 @@ If you'd like to follow along, please first [create your own Diez project using 
 From your Diez project root, open the empty `designs/` folder and drop in your Sketch file.
 
 ### Setting up your Sketch file for extraction
-Your Sketch file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Sketch file: **Text Styles**, **Document Colors**, **Document Gradients**, and **Slices**.
-
-<div class="aside">Support for <strong>Layer Styles</strong> will be released soon.</div>
+Your Sketch file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Sketch file: **Text Styles**, **Document Colors**, **Document Gradients**, **Layer Styles** and **Slices**.
 
 #### Create Document Colors & Gradients to compose your palette
 Create a **Document Color** and give it a name. Repeat the same step for all of your colors and gradients.
@@ -28,6 +26,13 @@ Create a **Text Style** and give it a name.
 
 <video width="70%" autoplay loop muted playsinline>
     <source src="@theme/assets/vids/sketch-text-style.mp4" type="video/mp4">
+</video>
+
+#### Create Layer Styles for your shadows
+Create a **Text Style** and give it a name.
+
+<video width="70%" autoplay loop muted playsinline>
+    <source src="@theme/assets/vids/sketch-shadow.mp4" type="video/mp4">
 </video>
 
 #### Specify images and icons by marking them for export
@@ -49,7 +54,7 @@ You'll notice a few new updates to your Diez project.
 
 Inside a folder called `/assets/YourSketchFileName.sketch.contents` you'll find the extracted asset files required by your Diez project — `.png`s for each sliced visual at resolutions @1x-@4x, and any font files associated with your Text Styles.
 
-But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `/src/designs/YourSketchFileName.figma.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
+But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `/src/designs/YourSketchFileName.sketch.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
 
 #### Integrating your Sketch DTCs into your design system
 

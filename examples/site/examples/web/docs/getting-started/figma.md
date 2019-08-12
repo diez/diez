@@ -24,7 +24,7 @@ Every Figma file has a unique URL associated with it. Put your Figma file url in
 <div class="note">(Be sure to put the URL in double-quotes as shown.)</div>
 
 ### Setting up your Figma file for extraction
-Your Figma file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Figma projects, libraries, files; i.e. **Components**, **Color Styles**, and **Text Styles**.
+Your Figma file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Figma projects, libraries, files; i.e. **Components**, **Color Styles**, **Text Styles**, and **Effect Styles**.
 
 <div class="aside"><i><strong>Gotcha Warning</strong></i>: Note that your file must have every Figma Style and Figma Component you intend to use instantiated on the canvas. This is a current limitation of the Figma API and might change in the future.</div>
 
@@ -42,13 +42,19 @@ Create a Figma "Text Style" and give it a name.
     <source src="@theme/assets/vids/text-style.mp4" type="video/mp4">
 </video>
 
+#### Create Effect Styles for your shadows
+Save any shadows you want to reuse across your project as "Effect Styles."
+
+<video width="80%" autoplay loop muted playsinline>
+    <source src="@theme/assets/vids/fig-shadow.mp4" type="video/mp4">
+</video>
+
 #### Specify images and icons by turning them into "Components"
 Turn any visuals you want to use in your Diez project into Figma "Components."
 
 <video width="80%" autoplay loop muted playsinline>
     <source src="@theme/assets/vids/images.mp4" type="video/mp4">
 </video>
-
 
 ### Syncing your Figma file with your Diez project
 Now you're all set up to sync your Figma file with your Diez project. Head back over to your Diez project folder within your terminal and run:
