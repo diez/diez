@@ -22,8 +22,6 @@
   "devDependencies": {
     "@diez/test-utils": "^10.0.0-beta.4",
     "@types/async": "^2.4.1",
-    "@types/chalk": "^2.2.0",
-    "@types/commander": "^2.12.2",
     "@types/jest": "^24.0.11",
     "@types/server-destroy": "^1.0.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
