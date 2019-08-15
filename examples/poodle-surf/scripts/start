@@ -2,6 +2,9 @@
 const { canRunCommand, Format, Log } = require('@diez/cli-core');
 const { execSync, fork } = require('child_process');
 const { join, resolve } = require('path');
+const { gt } = require('semver');
+
+const minCocoapodsVersion = '1.7.0';
 
 (async () => {
   // Make sure Yarn is installed.
@@ -18,6 +21,13 @@ const { join, resolve } = require('path');
 
   if (target === 'ios' && !await canRunCommand('pod --version')) {
     Log.error('CocoaPods is required to run the iOS example project. See installation options:');
+    Log.error('https://guides.cocoapods.org/using/getting-started.html#getting-started');
+    process.exit(1);
+  }
+
+  const cocoaPodsVersion = execSync('pod --version').toString().trim();
+  if (target === 'ios' && gt(minCocoapodsVersion, cocoaPodsVersion)) {
+    Log.error(`CocoaPods ${minCocoapodsVersion} or greater is required to run the iOS example project. See upgrade options:`);
     Log.error('https://guides.cocoapods.org/using/getting-started.html#getting-started');
     process.exit(1);
   }
