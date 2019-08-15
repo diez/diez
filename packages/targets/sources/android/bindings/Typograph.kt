@@ -6,6 +6,7 @@ import android.widget.TextView
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
 import android.os.StrictMode
+import android.util.TypedValue
 
 {{> androidDataClassStart }}
 
@@ -31,7 +32,6 @@ import android.os.StrictMode
                     return typeface
                 }
 
-
                 return Typeface.create("", Typeface.NORMAL)
             }
 
@@ -41,7 +41,8 @@ import android.os.StrictMode
 
 fun TextView.apply(typograph: Typograph) {
     this.typeface = typograph.typeface
-    this.textSize = typograph.fontSize
+    val unit = if (typograph.shouldScale) TypedValue.COMPLEX_UNIT_SP else TypedValue.COMPLEX_UNIT_DIP
+    this.setTextSize(unit, typograph.fontSize)
     this.setTextColor(typograph.color.color)
 }
 

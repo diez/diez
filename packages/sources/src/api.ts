@@ -55,7 +55,7 @@ export interface OAuthable {
 /**
  * Supported image formats for exporting.
  */
-export const enum ImageFormats {
+export enum ImageFormats {
   png = 'png',
   svg = 'svg',
   jpg = 'jpg',

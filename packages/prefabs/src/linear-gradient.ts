@@ -41,7 +41,7 @@ export class GradientStop extends prefab<GradientStopData>() {
 /**
  * The direction of a linear gradient relative to the containing view's edges.
  */
-export const enum Toward {
+export enum Toward {
   Top = 0,
   TopRight = 45,
   Right = 90,

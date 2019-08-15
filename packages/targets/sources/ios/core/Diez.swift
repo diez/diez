@@ -24,8 +24,6 @@ public protocol StateBag: Decodable {
  - Note: The presence of a `WKWebView` in hot mode and the need to provide a `UIView` will be removed in the future.
  */
 public final class Diez<T>: NSObject where T: StateBag {
-    private var component: T
-
     /**
      - Parameter view: When in [hot mode](x-source-tag://Diez), this view will have a visually empty `WKWebView` added to it in order to communicate with the Diez server. When not in [hot mode] (x-source-tag://Diez) this value is unused.
 
@@ -119,6 +117,7 @@ public final class Diez<T>: NSObject where T: StateBag {
         }
     }
 
+    private var component: T
     private let decoder = JSONDecoder()
     private var subscribers: [AttachSubscription] = []
     private let updateObserver: UpdateObserver<T>?

@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
     :path: "../../build/diez-lorem-ipsum-ios"
 
 SPEC CHECKSUMS:
-  DiezLoremIpsum: 3b02836469ae9dd33886900e766abcbaab33cc2c
+  DiezLoremIpsum: e4b40e70559db532d5256bc8eb279602f012b4fb
   lottie-ios: 43a472d22b2dd2bed292cc4010c0b4d2e66d3ba8
 
 PODFILE CHECKSUM: 0252dab712b9ae8559f499051289c6c08eadc0f9

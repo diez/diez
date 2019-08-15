@@ -24,13 +24,24 @@ extension Typograph {
     /**
      The `UIFont` of the `Typograph`.
 
+     Iff `shouldScale` is `true`, the font will be scaled according to `UIFontMetric`s Dynamic Type scaling system with the `Typograph`s `iosTextStyle` value.
+
      This uses the `UIFont(name:size)` initializer and may return nil as a result.
      */
     @objc
     public var uiFont: UIFont? {
-        registerFont(font)
+        return _uiFont(for: nil)
+    }
 
-        return UIFont(name: font.name, size: fontSize)
+    /**
+     The `UIFont` of the `Typograph`.
+
+     Iff `shouldScale` is `true`, the font will be scaled according to `UIFontMetric`s Dynamic Type scaling system with the `Typograph`s `iosTextStyle` value and the provided `UITraitCollection`.
+
+     This uses the `UIFont(name:size)` initializer and may return nil as a result.
+     */
+    public func uiFont(for traitCollection: UITraitCollection) -> UIFont? {
+        return _uiFont(for: traitCollection)
     }
     
     /**
@@ -56,6 +67,48 @@ extension Typograph {
     public func attributedString(decorating string: String) -> NSAttributedString {
         return NSAttributedString(string: string, typograph: self)
     }
+
+    /**
+     The `UIFont.TextStyle` for the `Typograph`.
+     */
+    @objc
+    public var uiFontTextStyle: UIFont.TextStyle {
+        switch iosTextStyle {
+        case "body": return .body
+        case "callout": return .callout
+        case "caption1": return .caption1
+        case "caption2": return .caption2
+        case "footnote": return .footnote
+        case "headline": return .headline
+        case "subheadline": return .subheadline
+        case "largeTitle": return .largeTitle
+        case "title1": return .title1
+        case "title2": return .title2
+        case "title3": return .title3
+        default: return .body
+        }
+    }
+
+    private func _uiFont(for traitCollection: UITraitCollection?) -> UIFont? {
+        registerFont(font)
+
+        guard let uiFont = UIFont(name: font.name, size: fontSize) else {
+            return nil
+        }
+
+        guard shouldScale else {
+            return uiFont
+
+        }
+
+        let metrics = UIFontMetrics(forTextStyle: uiFontTextStyle)
+
+        guard let traitCollection = traitCollection else {
+            return metrics.scaledFont(for: uiFont)
+        }
+
+        return metrics.scaledFont(for: uiFont, compatibleWith: traitCollection)
+    }
 }
 
 extension NSAttributedString {
@@ -76,6 +129,7 @@ extension UILabel {
     public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
+        adjustsFontForContentSizeCategory = typograph.shouldScale
     }
 }
 
@@ -87,6 +141,7 @@ extension UITextView {
     public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
+        adjustsFontForContentSizeCategory = typograph.shouldScale
     }
 }
 
@@ -98,5 +153,6 @@ extension UITextField {
     public func apply(_ typograph: Typograph) {
         font = typograph.uiFont
         textColor = typograph.color.uiColor
+        adjustsFontForContentSizeCategory = typograph.shouldScale
     }
 }

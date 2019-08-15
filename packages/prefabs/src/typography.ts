@@ -77,12 +77,37 @@ export class Font extends prefab<FontData>() {
 }
 
 /**
+ * An enumeration of the supported iOS `UIFont.TextStyle`s.
+ */
+export enum IOSTextStyle {
+  Body = 'body',
+  Callout = 'callout',
+  Caption1 = 'caption1',
+  Caption2 = 'caption2',
+  Footnote = 'footnote',
+  Headline = 'headline',
+  Subheadline = 'subheadline',
+  LargeTitle = 'largeTitle',
+  Title1 = 'title1',
+  Title2 = 'title2',
+  Title3 = 'title3',
+}
+
+/**
  * Typograph data.
  */
 export interface TypographData {
   font: Font;
   fontSize: number;
   color: Color;
+  /**
+   * The iOS `UIFont.TextStyle` of the `Typograph` (iOS only).
+   */
+  iosTextStyle: IOSTextStyle;
+  /**
+   * Indicates whether the `Typograph` should scale with the system's accessibility settings (iOS and Android only).
+   */
+  shouldScale: boolean;
 }
 
 /**
@@ -96,6 +121,13 @@ export class Typograph extends prefab<TypographData>() {
     font: new Font(),
     fontSize: 12,
     color: Color.hsla(0, 0, 0, 1),
+    iosTextStyle: IOSTextStyle.Body,
+    shouldScale: true,
+  };
+
+  options = {
+    iosTextStyle: {targets: [Target.Ios]},
+    shouldScale: {targets: [Target.Ios, Target.Android]},
   };
 }
 

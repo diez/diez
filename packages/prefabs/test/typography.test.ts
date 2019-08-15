@@ -1,5 +1,5 @@
 import {Color} from '../src/color';
-import {Font, Typograph} from '../src/typography';
+import {Font, IOSTextStyle, Typograph} from '../src/typography';
 
 describe('typograph', () => {
   test('basic functionality', () => {
@@ -7,6 +7,8 @@ describe('typograph', () => {
       font: Font.fromFile('Bloop-MediumItalic.ttf'),
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
+      shouldScale: false,
+      iosTextStyle: IOSTextStyle.Title1,
     });
 
     expect(typograph.serialize()).toEqual({
@@ -19,12 +21,16 @@ describe('typograph', () => {
       },
       fontSize: 50,
       color: {h: 0, s: 0, l: 0, a: 0.5},
+      shouldScale: false,
+      iosTextStyle: 'title1',
     });
 
     const typographWithSpecificName = new Typograph({
       font: Font.fromFile('Bloop-MediumItalic.ttf', 'SomethingElse'),
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
+      shouldScale: true,
+      iosTextStyle: IOSTextStyle.Title2,
     });
 
     expect(typographWithSpecificName.serialize()).toEqual({
@@ -37,6 +43,8 @@ describe('typograph', () => {
       },
       fontSize: 50,
       color: {h: 0, s: 0, l: 0, a: 0.5},
+      shouldScale: true,
+      iosTextStyle: 'title2',
     });
   });
 });
