@@ -11,12 +11,16 @@
         </NuxtLink>
         <div class="holster-right">
           <a href="https://design-code.typeform.com/to/Mc5oIq" class="show-on-mobile">Get Early Access</a>
+          <a target="_blank" class="hide-on-mobile link-img" title="slack" href="https://join.slack.com/t/dieznative/shared_invite/enQtNzEzNzM2OTg4NDA1LTA4NWZiMTNlZTgzNTY3Yzg2ODdjY2Y1MzBjMjdlY2FlNjljMmI3ZTgzMmQ4ODk1MDdlMTcyMTUzMjNmZWI4YjU">
+            <img src="@/assets/imgs/slack-alt.svg" alt="slack">
+          </a>
           <a target="_blank" class="hide-on-mobile link-img" title="spectrum" href="https://spectrum.chat/diez">
             <img src="@/assets/imgs/spectrum-alt.svg" alt="spectrum">
           </a>
           <a target="_blank" class="hide-on-mobile link-img" title="twitter" href="https://twitter.com/dieznative">
             <img src="@/assets/imgs/twitter-alt.svg" alt="twitter">
           </a>
+          <a target="_blank" class="show-on-mobile" href="https://join.slack.com/t/dieznative/shared_invite/enQtNzEzNzM2OTg4NDA1LTA4NWZiMTNlZTgzNTY3Yzg2ODdjY2Y1MzBjMjdlY2FlNjljMmI3ZTgzMmQ4ODk1MDdlMTcyMTUzMjNmZWI4YjU">Slack</a>
           <a target="_blank" class="show-on-mobile" href="https://spectrum.chat/diez">Spectrum</a>
           <a target="_blank" class="show-on-mobile" href="https://twitter.com/dieznative">Twitter</a>
           <a target="_blank" href="https://design-code.typeform.com/to/Mc5oIq"  class="button hide-on-mobile">Get Early Access</a>

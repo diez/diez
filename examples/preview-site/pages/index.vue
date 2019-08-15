@@ -123,6 +123,7 @@
     <footer id="footer">
       <div class="footer-container section">
         <span class="social-foot">
+          <a href="https://join.slack.com/t/dieznative/shared_invite/enQtNzEzNzM2OTg4NDA1LTA4NWZiMTNlZTgzNTY3Yzg2ODdjY2Y1MzBjMjdlY2FlNjljMmI3ZTgzMmQ4ODk1MDdlMTcyMTUzMjNmZWI4YjU" target="_blank"><img src="@/assets/imgs/slack.svg" alt="slack">Slack</a>
           <a href="https://spectrum.chat/diez" target="_blank"><img src="@/assets/imgs/spectrum.svg" alt="spectrum">Spectrum</a>
           <a href="https://twitter.com/dieznative" target="_blank"><img src="@/assets/imgs/twitter.svg" alt="twitter">Twitter</a>
         </span>
@@ -132,7 +133,7 @@
         </div>
         <div class="clear"></div>
     </footer>
-    
+
   </div>
 </template>
 
