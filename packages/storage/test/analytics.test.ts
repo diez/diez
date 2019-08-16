@@ -38,6 +38,7 @@ describe('analytics', () => {
     await enableAnalytics();
     expect(await Registry.get('analyticsEnabled')).toBe(true);
     expect(await Registry.get('uuid')).toBe('secret-id');
+    process.argv = ['node', 'diez', 'do', '--something'];
     await emitDiagnostics('some-event', '10.10.10', {extra: 'data'});
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith(
@@ -52,6 +53,7 @@ describe('analytics', () => {
           uuid: 'secret-id',
           properties: {
             diezVersion: '10.10.10',
+            commandArguments: 'do --something',
             platform: platform(),
             arch: arch(),
             nodeVersion: process.version,

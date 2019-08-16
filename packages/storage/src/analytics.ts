@@ -5,6 +5,11 @@ import {DiezDiagnostics} from './api';
 import {Registry} from './registry';
 
 /**
+ * Provides the arguments Diez was run with.
+ */
+export const getCommandArguments = () => process.argv.slice(2).join(' ');
+
+/**
  * Creates a diagnostics payload for Diez analytics.
  * @internal
  */
@@ -23,6 +28,7 @@ const getDiagnosticsPayload = async (
     uuid,
     properties: {
       diezVersion,
+      commandArguments: getCommandArguments(),
       platform: platform(),
       arch: arch(),
       nodeVersion: process.version,

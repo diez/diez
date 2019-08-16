@@ -1,5 +1,5 @@
 /* tslint:disable no-var-requires */
-import {emitDiagnostics, enableAnalytics, Registry} from '@diez/storage';
+import {emitDiagnostics, enableAnalytics, getCommandArguments, Registry} from '@diez/storage';
 import {captureException, configureScope, getCurrentHub, init as initSentry} from '@sentry/node';
 import {args, command, on, outputHelp, parse, version} from 'commander';
 import {
@@ -208,6 +208,7 @@ export const run = async (bootstrapRoot?: string) => {
 
     configureScope((scope) => {
       scope.setUser({id: global.analyticsUuid});
+      scope.setExtra('command_arguments', getCommandArguments());
     });
   }
 

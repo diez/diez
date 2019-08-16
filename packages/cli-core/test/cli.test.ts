@@ -1,10 +1,14 @@
 class MockSentry {
   static mockClose = jest.fn();
   static mockSetUser = jest.fn();
+  static mockSetExtra = jest.fn();
   static mockGetClient = jest.fn().mockImplementation((() => ({close: MockSentry.mockClose})));
   static captureException = jest.fn();
   static init = jest.fn();
-  static configureScope = jest.fn().mockImplementation((callback) => callback({setUser: MockSentry.mockSetUser}));
+  static configureScope = jest.fn().mockImplementation((callback) => callback({
+    setUser: MockSentry.mockSetUser,
+    setExtra: MockSentry.mockSetExtra,
+  }));
   static getCurrentHub = jest.fn().mockImplementation(() => ({getClient: MockSentry.mockGetClient}));
 }
 jest.doMock('@sentry/node', () => MockSentry);
@@ -88,6 +92,7 @@ describe('cli', () => {
     });
 
     await run();
+    expect(MockSentry.mockSetExtra).toHaveBeenCalledWith('command_arguments', 'foobar --stringParam foo');
 
     process.nextTick(() => {
       expect(eventTrap).toHaveBeenCalledWith({

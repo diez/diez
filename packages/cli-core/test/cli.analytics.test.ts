@@ -3,6 +3,7 @@ import {assignMock} from '@diez/test-utils';
 const mockEmitDiagnostics = jest.fn().mockResolvedValue(undefined);
 const mockEnableAnalytics = jest.fn();
 const mockDisableAnalytics = jest.fn();
+const mockGetCommandArguments = jest.fn();
 jest.doMock('@diez/storage', () => ({
   Registry: {
     get (key: string) {
@@ -19,6 +20,7 @@ jest.doMock('@diez/storage', () => ({
   emitDiagnostics: mockEmitDiagnostics,
   enableAnalytics: mockEnableAnalytics,
   disableAnalytics: mockDisableAnalytics,
+  getCommandArguments: mockGetCommandArguments,
 }));
 
 import {ModuleWrappedCliAction} from '../src';
