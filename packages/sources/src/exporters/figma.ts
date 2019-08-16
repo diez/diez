@@ -133,6 +133,7 @@ interface FigmaDimensions {
 
 interface FigmaNode {
   id: string;
+  componentId?: string;
   name: string;
   children?: FigmaNode[];
   absoluteBoundingBox?: FigmaDimensions;
@@ -379,6 +380,9 @@ const processFigmaNode = async (
   if (components.has(node.id) && node.absoluteBoundingBox) {
     componentDimensions.set(node.id, node.absoluteBoundingBox);
     components.delete(node.id);
+  } else if (node.componentId && components.has(node.componentId) && node.absoluteBoundingBox) {
+    componentDimensions.set(node.componentId, node.absoluteBoundingBox);
+    components.delete(node.componentId);
   }
 
   if (node.children) {

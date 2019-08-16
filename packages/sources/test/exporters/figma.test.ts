@@ -39,13 +39,24 @@ const mockFullResponse: FigmaFile = {
   name: 'Hello',
   document: {
     children: [{
-      id: 'component',
+      // Legacy component format matches against ID.
+      id: 'legacyComponent',
       name: '',
       absoluteBoundingBox: {
         width: 1920,
         height: 1080,
       },
       children: [
+        {
+          id: '',
+          name: '',
+          // Modern component format matches against component ID.
+          componentId: 'component',
+          absoluteBoundingBox: {
+            width: 640,
+            height: 480,
+          },
+        },
         {
           id: '',
           name: '',
@@ -207,6 +218,9 @@ const mockFullResponse: FigmaFile = {
     }],
   },
   components: {
+    legacyComponent: {
+      name: 'Legacy Team Component',
+    },
     component: {
       name: 'Team Component',
     },
@@ -280,10 +294,10 @@ describe('Figma', () => {
         switch (uri) {
           case 'https://api.figma.com/v1/files/key':
             return callback(undefined, {statusCode: 200}, mockFullResponse);
-          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=1':
-          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=2':
-          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=3':
-          case 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=4':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=1':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=2':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=3':
+          case 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=4':
             return callback(undefined, {statusCode: 200}, {
               images: {
                 component: uri.charAt(uri.length - 1),
@@ -333,7 +347,7 @@ describe('Figma', () => {
         {
           headers: {Authorization: 'Bearer mock-token'},
           json: true,
-          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=1',
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=1',
         },
         expect.anything(),
       );
@@ -343,7 +357,7 @@ describe('Figma', () => {
         {
           headers: {Authorization: 'Bearer mock-token'},
           json: true,
-          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=2',
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=2',
         },
         expect.anything(),
       );
@@ -353,7 +367,7 @@ describe('Figma', () => {
         {
           headers: {Authorization: 'Bearer mock-token'},
           json: true,
-          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=3',
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=3',
         },
         expect.anything(),
       );
@@ -363,7 +377,7 @@ describe('Figma', () => {
         {
           headers: {Authorization: 'Bearer mock-token'},
           json: true,
-          uri: 'https://api.figma.com/v1/images/key?format=png&ids=component&scale=4',
+          uri: 'https://api.figma.com/v1/images/key?format=png&ids=legacyComponent%2Ccomponent&scale=4',
         },
         expect.anything(),
       );
@@ -371,10 +385,16 @@ describe('Figma', () => {
       expect(mockCodegen).toHaveBeenCalledWith({
         assets: new Map([[
           'components',
-          new Map([[
-            'TeamComponent',
-            {width: 1920, height: 1080, src: 'out/Hello.figma.contents/components/TeamComponent.png'},
-          ]]),
+          new Map([
+            [
+              'LegacyTeamComponent',
+              {width: 1920, height: 1080, src: 'out/Hello.figma.contents/components/LegacyTeamComponent.png'},
+            ],
+            [
+              'TeamComponent',
+              {width: 640, height: 480, src: 'out/Hello.figma.contents/components/TeamComponent.png'},
+            ],
+          ]),
         ]]),
         assetsDirectory: 'out/Hello.figma.contents',
         colors: [
