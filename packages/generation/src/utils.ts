@@ -159,7 +159,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const colorsName = localResolver.getComponentName(`${designSystemName} Colors`);
   const gradientsName = localResolver.getComponentName(`${designSystemName} Gradients`);
   const shadowsName = localResolver.getComponentName(`${designSystemName} Shadows`);
-  const typographsName = localResolver.getComponentName(`${designSystemName} Typographs`);
+  const typographsName = localResolver.getComponentName(`${designSystemName} Typography`);
 
   const hasColors = spec.colors.length > 0;
   const hasGradients = spec.gradients.length > 0;
@@ -333,7 +333,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   if (hasTypographs) {
     designSystemImports.add('Font');
     exportedClassDeclaration.addProperty({
-      name: 'typographs',
+      name: 'typography',
       initializer: `new ${typographsName}()`,
     });
   }

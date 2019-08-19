@@ -15,7 +15,7 @@ class MyDesignSystemShadows {
     someShadow = 7;
 }
 
-class MyDesignSystemTypographs {
+class MyDesignSystemTypography {
     untitledTypograph = 0;
     someTypograph = 1;
 }
@@ -47,7 +47,7 @@ export class MyDesignSystemTokens {
     colors = new MyDesignSystemColors();
     gradients = new MyDesignSystemGradients();
     shadows = new MyDesignSystemShadows();
-    typographs = new MyDesignSystemTypographs();
+    typography = new MyDesignSystemTypography();
 }
 
 export const myDesignSystemTokens = new MyDesignSystemTokens();
