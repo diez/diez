@@ -51,7 +51,12 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * @ignore
    */
-  readonly localComponentNames: PropertyType[] = [];
+  readonly localComponentNames = new Set<PropertyType>();
+
+  /**
+   * @ignore
+   */
+  readonly singletonComponentNames = new Set<PropertyType>();
 
   /**
    * @ignore
@@ -195,6 +200,16 @@ export class Program extends EventEmitter implements CompilerProgram {
       source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
     };
 
+    // Note if the object in question is a singleton, i.e. receives no constructor arguments.
+    let constructorClass: ClassDeclaration | undefined = typeValue;
+    while (constructorClass && !constructorClass.getConstructors().length) {
+      constructorClass = constructorClass.getBaseClass();
+    }
+    if (!constructorClass || constructorClass.getConstructors().every(
+      (constructor) => !constructor.getParameters().length)) {
+      this.singletonComponentNames.add(componentName);
+    }
+
     for (const typeMember of children) {
       const valueDeclaration = typeMember.getValueDeclaration() as PropertyDeclaration;
       if (!valueDeclaration) {
@@ -287,7 +302,7 @@ export class Program extends EventEmitter implements CompilerProgram {
    */
   async run (throwOnErrors = true) {
     this.targetComponents.clear();
-    this.localComponentNames.length = 0;
+    this.localComponentNames.clear();
     if (!await this.compile()) {
       if (throwOnErrors) {
         throw new Error('Unable to compile project!');
@@ -304,7 +319,7 @@ export class Program extends EventEmitter implements CompilerProgram {
       for (const exportDeclaration of exportedDeclarations) {
         const type = this.checker.getTypeAtLocation(exportDeclaration);
         if (this.processType(type, sourceMap)) {
-          this.localComponentNames.push(type.getSymbolOrThrow().getName());
+          this.localComponentNames.add(type.getSymbolOrThrow().getName());
         }
       }
     }
@@ -549,8 +564,8 @@ export abstract class TargetCompiler<
   /**
    * Generates a fresh component spec for a given type.
    */
-  protected createSpec (type: PropertyType): TargetComponentSpec {
-    return {componentName: type, properties: {}, public: this.program.localComponentNames.includes(type)};
+  private createSpec (type: PropertyType): TargetComponentSpec {
+    return {componentName: type, properties: {}, public: this.program.localComponentNames.has(type)};
   }
 
   /**

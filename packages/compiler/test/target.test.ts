@@ -5,7 +5,7 @@ describe('target compiler', () => {
   test('filtered', async () => {
     const program = await createProgramForFixture('Filtered');
     expect(program.targetComponents.size).toBe(1);
-    expect(program.localComponentNames).toEqual(['Filtered']);
+    expect(Array.from(program.localComponentNames)).toEqual(['Filtered']);
     const compiler = new TestTargetCompiler(program);
     await compiler.start();
     expect(compiler.writeSdkMock).toHaveBeenCalled();

@@ -170,7 +170,11 @@ export interface CompilerProgram extends EventEmitter {
   /**
    * The names of local components encountered during compiler execution.
    */
-  localComponentNames: PropertyType[];
+  localComponentNames: Set<PropertyType>;
+  /**
+   * The names of singleton components encountered during compiler execution.
+   */
+  singletonComponentNames: Set<PropertyType>;
   /**
    * The root of the project whose local components we should compile.
    */
@@ -269,8 +273,8 @@ export interface TargetComponentSpec {
  *
  * Resolves ambiguity between singletons and reusable components.
  */
-export interface TargetSpecLedger<Spec, Binding> {
-  spec: Spec;
+export interface TargetSpecLedger<Binding> {
+  spec: TargetComponentSpec;
   instances: Set<object>;
   binding?: Binding;
 }
@@ -288,7 +292,7 @@ export interface TargetOutput<
   Binding = {},
 > {
   hotUrl?: string;
-  processedComponents: Map<PropertyType, TargetSpecLedger<TargetComponentSpec, Binding>>;
+  processedComponents: Map<PropertyType, TargetSpecLedger<Binding>>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;
   projectName: string;

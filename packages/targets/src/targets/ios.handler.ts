@@ -265,7 +265,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
 import ${this.moduleName}
 
 class ViewController: UIViewController {
-    private lazy var diez = Diez<${this.program.localComponentNames[0]}>(view: view)
+    private lazy var diez = Diez<${Array.from(this.program.localComponentNames)[0]}>(view: view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -333,14 +333,6 @@ class ViewController: UIViewController {
    */
   async writeSdk () {
     // Pass through to take note of our singletons.
-    const singletons = new Set<PropertyType>();
-    for (const [type, {instances, binding}] of this.output.processedComponents) {
-      // If a binding is provided, it's safe to assume we don't want to treat this object as a singleton, even if it is.
-      if (instances.size === 1 && !binding) {
-        singletons.add(type);
-      }
-    }
-
     const coreSourceFilenames = [
       'Diez.swift',
       'Environment.swift',
@@ -361,7 +353,7 @@ class ViewController: UIViewController {
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (singletons.has(property.type)) {
+        if (this.program.singletonComponentNames.has(property.type)) {
           property.initializer = `${property.type}()`;
         }
       }
@@ -372,7 +364,7 @@ class ViewController: UIViewController {
         filename,
         compile(componentTemplate)({
           ...spec,
-          singleton: spec.public || singletons.has(type),
+          singleton: spec.public || this.program.singletonComponentNames.has(type),
           hasProperties: Object.keys(spec.properties).length > 0,
         }),
       );

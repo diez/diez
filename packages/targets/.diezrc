@@ -17,7 +17,6 @@
     },
     "@diez/prefabs:DropShadow": {
       "ios": "./lib/bindings/DropShadow/ios",
-      "android": "./lib/bindings/DropShadow/android",
       "web": "./lib/bindings/DropShadow/web"
     },
     "@diez/prefabs:File": {
@@ -42,12 +41,10 @@
     },
     "@diez/prefabs:Point2D": {
       "ios": "./lib/bindings/Point2D/ios",
-      "android": "./lib/bindings/Point2D/android",
       "web": "./lib/bindings/Point2D/web"
     },
     "@diez/prefabs:Size2D": {
       "ios": "./lib/bindings/Size2D/ios",
-      "android": "./lib/bindings/Size2D/android",
       "web": "./lib/bindings/Size2D/web"
     },
     "@diez/prefabs:Typograph": {

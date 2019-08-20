@@ -204,7 +204,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = this.program.localComponentNames[0];
+    const component = Array.from(this.program.localComponentNames)[0];
     const styleVarName = this.output.styleSheet.variables.keys().next().value;
 
     Log.info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
@@ -252,7 +252,12 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
           continue;
         }
 
-        if (componentName === 'Font' || componentName === 'GradientStop') {
+        if (
+          componentName === 'Font' ||
+          componentName === 'GradientStop' ||
+          componentName === 'Point2D' ||
+          componentName === 'Size2D'
+        ) {
           continue;
         }
 
@@ -296,15 +301,6 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   }
 
   async writeSdk () {
-    // Pass through to take note of our singletons.
-    const singletons = new Set<PropertyType>();
-    for (const [type, {instances, binding}] of this.output.processedComponents) {
-      // If a binding is provided, it's safe to assume we don't want to treat this object as a singleton, even if it is.
-      if (instances.size === 1 && !binding) {
-        singletons.add(type);
-      }
-    }
-
     const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
 
@@ -313,7 +309,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (singletons.has(property.type)) {
+        if (this.program.singletonComponentNames.has(property.type)) {
           property.initializer = '{}';
         }
       }
@@ -324,7 +320,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         sourceFilename,
         compile(componentTemplate)({
           ...spec,
-          singleton: spec.public || singletons.has(type),
+          singleton: spec.public || this.program.singletonComponentNames.has(type),
         }),
       );
 

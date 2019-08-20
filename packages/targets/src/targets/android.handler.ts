@@ -219,7 +219,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = this.program.localComponentNames[0];
+    const component = Array.from(this.program.localComponentNames)[0];
     Log.info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
 
     Log.info(`You can depend on ${diez} in ${Format.code('build.gradle')}:`);
@@ -312,15 +312,6 @@ class MainActivity ... {
       }));
     }
 
-    // Pass through to take note of our singletons.
-    const singletons = new Set<PropertyType>();
-    for (const [type, {instances, binding}] of this.output.processedComponents) {
-      // If a binding is provided, it's safe to assume we don't want to treat this object as a singleton, even if it is.
-      if (instances.size === 1 && !binding) {
-        singletons.add(type);
-      }
-    }
-
     const dataClassStartTemplate = readFileSync(join(coreAndroid, 'android.data-class.start.handlebars')).toString();
     registerPartial('androidDataClassStart', dataClassStartTemplate);
 
@@ -329,14 +320,14 @@ class MainActivity ... {
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (singletons.has(property.type)) {
+        if (this.program.singletonComponentNames.has(property.type)) {
           property.initializer = `${property.type}()`;
         }
       }
 
       const dataClassStartTokens = {
         ...spec,
-        singleton: spec.public || singletons.has(type),
+        singleton: spec.public || this.program.singletonComponentNames.has(type),
         hasProperties: Object.keys(spec.properties).length > 0,
       };
 

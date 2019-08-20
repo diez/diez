@@ -27,7 +27,7 @@ export = async (options: CompilerOptions) => {
   const program = new Program(await getProjectRoot(), options);
   await program.run();
 
-  if (!program.localComponentNames.length) {
+  if (!program.localComponentNames.size) {
     throw new Error('No local components found!');
   }
 

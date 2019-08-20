@@ -16,7 +16,8 @@ describe('compiler program', () => {
   test('valid program', async () => {
     const program = await createProgramForFixture('Valid');
     expect(program.targetComponents.size).toBe(3);
-    expect(program.localComponentNames).toEqual(['Valid']);
+    expect(Array.from(program.localComponentNames)).toEqual(['Valid']);
+    expect(Array.from(program.singletonComponentNames)).toEqual(['Valid', 'ChildComponent', 'GrandchildComponent']);
 
     const validComponent = program.targetComponents.get('Valid')!;
     expect(validComponent).toBeDefined();

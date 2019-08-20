@@ -34,7 +34,8 @@ describe('bindings', () => {
 
     const program = await createProgramForFixture('Bindings');
     expect(program.targetComponents.size).toBe(2);
-    expect(program.localComponentNames).toEqual(['BoundComponent', 'Bindings']);
+    expect(Array.from(program.localComponentNames)).toEqual(['BoundComponent', 'Bindings']);
+    expect(Array.from(program.singletonComponentNames)).toEqual(['Bindings']);
     const compiler = new TestTargetCompiler(program);
     compiler.staticRoot = join(compiler.output.sdkRoot, 'static');
     await compiler.start();

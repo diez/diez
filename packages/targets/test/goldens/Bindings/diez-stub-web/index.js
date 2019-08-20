@@ -146,12 +146,12 @@ diezHTMLExtensions.push(() => {
 
 class Font {
   constructor({
-    file = {src: "assets/SomeFont.ttf", type: "font"},
-    name = "SomeFont",
-    fallbacks = ["Verdana", "serif"],
-    weight = 700,
-    style = "normal"
-  } = {}) {
+    file,
+    name,
+    fallbacks,
+    weight,
+    style
+  }) {
     this.file = new File(file);
     this.name = name;
     this.fallbacks = fallbacks;
@@ -299,9 +299,9 @@ diezHTMLExtensions.push(() => {
 
 class GradientStop {
   constructor({
-    position = 1,
-    color = {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}
-  } = {}) {
+    position,
+    color
+  }) {
     this.position = position;
     this.color = new Color(color);
   }
