@@ -31,9 +31,11 @@ class ReportViewController: UIViewController {
     }
 
     private func apply(_ system: DesignSystem) {
+        self.view.layoutIfNeeded()
+        
         UIView.animate(withDuration: 0.5) {
             defer {
-                self.view.layoutSubviews()
+                self.view.layoutIfNeeded()
             }
 
             self.apply(system.designs.report, to: self.reportView)

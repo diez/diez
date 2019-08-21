@@ -10,7 +10,13 @@ const binding: WebBinding<Color> = {
   declarations: [join(sourcesPath, 'web', 'bindings', 'Color.d.ts')],
   assetsBinder: async (instance, program, output, spec, property) => {
     // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
-    if (property.parentType === 'Typograph' || property.parentType === 'DropShadow') {
+    if (
+      property.parentType === 'DropShadow' ||
+      property.parentType === 'GradientStop' ||
+      property.parentType === 'Fill' ||
+      property.parentType === 'Panel' ||
+      property.parentType === 'Typograph'
+    ) {
       return;
     }
 

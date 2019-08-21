@@ -9,11 +9,10 @@
 import UIKit
 import DiezPoodleSurf
 
-protocol CardViewDescribable: UIView {
+protocol CardViewDescribable: PanelView {
     var titleLabel: UILabel { get }
     var layoutMargins: UIEdgeInsets { get }
     var titleContentSpacing: CGFloat { get set }
-    var backgroundView: GradientView { get }
 }
 
 extension ForecastCardView: CardViewDescribable { }

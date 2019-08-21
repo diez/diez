@@ -20,3 +20,14 @@ extension UIColor {
         self.init(hue: color.h, saturation: saturation, brightness: brightness, alpha: color.a)
     }
 }
+
+public protocol ColorAppliable {
+    func apply(_ color: Color)
+}
+
+extension UIView: ColorAppliable {
+    @objc(dez_applyColor:)
+    open func apply(_ color: Color) {
+        backgroundColor = color.uiColor
+    }
+}

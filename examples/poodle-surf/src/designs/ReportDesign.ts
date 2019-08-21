@@ -1,4 +1,4 @@
-import {Color, DropShadow, LinearGradient, Size2D, Typograph} from '@diez/prefabs';
+import {Color, DropShadow, LinearGradient, Panel, Size2D, Typograph, Fill} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
 import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
@@ -28,10 +28,8 @@ interface SharedCardDesignData {
   title: string;
   titleTypograph: Typograph;
   titleContentSpacing: number;
-  gradient: LinearGradient;
   layoutMargins: EdgeInsets;
-  cornerRadius: number;
-  dropShadow: DropShadow;
+  panel: Panel;
 }
 
 class SharedCardDesign extends prefab<SharedCardDesignData>() {
@@ -39,15 +37,18 @@ class SharedCardDesign extends prefab<SharedCardDesignData>() {
     title: '',
     titleTypograph: typographs.cardTitle,
     titleContentSpacing: LayoutValues.DefaultMargin,
-    gradient: palette.contentBackground,
     layoutMargins: new EdgeInsets({
       top: LayoutValues.DefaultMargin,
       bottom: LayoutValues.LooseMargin,
       left: LayoutValues.DefaultMargin,
       right: LayoutValues.DefaultMargin,
     }),
-    cornerRadius: 8,
-    dropShadow: shadows.card,
+    panel: new Panel({
+      cornerRadius: 8,
+      dropShadow: shadows.card,
+      elevation: 12,
+      background: Fill.linearGradient(palette.contentBackground),
+    }),
   };
 }
 

@@ -10,6 +10,8 @@ public final class Bindings: NSObject, StateBag {
     @objc public internal(set) var point: Point2D
     @objc public internal(set) var size: Size2D
     @objc public internal(set) var shadow: DropShadow
+    @objc public internal(set) var fill: Fill
+    @objc public internal(set) var panel: Panel
 
     convenience public override init() {
         self.init(
@@ -19,7 +21,9 @@ public final class Bindings: NSObject, StateBag {
             linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 1, l: 0.5, a: 1)), GradientStop(position: 1, color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1))], start: Point2D(x: 0, y: 0.5), end: Point2D(x: 1, y: 0.5)),
             point: Point2D(x: 0.5, y: 0.5),
             size: Size2D(width: 400, height: 300),
-            shadow: DropShadow(offset: Point2D(x: 1, y: 2), radius: 3, color: Color(h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5))
+            shadow: DropShadow(offset: Point2D(x: 1, y: 2), radius: 3, color: Color(h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5)),
+            fill: Fill(color: Color(h: 0, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"),
+            panel: Panel(cornerRadius: 5, background: Fill(color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"), dropShadow: DropShadow(offset: Point2D(x: 2, y: 3), radius: 4, color: Color(h: 0, s: 1, l: 0.5, a: 1)))
         )
     }
 
@@ -30,7 +34,9 @@ public final class Bindings: NSObject, StateBag {
         linearGradient: LinearGradient,
         point: Point2D,
         size: Size2D,
-        shadow: DropShadow
+        shadow: DropShadow,
+        fill: Fill,
+        panel: Panel
     ) {
         self.image = image
         self.lottie = lottie
@@ -39,6 +45,8 @@ public final class Bindings: NSObject, StateBag {
         self.point = point
         self.size = size
         self.shadow = shadow
+        self.fill = fill
+        self.panel = panel
     }
 
     public static let name = "Bindings"

@@ -36,7 +36,7 @@ extension UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
 
-        let margins = view.layoutMarginsGuide
+        let margins = layoutMarginsGuide
 
         let constraints = [
             view.topAnchor.constraint(equalTo: margins.topAnchor),

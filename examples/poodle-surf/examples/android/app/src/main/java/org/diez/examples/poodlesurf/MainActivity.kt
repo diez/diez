@@ -1,12 +1,8 @@
 package org.diez.examples.poodlesurf
 
 import android.animation.Animator
-import android.content.res.Resources
-import android.graphics.drawable.PaintDrawable
-import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -124,9 +120,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun applySharedCardStyles(
         shared: SharedCardDesign,
-        cardRoot: LinearLayout,
+        cardRoot: PanelView,
         cardTitle: TextView
     ) {
+        cardRoot.apply(shared.panel)
+
         cardRoot.setPadding(
             shared.layoutMargins.left.dpToPx(),
             shared.layoutMargins.top.dpToPx(),
@@ -135,14 +133,6 @@ class MainActivity : AppCompatActivity() {
         )
         cardRoot.layoutParams = (cardRoot.layoutParams as LinearLayout.LayoutParams).apply {
             bottomMargin = diez.designs.report.contentSpacing.dpToPx()
-        }
-
-        val background = PaintDrawable()
-        background.shape = RectShape()
-        background.shaderFactory = diez.palette.contentBackground.shaderFactory
-
-        cardRoot.background = background.apply {
-            setCornerRadius(shared.cornerRadius.dpToPx().toFloat())
         }
 
         cardTitle.text = shared.title

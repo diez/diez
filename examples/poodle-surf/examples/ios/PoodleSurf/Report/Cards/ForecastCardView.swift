@@ -9,13 +9,12 @@
 import UIKit
 import DiezPoodleSurf
 
-class ForecastCardView: UIView {
+class ForecastCardView: PanelView {
     let titleLabel = UILabel()
     let earlyPart = DayPartView()
     let middlePart = DayPartView()
     let latePart = DayPartView()
     let dayParts: [DayPartView]
-    let backgroundView = GradientView()
     private(set) var separators: [UIView] = []
 
     override init(frame: CGRect) {
@@ -36,11 +35,6 @@ class ForecastCardView: UIView {
 
         setupLayout()
         configureViews()
-    }
-
-    override var layoutMargins: UIEdgeInsets {
-        get { return outterStackView.layoutMargins }
-        set { outterStackView.layoutMargins = newValue }
     }
 
     var titleContentSpacing: CGFloat {
@@ -65,9 +59,7 @@ class ForecastCardView: UIView {
     private var separatorWidthConstraints: [NSLayoutConstraint] = []
 
     private func setupLayout() {
-        var constraints = embed(backgroundView, shouldActivateConstraints: false)
-
-        constraints += embed(outterStackView, shouldActivateConstraints: false)
+        var constraints = contentView.embedToMargins(outterStackView, shouldActivateConstraints: false)
 
         constraints += addSeparators()
 
@@ -124,7 +116,6 @@ class ForecastCardView: UIView {
     }
 
     private func configureViews() {
-        outterStackView.isLayoutMarginsRelativeArrangement = true
         outterStackView.axis = .vertical
 
         partsStackView.isLayoutMarginsRelativeArrangement = true

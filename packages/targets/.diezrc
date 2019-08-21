@@ -43,6 +43,11 @@
       "ios": "./lib/bindings/Point2D/ios",
       "web": "./lib/bindings/Point2D/web"
     },
+    "@diez/prefabs:Panel": {
+      "ios": "./lib/bindings/Panel/ios",
+      "android": "./lib/bindings/Panel/android",
+      "web": "./lib/bindings/Panel/web"
+    },
     "@diez/prefabs:Size2D": {
       "ios": "./lib/bindings/Size2D/ios",
       "web": "./lib/bindings/Size2D/web"

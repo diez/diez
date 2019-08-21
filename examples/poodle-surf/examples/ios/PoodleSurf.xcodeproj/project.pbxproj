@@ -26,7 +26,6 @@
 		46087C2F225FA36A00F4B63F /* ForecastCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C2E225FA36A00F4B63F /* ForecastCardView.swift */; };
 		46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C38225FD3F500F4B63F /* CardViewDescribable.swift */; };
 		46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */; };
-		46087C45225FF79C00F4B63F /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C44225FF79C00F4B63F /* GradientView.swift */; };
 		46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */; };
 		46087C532261307500F4B63F /* UIEdgeInsets+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */; };
 		46087C572261758D00F4B63F /* ReportModel+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C562261758D00F4B63F /* ReportModel+Diez.swift */; };
@@ -35,10 +34,12 @@
 		46087C6122623D9400F4B63F /* LoadingViewController+Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */; };
 		46E14CA4226E38CF007938DA /* mock in Resources */ = {isa = PBXBuildFile; fileRef = 46E14CA3226E38CF007938DA /* mock */; };
 		46E14CA6226E3933007938DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E14CA5226E3933007938DA /* Assets.xcassets */; };
-		B284C4055C6CF0FC308A5848 /* Pods_PoodleSurf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4E9C6004271D74DE75E4CD /* Pods_PoodleSurf.framework */; };
+		F77C6453654086576F2EB0B8 /* Pods_PoodleSurf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B7519EB95663651F68CE97 /* Pods_PoodleSurf.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1FBAD757E600A6705FC9B779 /* Pods-PoodleSurf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.debug.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.debug.xcconfig"; sourceTree = "<group>"; };
+		25B7519EB95663651F68CE97 /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4602E76D2270BEBC00CD7745 /* poodle-surf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "poodle-surf.json"; sourceTree = "<group>"; };
 		46087BE3225D341600F4B63F /* PoodleSurf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PoodleSurf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46087BE6225D341600F4B63F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		46087C2E225FA36A00F4B63F /* ForecastCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCardView.swift; sourceTree = "<group>"; };
 		46087C38225FD3F500F4B63F /* CardViewDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDescribable.swift; sourceTree = "<group>"; };
 		46087C3A225FDA8800F4B63F /* NSLayoutConstraint+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Named.swift"; sourceTree = "<group>"; };
-		46087C44225FF79C00F4B63F /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		46087C4E226105B400F4B63F /* ReportViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewModelBinder.swift; sourceTree = "<group>"; };
 		46087C522261307500F4B63F /* UIEdgeInsets+Diez.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Diez.swift"; sourceTree = "<group>"; };
 		46087C562261758D00F4B63F /* ReportModel+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReportModel+Diez.swift"; sourceTree = "<group>"; };
@@ -69,9 +69,7 @@
 		46087C6022623D9400F4B63F /* LoadingViewController+Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadingViewController+Diez.swift"; sourceTree = "<group>"; };
 		46E14CA3226E38CF007938DA /* mock */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mock; sourceTree = "<group>"; };
 		46E14CA5226E3933007938DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9F4E9C6004271D74DE75E4CD /* Pods_PoodleSurf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PoodleSurf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C75C40FDEC1DD06EDEE07525 /* Pods-PoodleSurf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.debug.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.debug.xcconfig"; sourceTree = "<group>"; };
-		C8761F9EDF34CDC6607A5022 /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
+		E203FEF24EF74EBDA2520826 /* Pods-PoodleSurf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PoodleSurf.release.xcconfig"; path = "Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,20 +77,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B284C4055C6CF0FC308A5848 /* Pods_PoodleSurf.framework in Frameworks */,
+				F77C6453654086576F2EB0B8 /* Pods_PoodleSurf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26F65706D06A94D037C24DF7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25B7519EB95663651F68CE97 /* Pods_PoodleSurf.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		46087BDA225D341600F4B63F = {
 			isa = PBXGroup;
 			children = (
 				46087BE5225D341600F4B63F /* PoodleSurf */,
 				46087BE4225D341600F4B63F /* Products */,
 				65C8EFBDD839B4B74105AEB5 /* Pods */,
-				A4E13B234C633BF2C52BAA51 /* Frameworks */,
+				26F65706D06A94D037C24DF7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,7 +143,6 @@
 				46087C0B225D5F0B00F4B63F /* HorizontalImageLabelView.swift */,
 				46087C0D225D62CF00F4B63F /* HorizontalImageVerticalLabelsView.swift */,
 				46087BFE225D544400F4B63F /* StrokedCircularImageView.swift */,
-				46087C44225FF79C00F4B63F /* GradientView.swift */,
 			);
 			path = "Generic Views";
 			sourceTree = "<group>";
@@ -207,18 +212,10 @@
 		65C8EFBDD839B4B74105AEB5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C75C40FDEC1DD06EDEE07525 /* Pods-PoodleSurf.debug.xcconfig */,
-				C8761F9EDF34CDC6607A5022 /* Pods-PoodleSurf.release.xcconfig */,
+				1FBAD757E600A6705FC9B779 /* Pods-PoodleSurf.debug.xcconfig */,
+				E203FEF24EF74EBDA2520826 /* Pods-PoodleSurf.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		A4E13B234C633BF2C52BAA51 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9F4E9C6004271D74DE75E4CD /* Pods_PoodleSurf.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,12 +225,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 46087BF5225D341800F4B63F /* Build configuration list for PBXNativeTarget "PoodleSurf" */;
 			buildPhases = (
-				4FF0B1DA185DD5DD2AA539E7 /* [CP] Check Pods Manifest.lock */,
+				9D1C3B7FAFEE99D388DD562E /* [CP] Check Pods Manifest.lock */,
 				46087BDF225D341600F4B63F /* Sources */,
 				46087BE0225D341600F4B63F /* Frameworks */,
 				46087BE1225D341600F4B63F /* Resources */,
 				4668B5DC227CC83400BB9213 /* Enable Hot Mode */,
-				C742A896C9DC8DEE9E148F71 /* [CP] Embed Pods Frameworks */,
+				796AC2B95E556424098A5EA6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -311,7 +308,24 @@
 			shellPath = /bin/sh;
 			shellScript = "$SRCROOT/scripts/update-plist.sh\n";
 		};
-		4FF0B1DA185DD5DD2AA539E7 /* [CP] Check Pods Manifest.lock */ = {
+		796AC2B95E556424098A5EA6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D1C3B7FAFEE99D388DD562E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -331,23 +345,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C742A896C9DC8DEE9E148F71 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoodleSurf/Pods-PoodleSurf-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -376,7 +373,6 @@
 				46087C39225FD3F500F4B63F /* CardViewDescribable.swift in Sources */,
 				46087C14225D795000F4B63F /* LoadingViewController.swift in Sources */,
 				46087BE7225D341600F4B63F /* AppDelegate.swift in Sources */,
-				46087C45225FF79C00F4B63F /* GradientView.swift in Sources */,
 				46087C5F22623D8800F4B63F /* ReportViewController+Diez.swift in Sources */,
 				46087C4F226105B500F4B63F /* ReportViewModelBinder.swift in Sources */,
 				46087C3B225FDA8800F4B63F /* NSLayoutConstraint+Named.swift in Sources */,
@@ -516,7 +512,7 @@
 		};
 		46087BF6225D341800F4B63F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C75C40FDEC1DD06EDEE07525 /* Pods-PoodleSurf.debug.xcconfig */;
+			baseConfigurationReference = 1FBAD757E600A6705FC9B779 /* Pods-PoodleSurf.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -536,7 +532,7 @@
 		};
 		46087BF7225D341800F4B63F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8761F9EDF34CDC6607A5022 /* Pods-PoodleSurf.release.xcconfig */;
+			baseConfigurationReference = E203FEF24EF74EBDA2520826 /* Pods-PoodleSurf.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

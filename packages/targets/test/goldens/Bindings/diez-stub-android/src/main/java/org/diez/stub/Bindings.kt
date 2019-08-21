@@ -7,7 +7,9 @@ data class Bindings(
     val linearGradient: LinearGradient = LinearGradient(arrayOf<GradientStop>(GradientStop(0F, Color(0F, 1F, 0.5F, 1F)), GradientStop(1F, Color(0.6666666666666666F, 1F, 0.5F, 1F))), Point2D(0F, 0.5F), Point2D(1F, 0.5F)),
     val point: Point2D = Point2D(0.5F, 0.5F),
     val size: Size2D = Size2D(400F, 300F),
-    val shadow: DropShadow = DropShadow(Point2D(1F, 2F), 3F, Color(0.3333333333333333F, 1F, 0.5F, 0.5F))
+    val shadow: DropShadow = DropShadow(Point2D(1F, 2F), 3F, Color(0.3333333333333333F, 1F, 0.5F, 0.5F)),
+    val fill: Fill = Fill(Color(0F, 1F, 0.5F, 1F), LinearGradient(arrayOf<GradientStop>(GradientStop(0F, Color(0F, 0F, 0F, 1F)), GradientStop(1F, Color(0F, 0F, 1F, 1F))), Point2D(0F, 0F), Point2D(1F, 1F)), "Color"),
+    val panel: Panel = Panel(5F, Fill(Color(0.6666666666666666F, 1F, 0.5F, 1F), LinearGradient(arrayOf<GradientStop>(GradientStop(0F, Color(0F, 0F, 0F, 1F)), GradientStop(1F, Color(0F, 0F, 1F, 1F))), Point2D(0F, 0F), Point2D(1F, 1F)), "Color"), 6F)
 ) : StateBag {
     companion object {}
     override val name = "Bindings"

@@ -418,6 +418,50 @@ Object.defineProperties(DropShadow.prototype, {
   },
 });
 
+class Fill {
+  constructor({
+    color,
+    linearGradient,
+    type
+  }) {
+    this.color = new Color(color);
+    this.linearGradient = new LinearGradient(linearGradient);
+    this.type = type;
+  }
+}
+
+
+module.exports.Fill = Fill;
+
+class Panel {
+  constructor({
+    cornerRadius,
+    background,
+    dropShadow
+  }) {
+    this.cornerRadius = cornerRadius;
+    this.background = new Fill(background);
+    this.dropShadow = new DropShadow(dropShadow);
+  }
+}
+
+
+module.exports.Panel = Panel;
+
+const {fillToBackgroundCss} = require('@diez/web-sdk-common');
+
+Object.defineProperties(Panel.prototype, {
+  style: {
+    get () {
+      return {
+        background: fillToBackgroundCss(this.background),
+        boxShadow: this.dropShadow.boxShadow,
+        borderRadius: `${this.cornerRadius}px`,
+      };
+    },
+  },
+});
+
 class Bindings {
   constructor({
     image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, size: {width: 246, height: 246}},
@@ -426,7 +470,9 @@ class Bindings {
     linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
     point = {x: 0.5, y: 0.5},
     size = {width: 400, height: 300},
-    shadow = {offset: {x: 1, y: 2}, radius: 3, color: {h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5}}
+    shadow = {offset: {x: 1, y: 2}, radius: 3, color: {h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5}},
+    fill = {color: {h: 0, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"},
+    panel = {cornerRadius: 5, background: {color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"}, dropShadow: {offset: {x: 2, y: 3}, radius: 4, color: {h: 0, s: 1, l: 0.5, a: 1}}}
   } = {}) {
     this.image = new Image(image);
     this.lottie = new Lottie(lottie);
@@ -435,6 +481,8 @@ class Bindings {
     this.point = new Point2D(point);
     this.size = new Size2D(size);
     this.shadow = new DropShadow(shadow);
+    this.fill = new Fill(fill);
+    this.panel = new Panel(panel);
   }
 }
 

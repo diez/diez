@@ -9,6 +9,11 @@ const binding: WebBinding<DropShadow> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'DropShadow.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'DropShadow.d.ts')],
   assetsBinder: async (instance, program, output, spec, property) => {
+    // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
+    if (property.parentType === 'Panel') {
+      return;
+    }
+
     const name = joinToKebabCase(property.parentType, property.name);
     const value = dropShadowToCss(instance);
     const filterValue = dropShadowToFilterCss(instance);

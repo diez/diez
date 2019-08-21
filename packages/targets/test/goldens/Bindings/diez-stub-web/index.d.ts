@@ -166,6 +166,23 @@ export declare class DropShadow {
   filterStyle: {filter: string};
 }
 
+export declare class Fill {
+  color: Color;
+  linearGradient: LinearGradient;
+  type: string;
+}
+
+export declare class Panel {
+  /**
+   * CSS declarations for the panel.
+   */
+  style: {
+    background: string,
+    boxShadow: string,
+    borderRadius: string,
+  };
+}
+
 export declare class Bindings extends StateBag {
   image: Image;
   lottie: Lottie;
@@ -174,5 +191,7 @@ export declare class Bindings extends StateBag {
   point: Point2D;
   size: Size2D;
   shadow: DropShadow;
+  fill: Fill;
+  panel: Panel;
 }
 

@@ -1,7 +1,7 @@
 package {{{packageName}}}
 
-import android.util.TypedValue
 import android.content.res.Resources
+import android.util.TypedValue
 
 fun Number.dpToPx(): Int {
     return TypedValue.applyDimension(

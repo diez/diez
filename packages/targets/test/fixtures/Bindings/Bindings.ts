@@ -3,10 +3,12 @@ import {
   DropShadow,
   File,
   FileType,
+  Fill,
   Font,
   Image,
   LinearGradient,
   Lottie,
+  Panel,
   Point2D,
   Size2D,
   Toward,
@@ -39,5 +41,18 @@ export class Bindings {
     offset: Point2D.make(1, 2),
     radius: 3,
     color: Color.rgba(0, 255, 0, 0.5),
+  });
+
+  fill = Fill.color(Color.rgb(255, 0, 0));
+
+  panel = new Panel({
+    cornerRadius: 5,
+    background: Fill.color(Color.rgb(0, 0, 255)),
+    dropShadow: new DropShadow({
+      offset: Point2D.make(2, 3),
+      radius: 4,
+      color: Color.rgb(255, 0, 0),
+    }),
+    elevation: 6,
   });
 }

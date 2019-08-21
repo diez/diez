@@ -16,14 +16,12 @@ export default class Card extends React.PureComponent<CardProps> {
       <div
         className="card"
         style={{
-          backgroundImage: ds.gradient.linearGradient,
+          ...ds.panel.style,
           paddingTop: ds.layoutMargins.top,
           paddingLeft: ds.layoutMargins.left,
           paddingBottom: ds.layoutMargins.bottom,
           paddingRight: ds.layoutMargins.right,
-          borderRadius: ds.cornerRadius,
           marginBottom: ds.layoutMargins.bottom,
-          boxShadow: ds.dropShadow.boxShadow,
           display: 'flex',
           flexWrap: 'wrap',
           flexDirection: 'column',

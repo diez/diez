@@ -10,7 +10,7 @@ import UIKit
 import DiezPoodleSurf
 
 class StrokedCirularImageView: UIView {
-    let strokeView = GradientView()
+    let strokeView = LinearGradientView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

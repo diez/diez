@@ -9,11 +9,10 @@
 import UIKit
 import DiezPoodleSurf
 
-class TemperatureCardView: UIView {
+class TemperatureCardView: PanelView {
     let titleLabel = UILabel()
     let temperatureView = HorizontalImageLabelView()
     let wetsuitView = HorizontalImageVerticalLabelsView()
-    let backgroundView = GradientView()
 
     override init(frame: CGRect) {
         innerStackView = UIStackView(arrangedSubviews: [
@@ -42,27 +41,17 @@ class TemperatureCardView: UIView {
         set { innerStackView.spacing = newValue }
     }
 
-    override var layoutMargins: UIEdgeInsets {
-        get { return outterStackView.layoutMargins }
-        set { outterStackView.layoutMargins = newValue }
-    }
-
     override class var requiresConstraintBasedLayout: Bool { return true }
 
     private let outterStackView: UIStackView
     private let innerStackView: UIStackView
 
     private func setupLayout() {
-        var constraints = embed(backgroundView, shouldActivateConstraints: false)
-
-        constraints += embed(outterStackView, shouldActivateConstraints: false)
-
-        NSLayoutConstraint.activate(constraints)
+        contentView.embedToMargins(outterStackView)
     }
 
     private func configureViews() {
         outterStackView.axis = .vertical
-        outterStackView.isLayoutMarginsRelativeArrangement = true
 
         innerStackView.axis = .horizontal
         innerStackView.distribution = .fillEqually

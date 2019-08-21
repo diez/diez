@@ -11,7 +11,6 @@ $bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
 $bindings-image-width: 246px;
 $bindings-image-height: 246px;
 $bindings-image-size: 246px 246px;
-$gradient-stop-color: hsla(240, 100%, 50%, 1);
 $bindings-linear-gradient: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 $bindings-point-x: 0.5;
 $bindings-point-x-px: 0.5px;
@@ -59,14 +58,6 @@ $bindings-shadow-filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
   color: hsla(60, 100%, 50%, 1);
 }
 
-@mixin gradient-stop-color-background-color {
-  background-color: hsla(240, 100%, 50%, 1);
-}
-
-@mixin gradient-stop-color-color {
-  color: hsla(240, 100%, 50%, 1);
-}
-
 @mixin bindings-linear-gradient-background {
   background: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }
@@ -85,5 +76,11 @@ $bindings-shadow-filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
 
 @mixin bindings-shadow-filter {
   filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
+}
+
+@mixin bindings-panel {
+  box-shadow: 2px 3px 4px hsla(0, 100%, 50%, 1);
+  border-radius: 5px;
+  background: hsla(240, 100%, 50%, 1);
 }
 

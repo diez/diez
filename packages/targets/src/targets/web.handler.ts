@@ -253,6 +253,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         }
 
         if (
+          componentName === 'Fill' ||
           componentName === 'Font' ||
           componentName === 'GradientStop' ||
           componentName === 'Point2D' ||

@@ -57,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.stackView appendView:gradientView];
     [gradientView.heightAnchor constraintEqualToAnchor:gradientView.widthAnchor multiplier:0.25].active = YES;
 
+    DEZPanelView *panelView = [[DEZPanelView alloc] init];
+    [self.stackView appendView:panelView];
+    [panelView.heightAnchor constraintEqualToAnchor:panelView.widthAnchor multiplier:0.25].active = YES;
+
     UILabel *pointLabel = [[UILabel alloc] init];
     pointLabel.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:pointLabel];
@@ -87,9 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
 
         imageView.image = component.designs.navigationTitle.icon.uiImage;
 
-        [imageView.layer dez_applyDropShadow:component.designs.report.wind.shared.dropShadow];
+        [imageView.layer dez_applyDropShadow:component.designs.report.wind.shared.panel.dropShadow];
 
-        [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.gradient];
+        [gradientView.gradientLayer dez_applyLinearGradient:component.designs.report.waterTemperature.shared.panel.background.linearGradient];
+
+        [panelView applyPanel:component.designs.report.wind.shared.panel];
 
         [animationView dez_loadLottie:component.designs.loading.animation completion:nil];
 

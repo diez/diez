@@ -5,12 +5,9 @@ import {Point2D} from '../src/point2d';
 describe('DropShadow', () => {
   test('basic functionality', () => {
     const color = Color.hsla(0, 0.25, 0.5, 0.75);
-    const point = Point2D.make(1, 2);
-    const shadow = new DropShadow({
-      color,
-      offset: point,
-      radius: 3,
-    });
+    const offset = Point2D.make(1, 2);
+    const radius = 3;
+    const shadow = new DropShadow({color, offset, radius});
     expect(shadow.serialize()).toEqual({
       color: {
         h: 0,

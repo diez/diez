@@ -78,7 +78,7 @@
                     android:orientation="vertical">
 
                     <!-- Temperature Card -->
-                    <LinearLayout
+                    <org.diez.poodleSurf.PanelView
                         android:id="@+id/temperatureCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -133,10 +133,10 @@
                                     android:layout_height="wrap_content" />
                             </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                    </org.diez.poodleSurf.PanelView>
 
                     <!-- Wind Card -->
-                    <LinearLayout
+                    <org.diez.poodleSurf.PanelView
                         android:id="@+id/windCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -280,10 +280,10 @@
 
                             </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                    </org.diez.poodleSurf.PanelView>
 
                     <!-- Swell Card -->
-                    <LinearLayout
+                    <org.diez.poodleSurf.PanelView
                         android:id="@+id/swellCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -412,10 +412,10 @@
 
                             </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                    </org.diez.poodleSurf.PanelView>
 
                     <!-- Tide Card -->
-                    <LinearLayout
+                    <org.diez.poodleSurf.PanelView
                         android:id="@+id/tideCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -543,7 +543,7 @@
                                     android:layout_height="wrap_content" />
                             </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                    </org.diez.poodleSurf.PanelView>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

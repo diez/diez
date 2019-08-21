@@ -9,6 +9,11 @@ const binding: WebBinding<LinearGradient> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'LinearGradient.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'LinearGradient.d.ts')],
   assetsBinder: async (instance, program, output, spec, property) => {
+    // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
+    if (property.parentType === 'Fill') {
+      return;
+    }
+
     const name = joinToKebabCase(property.parentType, property.name);
     const value = linearGradientToCss(instance);
 
