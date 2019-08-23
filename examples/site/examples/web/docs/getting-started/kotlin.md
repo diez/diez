@@ -4,6 +4,8 @@
 
 The best way to try out Diez is by using our official template project which comes with everything set up for you. Head over to the [Set Up guide](/getting-started#set-up) if you haven't already scaffolded out a template project and example codebases.
 
+The generated Android project has been tested with Android Studio 3.4 on Android Q (10). We recommend using the latest stable version of Android Studio.
+
 #### Generate your Diez project's Android SDK and serve it in hot mode
 
 In the template project, you'll find a sample Diez project defined for you in `src/DesignSystem.ts` and a sample Android app consuming it in `examples/android`.

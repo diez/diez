@@ -4,6 +4,8 @@
 
 The best way to try out Diez is by using our official template project which comes with everything set up for you. Head over to the [Set Up guide](/getting-started#set-up) if you haven't already scaffolded out a template project and example codebases.
 
+The project generated in this guide requires Xcode 9+ and iOS 11+. We recommend using the latest stable version of Xcode.
+
 #### Generate your Diez project's iOS SDK and serve it in hot mode
 
 In the template project, you'll find a sample Diez project defined for you in `src/DesignSystem.ts` and a sample iOS app consuming it in `examples/ios`.
