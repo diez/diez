@@ -26,7 +26,7 @@ That's it! You now have a Diez project set up and ready to power your apps. Let'
 
 By default, the `yarn create diez` CLI functionality scaffolds out not only a Diez project, but example codebases that demonstrate how to consume your Compiler-baked Diez SDKs in real apps.
 
-<img width="100%" src="@theme/assets/imgs/infographic.png">
+<HaiInfographic></HaiInfographic>
 
 <div class="note">Note that the example apps are only present for demonstration purposes. They can be safely discarded when you connect your Diez project to your own apps.</div>
 

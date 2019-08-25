@@ -23,5 +23,8 @@
     "fix": "yarn lint --fix",
     "lint": "eslint docs/.vuepress/theme --ext .js,.vue",
     "health": "yarn lint -f checkstyle -o checkstyle-result.xml"
+  },
+  "dependencies": {
+    "@haiku/tina-whatyouscaffoldedoutlooping": "^0.0.4"
   }
 }

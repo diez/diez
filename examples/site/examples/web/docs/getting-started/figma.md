@@ -65,13 +65,13 @@ yarn diez extract
 
 After authenticating Diez with your Figma account, you'll notice a few new updates to your Diez project.
 
-Inside a folder called `/assets/YourFigmaProjName.figma.contents` you'll find the extracted asset files required by your Diez project — `.png`s for each Figma "component" at resolutions @1x-@4x, and any font files associated with your Figma Text Styles.
+Inside a folder called `./assets/YourFigmaProjName.figma.contents` you'll find the extracted asset files required by your Diez project — `.png`s for each Figma "component" at resolutions @1x-@4x, and any font files associated with your Figma Text Styles.
 
-But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `/src/designs/YourFigmaProjName.figma.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
+But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `./src/designs/YourFigmaProjName.figma.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
 
 #### Integrating your Figma DTCs into your design system
 
-Import your Figma DTCs into your main design system file: `/src/DesignSystem.ts`
+Import your Figma DTCs into your main design system file: `./src/DesignSystem.ts`
 
 ```typescript
 import { yourFigmaProjNameTokens } from './designs/YourFigmaProjName.figma';

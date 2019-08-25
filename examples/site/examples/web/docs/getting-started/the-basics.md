@@ -1,5 +1,9 @@
 ## Diez basics
 
+### A walk-through
+Want to get a feel for how Diez fits into your team's workflow? Check out the end-to-end video we've put together for those purposes.
+<iframe style="margin-top:30px" width="100%" height="500" src="https://www.youtube.com/embed/41xMXV52Uwo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### The moving pieces
 
 #### Your Diez Project

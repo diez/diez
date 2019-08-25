@@ -1364,6 +1364,18 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
+"@haiku/core@^4.5.1":
+  version "4.5.2"
+  resolved "https://reservoir.haiku.ai/@haiku%2fcore/-/core-4.5.2.tgz#0c054a1cb8bb26ecfebf7f0adafae194093d3c9a"
+  integrity sha512-C1dFZcv2lBieVgfXM89D/BrKwBvWieYZzEL7BF3Xn9PDwMty1EjihiyZ2M+bORpSZ2ipcweg0gULb9Fz6UQqbQ==
+
+"@haiku/tina-whatyouscaffoldedoutlooping@^0.0.4":
+  version "0.0.4"
+  resolved "https://reservoir.haiku.ai/@haiku%2ftina-whatyouscaffoldedoutlooping/-/tina-whatyouscaffoldedoutlooping-0.0.4.tgz#0b144900b31b30e2512dc18531e0ebccc3db0c25"
+  integrity sha512-sgPRGUbeDzaN/crXyMS0VThvFFks+gQCa5iDrN+LAP6wxNQoBPhZ7EHiSICrfpTPSw/Nk/nDqYzwOFw7FzXH3Q==
+  dependencies:
+    "@haiku/core" "^4.5.1"
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"

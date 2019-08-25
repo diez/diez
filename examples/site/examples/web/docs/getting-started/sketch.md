@@ -9,7 +9,7 @@ Diez has built-in ability to extract styles and images from design files and tur
 If you'd like to follow along, please first [create your own Diez project using the official template project](/getting-started/#set-up) which comes with everything set up for you and includes example codebases consuming the design system.
 
 ### Linking a Sketch file to your Diez project
-From your Diez project root, open the empty `designs/` folder and drop in your Sketch file.
+From your Diez project root, open the empty `./designs/` folder and drop in your Sketch file.
 
 ### Setting up your Sketch file for extraction
 Your Sketch file will need a little bit of set up work to denote which styles you intend to extract. Diez intentionally limits the elements you can extract to the set of items you reuse across your Sketch file: **Text Styles**, **Document Colors**, **Document Gradients**, **Layer Styles** and **Slices**.
@@ -52,13 +52,13 @@ yarn diez extract
 
 You'll notice a few new updates to your Diez project.
 
-Inside a folder called `/assets/YourSketchFileName.sketch.contents` you'll find the extracted asset files required by your Diez project — `.png`s for each sliced visual at resolutions @1x-@4x, and any font files associated with your Text Styles.
+Inside a folder called `./assets/YourSketchFileName.sketch.contents` you'll find the extracted asset files required by your Diez project — `.png`s for each sliced visual at resolutions @1x-@4x, and any font files associated with your Text Styles.
 
-But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `/src/designs/YourSketchFileName.sketch.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
+But Diez didn't _only_ extract assets for you, it crafted them into strongly-typed and composable design token components (DTCs)! Take a look in `./src/designs/YourSketchFileName.sketch.ts` and you'll see your clean set of DTCs. And while this set of generated DTCs is just as pretty as the ones you'll create yourself, you won't need to edit it by hand.
 
 #### Integrating your Sketch DTCs into your design system
 
-Import your Sketch DTCs into your main design system file: `/src/DesignSystem.ts`
+Import your Sketch DTCs into your main design system file: `./src/DesignSystem.ts`
 
 ```typescript
 import { yourSketchFileNameTokens } from './designs/YourSketchFileName.sketch';
