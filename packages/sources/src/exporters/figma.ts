@@ -215,7 +215,7 @@ const downloadAssets = async (
   authToken: string,
 ) => {
   if (!filenameMap.size) {
-    Log.warning('This Figma file does not contain any shared components.');
+    Log.info('This Figma file does not contain any images (designated as Figma Components).');
     return;
   }
 
