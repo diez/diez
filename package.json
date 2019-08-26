@@ -52,7 +52,7 @@
     "lint": "lerna run lint --no-bail --stream",
     "postinstall": "yarn compile",
     "release": "yarn diez release",
-    "test": "lerna run test --stream",
+    "test": "lerna run test --stream --concurrency 1",
     "watch": "yarn diez watch",
     "prepublishOnly": "yarn clean",
     "prepack": "yarn diez minify-sources"

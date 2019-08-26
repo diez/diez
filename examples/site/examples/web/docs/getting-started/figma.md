@@ -81,7 +81,7 @@ Then use it as you see fit. As shown here, we've used the Color Style from Figma
 
 ```typescript
 class Palette {
-  lightBackground = yourFigmaProjNameTokens.palette.fuss
+  lightBackground = yourFigmaProjNameTokens.palette.fuss;
 }
 ```
 

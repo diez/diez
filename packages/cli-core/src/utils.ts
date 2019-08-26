@@ -184,7 +184,6 @@ export const canRunCommand = async (command: string) => {
 /**
  * Exit trap for shutting down handles and preventing process leaks in Node.
  */
-
 export const exitTrap = (cleanup: () => void) => {
   global.process.once('exit', cleanup);
   global.process.once('SIGINT', cleanup);

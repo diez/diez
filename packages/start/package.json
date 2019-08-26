@@ -1,8 +1,8 @@
 {
-  "name": "@diez/test-utils",
+  "name": "@diez/start",
   "main": "lib/index.js",
   "version": "10.0.0-beta.4",
-  "description": "Support library for Diez unit and integration tests.",
+  "description": "Provides a simple command for starting Diez demo projects.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
   "typings": "types/index.d.ts",
@@ -20,17 +20,16 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "commander": "^2.19.0",
-    "expect": "^23.6.0",
-    "fs-extra": "^7.0.1",
-    "jest": "^24.7.1",
-    "jest-diff": "^24.7.0",
-    "stream-mock": "^2.0.2"
+    "@diez/cli-core": "^10.0.0-beta.4",
+    "@diez/engine": "^10.0.0-beta.4",
+    "@diez/sources": "^10.0.0-beta.4",
+    "semver": "^6.0.0"
   },
   "devDependencies": {
-    "@types/expect": "^1.20.4",
+    "@diez/test-utils": "10.0.0-beta.4",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
+    "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.15.0",

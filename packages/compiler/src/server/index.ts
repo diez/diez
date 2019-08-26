@@ -1,4 +1,4 @@
-import {Log, socketTrap} from '@diez/cli-core';
+import {exitTrap, Log, socketTrap} from '@diez/cli-core';
 import {watch} from 'chokidar';
 import cors from 'cors';
 import debounce from 'debounce';
@@ -48,7 +48,10 @@ export const serveHot = async (
   const hotMiddleware = webpackHotMiddleware(compiler, {log: false});
 
   const hotExtractMutex = join(program.projectRoot, '.diez', 'extract-port');
-  const watcher = watch(hotExtractMutex, {persistent: true});
+  const watcher = watch(hotExtractMutex, {useFsEvents: false});
+  exitTrap(() => {
+    watcher.close();
+  });
 
   const debouncedReload = debounce(() => {
     Log.info('Reloading assets...');

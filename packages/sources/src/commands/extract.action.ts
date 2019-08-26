@@ -77,8 +77,12 @@ export = async ({hot}: SyncOptions) => {
     const sockets: Socket[] = [];
 
     const watcher = watch(configuration.sources, {
-      persistent: true,
+      useFsEvents: false,
       ignoreInitial: true,
+    });
+
+    exitTrap(() => {
+      watcher.close();
     });
 
     Log.info(`Watching ${Format.code(configuration.sources)} for changes...`);

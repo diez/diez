@@ -1,17 +1,6 @@
-module.exports = {
-  roots: [
-    '<rootDir>/test',
-  ],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.jsx?$': 'babel-jest',
+module.exports = Object.assign(
+  require('../../jest.config.shared'),
+  {
+    testSequencer: '<rootDir>/testSequencer.js',
   },
-  testRegex: 'test\.tsx?$',
-  moduleFileExtensions: [
-    'ts',
-    'tsx',
-    'js',
-    'jsx',
-    'json',
-  ],
-};
+);

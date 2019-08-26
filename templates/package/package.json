@@ -19,11 +19,8 @@
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix"
   },
-  "dependencies": {
-    "@diez/engine": "VERSION"
-  },
   "devDependencies": {
-    "@diez/test-utils": "VERSION",
+    "@diez/test-utils": "^VERSION",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

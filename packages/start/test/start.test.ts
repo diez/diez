@@ -1,0 +1,87 @@
+import {assignMock, cleanupMockCommandData, diezRun, mockCanRunCommand, mockCliCoreFactory} from '@diez/test-utils';
+jest.doMock('@diez/cli-core', mockCliCoreFactory);
+
+const mockFork = jest.fn();
+const mockSpawn = jest.fn();
+const mockExecSync = jest.fn();
+jest.doMock('child_process', () => {
+  const childProcess = jest.requireActual('child_process');
+  childProcess.fork = mockFork;
+  childProcess.spawn = mockSpawn;
+  childProcess.execSync = mockExecSync;
+  return childProcess;
+});
+
+import {EventEmitter} from 'events';
+
+const mockProcess = new EventEmitter();
+
+assignMock(process, 'exit');
+
+beforeEach(() => {
+  mockCanRunCommand.mockImplementation(() => true);
+  mockFork.mockReset();
+  mockFork.mockReturnValue(mockProcess);
+  mockSpawn.mockReset();
+  mockExecSync.mockReset();
+  mockExecSync.mockReturnValue('');
+});
+
+afterEach(() => {
+  cleanupMockCommandData();
+});
+
+describe('diez start command', () => {
+  test('crashes if no arguments', async () => {
+    await diezRun('start');
+    expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('crashes if no yarn', async () => {
+    mockCanRunCommand.mockResolvedValue(false);
+    await diezRun('start web');
+    expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('Android golden path', async () => {
+    await diezRun('start android');
+    mockProcess.emit('message', 'built');
+    expect(mockExecSync).toHaveBeenNthCalledWith(
+      1, expect.stringContaining('diez compile -t android'), expect.anything());
+    expect(mockFork).toHaveBeenCalledWith(
+      expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'android'], expect.anything());
+  });
+
+  test('iOS - no CocoaPods', async () => {
+    mockCanRunCommand.mockImplementation((command) => command === 'pod --version' ? false : true);
+    await diezRun('start ios');
+    expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('iOS - bad CocoaPods', async () => {
+    mockExecSync.mockReturnValue('1.6.9');
+    await diezRun('start ios');
+    expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('iOS golden path', async () => {
+    mockExecSync.mockReturnValue('1.7.0');
+    await diezRun('start ios');
+    mockProcess.emit('message', 'built');
+    expect(mockExecSync).toHaveBeenNthCalledWith(1, 'pod --version');
+    expect(mockExecSync).toHaveBeenNthCalledWith(
+      2, expect.stringContaining('diez compile -t ios --cocoapods'), expect.anything());
+    expect(mockExecSync).toHaveBeenNthCalledWith(3, 'pod install', expect.anything());
+    expect(mockFork).toHaveBeenCalledWith(
+      expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'ios'], expect.anything());
+  });
+
+  test('Web golden path', async () => {
+    await diezRun('start web');
+    mockProcess.emit('message', 'built');
+    expect(mockExecSync).toHaveBeenNthCalledWith(
+      1, expect.stringContaining('diez compile -t web'), expect.anything());
+    expect(mockFork).toHaveBeenCalledWith(
+      expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
+  });
+});

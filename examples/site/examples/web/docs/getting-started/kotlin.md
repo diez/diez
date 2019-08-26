@@ -15,15 +15,20 @@ From your Diez project root, run the following command to compile your Diez proj
 ```bash
 yarn start android
 ```
-<div class="note">Note that it's also possible to separate these commands into <code class="inline">yarn build-android</code> and <code class="inline">yarn run-android</code>.</div>
+
+The effect of running this command is the same as running:
+```bash
+yarn diez compile -t android
+yarn diez hot -t android
+```
 
 #### Open the project in Android Studio
 
-In Android Studio, select the option to "Open an exiting Android Studio project" from the welcome screen. (If you already have a project open in Android Studio, you can use the Open... option from the File menu.)
+`yarn start android` attempts to open the example project in Android Studio. If this does not work for any reason, in Android Studio, select the option to "Open an exiting Android Studio project" from the welcome screen. (If you already have a project open in Android Studio, you can use the Open... option from the File menu.)
 
 After Gradle dependencies sync, run the `app` target with `Ctrl + R`.
 
-### Making Changes
+#### Making Changes
 
 Let's change the background color of our application by modifying our design system's source of truth.
 

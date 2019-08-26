@@ -3,7 +3,7 @@ import {Command} from 'commander';
 /**
  * A CLI action. Receives the arguments of a CLI command.
  */
-export type CliAction = (command: any, ...args: string[]) => Promise<void>;
+export type CliAction = (command: any, ...args: any[]) => Promise<void>;
 
 /**
  * A generic interface for a CLI command option validator. Options can be either a boolean

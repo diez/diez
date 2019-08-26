@@ -8,7 +8,7 @@
   "scripts": {
     "build-web": "diez compile -t web",
     "run-web": "diez hot -t web",
-    "start": "node ./scripts/start"
+    "start": "diez start"
   },
   "dependencies": {
     "@diez/engine": "^10.0.0-beta.4",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@diez/compiler": "^10.0.0-beta.4",
     "@diez/sources": "^10.0.0-beta.4",
+    "@diez/start": "^10.0.0-beta.4",
     "@diez/targets": "^10.0.0-beta.4",
     "diez": "^10.0.0-beta.4",
     "typescript": "^3.5.3"

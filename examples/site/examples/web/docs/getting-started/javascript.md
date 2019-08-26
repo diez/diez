@@ -13,14 +13,11 @@ From your Diez project root, run the following command to compile your Diez proj
 ```bash
 yarn start web
 ```
-<div class="note">Note that it's also possible to separate these commands into <code class="inline">yarn build-web</code> and <code class="inline">yarn run-web</code>.</div>
 
-
-#### Running the web app
-
-Next you'll want to leave your Diez project server running and open a new tab in your terminal in order to run the sample web project consuming it.
-
+The effect of running this command is the same as running:
 ```bash
+yarn diez compile -t web
+yarn diez hot -t web
 cd examples/web
 yarn start
 ```
@@ -33,7 +30,7 @@ If you take a look at the code in `examples/web/App.tsx`, you'll find that the d
 
 As you can see, the app is **directly** consuming your design system!
 
-### Making Changes
+#### Making Changes
 
 Due to your Diez project being served in hot mode, any time you make changes to it, it will recompile on the fly.
 

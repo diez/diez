@@ -4,7 +4,7 @@
 
 The best way to try out Diez is by using our official template project which comes with everything set up for you. Head over to the [Set Up guide](/getting-started#set-up) if you haven't already scaffolded out a template project and example codebases.
 
-The project generated in this guide requires Xcode 9+ and iOS 11+. We recommend using the latest stable version of Xcode.
+The project generated in this guide requires Xcode 9+, Cocoapods 1.7.0+, and iOS 11+. We recommend using the latest stable version of Xcode.
 
 #### Generate your Diez project's iOS SDK and serve it in hot mode
 
@@ -15,17 +15,19 @@ From your Diez project root, run the following command to compile your Diez proj
 ```bash
 yarn start ios
 ```
-<div class="note">Note that it's also possible to separate these commands into <code class="inline">yarn build-ios</code> and <code class="inline">yarn run-ios</code>.</div>
 
-#### Open the generated workspace in Xcode
-
+The effect of running this command is the same as running:
 ```bash
-open examples/ios/YourProjectName.xcworkspace
+yarn diez compile -t ios --cocoapods
+yarn diez hot -t ios
+cd examples/ios
+pod install
+open examples/ios/PoodleSurf.xcworkspace
 ```
 
-Run the application (click ► or hit `⌘ + r`) to see Diez in action.
+Once you have the application open in Xcode, run it (click ► or hit `⌘ + r`) to see Diez in action.
 
-### Making Changes
+#### Making Changes
 
 Let's change the background color of our application by modifying our design system's source of truth.
 

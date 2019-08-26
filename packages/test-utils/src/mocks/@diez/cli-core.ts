@@ -23,6 +23,7 @@ export const mockSocketTrap = jest.fn();
  */
 export const cleanupMockCommandData = () => {
   mockExec.mockReset();
+  mockCanRunCommand.mockReset();
 };
 
 /**
