@@ -1,1 +1,6 @@
-module.exports = require('../../jest.ci.shared');
+module.exports = Object.assign(
+  require('../../jest.ci.shared'),
+  {
+    testSequencer: '<rootDir>/testSequencer.js',
+  },
+);
