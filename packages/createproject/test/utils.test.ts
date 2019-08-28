@@ -14,12 +14,12 @@ describe('canUseNpm', () => {
 ; cli configs
 metrics-registry = "https://registry.npmjs.org/"
 scope = ""
-user-agent = "npm/6.4.1 node/v10.15.3 darwin x64"
+user-agent = "npm/6.4.1 node/v10.16.3 darwin x64"
 
 ; userconfig /Users/jiggs/.npmrc
 @haiku:registry = "https://reservoir.haiku.ai:8910/"
 
-; node bin location = /Users/jiggs/.nvm/versions/node/v10.15.3/bin/node
+; node bin location = /Users/jiggs/.nvm/versions/node/v10.16.3/bin/node
 ; cwd = /Users/jiggs/projects/haiku/diez/packages/compiler
 ; HOME = /Users/jiggs
 ; "npm config ls -l" to show all defaults.

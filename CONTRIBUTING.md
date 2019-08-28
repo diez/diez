@@ -4,7 +4,7 @@ Thank you for your interest in contributing to Diez! The following guidelines sh
 
 ## Setup
 
-The Diez monorepo is built with NodeJS `10.15.3` and Yarn `1.16.0`. The following commands should bootstrap the monorepo and get you ready for development:
+The Diez monorepo is built with NodeJS `10.16.3` and Yarn `1.16.0`. The following commands should bootstrap the monorepo and get you ready for development:
 
 - Get NVM:
 
@@ -12,11 +12,11 @@ The Diez monorepo is built with NodeJS `10.15.3` and Yarn `1.16.0`. The followin
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
   ```
 
-- Install NodeJS 10.15.3:
+- Install NodeJS 10.16.3:
 
   ```bash
-  nvm install 10.15.3
-  nvm alias default 10.15.3
+  nvm install 10.16.3
+  nvm alias default 10.16.3
   ```
 
 - Install Yarn 1.16.0:
