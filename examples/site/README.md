@@ -6,7 +6,7 @@ The official website for Diez.
 
 ### Requisites
 - Node v10.16.3
-- Yarn v1.16.0
+- Yarn v1.17.3
 
 ### Building the design system for web
 
