@@ -17,6 +17,7 @@
     "preserveWatchOutput": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "newLine": "lf"
+    "newLine": "lf",
+    "sourceMap": true
   }
 }
