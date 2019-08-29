@@ -1,4 +1,4 @@
-import {AssetBinder} from '@diez/compiler';
+import {AssetBinder, TargetOutput} from '@diez/compiler';
 import {File, FileType, Font, Image} from '@diez/prefabs';
 // Note: we are careful to import the full module so we can monkey-patch it in our test harness.
 import fontkit from 'fontkit';
@@ -46,7 +46,10 @@ const validateFontFile = (fontFile: File, projectRoot: string) => {
 /**
  * An simple "copy asset" binder for the File prefab.
  */
-export const fileAssetBinder: AssetBinder<File> = async (instance, {projectRoot}, {assetBindings}) =>
+export const fileAssetBinder: AssetBinder<
+  File,
+  Pick<TargetOutput, 'assetBindings'>
+> = async (instance, {projectRoot}, {assetBindings}) =>
   new Promise((resolve, reject) => {
     // Validate correct types for hosted components.
     requireFileTypeForChild(instance, FileType.Image, Image);

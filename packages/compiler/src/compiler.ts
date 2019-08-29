@@ -1,16 +1,15 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
 import {serialize} from '@diez/engine';
-import {noCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
+import {ClassDeclaration, EnumDeclaration, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
-import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
+import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {getBinding, getHotPort, getProject, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
+import {getBinding, getHotPort, getProject, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * A class implementing the requirements of Diez compilation.
@@ -136,6 +135,18 @@ export class Program extends EventEmitter implements CompilerProgram {
     return PrimitiveType.Unknown;
   }
 
+  private getDescriptionForValue (describable: JSDocableNode): PropertyDescription {
+    const lines: string[] = [];
+    for (const jsDoc of describable.getJsDocs()) {
+      const comment = jsDoc.getComment();
+      if (comment !== undefined) {
+        lines.push(comment);
+      }
+    }
+
+    return {body: lines.join('\n')};
+  }
+
   /**
    * Processes a component type and attaches it to a preconstructed target component map.
    *
@@ -198,6 +209,7 @@ export class Program extends EventEmitter implements CompilerProgram {
         ambiguousTypes: new Set(),
       },
       source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
+      description: this.getDescriptionForValue(typeValue),
     };
 
     // Note if the object in question is a singleton, i.e. receives no constructor arguments.
@@ -217,8 +229,8 @@ export class Program extends EventEmitter implements CompilerProgram {
         continue;
       }
       const propertyName = valueDeclaration.getName();
+      const description = this.getDescriptionForValue(valueDeclaration);
       let propertyType = this.checker.getTypeAtLocation(valueDeclaration);
-
       // Process array type depth.
       // TODO: support tuples and other iterables.
       let depth = 0;
@@ -244,7 +256,7 @@ export class Program extends EventEmitter implements CompilerProgram {
         if (primitiveType === PrimitiveType.Unknown) {
           newTarget.warnings.ambiguousTypes.add(propertyName);
         } else {
-          newTarget.properties.push({depth, name: propertyName, isComponent: false, type: primitiveType});
+          newTarget.properties.push({depth, description, name: propertyName, isComponent: false, type: primitiveType});
         }
         continue;
       }
@@ -264,6 +276,7 @@ export class Program extends EventEmitter implements CompilerProgram {
 
       newTarget.properties.push({
         depth,
+        description,
         name: propertyName,
         isComponent: true,
         type: candidateSymbol.getName(),
@@ -444,18 +457,6 @@ export class Program extends EventEmitter implements CompilerProgram {
     };
   }
 }
-
-/**
- * Infers package name from the project root.
- * @internal
- */
-const inferProjectName = (projectName: string) => {
-  try {
-    return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
-  } catch (error) {
-    return 'design-system';
-  }
-};
 
 /**
  * An abstract class wrapping the basic functions of a target compiler.

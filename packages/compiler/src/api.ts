@@ -26,6 +26,13 @@ export interface CompilerOptions {
 }
 
 /**
+ * JSDoc description of a property.
+ */
+export interface PropertyDescription {
+  body: string;
+}
+
+/**
  * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | ...`.
  *
  * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
@@ -87,6 +94,10 @@ export interface TargetProperty {
    * The name of the host of the property.
    */
   parentType?: PropertyType;
+  /**
+   * Description of the property.
+   */
+  description: PropertyDescription;
 }
 
 /**
@@ -120,6 +131,10 @@ export interface TargetComponent {
    * Warnings encountered while attempting to compile this component.
    */
   warnings: TargetComponentWarnings;
+  /**
+   * Description of the component.
+   */
+  description: PropertyDescription;
 }
 
 /**

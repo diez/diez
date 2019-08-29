@@ -26,6 +26,9 @@ describe('asset binding', () => {
     isComponent: true,
     depth: 1,
     type: 'File',
+    description: {
+      body: '',
+    },
   };
 
   test('file handling exceptions', async () => {

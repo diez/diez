@@ -6,6 +6,14 @@ if (semver.gt('7.6.0', process.version)) {
   process.exit(1);
 }
 
+// Monkey-patch `require()` so the `.diezrc` autodiscovery mechanism can work across monorepos.
+// TODO: we should have a way to *only* do this while developing across monorepos.
+const {addPath} = require('app-module-path');
+const {Module} = require('module');
+for (const requirePath of Module._nodeModulePaths(global.process.cwd())) {
+  addPath(requirePath);
+}
+
 (async () => {
   const packageJson = require('package-json');
   const {Log, diezVersion, loadingMessage} = require('@diez/cli-core');

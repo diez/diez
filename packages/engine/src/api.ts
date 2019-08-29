@@ -43,8 +43,10 @@ export type Float = number | AlwaysFloat;
  * An enum of available compiler targets.
  *
  * This enum can be augmented as needed by third party compilers.
+ *
+ * Note: it is important for this to be a `const enum` to enable proper third-party augmentation.
  */
-export enum Target {
+export const enum Target {
   Android = 'android',
   Ios = 'ios',
   Web = 'web',

@@ -13,6 +13,7 @@
   "dependencies": {
     "@diez/cli-core": "^10.0.0-beta.4",
     "@diez/createproject": "^10.0.0-beta.4",
+    "app-module-path": "^2.2.0",
     "package-json": "^6.3.0",
     "semver": "^6.0.0"
   },

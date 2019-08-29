@@ -33,6 +33,12 @@ describe('compiler program', () => {
     expect(findProperty(validComponent, 'stringEnum').type).toBe(PrimitiveType.String);
     expect(findProperty(validComponent, 'numberEnum').type).toBe(PrimitiveType.Float);
 
+    expect(validComponent.description.body).toBe('This is a mock JSDoc comment on a class.');
+    expect(findProperty(validComponent, 'string').description.body).toBe('This is a mock JSDoc\n_multiline comment_.');
+    expect(
+      findProperty(validComponent, 'boolean').description.body).toBe('This is a mock JSDoc comment on a property.',
+    );
+
     const list1 = findProperty(validComponent, 'validListDepth1');
     const list2 = findProperty(validComponent, 'validListDepth2');
     expect(list1.type).toBe(PrimitiveType.Float);

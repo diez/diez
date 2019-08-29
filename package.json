@@ -6,8 +6,7 @@
     "utils/*",
     "examples/*",
     "examples/*/*/web",
-    "services/*",
-    "../diez-commercial/packages/*"
+    "services/*"
   ],
   "version": "10.10.10",
   "description": "Diez monorepo.",

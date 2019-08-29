@@ -15,6 +15,9 @@ const mockTargetProperty: TargetProperty = {
   isComponent: true,
   depth: 1,
   type: 'Image',
+  description: {
+    body: '',
+  },
 };
 
 describe('android image binding', () => {

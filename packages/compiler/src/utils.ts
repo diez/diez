@@ -1,5 +1,6 @@
 import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
+import {noCase} from 'change-case';
 import {dirname, join, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
@@ -143,7 +144,6 @@ export const getBinding = async <T>(
     resolvedBindings.set(hash, undefined);
     return undefined;
   }
-
   try {
     const binding = require(location) as T;
     resolvedBindings.set(hash, binding);
@@ -199,5 +199,18 @@ export const purgeRequireCache = (path: string, prefix?: string) => {
       }
     }
     delete require.cache[path];
+  }
+};
+
+/**
+ * Infers package name from the project root.
+ * @internal
+ * @ignore
+ */
+export const inferProjectName = (projectName: string) => {
+  try {
+    return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
+  } catch (error) {
+    return 'design-system';
   }
 };

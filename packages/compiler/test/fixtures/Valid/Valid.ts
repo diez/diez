@@ -24,6 +24,9 @@ class ChildComponent {
   grandchild = new GrandchildComponent();
 }
 
+/**
+ * This is a mock JSDoc comment on a class.
+ */
 export class Valid {
   // Private and protected members should be ignored.
   private five = 5;
@@ -33,7 +36,14 @@ export class Valid {
   int: Integer = this.five + this.cinco;
   number = 10;
   float: Float = 10.0;
+  /**
+   * This is a mock JSDoc
+   * _multiline comment_.
+   */
   string = 'ten';
+  /**
+   * This is a mock JSDoc comment on a property.
+   */
   boolean = !!10;
 
   // Homogenous enums should compile with the correct type.
