@@ -41,31 +41,33 @@ class DiezWebpackPlugin {
     }
   }
 
+  private get hotFilePath () {
+    return join(this.options.projectPath!, '.diez', 'web-hot-url');
+  }
+
+  private get isRunningHot () {
+    return existsSync(this.hotFilePath);
+  }
+
   private setAlias (compiler: Compiler) {
-    if (this.options.projectPath) {
-      const hotFilePath = join(this.options.projectPath, '.diez', 'web-hot-url');
-      compiler.options.resolve = compiler.options.resolve || {};
-      compiler.options.resolve.alias = compiler.options.resolve.alias || {};
-      compiler.options.resolve.alias['@diez/styles.scss'] = existsSync(hotFilePath)
-        ? join(this.options.projectPath, '.diez', 'web-assets', 'styles.scss')
-        : join(this.options.projectPath, 'build', `${this.options.sdk}-web`, 'static', 'styles.scss');
-    }
+    compiler.options.resolve = compiler.options.resolve || {};
+    compiler.options.resolve.alias = compiler.options.resolve.alias || {};
+    compiler.options.resolve.alias['@diez/styles.scss'] = this.isRunningHot ?
+      join(this.options.projectPath!, '.diez', 'web-assets', 'styles.scss') :
+      join(this.options.projectPath!, 'build', `${this.options.sdk}-web`, 'static', 'styles.scss');
   }
 
   private setEnvironmentVariables (compiler: Compiler) {
-    if (this.options.projectPath) {
-      const hotFilePath = join(this.options.projectPath, '.diez', 'web-hot-url');
-      if (existsSync(hotFilePath)) {
-        const hotUrl = readFileSync(hotFilePath).toString().trim();
-        console.warn(`Enabling hot mode with URL: ${hotUrl}`);
-        compiler.options.plugins = compiler.options.plugins || [];
-        compiler.options.plugins.push(
-          new DefinePlugin({
-            'process.env.DIEZ_IS_HOT': JSON.stringify(true),
-            'process.env.DIEZ_SERVER_URL': JSON.stringify(hotUrl),
-          }),
+    if (this.isRunningHot) {
+      const hotUrl = readFileSync(this.hotFilePath).toString().trim();
+      console.warn(`Enabling hot mode with URL: ${hotUrl}`);
+      compiler.options.plugins = compiler.options.plugins || [];
+      compiler.options.plugins.push(
+        new DefinePlugin({
+          'process.env.DIEZ_IS_HOT': JSON.stringify(true),
+          'process.env.DIEZ_SERVER_URL': JSON.stringify(hotUrl),
+        }),
       );
-      }
     }
   }
 

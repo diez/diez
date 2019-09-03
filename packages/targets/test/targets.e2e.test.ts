@@ -56,7 +56,7 @@ describe('targets.e2e', () => {
 
       // Ignore the web SDK's package.json in the directory comparison since version numbers may not match after a
       // release has been created but the stub goldens have not been regenerated.
-      const packageJsonPath = join('diez-stub-web', 'package.json');
+      const packageJsonPath = join('diez-target-test-stub-web', 'package.json');
       const blacklist = new Set([packageJsonPath]);
 
       const goldenRoot = getGoldenRoot(fixture);

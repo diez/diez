@@ -6956,15 +6956,15 @@ diacritics@^1.3.0:
   resolved "https://registry.yarnpkg.com/diacritics/-/diacritics-1.3.0.tgz#3efa87323ebb863e6696cebb0082d48ff3d6f7a1"
   integrity sha1-PvqHMj67hj5mls67AILUj/PW96E=
 
-"diez-diez-site@link:examples/site/build/diez-diez-site-web":
+"diez-diez-site@link:examples/diez/design-system/build/diez-diez-site-web":
   version "0.0.0"
   uid ""
 
-"diez-lorem-ipsum@link:examples/lorem-ipsum/build/diez-lorem-ipsum-web":
+"diez-lorem-ipsum@link:examples/lorem-ipsum/design-system/build/diez-lorem-ipsum-web":
   version "0.0.0"
   uid ""
 
-"diez-poodle-surf@link:examples/poodle-surf/build/diez-poodle-surf-web":
+"diez-poodle-surf@link:examples/poodle-surf/design-system/build/diez-poodle-surf-web":
   version "0.0.0"
   uid ""
 
@@ -11618,9 +11618,9 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 lottie-web@^5.5.2:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.5.3.tgz#988d054ea3a8445f27ede5938c3ad00ec8959082"
-  integrity sha512-Y8J15chNDjhqKX59Y8X1NxZ5TsqN9K8Pd/bTdnoRhLGsGOPHzon49EDpjco0+JEyi4sJvyNEHaOf69C8cd4WoQ==
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.5.7.tgz#a8341487be1c31915fb3a784c3ec25fd6c9468df"
+  integrity sha512-NqXq1AncbLvUXHzQwpNMv4ySLOj6IWXOuN8GZbz6e3lMfw6y93rrxVhwYTPudQ8VKAYLjwu72cZiPQgcDt+mPg==
 
 loud-rejection@^1.0.0:
   version "1.6.0"

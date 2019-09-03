@@ -1,9 +1,0 @@
-{
-  "info": {
-    "version": 1,
-    "author": "org.diez.Stub.Static"
-  },
-  "properties": {
-    "provides-namespace": true
-  }
-}

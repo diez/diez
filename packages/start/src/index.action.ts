@@ -3,7 +3,8 @@ import {canRunCommand, Format, isMacOS, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {locateBinaryMacOS} from '@diez/sources';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
-import {join} from 'path';
+import {readdirSync} from 'fs-extra';
+import {join, resolve} from 'path';
 import {gt} from 'semver';
 
 const minCocoapodsVersion = '1.7.0';
@@ -14,7 +15,7 @@ const guideUrls = {
   [Target.Web]: 'https://beta.diez.org/getting-started/javascript.html',
 };
 
-export = async (_: {}, target: Target) => {
+export = async (_: {}, target: Target, targetRootIn?: string) => {
   if (![Target.Android, Target.Web, Target.Ios].includes(target)) {
     Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}>`);
     process.exit(1);
@@ -47,6 +48,7 @@ export = async (_: {}, target: Target) => {
 
   const diez = require.resolve('diez');
   const root = global.process.cwd();
+  const targetRoot = targetRootIn || resolve(root, '..', 'example-codebases', target);
 
   Log.comment(`Building Diez project for target ${target}...`);
   let hotProcess!: ChildProcess;
@@ -60,14 +62,14 @@ export = async (_: {}, target: Target) => {
     case Target.Ios:
       execSync(`${diez} compile -t ios --cocoapods`, {stdio: 'inherit'});
       Log.comment('Installing CocoaPods dependencies in example codebase...');
-      execSync('pod install', {cwd: join(root, 'examples', 'ios'), stdio: 'inherit'});
+      execSync('pod install', {cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'ios'], {stdio: 'inherit'});
       break;
     case Target.Web:
       execSync(`${diez} compile -t web`, {stdio: 'inherit'});
       Log.comment('Installing Node dependencies in example codebase...');
-      execSync('yarn', {cwd: join(root, 'examples', 'web'), stdio: 'inherit'});
+      execSync('yarn', {cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web'], {stdio: 'inherit'});
       break;
@@ -88,19 +90,30 @@ To learn more, follow along with the guide at:
     switch (target) {
       case Target.Android:
         if (isMacOS() && locateBinaryMacOS('com.google.android.studio')) {
-          return execSync('open -b com.google.android.studio examples/android');
+          return execSync(`open -b com.google.android.studio ${targetRoot}`);
         }
-        return Log.comment(`Open ${join('examples', 'android')} in Android Studio to run the example project.`);
+        return Log.comment(`Open ${targetRoot} in Android Studio to run the example project.`);
       case Target.Ios:
-        if (isMacOS() && locateBinaryMacOS('com.apple.dt.Xcode')) {
-          return execSync('open examples/ios/PoodleSurf.xcworkspace');
+        try {
+          const xcworkspaceFilename = readdirSync(targetRoot).find((filename) => filename.endsWith('.xcworkspace'));
+          if (!xcworkspaceFilename) {
+            // This should never happen.
+            return;
+          }
+          const xcworkspaceRoot = join(targetRoot, xcworkspaceFilename);
+          if (isMacOS() && locateBinaryMacOS('com.apple.dt.Xcode')) {
+            return execSync(`open ${xcworkspaceRoot}`);
+          }
+          return Log.comment(`Open ${xcworkspaceRoot} in Xcode to run the example project.`);
+        } catch (_) {
+          // This should never happen.
+          return;
         }
-        return Log.comment(`Open ${join('examples', 'ios', 'PoodleSurf.xcworkspace')} in Xcode to run the example project.`);
       case Target.Web:
         return spawn(
           'yarn',
           ['start'],
-          {cwd: join(root, 'examples', 'web'), stdio: 'inherit'},
+          {cwd: targetRoot, stdio: 'inherit'},
         );
     }
   };

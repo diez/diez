@@ -1,0 +1,24 @@
+PODS:
+  - DiezPoodleSurf (0.1.0):
+    - lottie-ios (~> 3.1.1)
+  - lottie-ios (3.1.1)
+
+DEPENDENCIES:
+  - DiezPoodleSurf (from `../../design-system/build/diez-poodle-surf-ios`)
+  - lottie-ios (= 3.1.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - lottie-ios
+
+EXTERNAL SOURCES:
+  DiezPoodleSurf:
+    :path: "../../design-system/build/diez-poodle-surf-ios"
+
+SPEC CHECKSUMS:
+  DiezPoodleSurf: b53603060353a2513c351956743865861e6affac
+  lottie-ios: 43a472d22b2dd2bed292cc4010c0b4d2e66d3ba8
+
+PODFILE CHECKSUM: 3c7d1b629e94c192df93dba98afd7637f9fc9d9e
+
+COCOAPODS: 1.7.4

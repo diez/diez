@@ -12,7 +12,7 @@ const fixturesRoot = join(__dirname, 'fixtures');
 /**
  * The location of the stub project.
  */
-export const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
+export const stubProjectRoot = join(workspaceExamplesRoot, '.stub', 'target-tests');
 
 /**
  * The build output location for the stub project.

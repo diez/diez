@@ -165,7 +165,8 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
 
   const useYarn = await shouldUseYarn();
   const root = resolve(cwd, basename(packageName));
-  await validateProjectRoot(root, useYarn);
+  const designSystemRoot = bare ? root : join(root, 'design-system');
+  await validateProjectRoot(designSystemRoot, useYarn);
 
   if (bare) {
     const tokens = {
@@ -186,9 +187,11 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
     }
   }
 
+  const exampleCodebasesRoot = join(root, 'example-codebases');
+
   const message = loadingMessage('Installing dependencies. This might take a couple of minutes.');
   try {
-    await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: root});
+    await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: designSystemRoot});
   } catch (error) {
     Log.warning('Unable to install dependencies. Are you connected to the Internet?');
     Log.warning(`You may need to run ${Format.code(`${useYarn ? 'yarn' : 'npm'} install`)} before ${Format.code('diez')} commands will work.`);
@@ -196,25 +199,36 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
 
   message.stop();
 
+  const gitRoots = [designSystemRoot];
+  if (!bare) {
+    for (const target of ['android', 'ios', 'web']) {
+      gitRoots.push(join(exampleCodebasesRoot, target));
+    }
+  }
+
   try {
-    await initializeGitRepository(root);
-    Log.info(`Initialized a Git repository at ${root}`);
+    for (const gitRoot of gitRoots) {
+      await initializeGitRepository(gitRoot);
+      Log.info(`Initialized a Git repository at ${gitRoot}.`);
+    }
   } catch (error) {
     // Ignore errors.
   }
 
-  Log.info(`Success! A new Diez (DS) has been created at ${Format.comment(root)}.
-`);
-  Log.info(`In that directory, the ${Format.code('diez')} command line utility can be invoked using:
+  Log.info(`Success! A new Diez (DS) has been created at ${Format.comment(designSystemRoot)}.
+
+In that directory, the ${Format.code('diez')} command line utility can be invoked using:
   ${Format.code(`${useYarn ? 'yarn' : 'npm run'} diez`)}
 `);
   if (bare) {
     Log.info(`To see a list of available commands, you can run:
-  ${Format.code(`cd ${relative(cwd, root)}
+  ${Format.code(`cd ${relative(cwd, designSystemRoot)}
   ${useYarn ? 'yarn' : 'npm run'} diez --help`)}`);
   } else {
-    Log.info(`To get started, we suggest running:
-  ${Format.code(`cd ${relative(cwd, root)}
+    Log.info(`Example codebases demonstrating how to integrate Diez in your app have been created at ${Format.comment(exampleCodebasesRoot)}.
+
+To get started, we suggest running:
+  ${Format.code(`cd ${relative(cwd, designSystemRoot)}
   ${useYarn ? 'yarn' : 'npm run'} demo`)}
 `);
     Log.info('Check out https://beta.diez.org/getting-started to learn more.');

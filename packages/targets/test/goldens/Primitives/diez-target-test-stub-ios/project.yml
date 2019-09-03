@@ -1,0 +1,15 @@
+name: DiezTargetTestStub
+options:
+  bundleIdPrefix: org.diez.TargetTestStub
+  deploymentTarget: 11
+targets:
+  DiezTargetTestStub:
+    type: framework
+    platform: iOS
+    sources:
+      - Sources/DiezTargetTestStub
+    info:
+      path: Sources/DiezTargetTestStub/Info.plist
+      properties:
+        CFBundleShortVersionString: 10.10.10
+    scheme: {} # Generates the shared scheme

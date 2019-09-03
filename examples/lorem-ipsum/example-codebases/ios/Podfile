@@ -1,0 +1,19 @@
+platform :ios, '12.2'
+
+MIN_COCOAPODS_VERSION = '1.7.0'
+cocoapods_version = `pod --version`.strip
+
+if Gem::Version.new(cocoapods_version) < Gem::Version.new(MIN_COCOAPODS_VERSION)
+  fail "\nInvalid CocoaPods version (#{cocoapods_version}).\n"\
+    "Please update to CocoaPods #{MIN_COCOAPODS_VERSION} or above and try again.\n"\
+    "For example:\n"\
+    "  gem install cocoapods -v #{MIN_COCOAPODS_VERSION}"
+end
+
+target 'LoremIpsum' do
+  use_frameworks!
+
+  pod 'DiezLoremIpsum', :path => '../../design-system/build/diez-lorem-ipsum-ios'
+
+  pod 'lottie-ios', '3.1.1'
+end

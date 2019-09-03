@@ -61,17 +61,17 @@ describe('create project', () => {
       warnings: ['warning'],
     }));
 
-    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', true, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('existing project root - file', async () => {
     ensureFileSync(myProjectRoot);
-    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', true, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('existing project root - module', async () => {
     ensureFileSync(join(myProjectRoot, 'package.json'));
-    await expect(createProject('my-project', false, workspaceExamplesRoot)).rejects.toThrow();
+    await expect(createProject('my-project', true, workspaceExamplesRoot)).rejects.toThrow();
   });
 
   test('asset download failure', async () => {

@@ -1,7 +1,7 @@
 import {join} from 'path';
 import {root, run} from '../internal/helpers';
 
-const previewSiteRoot = join(root, 'examples', 'preview-site');
+const previewSiteRoot = join(root, 'examples', 'diez', 'diez.org');
 
 export = {
   name: 'release-preview-site',

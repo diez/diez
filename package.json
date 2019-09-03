@@ -4,8 +4,8 @@
   "workspaces": [
     "packages/*",
     "utils/*",
-    "examples/*",
-    "examples/*/*/web",
+    "examples/*/*",
+    "examples/*/example-codebases/web",
     "services/*"
   ],
   "version": "10.10.10",
@@ -51,7 +51,7 @@
     "lint": "lerna run lint --no-bail --stream",
     "postinstall": "yarn compile",
     "release": "yarn diez release",
-    "test": "lerna run test --stream --concurrency 1",
+    "test": "lerna run test --stream",
     "watch": "yarn diez watch",
     "prepublishOnly": "yarn clean",
     "prepack": "yarn diez minify-sources"

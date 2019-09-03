@@ -12,7 +12,7 @@ export const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples
 /**
  * Where the stub project is located.
  */
-export const stubProjectRoot = join(workspaceExamplesRoot, 'stub');
+export const stubProjectRoot = join(workspaceExamplesRoot, '.stub', 'compiler-tests');
 
 const fixturesRoot = join(__dirname, 'fixtures');
 

@@ -17,7 +17,7 @@ export= {
     }
 
     // Run health checks in all packages.
-    run('yarn lerna run health --stream --concurrency 1');
+    run('yarn lerna run health --stream');
 
     // Build web examples.
     run('yarn build-examples --target web');
