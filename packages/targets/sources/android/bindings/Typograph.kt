@@ -6,11 +6,12 @@ import android.widget.TextView
 import java.io.BufferedInputStream
 import java.io.FileOutputStream
 import android.os.StrictMode
+import android.util.Log
 import android.util.TypedValue
 
 {{> androidDataClassStart }}
 
-    val typeface: Typeface
+    val typeface: Typeface?
         get() {
             if (foreignFontCache.containsKey(font.name)) {
                 return foreignFontCache.get(font.name)!!
@@ -123,7 +124,12 @@ private fun hotLoadFont(font: Font) {
     val tempFile = CoreFile.createTempFile(tempPrefix, tempSuffix)
     val url = font.file.url
     val connection = url.openConnection()
-    connection.connect()
+    try {
+      connection.connect()
+    } catch (e: Exception) {
+        Log.e("DIEZ", e.toString())
+        return
+    }
     val input = BufferedInputStream(url.openStream(), 8192)
     val output = FileOutputStream(tempFile)
     val data = ByteArray(1024)
@@ -142,10 +148,10 @@ private fun hotLoadFont(font: Font) {
     StrictMode.setThreadPolicy(oldThreadPolicy)
 }
 
-private fun getTypeface(font: Font): Typeface {
+private fun getTypeface(font: Font): Typeface? {
     if (Environment.isHot) {
         hotLoadFont(font)
-        return foreignFontCache.get(font.name)!!
+        return foreignFontCache.get(font.name)
     }
 
     val typeface = Environment.resources.getFont(font.file.resourceId)
