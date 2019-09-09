@@ -7,7 +7,7 @@
       "name": "Android - Compile Lorem Ipsum",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "android"],
-      "cwd": "${workspaceFolder}/examples/lorem-ipsum",
+      "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
@@ -17,7 +17,7 @@
       "name": "Android - Compile PoodleSurf",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "android"],
-      "cwd": "${workspaceFolder}/examples/poodle-surf",
+      "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
@@ -27,7 +27,7 @@
       "name": "iOS - Compile Lorem Ipsum",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "ios"],
-      "cwd": "${workspaceFolder}/examples/lorem-ipsum",
+      "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
@@ -37,7 +37,7 @@
       "name": "iOS - Compile PoodleSurf",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "ios"],
-      "cwd": "${workspaceFolder}/examples/poodle-surf",
+      "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
@@ -47,7 +47,7 @@
       "name": "Web - Compile PoodleSurf",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "web"],
-      "cwd": "${workspaceFolder}/examples/poodle-surf",
+      "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
@@ -57,7 +57,7 @@
       "name": "Web - Compile Lorem Ipsum",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["compile", "-t", "web"],
-      "cwd": "${workspaceFolder}/examples/lorem-ipsum",
+      "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
     },
