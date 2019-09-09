@@ -1,6 +1,6 @@
 import {Size2D} from '@diez/prefabs';
 import {join} from 'path';
-import {WebBinding} from '../../targets/web.api';
+import {Rule, WebBinding} from '../../targets/web.api';
 import {joinToKebabCase, sourcesPath, updateStyleSheetWithUnitedVariables} from '../../utils';
 
 const binding: WebBinding<Size2D> = {
@@ -10,9 +10,24 @@ const binding: WebBinding<Size2D> = {
     // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
     if (property.parentType !== 'Image') {
       const baseName = joinToKebabCase(property.parentType, property.name);
+      const rule: Rule = {
+        selector: baseName,
+        declaration: {},
+      };
 
-      updateStyleSheetWithUnitedVariables(`${baseName}-width`, `${instance.width}`, output.styleSheet);
-      updateStyleSheetWithUnitedVariables(`${baseName}-height`, `${instance.height}`, output.styleSheet);
+      if (instance.width) {
+        updateStyleSheetWithUnitedVariables(`${baseName}-width`, `${instance.width}`, output.styleSheet);
+        rule.declaration.width = `${instance.width}px`;
+      }
+
+      if (instance.height) {
+        updateStyleSheetWithUnitedVariables(`${baseName}-height`, `${instance.height}`, output.styleSheet);
+        rule.declaration.height = `${instance.height}px`;
+      }
+
+      if (instance.width || instance.height) {
+        output.styleSheet.styles.insertRule(rule);
+      }
     }
   },
 };

@@ -31,7 +31,7 @@ interface Declaration {
  * Describes a single style Rule.
  * @ignore
  */
-interface Rule {
+export interface Rule {
   selector: string;
   declaration: Declaration;
   rules?: RuleList;
