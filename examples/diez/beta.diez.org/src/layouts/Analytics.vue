@@ -4,7 +4,7 @@
     <div class="page shared">
       <section class="section-narrow">
         <h2>Anonymous aggregate analytics</h2>
-        <p>Diez collects diagnostic and usage data each time you use the CLI using an anonymous, randomly generated ID. We use these data to help improve our services.</p>
+        <p>Diez collects diagnostic and usage data each time you use the CLI using an anonymous, randomly generated ID. This ID is also used to report crashes through <a href="https://sentry.io/">Sentry</a> (IP address storage is disabled). We use these data to help improve our services.</p>
         <p>The data sent to our server is completely anonymous and in no way can be traced back to you as an individual nor cross-linked or enriched.  (We do not store IP addresses or any other personally identifiable information alongside the randomly generated unique ID.)</p>
         <div class="block">
           <h3>How it's used</h3>

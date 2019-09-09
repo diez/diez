@@ -6,11 +6,11 @@ const analyticsAction: CliAction = async (_, toggle: string) => {
   switch (toggle) {
     case 'on':
       await enableAnalytics();
-      Log.info('Diez analytics are enabled. Learn more here: https://diez.org/analytics');
+      Log.info('Diez analytics and crash reporting are enabled. Learn more here: https://beta.diez.org/analytics');
       break;
     case 'off':
       await disableAnalytics();
-      Log.info('Diez analytics are disabled. Learn more here: https://diez.org/analytics');
+      Log.info('Diez analytics and crash reporting are disabled. Learn more here: https://beta.diez.org/analytics');
       break;
     default:
       throw new Error(`Unknown state: "${toggle}". Please specify either "on" or "off".`);

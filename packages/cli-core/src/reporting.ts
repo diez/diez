@@ -2,16 +2,24 @@
 import chalk from 'chalk';
 import {clearLine, cursorTo} from 'readline';
 
+const infoChalk = chalk.rgb(30, 197, 248);
+
 /**
  * A simple class for formatting messages.
  *
  * Static class members return formatted strings.
  */
 export class Format {
+
   /**
    * Formats information messages.
    */
-  static info = (...messages: string[]) => chalk.rgb(30, 197, 248)(messages.join('\n'));
+  static info = (...messages: string[]) => infoChalk(messages.join('\n'));
+
+  /**
+   * Formats info titles.
+   */
+  static infoTitle = (...messages: string[]) => infoChalk.underline(messages.join('\n'));
 
   /**
    * Formats warning messages.
@@ -49,6 +57,11 @@ export class Log {
    * Logs information messages.
    */
   static info = (...messages: string[]) => console.log(Format.info(...messages));
+
+  /**
+   * Logs information titles.
+   */
+  static infoTitle = (...messages: string[]) => console.log(Format.infoTitle(...messages));
 
   /**
    * Logs warning messages.

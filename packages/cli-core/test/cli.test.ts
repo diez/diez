@@ -19,14 +19,31 @@ import {join} from 'path';
 import {bootstrap, run} from '../src/cli';
 import {mockAction, mockBooleanValidator, mockPreinstall, mockStringValidator} from './fixtures/mocks';
 
+let analyticsEnabled: boolean | undefined = false;
+
+beforeAll(async (done) => {
+  await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
+  done();
+});
+
 beforeEach(() => {
   assignMock(process, 'exit');
+  analyticsEnabled = false;
 });
 
 jest.mock('@diez/storage', () => ({
   ...jest.requireActual('@diez/storage'),
   Registry: {
-    get: jest.fn(),
+    get (key: string) {
+      switch (key) {
+        case 'analyticsEnabled':
+          return analyticsEnabled;
+        case 'uuid':
+          return 'user-1';
+        default:
+          throw new Error(`Unexpected key: ${key}`);
+      }
+    },
     set: jest.fn(),
   },
   emitDiagnostics: jest.fn().mockRejectedValue('noop'),
@@ -34,7 +51,6 @@ jest.mock('@diez/storage', () => ({
 
 describe('cli', () => {
   test('command registration', async () => {
-    await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
     const foobarCommand = commander.commands.find((command: Command) => command.name() === 'foobar');
     expect(foobarCommand).toBeDefined();
     expect(foobarCommand.description()).toBe('Do stuff.');
@@ -65,9 +81,8 @@ describe('cli', () => {
   });
 
   test('sentry e2e', async () => {
-    // #deleteme
-    await bootstrap(join(__dirname, 'fixtures', 'starting-point'), __dirname);
     delete process.env.DIEZ_DO_NOT_TRACK;
+    analyticsEnabled = true;
     process.argv = ['node', 'diez', 'foobar', '--stringParam', 'foo'];
 
     // Simulate the actual behaviors of Sentry.

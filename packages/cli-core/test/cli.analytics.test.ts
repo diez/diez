@@ -1,5 +1,7 @@
 import {assignMock} from '@diez/test-utils';
 
+let analyticsEnabled: boolean | undefined = false;
+
 const mockEmitDiagnostics = jest.fn().mockResolvedValue(undefined);
 const mockEnableAnalytics = jest.fn();
 const mockDisableAnalytics = jest.fn();
@@ -9,7 +11,7 @@ jest.doMock('@diez/storage', () => ({
     get (key: string) {
       switch (key) {
         case 'analyticsEnabled':
-          return false;
+          return analyticsEnabled;
         case 'uuid':
           return 'user-1';
         default:
@@ -30,6 +32,7 @@ import {diezVersion} from '../src/utils';
 
 beforeEach(() => {
   process.env.DIEZ_DO_NOT_TRACK = 'indeed';
+  analyticsEnabled = false;
   assignMock(process, 'exit');
 });
 
@@ -40,16 +43,39 @@ afterEach(() => {
 });
 
 describe('cli.analytics', () => {
+  test('analytics becomes enabled without emitting', async () => {
+    delete process.env.DIEZ_DO_NOT_TRACK;
+    // Make sure we make it through here without crashing.
+    mockEmitDiagnostics.mockRejectedValueOnce('ahoy');
+    analyticsEnabled = undefined;
+    await run();
+    expect(mockEmitDiagnostics).toHaveBeenCalledTimes(0);
+    expect(mockEnableAnalytics).toHaveBeenCalledTimes(1);
+  });
+
   test('analytics ping - on', async () => {
     delete process.env.DIEZ_DO_NOT_TRACK;
     // Make sure we make it through here without crashing.
     mockEmitDiagnostics.mockRejectedValueOnce('ahoy');
+    analyticsEnabled = true;
     await run();
     expect(mockEmitDiagnostics).toHaveBeenCalledTimes(1);
     expect(mockEmitDiagnostics).toHaveBeenCalledWith('activity', diezVersion);
   });
 
-  test('analytics ping - off', async () => {
+  test('analytics ping - off (env set, analytics off)', async () => {
+    await run();
+    expect(mockEmitDiagnostics).toHaveBeenCalledTimes(0);
+  });
+
+  test('analytics ping - off (env unset, analytics off)', async () => {
+    delete process.env.DIEZ_DO_NOT_TRACK;
+    await run();
+    expect(mockEmitDiagnostics).toHaveBeenCalledTimes(0);
+  });
+
+  test('analytics ping - off (env set, analytics on)', async () => {
+    analyticsEnabled = true;
     await run();
     expect(mockEmitDiagnostics).toHaveBeenCalledTimes(0);
   });

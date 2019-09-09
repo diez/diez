@@ -179,8 +179,21 @@ export const bootstrap = async (rootPackageName = global.process.cwd(), bootstra
  * @ignore
  */
 export const run = async (bootstrapRoot?: string) => {
-  global.doNotTrack = !!global.process.env.DIEZ_DO_NOT_TRACK;
-  if (!global.doNotTrack && !await Registry.get('analyticsEnabled')) {
+  const analyticsEnabled = await Registry.get('analyticsEnabled');
+  const doNotTrack = !!global.process.env.DIEZ_DO_NOT_TRACK;
+  global.doNotTrack = !analyticsEnabled || doNotTrack;
+  if (analyticsEnabled === undefined && !doNotTrack && !process.argv.includes('analytics')) {
+    Log.infoTitle('Anonymous aggregate analytics:');
+    Log.info(`
+Diez collects diagnostic and usage data each time you use the CLI using an
+anonymous, randomly generated ID. This ID is also used to report crashes
+through Sentry (IP address storage is disabled). We use these data to help
+improve our services.
+
+By default, anonymous aggregate analytics and crash reporting will be activated
+the next time you run a Diez command. Learn more about what data we collect and
+how to opt out here: https://beta.diez.org/analytics
+`);
     await enableAnalytics();
   }
 
