@@ -16,7 +16,7 @@
     "@types/webpack": "^4.4.34",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   },
   "scripts": {
     "compile": "tsc",

@@ -13,7 +13,7 @@
     "@diez/start": "^10.0.0-beta.4",
     "@diez/targets": "^10.0.0-beta.4",
     "diez": "^10.0.0-beta.4",
-    "typescript": "^3.5.3",
+    "typescript": "^3.6.2",
     "semver": "^6.0.0"
   },
   "scripts": {

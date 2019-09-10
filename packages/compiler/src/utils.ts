@@ -47,7 +47,7 @@ export const getProject = (projectRoot: string) => {
     throw new Error('Unable to proceed: TypeScript configuration not found.');
   }
 
-  const project = new Project({tsConfigFilePath, compilerOptions: {incremental: false}});
+  const project = new Project({tsConfigFilePath});
   projectCache.set(projectRoot, project);
   return project;
 };

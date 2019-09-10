@@ -5,7 +5,7 @@ import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative} from 'path';
 import {ClassDeclaration, EnumDeclaration, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FileWatcher, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, SymbolFlags, sys} from 'typescript';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
@@ -401,10 +401,9 @@ export class Program extends EventEmitter implements CompilerProgram {
       this.run(false);
     };
 
-    // Expose the @internal close() function so that the FileWatcher can be closed in unit tests.
+    // Expose the close() function so that the FileWatcher can be closed in unit tests.
     // Unit tests would hang on a leaked handle unless we shut down the file watcher.
-    // TODO: Submit PR to TypeScript to expose this publicly.
-    this.close = (createWatchProgram(host) as unknown as FileWatcher).close;
+    this.close = createWatchProgram(host).close;
   }
 
   /**
