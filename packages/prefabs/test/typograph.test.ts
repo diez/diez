@@ -1,5 +1,5 @@
 import {Color} from '../src/color';
-import {Font, IOSTextStyle, Typograph} from '../src/typography';
+import {Font, IOSTextStyle, Typograph} from '../src/typograph';
 
 describe('typograph', () => {
   test('basic functionality', () => {

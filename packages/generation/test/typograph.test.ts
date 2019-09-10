@@ -2,14 +2,14 @@ import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockExec,
 jest.doMock('os', mockOsFactory);
 jest.doMock('@diez/cli-core', mockCliCoreFactory);
 
-import {locateFont, getTypographInitializer} from '../src/typography';
+import {getTypographInitializer, locateFont} from '../src/typograph';
 
 afterEach(() => {
   cleanupMockCommandData();
   cleanupMockOsData();
 });
 
-describe('typography', () => {
+describe('typograph', () => {
   test('macOS font location', async () => {
     mockOsData.platform = 'darwin';
     mockExec.mockResolvedValue(JSON.stringify([]));
