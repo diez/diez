@@ -41,7 +41,7 @@ export interface FillData {
  */
 export class Fill extends prefab<FillData>() {
   defaults = {
-    color: new Color(),
+    color: Color.hsla(0, 0, 0, 0),
     linearGradient: new LinearGradient(),
     type: FillType.Color,
   };

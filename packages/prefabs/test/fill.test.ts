@@ -19,7 +19,7 @@ describe('Fill', () => {
     const linearGradient = LinearGradient.make(Toward.Right, colorA, colorB);
     const fill = Fill.linearGradient(linearGradient);
     expect(fill.serialize()).toEqual({
-      color: (new Color()).serialize(),
+      color: (Color.hsla(0, 0, 0, 0)).serialize(),
       linearGradient: linearGradient.serialize(),
       type: 'LinearGradient',
     });
