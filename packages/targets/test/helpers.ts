@@ -22,7 +22,7 @@ export const buildRoot = join(stubProjectRoot, 'build');
 /**
  * Retrieves a golden root for a fixture and platform.
  */
-export const getGoldenRoot = (fixture: string) => join(__dirname, 'goldens', `${fixture}`);
+export const getGoldenRoot = (fixture: string) => join(__dirname, 'goldens', fixture);
 
 /**
  * Gets all fixtures by name.

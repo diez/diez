@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on('unhandledRejection', (err) => {
+  throw err;
+});
+
 // Note: we're intentionally using `var` here in case Diez is running on a very old version of Node.
 var semver = require('semver');
 if (semver.gt('7.6.0', process.version)) {

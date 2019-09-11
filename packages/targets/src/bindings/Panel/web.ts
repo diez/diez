@@ -11,7 +11,7 @@ const binding: WebBinding<Panel> = {
     const name = joinToKebabCase(property.parentType, property.name);
 
     output.styleSheet.styles.insertRule({
-      selector: `${name}`,
+      selector: name,
       declaration: {
         'box-shadow': dropShadowToCss(instance.dropShadow),
         'border-radius': `${instance.cornerRadius}px`,
