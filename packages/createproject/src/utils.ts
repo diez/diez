@@ -119,8 +119,10 @@ const validateProjectRoot = async (root: string, useYarn = false) => {
 };
 
 const downloadAndExtractProject = async (templateRoot: string) => {
-  Log.info('Downloading template project from the Diez CDN...');
+  const message = loadingMessage('Downloading template project from the Diez CDN...');
   const stream = await downloadStream(examplesProjectUrl);
+  message.stop();
+
   if (!stream) {
     throw new Error('Unable to download template project from examples.diez.org. Please try again.');
   }
