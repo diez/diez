@@ -56,7 +56,7 @@ const populateTemplateMapForCasedName = (name: string, map: Map<string, string>)
 const removeUnwantedFiles = (directory: string) => {
   removeSync(join(directory, exampleProject, 'design-system', 'scripts'));
   removeSync(join(directory, exampleProject, 'design-system', 'CHANGELOG.md'));
-  removeSync(join(directory, exampleProject, 'design-system', 'designs'));
+  removeSync(join(directory, exampleProject, 'design-system', 'designs', 'LoremIpsum.sketch'));
 };
 
 const removeGitIgnoredFiles = (directory: string) => {
