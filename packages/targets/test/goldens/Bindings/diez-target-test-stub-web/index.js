@@ -1,7 +1,9 @@
 if (typeof process === 'undefined' || !process) {
   process = {env: {}};
 } else if (!process.env) {
-  process.env = {};
+  Object.defineProperty(process, 'env', {
+    value: {},
+  });
 }
 
 const Environment = {
@@ -486,7 +488,7 @@ class Bindings {
   }
 }
 
-Bindings.name = 'Bindings';
+Object.defineProperty(Bindings, 'name', {value: 'Bindings'});
 
 module.exports.Bindings = Bindings;
 

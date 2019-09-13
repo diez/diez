@@ -1,7 +1,9 @@
 if (typeof process === 'undefined' || !process) {
   process = {env: {}};
 } else if (!process.env) {
-  process.env = {};
+  Object.defineProperty(process, 'env', {
+    value: {},
+  });
 }
 
 const Environment = {
@@ -57,7 +59,7 @@ class Primitives {
   }
 }
 
-Primitives.name = 'Primitives';
+Object.defineProperty(Primitives, 'name', {value: 'Primitives'});
 
 module.exports.Primitives = Primitives;
 

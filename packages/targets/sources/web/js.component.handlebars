@@ -24,7 +24,7 @@ class {{{componentName}}} {
 }
 
 {{#if public}}
-{{{componentName}}}.name = '{{{componentName}}}';
+Object.defineProperty({{{componentName}}}, 'name', {value: '{{{componentName}}}'});
 {{/if}}
 
 module.exports.{{{componentName}}} = {{{componentName}}};

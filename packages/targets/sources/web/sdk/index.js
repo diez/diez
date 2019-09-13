@@ -1,7 +1,9 @@
 if (typeof process === 'undefined' || !process) {
   process = {env: {}};
 } else if (!process.env) {
-  process.env = {};
+  Object.defineProperty(process, 'env', {
+    value: {},
+  });
 }
 
 const Environment = {
