@@ -61,7 +61,7 @@ class MyColors {
 }
 ```
 
-View the full `Color` API [here](/docs/latest/classes/color.image.html).
+View the full `Color` API [here](/docs/latest/classes/prefabs.color.html).
 
 #### Images
 
