@@ -217,7 +217,7 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
     // Ignore errors.
   }
 
-  Log.info(`Success! A new Diez (DS) has been created at ${Format.comment(designSystemRoot)}.
+  Log.info(`Success! Your new Diez Project has been created at ${Format.comment(designSystemRoot)}.
 
 In that directory, the ${Format.code('diez')} command line utility can be invoked using:
   ${Format.code(`${useYarn ? 'yarn' : 'npm run'} diez`)}
