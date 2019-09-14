@@ -1,0 +1,23 @@
+{
+  "info": {
+    "version": 1,
+    "author": "org.diez.StdlibTestStub.Static"
+  },
+  "images": [
+    {
+      "filename": "image with spaces.jpg",
+      "scale": "1x",
+      "idiom": "universal"
+    },
+    {
+      "filename": "image with spaces@2x.jpg",
+      "scale": "2x",
+      "idiom": "universal"
+    },
+    {
+      "filename": "image with spaces@3x.jpg",
+      "scale": "3x",
+      "idiom": "universal"
+    }
+  ]
+}

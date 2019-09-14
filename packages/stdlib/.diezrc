@@ -1,0 +1,69 @@
+{
+  "coreFiles": {
+    "android": [
+      "sources/android/core/Diez.kt",
+      "sources/android/core/Environment.kt",
+      "sources/android/core/Extensions.kt"
+    ],
+    "ios": [
+      "sources/ios/core/Diez.swift",
+      "sources/ios/core/Environment.swift",
+      "sources/ios/core/Bundle+Environment.swift",
+      "sources/ios/core/Bundle+Static.swift",
+      "sources/ios/core/ReflectedCustomStringConvertible.swift"
+    ],
+    "web": [
+      "sources/web/core/Diez.js",
+      "sources/web/core/Diez.d.ts"
+    ]
+  },
+  "bindings": {
+    "@diez/prefabs:Color": {
+      "ios": "./lib/bindings/Color/ios",
+      "android": "./lib/bindings/Color/android",
+      "web": "./lib/bindings/Color/web"
+    },
+    "@diez/prefabs:DropShadow": {
+      "ios": "./lib/bindings/DropShadow/ios",
+      "web": "./lib/bindings/DropShadow/web"
+    },
+    "@diez/prefabs:File": {
+      "ios": "./lib/bindings/File/ios",
+      "android": "./lib/bindings/File/android",
+      "web": "./lib/bindings/File/web"
+    },
+    "@diez/prefabs:Image": {
+      "ios": "./lib/bindings/Image/ios",
+      "android": "./lib/bindings/Image/android",
+      "web": "./lib/bindings/Image/web"
+    },
+    "@diez/prefabs:LinearGradient": {
+      "ios": "./lib/bindings/LinearGradient/ios",
+      "android": "./lib/bindings/LinearGradient/android",
+      "web": "./lib/bindings/LinearGradient/web"
+    },
+    "@diez/prefabs:Lottie": {
+      "ios": "./lib/bindings/Lottie/ios",
+      "android": "./lib/bindings/Lottie/android",
+      "web": "./lib/bindings/Lottie/web"
+    },
+    "@diez/prefabs:Point2D": {
+      "ios": "./lib/bindings/Point2D/ios",
+      "web": "./lib/bindings/Point2D/web"
+    },
+    "@diez/prefabs:Panel": {
+      "ios": "./lib/bindings/Panel/ios",
+      "android": "./lib/bindings/Panel/android",
+      "web": "./lib/bindings/Panel/web"
+    },
+    "@diez/prefabs:Size2D": {
+      "ios": "./lib/bindings/Size2D/ios",
+      "web": "./lib/bindings/Size2D/web"
+    },
+    "@diez/prefabs:Typograph": {
+      "ios": "./lib/bindings/Typograph/ios",
+      "android": "./lib/bindings/Typograph/android",
+      "web": "./lib/bindings/Typograph/web"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # `@diez/targets`
 
-This package contains reference target compiler implementations for iOS, Web, and Android targets, including bindings for all of the design system primitives provided by `@diez/prefabs`, and registers associated targets for `ios`, `android`, and `web` with `diez compile --target <target>`.
+This package contains reference target compiler implementations for iOS, Web, and Android, and registers associated targets for `ios`, `android`, and `web` with `diez compile --target <target>`.
 
 ## Contributing
 

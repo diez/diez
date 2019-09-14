@@ -1,0 +1,1 @@
+ChildComponent.prototype.purr = () => {};

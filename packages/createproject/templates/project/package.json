@@ -14,7 +14,7 @@
   "devDependencies": {
     "@diez/compiler": "^{{diezVersion}}",
     "@diez/sources": "^{{diezVersion}}",
-    "@diez/targets": "^{{diezVersion}}",
+    "@diez/stdlib": "^{{diezVersion}}",
     "diez": "^{{diezVersion}}",
     "typescript": "^3.6.2"
   }

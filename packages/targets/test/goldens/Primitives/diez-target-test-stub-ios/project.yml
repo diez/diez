@@ -12,4 +12,17 @@ targets:
       path: Sources/DiezTargetTestStub/Info.plist
       properties:
         CFBundleShortVersionString: 10.10.10
+    dependencies:
+      - target: Static
+        embed: true
+      - carthage: "Meow"
+        findFrameworks: true
     scheme: {} # Generates the shared scheme
+  Static:
+    type: bundle
+    platform: iOS
+    info:
+      path: Sources/Static/Resources-Info.plist
+    sources:
+      - path: "Sources/Static/meow"
+        type: folder

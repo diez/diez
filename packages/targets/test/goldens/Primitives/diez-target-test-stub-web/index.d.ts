@@ -1,5 +1,7 @@
+// Stub core type declaration file for web.
+
 export declare class ChildComponent {
-  diez: number;
+  purr(): void;
 }
 
 export declare class EmptyComponent {

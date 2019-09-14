@@ -1,10 +1,5 @@
 
 :root {
-  --child-component-diez: 10;
-  --child-component-diez-px: 10px;
-  --child-component-diez-pt: 10pt;
-  --child-component-diez-em: 10em;
-  --child-component-diez-rem: 10rem;
   --primitives-number: 10;
   --primitives-number-px: 10px;
   --primitives-number-pt: 10pt;

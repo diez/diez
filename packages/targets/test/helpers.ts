@@ -1,3 +1,4 @@
+import {findPlugins} from '@diez/cli-core';
 import {CompilerOptions, Constructor, Program, projectCache} from '@diez/compiler';
 import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
@@ -45,6 +46,29 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
 const createProgramForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
+
+  // Stub in core files and bindings for testing.
+  const plugins = await findPlugins();
+  Object.assign(
+    plugins.get('.')!,
+    {
+      coreFiles: {
+        [Target.Android]: ['test/sources/core/android.core.kt'],
+        [Target.Ios]: ['test/sources/core/ios.core.swift'],
+        [Target.Web]: [
+          'test/sources/core/web.core.d.ts',
+          'test/sources/core/web.core.js',
+        ],
+      },
+      bindings: {
+        '.:ChildComponent': {
+          ios: './test/bindings/ios',
+          android: './test/bindings/android',
+          web: './test/bindings/web',
+        },
+      },
+    },
+  );
 
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),

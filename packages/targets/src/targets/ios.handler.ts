@@ -1,18 +1,20 @@
 import {canRunCommand, execAsync, Format, isMacOS, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
+  getCoreFiles,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
+import {Target} from '@diez/engine';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {pascalCase} from 'change-case';
 import {copySync, ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import {join, relative} from 'path';
+import {basename, join, relative} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
@@ -21,7 +23,7 @@ import {IosBinding, IosDependency, IosOutput} from './ios.api';
  *
  * @internal
  */
-const coreIos = join(sourcesPath, 'ios');
+const coreIos = join(sourcesPath, Target.Ios);
 
 /**
  * Merges a new dependency to the existing set of dependencies.
@@ -197,11 +199,8 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * Updates the output based on the contents of the binding.
    */
   private mergeBindingToOutput (binding: IosBinding): void {
-    const sourcesRoot = this.sourcesRoot;
-
     for (const bindingSource of binding.sources) {
-      const relativePath = relative(join(coreIos, 'bindings'), bindingSource);
-      const destination = join(sourcesRoot, 'Bindings', relativePath);
+      const destination = join(this.sourcesRoot, 'Bindings', basename(bindingSource));
       copySync(bindingSource, destination);
       this.output.sources.add(destination);
     }
@@ -312,17 +311,11 @@ class ViewController: UIViewController {
   }
 
   /**
-   * Copies the provided core files into the temp directory before adding them to the list of output sources.
-   *
-   * @param filenames The core filenames to add to the output's sources.
+   * Copies core files into the temp directory before adding them to the list of output sources.
    */
-  private addCoreSources (filenames: string[]) {
-    const sourceCore = join(coreIos, 'core');
-    const sourcesRoot = this.sourcesRoot;
-
-    for (const filename of filenames) {
-      const source = join(sourceCore, filename);
-      const destination = join(sourcesRoot, 'Core', filename);
+  private async addCoreFiles () {
+    for (const source of await getCoreFiles(Target.Ios)) {
+      const destination = join(this.sourcesRoot, 'Core', basename(source));
       copySync(source, destination);
       this.output.sources.add(destination);
     }
@@ -332,20 +325,8 @@ class ViewController: UIViewController {
    * @abstract
    */
   async writeSdk () {
-    // Pass through to take note of our singletons.
-    const coreSourceFilenames = [
-      'Diez.swift',
-      'Environment.swift',
-      'Bundle+Environment.swift',
-      'ReflectedCustomStringConvertible.swift',
-    ];
-
+    await this.addCoreFiles();
     const hasStaticAssets = this.output.assetBindings.size > 0;
-    if (hasStaticAssets) {
-      coreSourceFilenames.push('Bundle+Static.swift');
-    }
-
-    this.addCoreSources(coreSourceFilenames);
 
     const componentsFolder = join(this.sourcesRoot, 'Components');
     ensureDirSync(componentsFolder);

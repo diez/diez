@@ -155,6 +155,33 @@ export const getBinding = async <T>(
   }
 };
 
+const resolvedCoreFiles = new Map<Target, string[]>();
+
+/**
+ * Retrieves all core files for a given target.
+ */
+export const getCoreFiles = async (target: Target): Promise<string[]> => {
+  if (resolvedCoreFiles.has(target)) {
+    return resolvedCoreFiles.get(target)!;
+  }
+
+  const files = [];
+  for (const [plugin, {coreFiles}] of await findPlugins()) {
+    if (!coreFiles || !coreFiles[target]) {
+      continue;
+    }
+
+    const pluginRoot = (plugin === '.') ?
+      global.process.cwd() :
+      dirname(require.resolve(`${plugin}/package.json`));
+
+    files.push(...coreFiles[target]!.map((relativeFilename) => join(pluginRoot, relativeFilename)));
+  }
+
+  resolvedCoreFiles.set(target, files);
+  return files;
+};
+
 /**
  * Prints all warnings encountered while processing a target component.
  * @ignore

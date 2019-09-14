@@ -13,6 +13,19 @@ declare module '@diez/cli-core/types/api' {
     bindings: {
       [componentHash: string]: TargetBinding;
     };
+    /**
+     * Core files, which associate a target and role hash against a source file.
+     *
+     * Allowing core files to be specified through configuration instead of referenced directly within
+     * target compilers separately allows us to decouple target compiler implementations from the artifacts they
+     * dynamically link.
+     *
+     * TODO: package stdlib core files as separately bundled artifacts available via public repositories.
+     *       Once this is complete, we likely no longer need to retain `coreFiles` as a concept.
+     */
+    coreFiles: {
+      [target in Target]?: string[];
+    };
     projectRoot: string;
   }
 }

@@ -1,17 +1,19 @@
 import {Format, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
+  getCoreFiles,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
+import {Target} from '@diez/engine';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
-import {join} from 'path';
+import {basename, join} from 'path';
 import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
 import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, WebOutput} from './web.api';
 
@@ -37,15 +39,6 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
 
   dependencies.add(newDependency);
 };
-
-/**
- * Returns a qualified CSS URL for a given output and relative path.
- *
- * This method currently assumes that when we do not have a hot URL, static assets will be served in the host
- * application at `/diez`. This detail cannot be guaranteed in every codebase, so further work is required here.
- */
-export const getQualifiedCssUrl = (output: WebOutput, relativePath: string) =>
-  `url("${output.hotUrl || '/diez'}/${relativePath}")`;
 
 /**
  * A compiler for web targets.
@@ -175,12 +168,8 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
       sdkRoot,
       projectName,
       processedComponents: new Map(),
-      sources: new Set([
-        join(coreWeb, 'core', 'Diez.js'),
-      ]),
-      declarations: new Set([
-        join(coreWeb, 'core', 'Diez.d.ts'),
-      ]),
+      sources: new Set<string>(),
+      declarations: new Set<string>(),
       declarationImports: new Set<string>(),
       dependencies: new Set<WebDependency>(),
       assetBindings: new Map(),
@@ -304,6 +293,15 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
   async writeSdk () {
     const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
+
+    for (const source of await getCoreFiles(Target.Web)) {
+      const sourceBasename = basename(source);
+      if (sourceBasename.endsWith('.js')) {
+        this.output.sources.add(source);
+      } else if (sourceBasename.endsWith('.d.ts')) {
+        this.output.declarations.add(source);
+      }
+    }
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);

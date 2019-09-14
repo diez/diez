@@ -9,24 +9,47 @@
 /* Begin PBXBuildFile section */
 		0159A67BDE128ECCEB4142640B86AF91 /* ChildComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196CF7776EBC53EF094F8EBE61C7FF5 /* ChildComponent.swift */; };
 		14E7D1680F468073F59CE1A51E650F63 /* Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FFBBA507E424CB53F47F26974E47FB /* Primitives.swift */; };
-		645656EB0BFE2DBDFF454540EB5A20DD /* ReflectedCustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED6A3F71FDA026793FFA327A8C7338D /* ReflectedCustomStringConvertible.swift */; };
-		8B00C0D73E0E6AD642536DCD2F6AB422 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E8CEF705905C1BABDAFFC6D4E098F2 /* Environment.swift */; };
+		20B7B28A7A0127BF7A226CEFA3C7C37B /* ios.core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */; };
+		52E91915496FB1FA7D99D357A2958BAB /* Meow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AAA71D4AC30A141B96A8B77EE92194 /* Meow.framework */; };
+		768BD6061C3C638B013F847BD9FCF2FB /* meow in Resources */ = {isa = PBXBuildFile; fileRef = 397703DDBAEDD8F5CDF52A79E60980D5 /* meow */; };
 		B672C842C746C39F14BF05164B4200CA /* EmptyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC69A8F90E63FB64A299EBE9F3E9773 /* EmptyComponent.swift */; };
-		B814F866FC53F30F411CC2768F24E82D /* Bundle+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2AEE53097A4969426CACAE259788675 /* Bundle+Environment.swift */; };
-		BD70C9527221F80729306D6C05D6EF37 /* Diez.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C03EED98576DF50717ECE7D55AB9AD /* Diez.swift */; };
+		D49AD6A8B779D833245004A344C6DF90 /* ChildComponent+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FC23781B063907026A0F2E0697419 /* ChildComponent+Binding.swift */; };
+		EC086ECB9999A1A0D079885489E222E0 /* Static.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 209388F1C358A11F2EA60B205783F4CE /* Static.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CAFF19D26414C5AAFFB96797DF0FD122 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE932CEDBB9619EDD10E5EB7E7026791 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C5EC872524B4FC86523A1F18A1E9B20;
+			remoteInfo = Static;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		6ED6A3F71FDA026793FFA327A8C7338D /* ReflectedCustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectedCustomStringConvertible.swift; sourceTree = "<group>"; };
+		209388F1C358A11F2EA60B205783F4CE /* Static.bundle */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; path = Static.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		397703DDBAEDD8F5CDF52A79E60980D5 /* meow */ = {isa = PBXFileReference; lastKnownFileType = folder; name = meow; path = Sources/Static/meow; sourceTree = SOURCE_ROOT; };
+		70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios.core.swift; sourceTree = "<group>"; };
 		7196CF7776EBC53EF094F8EBE61C7FF5 /* ChildComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildComponent.swift; sourceTree = "<group>"; };
+		73AAA71D4AC30A141B96A8B77EE92194 /* Meow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Meow.framework; sourceTree = "<group>"; };
 		A468599ABC5B0980214C95ECE961CA52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4FFBBA507E424CB53F47F26974E47FB /* Primitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitives.swift; sourceTree = "<group>"; };
-		C5C03EED98576DF50717ECE7D55AB9AD /* Diez.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diez.swift; sourceTree = "<group>"; };
 		CBC69A8F90E63FB64A299EBE9F3E9773 /* EmptyComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponent.swift; sourceTree = "<group>"; };
+		D56FC23781B063907026A0F2E0697419 /* ChildComponent+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChildComponent+Binding.swift"; sourceTree = "<group>"; };
 		ECA687616426CD2504F240CB08E60545 /* DiezTargetTestStub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DiezTargetTestStub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2AEE53097A4969426CACAE259788675 /* Bundle+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Environment.swift"; sourceTree = "<group>"; };
-		F7E8CEF705905C1BABDAFFC6D4E098F2 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DFF3AC675D430564C86527323E833F61 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52E91915496FB1FA7D99D357A2958BAB /* Meow.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		20F2793E5A26967CAF4C9DDE03F62388 /* Components */ = {
@@ -39,10 +62,36 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		7ECD0FCF0AC4048E5F681F02CF67CE45 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				D56FC23781B063907026A0F2E0697419 /* ChildComponent+Binding.swift */,
+			);
+			path = Bindings;
+			sourceTree = "<group>";
+		};
+		7F367FC9C0A7A07F91CCED31058CDA3F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				73AAA71D4AC30A141B96A8B77EE92194 /* Meow.framework */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		83BB917DAB8BAEDE50ECA4D8ED6EAAB0 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				7F367FC9C0A7A07F91CCED31058CDA3F /* iOS */,
+			);
+			name = Carthage;
+			path = Carthage/Build;
+			sourceTree = "<group>";
+		};
 		AE115C9911B97388ADE7C7524BF6A970 /* DiezTargetTestStub */ = {
 			isa = PBXGroup;
 			children = (
 				A468599ABC5B0980214C95ECE961CA52 /* Info.plist */,
+				7ECD0FCF0AC4048E5F681F02CF67CE45 /* Bindings */,
 				20F2793E5A26967CAF4C9DDE03F62388 /* Components */,
 				FBFF98F27E425DFDADEB40B3DC8AB909 /* Core */,
 			);
@@ -54,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				ECA687616426CD2504F240CB08E60545 /* DiezTargetTestStub.framework */,
+				209388F1C358A11F2EA60B205783F4CE /* Static.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,18 +111,25 @@
 		DC9AD64142C0D39ABE0248379D5EE2A0 = {
 			isa = PBXGroup;
 			children = (
+				397703DDBAEDD8F5CDF52A79E60980D5 /* meow */,
 				AE115C9911B97388ADE7C7524BF6A970 /* DiezTargetTestStub */,
+				EF5DC30E87AADBE98AEFB314542052C5 /* Frameworks */,
 				D323C41CC37496D05D1A9D81D98A9C6E /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		EF5DC30E87AADBE98AEFB314542052C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				83BB917DAB8BAEDE50ECA4D8ED6EAAB0 /* Carthage */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		FBFF98F27E425DFDADEB40B3DC8AB909 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				F2AEE53097A4969426CACAE259788675 /* Bundle+Environment.swift */,
-				C5C03EED98576DF50717ECE7D55AB9AD /* Diez.swift */,
-				F7E8CEF705905C1BABDAFFC6D4E098F2 /* Environment.swift */,
-				6ED6A3F71FDA026793FFA327A8C7338D /* ReflectedCustomStringConvertible.swift */,
+				70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -80,15 +137,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5C5EC872524B4FC86523A1F18A1E9B20 /* Static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AEB1DF08EFF27B33681D21D039C6FFC /* Build configuration list for PBXNativeTarget "Static" */;
+			buildPhases = (
+				52775567B1765099D849A55A683B4759 /* Sources */,
+				701D17EE64586FAD160EC8784FC44738 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Static;
+			productName = Static;
+			productReference = 209388F1C358A11F2EA60B205783F4CE /* Static.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		FB20A9D63D8652B03798D8D5D90496C0 /* DiezTargetTestStub */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A1D20698386802C4EF84CAAD31B7CA53 /* Build configuration list for PBXNativeTarget "DiezTargetTestStub" */;
 			buildPhases = (
 				EBD7EB776BF1771E83A67CBF1C5B6799 /* Sources */,
+				BE9E17A009342C077E898A70C32B2920 /* Resources */,
+				DFF3AC675D430564C86527323E833F61 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0D70565AF68F4AA446BFC378BEB13A99 /* PBXTargetDependency */,
 			);
 			name = DiezTargetTestStub;
 			productName = DiezTargetTestStub;
@@ -115,26 +191,59 @@
 			projectRoot = "";
 			targets = (
 				FB20A9D63D8652B03798D8D5D90496C0 /* DiezTargetTestStub */,
+				5C5EC872524B4FC86523A1F18A1E9B20 /* Static */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		701D17EE64586FAD160EC8784FC44738 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				768BD6061C3C638B013F847BD9FCF2FB /* meow in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE9E17A009342C077E898A70C32B2920 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC086ECB9999A1A0D079885489E222E0 /* Static.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		52775567B1765099D849A55A683B4759 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EBD7EB776BF1771E83A67CBF1C5B6799 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B814F866FC53F30F411CC2768F24E82D /* Bundle+Environment.swift in Sources */,
+				D49AD6A8B779D833245004A344C6DF90 /* ChildComponent+Binding.swift in Sources */,
 				0159A67BDE128ECCEB4142640B86AF91 /* ChildComponent.swift in Sources */,
-				BD70C9527221F80729306D6C05D6EF37 /* Diez.swift in Sources */,
 				B672C842C746C39F14BF05164B4200CA /* EmptyComponent.swift in Sources */,
-				8B00C0D73E0E6AD642536DCD2F6AB422 /* Environment.swift in Sources */,
 				14E7D1680F468073F59CE1A51E650F63 /* Primitives.swift in Sources */,
-				645656EB0BFE2DBDFF454540EB5A20DD /* ReflectedCustomStringConvertible.swift in Sources */,
+				20B7B28A7A0127BF7A226CEFA3C7C37B /* ios.core.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0D70565AF68F4AA446BFC378BEB13A99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C5EC872524B4FC86523A1F18A1E9B20 /* Static */;
+			targetProxy = CAFF19D26414C5AAFFB96797DF0FD122 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3793D84C27D0D57F985452F12F490263 /* Release */ = {
@@ -146,6 +255,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sources/DiezTargetTestStub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -166,6 +279,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sources/DiezTargetTestStub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -236,6 +353,17 @@
 			};
 			name = Debug;
 		};
+		A0B16F508361276302BFEF075414A925 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Sources/Static/Resources-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.diez.TargetTestStub.Static;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		BA722F26D05F279C44A3934EB1CC2C5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -287,6 +415,17 @@
 			};
 			name = Release;
 		};
+		FB9BC10332ED70363E9DABE6ACBD0961 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Sources/Static/Resources-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.diez.TargetTestStub.Static;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -298,6 +437,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		1AEB1DF08EFF27B33681D21D039C6FFC /* Build configuration list for PBXNativeTarget "Static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0B16F508361276302BFEF075414A925 /* Debug */,
+				FB9BC10332ED70363E9DABE6ACBD0961 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "";
 		};
 		A1D20698386802C4EF84CAAD31B7CA53 /* Build configuration list for PBXNativeTarget "DiezTargetTestStub" */ = {
 			isa = XCConfigurationList;

@@ -1,0 +1,29 @@
+name: DiezStdlibTestStub
+options:
+  bundleIdPrefix: org.diez.StdlibTestStub
+  deploymentTarget: 11
+targets:
+  DiezStdlibTestStub:
+    type: framework
+    platform: iOS
+    sources:
+      - Sources/DiezStdlibTestStub
+    info:
+      path: Sources/DiezStdlibTestStub/Info.plist
+      properties:
+        CFBundleShortVersionString: 10.10.10
+    dependencies:
+      - target: Static
+        embed: true
+      - carthage: "Lottie"
+        findFrameworks: true
+    scheme: {} # Generates the shared scheme
+  Static:
+    type: bundle
+    platform: iOS
+    info:
+      path: Sources/Static/Resources-Info.plist
+    sources:
+      - path: "Sources/Static/assets"
+        type: folder
+      - "Sources/Static/Images.xcassets"

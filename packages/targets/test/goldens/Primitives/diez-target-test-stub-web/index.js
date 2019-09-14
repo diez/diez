@@ -1,17 +1,6 @@
-if (typeof process === 'undefined' || !process) {
-  process = {env: {}};
-} else if (!process.env) {
-  Object.defineProperty(process, 'env', {
-    value: {},
-  });
-}
-
-const Environment = {
-  serverUrl: process.env.DIEZ_SERVER_URL || '/diez',
-  isHot: process.env.DIEZ_IS_HOT,
-};
-
 module.exports = {};
+
+// Stub core source file for web.
 
 class ChildComponent {
   constructor({
@@ -23,6 +12,8 @@ class ChildComponent {
 
 
 module.exports.ChildComponent = ChildComponent;
+
+ChildComponent.prototype.purr = () => {};
 
 class EmptyComponent {
   constructor({

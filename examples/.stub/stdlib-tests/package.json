@@ -1,0 +1,17 @@
+{
+  "name": "stdlib-test-stub",
+  "main": "lib/index.js",
+  "private": true,
+  "version": "10.0.0-beta.4",
+  "dependencies": {
+    "@diez/engine": "^10.0.0-beta.4",
+    "@diez/prefabs": "^10.0.0-beta.4"
+  },
+  "devDependencies": {
+    "@diez/compiler": "^10.0.0-beta.4",
+    "@diez/sources": "^10.0.0-beta.4",
+    "@diez/stdlib": "^10.0.0-beta.4",
+    "diez": "^10.0.0-beta.4",
+    "typescript": "^3.6.2"
+  }
+}

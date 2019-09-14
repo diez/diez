@@ -1,13 +1,14 @@
 import {Format, Log} from '@diez/cli-core';
 import {
   CompilerTargetHandler,
+  getCoreFiles,
   PrimitiveType,
   PropertyType,
   TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
-import {File} from '@diez/prefabs';
+import {Target} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {camelCase} from 'change-case';
 import {
@@ -45,40 +46,6 @@ const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: An
   }
 
   dependencies.add(newDependency);
-};
-
-/**
- * Given an File in Diez, returns a resource path for Android.
- *
- * This is achieved by:
- *  - lowercasing
- *  - replacing any non-alphanumeric characters with underscores
- *  - specifically excluding the final dot in the filename to preserve the file extension
- *
- * For example: `'some.directory.name/image@2x.png'` will become `'some_directory_name_image_2x.png'`,
- * and can be used in Android with name `some_directory_name_image_2x`.
- * @internal
- */
-const getAndroidResourcePath = (file: File) =>
-  encodeURI(file.src).toLowerCase().replace(/([^a-z0-9_\.]|\.(?=[^.]*\.))/g, '_');
-
-/**
- * Migrates a [[File]] prefab's assetbinding to Android resources.
- * @ignore
- */
-export const portAssetBindingToResource = (file: File, output: AndroidOutput, type: string, resourceFile?: File) => {
-  if (!output.resources.has(type)) {
-    output.resources.set(type, new Map());
-  }
-
-  const oldBinding = output.assetBindings.get(file.src);
-  if (!oldBinding) {
-    // This should never happen.
-    throw new Error(`Unable to retrieve file binding from ${file.src}.`);
-  }
-
-  output.resources.get(type)!.set(getAndroidResourcePath(resourceFile || file), oldBinding);
-  output.assetBindings.delete(file.src);
 };
 
 /**
@@ -282,15 +249,6 @@ class MainActivity ... {
     }
   }
 
-  protected bindingContainsExtension (binding: AndroidBinding | undefined, filename: string) {
-    if (!binding) {
-      return false;
-    }
-
-    const match = binding.sources.find((source) => basename(source) === filename);
-    return match !== undefined;
-  }
-
   /**
    * @abstract
    */
@@ -299,17 +257,14 @@ class MainActivity ... {
     const sourcesRoot = join(this.output.sdkRoot, 'src', 'main', 'java', ...packageComponents);
     ensureDirSync(sourcesRoot);
 
-    const coreBasenames = [
-      'Diez.kt',
-      'Environment.kt',
-      'Extensions.kt',
-    ];
-    for (const filename of coreBasenames) {
-      const template = readFileSync(join(coreAndroid, 'core', filename)).toString();
-      const path = join(sourcesRoot, filename);
-      writeFileSync(path, compile(template)({
-        packageName: this.output.packageName,
-      }));
+    for (const source of await getCoreFiles(Target.Android)) {
+      const template = readFileSync(source).toString();
+      writeFileSync(
+        join(sourcesRoot, basename(source)),
+        compile(template)({
+          packageName: this.output.packageName,
+        }),
+      );
     }
 
     const dataClassStartTemplate = readFileSync(join(coreAndroid, 'android.data-class.start.handlebars')).toString();

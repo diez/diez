@@ -1,7 +1,6 @@
 import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
-import {StyleSheet} from './targets/web.api';
 
 /**
  * The root of all native sources provided by this package.
@@ -56,15 +55,5 @@ export const getUnitedStyleSheetVariables = (name: string, value: string) => {
       name: `${name}-${unit}`,
       value: `${value}${unit}`,
     };
-  });
-};
-
-/**
- * Sets the provided variable along with its united variants on the style sheet.
- */
-export const updateStyleSheetWithUnitedVariables = (name: string, value: string, styleSheet: StyleSheet) => {
-  styleSheet.variables.set(name, value);
-  getUnitedStyleSheetVariables(name, value).forEach((variable) => {
-    styleSheet.variables.set(variable.name, variable.value);
   });
 };

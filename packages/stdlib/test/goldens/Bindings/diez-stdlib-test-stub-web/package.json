@@ -1,0 +1,9 @@
+{
+  "name": "diez-stdlib-test-stub",
+  "version": "10.10.10",
+  "license": "MIT",
+  "dependencies": {
+    "lottie-web": "^5.5.2",
+    "@diez/web-sdk-common": "^10.0.0-beta.4"
+  }
+}
