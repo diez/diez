@@ -120,7 +120,7 @@ export = {
         const contents = isBinarySync(originalQualifiedFilename, originalContents) ?
           originalContents :
           replaceOccurrencesInString(originalContents.toString(), replacements);
-        writeFileSync(qualifiedFilename, contents);
+        writeFileSync(qualifiedFilename, contents, {mode: stats.mode});
       }).on('end', resolve));
 
     await uploadTemplateExamples(archiveDestination, effectiveVersion);
