@@ -1,5 +1,5 @@
 {
-  "name": "@diez/sources",
+  "name": "@diez/extractors",
   "main": "lib/index.js",
   "version": "10.0.0-beta.4",
   "description": "Utilities and metaprogramming extensions for design sources.",
