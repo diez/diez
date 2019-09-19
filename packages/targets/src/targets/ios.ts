@@ -1,4 +1,4 @@
-import {CompilerProvider} from '@diez/compiler';
+import {CompilerProvider} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {iosHandler as handler} from './ios.handler';
 

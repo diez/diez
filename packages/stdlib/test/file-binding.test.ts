@@ -3,7 +3,7 @@ jest.doMock('fontkit', () => ({
   openSync: mockFontLoader,
 }));
 
-import {TargetComponentSpec, TargetProperty} from '@diez/compiler';
+import {TargetComponentSpec, TargetProperty} from '@diez/compiler-core';
 import {File, FileType, Font, Image} from '@diez/prefabs';
 import {emptyDirSync, ensureDirSync, ensureFileSync} from 'fs-extra';
 import {join} from 'path';

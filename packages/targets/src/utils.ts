@@ -1,4 +1,4 @@
-import {CompilerOptions, TargetComponentProperty} from '@diez/compiler';
+import {CompilerOptions, TargetComponentProperty} from '@diez/compiler-core';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
 

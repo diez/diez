@@ -1,5 +1,5 @@
 import {Log} from '@diez/cli-core';
-import {Assembler, TargetOutput} from '@diez/compiler';
+import {Assembler, TargetOutput} from '@diez/compiler-core';
 import {copyFile, ensureDir, writeFile} from 'fs-extra';
 import {dirname} from 'path';
 

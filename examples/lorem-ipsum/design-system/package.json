@@ -8,7 +8,7 @@
     "@diez/prefabs": "^10.0.0-beta.4"
   },
   "devDependencies": {
-    "@diez/compiler": "^10.0.0-beta.4",
+    "@diez/compiler-core": "^10.0.0-beta.4",
     "@diez/extractors": "^10.0.0-beta.4",
     "@diez/start": "^10.0.0-beta.4",
     "@diez/stdlib": "^10.0.0-beta.4",

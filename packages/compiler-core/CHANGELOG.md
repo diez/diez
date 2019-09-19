@@ -27,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [10.0.0-beta.2](https://github.com/diez/diez/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2019-07-16)
 
-**Note:** Version bump only for package @diez/compiler
+**Note:** Version bump only for package @diez/compiler-core
 
 
 

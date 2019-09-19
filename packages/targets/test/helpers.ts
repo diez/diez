@@ -1,5 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
-import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler';
+import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';

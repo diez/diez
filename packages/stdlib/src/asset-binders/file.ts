@@ -1,4 +1,4 @@
-import {AssetBinder, TargetOutput} from '@diez/compiler';
+import {AssetBinder, TargetOutput} from '@diez/compiler-core';
 import {File, FileType, Font, Image} from '@diez/prefabs';
 // Note: we are careful to import the full module so we can monkey-patch it in our test harness.
 import fontkit from 'fontkit';

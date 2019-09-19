@@ -1,4 +1,4 @@
-import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler';
+import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {AndroidCompiler, IosCompiler, WebCompiler} from '@diez/targets';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';

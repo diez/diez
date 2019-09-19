@@ -1,5 +1,5 @@
 {
-  "name": "@diez/compiler",
+  "name": "@diez/compiler-core",
   "main": "lib/index.js",
   "version": "10.0.0-beta.4",
   "description": "The Diez compiler and related functionality.",

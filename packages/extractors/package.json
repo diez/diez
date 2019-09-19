@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@diez/cli-core": "^10.0.0-beta.4",
-    "@diez/compiler": "^10.0.0-beta.4",
+    "@diez/compiler-core": "^10.0.0-beta.4",
     "@diez/generation": "^10.0.0-beta.4",
     "@diez/storage": "^10.0.0-beta.4",
     "async": "^2.6.2",

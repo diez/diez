@@ -7,7 +7,7 @@ import {
   PropertyType,
   TargetComponentProperty,
   TargetComponentSpec,
-} from '@diez/compiler';
+} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';

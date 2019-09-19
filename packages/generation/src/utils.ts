@@ -1,5 +1,5 @@
 import {canRunCommand, execAsync, Log} from '@diez/cli-core';
-import {getProject} from '@diez/compiler';
+import {getProject} from '@diez/compiler-core';
 import {getTempFileName} from '@diez/storage';
 import {pascalCase} from 'change-case';
 import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';

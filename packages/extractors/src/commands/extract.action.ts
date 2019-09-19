@@ -1,5 +1,5 @@
 import {exitTrap, findPlugins, Format, Log, socketTrap} from '@diez/cli-core';
-import {getHotPort, getProjectRoot} from '@diez/compiler';
+import {getHotPort, getProjectRoot} from '@diez/compiler-core';
 import {queue} from 'async';
 import {watch} from 'chokidar';
 import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 'fs-extra';

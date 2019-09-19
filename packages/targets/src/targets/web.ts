@@ -1,4 +1,4 @@
-import {CompilerProvider} from '@diez/compiler';
+import {CompilerProvider} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {webHandler as handler} from './web.handler';
 

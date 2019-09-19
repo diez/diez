@@ -79,7 +79,7 @@ export const serveHot = async (
   app.use(hotMiddleware);
 
   let lastHash = '';
-  compiler.hooks.done.tap('@diez/compiler', ({hash, endTime}) => {
+  compiler.hooks.done.tap('@diez/compiler-core', ({hash, endTime}) => {
     // istanbul ignore if
     if (!hash || !endTime) {
       // This should never happen.

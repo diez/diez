@@ -12,7 +12,7 @@
     "@diez/prefabs": "^{{diezVersion}}"
   },
   "devDependencies": {
-    "@diez/compiler": "^{{diezVersion}}",
+    "@diez/compiler-core": "^{{diezVersion}}",
     "@diez/extractors": "^{{diezVersion}}",
     "@diez/stdlib": "^{{diezVersion}}",
     "diez": "^{{diezVersion}}",

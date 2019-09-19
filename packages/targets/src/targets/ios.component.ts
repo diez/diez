@@ -17,5 +17,5 @@ if (module.hot) {
 }
 
 // tslint:disable-next-line: no-var-requires
-require('@diez/compiler/lib/server/hot-component').activate(
+require('@diez/compiler-core/lib/server/hot-component').activate(
   (payload: any) => window.webkit.messageHandlers.patch.postMessage(JSON.stringify(payload)));

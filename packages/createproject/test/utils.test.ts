@@ -20,7 +20,7 @@ user-agent = "npm/6.4.1 node/v10.16.3 darwin x64"
 @haiku:registry = "https://reservoir.haiku.ai:8910/"
 
 ; node bin location = /Users/jiggs/.nvm/versions/node/v10.16.3/bin/node
-; cwd = /Users/jiggs/projects/haiku/diez/packages/compiler
+; cwd = /Users/jiggs/projects/haiku/diez/packages/compiler-core
 ; HOME = /Users/jiggs
 ; "npm config ls -l" to show all defaults.
       `),
@@ -28,8 +28,8 @@ user-agent = "npm/6.4.1 node/v10.16.3 darwin x64"
   });
 
   test('returns expected values', async () => {
-    expect(await canUseNpm('/Users/jiraffe/projects/haiku/diez/packages/compiler')).toBe(false);
-    expect(await canUseNpm('/Users/jiggs/projects/haiku/diez/packages/compiler')).toBe(true);
+    expect(await canUseNpm('/Users/jiraffe/projects/haiku/diez/packages/compiler-core')).toBe(false);
+    expect(await canUseNpm('/Users/jiggs/projects/haiku/diez/packages/compiler-core')).toBe(true);
   });
 
   test('returns true if npm returns an invalid value', async () => {

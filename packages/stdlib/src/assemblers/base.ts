@@ -1,4 +1,4 @@
-import {Assembler, TargetOutput} from '@diez/compiler';
+import {Assembler, TargetOutput} from '@diez/compiler-core';
 import {ensureDir, readFileSync, writeFile} from 'fs-extra';
 import {dirname} from 'path';
 

@@ -1,4 +1,4 @@
-import {AssetBinder, AssetBindings} from '@diez/compiler';
+import {AssetBinder, AssetBindings} from '@diez/compiler-core';
 import {File, Image} from '@diez/prefabs';
 import {IosBinding, IosOutput} from '@diez/targets';
 import {basename, dirname, join, parse} from 'path';

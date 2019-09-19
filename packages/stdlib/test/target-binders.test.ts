@@ -1,4 +1,4 @@
-import {TargetComponentSpec, TargetProperty} from '@diez/compiler';
+import {TargetComponentSpec, TargetProperty} from '@diez/compiler-core';
 import {Image} from '@diez/prefabs';
 import {assetsBinder as androidImageBinder} from '../src/bindings/Image/android';
 import {assetsBinder as iosImageBinder} from '../src/bindings/Image/ios';

@@ -1,7 +1,7 @@
-import {TargetBinding, TargetOutput} from '@diez/compiler';
+import {TargetBinding, TargetOutput} from '@diez/compiler-core';
 import {Prefab} from '@diez/engine';
 
-declare module '@diez/compiler/types/api' {
+declare module '@diez/compiler-core/types/api' {
   /**
    * Extends CompilerOptions for iOS.
    */
