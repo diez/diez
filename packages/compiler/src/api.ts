@@ -328,6 +328,47 @@ export interface TargetOutput<
 }
 
 /**
+ * Provides an interface to declare arbitrarily nested usage example trees.
+ */
+export interface UsageExampleTree {
+  [key: string]: UsageExampleTree | UsageExample[];
+}
+
+/**
+ * Provides a base interface to declare an usage example.
+ */
+export interface UsageExample {
+  example?: string;
+  comment?: string;
+  snippets: UsageSnippet[];
+}
+
+interface BaseUsageSnippet {
+  lang: string;
+  data?: {[key: string]: any};
+  helpers?: {[key: string]: () => string};
+}
+
+/**
+ * Describes a snippet with a template located in an external file.
+ */
+interface TemplateFileUsageSnippet extends BaseUsageSnippet {
+  templatePath: string;
+}
+
+/**
+ * Describes a snippet with an inline template.
+ */
+interface TemplateLiteralUsageSnippet extends BaseUsageSnippet {
+  template: string;
+}
+
+/**
+ * Describes a snippet of example code.
+ */
+type UsageSnippet = TemplateFileUsageSnippet | TemplateLiteralUsageSnippet;
+
+/**
  * Provides a base binding interfaces for target compilers can extend as needed.
  */
 export interface TargetBinding<
@@ -336,6 +377,7 @@ export interface TargetBinding<
 > {
   sources: string[];
   assetsBinder?: AssetBinder<T, OutputType>;
+  examples?: UsageExampleTree | UsageExample[];
 }
 
 /**
