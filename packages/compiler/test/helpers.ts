@@ -2,7 +2,7 @@ import {Target} from '@diez/engine';
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
-import {Program, TargetCompiler} from '../src/compiler';
+import {Compiler, ProjectParser} from '../src/compiler';
 
 /**
  * The root for workspace examples.
@@ -30,7 +30,7 @@ export const createProgramForFixture = async (fixture: string, hot = false) => {
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
   );
 
-  const program = new Program(stubProjectRoot, {sdkVersion: '10.10.10', target: 'test' as Target}, hot);
+  const program = new ProjectParser(stubProjectRoot, {sdkVersion: '10.10.10', target: 'test' as Target}, hot);
 
   if (!hot) {
     await program.run();
@@ -40,9 +40,9 @@ export const createProgramForFixture = async (fixture: string, hot = false) => {
 };
 
 /**
- * A test target compiler.
+ * A test compiler.
  */
-export class TestTargetCompiler extends TargetCompiler<TargetOutput, TargetBinding> {
+export class TestCompiler extends Compiler<TargetOutput, TargetBinding> {
   protected async validateOptions () {
     // Noop.
     return;

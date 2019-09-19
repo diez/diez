@@ -1,10 +1,10 @@
 # `@diez/stdlib`
 
-This package contains bindings and core files for all of the design system primitives provided by `@diez/prefabs` for targets `android,` `ios`, and `web`. Collectively, these bindings function as an open standard library for building Diez SDKs for production.
+This package contains bindings, core files, and package assemblers for all of the design system primitives provided by `@diez/prefabs` for targets `android,` `ios`, and `web`. Collectively, these bindings function as an open standard library for building Diez SDKs for production.
 
 ## Contributing
 
-This package uses the golden test pattern for end to end tests, checking that the target compilers provided produce identical output to what is expected.
+This package uses the golden test pattern for end to end tests, checking that the compilers provided produce identical output to what is expected.
 
 If you are contributing to `@diez/stdlib` and intentionally changed the expected output of golden tests, you can regenerate the canonical outputs that are used to pass the tests by running `yarn regenerate-goldens`. Whenever you do this, please carefully inspect the resulting diff to be sure it's both what you expected and correct.
 

@@ -1,7 +1,7 @@
 import {Target} from '@diez/engine';
-import {CompilerTargetProvider} from '../src/api';
+import {CompilerProvider} from '../src/api';
 
-const target: CompilerTargetProvider = {
+const target: CompilerProvider = {
   handler: jest.fn(),
   name: 'test' as Target,
 };

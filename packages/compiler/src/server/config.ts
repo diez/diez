@@ -1,27 +1,27 @@
 import {join, relative} from 'path';
 import timeFixPlugin from 'time-fix-plugin';
 import {Configuration, HotModuleReplacementPlugin} from 'webpack';
-import {CompilerProgram} from '../api';
+import {Parser} from '../api';
 
 /**
  * Provides a hot webpack configuration for projects.
  * @ignore
  */
-export const getConfiguration = (program: CompilerProgram, componentEntry: string): Configuration => ({
+export const getConfiguration = (parser: Parser, componentEntry: string): Configuration => ({
   entry: {
     component: [
       componentEntry,
     ],
   },
-  context: program.hotRoot,
+  context: parser.hotRoot,
   mode: 'development',
   resolve: {
     alias: {
-      '@': relative(__dirname, program.hotRoot),
+      '@': relative(__dirname, parser.hotRoot),
     },
   },
   output: {
-    path: join(program.projectRoot, 'dist'),
+    path: join(parser.projectRoot, 'dist'),
     filename: '[name].js',
     publicPath : '/',
   },

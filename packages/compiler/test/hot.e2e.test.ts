@@ -57,7 +57,7 @@ jest.doMock('net', () => ({
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {CompilerEvent} from '../src/api';
-import {createProgramForFixture, stubProjectRoot, TestTargetCompiler} from './helpers';
+import {createProgramForFixture, stubProjectRoot, TestCompiler} from './helpers';
 
 jest.mock('debounce', () => (callback: () => void) => callback);
 
@@ -75,7 +75,7 @@ describe('hot server', () => {
 
     return new Promise((resolve) => {
       program.once(CompilerEvent.Compiled, async () => {
-        const compiler = new TestTargetCompiler(program);
+        const compiler = new TestCompiler(program);
         await compiler.start();
         expect(mockExitTrap).toHaveBeenCalled();
         expect(mockExpressRender).toHaveBeenCalledWith('component', {componentName: 'foobar', layout: false});

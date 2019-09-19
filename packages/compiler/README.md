@@ -1,6 +1,6 @@
 # `@diez/compiler`
 
-This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compile` registers the CLI command `diez compile --target <target-name>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) into the `build` directory.
+This package provides base classes which can be used to build compilers from Diez components into any target language, framework, or platform. A dependency on `@diez/compiler` registers the CLI command `diez compile --target <target-name>`, which compiles components exported by such a package for a given compiler target (e.g. `ios`, `android`, or `web`) into the `build` directory.
 
 The compiler itself has very few requirements; it is expecting to be run against a TypeScript project of this approximate shape:
 
@@ -28,6 +28,6 @@ export class DesignSystem {
 }
 ```
 
-the compiler will build a typed, abstract tree based on the exported component `DesignSystem`. Because `Color` and `Palette` are recursive dependencies of `DesignSystem`, they will also be processed. The resulting abstract tree will be emitted to the target compiler implementation to produce source code for the target platform, allowing you to to attach to a `DesignSystem` in a host code base.
+the compiler will build a typed, abstract tree based on the exported component `DesignSystem`. Because `Color` and `Palette` are recursive dependencies of `DesignSystem`, they will also be processed. The resulting abstract tree will be emitted to the compiler implementation to produce source code for the target platform, allowing you to to attach to a `DesignSystem` in a host code base.
 
-For some examples of target compilers which can be built using `@diez/compiler` as a foundation, refer to [`@diez/targets`](https://github.com/diez/diez/tree/master/packages/targets).
+For some examples of compilers which can be built using `@diez/compiler` as a foundation, refer to [`@diez/targets`](https://github.com/diez/diez/tree/master/packages/targets).

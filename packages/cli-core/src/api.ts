@@ -1,3 +1,4 @@
+import {Target} from '@diez/engine';
 import {Command} from 'commander';
 
 /**
@@ -119,6 +120,7 @@ export interface FullDiezConfiguration {
    * Paths to local providers associated
    */
   providers: Partial<{
+    assemblers: {[target in Target]?: string};
     commands: Iterable<string>;
     extensions: Iterable<string>;
     targets: Iterable<string>;

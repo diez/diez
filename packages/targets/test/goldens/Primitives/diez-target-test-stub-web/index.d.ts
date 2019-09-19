@@ -1,5 +1,3 @@
-// Stub core type declaration file for web.
-
 export declare class ChildComponent {
   purr(): void;
 }

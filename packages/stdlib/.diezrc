@@ -1,21 +1,10 @@
 {
-  "coreFiles": {
-    "android": [
-      "sources/android/core/Diez.kt",
-      "sources/android/core/Environment.kt",
-      "sources/android/core/Extensions.kt"
-    ],
-    "ios": [
-      "sources/ios/core/Diez.swift",
-      "sources/ios/core/Environment.swift",
-      "sources/ios/core/Bundle+Environment.swift",
-      "sources/ios/core/Bundle+Static.swift",
-      "sources/ios/core/ReflectedCustomStringConvertible.swift"
-    ],
-    "web": [
-      "sources/web/core/Diez.js",
-      "sources/web/core/Diez.d.ts"
-    ]
+  "providers": {
+    "assemblers": {
+      "ios": "./lib/assemblers/ios.assembler",
+      "android": "./lib/assemblers/android.assembler",
+      "web": "./lib/assemblers/web.assembler"
+    }
   },
   "bindings": {
     "@diez/prefabs:Color": {

@@ -1,7 +1,3 @@
-module.exports = {};
-
-// Stub core source file for web.
-
 class ChildComponent {
   constructor({
     diez

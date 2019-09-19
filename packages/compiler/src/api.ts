@@ -13,19 +13,6 @@ declare module '@diez/cli-core/types/api' {
     bindings: {
       [componentHash: string]: TargetBinding;
     };
-    /**
-     * Core files, which associate a target and role hash against a source file.
-     *
-     * Allowing core files to be specified through configuration instead of referenced directly within
-     * target compilers separately allows us to decouple target compiler implementations from the artifacts they
-     * dynamically link.
-     *
-     * TODO: package stdlib core files as separately bundled artifacts available via public repositories.
-     *       Once this is complete, we likely no longer need to retain `coreFiles` as a concept.
-     */
-    coreFiles: {
-      [target in Target]?: string[];
-    };
     projectRoot: string;
   }
 }
@@ -65,7 +52,7 @@ export type MaybeNestedArray<T> = T | NestedArray<T>;
  * Names of supported primitive types.
  *
  * The enum members are typically checked during postpressing when implementing the abstract [[getPrimitive]] method
- * in a [[TargetCompiler]] extension.
+ * in a [[Compiler]] extension.
  */
 export enum PrimitiveType {
   Unknown = 0,
@@ -158,12 +145,12 @@ export type NamedComponentMap = Map<PropertyType, TargetComponent>;
 /**
  * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
  */
-export type CompilerTargetHandler = (program: CompilerProgram) => Promise<void>;
+export type CompilerTargetHandler = (parser: Parser) => Promise<void>;
 
 /**
  * A generic interface for a compiler target.
  */
-export interface CompilerTargetProvider {
+export interface CompilerProvider {
   name: Target;
   handler: CompilerTargetHandler;
 }
@@ -189,7 +176,7 @@ export interface PrimitiveTypes {
  * A complete compiler program.
  * @noinheritdoc
  */
-export interface CompilerProgram extends EventEmitter {
+export interface Parser extends EventEmitter {
   /**
    * A map of (unique!) component names to target component specifications. This is derived recursively
    * and includes both prefabs from external modules and local components.
@@ -256,7 +243,7 @@ export type AssetBinder<
   OutputType = TargetOutput,
 > = (
   instance: ComponentType,
-  program: CompilerProgram,
+  parser: Parser,
   output: OutputType,
   spec: TargetComponentSpec,
   property: TargetProperty,
@@ -369,7 +356,7 @@ interface TemplateLiteralUsageSnippet extends BaseUsageSnippet {
 type UsageSnippet = TemplateFileUsageSnippet | TemplateLiteralUsageSnippet;
 
 /**
- * Provides a base binding interfaces for target compilers can extend as needed.
+ * Provides a base binding interface compilers can extend as needed.
  */
 export interface TargetBinding<
   T extends Prefab<any> = Prefab<any>,
@@ -385,3 +372,38 @@ export interface TargetBinding<
  * @ignore
  */
 export type Constructor = new () => object;
+
+/**
+ * Provides a generic interface for assembling source files in compiler implementations and writing them to disk.
+ *
+ * @typeparam T - The [[TargetOutput]] used by the compiler for storing intermediate code.
+ */
+export interface Assembler<T extends TargetOutput> {
+  /**
+   * The [[TargetOutput]] used by the compiler for storing intermediate code.
+   */
+  output: T;
+
+  /**
+   * Assembles and (usually) writes out core files.
+   *
+   * TODO: package core files as separately bundled artifacts available via public repositories.
+   *       Once this is complete, we likely no longer need to retain "core files" as a concept.
+   */
+  addCoreFiles (): Promise<void | void[]>;
+
+  /**
+   * Semantically write a file out to disk.
+   */
+  writeFile (destinationPath: string, contents: string | Buffer): Promise<any>;
+
+  /**
+   * Semantically copy a file to disk.
+   */
+  copyFile (sourcePath: string, destinationPath: string): Promise<any>;
+}
+
+/**
+ * A factory for constructing an [[Assembler]].
+ */
+export type AssemblerFactory<T extends TargetOutput> = (output: T) => Assembler<T>;

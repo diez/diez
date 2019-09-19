@@ -25,4 +25,9 @@ export interface AndroidBinding<T extends Prefab<{}> = Prefab<{}>> extends Targe
 export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBinding> {
   packageName: string;
   resources: Map<string, Map<string, AssetBinding>>;
+
+  /**
+   * Where we should place source code files.
+   */
+  packageRoot: string;
 }

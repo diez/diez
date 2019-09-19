@@ -10,7 +10,7 @@ import {join, resolve} from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import {CompilerProgram} from '../api';
+import {Parser} from '../api';
 import {getConfiguration} from './config';
 
 /**
@@ -24,7 +24,7 @@ import {getConfiguration} from './config';
  * @param modifyWebpackConfig - Enables optional runtime forking of the Webpack configuration before it is applied.
  */
 export const serveHot = async (
-  program: CompilerProgram,
+  parser: Parser,
   componentEntry: string,
   port: number,
   staticRoot: string,
@@ -37,7 +37,7 @@ export const serveHot = async (
     response.render('component', {componentName, layout: false});
   });
 
-  const webpackConfig = getConfiguration(program, componentEntry);
+  const webpackConfig = getConfiguration(parser, componentEntry);
   const compiler = webpack(webpackConfig);
 
   const devMiddleware = webpackDevMiddleware(compiler, {
@@ -47,7 +47,7 @@ export const serveHot = async (
 
   const hotMiddleware = webpackHotMiddleware(compiler, {log: false});
 
-  const hotExtractMutex = join(program.projectRoot, '.diez', 'extract-port');
+  const hotExtractMutex = join(parser.projectRoot, '.diez', 'extract-port');
   const watcher = watch(hotExtractMutex, {useFsEvents: false});
   exitTrap(() => {
     watcher.close();
@@ -87,7 +87,7 @@ export const serveHot = async (
     }
 
     if (lastHash !== hash) {
-      const buildTime = endTime - program.hotBuildStartTime;
+      const buildTime = endTime - parser.hotBuildStartTime;
       Log.info(`Built in ${buildTime}ms.`);
       if (process.send) {
         process.send('built');

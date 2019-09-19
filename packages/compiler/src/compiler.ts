@@ -5,17 +5,17 @@ import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative} from 'path';
 import {ClassDeclaration, EnumDeclaration, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program as TypescriptProgram, SymbolFlags, sys} from 'typescript';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
-import {CompilerEvent, CompilerOptions, CompilerProgram, MaybeNestedArray, NamedComponentMap, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
+import {CompilerEvent, CompilerOptions, MaybeNestedArray, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, getProject, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
- * A class implementing the requirements of Diez compilation.
+ * A [[Parser]] for a Diez project.
  * @noinheritdoc
  */
-export class Program extends EventEmitter implements CompilerProgram {
+export class ProjectParser extends EventEmitter implements Parser {
   private readonly diagnosticsHost: FormatDiagnosticsHost = {
     getCurrentDirectory: sys.getCurrentDirectory,
     getNewLine: () => sys.newLine,
@@ -40,7 +40,7 @@ export class Program extends EventEmitter implements CompilerProgram {
   /**
    * The active TypeScript program.
    */
-  private program: TypescriptProgram;
+  private program: Program;
 
   /**
    * @ignore
@@ -458,16 +458,16 @@ export class Program extends EventEmitter implements CompilerProgram {
 }
 
 /**
- * An abstract class wrapping the basic functions of a target compiler.
+ * An abstract class wrapping the basic functions of a compiler.
  *
  * Although this class may provide useful time-saving abstractions, it is by no means a requirement to use
- * [[TargetCompiler]] when building a "compiler for a target"—the only thing a [[CompilerTargetProvider]] is guaranteed
- * to receive is an instance of a [[CompilerProgram]].
+ * [[Compiler]] when building a "compiler for a target"—the only thing a [[CompilerProvider]] is guaranteed
+ * to receive is an instance of a [[Parser]].
  *
  * @typeparam OutputType - The type of target output we build during the compilation process.
  * @typeparam BindingType - The shape of asset bindings in our target.
  */
-export abstract class TargetCompiler<
+export abstract class Compiler<
   OutputType extends TargetOutput,
   BindingType extends TargetBinding<any, OutputType>,
 > {
@@ -515,7 +515,7 @@ export abstract class TargetCompiler<
    * The root where we should serve static content in hot mode.
    */
   protected get hotStaticRoot () {
-    return join(this.program.projectRoot, '.diez', `${this.program.options.target}-assets`);
+    return join(this.parser.projectRoot, '.diez', `${this.parser.options.target}-assets`);
   }
 
   /**
@@ -548,14 +548,14 @@ export abstract class TargetCompiler<
    */
   abstract async writeSdk (): Promise<void | void[]>;
 
-  constructor (readonly program: CompilerProgram) {
-    const projectName = inferProjectName(program.projectRoot);
+  constructor (readonly parser: Parser) {
+    const projectName = inferProjectName(parser.projectRoot);
     this.output = this.createOutput(
-      join(program.projectRoot, 'build', `diez-${projectName}-${program.options.target}`),
+      join(parser.projectRoot, 'build', `diez-${projectName}-${parser.options.target}`),
       projectName,
     );
 
-    if (!program.hot) {
+    if (!parser.hot) {
       removeSync(this.output.sdkRoot);
       ensureDirSync(this.output.sdkRoot);
     }
@@ -565,7 +565,7 @@ export abstract class TargetCompiler<
    * Generates a fresh component spec for a given type.
    */
   private createSpec (type: PropertyType): TargetComponentSpec {
-    return {componentName: type, properties: {}, public: this.program.localComponentNames.has(type)};
+    return {componentName: type, properties: {}, public: this.parser.localComponentNames.has(type)};
   }
 
   /**
@@ -596,12 +596,12 @@ export abstract class TargetCompiler<
         return;
       }
 
-      const propertyComponent = this.program.targetComponents.get(property.type)!;
+      const propertyComponent = this.parser.targetComponents.get(property.type)!;
       const propertyBinding = await getBinding<BindingType>(
-        this.program.options.target, propertyComponent.source, property.type);
+        this.parser.options.target, propertyComponent.source, property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
-          await propertyBinding.assetsBinder(instance, this.program, this.output, componentSpec, property);
+          await propertyBinding.assetsBinder(instance, this.parser, this.output, componentSpec, property);
         }
       }
 
@@ -620,7 +620,7 @@ export abstract class TargetCompiler<
    * Recursively processes a component instance and all its properties.
    */
   protected async processComponentInstance (instance: any, name: PropertyType) {
-    const targetComponent = this.program.targetComponents.get(name);
+    const targetComponent = this.parser.targetComponents.get(name);
     if (!targetComponent) {
       Log.warning(`Unable to find component definition for ${name}!`);
       return;
@@ -630,12 +630,12 @@ export abstract class TargetCompiler<
     const serializedData = serialize(instance);
 
     for (const property of targetComponent.properties) {
-      // TODO: move this check upstream of the target compiler, into the compiler metadata stream where it belongs.
+      // TODO: move this check upstream of the compiler, into the compiler metadata stream where it belongs.
       if (
         instance.options &&
         instance.options[property.name] &&
         Array.isArray(instance.options[property.name].targets) &&
-        !instance.options[property.name].targets.includes(this.program.options.target)
+        !instance.options[property.name].targets.includes(this.parser.options.target)
       ) {
         // We are looking at a property that is either not a state or explicitly excluded by the host.
         continue;
@@ -654,7 +654,7 @@ export abstract class TargetCompiler<
     }
 
     if (!this.output.processedComponents.has(name)) {
-      const binding = await getBinding<BindingType>(this.program.options.target, targetComponent.source || '.', name);
+      const binding = await getBinding<BindingType>(this.parser.options.target, targetComponent.source || '.', name);
       this.output.processedComponents.set(name, {spec, binding, instances: new Set()});
     }
 
@@ -670,12 +670,12 @@ export abstract class TargetCompiler<
    */
   async run () {
     // Important: reset the require cache before each run.
-    purgeRequireCache(require.resolve(this.program.emitRoot));
-    const componentModule = await loadComponentModule(this.program.emitRoot);
-    for (const componentName of this.program.localComponentNames) {
+    purgeRequireCache(require.resolve(this.parser.emitRoot));
+    const componentModule = await loadComponentModule(this.parser.emitRoot);
+    for (const componentName of this.parser.localComponentNames) {
       const maybeConstructor = componentModule[componentName];
       if (!maybeConstructor) {
-        Log.warning(`Unable to resolve component instance from ${this.program.projectRoot}: ${componentName}.`);
+        Log.warning(`Unable to resolve component instance from ${this.parser.projectRoot}: ${componentName}.`);
         continue;
       }
 
@@ -688,7 +688,7 @@ export abstract class TargetCompiler<
    * A hot URL mutex clients can look for.
    */
   private get hotUrlMutex () {
-    return join(this.program.projectRoot, '.diez', `${this.program.options.target}-hot-url`);
+    return join(this.parser.projectRoot, '.diez', `${this.parser.options.target}-hot-url`);
   }
 
   /**
@@ -718,7 +718,7 @@ export abstract class TargetCompiler<
    */
   async start () {
     await this.validateOptions();
-    if (this.program.hot) {
+    if (this.parser.hot) {
       const [devPort, hostname] = await Promise.all([getHotPort(), this.hostname()]);
       this.writeHotUrlMutex(hostname, devPort);
 
@@ -728,13 +728,13 @@ export abstract class TargetCompiler<
       }
 
       serveHot(
-        this.program,
+        this.parser,
         this.hotComponent,
         devPort,
         this.hotStaticRoot,
       );
       // Important: only handle one Compiled event at a time to prevent races.
-      this.program.on(CompilerEvent.Compiled, async () => {
+      this.parser.on(CompilerEvent.Compiled, async () => {
         await this.buildHot();
       });
     } else {
@@ -758,15 +758,15 @@ export abstract class TargetCompiler<
     }
 
     await this.writeAssets();
-    copySync(this.program.emitRoot, this.program.hotRoot);
+    copySync(this.parser.emitRoot, this.parser.hotRoot);
     return true;
   }
 
   /**
-   * Writes out bound assets from the target compiler's asset bindings.
+   * Writes out bound assets from the compiler's asset bindings.
    */
   writeAssets () {
-    const staticRoot = this.program.hot ? this.hotStaticRoot : this.staticRoot;
+    const staticRoot = this.parser.hot ? this.hotStaticRoot : this.staticRoot;
     removeSync(staticRoot);
     for (const [path, binding] of this.output.assetBindings) {
       const outputPath = join(staticRoot, path);

@@ -1,4 +1,4 @@
-import {CompilerOptions, Constructor, Program, projectCache} from '@diez/compiler';
+import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler';
 import {Target} from '@diez/engine';
 import {AndroidCompiler, IosCompiler, WebCompiler} from '@diez/targets';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
@@ -53,7 +53,7 @@ const createProgramForFixture = async (fixture: string, target: Target, options?
     copySync(join(fixturesRoot, fixture, 'assets'), join(stubProjectRoot, 'assets'));
   }
 
-  const program = new Program(stubProjectRoot, {target, sdkVersion: '10.10.10', ...options});
+  const program = new ProjectParser(stubProjectRoot, {target, sdkVersion: '10.10.10', ...options});
   await program.run();
   return program;
 };

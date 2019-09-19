@@ -1,20 +1,21 @@
 import {canRunCommand, execAsync, Format, isMacOS, Log} from '@diez/cli-core';
 import {
+  Assembler,
+  Compiler,
   CompilerTargetHandler,
-  getCoreFiles,
+  getAssemblerFactory,
   PrimitiveType,
   PropertyType,
-  TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
 import {Target} from '@diez/engine';
-import {getTempFileName, outputTemplatePackage} from '@diez/storage';
+import {outputTemplatePackage} from '@diez/storage';
 import {pascalCase} from 'change-case';
-import {copySync, ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
+import {readFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
-import {basename, join, relative} from 'path';
+import {basename, join} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
@@ -58,12 +59,12 @@ See https://github.com/yonaskolb/XcodeGen#installing for all installation option
  * A compiler for iOS targets.
  * @ignore
  */
-export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
+export class IosCompiler extends Compiler<IosOutput, IosBinding> {
   /**
    * @abstract
    */
   protected async validateOptions () {
-    if (this.program.hot) {
+    if (this.parser.hot) {
       // No need for validation if we're running hot.
       return;
     }
@@ -75,10 +76,10 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       return;
     }
 
-    if (this.program.options.carthage) {
+    if (this.parser.options.carthage) {
       throw new Error(xcodegenInstallationMessage(
         '--carthage requires XcodeGen in order to generate an Xcode project.'));
-    } else if (!this.program.options.cocoapods) {
+    } else if (!this.parser.options.cocoapods) {
       throw new Error(xcodegenInstallationMessage(
         '--target=ios without --cocoapods requires XcodeGen in order to generate an Xcode project.'));
     }
@@ -187,22 +188,12 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   }
 
   /**
-   * Returns the root path in the temp directory where the module's source files should be copied to.
-   *
-   * All sources will be copied here in the appropriate directory structure before being copied to the destination.
-   */
-  private get sourcesRoot () {
-    return join(this.output.temporaryRoot, 'Sources', this.moduleName);
-  }
-
-  /**
    * Updates the output based on the contents of the binding.
    */
-  private mergeBindingToOutput (binding: IosBinding): void {
+  private async mergeBindingToOutput (binding: IosBinding, assembler: Assembler<IosOutput>) {
     for (const bindingSource of binding.sources) {
-      const destination = join(this.sourcesRoot, 'Bindings', basename(bindingSource));
-      copySync(bindingSource, destination);
-      this.output.sources.add(destination);
+      const destination = join(this.output.sourcesRoot, 'Bindings', basename(bindingSource));
+      await assembler.copyFile(bindingSource, destination);
     }
 
     if (binding.dependencies) {
@@ -216,6 +207,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
    * @abstract
    */
   protected createOutput (sdkRoot: string, projectName: string) {
+    const pascalProject = pascalCase(projectName);
     return {
       sdkRoot,
       projectName,
@@ -223,8 +215,10 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
       sources: new Set([]),
       dependencies: new Set<IosDependency>(),
       assetBindings: new Map(),
-      bundleIdPrefix: `org.diez.${pascalCase(projectName)}`,
-      temporaryRoot: getTempFileName(),
+      bundleIdPrefix: `org.diez.${pascalProject}`,
+      // The root path in the temp directory where the module's source files should be copied to.
+      // All sources will be copied here in the appropriate directory structure before being copied to the destination.
+      sourcesRoot: join(sdkRoot, 'Sources', `Diez${pascalProject}`),
     };
   }
 
@@ -241,13 +235,13 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
   printUsageInstructions () {
     Log.info(`Diez SDK installed locally at ${this.output.sdkRoot}.\n`);
 
-    if (this.program.options.cocoapods) {
+    if (this.parser.options.cocoapods) {
       Log.info(`You can depend on the Diez SDK in your ${Format.code('Podfile')} during development like so:`);
       Log.code(`pod '${this.moduleName}', :path => '${this.output.sdkRoot}'\n`);
       Log.info(`Don't forget to run ${Format.code('pod install')} after updating your CocoaPods dependencies!\n`);
     }
 
-    if (this.program.options.carthage) {
+    if (this.parser.options.carthage) {
       Log.info('You can depend on the Diez SDK in your application by hosting the generated SDK on GitHub and updating ');
       Log.info(`your ${Format.code('Cartfile')} like so:`);
       Log.code(`github "organization/${this.moduleName}" "master"\n`);
@@ -264,7 +258,7 @@ export class IosCompiler extends TargetCompiler<IosOutput, IosBinding> {
 import ${this.moduleName}
 
 class ViewController: UIViewController {
-    private lazy var diez = Diez<${Array.from(this.program.localComponentNames)[0]}>(view: view)
+    private lazy var diez = Diez<${Array.from(this.parser.localComponentNames)[0]}>(view: view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -292,16 +286,16 @@ class ViewController: UIViewController {
   private get blacklist () {
     const blacklist = new Set<string>();
 
-    if (!this.program.options.cocoapods) {
+    if (!this.parser.options.cocoapods) {
       // No need for Diez.podspec unless the user has requested CocoaPods support.
       blacklist.add('Diez.podspec');
     }
 
-    if (!this.program.options.carthage) {
+    if (!this.parser.options.carthage) {
       // No need for Cartfile unless the user has requested Carthage support.
       blacklist.add('Cartfile');
 
-      if (this.program.options.cocoapods) {
+      if (this.parser.options.cocoapods) {
         // No need for project generation at all if the user has requested CocoaPods support.
         blacklist.add('project.yml');
       }
@@ -311,47 +305,36 @@ class ViewController: UIViewController {
   }
 
   /**
-   * Copies core files into the temp directory before adding them to the list of output sources.
-   */
-  private async addCoreFiles () {
-    for (const source of await getCoreFiles(Target.Ios)) {
-      const destination = join(this.sourcesRoot, 'Core', basename(source));
-      copySync(source, destination);
-      this.output.sources.add(destination);
-    }
-  }
-
-  /**
    * @abstract
    */
   async writeSdk () {
-    await this.addCoreFiles();
+    const builder = await getAssemblerFactory<IosOutput>(Target.Ios);
+    const assembler = builder(this.output);
+    await assembler.addCoreFiles();
     const hasStaticAssets = this.output.assetBindings.size > 0;
 
-    const componentsFolder = join(this.sourcesRoot, 'Components');
-    ensureDirSync(componentsFolder);
+    const componentsFolder = join(this.output.sourcesRoot, 'Components');
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (this.program.singletonComponentNames.has(property.type)) {
+        if (this.parser.singletonComponentNames.has(property.type)) {
           property.initializer = `${property.type}()`;
         }
       }
 
       const filename = join(componentsFolder, `${spec.componentName.toString()}.swift`);
-      this.output.sources.add(filename);
-      writeFileSync(
+      await assembler.writeFile(
         filename,
         compile(componentTemplate)({
           ...spec,
-          singleton: spec.public || this.program.singletonComponentNames.has(type),
+          singleton: spec.public || this.parser.singletonComponentNames.has(type),
           hasProperties: Object.keys(spec.properties).length > 0,
         }),
       );
 
       if (binding) {
-        this.mergeBindingToOutput(binding);
+        await this.mergeBindingToOutput(binding, assembler);
       }
     }
 
@@ -374,7 +357,7 @@ class ViewController: UIViewController {
     const tokens = {
       hasDependenciesOrStaticAssets,
       hasStaticAssets,
-      sdkVersion: this.program.options.sdkVersion,
+      sdkVersion: this.parser.options.sdkVersion,
       moduleName: this.moduleName,
       assetCatalogPaths: Array.from(assetCatalogPaths),
       assetFolderPaths: Array.from(assetFolderPaths),
@@ -386,17 +369,9 @@ class ViewController: UIViewController {
 
     await outputTemplatePackage(join(coreIos, 'sdk'), this.output.sdkRoot, tokens, this.blacklist);
 
-    for (const source of this.output.sources) {
-      // Since all source files are copied to the temp directory before being added as output, all files should be
-      // copied relative to the temp directory.
-      const relativePath = relative(this.output.temporaryRoot, source);
-      const destination = join(this.output.sdkRoot, relativePath);
-      copySync(source, destination);
-    }
-
     // Always generate a project when the user has not opted in to CocoaPods support, or when the user has explicitly
     // opted in to Carthage support.
-    if (!this.program.options.cocoapods || this.program.options.carthage) {
+    if (!this.parser.options.cocoapods || this.parser.options.carthage) {
       await execAsync('xcodegen generate', {cwd: this.output.sdkRoot});
     }
   }

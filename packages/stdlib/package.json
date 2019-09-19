@@ -23,11 +23,13 @@
   "dependencies": {
     "@diez/cli-core": "^10.0.0-beta.4",
     "@diez/compiler": "^10.0.0-beta.4",
+    "@diez/engine": "^10.0.0-beta.4",
     "@diez/prefabs": "^10.0.0-beta.4",
     "@diez/targets": "^10.0.0-beta.4",
     "@diez/web-sdk-common": "^10.0.0-beta.4",
     "fontkit": "^1.8.0",
-    "fs-extra": "^7.0.1"
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.1"
   },
   "devDependencies": {
     "@diez/engine": "^10.0.0-beta.4",

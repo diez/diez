@@ -1,10 +1,10 @@
 import {Format, Log} from '@diez/cli-core';
 import {
+  Compiler,
   CompilerTargetHandler,
-  getCoreFiles,
+  getAssemblerFactory,
   PrimitiveType,
   PropertyType,
-  TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
@@ -17,7 +17,6 @@ import {
   outputFileSync,
   readFileSync,
   removeSync,
-  writeFileSync,
 } from 'fs-extra';
 import {compile, registerPartial} from 'handlebars';
 import {v4} from 'internal-ip';
@@ -53,7 +52,7 @@ const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: An
  * @noinheritdoc
  * @ignore
  */
-export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBinding> {
+export class AndroidCompiler extends Compiler<AndroidOutput, AndroidBinding> {
   /**
    * @abstract
    */
@@ -161,10 +160,13 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    * @abstract
    */
   protected createOutput (sdkRoot: string, projectName: string) {
+    const packageName = `org.diez.${camelCase(projectName)}`;
+    const packageComponents = packageName.split('.');
     return {
       sdkRoot,
       projectName,
-      packageName: `org.diez.${camelCase(projectName)}`,
+      packageName,
+      packageRoot: join(sdkRoot, 'src', 'main', 'java', ...packageComponents),
       components: new Map(),
       processedComponents: new Map(),
       sources: new Set([]),
@@ -186,7 +188,7 @@ export class AndroidCompiler extends TargetCompiler<AndroidOutput, AndroidBindin
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = Array.from(this.program.localComponentNames)[0];
+    const component = Array.from(this.parser.localComponentNames)[0];
     Log.info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
 
     Log.info(`You can depend on ${diez} in ${Format.code('build.gradle')}:`);
@@ -227,7 +229,7 @@ class MainActivity ... {
    */
   writeAssets () {
     // Write hot assets for hot mode.
-    if (this.program.hot) {
+    if (this.parser.hot) {
       super.writeAssets();
       return;
     }
@@ -253,19 +255,11 @@ class MainActivity ... {
    * @abstract
    */
   async writeSdk () {
-    const packageComponents = this.output.packageName.split('.');
-    const sourcesRoot = join(this.output.sdkRoot, 'src', 'main', 'java', ...packageComponents);
-    ensureDirSync(sourcesRoot);
+    ensureDirSync(this.output.packageRoot);
 
-    for (const source of await getCoreFiles(Target.Android)) {
-      const template = readFileSync(source).toString();
-      writeFileSync(
-        join(sourcesRoot, basename(source)),
-        compile(template)({
-          packageName: this.output.packageName,
-        }),
-      );
-    }
+    const builder = await getAssemblerFactory<AndroidOutput>(Target.Android);
+    const assembler = builder(this.output);
+    await assembler.addCoreFiles();
 
     const dataClassStartTemplate = readFileSync(join(coreAndroid, 'android.data-class.start.handlebars')).toString();
     registerPartial('androidDataClassStart', dataClassStartTemplate);
@@ -275,14 +269,14 @@ class MainActivity ... {
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (this.program.singletonComponentNames.has(property.type)) {
+        if (this.parser.singletonComponentNames.has(property.type)) {
           property.initializer = `${property.type}()`;
         }
       }
 
       const dataClassStartTokens = {
         ...spec,
-        singleton: spec.public || this.program.singletonComponentNames.has(type),
+        singleton: spec.public || this.parser.singletonComponentNames.has(type),
         hasProperties: Object.keys(spec.properties).length > 0,
       };
 
@@ -294,16 +288,16 @@ class MainActivity ... {
       const componentBasename = `${spec.componentName}.kt`;
       let hasComponentOverride = false;
       if (binding) {
-        for (const source of binding.sources) {
+        await Promise.all(binding.sources.map((source) => {
           const template = readFileSync(source).toString();
           const sourceBasename = basename(source);
-          const bindingPath = join(sourcesRoot, sourceBasename);
-          writeFileSync(bindingPath, compile(template)(componentTokens));
-
+          const bindingPath = join(this.output.packageRoot, sourceBasename);
           if (sourceBasename === componentBasename) {
             hasComponentOverride = true;
           }
-        }
+
+          return assembler.writeFile(bindingPath, compile(template)(componentTokens));
+        }));
 
         if (binding.dependencies) {
           for (const dependency of binding.dependencies) {
@@ -316,8 +310,8 @@ class MainActivity ... {
       // implementation. This is determined by checking the name of the file to see if it matches our component name.
       if (!hasComponentOverride) {
         const sourceBasename = basename(`${spec.componentName}.kt`);
-        const bindingPath = join(sourcesRoot, sourceBasename);
-        writeFileSync(bindingPath, compile(componentTemplate)(componentTokens));
+        const bindingPath = join(this.output.packageRoot, sourceBasename);
+        await assembler.writeFile(bindingPath, compile(componentTemplate)(componentTokens));
       }
     }
 

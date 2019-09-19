@@ -39,9 +39,9 @@ const clearPackageJsonDiezVersions = (packageJson: any) => {
   }
 };
 
-describe('targets.e2e', () => {
+describe('stdlib.e2e', () => {
   for (const fixture of getFixtures()) {
-    test(`targets.e2e.${fixture}`, async () => {
+    test(`stdlib.e2e.${fixture}`, async () => {
       // Resets modules to clear the require cache. Necessary because we reuse the stub project over and over.
       jest.resetModules();
 

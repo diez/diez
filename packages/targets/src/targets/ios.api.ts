@@ -39,9 +39,8 @@ export interface IosBinding<T extends Prefab<{}> = Prefab<{}>> extends TargetBin
 export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {
   bundleIdPrefix: string;
   sources: Set<string>;
-
   /**
-   * A temporary directory used as an intermediary copy step when writing the SDK.
+   * The destination for source files in our SDK.
    */
-  temporaryRoot: string;
+  sourcesRoot: string;
 }

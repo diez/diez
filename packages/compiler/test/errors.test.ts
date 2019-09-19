@@ -2,7 +2,7 @@ import {Target} from '@diez/engine';
 import {getTempFileName} from '@diez/storage';
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {Program} from '../src/compiler';
+import {ProjectParser} from '../src/compiler';
 import {projectCache} from '../src/utils';
 
 const tempLocation = getTempFileName();
@@ -17,7 +17,7 @@ afterEach(() => {
 
 describe('compiler errors', () => {
   test('invalid program', async () => {
-    const makeProgram = () => new Program(tempLocation, {sdkVersion: '10.10.10', target: 'foo' as Target});
+    const makeProgram = () => new ProjectParser(tempLocation, {sdkVersion: '10.10.10', target: 'foo' as Target});
     expect(makeProgram).toThrow();
     projectCache.clear();
 

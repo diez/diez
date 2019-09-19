@@ -18,7 +18,7 @@ export interface FileData {
 }
 
 /**
- * Provides a container for referencing local assets, which can be bridged by target compilers to embed images, SVGs,
+ * Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
  * and more. This component is used internally by [[Image]] and [[Font]].
  *
  * The compiler may enforce certain restrictions on the `type` of a `File` instance.

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0159A67BDE128ECCEB4142640B86AF91 /* ChildComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196CF7776EBC53EF094F8EBE61C7FF5 /* ChildComponent.swift */; };
 		14E7D1680F468073F59CE1A51E650F63 /* Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FFBBA507E424CB53F47F26974E47FB /* Primitives.swift */; };
-		20B7B28A7A0127BF7A226CEFA3C7C37B /* ios.core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */; };
 		52E91915496FB1FA7D99D357A2958BAB /* Meow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AAA71D4AC30A141B96A8B77EE92194 /* Meow.framework */; };
 		768BD6061C3C638B013F847BD9FCF2FB /* meow in Resources */ = {isa = PBXBuildFile; fileRef = 397703DDBAEDD8F5CDF52A79E60980D5 /* meow */; };
 		B672C842C746C39F14BF05164B4200CA /* EmptyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC69A8F90E63FB64A299EBE9F3E9773 /* EmptyComponent.swift */; };
@@ -30,7 +29,6 @@
 /* Begin PBXFileReference section */
 		209388F1C358A11F2EA60B205783F4CE /* Static.bundle */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; path = Static.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		397703DDBAEDD8F5CDF52A79E60980D5 /* meow */ = {isa = PBXFileReference; lastKnownFileType = folder; name = meow; path = Sources/Static/meow; sourceTree = SOURCE_ROOT; };
-		70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios.core.swift; sourceTree = "<group>"; };
 		7196CF7776EBC53EF094F8EBE61C7FF5 /* ChildComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildComponent.swift; sourceTree = "<group>"; };
 		73AAA71D4AC30A141B96A8B77EE92194 /* Meow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Meow.framework; sourceTree = "<group>"; };
 		A468599ABC5B0980214C95ECE961CA52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 				A468599ABC5B0980214C95ECE961CA52 /* Info.plist */,
 				7ECD0FCF0AC4048E5F681F02CF67CE45 /* Bindings */,
 				20F2793E5A26967CAF4C9DDE03F62388 /* Components */,
-				FBFF98F27E425DFDADEB40B3DC8AB909 /* Core */,
 			);
 			name = DiezTargetTestStub;
 			path = Sources/DiezTargetTestStub;
@@ -124,14 +121,6 @@
 				83BB917DAB8BAEDE50ECA4D8ED6EAAB0 /* Carthage */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FBFF98F27E425DFDADEB40B3DC8AB909 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				70AA30BF65D5534097E8DAAB0792E9A2 /* ios.core.swift */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +220,6 @@
 				0159A67BDE128ECCEB4142640B86AF91 /* ChildComponent.swift in Sources */,
 				B672C842C746C39F14BF05164B4200CA /* EmptyComponent.swift in Sources */,
 				14E7D1680F468073F59CE1A51E650F63 /* Primitives.swift in Sources */,
-				20B7B28A7A0127BF7A226CEFA3C7C37B /* ios.core.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

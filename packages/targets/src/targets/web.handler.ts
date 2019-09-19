@@ -1,10 +1,10 @@
 import {Format, Log} from '@diez/cli-core';
 import {
+  Compiler,
   CompilerTargetHandler,
-  getCoreFiles,
+  getAssemblerFactory,
   PrimitiveType,
   PropertyType,
-  TargetCompiler,
   TargetComponentProperty,
   TargetComponentSpec,
 } from '@diez/compiler';
@@ -13,7 +13,7 @@ import {getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
-import {basename, join} from 'path';
+import {join} from 'path';
 import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
 import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, WebOutput} from './web.api';
 
@@ -40,11 +40,13 @@ const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDep
   dependencies.add(newDependency);
 };
 
+const newlineBuffer = Buffer.from('\n');
+
 /**
  * A compiler for web targets.
  * @ignore
  */
-export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
+export class WebCompiler extends Compiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
@@ -193,7 +195,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = Array.from(this.program.localComponentNames)[0];
+    const component = Array.from(this.parser.localComponentNames)[0];
     const styleVarName = this.output.styleSheet.variables.keys().next().value;
 
     Log.info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
@@ -278,7 +280,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 
   private writeStyleSdk (lang: 'scss' | 'css', tokens: StyleTokens) {
     const template = readFileSync(join(coreWeb, `styles.${lang}.handlebars`)).toString();
-    const staticRoot = this.program.hot ? this.hotStaticRoot : this.staticRoot;
+    const staticRoot = this.parser.hot ? this.hotStaticRoot : this.staticRoot;
     ensureDirSync(staticRoot);
     writeFileSync(join(staticRoot, `styles.${lang}`), compile(template)(tokens));
   }
@@ -290,25 +292,45 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
     this.writeStyleSdk('scss', tokens);
   }
 
+  /**
+   * Generates a source file comprised of all sources concatenated together.
+   */
+  private generateSource (): Buffer {
+    const sources: Buffer[] = [];
+    for (const source of this.output.sources) {
+      sources.push(readFileSync(source), newlineBuffer);
+    }
+
+    return Buffer.concat(sources);
+  }
+
+  /**
+   * Generates a declaration file comprised of all declarations concatenated together.
+   */
+  private generateDeclaration (): Buffer {
+    const declarations = Array.from(this.output.declarationImports).map(
+      (declarationImport) => Buffer.from(declarationImport));
+    for (const declaration of this.output.declarations) {
+      declarations.push(readFileSync(declaration), newlineBuffer);
+    }
+
+    return Buffer.concat(declarations);
+  }
+
   async writeSdk () {
     const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
 
-    for (const source of await getCoreFiles(Target.Web)) {
-      const sourceBasename = basename(source);
-      if (sourceBasename.endsWith('.js')) {
-        this.output.sources.add(source);
-      } else if (sourceBasename.endsWith('.d.ts')) {
-        this.output.declarations.add(source);
-      }
-    }
+    const builder = await getAssemblerFactory<WebOutput>(Target.Web);
+    const assembler = builder(this.output);
+    await assembler.addCoreFiles();
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);
     for (const [type, {spec, binding}] of this.output.processedComponents) {
       // For each singleton, replace it with its simple constructor.
       for (const property of Object.values(spec.properties)) {
-        if (this.program.singletonComponentNames.has(property.type)) {
+        if (this.parser.singletonComponentNames.has(property.type)) {
           property.initializer = '{}';
         }
       }
@@ -319,7 +341,7 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
         sourceFilename,
         compile(componentTemplate)({
           ...spec,
-          singleton: spec.public || this.program.singletonComponentNames.has(type),
+          singleton: spec.public || this.parser.singletonComponentNames.has(type),
         }),
       );
 
@@ -341,15 +363,22 @@ export class WebCompiler extends TargetCompiler<WebOutput, WebBinding> {
 
     const tokens = {
       moduleName: this.moduleName,
-      sdkVersion: this.program.options.sdkVersion,
+      sdkVersion: this.parser.options.sdkVersion,
       dependencies: Array.from(this.output.dependencies),
-      sources: Array.from(this.output.sources).map((source) => readFileSync(source).toString()),
-      declarations: Array.from(this.output.declarations).map((source) => readFileSync(source).toString()),
-      declarationImports: Array.from(this.output.declarationImports),
     };
 
     this.writeAssets();
-    return outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens);
+    return Promise.all([
+      assembler.writeFile(
+        join(this.output.sdkRoot, 'index.js'),
+        this.generateSource(),
+      ),
+      assembler.writeFile(
+        join(this.output.sdkRoot, 'index.d.ts'),
+        this.generateDeclaration(),
+      ),
+      outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens),
+    ]);
   }
 }
 

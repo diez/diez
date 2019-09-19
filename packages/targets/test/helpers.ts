@@ -1,5 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
-import {CompilerOptions, Constructor, Program, projectCache} from '@diez/compiler';
+import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler';
 import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
@@ -47,28 +47,22 @@ const createProgramForFixture = async (fixture: string, target: Target, options?
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
-  // Stub in core files and bindings for testing.
+  // Stub in a test assembler and bindings for testing.
   const plugins = await findPlugins();
-  Object.assign(
-    plugins.get('.')!,
-    {
-      coreFiles: {
-        [Target.Android]: ['test/sources/core/android.core.kt'],
-        [Target.Ios]: ['test/sources/core/ios.core.swift'],
-        [Target.Web]: [
-          'test/sources/core/web.core.d.ts',
-          'test/sources/core/web.core.js',
-        ],
-      },
-      bindings: {
-        '.:ChildComponent': {
-          ios: './test/bindings/ios',
-          android: './test/bindings/android',
-          web: './test/bindings/web',
-        },
-      },
+  const config = plugins.get('.')!;
+  const providers = config.providers!;
+  providers.assemblers = {
+    [Target.Android]: './test/assembler.ts',
+    [Target.Ios]: './test/assembler.ts',
+    [Target.Web]: './test/assembler.ts',
+  };
+  config.bindings = {
+    '.:ChildComponent': {
+      [Target.Android]: './test/bindings/android',
+      [Target.Ios]: './test/bindings/ios',
+      [Target.Web]: './test/bindings/web',
     },
-  );
+  };
 
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
@@ -79,7 +73,7 @@ const createProgramForFixture = async (fixture: string, target: Target, options?
     copySync(join(fixturesRoot, fixture, 'assets'), join(stubProjectRoot, 'assets'));
   }
 
-  const program = new Program(stubProjectRoot, {target, sdkVersion: '10.10.10', ...options});
+  const program = new ProjectParser(stubProjectRoot, {target, sdkVersion: '10.10.10', ...options});
   await program.run();
   return program;
 };

@@ -23,8 +23,8 @@ const mockTargetProperty: TargetProperty = {
 describe('android image binding', () => {
   test('Android images are not bound in hot mode', async () => {
     const compiler = await createAndroidCompilerForFixture('Bindings');
-    compiler.program.hot = true;
-    await androidImageBinder!(new Image(), compiler.program, compiler.output, mockSpec, mockTargetProperty);
+    compiler.parser.hot = true;
+    await androidImageBinder!(new Image(), compiler.parser, compiler.output, mockSpec, mockTargetProperty);
     expect(compiler.output.resources.size).toBe(0);
   });
 });
@@ -33,8 +33,8 @@ describe('android image binding', () => {
 describe('ios image binding', () => {
   test('iOS images are not bound in hot mode', async () => {
     const compiler = await createIosCompilerForFixture('Bindings');
-    compiler.program.hot = true;
-    await iosImageBinder!(new Image(), compiler.program, compiler.output, mockSpec, mockTargetProperty);
+    compiler.parser.hot = true;
+    await iosImageBinder!(new Image(), compiler.parser, compiler.output, mockSpec, mockTargetProperty);
     expect(compiler.output.assetBindings.size).toBe(0);
   });
 });

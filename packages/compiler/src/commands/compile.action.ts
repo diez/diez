@@ -2,7 +2,7 @@ import {Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {valid} from 'semver';
 import {CompilerOptions} from '../api';
-import {Program} from '../compiler';
+import {ProjectParser} from '../compiler';
 import {getProjectRoot, getTargets, printWarnings} from '../utils';
 
 export = async (options: CompilerOptions) => {
@@ -24,7 +24,7 @@ export = async (options: CompilerOptions) => {
     throw new Error(`Invalid target: ${options.target}. See --help for options.`);
   }
 
-  const program = new Program(await getProjectRoot(), options);
+  const program = new ProjectParser(await getProjectRoot(), options);
   await program.run();
 
   if (!program.localComponentNames.size) {

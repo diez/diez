@@ -1,8 +1,8 @@
-import {CompilerTargetProvider} from '@diez/compiler';
+import {CompilerProvider} from '@diez/compiler';
 import {Target} from '@diez/engine';
 import {iosHandler as handler} from './ios.handler';
 
-const target: CompilerTargetProvider = {
+const target: CompilerProvider = {
   handler,
   name: Target.Ios,
 };

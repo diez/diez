@@ -1,3 +1,5 @@
+module.exports = {};
+
 if (typeof process === 'undefined' || !process) {
   process = {env: {}};
 } else if (!process.env) {

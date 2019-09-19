@@ -41,63 +41,63 @@ describe('asset binding', () => {
         type: FileType.Raw,
       }),
     });
-    await expect(fileAssetBinder(illegalImage.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(illegalImage.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // Wrong file type for Font host component is an error.
     const illegalFont = new Font({
       file: new File({src: '/dev/null', type: FileType.Image}),
     });
-    await expect(fileAssetBinder(illegalFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(illegalFont.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // Fonts are uniquely permitted to have missing sources.
     const fontFile = new File({type: FileType.Font});
-    await expect(fileAssetBinder(fontFile, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(fontFile, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .resolves.toBeUndefined();
 
     // Fonts must be either TTF or OTF.
     const invalidFontFile = new File({src: '/path/to/font.svg', type: FileType.Font});
-    await expect(fileAssetBinder(invalidFontFile, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(invalidFontFile, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // Unhosted font files are unchecked.
-    ensureFileSync(join(compiler.program.projectRoot, 'assets', 'FontName.otf'));
+    ensureFileSync(join(compiler.parser.projectRoot, 'assets', 'FontName.otf'));
     const unhostedFontFile = new File({src: 'assets/FontName.otf', type: FileType.Font});
-    await expect(fileAssetBinder(unhostedFontFile, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(unhostedFontFile, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .resolves
       .toBeUndefined();
 
-    ensureFileSync(join(compiler.program.projectRoot, 'assets', 'CorrectName.ttf'));
+    ensureFileSync(join(compiler.parser.projectRoot, 'assets', 'CorrectName.ttf'));
     const namedFont = Font.fromFile('assets/CorrectName.ttf', '');
 
     // We should throw with no name...
-    await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(namedFont.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // ...and with the wrong name...
     mockFontLoader.mockImplementationOnce(() => ({postscriptName: 'WrongName'}));
     namedFont.name = 'CorrectName';
-    await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(namedFont.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // ...and resolve with the correct name.
     mockFontLoader.mockImplementationOnce(() => ({postscriptName: 'CorrectName'}));
-    await expect(fileAssetBinder(namedFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(namedFont.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .resolves.toBeUndefined();
 
     // A TrueType collection masquerading as a TrueType font should fail.
-    ensureFileSync(join(compiler.program.projectRoot, 'assets', 'Collection.ttf'));
+    ensureFileSync(join(compiler.parser.projectRoot, 'assets', 'Collection.ttf'));
     const collectionFont = Font.fromFile('assets/Collection.ttf', 'Foobar-Italic');
     class TrueTypeCollection {}
     mockFontLoader.mockImplementationOnce(() => new TrueTypeCollection());
-    await expect(fileAssetBinder(collectionFont.file, compiler.program, compiler.output, mockSpec, mockTargetProperty))
+    await expect(fileAssetBinder(collectionFont.file, compiler.parser, compiler.output, mockSpec, mockTargetProperty))
       .rejects.toThrow();
 
     // Directories should fail.
-    ensureDirSync(join(compiler.program.projectRoot, 'assets'));
+    ensureDirSync(join(compiler.parser.projectRoot, 'assets'));
     await expect(fileAssetBinder(
-      new File({src: 'assets'}), compiler.program, compiler.output, mockSpec, mockTargetProperty))
+      new File({src: 'assets'}), compiler.parser, compiler.output, mockSpec, mockTargetProperty))
         .rejects.toThrow();
   });
 });

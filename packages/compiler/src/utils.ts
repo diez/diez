@@ -4,7 +4,7 @@ import {noCase} from 'change-case';
 import {dirname, join, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
-import {CompilerTargetProvider, ComponentModule, Constructor, NamedComponentMap, PropertyType} from './api';
+import {AssemblerFactory, CompilerProvider, ComponentModule, Constructor, NamedComponentMap, PropertyType, TargetOutput} from './api';
 
 /**
  * A type guard for identifying a [[Constructor]] vs. a plain object.
@@ -55,12 +55,12 @@ export const getProject = (projectRoot: string) => {
 /**
  * @internal
  */
-const targets = new Map<Target, CompilerTargetProvider>();
+const targets = new Map<Target, CompilerProvider>();
 
 /**
  * Retrieves the set of available targets for the compiler.
  */
-export const getTargets = async (): Promise<Map<Target, CompilerTargetProvider>> => {
+export const getTargets = async (): Promise<Map<Target, CompilerProvider>> => {
   if (targets.size > 0) {
     return targets;
   }
@@ -71,7 +71,7 @@ export const getTargets = async (): Promise<Map<Target, CompilerTargetProvider>>
     }
 
     for (const path of providers.targets) {
-      const provider = cliRequire<CompilerTargetProvider>(plugin, path);
+      const provider = cliRequire<CompilerProvider>(plugin, path);
       const providerName = provider.name.toLowerCase() as Target;
       if (targets.has(providerName)) {
         throw new Error(`A target named ${providerName} is already registered.`);
@@ -155,31 +155,19 @@ export const getBinding = async <T>(
   }
 };
 
-const resolvedCoreFiles = new Map<Target, string[]>();
-
 /**
- * Retrieves all core files for a given target.
+ * Retrieves an [[AssemblerFactory]] for the specific [[Target]].
  */
-export const getCoreFiles = async (target: Target): Promise<string[]> => {
-  if (resolvedCoreFiles.has(target)) {
-    return resolvedCoreFiles.get(target)!;
-  }
-
-  const files = [];
-  for (const [plugin, {coreFiles}] of await findPlugins()) {
-    if (!coreFiles || !coreFiles[target]) {
+export const getAssemblerFactory = async <T extends TargetOutput>(target: Target) => {
+  for (const [plugin, {providers}] of await findPlugins()) {
+    if (!providers || !providers.assemblers || !providers.assemblers || !providers.assemblers[target]) {
       continue;
     }
 
-    const pluginRoot = (plugin === '.') ?
-      global.process.cwd() :
-      dirname(require.resolve(`${plugin}/package.json`));
-
-    files.push(...coreFiles[target]!.map((relativeFilename) => join(pluginRoot, relativeFilename)));
+    return cliRequire<AssemblerFactory<T>>(plugin, providers.assemblers[target]!);
   }
 
-  resolvedCoreFiles.set(target, files);
-  return files;
+  throw new Error(`Unable to find assembler for target: ${target}`);
 };
 
 /**

@@ -2,7 +2,7 @@ import {findPlugins} from '@diez/cli-core';
 import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {printWarnings} from '../src/utils';
-import {createProgramForFixture, TestTargetCompiler} from './helpers';
+import {createProgramForFixture, TestCompiler} from './helpers';
 
 registerExpectations();
 
@@ -36,7 +36,7 @@ describe('bindings', () => {
     expect(program.targetComponents.size).toBe(2);
     expect(Array.from(program.localComponentNames)).toEqual(['BoundComponent', 'Bindings']);
     expect(Array.from(program.singletonComponentNames)).toEqual(['Bindings']);
-    const compiler = new TestTargetCompiler(program);
+    const compiler = new TestCompiler(program);
     compiler.staticRoot = join(compiler.output.sdkRoot, 'static');
     await compiler.start();
     expect(Array.from(compiler.output.assetBindings)).toEqual([
