@@ -24,8 +24,6 @@ export const diezVersion: string = packageJson.version;
 
 /**
  * Cache for found plugins.
- *
- * @internal
  */
 const plugins = new Map<string, DiezConfiguration>();
 
@@ -67,8 +65,6 @@ const getPackageJsonPath = (packageName: string) => {
 
 /**
  * Recursively resolve dependencies for a given package name.
- *
- * @internal
  */
 const getDependencies = (
   packageName: string,
@@ -179,6 +175,22 @@ export const canRunCommand = async (command: string) => {
   } catch (_) {
     return false;
   }
+};
+
+/**
+ * Locate a binary on macOS.
+ */
+export const locateBinaryMacOS = async (bundleId: string) => {
+  if (!isMacOS()) {
+    throw new Error('Platform is not macOS');
+  }
+
+  const result = await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
+  if (!result) {
+    return undefined;
+  }
+
+  return result.split('\n')[0];
 };
 
 /**

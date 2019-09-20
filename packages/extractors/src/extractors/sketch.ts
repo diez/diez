@@ -1,4 +1,5 @@
-import {execAsync, isMacOS, Log} from '@diez/cli-core';
+import {execAsync, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
+import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
   codegenDesignSystem,
@@ -16,8 +17,7 @@ import {
 } from '@diez/generation';
 import {pathExists} from 'fs-extra';
 import {basename, extname, join, relative} from 'path';
-import {Exporter, ExporterFactory, ExporterInput} from '../api';
-import {cliReporters, createFolders, escapeShell, locateBinaryMacOS} from '../utils';
+import {cliReporters, createFolders, escapeShell} from '../utils';
 
 const sketchExtension = '.sketch';
 
@@ -181,16 +181,16 @@ const populateInitializerForSketchGradient = (gradient: SketchGradient, name: st
   }
 };
 
-class SketchExporterImplementation implements Exporter {
+class SketchExtractor implements Extractor {
   /**
-   * ExporterFactory interface method.
+   * ExtractorFactory interface method.
    */
   static create () {
     return new this();
   }
 
   /**
-   * ExporterFactory interface method.
+   * ExtractorFactory interface method.
    * Returns a boolean indicating if the source provided can be opened in Sketch and parsed by this module.
    */
   static async canParse (source: string) {
@@ -202,11 +202,11 @@ class SketchExporterImplementation implements Exporter {
    * Exports assets from Sketch files.
    */
   async export (
-    {source, assets, code}: ExporterInput,
+    {source, assets, code}: ExtractorInput,
     projectRoot: string,
     reporters = cliReporters,
   ) {
-    if (!await SketchExporter.canParse(source)) {
+    if (!await SketchExtractor.canParse(source)) {
       throw new Error('Invalid source file');
     }
 
@@ -300,7 +300,4 @@ class SketchExporterImplementation implements Exporter {
   }
 }
 
-/**
- * The Sketch exporter.
- */
-export const SketchExporter: ExporterFactory = SketchExporterImplementation;
+export = SketchExtractor;

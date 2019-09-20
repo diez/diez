@@ -1,11 +1,9 @@
-import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockExec, mockOsData, mockOsFactory} from '@diez/test-utils';
+import {cleanupMockCommandData, cleanupMockOsData, mockCliCoreFactory, mockOsFactory} from '@diez/test-utils';
 jest.doMock('os', mockOsFactory);
 jest.doMock('@diez/cli-core', mockCliCoreFactory);
 
 import {RequestListener} from 'http';
-import {getFigmaAccessToken} from '../src/exporters/figma';
-import {locateBinaryMacOS} from '../src/utils';
-import {getOAuthCodeFromBrowser} from '../src/utils.network';
+import {getFigmaAccessToken, getOAuthCodeFromBrowser} from '../src/utils.network';
 
 jest.mock('open');
 
@@ -72,16 +70,5 @@ describe('utils.network', () => {
     expect(await getFigmaAccessToken()).toBe('supersecure');
     // Security exception on second pass
     await expect(getFigmaAccessToken()).rejects.toThrow();
-  });
-
-  test('locate binary', () => {
-    mockOsData.platform = 'darwin';
-    locateBinaryMacOS('com.foo.bar');
-    expect(mockExec).toHaveBeenCalledWith('mdfind kMDItemCFBundleIdentifier=com.foo.bar');
-  });
-
-  test('locate binary failure', async () => {
-    mockOsData.platform = 'windows-vista';
-    await expect(locateBinaryMacOS('com.foo.bar')).rejects.toThrow();
   });
 });

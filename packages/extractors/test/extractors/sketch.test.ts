@@ -7,6 +7,7 @@ import {
   mockExec,
   mockFsExtraFactory,
   mockGenerationFactory,
+  mockLocateBinaryMacOS,
   mockLocateFont,
   mockOsData,
   mockOsFactory,
@@ -17,15 +18,12 @@ jest.doMock('os', mockOsFactory);
 jest.doMock('fs-extra', mockFsExtraFactory);
 
 import {writeFile} from 'fs-extra';
-import {SketchExporter} from '../../src/exporters/sketch';
+import SketchExtractor from '../../src/extractors/sketch';
 
 const sketchtoolPath = '/Applications/Sketch.app/Contents/Resources/sketchtool/bin/sketchtool';
 beforeEach(() => {
+  mockLocateBinaryMacOS.mockResolvedValue('/Applications/Sketch.app');
   mockExec.mockImplementation((command: string) => {
-    if (command.startsWith('mdfind')) {
-      return Promise.resolve('/Applications/Sketch.app');
-    }
-
     if (command.includes('dump')) {
       return Promise.resolve(JSON.stringify({
         assets: {
@@ -170,28 +168,28 @@ afterEach(() => {
 jest.mock('fontkit', () => ({
   openSync: () => ({}),
 }));
-const sketch = SketchExporter.create();
+const sketch = SketchExtractor.create();
 
 describe('Sketch', () => {
   describe('canParse', () => {
     test('returns `false` if the file does not look like a Sketch file', async () => {
       await writeFile('test.ai', '');
-      expect(await SketchExporter.canParse('test.ai')).toBe(false);
+      expect(await SketchExtractor.canParse('test.ai')).toBe(false);
       await writeFile('test.sketchster', '');
-      expect(await SketchExporter.canParse('test.sketchster')).toBe(false);
+      expect(await SketchExtractor.canParse('test.sketchster')).toBe(false);
     });
 
     test('returns `false` if the file looks like a Sketch file but doesn\'t exist', async () => {
-      expect(await SketchExporter.canParse('test.sketch')).toBe(false);
+      expect(await SketchExtractor.canParse('test.sketch')).toBe(false);
     });
 
     test('returns `true` if the file does look like a Sketch file', async () => {
       await writeFile('test.sketch', '');
-      expect(await SketchExporter.canParse('test.sketch')).toBe(true);
+      expect(await SketchExtractor.canParse('test.sketch')).toBe(true);
       await writeFile('my/awesome/path/test.sketch', '');
-      expect(await SketchExporter.canParse('my/awesome/path/test.sketch')).toBe(true);
+      expect(await SketchExtractor.canParse('my/awesome/path/test.sketch')).toBe(true);
       await writeFile('/.haiku/cuboid.sketch  ', '');
-      expect(await SketchExporter.canParse('/.haiku/cuboid.sketch  ')).toBe(true);
+      expect(await SketchExtractor.canParse('/.haiku/cuboid.sketch  ')).toBe(true);
     });
   });
 
@@ -199,11 +197,10 @@ describe('Sketch', () => {
     test('executes sketchtools commands on export', async () => {
       await writeFile('test.sketch', '');
       await sketch.export({source: 'test.sketch', assets: 'out', code: 'src'}, '.');
-      expect(mockExec).toHaveBeenCalledTimes(3);
-      expect(mockExec).toHaveBeenNthCalledWith(1,
-        'mdfind kMDItemCFBundleIdentifier=com.bohemiancoding.sketch3');
-      expect(mockExec).toHaveBeenNthCalledWith(2, `${sketchtoolPath} dump test.sketch`, expect.anything());
-      expect(mockExec).toHaveBeenNthCalledWith(3,
+      expect(mockLocateBinaryMacOS).toHaveBeenCalledWith('com.bohemiancoding.sketch3');
+      expect(mockExec).toHaveBeenCalledTimes(2);
+      expect(mockExec).toHaveBeenNthCalledWith(1, `${sketchtoolPath} dump test.sketch`, expect.anything());
+      expect(mockExec).toHaveBeenNthCalledWith(2,
         `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=out/Test.sketch.contents/slices slices test.sketch`);
       expect(mockCodegen).toHaveBeenCalled();
       expect(mockCodegen).toHaveBeenCalledWith({

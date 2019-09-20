@@ -12,20 +12,35 @@ jest.doMock('@diez/generation', mockGenerationFactory);
 const mockRequest = jest.fn();
 jest.doMock('request', () => mockRequest);
 
+const mockGetFigmaAccessToken = jest.fn();
+jest.doMock('../../src/utils.network', () => ({
+  ...jest.requireActual('../../src/utils.network'),
+  getFigmaAccessToken: mockGetFigmaAccessToken,
+}));
+
 const downloadStreamMock = jest.fn();
+const mockRegistryGet = jest.fn();
+const mockRegistrySet = jest.fn();
+const mockRegistryDelete = jest.fn();
 jest.doMock('@diez/storage', () => ({
   ...jest.requireActual('@diez/storage'),
   downloadStream: downloadStreamMock,
+  Registry: {
+    get: mockRegistryGet,
+    set: mockRegistrySet,
+    delete: mockRegistryDelete,
+  },
 }));
 
+import {UnauthorizedRequestException} from '@diez/cli-core';
 import {Readable} from 'stream';
-import {FigmaExporter, FigmaFile} from '../../src/exporters/figma';
+import FigmaExtractor from '../../src/extractors/figma';
 
-const figma = FigmaExporter.create('mock-token');
+const figma = FigmaExtractor.create('mock-token');
 
 afterEach(cleanupMockFileSystem);
 
-const mockAbbreviatedResponse: FigmaFile = {
+const mockAbbreviatedResponse = {
   name: 'Hello',
   document: {
     children: [{
@@ -35,7 +50,7 @@ const mockAbbreviatedResponse: FigmaFile = {
   },
 };
 
-const mockFullResponse: FigmaFile = {
+const mockFullResponse = {
   name: 'Hello',
   document: {
     children: [{
@@ -260,13 +275,13 @@ jest.mock('fontkit', () => ({
 describe('Figma', () => {
   describe('canParse', () => {
     test('returns `false` if the file does not look like a Figma file', async () => {
-      expect(await FigmaExporter.canParse('test.sketch')).toBe(false);
-      expect(await FigmaExporter.canParse('http://something.com/file/key/name')).toBe(false);
+      expect(await FigmaExtractor.canParse('test.sketch')).toBe(false);
+      expect(await FigmaExtractor.canParse('http://something.com/file/key/name')).toBe(false);
     });
 
     test('returns `true` if the file does look like a Figma file', async () => {
-      expect(await FigmaExporter.canParse('http://figma.com/file/key/name')).toBe(true);
-      expect(await FigmaExporter.canParse('http://figma.com/file/key')).toBe(true);
+      expect(await FigmaExtractor.canParse('http://figma.com/file/key/name')).toBe(true);
+      expect(await FigmaExtractor.canParse('http://figma.com/file/key')).toBe(true);
     });
   });
 
@@ -445,7 +460,7 @@ describe('Figma', () => {
 
     test('throws errors if unable to parse', async () => {
       await expect(figma.export({source: 'www.google.com', assets: 'out', code: 'noop'}, 'noop')).rejects.toThrow();
-      await expect(FigmaExporter.create().export(
+      await expect(FigmaExtractor.create().export(
 
         {
           source: 'http://figma.com/file/key/name',
@@ -454,6 +469,22 @@ describe('Figma', () => {
         },
         'noop',
       )).rejects.toThrow();
+    });
+
+    test('configuration', async () => {
+      const constructorArgs: string[] = [];
+      mockGetFigmaAccessToken.mockImplementationOnce(() => 'access-token');
+      await FigmaExtractor.configure(constructorArgs);
+      expect(constructorArgs).toEqual(['access-token']);
+      expect(mockRegistryGet).toHaveBeenCalledWith('figmaAccessToken');
+      expect(mockRegistrySet).toHaveBeenCalledWith({figmaAccessToken: 'access-token'});
+    });
+
+    test('error retry', async () => {
+      expect(await FigmaExtractor.shouldRetryError(new Error())).toBe(false);
+      expect(mockRegistryDelete).not.toHaveBeenCalled();
+      expect(await FigmaExtractor.shouldRetryError(new UnauthorizedRequestException())).toBe(true);
+      expect(mockRegistryDelete).toHaveBeenCalledWith('figmaAccessToken');
     });
   });
 });

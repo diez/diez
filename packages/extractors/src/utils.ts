@@ -1,4 +1,5 @@
-import {execAsync, isMacOS, Log} from '@diez/cli-core';
+import {Log} from '@diez/cli-core';
+import {Reporters} from '@diez/extractors-core';
 import {AssetFolder} from '@diez/generation';
 import {emptyDir, mkdirp, readFile, writeFile} from 'fs-extra';
 import {walkSync} from 'fs-walk';
@@ -6,7 +7,7 @@ import {tmpdir} from 'os';
 import {extname, join} from 'path';
 import {PNG} from 'pngjs';
 import {v4} from 'uuid';
-import {ImageFormats, Reporters} from './api';
+import {ImageFormats} from './api';
 
 const base64BitMapRegExp = /"data:image\/(png|jpe?g|gif);base64,(.*?)"/gi;
 
@@ -23,23 +24,6 @@ export const chunk = <T>(arr: T[], chunkSize: number) => {
   }
 
   return results;
-};
-
-/**
- * Locate a binary on macOS.
- * @ignore
- */
-export const locateBinaryMacOS = async (bundleId: string) => {
-  if (!isMacOS()) {
-    throw new Error('Platform is not macOS');
-  }
-
-  const result = await execAsync(`mdfind kMDItemCFBundleIdentifier=${bundleId}`);
-  if (!result) {
-    return undefined;
-  }
-
-  return result.split('\n')[0];
 };
 
 /**
@@ -115,7 +99,7 @@ export const fixGammaOfSVGs = (directory: string) => {
 };
 
 /**
- * Reporters singleton used by exporters.
+ * Reporters singleton used by extractors.
  * @ignore
  */
 export const cliReporters: Reporters = {

@@ -1,4 +1,5 @@
-import {findOpenPort, Log} from '@diez/cli-core';
+import {Log, UnauthorizedRequestException} from '@diez/cli-core';
+import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
   codegenDesignSystem,
@@ -13,33 +14,22 @@ import {
   registerFont,
   UniqueNameResolver,
 } from '@diez/generation';
-import {downloadStream} from '@diez/storage';
+import {downloadStream, Registry} from '@diez/storage';
 import {createWriteStream} from 'fs-extra';
 import {join, relative} from 'path';
 import {parse, URLSearchParams} from 'url';
-import {v4} from 'uuid';
-import {Exporter, ExporterFactory, ExporterInput, OAuthable} from '../api';
+import {OAuthable} from '../api';
 import {chunk, cliReporters, createFolders} from '../utils';
 import {
-  getOAuthCodeFromBrowser,
-  performGetRequest,
+  getFigmaAccessToken,
   performGetRequestWithBearerToken,
 } from '../utils.network';
 
 const figmaHost = 'figma.com';
-const figmaUrl = 'https://www.figma.com';
 const apiBase = 'https://api.figma.com/v1';
-const figmaPorts = [46572, 48735, 7826, 44495, 21902];
 
 const figmaDefaultFilename = 'Untitled';
 const importBatchSize = 100;
-
-/**
- * See [http://github.com/diez/diez/tree/master/services/oauth](services/oauth) for the implementation of the OAuth 2.0
- * handshake broker.
- */
-const figmaClientId = 'dVkwfl8RBD91688fwCq9Da';
-const figmaTokenExchangeUrl = 'https://oauth.diez.org/figma';
 
 const enum FigmaType {
   Slice = 'SLICE',
@@ -147,11 +137,7 @@ interface FigmaNode {
   };
 }
 
-/**
- * Describes a Figma file retrieved from the Figma API.
- * @ignore
- */
-export interface FigmaFile {
+interface FigmaFile {
   name: string;
   document: {
     children: FigmaNode[];
@@ -426,40 +412,40 @@ const parseFigmaFile = async (
   }
 };
 
-/**
- * Implements the OAuth token dance for Figma and resolves a useful access token.
- */
-export const getFigmaAccessToken = async (): Promise<string> => {
-  const port = await findOpenPort(figmaPorts);
-  const state = v4();
-  const redirectUri = `http://localhost:${port}`;
-  const authParams = new URLSearchParams([
-      ['client_id', figmaClientId],
-      ['redirect_uri', redirectUri],
-      ['scope', 'file_read'],
-      ['state', state],
-      ['response_type', 'code'],
-  ]);
-  const authUrl = `${figmaUrl}/oauth?${authParams.toString()}`;
-  const {code, state: checkState} = await getOAuthCodeFromBrowser(authUrl, port);
-  if (state !== checkState) {
-    throw new Error('Security exception!');
+class FigmaExtractor implements Extractor, OAuthable {
+  /**
+   * [[ExtractorFactory]] interface method.
+   *
+   * To configure this extractor, we must provide a valid Figma access token as a constructor parameter.
+   * @param token
+   */
+  static async configure (constructorArgs: string[]) {
+    let figmaAccessToken = await Registry.get('figmaAccessToken');
+    if (!figmaAccessToken) {
+      Log.info('Figma authentication required.');
+      figmaAccessToken = await getFigmaAccessToken();
+      await Registry.set({figmaAccessToken});
+    }
+    constructorArgs.push(figmaAccessToken as string);
   }
 
-  const tokenExchangeParams = new URLSearchParams([
-      ['code', code],
-      ['redirect_uri', redirectUri],
-  ]);
-  const {access_token} = await performGetRequest<{access_token: string}>(
-    `${figmaTokenExchangeUrl}?${tokenExchangeParams.toString()}`,
-    );
-
-  return access_token;
-};
-
-class FigmaExporterImplementation implements Exporter, OAuthable {
   /**
-   * ExporterFactory interface method.
+   * [[ExtractorFactory]] interface method.
+   *
+   * We expect to receive an [[UnauthorizedRequestException]] when the access token is missing or invalid.
+   * Thus, these errors should be retriable after we delete the Figma access token.
+   */
+  static async shouldRetryError (error: Error) {
+    if (error instanceof UnauthorizedRequestException) {
+      await Registry.delete('figmaAccessToken');
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * [[ExtractorFactory]] interface method. Instantiates a Figma extractor with a provided token.
    * @param token
    */
   static create (token?: string) {
@@ -467,7 +453,6 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
   }
 
   /**
-   * ExporterFactory interface method.
    * Returns a boolean indicating if the source provided looks like a Figma file or a project URL.
    */
   static async canParse (source: string) {
@@ -480,7 +465,7 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
    * Exports assets from Figma.
    */
   async export (
-    {source, assets, code}: ExporterInput,
+    {source, assets, code}: ExtractorInput,
     projectRoot: string,
     reporters = cliReporters,
   ) {
@@ -522,7 +507,4 @@ class FigmaExporterImplementation implements Exporter, OAuthable {
   }
 }
 
-/**
- * The Figma exporter.
- */
-export const FigmaExporter: ExporterFactory = FigmaExporterImplementation;
+export = FigmaExtractor;

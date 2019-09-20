@@ -19,15 +19,11 @@ import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, We
 
 /**
  * The root location for source files.
- *
- * @internal
  */
 const coreWeb = join(sourcesPath, 'web');
 
 /**
  * Merges a new dependency to the existing set of dependencies.
- *
- * @internal
  */
 const mergeDependency = (dependencies: Set<WebDependency>, newDependency: WebDependency) => {
   for (const dependency of dependencies) {

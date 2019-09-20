@@ -29,7 +29,6 @@ declare global {
 
 /**
  * Registers a list of options with a command.
- * @internal
  */
 const registerOptions = (validatedCommand: ValidatedCommand, options?: CliCommandOption[]) => {
   if (!options) {
@@ -50,15 +49,11 @@ const registerOptions = (validatedCommand: ValidatedCommand, options?: CliComman
   }
 };
 
-/**
- * @internal
- */
 const isModuleWrappedAction = (action: CliAction | ModuleWrappedCliAction): action is ModuleWrappedCliAction =>
   action.hasOwnProperty('default');
 
 /**
  * Registers a command from its provider.
- * @internal
  */
 const registerWithProvider = async (provider: CliCommandProvider, defaultOptions?: any) => {
   if (provider.preinstall) {
@@ -103,7 +98,6 @@ const registerWithProvider = async (provider: CliCommandProvider, defaultOptions
 
 /**
  * Registers with providers.
- * @internal
  */
 const registerWithProviders = async (
   registry: Map<string, ValidatedCommand>,

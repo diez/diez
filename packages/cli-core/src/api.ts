@@ -123,6 +123,7 @@ export interface FullDiezConfiguration {
     assemblers: {[target in Target]?: string};
     commands: Iterable<string>;
     extensions: Iterable<string>;
+    extractors: Iterable<string>;
     targets: Iterable<string>;
   }>;
   commandOptions: CliDefaultOptions;

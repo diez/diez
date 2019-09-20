@@ -1,9 +1,10 @@
-import {UnauthorizedRequestException} from '@diez/cli-core';
+import {findOpenPort, UnauthorizedRequestException} from '@diez/cli-core';
 import {createServer} from 'http';
 import open from 'open';
 import request, {Headers} from 'request';
 import serverDestroy from 'server-destroy';
 import {URL} from 'url';
+import {v4} from 'uuid';
 import {OAuthCode} from './api';
 
 /**
@@ -13,7 +14,8 @@ export const performGetRequest = <T>(uri: string, json = true, headers?: Headers
   return new Promise<T>((resolve, reject) => {
     request({uri, headers, json}, (error, response, body) => {
       if (error || response.statusCode !== 200) {
-        if (response.statusCode === 403) {
+        // For the purpose of HTTP requests made in this package, 403 and 404 both can mean an unauthorized request.
+        if (response.statusCode === 403 || response.statusCode === 404) {
           reject(new UnauthorizedRequestException());
         } else {
           reject(new Error(error ? error.message : body.err));
@@ -61,4 +63,45 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
 
     serverDestroy(server);
   });
+};
+
+const figmaUrl = 'https://www.figma.com';
+const figmaPorts = [46572, 48735, 7826, 44495, 21902];
+
+/**
+ * See [http://github.com/diez/diez/tree/master/services/oauth](services/oauth) for the implementation of the OAuth 2.0
+ * handshake broker.
+ */
+const figmaClientId = 'dVkwfl8RBD91688fwCq9Da';
+const figmaTokenExchangeUrl = 'https://oauth.diez.org/figma';
+
+/**
+ * Implements the OAuth token dance for Figma and resolves a useful access token.
+ */
+export const getFigmaAccessToken = async (): Promise<string> => {
+  const port = await findOpenPort(figmaPorts);
+  const state = v4();
+  const redirectUri = `http://localhost:${port}`;
+  const authParams = new URLSearchParams([
+      ['client_id', figmaClientId],
+      ['redirect_uri', redirectUri],
+      ['scope', 'file_read'],
+      ['state', state],
+      ['response_type', 'code'],
+  ]);
+  const authUrl = `${figmaUrl}/oauth?${authParams.toString()}`;
+  const {code, state: checkState} = await getOAuthCodeFromBrowser(authUrl, port);
+  if (state !== checkState) {
+    throw new Error('Security exception!');
+  }
+
+  const tokenExchangeParams = new URLSearchParams([
+      ['code', code],
+      ['redirect_uri', redirectUri],
+  ]);
+  const {access_token} = await performGetRequest<{access_token: string}>(
+    `${figmaTokenExchangeUrl}?${tokenExchangeParams.toString()}`,
+    );
+
+  return access_token;
 };

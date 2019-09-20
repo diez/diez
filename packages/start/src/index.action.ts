@@ -1,7 +1,6 @@
 /* tslint:disable:max-line-length */
-import {canRunCommand, Format, isMacOS, Log} from '@diez/cli-core';
+import {canRunCommand, Format, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
-import {locateBinaryMacOS} from '@diez/extractors';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
 import {readdirSync} from 'fs-extra';
 import {join, resolve} from 'path';

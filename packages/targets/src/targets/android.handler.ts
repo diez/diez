@@ -26,15 +26,11 @@ import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
 /**
  * The root location for source files.
- *
- * @internal
  */
 const coreAndroid = join(sourcesPath, 'android');
 
 /**
  * Merges a new dependency to the existing set of dependencies.
- *
- * @internal
  */
 const mergeDependency = (dependencies: Set<AndroidDependency>, newDependency: AndroidDependency) => {
   for (const dependency of dependencies) {

@@ -9,6 +9,11 @@ export const mockExec = jest.fn();
 export const mockCanRunCommand = jest.fn();
 
 /**
+ * A mock singleton for `locateBinaryMacOS` in `@diez/cli-core`.
+ */
+export const mockLocateBinaryMacOS = jest.fn();
+
+/**
  * A mock singleton for `exitTrap` in `@diez/cli-core`.
  */
 export const mockExitTrap = jest.fn();
@@ -35,6 +40,7 @@ export const mockCliCoreFactory = () => ({
   exitTrap: mockExitTrap,
   socketTrap: mockSocketTrap,
   canRunCommand: mockCanRunCommand,
+  locateBinaryMacOS: mockLocateBinaryMacOS,
   findOpenPort () {
     return Promise.resolve(9001);
   },

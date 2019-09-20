@@ -3,9 +3,6 @@ import {Socket} from 'net';
 import serverDestroy from 'server-destroy';
 import {exitTrap} from './utils';
 
-/**
- * @internal
- */
 const isPortOpen = async (server: Server, port: number): Promise<boolean> => {
   return new Promise((resolve) => {
     try {

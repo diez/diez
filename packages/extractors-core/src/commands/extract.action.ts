@@ -6,8 +6,8 @@ import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 
 import {createServer, Socket} from 'net';
 import {join, resolve} from 'path';
 import readline from 'readline';
-import {DesignSources, ExporterInput} from '../api';
-import {performExtraction} from '../exporters';
+import {DesignSources, ExtractorInput} from '../api';
+import {performExtraction} from '../utils';
 
 interface SyncOptions {
   hot?: boolean;
@@ -20,7 +20,7 @@ const defaultConfiguration: DesignSources = {
   services: [],
 };
 
-const syncQueue = queue<ExporterInput & {sockets: Iterable<Socket>}>(async (input, callback) => {
+const syncQueue = queue<ExtractorInput & {sockets: Iterable<Socket>}>(async (input, callback) => {
   try {
     await performExtraction(input, global.process.cwd());
     for (const socket of input.sockets) {

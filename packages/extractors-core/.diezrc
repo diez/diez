@@ -1,0 +1,7 @@
+{
+  "providers": {
+    "commands": [
+      "./lib/commands/extract"
+    ]
+  }
+}

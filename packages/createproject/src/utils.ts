@@ -96,8 +96,6 @@ export const canUseNpm = async (root: string) => {
 
 /**
  * Validates that a directory can be used as a project root.
- *
- * @internal
  */
 const validateProjectRoot = async (root: string, useYarn = false) => {
   if (existsSync(root) && !lstatSync(root).isDirectory()) {

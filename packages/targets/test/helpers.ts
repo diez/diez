@@ -40,8 +40,6 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
 
 /**
  * Generates a program for the specified fixture and target.
- *
- * @internal
  */
 const createProgramForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
   projectCache.clear();

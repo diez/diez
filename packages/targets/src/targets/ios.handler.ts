@@ -21,15 +21,11 @@ import {IosBinding, IosDependency, IosOutput} from './ios.api';
 
 /**
  * The root location for source files.
- *
- * @internal
  */
 const coreIos = join(sourcesPath, Target.Ios);
 
 /**
  * Merges a new dependency to the existing set of dependencies.
- *
- * @internal
  */
 const mergeDependency = (dependencies: Set<IosDependency>, newDependency: IosDependency) => {
   for (const dependency of dependencies) {
