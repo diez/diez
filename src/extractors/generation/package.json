@@ -1,7 +1,7 @@
 {
   "name": "@diez/generation",
   "main": "lib/index.js",
-  "version": "10.0.0-beta.5",
+  "version": "10.0.0-beta.4",
   "description": "Utilities for design system code generation.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,9 +20,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.0-beta.5",
-    "@diez/compiler-core": "^10.0.0-beta.5",
-    "@diez/storage": "^10.0.0-beta.5",
+    "@diez/cli-core": "^10.0.0-beta.4",
+    "@diez/compiler-core": "^10.0.0-beta.4",
+    "@diez/storage": "^10.0.0-beta.4",
     "change-case": "^3.1.0",
     "color-string": "^1.5.3",
     "fontkit": "^1.8.0",
@@ -30,9 +30,9 @@
     "ts-morph": "^4.0.0"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.0.0-beta.5",
-    "@types/color-string": "^1.5.0",
+    "@diez/test-utils": "^10.0.0-beta.4",
     "@types/jest": "^24.0.11",
+    "@types/color-string": "^1.5.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
