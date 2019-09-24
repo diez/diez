@@ -1,7 +1,7 @@
 import {canRunCommand, diezVersion} from '@diez/cli-core';
 import {existsSync, outputFileSync, readFileSync, readJsonSync} from 'fs-extra';
 import glob from 'glob';
-import {basename, dirname, join, relative} from 'path';
+import {basename, dirname, join, relative, resolve} from 'path';
 import {minify, MinifyOptions} from 'uglify-es';
 import {assertNotWatching, root, run} from '../internal/helpers';
 
@@ -72,12 +72,14 @@ export = {
       }
 
       const relevantPaths = [
-        ...glob.sync(join(packageRoot, '**/*.js')),
-        ...glob.sync(join(packageRoot, '**/*.js.map')),
-        ...glob.sync(join(packageRoot, '**/*.ts')),
+        ...glob.sync(join(packageRoot, 'lib/**/*.js')),
+        ...glob.sync(join(packageRoot, 'lib/**/*.js.map')),
+        ...glob.sync(join(packageRoot, 'src/**/*.ts')),
       ];
+
+      const parentDirectory = resolve(packageRoot, '..');
       for (const filePath of relevantPaths) {
-        const virtualUrl = `~/@diez/${relative(packageRoot, filePath)}`;
+        const virtualUrl = `~/@diez/${relative(parentDirectory, filePath)}`;
         run(getSentryCommand('files', `upload ${filePath} '${virtualUrl}'`));
       }
     }
