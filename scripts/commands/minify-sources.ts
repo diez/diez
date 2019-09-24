@@ -64,8 +64,9 @@ export = {
     run(`sentry-cli releases -o ${sentryOrganization} new -p ${sentryProject} v${diezVersion}`);
     run(getSentryCommand('set-commits', '--commit "diez/diez"'));
 
-    for (const packageRoot of glob.sync(join(root, 'src/*/*'))) {
-      const {name: packageName} = require(join(packageRoot, 'package.json'));
+    for (const packageJson of glob.sync(join(root, 'src/*/*/package.json'))) {
+      const packageRoot = dirname(packageJson);
+      const {name: packageName} = require(packageJson);
       if (!packageName.startsWith('@diez')) {
         continue;
       }
