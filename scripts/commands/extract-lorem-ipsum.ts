@@ -1,4 +1,4 @@
-import {diezVersion, Log} from '@diez/cli-core';
+import {diezVersion, Log, execAsync} from '@diez/cli-core';
 import {getTempFileName} from '@diez/storage';
 import {
   camelCase,
@@ -84,6 +84,9 @@ export = {
     const swapDestination = getTempFileName();
     const archiveDestination = getTempFileName();
     ensureDirSync(swapDestination);
+
+    Log.info('Building web SDK to preserve symlink...');
+    await execAsync('diez compile -t web', {cwd: join(loremIpsumRoot, 'design-system')});
 
     Log.info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
     await copy(loremIpsumRoot, join(swapDestination, exampleProject));
