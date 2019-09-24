@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.5](https://github.com/diez/diez/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2019-09-24)
+
+
+### Bug Fixes
+
+* **site:** use correct path to link Color prefabs in guides ([#283](https://github.com/diez/diez/issues/283)) ([f708f5f](https://github.com/diez/diez/commit/f708f5f))
+
+
+### Features
+
+* **stdlib:** implement assemblers for target compilers and SDK source file headings ([#292](https://github.com/diez/diez/issues/292)) ([0a752ce](https://github.com/diez/diez/commit/0a752ce))
+
+
+
+
+
 # [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
 
 
