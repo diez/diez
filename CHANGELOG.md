@@ -3,46 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.5](https://github.com/diez/diez/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2019-09-24)
-
-
-### Bug Fixes
-
-* **android:** fix crash when connection fails in hot mode ([#270](https://github.com/diez/diez/issues/270)) ([ab9cd5b](https://github.com/diez/diez/commit/ab9cd5b))
-* fix VSCode debugging configuration cwd paths ([#276](https://github.com/diez/diez/issues/276)) ([9d4708a](https://github.com/diez/diez/commit/9d4708a))
-* **createproject:** include empty designs directory in the starter project ([#281](https://github.com/diez/diez/issues/281)) ([8026313](https://github.com/diez/diez/commit/8026313))
-* **createproject:** retain permissions when templatizing the example project ([#287](https://github.com/diez/diez/issues/287)) ([e193177](https://github.com/diez/diez/commit/e193177))
-* **examples:** display a user friendly error when using an invalid CocoaPods version ([#247](https://github.com/diez/diez/issues/247)) ([d17e885](https://github.com/diez/diez/commit/d17e885))
-* **site:** use correct path to link Color prefabs in guides ([#283](https://github.com/diez/diez/issues/283)) ([f708f5f](https://github.com/diez/diez/commit/f708f5f))
-* **sources:** support new Figma syntax for tracing component IDs to their intrinsic dimensions ([#252](https://github.com/diez/diez/issues/252)) ([112986e](https://github.com/diez/diez/commit/112986e))
-* **targets:** prevent exceptions on JS SDK  ([#285](https://github.com/diez/diez/issues/285)) ([630b202](https://github.com/diez/diez/commit/630b202))
-
-
-### Features
-
-* add Panel ([#234](https://github.com/diez/diez/issues/234)) ([304a408](https://github.com/diez/diez/commit/304a408))
-* **compiler:** define interfaces to declare code examples ([#291](https://github.com/diez/diez/issues/291)) ([de59593](https://github.com/diez/diez/commit/de59593))
-* **docs:** parse JS docs from design system sources ([#245](https://github.com/diez/diez/issues/245)) ([deae7e0](https://github.com/diez/diez/commit/deae7e0))
-* **lorem-ipsum:** add a `diez start` command for example projects ([#259](https://github.com/diez/diez/issues/259)) ([7c98f83](https://github.com/diez/diez/commit/7c98f83))
-* **site:** add notes about platform compatibility support ([#256](https://github.com/diez/diez/issues/256)) ([8bf739f](https://github.com/diez/diez/commit/8bf739f))
-* **stdlib:** extricate the Diez standard library as a separate package ([#286](https://github.com/diez/diez/issues/286)) ([356a23f](https://github.com/diez/diez/commit/356a23f))
-* **stdlib:** implement assemblers for target compilers and SDK source file headings ([#292](https://github.com/diez/diez/issues/292)) ([0a752ce](https://github.com/diez/diez/commit/0a752ce))
-* **typograph:** add support for controlling text scaling on mobile targets ([#242](https://github.com/diez/diez/issues/242)) ([8360862](https://github.com/diez/diez/commit/8360862))
-
-
-### tweak
-
-* **typograph:** make default value for shouldScale false ([#298](https://github.com/diez/diez/issues/298)) ([507754c](https://github.com/diez/diez/commit/507754c))
-
-
-### BREAKING CHANGES
-
-* **typograph:** change Typograph's default value for shouldScale to false
-
-
-
-
-
 # [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
 
 

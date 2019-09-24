@@ -3,22 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [10.0.0-beta.5](https://github.com/diez/diez/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2019-09-24)
-
-
-### Bug Fixes
-
-* **createproject:** include empty designs directory in the starter project ([#281](https://github.com/diez/diez/issues/281)) ([8026313](https://github.com/diez/diez/commit/8026313))
-
-
-### Features
-
-* **stdlib:** extricate the Diez standard library as a separate package ([#286](https://github.com/diez/diez/issues/286)) ([356a23f](https://github.com/diez/diez/commit/356a23f))
-
-
-
-
-
 # [10.0.0-beta.4](https://github.com/diez/diez/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2019-08-09)
 
 
