@@ -18,6 +18,7 @@
     "@diez/cli-core": "^10.0.0-beta.5",
     "@diez/engine": "^10.0.0-beta.5",
     "@diez/storage": "^10.0.0-beta.5",
+    "@types/babel__core": "^7.1.0",
     "change-case": "^3.1.0",
     "chokidar": "^3.0.1",
     "cors": "^2.8.5",

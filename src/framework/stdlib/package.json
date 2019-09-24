@@ -32,7 +32,6 @@
     "handlebars": "^4.1.1"
   },
   "devDependencies": {
-    "@diez/engine": "^10.0.0-beta.4",
     "@diez/test-utils": "^10.0.0-beta.5",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
