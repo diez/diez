@@ -15,7 +15,7 @@ export = {
     }
     // Create source maps for our original transpiled TypeScript.
     run('rm -f src/*/*/tsconfig.tsbuildinfo');
-    const tsConfigPaths = glob.sync(join(root, '*/*/tsconfig.json'));
+    const tsConfigPaths = glob.sync(join(root, 'src/*/*/tsconfig.json'));
     for (const tsConfigPath of tsConfigPaths) {
       const packageRoot = dirname(tsConfigPath);
       const sourceRoot = `/@diez/${basename(packageRoot)}/src`;
@@ -76,7 +76,7 @@ export = {
         ...glob.sync(join(packageRoot, '**/*.ts')),
       ];
       for (const filePath of relevantPaths) {
-        const virtualUrl = `~/${relative(packageRoot, filePath).replace(/^[^/\\]*/, '@diez')}`;
+        const virtualUrl = `~/@diez/${relative(packageRoot, filePath)}`;
         run(getSentryCommand('files', `upload ${filePath} '${virtualUrl}'`));
       }
     }
