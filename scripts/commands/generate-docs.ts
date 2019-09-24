@@ -1,9 +1,7 @@
 import glob from 'glob';
-import {dirname, join, relative} from 'path';
+import {dirname, join, relative, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {assertNotWatching, root, run, runQuiet} from '../internal/helpers';
-
-const packageRoot = join(root, 'packages');
 
 interface GenerateDocsOptions {
   theme: string;
@@ -14,14 +12,14 @@ export = {
   description: 'Generates docs.',
   loadAction: () => async ({theme}: GenerateDocsOptions) => {
     assertNotWatching();
-    const gitChanges = runQuiet('git diff packages');
+    const gitChanges = runQuiet('git diff src');
     if (gitChanges) {
-      throw new Error('Found untracked Git changes in packages/. Stash them before generating docs.');
+      throw new Error('Found untracked Git changes in src/. Stash them before generating docs.');
     }
 
     const project = new Project();
 
-    const filePaths = glob.sync(join(packageRoot, '*/src/**/*.ts'));
+    const filePaths = glob.sync(join(root, 'src/*/*/src/**/*.ts'));
     for (const path of filePaths) {
       // Look for imports like:
       //   import {foo, bar} from '@diez/baz';
@@ -35,8 +33,10 @@ export = {
         // Rewrite the first import path component as the relative location so typedoc can resolve it.
         // Rewrite the third (which might not exist) to resolve source files specifically.
         const importPathComponents = declaration.getModuleSpecifierValue().split('/');
-        importPathComponents[0] = relative(basedir, packageRoot);
-        importPathComponents[2] = 'src';
+        const diezImport = `${importPathComponents.shift()}/${importPathComponents.shift()}`;
+        const diezImportLocation = resolve(require.resolve(diezImport), '..', '..');
+        importPathComponents.unshift('src');
+        importPathComponents.unshift(relative(basedir, diezImportLocation));
 
         declaration.setModuleSpecifier(importPathComponents.join('/'));
       }
@@ -46,16 +46,18 @@ export = {
           continue;
         }
 
-        const pathComponents = namespace.getName().replace(/'/g, '').replace('types', 'src').split('/');
-        pathComponents[0] = relative(basedir, packageRoot);
-        namespace.getNameNodes()[0].replaceWithText(`'${pathComponents.join('/')}'`);
+        const namespacePathComponents = namespace.getName().replace(/'/g, '').replace('types', 'src').split('/');
+        const diezImport = `${namespacePathComponents.shift()}/${namespacePathComponents.shift()}`;
+        const diezImportLocation = resolve(require.resolve(diezImport), '..', '..');
+        namespacePathComponents.unshift(relative(basedir, diezImportLocation));
+        namespace.getNameNodes()[0].replaceWithText(`'${namespacePathComponents.join('/')}'`);
       }
     }
 
     await project.save();
 
     run(theme ? `yarn typedoc --theme ${theme}` : 'yarn typedoc');
-    run('git checkout packages');
+    run('git checkout src');
   },
   options: [
     {

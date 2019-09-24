@@ -6,8 +6,6 @@
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
   "scripts": {
-    "build-web": "diez compile -t web",
-    "run-web": "diez hot -t web",
     "start": "diez start web ../beta.diez.org"
   },
   "dependencies": {

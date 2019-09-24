@@ -1,13 +1,14 @@
 # Diez &middot; [![Build Status](https://travis-ci.com/diez/diez.svg?token=R7p5y7u83p1oNU4bsu1p&branch=master)](https://travis-ci.com/diez/diez) [![codecov](https://codecov.io/gh/diez/diez/branch/master/graph/badge.svg?token=pgB9U8YLUU)](https://codecov.io/gh/diez/diez)
 
-Diez is a tool for creating highly scalable, cross-platform design systems. The core of Diez is a framework for composing design tokens in TypeScript, plus a [compiler](https://github.com/diez/diez/tree/master/packages/compiler-core) (transpiler) that builds those tokens into pure-native SDKs for iOS, Android, and the Web.
+Diez is a tool for creating highly scalable, cross-platform design systems. The core of Diez is a [framework](https://github.com/diez/diez/tree/master/src/framework) for composing design tokens in TypeScript, plus a [compiler](https://github.com/diez/diez/tree/master/src/compiler) (transpiler) that builds those tokens into pure-native SDKs for iOS, Android, and the Web.
 
 This monorepo also includes:
 
- * [Design extractors](https://github.com/diez/diez/tree/master/packages/extractors): Extract image assets and strongly typed style definitions from any Sketch, Figma, InVision DSM, or Adobe XD file
- * [Prefabs](https://github.com/diez/diez/tree/master/packages/prefabs): Pre-built, reusable components for common design system elements like Colors and Typography
- * [Diez CLI](https://github.com/diez/diez/tree/master/packages/cli-core): Generate, configure, and manage Diez projects
- * You can find all of the packages in the repo [here](https://github.com/diez/diez/tree/master/packages). Feel free to take a look around!
+ * [Design extractors](https://github.com/diez/diez/tree/master/src/extractors): Extract image assets and strongly typed style definitions from any Sketch, Figma, InVision DSM, or Adobe XD file
+ * [Prefabs](https://github.com/diez/diez/tree/master/src/framework/prefabs): Pre-built, reusable components for common design system elements like Colors and Typography
+ * A cross-platform [standard library](https://github.com/diez/diez/tree/master/src/framework/stdlib): iOS, Android, and Web native bindings for all the prefabs included with Diez
+ * [Diez CLI](https://github.com/diez/diez/tree/master/src/cli): Generate, configure, and manage Diez projects
+ * You can find all of the packages in the repo here. Feel free to take a look around!
 
 ## Getting Started
 
@@ -45,10 +46,3 @@ The following commands are available in all subpackages, as well as in the monor
  * `yarn fix` - lint and automatically fix any automatically fixable lint issues found.
  * `yarn test` - run unit/integration tests.
  * `yarn health` - run tests and lint code with machine-readable outputs for CI.
-
-## Monorepo-specific commands
-
- * `yarn create-package` - creates a package and registers it with `lerna`. This command will create a new TypeScript package in `packages/` in the `@diez` namespace with a dependency on `@diez/engine`.
- * `yarn create-example` - creates an example project in `examples/`.
- * `yarn docs` - generates the latest version of API docs in `./api`.
- * `yarn build-examples --target [ios|android|web]` - programmatically build all example projects for a given platform.

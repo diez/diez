@@ -2,8 +2,7 @@
   "name": "@diez/mono",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "utils/*",
+    "src/*/*",
     "examples/*/*",
     "examples/*/example-codebases/web",
     "services/*"
@@ -34,6 +33,7 @@
     "tslint-config-haiku": "^1.0.21",
     "typedoc": "^0.15.0",
     "typedoc-plugin-no-inherit": "^1.1.6",
+    "typedoc-theme-diez": "^1.0.0",
     "typescript": "^3.6.2",
     "uglify-es": "^3.3.9"
   },
@@ -41,7 +41,6 @@
     "build-examples": "yarn diez build-examples",
     "clean": "./scripts/clean.sh",
     "create-example": "yarn diez create-example",
-    "create-package": "yarn diez create-package",
     "diez": "ts-node ./node_modules/.bin/diez",
     "docs": "yarn diez generate-docs",
     "extract-lorem-ipsum": "yarn diez extract-lorem-ipsum",

@@ -54,6 +54,6 @@ Let's change `lightBackground` to `palette.lightPurple` like so:
 
 Save your changes to see the background color update in real time! Feel free to experiment with changing other values to see Diez in action.
 
-Note that if you make any changes to the structure of your design token components (e.g. you add/remove a property to any component) you will need to regenerate the SDK with `yarn build-android`. Due to the use of a dynamically linked Android module in the example project, you may also need to close and reopen your Android project after regenerating the SDK.
+Note that if you make any changes to the structure of your design token components (e.g. you add/remove a property to any component) you will need to regenerate the SDK with `yarn diez compile -t android`. Due to the use of a dynamically linked Android module in the example project, you may also need to close and reopen your Android project after regenerating the SDK.
 
 Please see [The Basics Guide](/getting-started/the-basics) for more information on how to compose and edit your design token components.

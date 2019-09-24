@@ -17163,6 +17163,11 @@ typedoc-plugin-no-inherit@^1.1.6:
   resolved "https://registry.yarnpkg.com/typedoc-plugin-no-inherit/-/typedoc-plugin-no-inherit-1.1.6.tgz#535d6d4eba84766ffb932ab8c784bfe9916cace7"
   integrity sha512-20aQgtPU3aLchr/N5wdpWVt41jdGZES2wSKxlvZ0EsZa84S2m3N46J3mf5uNCGI8v6ZeuEKmwQ3SXq6e1xPRpg==
 
+typedoc-theme-diez@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/typedoc-theme-diez/-/typedoc-theme-diez-1.0.0.tgz#2d8550b5c5de4938a1867b7dacfb5fe660140dff"
+  integrity sha512-hZ1BAUgTHDcoaFJe4ct9rBnSj342iuc0aNdfu+uWaS8bLccE3/0kwEL8bRmT/8S9O0J+pZuuEva++nDA4NFmBA==
+
 typedoc@^0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.15.0.tgz#21eaf4db41cf2797bad027a74f2a75cd08ae0c2d"

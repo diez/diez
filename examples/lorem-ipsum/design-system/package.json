@@ -17,12 +17,6 @@
     "semver": "^6.0.0"
   },
   "scripts": {
-    "build-android": "diez compile -t android",
-    "run-android": "diez hot -t android",
-    "build-ios": "diez compile -t ios --cocoapods",
-    "run-ios": "diez hot -t ios",
-    "build-web": "diez compile -t web",
-    "run-web": "diez hot -t web",
     "start": "diez start",
     "demo": "diez start web"
   }

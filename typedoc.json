@@ -2,19 +2,16 @@
   "name": "Diez",
   "mode": "modules",
   "out": "api",
-  "theme": "./templates/typedoc-theme",
+  "theme": "./node_modules/typedoc-theme-diez",
   "ignoreCompilerErrors": "false",
   "preserveConstEnums": "true",
   "excludeNotExported": "true",
   "excludePrivate": "true",
-  "external-modulemap": ".*packages\/([^\/]+)\/.*",
-  "readme": "./docs/API.md",
+  "external-modulemap": "src\/([^\/]+\/[^\/]+)\/.*",
+  "readme": "scripts/internal/README-docs.md",
   "exclude": [
     "scripts/**/*.ts",
-    "packages/createproject/**/*.ts",
-    "packages/start/**/*.ts",
-    "packages/test-utils/**/*.ts",
-    "packages/web-sdk-common/**/*.ts",
-    "utils/**/*.ts"
+    "src/framework/web-sdk-common/**/*.ts",
+    "src/utils/**/*.ts"
   ]
 }

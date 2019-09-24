@@ -14,14 +14,14 @@ export = {
       throw new Error('sentry-cli is not installed.');
     }
     // Create source maps for our original transpiled TypeScript.
-    run('rm -f packages/*/tsconfig.tsbuildinfo');
-    const tsConfigPaths = glob.sync(join(root, 'packages/*/tsconfig.json'));
+    run('rm -f src/*/*/tsconfig.tsbuildinfo');
+    const tsConfigPaths = glob.sync(join(root, '*/*/tsconfig.json'));
     for (const tsConfigPath of tsConfigPaths) {
       const packageRoot = dirname(tsConfigPath);
-      const sourceRoot = `/packages/${basename(packageRoot)}/src`;
+      const sourceRoot = `/@diez/${basename(packageRoot)}/src`;
       run(`yarn tsc --sourceMap --sourceRoot ${sourceRoot}`, packageRoot);
     }
-    const filePaths = glob.sync(join(root, 'packages/*/lib/**/*.js'));
+    const filePaths = glob.sync(join(root, 'src/*/*/lib/**/*.js'));
     let minificationError = false;
     for (const filePath of filePaths) {
       const contents = readFileSync(filePath).toString();
@@ -63,14 +63,22 @@ export = {
 
     run(`sentry-cli releases -o ${sentryOrganization} new -p ${sentryProject} v${diezVersion}`);
     run(getSentryCommand('set-commits', '--commit "diez/diez"'));
-    const relevantPaths = [
-      ...glob.sync(join(root, 'packages/*/lib/**/*.js')),
-      ...glob.sync(join(root, 'packages/*/lib/**/*.js.map')),
-      ...glob.sync(join(root, 'packages/*/src/**/*.ts')),
-    ];
-    for (const filePath of relevantPaths) {
-      const virtualUrl = `~/${relative(root, filePath)}`;
-      run(getSentryCommand('files', `upload ${filePath} '${virtualUrl}'`));
+
+    for (const packageRoot of glob.sync(join(root, 'src/*/*'))) {
+      const {name: packageName} = require(join(packageRoot, 'package.json'));
+      if (!packageName.startsWith('@diez')) {
+        continue;
+      }
+
+      const relevantPaths = [
+        ...glob.sync(join(packageRoot, '**/*.js')),
+        ...glob.sync(join(packageRoot, '**/*.js.map')),
+        ...glob.sync(join(packageRoot, '**/*.ts')),
+      ];
+      for (const filePath of relevantPaths) {
+        const virtualUrl = `~/${relative(packageRoot, filePath).replace(/^[^/\\]*/, '@diez')}`;
+        run(getSentryCommand('files', `upload ${filePath} '${virtualUrl}'`));
+      }
     }
   },
 };

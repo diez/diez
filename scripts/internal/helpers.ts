@@ -16,7 +16,7 @@ export const siteRoot = join(root, 'examples', 'diez', 'diez.org');
 /**
  * The current version of the package.
  */
-export const currentVersion = require(join(root, 'packages', 'engine', 'package.json')).version;
+export const currentVersion = require(join(root, 'src', 'framework', 'engine', 'package.json')).version;
 
 /**
  * Runs the provided command synchronously.

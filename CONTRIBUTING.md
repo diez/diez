@@ -31,7 +31,7 @@ The Diez monorepo is built with NodeJS `10.16.3` and Yarn `1.17.3`. The followin
   yarn
   ```
 
-You will also need to follow the [macOS instructions](docs/ide-setup-macos.md) to ensure that all of the examples and tests can run.
+You will also need to follow the [macOS instructions](https://github.com/diez/diez/wiki/IDE-setup-(macOS)) to ensure that all of the examples and tests can run.
 
 ## Contributing code
 
@@ -74,6 +74,6 @@ When introducing any new third party dependencies to this project, please rememb
 
 After a pull request has been approved by a maintainer and all health checks have passed, a maintainer should ensure that they perform the merge considering the following:
 
-- The merge title should math the PR's title followed by the pull request number (e.g. `feat: feature (#42)`). This should be the default value populated by the GitHub PR interface.
+- The merge title should match the PR's title followed by the pull request number (e.g. `feat: feature (#42)`). This should be the default value populated by the GitHub PR interface.
 - The description of the PR should be copied to the body of the merge description.
 - The pull request should be squashed and merged.

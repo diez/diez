@@ -17,7 +17,7 @@
           <h3>How it works</h3>
           <p>The randomly generated unique ID that Diez sends to our server will be stored inside <code class="inline">~/.diez/registry.json</code>, and you can find all the related source code on GitHub:</p>
           <ul>
-            <li><a href="https://github.com/diez/diez/blob/master/packages/storage/src/analytics.ts">How and when we ping our servers</a>.</li>
+            <li><a href="https://github.com/diez/diez/blob/master/utils/storage/src/analytics.ts">How and when we ping our servers</a>.</li>
             <li><a href="https://github.com/diez/diez/tree/master/services/analytics">The source code for analytics.diez.org</a>.</li>
           </ul>
         </div>

@@ -79,7 +79,7 @@
           <h3>Does a team's design system source of truth live in design tools or in Diez?</h3>
         </div>
         <div class="two-thirds answer">
-          <p>We envision treating design assets like (and as) code assets.  Think of design files as blobs of “alien source code,” which Diez can compile into a common language for cross-platform design systems. When we're able to build out more meaningful connections between design tools and Diez, the lines will get a bit blurrier, but for now, this is how we're approaching it.</p>
+          <p>We envision treating design assets like (and as) code assets.  Think of design files as blobs of “alien source code,” which Diez compiles into a common language for cross-platform design systems. When we're able to build out more meaningful connections between design tools and Diez, the lines will get a bit blurrier, but for now, this is how we're approaching it.</p>
         </div>
         <div id="hot-mode-explained" class="one-third question">
           <h3>How does hot updating work?</h3>

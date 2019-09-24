@@ -9,7 +9,7 @@
       "args": ["compile", "-t", "android"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -19,7 +19,7 @@
       "args": ["compile", "-t", "android"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -29,7 +29,7 @@
       "args": ["compile", "-t", "ios"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -39,7 +39,7 @@
       "args": ["compile", "-t", "ios"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -49,7 +49,7 @@
       "args": ["compile", "-t", "web"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -59,7 +59,7 @@
       "args": ["compile", "-t", "web"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-system",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/packages/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
   ],
   "compounds": [
