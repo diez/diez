@@ -18,6 +18,7 @@ export = {
     const tsConfigPaths = glob.sync(join(root, 'src/*/*/tsconfig.json'));
     for (const tsConfigPath of tsConfigPaths) {
       const packageRoot = dirname(tsConfigPath);
+      // Replaces e.g. `/src/` with `/@diez/compiler-core/src/` in TypeScript source maps.
       const sourceRoot = `/@diez/${basename(packageRoot)}/src`;
       run(`yarn tsc --sourceMap --sourceRoot ${sourceRoot}`, packageRoot);
     }
@@ -34,7 +35,8 @@ export = {
       if (mapExists) {
         minifyOptions.sourceMap = {
           content: readJsonSync(mapPath),
-          url: `/${relative(root, mapPath)}`,
+          // Replaces e.g. /path/to/compiler-core/lib/diez.js with /@diez/compiler/lib/diez.js.
+          url: mapPath.replace(/^.*?\/([^\/]+)\/lib\//, '/@diez/$1/lib/'),
           includeSources: false,
         };
       }
