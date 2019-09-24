@@ -122,7 +122,7 @@ export class Typograph extends prefab<TypographData>() {
     fontSize: 12,
     color: Color.hsla(0, 0, 0, 1),
     iosTextStyle: IOSTextStyle.Body,
-    shouldScale: true,
+    shouldScale: false,
   };
 
   options = {

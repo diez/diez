@@ -74,6 +74,7 @@ extension ReportViewController {
 
     private func apply(_ design: SharedCardDesign, to view: CardViewDescribable) {
         view.titleLabel.attributedText = design.titleTypograph.attributedString(decorating: design.title)
+        view.titleLabel.adjustsFontForContentSizeCategory = design.titleTypograph.shouldScale
         view.titleContentSpacing = design.titleContentSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
         view.apply(design.panel)

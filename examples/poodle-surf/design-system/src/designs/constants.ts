@@ -65,6 +65,7 @@ class Typographs {
     fontSize: FontSizes.CardTitle,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Title2,
+    shouldScale: true,
   });
   value = new Typograph({
     font: Fonts.Nunito.Regular,

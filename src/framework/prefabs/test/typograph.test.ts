@@ -7,7 +7,7 @@ describe('typograph', () => {
       font: Font.fromFile('Bloop-MediumItalic.ttf'),
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
-      shouldScale: false,
+      shouldScale: true,
       iosTextStyle: IOSTextStyle.Title1,
     });
 
@@ -21,7 +21,7 @@ describe('typograph', () => {
       },
       fontSize: 50,
       color: {h: 0, s: 0, l: 0, a: 0.5},
-      shouldScale: false,
+      shouldScale: true,
       iosTextStyle: 'title1',
     });
 
@@ -29,7 +29,6 @@ describe('typograph', () => {
       font: Font.fromFile('Bloop-MediumItalic.ttf', 'SomethingElse'),
       fontSize: 50,
       color: Color.hsla(0, 0, 0, 0.5),
-      shouldScale: true,
       iosTextStyle: IOSTextStyle.Title2,
     });
 
@@ -43,7 +42,7 @@ describe('typograph', () => {
       },
       fontSize: 50,
       color: {h: 0, s: 0, l: 0, a: 0.5},
-      shouldScale: true,
+      shouldScale: false,
       iosTextStyle: 'title2',
     });
   });
