@@ -1,0 +1,18 @@
+import org.diez.{{case projectName style="pascal"}}.*
+
+val designSystem = {{case rootType style="pascal"}}()
+val panel = designSystem.{{path}}
+
+/**
+ Add the PanelView to your activity's XML:
+
+<org.diez.{{case projectName style="pascal"}}.PanelView
+    android:id="@+id/panelView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        ...
+</org.diez.{{case projectName style="pascal"}}.PanelView>
+*/
+
+val panelView: PanelView = // Get a reference to the PanelView.
+panelView.apply(panel)

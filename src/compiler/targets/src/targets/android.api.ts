@@ -31,3 +31,11 @@ export interface AndroidOutput extends TargetOutput<AndroidDependency, AndroidBi
    */
   packageRoot: string;
 }
+
+/**
+ * Valid Android languages.
+ */
+export enum AndroidLanguages {
+  Kotlin = 'Kotlin',
+  Java = 'Java',
+}

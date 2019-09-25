@@ -1,0 +1,11 @@
+import org.diez.{{case projectName style="pascal"}}.*
+
+val designSystem = {{case rootType style="pascal"}}()
+val linearGradient = designSystem.{{path}}
+
+val drawable = PaintDrawable()
+drawable.shape = RectShape()
+drawable.shaderFactory = linearGradient.shaderFactory
+
+val view: View = // Get a reference to a View.
+view.background = drawable
