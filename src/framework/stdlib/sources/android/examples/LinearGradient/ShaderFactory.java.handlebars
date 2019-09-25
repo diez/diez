@@ -1,3 +1,11 @@
-// Java examples coming soon!
-//
-// Please refer to the Kotlin example in the meantime.
+import org.diez.{{case projectName style="camel"}}.*;
+
+{{case rootType style="pascal"}} designSystem = new {{case rootType style="pascal"}}();
+LinearGradient linearGradient = designSystem.{{path style="pascal" prefix="get" suffix="()"}};
+
+PaintDrawable drawable = new PaintDrawable();
+drawable.setShape(new RectShape());
+drawable.setShaderFactory(linearGradient.getShaderFactory());
+
+View view = // Get a reference to a View.
+view.setBackground(drawable);

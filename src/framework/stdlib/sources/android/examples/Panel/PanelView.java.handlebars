@@ -1,3 +1,18 @@
-// Java examples coming soon!
-//
-// Please refer to the Kotlin example in the meantime.
+import org.diez.{{case projectName style="camel"}}.*;
+
+{{case rootType style="pascal"}} designSystem = new {{case rootType style="pascal"}}();
+Panel panel = designSystem.{{path style="pascal" prefix="get" suffix="()"}};
+
+/**
+ Add the PanelView to your activity's XML:
+
+<org.diez.{{case projectName style="pascal"}}.PanelView
+    android:id="@+id/panelView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        ...
+</org.diez.{{case projectName style="pascal"}}.PanelView>
+*/
+
+PanelView panelView = findViewById(R.id.panelView);
+panelView.apply(panel);

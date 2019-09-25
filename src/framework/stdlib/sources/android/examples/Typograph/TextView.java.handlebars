@@ -1,3 +1,7 @@
-// Java examples coming soon!
-//
-// Please refer to the Kotlin example in the meantime.
+import org.diez.{{case projectName style="camel"}}.*;
+
+{{case rootType style="pascal"}} designSystem = new {{case rootType style="pascal"}}();
+Typograph typograph = designSystem.{{path style="pascal" prefix="get" suffix="()"}};
+
+TextView textView = // Get a reference to a TextView.
+TypographKt.apply(textView, typograph);
