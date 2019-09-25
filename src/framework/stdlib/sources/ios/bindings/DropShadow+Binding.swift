@@ -10,6 +10,6 @@ extension CALayer {
         // `DropShadow`'s `radius` value is equal to twice the desired Guassian blur standard deviation.
         // `shadowRadius` expects the standard deviation value so the value must be cut in half.
         shadowRadius = shadow.radius / 2
-        shadowColor = shadow.color.uiColor.cgColor
+        shadowColor = UIColor(color: shadow.color).cgColor
     }
 }

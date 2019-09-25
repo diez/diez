@@ -28,14 +28,14 @@ class ViewController: UIViewController {
 
         view.headerBackgroundView.gradientLayer.apply(designSystem.palette.headerBackground);
 
-        if let mastheadImage = designSystem.images.masthead.uiImage {
+        if let mastheadImage = UIImage(image: designSystem.images.masthead) {
             view.headerView.backgroundColor = UIColor(patternImage: mastheadImage)
         }
 
-        view.iconView.image = designSystem.images.logo.uiImage
+        view.iconView.image = UIImage(image: designSystem.images.logo)
         view.iconView.layer.apply(designSystem.shadows.logo)
 
-        view.contentBackgroundView.backgroundColor = designSystem.palette.contentBackground.uiColor
+        view.contentBackgroundView.backgroundColor = UIColor(color: designSystem.palette.contentBackground)
         let margin = designSystem.layoutValues.contentMargin
         view.contentStackView.layoutMargins = UIEdgeInsets(
             top: margin.top,

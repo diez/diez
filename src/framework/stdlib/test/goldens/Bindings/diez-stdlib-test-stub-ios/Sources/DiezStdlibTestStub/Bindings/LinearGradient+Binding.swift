@@ -13,7 +13,7 @@ extension CAGradientLayer: LinearGradientAppliable {
     @objc(dez_applyLinearGradient:)
     public func apply(_ gradient: LinearGradient) {
         type = .axial
-        colors = gradient.stops.map { $0.color.uiColor.cgColor }
+        colors = gradient.stops.map { UIColor(color: $0.color).cgColor }
         locations = gradient.stops.map { NSNumber(floatLiteral: Double($0.position)) }
         startPoint = gradient.start.cgPoint
         endPoint = gradient.end.cgPoint
@@ -22,7 +22,7 @@ extension CAGradientLayer: LinearGradientAppliable {
 
 extension CAGradientLayer: ColorAppliable {
     public func apply(_ color: Color) {
-        colors = [color.uiColor.cgColor, color.uiColor.cgColor]
+        colors = [UIColor(color: color).cgColor, UIColor(color: color).cgColor]
         locations = [0, 1]
     }
 }

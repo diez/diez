@@ -44,3 +44,11 @@ export interface IosOutput extends TargetOutput<IosDependency, IosBinding> {
    */
   sourcesRoot: string;
 }
+
+/**
+ * Valid iOS languages.
+ */
+export enum IosLanguages {
+  Swift = 'Swift',
+  ObjectiveC = 'Objective-C',
+}

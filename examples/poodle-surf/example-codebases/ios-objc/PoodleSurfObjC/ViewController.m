@@ -76,20 +76,20 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
-        self.stackView.backgroundColor = component.designs.loading.backgroundColor.uiColor;
+        self.stackView.backgroundColor = [UIColor dez_colorWithDEZColor:component.designs.loading.backgroundColor];
         self.stackView.spacing = component.designs.report.contentSpacing;
         self.stackView.layoutMargins = DEZUIEdgeInsetsMake(component.designs.report.contentLayoutMargins);
 
-        [label dez_applyTypograph:component.designs.navigationTitle.typograph];
+        [label dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         label.text = component.designs.navigationTitle.title;
 
-        [textView dez_applyTypograph:component.designs.navigationTitle.typograph];
+        [textView dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         textView.text = component.designs.navigationTitle.title;
 
-        [textField dez_applyTypograph:component.designs.navigationTitle.typograph];
+        [textField dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         textField.text = component.designs.navigationTitle.title;
 
-        imageView.image = component.designs.navigationTitle.icon.uiImage;
+        imageView.image = [UIImage dez_imageWithDEZImage:component.designs.navigationTitle.icon];
 
         [imageView.layer dez_applyDropShadow:component.designs.report.wind.shared.panel.dropShadow];
 

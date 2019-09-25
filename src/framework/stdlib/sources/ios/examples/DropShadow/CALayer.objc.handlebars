@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+DEZDropShadow *dropShadow = designSystem.{{path}};
+
+UIView *view = [[UIView alloc] init];
+[view.layer dez_applyDropShadow:dropShadow];

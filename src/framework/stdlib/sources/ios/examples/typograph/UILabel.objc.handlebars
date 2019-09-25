@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+Typograph *typograph = designSystem.{{path}};
+
+UILabel *label = [[UILabel alloc] init];
+[label dez_applyTypograph:typograph withTraitCollection::nil];

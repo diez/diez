@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+DEZLinearGradient *linearGradient = designSystem.{{path}};
+
+CAGradientLayer *layer = [CAGradientLayer layer];
+[layer dez_applyLinearGradient:linearGradient];

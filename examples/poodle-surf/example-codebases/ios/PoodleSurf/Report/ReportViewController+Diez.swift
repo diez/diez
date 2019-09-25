@@ -13,7 +13,7 @@ import DiezPoodleSurf
 
 extension ReportViewController {
     func apply(_ design: ReportDesign, to view: ReportView) {
-        view.backgroundColor = design.backgroundColor.uiColor
+        view.backgroundColor = UIColor(color: design.backgroundColor)
         view.contentLayoutMargins = UIEdgeInsets(design.contentLayoutMargins)
         view.contentSpacing = design.contentSpacing
 
@@ -27,7 +27,7 @@ extension ReportViewController {
     private func apply(_ design: HeaderDesign, to view: ReportHeaderView) {
         view.regionLabel.apply(design.regionLabel)
         view.placeLabel.apply(design.placeLabel)
-        view.pinIconImageView.image = design.mapPinIcon.uiImage
+        view.pinIconImageView.image = UIImage(image: design.mapPinIcon)
         view.locationImageView.strokeWidth = design.locationImage.strokeWidth
         view.locationImageView.strokeView.apply(design.locationImage.strokeGradient)
         view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
@@ -46,7 +46,7 @@ extension ReportViewController {
 
     private func apply(_ design: TemperatureDesign, to view: HorizontalImageLabelView) {
         view.label.apply(design.typograph)
-        view.imageView.image = design.icon.uiImage
+        view.imageView.image = UIImage(image: design.icon)
         view.spacing = design.iconSpacing
     }
 
@@ -56,14 +56,14 @@ extension ReportViewController {
         view.bottomLabel.apply(design.valueTypograph)
         view.verticalSpacing = design.labelSpacing
         view.horizontalSpacing = design.iconSpacing
-        view.imageView.image = design.icon.uiImage
+        view.imageView.image = UIImage(image: design.icon)
     }
 
     private func apply(_ design: ForecastCardDesign, to view: ForecastCardView) {
         apply(design.shared, to: view)
         view.dayPartsHorizontalSpacing = design.dayPartsHorizontalSpacing
         view.separatorWidth = design.separatorWidth
-        view.separators.forEach { $0.backgroundColor = design.separatorColor.uiColor }
+        view.separators.forEach { $0.backgroundColor = UIColor(color: design.separatorColor) }
         view.dayParts.forEach { dayPart in
             dayPart.unitLabel.text = design.unit
             dayPart.valueUnitLayoutMargins = UIEdgeInsets(design.valueUnitMargins)
@@ -97,12 +97,12 @@ extension ReportViewController {
         view.label.text = design.title
         view.spacing = design.iconToTitleSpacing
 
-        // Using the UIKit class initializers for test coverage.
-        navigationBar.barTintColor = UIColor(design.barTintColor)
-        view.imageView.image = UIImage(design.icon)
+        // Using the UIKit getters for test coverage.
+        navigationBar.barTintColor = design.barTintColor.uiColor
+        view.imageView.image = design.icon.uiImage
 
         // Applying the typograph manually to add test coverage for the .uiFont getter.
         view.label.font = design.typograph.uiFont
-        view.label.textColor = design.typograph.color.uiColor
+        view.label.textColor = UIColor(color: design.typograph.color)
     }
 }

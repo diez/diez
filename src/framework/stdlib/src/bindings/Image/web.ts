@@ -1,11 +1,49 @@
 import {Image} from '@diez/prefabs';
-import {joinToKebabCase, RuleList, WebBinding} from '@diez/targets';
+import {joinToKebabCase, RuleList, WebBinding, WebLanguages} from '@diez/targets';
 import {join} from 'path';
 import {getQualifiedCssUrl, sourcesPath} from '../../utils';
 
 const binding: WebBinding<Image> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'Image.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'Image.d.ts')],
+  examples: [
+    {
+      example: 'Helpers',
+      comment: '`Image` can be used via mixins, pre-made classes, and provided JavaScript functions.',
+      snippets: [
+        {
+          lang: WebLanguages.Scss,
+          template: '@include {{path style="kebab" separator="-"}}-background();',
+        },
+        {
+          lang: WebLanguages.Css,
+          template: '.{{path style="kebab" separator="-"}}-background();',
+        },
+        {
+          lang: WebLanguages.JavaScript,
+          template: 'Object.assign(myImage, {{path}}.backgroundImageStyle);',
+        },
+      ],
+    },
+    {
+      example: 'Variables',
+      comment: 'An `Image` value can be accessed directly via variables.',
+      snippets: [
+        {
+          lang: WebLanguages.Scss,
+          template: 'background-image: url(#{\${{path style="kebab" separator="-"~}}-url});',
+        },
+        {
+          lang: WebLanguages.Css,
+          template: 'background-image: var(--{{path style="kebab" separator="-"}});',
+        },
+        {
+          lang: WebLanguages.JavaScript,
+          template: 'myImage.url = {{path}}.url',
+        },
+      ],
+    },
+  ],
   assetsBinder: async (instance, program, output, spec, property) => {
     const name = joinToKebabCase(property.parentType, property.name);
     output.styleSheet.variables.set(name, getQualifiedCssUrl(output, instance.file.src));

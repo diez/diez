@@ -1,0 +1,10 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+CGSize *size = designSystem.{{path}}.cgSize;
+
+UIView *view = [[UIView alloc] init];
+view.frame = (CGRect){
+    .origin = view.frame.origin,
+    .size = size,
+};

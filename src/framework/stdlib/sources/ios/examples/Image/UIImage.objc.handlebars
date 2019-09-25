@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+UIImage * _Nullable image = [UIImage dez_imageWithDEZImage:designSystem.{{path}}];
+
+UIImageView *imageView = [[UIImageView alloc] init];
+imageView.image = image;

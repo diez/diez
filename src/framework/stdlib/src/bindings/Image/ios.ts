@@ -1,10 +1,11 @@
 import {AssetBinder, AssetBindings} from '@diez/compiler-core';
 import {File, Image} from '@diez/prefabs';
-import {IosBinding, IosOutput} from '@diez/targets';
+import {IosBinding, IosLanguages, IosOutput} from '@diez/targets';
 import {basename, dirname, join, parse} from 'path';
 import {sourcesPath} from '../../utils';
 
 const assetCatalog = 'Images.xcassets';
+const examplesPath = join(sourcesPath, 'ios', 'examples', 'Image');
 
 const makeContentsInfoJson = (bundleId: string) => ({
   version: 1,
@@ -140,6 +141,19 @@ const imageAssetBinder: AssetBinder<Image, IosOutput> =
 const binding: IosBinding<Image> = {
   sources: [join(sourcesPath, 'ios', 'bindings', 'Image+Binding.swift')],
   assetsBinder: imageAssetBinder,
+  examples: [{
+    example: 'UIImage',
+    snippets: [
+      {
+        lang: IosLanguages.Swift,
+        templatePath: join(examplesPath, 'UIImage.swift.handlebars'),
+      },
+      {
+        lang: IosLanguages.ObjectiveC,
+        templatePath: join(examplesPath, 'UIImage.objc.handlebars'),
+      },
+    ],
+  }],
 };
 
 export = binding;

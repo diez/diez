@@ -6,18 +6,29 @@ extension Color {
      */
     @objc
     public var uiColor: UIColor {
-        return UIColor(self)
+        return UIColor(color: self)
     }
 }
 
 extension UIColor {
     /**
+     - Tag: UIColor.init
+
      Initializes a `UIColor` from the provided `Color`.
      */
-    public convenience init(_ color: Color) {
+    @objc(dez_initWithDEZColor:)
+    public convenience init(color: Color) {
         let brightness = color.l + color.s * min(color.l, 1 - color.l)
         let saturation = (brightness == 0) ? 0 : 2 - 2 * color.l / brightness
         self.init(hue: color.h, saturation: saturation, brightness: brightness, alpha: color.a)
+    }
+
+    /**
+     - See [UIColor(color: Color)](x-source-tag://UIColor.init)
+      */
+    @objc(dez_colorWithDEZColor:)
+    public static func from(color: Color) -> UIColor {
+        return UIColor(color: color)
     }
 }
 
@@ -28,6 +39,6 @@ public protocol ColorAppliable {
 extension UIView: ColorAppliable {
     @objc(dez_applyColor:)
     open func apply(_ color: Color) {
-        backgroundColor = color.uiColor
+        backgroundColor = UIColor(color: color)
     }
 }

@@ -30,7 +30,7 @@ extension Typograph {
      */
     @objc
     public var uiFont: UIFont? {
-        return _uiFont(for: nil)
+        return UIFont.from(typograph: self)
     }
 
     /**
@@ -40,8 +40,9 @@ extension Typograph {
 
      This uses the `UIFont(name:size)` initializer and may return nil as a result.
      */
+    @objc(uiFontWithTraitCollection:)
     public func uiFont(for traitCollection: UITraitCollection) -> UIFont? {
-        return _uiFont(for: traitCollection)
+        return UIFont.from(typograph: self, traitCollection: traitCollection)
     }
 
     /**
@@ -50,7 +51,7 @@ extension Typograph {
     @objc
     public var attributedStringAttributes: [NSAttributedString.Key: Any] {
         var attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: color.uiColor,
+            .foregroundColor: UIColor(color: color),
         ]
 
         if let font = uiFont {
@@ -63,7 +64,7 @@ extension Typograph {
     /**
      Constructs an `NSAttributedString` decorating the provided `String`.
      */
-    @objc
+    @objc(attributedStringDecoratingString:)
     public func attributedString(decorating string: String) -> NSAttributedString {
         return NSAttributedString(string: string, typograph: self)
     }
@@ -88,36 +89,53 @@ extension Typograph {
         default: return .body
         }
     }
+}
 
-    private func _uiFont(for traitCollection: UITraitCollection?) -> UIFont? {
-        registerFont(font)
+extension UIFont {
+    /**
+     Constructs a `UIFont` with the provided `Typograph`.
 
-        guard let uiFont = UIFont(name: font.name, size: fontSize) else {
+     - Note: Some of the properties of the `Typograph` are not considered when constructing the `UIFont` (e.g. `.color`), so the resulting `UIFont` does not represent the complete `Typograph`.
+     */
+    @objc(dez_fontWithTypograph:traitCollection:)
+    public static func from(typograph: Typograph, traitCollection: UITraitCollection? = nil) -> UIFont? {
+        registerFont(typograph.font)
+
+        guard let font = UIFont(name: typograph.font.name, size: typograph.fontSize) else {
             return nil
         }
 
-        guard shouldScale else {
-            return uiFont
-
+        guard typograph.shouldScale else {
+            return font
         }
 
-        let metrics = UIFontMetrics(forTextStyle: uiFontTextStyle)
+        let metrics = UIFontMetrics(forTextStyle: typograph.uiFontTextStyle)
 
         guard let traitCollection = traitCollection else {
-            return metrics.scaledFont(for: uiFont)
+            return metrics.scaledFont(for: font)
         }
 
-        return metrics.scaledFont(for: uiFont, compatibleWith: traitCollection)
+        return metrics.scaledFont(for: font, compatibleWith: traitCollection)
     }
 }
 
 extension NSAttributedString {
     /**
+     - Tag: NSAttributedString.init
+
      Initializes an `NSAttributedString` with the provided string and `Typograph`.
      */
-    @objc
+    @objc(dez_initWithString:typograph:)
     public convenience init(string: String, typograph: Typograph) {
         self.init(string: string, attributes: typograph.attributedStringAttributes)
+    }
+
+    /**
+     - See [NSAttributedString(string: String, typograph: Typograph)](x-source-tag://NSAttributedString.init)
+      */
+    @objc(dez_stringWithString:typograph:)
+    public static func from(string: String, typograph: Typograph) -> NSAttributedString {
+        return NSAttributedString(string: string, typograph: typograph)
     }
 }
 
@@ -125,10 +143,10 @@ extension UILabel {
     /**
      Applies the provided `Typograph` to the receiver.
      */
-    @objc(dez_applyTypograph:)
-    public func apply(_ typograph: Typograph) {
-        font = typograph.uiFont
-        textColor = typograph.color.uiColor
+    @objc(dez_applyTypograph:withTraitCollection:)
+    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
+        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
+        textColor = UIColor(color: typograph.color)
         adjustsFontForContentSizeCategory = typograph.shouldScale
     }
 }
@@ -137,10 +155,10 @@ extension UITextView {
     /**
      Applies the provided `Typograph` to the receiver.
      */
-    @objc(dez_applyTypograph:)
-    public func apply(_ typograph: Typograph) {
-        font = typograph.uiFont
-        textColor = typograph.color.uiColor
+    @objc(dez_applyTypograph:withTraitCollection:)
+    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
+        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
+        textColor = UIColor(color: typograph.color)
         adjustsFontForContentSizeCategory = typograph.shouldScale
     }
 }
@@ -149,10 +167,18 @@ extension UITextField {
     /**
      Applies the provided `Typograph` to the receiver.
      */
-    @objc(dez_applyTypograph:)
-    public func apply(_ typograph: Typograph) {
-        font = typograph.uiFont
-        textColor = typograph.color.uiColor
+    @objc(dez_applyTypograph:withTraitCollection:)
+    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
+        // Setting the default text attributes overrides text alignment.
+        // Re-set the alignment after applying the style.
+        let textAlignment = self.textAlignment
+        defer {
+            self.textAlignment = textAlignment
+        }
+
+        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
+        textColor = UIColor(color: typograph.color)
         adjustsFontForContentSizeCategory = typograph.shouldScale
+        defaultTextAttributes = typograph.attributedStringAttributes
     }
 }

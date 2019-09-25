@@ -12,7 +12,7 @@ import Lottie
 
 extension LoadingViewController {
     func apply(_ design: LoadingDesign, to view: LoadingView) {
-        view.backgroundColor = design.backgroundColor.uiColor
+        view.backgroundColor = UIColor(color: design.backgroundColor)
         view.animationView.load(design.animation)
     }
 }

@@ -1,0 +1,10 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+CGPoint *point = designSystem.{{path}}.cgPoint;
+
+UIView *view = [[UIView alloc] init];
+view.frame = (CGRect){
+    .origin = CGPointZero,
+    .size = view.frame.size,
+};

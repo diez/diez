@@ -1,6 +1,6 @@
 import {diezVersion} from '@diez/cli-core';
 import {Typograph} from '@diez/prefabs';
-import {joinToKebabCase, WebBinding} from '@diez/targets';
+import {joinToKebabCase, WebBinding, WebLanguages} from '@diez/targets';
 import {colorToCss, fontToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
 import {getQualifiedCssUrl, sourcesPath} from '../../utils';
@@ -8,6 +8,26 @@ import {getQualifiedCssUrl, sourcesPath} from '../../utils';
 const binding: WebBinding<Typograph> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'Typograph.js')],
   declarations: [join(sourcesPath, 'web', 'bindings', 'Typograph.d.ts')],
+  examples: [
+    {
+      example: 'Helpers',
+      comment: '`Typograph` can be used via mixins, pre-made classes, and provided JavaScript functions.',
+      snippets: [
+        {
+          lang: WebLanguages.Scss,
+          template: '@include {{path style="kebab" separator="-"}}-typograph();',
+        },
+        {
+          lang: WebLanguages.Css,
+          template: '.{{path style="kebab" separator="-"}}-typograph {}',
+        },
+        {
+          lang: WebLanguages.JavaScript,
+          template: 'Object.assign(myHeading, {{path}}.style);',
+        },
+      ],
+    },
+  ],
   assetsBinder: async (instance, program, output, spec, property) => {
     const name = joinToKebabCase(property.parentType, property.name);
     const colorValue = colorToCss(instance.color);

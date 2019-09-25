@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+DEZPanel *panel = designSystem.{{path}};
+
+DEZPanelView *view = [[DEZPanelView alloc] init];
+[view applyPanel:panel];

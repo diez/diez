@@ -124,3 +124,12 @@ export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   declarationImports: Set<string>;
   styleSheet: StyleSheet;
 }
+
+/**
+ * Valid Web languages.
+ */
+export enum WebLanguages {
+  Css = 'CSS',
+  Scss = 'SCSS',
+  JavaScript = 'JavaScript',
+}

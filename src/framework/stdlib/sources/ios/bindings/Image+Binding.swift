@@ -2,13 +2,13 @@ import UIKit
 
 extension Image {
     /**
-     Returns an image inialized with [UIImage(_ image: Image)](x-source-tag://UIImage.init).
+     Returns an image inialized with [UIImage(image: Image)](x-source-tag://UIImage.init).
 
-     - See [UIImage(_ image: Image)](x-source-tag://UIImage.init)
+     - See [UIImage(image: Image)](x-source-tag://UIImage.init)
      */
     @objc
     public var uiImage: UIImage? {
-        return UIImage(self)
+        return UIImage(image: self)
     }
 
     func url(forScale scale: CGFloat) -> URL? {
@@ -31,7 +31,8 @@ extension UIImage {
 
      When not in [hot mode](x-source-tag://Diez), uses `UIImage(named:bundle:compatibleWith:)`.
      */
-    public convenience init?(_ image: Image) {
+    @objc(dez_initWithDEZImage:)
+    public convenience init?(image: Image) {
         guard environment.isHot else {
             guard let name = (image.file.src as NSString).deletingPathExtension.removingPercentEncoding else {
                 return nil
@@ -48,14 +49,22 @@ extension UIImage {
                 return nil
             }
 
-            self.init(url, scale: maxScale)
+            self.init(url: url, scale: maxScale)
             return
         }
 
-        self.init(url, scale: screenScale)
+        self.init(url: url, scale: screenScale)
     }
 
-    convenience init?(_ url: URL, scale: CGFloat) {
+    /**
+     - See [UIImage(image: Image)](x-source-tag://UIImage.init)
+      */
+    @objc(dez_imageWithDEZImage:)
+    public static func from(image: Image) -> UIImage? {
+        return UIImage(image: image)
+    }
+
+    convenience init?(url: URL, scale: CGFloat) {
         guard let data = try? Data(contentsOf: url) else {
             return nil
         }
