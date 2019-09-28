@@ -33,7 +33,7 @@ const binding: WebBinding<DropShadow> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: 'box-shadow: url(#{\${{path style="kebab" separator="-"~}}-box-shadow});',
+          template: 'box-shadow: url(#{\${{path style="kebab" separator="-"~}}});',
         },
         {
           lang: WebLanguages.Css,

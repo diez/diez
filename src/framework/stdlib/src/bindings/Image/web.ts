@@ -31,7 +31,7 @@ const binding: WebBinding<Image> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: 'background-image: url(#{\${{path style="kebab" separator="-"~}}-url});',
+          template: 'background-image: url(#{\${{path style="kebab" separator="-"~}}});',
         },
         {
           lang: WebLanguages.Css,

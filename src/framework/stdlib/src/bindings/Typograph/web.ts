@@ -15,11 +15,11 @@ const binding: WebBinding<Typograph> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: '@include {{path style="kebab" separator="-"}}-typograph();',
+          template: '@include {{path style="kebab" separator="-"}}();',
         },
         {
           lang: WebLanguages.Css,
-          template: '.{{path style="kebab" separator="-"}}-typograph {}',
+          template: '.{{path style="kebab" separator="-"}} {}',
         },
         {
           lang: WebLanguages.JavaScript,

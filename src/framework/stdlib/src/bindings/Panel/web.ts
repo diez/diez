@@ -14,11 +14,11 @@ const binding: WebBinding<Panel> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: '@include {{path style="kebab" separator="-"}}-panel();',
+          template: '@include {{path style="kebab" separator="-"}}();',
         },
         {
           lang: WebLanguages.Css,
-          template: '.{{path style="kebab" separator="-"}}-panel {}',
+          template: '.{{path style="kebab" separator="-"}} {}',
         },
         {
           lang: WebLanguages.JavaScript,
