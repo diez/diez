@@ -4,11 +4,11 @@
 import WebKit
 
 /**
- - Tag: StateBag
+ - Tag: RootComponent
 
  A component that can be observed by a [Diez](x-source-tag://Diez) instance.
  */
-public protocol StateBag: Decodable {
+public protocol RootComponent: Decodable {
     init()
     static var name: String { get }
 }
@@ -26,7 +26,7 @@ public protocol StateBag: Decodable {
 
  - Note: The presence of a `WKWebView` in hot mode and the need to provide a `UIView` will be removed in the future.
  */
-public final class Diez<T>: NSObject where T: StateBag {
+public final class Diez<T>: NSObject where T: RootComponent {
     /**
      - Parameter view: When in [hot mode](x-source-tag://Diez), this view will have a visually empty `WKWebView` added to it in order to communicate with the Diez server. When not in [hot mode] (x-source-tag://Diez) this value is unused.
 
@@ -241,7 +241,7 @@ private protocol UpdateObserverDelegate: NSObject {
     func update(with body: String)
 }
 
-private final class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: StateBag {
+private final class UpdateObserver<T>: NSObject, WKScriptMessageHandler where T: RootComponent {
     weak var delegate: UpdateObserverDelegate?
 
     init(view: UIView) {

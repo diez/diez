@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 @objc(DEZPrimitives)
-public final class Primitives: NSObject, StateBag {
+public final class Primitives: NSObject, RootComponent {
     @objc public internal(set) var number: CGFloat
     @objc public internal(set) var integer: Int
     @objc public internal(set) var float: CGFloat

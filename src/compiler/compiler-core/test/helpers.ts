@@ -1,7 +1,7 @@
 import {Target} from '@diez/engine';
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {PropertyType, TargetBinding, TargetComponentProperty, TargetComponentSpec, TargetOutput} from '../src/api';
+import {Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from '../src/api';
 import {Compiler, ProjectParser} from '../src/compiler';
 
 /**
@@ -67,31 +67,28 @@ export class TestCompiler extends Compiler<TargetOutput, TargetBinding> {
   }
 
   protected collectComponentProperties (
-    allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined {
-    const properties = allProperties as TargetComponentProperty[];
+    allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined {
+    const properties = allProperties as TargetProperty[];
     return {
+      ...properties[0],
       type: `Array<${properties[0].type}>`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      depth: properties[0].depth + 1,
-      isPrimitive: false,
     };
   }
 
-  protected getInitializer (spec: TargetComponentSpec): string {
+  protected getInitializer (targetComponent: TargetDiezComponent): string {
     const propertyInitializers: string[] = [];
-    for (const name in spec.properties) {
-      propertyInitializers.push(spec.properties[name].initializer);
+    for (const property of targetComponent.properties) {
+      propertyInitializers.push(property.initializer);
     }
 
-    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+    return `${targetComponent.type}(${propertyInitializers.join(', ')})`;
   }
 
-  protected getPrimitive (type: PropertyType, instance: any) {
+  protected getPrimitive (property: Property, instance: any) {
     return {
-      type,
+      ...property,
       initializer: instance.toString(),
-      depth: 0,
-      isPrimitive: true,
     };
   }
 

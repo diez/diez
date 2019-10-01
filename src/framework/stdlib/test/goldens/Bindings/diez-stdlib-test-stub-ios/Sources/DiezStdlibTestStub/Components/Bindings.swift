@@ -5,7 +5,7 @@ import Foundation
 import UIKit
 
 @objc(DEZBindings)
-public final class Bindings: NSObject, StateBag {
+public final class Bindings: NSObject, RootComponent {
     @objc public internal(set) var image: Image
     @objc public internal(set) var lottie: Lottie
     @objc public internal(set) var typograph: Typograph

@@ -1,30 +1,30 @@
-class {{{componentName}}} {
+class {{{type}}} {
   constructor({
-{{#if singleton}}
+{{#if fixed}}
 {{#each properties}}
-    {{{@key}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
+    {{{this.name}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
   } = {}) {
 {{else}}
 {{#each properties}}
-    {{{@key}}}{{#unless @last}},{{/unless}}
+    {{{this.name}}}{{#unless @last}},{{/unless}}
 {{/each}}
   }) {
 {{/if}}
 {{#each properties}}
-{{#if this.isPrimitive}}
-    this.{{{@key}}} = {{{@key}}};
+{{#unless this.isComponent}}
+    this.{{{this.name}}} = {{{this.name}}};
 {{else if this.depth}}
-    {{#list @key this}}{{/list}}
+    {{#list this}}{{/list}}
 {{else}}
-    this.{{{@key}}} = new {{{this.type}}}({{{@key}}});
-{{/if}}
+    this.{{{this.name}}} = new {{{this.type}}}({{{this.name}}});
+{{/unless}}
 {{/each}}
   }
 }
 
-{{#if public}}
-Object.defineProperty({{{componentName}}}, 'name', {value: '{{{componentName}}}'});
+{{#if isRootComponent}}
+Object.defineProperty({{{type}}}, 'name', {value: '{{{type}}}'});
 {{/if}}
 
-module.exports.{{{componentName}}} = {{{componentName}}};
+module.exports.{{{type}}} = {{{type}}};

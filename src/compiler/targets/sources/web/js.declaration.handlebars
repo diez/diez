@@ -1,9 +1,9 @@
-{{#if public}}
-export declare class {{{componentName}}} extends StateBag {
+{{#if isRootComponent}}
+export declare class {{{type}}} extends RootComponent {
 {{else}}
-export declare class {{{componentName}}} {
+export declare class {{{type}}} {
 {{/if}}
   {{#each properties}}
-  {{{@key}}}: {{this.type}};
+  {{{this.name}}}: {{this.type}};
   {{/each}}
 }

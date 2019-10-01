@@ -1,4 +1,4 @@
-import {PrimitiveType, TargetComponent} from '../src/api';
+import {DiezComponent, PrimitiveType} from '../src/api';
 import {createProgramForFixture} from './helpers';
 
 beforeAll(() => {
@@ -9,18 +9,18 @@ beforeAll(() => {
 /**
  * @internal
  */
-const findProperty = (component: TargetComponent, name: string) =>
+const findProperty = (component: DiezComponent, name: string) =>
   component.properties.find((property) => property.name === name)!;
 
 describe('compiler program', () => {
   test('valid program', async () => {
     const program = await createProgramForFixture('Valid');
-    expect(program.targetComponents.size).toBe(3);
-    expect(Array.from(program.localComponentNames)).toEqual(['Valid']);
-    expect(Array.from(program.singletonComponentNames)).toEqual(['Valid', 'ChildComponent', 'GrandchildComponent']);
+    expect(program.components.size).toBe(3);
+    expect(Array.from(program.rootComponentNames)).toEqual(['Valid']);
 
-    const validComponent = program.targetComponents.get('Valid')!;
+    const validComponent = program.components.get('Valid')!;
     expect(validComponent).toBeDefined();
+    expect(validComponent.isFixedComponent).toBe(true);
     expect(validComponent.properties.length).toBe(10);
 
     expect(findProperty(validComponent, 'int').type).toBe(PrimitiveType.Int);
@@ -58,7 +58,9 @@ describe('compiler program', () => {
     expect(child.type).toBe('ChildComponent');
     expect(child.isComponent).toBe(true);
 
-    const childComponent = program.targetComponents.get('ChildComponent')!;
+    const childComponent = program.components.get('ChildComponent')!;
+    expect(childComponent.isRootComponent).toBe(false);
+    expect(childComponent.isFixedComponent).toBe(true);
     expect(childComponent).toBeDefined();
     expect(childComponent.properties.length).toBe(1);
     expect(childComponent.warnings.ambiguousTypes.size).toBe(0);
@@ -67,7 +69,9 @@ describe('compiler program', () => {
     expect(grandchild.type).toBe('GrandchildComponent');
     expect(grandchild.isComponent).toBe(true);
 
-    const grandchildComponent = program.targetComponents.get('GrandchildComponent')!;
+    const grandchildComponent = program.components.get('GrandchildComponent')!;
+    expect(grandchildComponent.isRootComponent).toBe(false);
+    expect(grandchildComponent.isFixedComponent).toBe(true);
     expect(grandchildComponent).toBeDefined();
     expect(grandchildComponent.properties.length).toBe(1);
     expect(grandchildComponent.warnings.ambiguousTypes.size).toBe(0);

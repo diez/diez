@@ -64,6 +64,16 @@ export enum PrimitiveType {
 }
 
 /**
+ * Component-specific warnings which can be printed after a compiler run.
+ */
+export interface DiezComponentWarnings {
+  /**
+   * Properties that have ambiguous/unresolved types.
+   */
+  ambiguousTypes: Set<string>;
+}
+
+/**
  * Provides addressable types for component properties.
  *
  * Strings represent globally unique component names, and the integer enum type [[PrimitiveType]] represents all others.
@@ -73,7 +83,7 @@ export type PropertyType = string | PrimitiveType;
 /**
  * A component compiler property descriptor.
  */
-export interface TargetProperty {
+export interface Property {
   /**
    * The name of the property.
    */
@@ -101,27 +111,23 @@ export interface TargetProperty {
 }
 
 /**
- * Component-specific warnings which can be printed after a compiler run.
- */
-export interface TargetComponentWarnings {
-  /**
-   * Properties that have ambiguous/unresolved types.
-   */
-  ambiguousTypes: Set<string>;
-}
-
-/**
  * A component descriptor, used by the compiler.
  */
-export interface TargetComponent {
+export interface DiezComponent {
   /**
    * The set of compilable properties for the component.
    */
-  properties: TargetProperty[];
+  properties: Property[];
   /**
    * The wrapped TypeScript type of the component. Used mainly for detecting naming collisions.
+   *
+   * This value should never be serialized.
    */
-  type?: Type;
+  typescriptType?: Type;
+  /**
+   * The unique type name.
+   */
+  type: PropertyType;
   /**
    * The resolvable module that provides the property's component type. Used for assembling bindings for
    * some compiler targets.
@@ -130,17 +136,25 @@ export interface TargetComponent {
   /**
    * Warnings encountered while attempting to compile this component.
    */
-  warnings: TargetComponentWarnings;
+  warnings: DiezComponentWarnings;
   /**
    * Description of the component.
    */
   description: PropertyDescription;
+  /**
+   * Whether this is a "root component"—one whose definition is exported by a project.
+   */
+  isRootComponent: boolean;
+  /**
+   * Whether this is a "fixed component"—one whose constructor does not receive arguments.
+   */
+  isFixedComponent: boolean;
 }
 
 /**
  * A named component map, provided as the main compiler input.
  */
-export type NamedComponentMap = Map<PropertyType, TargetComponent>;
+export type NamedComponentMap = Map<PropertyType, DiezComponent>;
 
 /**
  * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
@@ -181,15 +195,11 @@ export interface Parser extends EventEmitter {
    * A map of (unique!) component names to target component specifications. This is derived recursively
    * and includes both prefabs from external modules and local components.
    */
-  targetComponents: NamedComponentMap;
+  components: NamedComponentMap;
   /**
    * The names of local components encountered during compiler execution.
    */
-  localComponentNames: Set<PropertyType>;
-  /**
-   * The names of singleton components encountered during compiler execution.
-   */
-  singletonComponentNames: Set<PropertyType>;
+  rootComponentNames: Set<PropertyType>;
   /**
    * The root of the project whose local components we should compile.
    */
@@ -218,6 +228,10 @@ export interface Parser extends EventEmitter {
    * @ignore
    */
   hotBuildStartTime: number;
+  /**
+   * A method for retrieving a component for a type.
+   */
+  getComponentForTypeOrThrow (type: PropertyType): DiezComponent;
 }
 
 /**
@@ -245,8 +259,8 @@ export type AssetBinder<
   instance: ComponentType,
   parser: Parser,
   output: OutputType,
-  spec: TargetComponentSpec,
-  property: TargetProperty,
+  targetComponent: TargetDiezComponent,
+  property: Property,
 ) => Promise<void>;
 
 /**
@@ -265,32 +279,25 @@ export enum CompilerEvent {
 }
 
 /**
- * Specifies a component property.
+ * A property extension that includes a target-specific initializer.
  */
-export interface TargetComponentProperty {
-  type: PropertyType;
+export interface TargetProperty extends Property {
+  /**
+   * A code string (typically generated) for initializing this property at runtime in a Diez SDK.
+   */
   initializer: string;
-  isPrimitive: boolean;
-  depth: number;
+  /**
+   * The canonical type of the original target property. We may mutate the type of the target property at runtime, e.g.
+   * for specifying array/list types correctly or declaring primitives.
+   */
+  originalType?: PropertyType;
 }
 
 /**
  * Specifies an entire component.
  */
-export interface TargetComponentSpec {
-  componentName: PropertyType;
-  properties: {[name: string]: TargetComponentProperty};
-  public: boolean;
-}
-
-/**
- * Provides a ledger for a target spec, keeping track of both component specs and instances.
- *
- * Resolves ambiguity between singletons and reusable components.
- */
-export interface TargetSpecLedger<Binding> {
-  spec: TargetComponentSpec;
-  instances: Set<object>;
+export interface TargetDiezComponent<Binding = {}> extends DiezComponent {
+  properties: TargetProperty[];
   binding?: Binding;
 }
 
@@ -307,7 +314,7 @@ export interface TargetOutput<
   Binding = {},
 > {
   hotUrl?: string;
-  processedComponents: Map<PropertyType, TargetSpecLedger<Binding>>;
+  processedComponents: Map<PropertyType, TargetDiezComponent<Binding>>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;
   projectName: string;

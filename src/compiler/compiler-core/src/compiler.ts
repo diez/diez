@@ -7,7 +7,7 @@ import {dirname, join, relative} from 'path';
 import {ClassDeclaration, EnumDeclaration, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
-import {CompilerEvent, CompilerOptions, MaybeNestedArray, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyType, TargetBinding, TargetComponent, TargetComponentProperty, TargetComponentSpec, TargetOutput, TargetProperty} from './api';
+import {CompilerEvent, CompilerOptions, DiezComponent, MaybeNestedArray, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, Property, PropertyDescription, PropertyType, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, getProject, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
@@ -50,17 +50,12 @@ export class ProjectParser extends EventEmitter implements Parser {
   /**
    * @ignore
    */
-  readonly localComponentNames = new Set<PropertyType>();
+  readonly rootComponentNames = new Set<PropertyType>();
 
   /**
    * @ignore
    */
-  readonly singletonComponentNames = new Set<PropertyType>();
-
-  /**
-   * @ignore
-   */
-  readonly targetComponents: NamedComponentMap;
+  readonly components: NamedComponentMap;
 
   /**
    * @ignore
@@ -152,9 +147,9 @@ export class ProjectParser extends EventEmitter implements Parser {
    *
    * @returns `true` if we were able to process the type as a component.
    */
-  private processType (type: Type, sourceMap: Map<string, string>) {
-    const typeSymbol = type.getSymbol();
-    if (!type.isObject() || !typeSymbol) {
+  private processType (typescriptType: Type, sourceMap: Map<string, string>, isRootComponent = false) {
+    const typeSymbol = typescriptType.getSymbol();
+    if (!typescriptType.isObject() || !typeSymbol) {
       return false;
     }
 
@@ -167,7 +162,7 @@ export class ProjectParser extends EventEmitter implements Parser {
 
     const children: Symbol[] = [];
     if (typeValue.getBaseClass() === this.prefabDeclaration) {
-      for (const symbol of type.getProperties()) {
+      for (const symbol of typescriptType.getProperties()) {
         if (symbol.getFlags() !== SymbolFlags.Property) {
           continue;
         }
@@ -183,27 +178,37 @@ export class ProjectParser extends EventEmitter implements Parser {
       }
     }
 
-    const componentName = typeValue.getName();
-    if (!componentName) {
+    const type = typeValue.getName();
+    if (!type) {
       // FIXME: we should be able to handle this by automatically generating anonymous componenet names.
       Log.warning('Encountered an unnamed component class. Components without names are skipped.');
       return false;
     }
 
     if (
-      this.targetComponents.has(componentName)
+      this.components.has(type)
     ) {
-      if (this.targetComponents.get(componentName)!.type !== type) {
+      if (this.components.get(type)!.typescriptType !== typescriptType) {
         // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
-        Log.warning(`Encountered a duplicate component name: ${componentName}. Please ensure no component names are duplicated.`);
+        Log.warning(`Encountered a duplicate component name: ${type}. Please ensure no component names are duplicated.`);
         return false;
       }
 
       return true;
     }
 
-    const newTarget: TargetComponent = {
+    // Note if the object in question is fixed, i.e. receives no constructor arguments.
+    let constructorClass: ClassDeclaration | undefined = typeValue;
+    while (constructorClass && !constructorClass.getConstructors().length) {
+      constructorClass = constructorClass.getBaseClass();
+    }
+
+    const newTarget: DiezComponent = {
+      isRootComponent,
+      typescriptType,
       type,
+      isFixedComponent: !constructorClass || constructorClass.getConstructors().every(
+        (constructor) => !constructor.getParameters().length),
       properties: [],
       warnings: {
         ambiguousTypes: new Set(),
@@ -211,16 +216,6 @@ export class ProjectParser extends EventEmitter implements Parser {
       source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
       description: this.getDescriptionForValue(typeValue),
     };
-
-    // Note if the object in question is a singleton, i.e. receives no constructor arguments.
-    let constructorClass: ClassDeclaration | undefined = typeValue;
-    while (constructorClass && !constructorClass.getConstructors().length) {
-      constructorClass = constructorClass.getBaseClass();
-    }
-    if (!constructorClass || constructorClass.getConstructors().every(
-      (constructor) => !constructor.getParameters().length)) {
-      this.singletonComponentNames.add(componentName);
-    }
 
     for (const typeMember of children) {
       const valueDeclaration = typeMember.getValueDeclaration() as PropertyDeclaration;
@@ -280,11 +275,11 @@ export class ProjectParser extends EventEmitter implements Parser {
         name: propertyName,
         isComponent: true,
         type: candidateSymbol.getName(),
-        parentType: componentName,
+        parentType: type,
       });
     }
 
-    this.targetComponents.set(componentName, newTarget);
+    this.components.set(type, newTarget);
     return true;
   }
 
@@ -314,8 +309,8 @@ export class ProjectParser extends EventEmitter implements Parser {
    * Runs the compiler and emits to listeners.
    */
   async run (throwOnErrors = true) {
-    this.targetComponents.clear();
-    this.localComponentNames.clear();
+    this.components.clear();
+    this.rootComponentNames.clear();
     if (!await this.compile()) {
       if (throwOnErrors) {
         throw new Error('Unable to compile project!');
@@ -331,8 +326,8 @@ export class ProjectParser extends EventEmitter implements Parser {
     for (const exportedDeclarations of sourceFile.getExportedDeclarations().values()) {
       for (const exportDeclaration of exportedDeclarations) {
         const type = this.checker.getTypeAtLocation(exportDeclaration);
-        if (this.processType(type, sourceMap)) {
-          this.localComponentNames.add(type.getSymbolOrThrow().getName());
+        if (this.processType(type, sourceMap, true)) {
+          this.rootComponentNames.add(type.getSymbolOrThrow().getName());
         }
       }
     }
@@ -412,6 +407,18 @@ export class ProjectParser extends EventEmitter implements Parser {
    */
   close () {}
 
+  /**
+   * Gets the component specification for a given property type.
+   */
+  getComponentForTypeOrThrow (type: PropertyType): DiezComponent {
+    const component = this.components.get(type);
+    if (!component) {
+      throw new Error(`Unable to resolve type ${type} from Parser. Aborting`);
+    }
+
+    return component;
+  }
+
   constructor (
     readonly projectRoot: string,
     readonly options: CompilerOptions,
@@ -448,7 +455,7 @@ export class ProjectParser extends EventEmitter implements Parser {
     );
 
     const [prefabImport, intImport, floatImport] = stubTypeFile.getImportDeclarationOrThrow('@diez/engine').getNamedImports();
-    this.targetComponents = new Map();
+    this.components = new Map();
     this.prefabDeclaration = this.checker.getTypeAtLocation(prefabImport).getSymbolOrThrow().getValueDeclarationOrThrow() as ClassDeclaration;
     this.types = {
       [PrimitiveType.Int]: intImport.getSymbolOrThrow().getDeclaredType(),
@@ -492,19 +499,19 @@ export abstract class Compiler<
    * For example, this method might turn `["foo", "bar"]` into `new ArrayList<String>(){{ add("foo"); add("bar"); }}`
    * for a Java target.
    */
-  protected abstract collectComponentProperties (allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined;
+  protected abstract collectComponentProperties (allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined;
 
   /**
    * Gets the target-specific initializer for a given target component spec.
    *
    * This might look like `"foo"` for a primitive type, or `new ComponentType()` for a component.
    */
-  protected abstract getInitializer (spec: TargetComponentSpec): string;
+  protected abstract getInitializer (targetComponent: TargetDiezComponent): string;
 
   /**
    * Gets the target-specific spec for given primitive component type.
    */
-  protected abstract getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined;
+  protected abstract getPrimitive (property: Property, instance: any): TargetProperty | undefined;
 
   /**
    * The root where we should place static assets.
@@ -564,72 +571,71 @@ export abstract class Compiler<
   /**
    * Generates a fresh component spec for a given type.
    */
-  private createSpec (type: PropertyType): TargetComponentSpec {
-    return {componentName: type, properties: {}, public: this.parser.localComponentNames.has(type)};
+  private createTargetComponent (type: PropertyType): TargetDiezComponent {
+    return {
+      ...this.parser.getComponentForTypeOrThrow(type),
+      // We will need to augment properties before they can be added.
+      properties: [],
+    };
   }
 
   /**
    * Recursively processes a component property.
    */
   protected async processComponentProperty (
-    property: TargetProperty,
+    property: Property,
     instance: MaybeNestedArray<any>,
     serializedInstance: MaybeNestedArray<any>,
-    targetComponent: TargetComponent,
-  ): Promise<TargetComponentProperty | undefined> {
+    component: DiezComponent,
+  ): Promise<TargetProperty | undefined> {
     if (Array.isArray(instance)) {
       if (!property.depth) {
         // This should never happen.
-        targetComponent.warnings.ambiguousTypes.add(property.name);
+        component.warnings.ambiguousTypes.add(property.name);
         return;
       }
 
       return this.collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
-        this.processComponentProperty(property, child, serializedInstance[index], targetComponent),
+        this.processComponentProperty(property, child, serializedInstance[index], component),
       )));
     }
 
     if (property.isComponent) {
-      const componentSpec = await this.processComponentInstance(instance, property.type);
-      if (!componentSpec) {
-        targetComponent.warnings.ambiguousTypes.add(property.name);
+      const targetComponent = await this.processComponentInstance(instance, property.type);
+      if (!targetComponent) {
+        component.warnings.ambiguousTypes.add(property.name);
         return;
       }
 
-      const propertyComponent = this.parser.targetComponents.get(property.type)!;
+      const propertyComponent = this.parser.components.get(property.type)!;
       const propertyBinding = await getBinding<BindingType>(
         this.parser.options.target, propertyComponent.source, property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
-          await propertyBinding.assetsBinder(instance, this.parser, this.output, componentSpec, property);
+          await propertyBinding.assetsBinder(instance, this.parser, this.output, targetComponent, property);
         }
       }
 
-      return {
-        type: componentSpec.componentName,
-        initializer: this.getInitializer(componentSpec),
-        isPrimitive: false,
-        depth: 0,
-      };
+      return Object.assign({originalType: property.type}, property, {initializer: this.getInitializer(targetComponent)});
     }
 
-    return this.getPrimitive(property.type, serializedInstance);
+    return this.getPrimitive(property, serializedInstance);
   }
 
   /**
    * Recursively processes a component instance and all its properties.
    */
   protected async processComponentInstance (instance: any, name: PropertyType) {
-    const targetComponent = this.parser.targetComponents.get(name);
-    if (!targetComponent) {
+    const component = this.parser.components.get(name);
+    if (!component) {
       Log.warning(`Unable to find component definition for ${name}!`);
       return;
     }
 
-    const spec = this.createSpec(name);
+    const targetComponent = this.createTargetComponent(name);
     const serializedData = serialize(instance);
 
-    for (const property of targetComponent.properties) {
+    for (const property of component.properties) {
       // TODO: move this check upstream of the compiler, into the compiler metadata stream where it belongs.
       if (
         instance.options &&
@@ -645,22 +651,20 @@ export abstract class Compiler<
         property,
         instance[property.name],
         serializedData[property.name],
-        targetComponent,
+        component,
       );
 
       if (propertySpec) {
-        spec.properties[property.name] = propertySpec;
+        targetComponent.properties.push(propertySpec);
       }
     }
 
     if (!this.output.processedComponents.has(name)) {
-      const binding = await getBinding<BindingType>(this.parser.options.target, targetComponent.source || '.', name);
-      this.output.processedComponents.set(name, {spec, binding, instances: new Set()});
+      targetComponent.binding = await getBinding<BindingType>(this.parser.options.target, component.source || '.', name);
+      this.output.processedComponents.set(name, targetComponent);
     }
 
-    this.output.processedComponents.get(name)!.instances.add(instance);
-
-    return spec;
+    return targetComponent;
   }
 
   /**
@@ -672,7 +676,7 @@ export abstract class Compiler<
     // Important: reset the require cache before each run.
     purgeRequireCache(require.resolve(this.parser.emitRoot));
     const componentModule = await loadComponentModule(this.parser.emitRoot);
-    for (const componentName of this.parser.localComponentNames) {
+    for (const componentName of this.parser.rootComponentNames) {
       const maybeConstructor = componentModule[componentName];
       if (!maybeConstructor) {
         Log.warning(`Unable to resolve component instance from ${this.parser.projectRoot}: ${componentName}.`);

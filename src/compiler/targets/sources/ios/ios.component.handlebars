@@ -1,26 +1,26 @@
 import Foundation
-{{#if public}}
+{{#if isRootComponent}}
 import UIKit
 {{else}}
 import CoreGraphics
 {{/if}}
 
-@objc(DEZ{{{componentName}}})
-{{#if public}}
-public final class {{{componentName}}}: NSObject, StateBag {
+@objc(DEZ{{{type}}})
+{{#if isRootComponent}}
+public final class {{{type}}}: NSObject, RootComponent {
 {{else}}
-public final class {{{componentName}}}: NSObject, Decodable {
+public final class {{{type}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
-    @objc public internal(set) var {{@key}}: {{this.type}}
+    @objc public internal(set) var {{this.name}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
-    {{#if singleton}}
+    {{#if fixed}}
 
-    convenience {{#if public}}public {{/if}}override init() {
+    convenience {{#if isRootComponent}}public {{/if}}override init() {
         self.init(
             {{#each properties}}
-            {{@key}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
+            {{this.name}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
             {{/each}}
         )
     }
@@ -28,34 +28,34 @@ public final class {{{componentName}}}: NSObject, Decodable {
 
     init(
         {{#each properties}}
-        {{@key}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+        {{this.name}}: {{{this.type}}}{{#unless @last}},{{/unless}}
         {{/each}}
     ) {
         {{#each properties}}
-        self.{{@key}} = {{{@key}}}
+        self.{{this.name}} = {{{this.name}}}
         {{/each}}
     }
     {{else}}
     public override init() {}
     {{/if}}
-    {{#if public}}
+    {{#if isRootComponent}}
 
-    public static let name = "{{{componentName}}}"
+    public static let name = "{{{type}}}"
     {{/if}}
 }
 
-extension {{{componentName}}}: ReflectedCustomStringConvertible {
+extension {{{type}}}: ReflectedCustomStringConvertible {
     public override var description: String {
         return reflectedDescription
     }
 }
-{{#if public}}
+{{#if isRootComponent}}
 
 /// This is only intended to be used by Objective-C consumers.
-/// In Swift use Diez<{{{componentName}}}>.
+/// In Swift use Diez<{{{type}}}>.
 @available(swift, obsoleted: 0.0.1)
-@objc(DEZDiez{{{componentName}}})
-public final class DiezBridged{{{componentName}}}: NSObject {
+@objc(DEZDiez{{{type}}})
+public final class DiezBridged{{{type}}}: NSObject {
     @objc public init(view: UIView) {
         diez = Diez(view: view)
 
@@ -63,7 +63,7 @@ public final class DiezBridged{{{componentName}}}: NSObject {
     }
 
     /**
-     Registers the provided block for updates to the {{{componentName}}}.
+     Registers the provided block for updates to the {{{type}}}.
 
      The provided closure is called synchronously when this function is called.
 
@@ -72,7 +72,7 @@ public final class DiezBridged{{{componentName}}}: NSObject {
 
      - Parameter subscriber: The block to be called when the component updates.
      */
-    @objc public func attach(_ subscriber: @escaping ({{{componentName}}}?, NSError?) -> Void) {
+    @objc public func attach(_ subscriber: @escaping ({{{type}}}?, NSError?) -> Void) {
         diez.attach { result in
             switch result {
             case .success(let component):
@@ -83,6 +83,6 @@ public final class DiezBridged{{{componentName}}}: NSObject {
         }
     }
 
-    private let diez: Diez<{{{componentName}}}>
+    private let diez: Diez<{{{type}}}>
 }
 {{/if}}

@@ -1,21 +1,21 @@
 {{#if hasProperties}}
-data class {{{componentName}}}(
-{{#if singleton}}
+data class {{{type}}}(
+{{#if fixed}}
 {{#each properties}}
-    val {{{@key}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
+    val {{{this.name}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{else}}
 {{#each properties}}
-    val {{{@key}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+    val {{{this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{/if}}
 {{else}}
-data class {{{componentName}}}(
+data class {{{type}}}(
     val nonce: String = ""
 {{/if}}
-{{#if public}}) : StateBag {
+{{#if isRootComponent}}) : RootComponent {
     companion object {}
-    override val name = "{{{componentName}}}"
+    override val name = "{{{type}}}"
 {{else}}
 ) {
     companion object {}

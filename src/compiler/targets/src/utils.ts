@@ -1,4 +1,4 @@
-import {CompilerOptions, TargetComponentProperty} from '@diez/compiler-core';
+import {CompilerOptions, TargetProperty} from '@diez/compiler-core';
 import {kebabCase} from 'change-case';
 import {resolve} from 'path';
 
@@ -31,9 +31,9 @@ export const joinToKebabCase = (...args: any[]) => kebabCase(args.join('-'));
  * `this.fonts = fonts.map((value1) => value1.map((value2) => new Font(value2)));`
  * @ignore
  */
-export const webComponentListHelper = (key: string, property: TargetComponentProperty) => {
-  if (!property.depth || property.isPrimitive) {
-    throw new Error(`Property ${key} is not a component list type.`);
+export const webComponentListHelper = (property: TargetProperty) => {
+  if (!property.depth || !property.isComponent) {
+    throw new Error(`Property ${property.name} is not a component list type.`);
   }
 
   const rawType = (property.type as string).replace(/\[\]/g, '');
@@ -41,7 +41,7 @@ export const webComponentListHelper = (key: string, property: TargetComponentPro
   for (let i = property.depth - 1; i > 0; --i) {
     listAssignment = `(value${i}) => value${i}.map(${listAssignment})`;
   }
-  return `this.${key} = ${key}.map(${listAssignment});`;
+  return `this.${property.name} = ${property.name}.map(${listAssignment});`;
 };
 
 /**

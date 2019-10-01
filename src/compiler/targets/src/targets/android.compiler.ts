@@ -4,9 +4,9 @@ import {
   CompilerTargetHandler,
   getAssemblerFactory,
   PrimitiveType,
-  PropertyType,
-  TargetComponentProperty,
-  TargetComponentSpec,
+  Property,
+  TargetDiezComponent,
+  TargetProperty,
 } from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
@@ -85,69 +85,64 @@ export class AndroidCompiler extends Compiler<AndroidOutput, AndroidBinding> {
    * @abstract
    */
   protected collectComponentProperties (
-    allProperties: (TargetComponentProperty | undefined)[]): TargetComponentProperty | undefined {
-    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+    allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetProperty[];
     const reference = properties[0];
     if (!reference) {
       return;
     }
 
     return {
+      ...reference,
       type: `Array<${reference.type}>`,
       initializer: `arrayOf<${reference.type}>(${properties.map((property) => property.initializer).join(', ')})`,
-      isPrimitive: reference.isPrimitive,
-      depth: reference.depth + 1,
     };
   }
 
   /**
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec): string {
+  protected getInitializer (targetComponent: TargetDiezComponent): string {
     const propertyInitializers: string[] = [];
-    for (const name in spec.properties) {
-      propertyInitializers.push(spec.properties[name].initializer);
+    for (const property of targetComponent.properties) {
+      propertyInitializers.push(property.initializer);
     }
 
-    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+    return `${targetComponent.type}(${propertyInitializers.join(', ')})`;
   }
 
   /**
    * @abstract
    */
-  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
-    switch (type) {
+  protected getPrimitive (property: Property, instance: any): TargetProperty | undefined {
+    switch (property.type) {
       case PrimitiveType.String:
         return {
+          ...property,
           type: 'String',
           initializer: `"${instance}"`,
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
         return {
+          ...property,
           type: 'Float',
-          initializer: `${instance.toString()}F`,
-          isPrimitive: true,
-          depth: 0,
+          initializer: `${instance.toString()}f`,
         };
       case PrimitiveType.Int:
         return {
+          ...property,
           type: 'Int',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
+          ...property,
           type: 'Boolean',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       default:
-        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
         return;
     }
   }
@@ -184,7 +179,7 @@ export class AndroidCompiler extends Compiler<AndroidOutput, AndroidBinding> {
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = Array.from(this.parser.localComponentNames)[0];
+    const component = Array.from(this.parser.rootComponentNames)[0];
     Log.info(`Diez module compiled to ${this.output.sdkRoot}.\n`);
 
     Log.info(`You can depend on ${diez} in ${Format.code('build.gradle')}:`);
@@ -262,18 +257,19 @@ class MainActivity ... {
 
     const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
 
-    for (const [type, {spec, binding}] of this.output.processedComponents) {
-      // For each singleton, replace it with its simple constructor.
-      for (const property of Object.values(spec.properties)) {
-        if (this.parser.singletonComponentNames.has(property.type)) {
+    // For each fixed, replace it with its simple constructor.
+    for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
+      for (const property of Object.values(targetComponent.properties)) {
+        if (
+          property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = `${property.type}()`;
         }
       }
 
       const dataClassStartTokens = {
-        ...spec,
-        singleton: spec.public || this.parser.singletonComponentNames.has(type),
-        hasProperties: Object.keys(spec.properties).length > 0,
+        ...targetComponent,
+        fixed: targetComponent.isRootComponent || this.parser.getComponentForTypeOrThrow(type).isFixedComponent,
+        hasProperties: Object.keys(targetComponent.properties).length > 0,
       };
 
       const componentTokens = {
@@ -281,7 +277,7 @@ class MainActivity ... {
         packageName: this.output.packageName,
       };
 
-      const componentBasename = `${spec.componentName}.kt`;
+      const componentBasename = `${targetComponent.type}.kt`;
       let hasComponentOverride = false;
       if (binding) {
         await Promise.all(binding.sources.map((source) => {
@@ -305,7 +301,7 @@ class MainActivity ... {
       // We only need to write a component here if a binding hasn't already been written with the data class
       // implementation. This is determined by checking the name of the file to see if it matches our component name.
       if (!hasComponentOverride) {
-        const sourceBasename = basename(`${spec.componentName}.kt`);
+        const sourceBasename = basename(`${targetComponent.type}.kt`);
         const bindingPath = join(this.output.packageRoot, sourceBasename);
         await assembler.writeFile(bindingPath, compile(componentTemplate)(componentTokens));
       }

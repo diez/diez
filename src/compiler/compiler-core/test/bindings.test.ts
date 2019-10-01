@@ -33,9 +33,10 @@ describe('bindings', () => {
     );
 
     const program = await createProgramForFixture('Bindings');
-    expect(program.targetComponents.size).toBe(2);
-    expect(Array.from(program.localComponentNames)).toEqual(['BoundComponent', 'Bindings']);
-    expect(Array.from(program.singletonComponentNames)).toEqual(['Bindings']);
+    expect(program.components.size).toBe(2);
+    expect(Array.from(program.rootComponentNames)).toEqual(['BoundComponent', 'Bindings']);
+    expect(program.components.get('Bindings')!.isFixedComponent).toBe(true);
+    expect(program.components.get('BoundComponent')!.isFixedComponent).toBe(false);
     const compiler = new TestCompiler(program);
     compiler.staticRoot = join(compiler.output.sdkRoot, 'static');
     await compiler.start();
@@ -46,6 +47,6 @@ describe('bindings', () => {
 
     compiler.writeAssets();
     expect(join(program.projectRoot, 'build')).toMatchDirectory(join(__dirname, 'goldens', 'bindings-output'));
-    printWarnings(program.targetComponents);
+    printWarnings(program.components);
   });
 });

@@ -24,7 +24,7 @@ export const getProjectRoot = async () => {
 };
 
 /**
- * Shared singleton for retrieving Projects.
+ * Shared cache for retrieving Projects.
  *
  * Exported for testing purposes only.
  * @internal

@@ -11,38 +11,46 @@ describe('joinToKebabCase', () => {
 
 describe('webComponentListHelper', () => {
   test('throws on non-lists', () => {
-    expect(() => webComponentListHelper('foo', {
+    expect(() => webComponentListHelper({
       type: 'Foo',
       depth: 0,
-      isPrimitive: false,
+      isComponent: true,
       initializer: '{bar: "baz"}',
+      name: 'foo',
+      description: {body: ''},
     })).toThrow();
   });
 
   test('throws on non-components', () => {
-    expect(() => webComponentListHelper('foo', {
+    expect(() => webComponentListHelper({
       type: 'string',
       depth: 10,
-      isPrimitive: true,
+      isComponent: false,
       initializer: '[[[[[[[[[["10"]]]]]]]]]]',
+      name:'foo',
+      description: {body: ''},
     })).toThrow();
   });
 
   test('produces expected output for depth = 1', () => {
-    expect(webComponentListHelper('foo', {
+    expect(webComponentListHelper({
       type: 'Foo',
       depth: 1,
-      isPrimitive: false,
+      isComponent: true,
       initializer: '',
+      name: 'foo',
+      description: {body: ''},
     })).toBe('this.foo = foo.map((value1) => new Foo(value1));');
   });
 
   test('produces expected output for depth = 3', () => {
-    expect(webComponentListHelper('foo', {
+    expect(webComponentListHelper({
       type: 'Foo',
       depth: 3,
-      isPrimitive: false,
+      isComponent: true,
       initializer: '',
+      name: 'foo',
+      description: {body: ''},
     })).toBe('this.foo = foo.map((value1) => value1.map((value2) => value2.map((value3) => new Foo(value3))));');
   });
 });

@@ -4,9 +4,9 @@ import {
   CompilerTargetHandler,
   getAssemblerFactory,
   PrimitiveType,
-  PropertyType,
-  TargetComponentProperty,
-  TargetComponentSpec,
+  Property,
+  TargetDiezComponent,
+  TargetProperty,
 } from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
@@ -75,29 +75,28 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
    * @abstract
    */
   protected collectComponentProperties (
-    allProperties: (TargetComponentProperty | undefined)[],
-  ): TargetComponentProperty | undefined {
-    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+    allProperties: (TargetProperty | undefined)[],
+  ): TargetProperty | undefined {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetProperty[];
     const reference = properties[0];
     if (!reference) {
       return;
     }
 
     return {
+      ...reference,
       type: `${reference.type}[]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      isPrimitive: reference.isPrimitive,
-      depth: reference.depth + 1,
     };
   }
 
   /**
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec): string {
+  protected getInitializer (targetComponent: TargetDiezComponent): string {
     const propertyInitializers: string[] = [];
-    for (const name in spec.properties) {
-      propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
+    for (const property of targetComponent.properties) {
+      propertyInitializers.push(`${property.name}: ${property.initializer}`);
     }
 
     return `{${propertyInitializers.join(', ')}}`;
@@ -106,33 +105,30 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
   /**
    * @abstract
    */
-  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
-    switch (type) {
+  protected getPrimitive (property: Property, instance: any): TargetProperty | undefined {
+    switch (property.type) {
       case PrimitiveType.String:
         return {
+          ...property,
           type: 'string',
           initializer: `"${instance}"`,
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Number:
       case PrimitiveType.Float:
       case PrimitiveType.Int:
         return {
+          ...property,
           type: 'number',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
+          ...property,
           type: 'boolean',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       default:
-        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
         return;
     }
   }
@@ -191,7 +187,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
    */
   printUsageInstructions () {
     const diez = Format.code('Diez');
-    const component = Array.from(this.parser.localComponentNames)[0];
+    const component = Array.from(this.parser.rootComponentNames)[0];
     const styleVarName = this.output.styleSheet.variables.keys().next().value;
 
     Log.info(`Diez package compiled to ${this.output.sdkRoot}.\n`);
@@ -232,7 +228,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
   private getStyleTokens (): StyleTokens {
     const numberVariables = new Set<string>();
     for (const [componentName, component] of this.output.processedComponents) {
-      for (const [propertyName, property] of Object.entries(component.spec.properties)) {
+      for (const property of component.properties) {
         const propertyType = property.type.toString();
         // TODO: this shouldn't be necessary with a good and general design for "resource boundaries".
         if (!['number', 'string', 'boolean'].includes(propertyType) || component.binding) {
@@ -249,7 +245,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
           continue;
         }
 
-        const variableName = joinToKebabCase(componentName, propertyName);
+        const variableName = joinToKebabCase(componentName, property.name);
         this.output.styleSheet.variables.set(variableName, property.initializer);
 
         if (propertyType === 'number') {
@@ -323,10 +319,11 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);
-    for (const [type, {spec, binding}] of this.output.processedComponents) {
-      // For each singleton, replace it with its simple constructor.
-      for (const property of Object.values(spec.properties)) {
-        if (this.parser.singletonComponentNames.has(property.type)) {
+    for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
+      // For each fixed, replace it with its simple constructor.
+      for (const property of Object.values(targetComponent.properties)) {
+        if (
+          property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = '{}';
         }
       }
@@ -336,8 +333,8 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       writeFileSync(
         sourceFilename,
         compile(componentTemplate)({
-          ...spec,
-          singleton: spec.public || this.parser.singletonComponentNames.has(type),
+          ...targetComponent,
+          fixed: targetComponent.isRootComponent || this.parser.getComponentForTypeOrThrow(type).isFixedComponent,
         }),
       );
 
@@ -353,7 +350,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       this.output.declarations.add(declarationFilename);
       writeFileSync(
         declarationFilename,
-        compile(declarationTemplate)(spec),
+        compile(declarationTemplate)(targetComponent),
       );
     }
 

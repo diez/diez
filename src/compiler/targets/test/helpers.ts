@@ -3,9 +3,9 @@ import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/c
 import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {AndroidCompiler} from '../src/targets/android.handler';
-import {IosCompiler} from '../src/targets/ios.handler';
-import {WebCompiler} from '../src/targets/web.handler';
+import {AndroidCompiler} from '../src/targets/android.compiler';
+import {IosCompiler} from '../src/targets/ios.compiler';
+import {WebCompiler} from '../src/targets/web.compiler';
 
 const workspaceExamplesRoot = join(__dirname, '..', '..', '..', '..', 'examples');
 const fixturesRoot = join(__dirname, 'fixtures');

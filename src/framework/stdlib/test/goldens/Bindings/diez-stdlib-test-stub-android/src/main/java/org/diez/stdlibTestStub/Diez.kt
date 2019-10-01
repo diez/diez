@@ -11,12 +11,12 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi.Builder
 
-interface StateBag {
+interface RootComponent {
     val name : String
 }
 
 @SuppressLint("SetJavaScriptEnabled")
-class Diez<T : StateBag>(var component: T, val view: ViewGroup) {
+class Diez<T : RootComponent>(var component: T, val view: ViewGroup) {
     val adapter : JsonAdapter<T>
     val subscribers = mutableListOf<(T) -> Unit>()
 

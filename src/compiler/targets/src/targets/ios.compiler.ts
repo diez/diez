@@ -5,9 +5,9 @@ import {
   CompilerTargetHandler,
   getAssemblerFactory,
   PrimitiveType,
-  PropertyType,
-  TargetComponentProperty,
-  TargetComponentSpec,
+  Property,
+  TargetDiezComponent,
+  TargetProperty,
 } from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
@@ -113,18 +113,17 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
    *
    * @abstract
    */
-  protected collectComponentProperties (allProperties: (TargetComponentProperty | undefined)[]) {
-    const properties = allProperties.filter((property) => property !== undefined) as TargetComponentProperty[];
+  protected collectComponentProperties (allProperties: (TargetProperty | undefined)[]) {
+    const properties = allProperties.filter((property) => property !== undefined) as TargetProperty[];
     const reference = properties[0];
     if (!reference) {
       return;
     }
 
     return {
+      ...reference,
       type: `[${reference.type}]`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
-      isPrimitive: reference.isPrimitive,
-      depth: reference.depth,
     };
   }
 
@@ -135,50 +134,46 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
    *
    * @abstract
    */
-  protected getInitializer (spec: TargetComponentSpec): string {
+  protected getInitializer (targetComponent: TargetDiezComponent): string {
     const propertyInitializers: string[] = [];
-    for (const name in spec.properties) {
-      propertyInitializers.push(`${name}: ${spec.properties[name].initializer}`);
+    for (const property of targetComponent.properties) {
+      propertyInitializers.push(`${property.name}: ${property.initializer}`);
     }
-    return `${spec.componentName}(${propertyInitializers.join(', ')})`;
+    return `${targetComponent.type}(${propertyInitializers.join(', ')})`;
   }
 
   /**
    * @abstract
    */
-  protected getPrimitive (type: PropertyType, instance: any): TargetComponentProperty | undefined {
-    switch (type) {
+  protected getPrimitive (property: Property, instance: any): TargetProperty | undefined {
+    switch (property.type) {
       case PrimitiveType.String:
         return {
+          ...property,
           type: 'String',
           initializer: `"${instance}"`,
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Float:
       case PrimitiveType.Number:
         return {
+          ...property,
           type: 'CGFloat',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Int:
         return {
+          ...property,
           type: 'Int',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       case PrimitiveType.Boolean:
         return {
+          ...property,
           type: 'Bool',
           initializer: instance.toString(),
-          isPrimitive: true,
-          depth: 0,
         };
       default:
-        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${type}`);
+        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
         return;
     }
   }
@@ -254,7 +249,7 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
 import ${this.moduleName}
 
 class ViewController: UIViewController {
-    private lazy var diez = Diez<${Array.from(this.parser.localComponentNames)[0]}>(view: view)
+    private lazy var diez = Diez<${Array.from(this.parser.rootComponentNames)[0]}>(view: view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -311,21 +306,22 @@ class ViewController: UIViewController {
 
     const componentsFolder = join(this.output.sourcesRoot, 'Components');
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
-    for (const [type, {spec, binding}] of this.output.processedComponents) {
-      // For each singleton, replace it with its simple constructor.
-      for (const property of Object.values(spec.properties)) {
-        if (this.parser.singletonComponentNames.has(property.type)) {
+    for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
+      // For each fixed, replace it with its simple constructor.
+      for (const property of Object.values(targetComponent.properties)) {
+        if (
+          property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = `${property.type}()`;
         }
       }
 
-      const filename = join(componentsFolder, `${spec.componentName.toString()}.swift`);
+      const filename = join(componentsFolder, `${targetComponent.type.toString()}.swift`);
       await assembler.writeFile(
         filename,
         compile(componentTemplate)({
-          ...spec,
-          singleton: spec.public || this.parser.singletonComponentNames.has(type),
-          hasProperties: Object.keys(spec.properties).length > 0,
+          ...targetComponent,
+          fixed: targetComponent.isRootComponent || this.parser.getComponentForTypeOrThrow(type).isFixedComponent,
+          hasProperties: Object.keys(targetComponent.properties).length > 0,
         }),
       );
 

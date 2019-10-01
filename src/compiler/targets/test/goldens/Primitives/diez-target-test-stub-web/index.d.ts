@@ -5,7 +5,7 @@ export declare class ChildComponent {
 export declare class EmptyComponent {
 }
 
-export declare class Primitives extends StateBag {
+export declare class Primitives extends RootComponent {
   number: number;
   integer: number;
   float: number;

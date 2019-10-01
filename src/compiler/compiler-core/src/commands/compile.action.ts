@@ -27,10 +27,10 @@ export = async (options: CompilerOptions) => {
   const program = new ProjectParser(await getProjectRoot(), options);
   await program.run();
 
-  if (!program.localComponentNames.size) {
+  if (!program.rootComponentNames.size) {
     throw new Error('No local components found!');
   }
 
-  printWarnings(program.targetComponents);
+  printWarnings(program.components);
   return targetProvider.handler(program);
 };

@@ -1,6 +1,6 @@
-export declare class StateBag {}
+export declare class RootComponent {}
 
-export declare class Diez<T extends StateBag> {
+export declare class Diez<T extends RootComponent> {
   constructor (baseClass: new () => T);
   readonly component: T;
   static applyHTMLExtensions(): void;

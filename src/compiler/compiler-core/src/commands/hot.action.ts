@@ -15,7 +15,7 @@ const action: CliAction = (options: CompilerOptions) => new Promise(async (resol
 
   const program = new ProjectParser(await getProjectRoot(), options, true);
   // Print warnings on every `Compiled` event.
-  program.on(CompilerEvent.Compiled, () => printWarnings(program.targetComponents));
+  program.on(CompilerEvent.Compiled, () => printWarnings(program.components));
 
   // Start the hot handler on the first `Compiled` event.
   program.once(CompilerEvent.Compiled, () => {
