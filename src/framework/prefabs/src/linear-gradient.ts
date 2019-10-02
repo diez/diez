@@ -1,4 +1,5 @@
 import {prefab} from '@diez/engine';
+import {cssLinearGradientLength, linearGradientStartAndEndPoints} from '@diez/framework-core';
 import {Color} from './color';
 import {Point2D, Point2DData} from './point2d';
 
@@ -41,7 +42,7 @@ export class GradientStop extends prefab<GradientStopData>() {
 /**
  * The direction of a linear gradient relative to the containing view's edges.
  */
-export enum Toward {
+export const enum Toward {
   Top = 0,
   TopRight = 45,
   Right = 90,
@@ -51,40 +52,6 @@ export enum Toward {
   Left = 270,
   TopLeft = 315,
 }
-
-/**
- * Gets the length of a CSS linear gradient line.
- *
- * @see {@link https://drafts.csswg.org/css-images-3/#funcdef-linear-gradient}
- */
-export const cssLinearGradientLength = (angle: number) =>
-  Math.abs(Math.sin(angle)) + Math.abs(Math.cos(angle));
-
-/**
- * Generates a start and end point for a line from the provided angle, line length, and center position.
- *
- * @param angle: The angle of the line in radians where 0 is up and positive is clockwise.
- * @param lineLength: The length of the line.
- * @param center: The center position of the line.
- *
- * @returns The `start` and `end` points of a line in a coordinate space where positive x is to the right and positive
- *          y is downward.
- */
-export const linearGradientStartAndEndPoints = (angle: number, lineLength: number, center: Point2DData) => {
-  const differenceVector = {
-    x: Math.sin(angle) * lineLength / 2,
-    y: Math.cos(angle) * lineLength / 2,
-  };
-  const start = {
-    x: center.x - differenceVector.x,
-    y: 1 - (center.y - differenceVector.y),
-  };
-  const end = {
-    x: center.x + differenceVector.x,
-    y: 1 - (center.y + differenceVector.y),
-  };
-  return {start, end};
-};
 
 const roundFloat = (value: number, decimals: number = 15) =>
   Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);

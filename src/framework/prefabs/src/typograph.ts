@@ -5,7 +5,7 @@ import {File, FileType} from './file';
 /**
  * Valid face forms for `@font-face` declarations in web.
  */
-export enum FontStyle {
+export const enum FontStyle {
   Normal = 'normal',
   Italic = 'italic',
 }
@@ -79,7 +79,7 @@ export class Font extends prefab<FontData>() {
 /**
  * An enumeration of the supported iOS `UIFont.TextStyle`s.
  */
-export enum IOSTextStyle {
+export const enum IOSTextStyle {
   Body = 'body',
   Callout = 'callout',
   Caption1 = 'caption1',

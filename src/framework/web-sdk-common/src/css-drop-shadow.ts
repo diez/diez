@@ -1,3 +1,5 @@
+// Only used as a type.
+// tslint:disable-next-line: no-implicit-dependencies
 import {DropShadowData} from '@diez/prefabs';
 import {colorToCss} from './css-color';
 

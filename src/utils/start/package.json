@@ -31,7 +31,7 @@
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
-    "ts-jest": "^24.0.2",
+    "ts-jest": "^24.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.6.2"

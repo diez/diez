@@ -5,7 +5,7 @@ import {LinearGradient} from './linear-gradient';
 /**
  * The type of fill.
  */
-export enum FillType {
+export const enum FillType {
   Color = 'Color',
   LinearGradient = 'LinearGradient',
 }

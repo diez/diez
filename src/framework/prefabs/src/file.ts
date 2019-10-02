@@ -3,7 +3,7 @@ import {prefab} from '@diez/engine';
 /**
  * The type of a file resource.
  */
-export enum FileType {
+export const enum FileType {
   Raw = 'raw',
   Image = 'image',
   Font = 'font',

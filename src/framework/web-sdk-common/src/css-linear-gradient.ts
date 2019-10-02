@@ -1,4 +1,7 @@
-import {cssLinearGradientLength, LinearGradientData, linearGradientStartAndEndPoints, Point2DData} from '@diez/prefabs';
+import {cssLinearGradientLength, linearGradientStartAndEndPoints} from '@diez/framework-core';
+// Only used as a type.
+// tslint:disable-next-line: no-implicit-dependencies
+import {LinearGradientData, Point2DData} from '@diez/prefabs';
 import {colorToCss} from './css-color';
 
 /**
