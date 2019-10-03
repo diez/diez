@@ -6,44 +6,103 @@ import {sourcesPath} from '../../utils';
 const examplesPath = join(sourcesPath, 'ios', 'examples', 'Typograph');
 
 const binding: IosBinding<Typograph> = {
-  sources: [join(sourcesPath, 'ios', 'bindings', 'Typograph+Binding.swift')],
+  sources: [
+    join(sourcesPath, 'ios', 'bindings', 'Typograph+Binding.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'WrappedView.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'Label.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'TextField.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'TextView.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'Button.swift'),
+  ],
   examples: [
     {
-      example: 'UILabel',
+      example: 'Label',
       snippets: [
         {
           lang: IosLanguages.Swift,
-          templatePath: join(examplesPath, 'UILabel.swift.handlebars'),
+          templatePath: join(examplesPath, 'Label.swift.handlebars'),
         },
         {
           lang: IosLanguages.ObjectiveC,
-          templatePath: join(examplesPath, 'UILabel.objc.handlebars'),
+          templatePath: join(examplesPath, 'Label.objc.handlebars'),
         },
       ],
     },
     {
-      example: 'UITextField',
+      example: 'TextField',
       snippets: [
         {
           lang: IosLanguages.Swift,
-          templatePath: join(examplesPath, 'UITextField.swift.handlebars'),
+          templatePath: join(examplesPath, 'TextField.swift.handlebars'),
         },
         {
           lang: IosLanguages.ObjectiveC,
-          templatePath: join(examplesPath, 'UITextField.objc.handlebars'),
+          templatePath: join(examplesPath, 'TextField.objc.handlebars'),
         },
       ],
     },
     {
-      example: 'UITextView',
+      example: 'TextView',
       snippets: [
         {
           lang: IosLanguages.Swift,
-          templatePath: join(examplesPath, 'UITextView.swift.handlebars'),
+          templatePath: join(examplesPath, 'TextView.swift.handlebars'),
         },
         {
           lang: IosLanguages.ObjectiveC,
-          templatePath: join(examplesPath, 'UITextView.objc.handlebars'),
+          templatePath: join(examplesPath, 'TextView.objc.handlebars'),
+        },
+      ],
+    },
+    {
+      example: 'Button',
+      snippets: [
+        {
+          lang: IosLanguages.Swift,
+          templatePath: join(examplesPath, 'Button.swift.handlebars'),
+        },
+        {
+          lang: IosLanguages.ObjectiveC,
+          templatePath: join(examplesPath, 'Button.objc.handlebars'),
+        },
+      ],
+    },
+    {
+      example: 'UINavigationBar Title Text Attributes',
+      snippets: [
+        {
+          lang: IosLanguages.Swift,
+          templatePath: join(examplesPath, 'UINavigationBar-Title.swift.handlebars'),
+        },
+        {
+          lang: IosLanguages.ObjectiveC,
+          templatePath: join(examplesPath, 'UINavigationBar-Title.objc.handlebars'),
+        },
+      ],
+    },
+    {
+      example: 'UISegmentedControl Title Text Attributes',
+      snippets: [
+        {
+          lang: IosLanguages.Swift,
+          templatePath: join(examplesPath, 'UISegmentedControl-Title.swift.handlebars'),
+        },
+        {
+          lang: IosLanguages.ObjectiveC,
+          templatePath: join(examplesPath, 'UISegmentedControl-Title.objc.handlebars'),
+        },
+      ],
+    },
+    {
+      example: 'UIBarItem Title Text Attributes',
+      snippets: [
+        {
+          lang: IosLanguages.Swift,
+          templatePath: join(examplesPath, 'UIBarItem-Title.swift.handlebars'),
+        },
+        {
+          lang: IosLanguages.ObjectiveC,
+          templatePath: join(examplesPath, 'UIBarItem-Title.objc.handlebars'),
         },
       ],
     },

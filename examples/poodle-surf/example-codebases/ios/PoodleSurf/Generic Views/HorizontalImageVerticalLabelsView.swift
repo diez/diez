@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class HorizontalImageVerticalLabelsView: UIView {
     let imageView = UIImageView()
-    let topLabel = UILabel()
-    let bottomLabel = UILabel()
+    let topLabel = Label()
+    let bottomLabel = Label()
 
     override init(frame: CGRect) {
         verticalStackView = UIStackView(arrangedSubviews: [

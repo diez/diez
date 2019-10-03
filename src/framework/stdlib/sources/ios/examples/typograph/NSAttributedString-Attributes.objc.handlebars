@@ -3,5 +3,5 @@
 {{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
 Typograph *typograph = designSystem.{{path}};
 
-UITextField *textField = [[UITextField alloc] init];
-textField.defaultTextAttributes = typograph.attributedStringAttributes;
+NSDictionary<NSAttributedStringKey, id> *attributes = typograph.attributedStringAttributes;
+NSAttributedString *text = [[NSAttributedString alloc] initWithString:@"Ten" attributes:attributes];

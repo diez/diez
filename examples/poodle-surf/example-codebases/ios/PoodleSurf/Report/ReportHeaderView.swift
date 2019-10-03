@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class ReportHeaderView: UIView {
     let bannerImageView = UIImageView()
     let locationImageView = StrokedCirularImageView()
     let pinIconImageView = UIImageView()
-    let regionLabel = UILabel()
-    let placeLabel = UILabel()
+    let regionLabel = Label()
+    let placeLabel = Label()
 
     override init(frame: CGRect) {
         placeImageLabelStackView = UIStackView(arrangedSubviews: [
@@ -113,6 +114,12 @@ class ReportHeaderView: UIView {
 
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
+
+        pinIconImageView.contentMode = .scaleAspectFit
+        pinIconImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        pinIconImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        placeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 
     @available(*, unavailable)

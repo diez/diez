@@ -1,0 +1,7 @@
+import Diez{{case projectName style="pascal"}}
+
+let designSystem = {{case rootType style="pascal"}}()
+let typograph = designSystem.{{path}}
+
+let item = UIBarButtonItem(title: "Ten", style: .plain, target: nil, action: nil)
+item.applyTitleAttributes(with: typograph, for: .normal)

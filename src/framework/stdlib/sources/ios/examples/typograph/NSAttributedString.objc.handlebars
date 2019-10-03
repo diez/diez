@@ -3,5 +3,4 @@
 {{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
 Typograph *typograph = designSystem.{{path}};
 
-UILabel *label = [[UILabel alloc] init];
-label.attributedText = [NSAttribuedString dez_stringWithString:@"Ten" typograph:typograph];
+NSAttribuedString *attributedString = [NSAttribuedString dez_stringWithString:@"Ten" typograph:typograph];

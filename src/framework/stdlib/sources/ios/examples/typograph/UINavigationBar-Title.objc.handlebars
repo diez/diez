@@ -1,0 +1,7 @@
+@import Diez{{case projectName style="pascal"}};
+
+{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
+Typograph *typograph = designSystem.{{path}};
+
+UINavigationBar *navigationBar = [[UINavigationBar alloc] init];
+[navigationBar dez_applyTitleAttributesWithTypograph:typograph traitCollection:nil];

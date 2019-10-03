@@ -8,11 +8,11 @@ class View: UIView {
     let contentBackgroundView = UIView()
     let contentStackView = UIStackView()
     let iconView = UIImageView()
-    let titleLabel = UILabel()
-    let captionLabel = UILabel()
+    let titleLabel = Label()
+    let captionLabel = Label()
     let animationStackView = UIStackView()
     let animationView = AnimationView()
-    let animationLabel = UILabel()
+    let animationLabel = Label()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

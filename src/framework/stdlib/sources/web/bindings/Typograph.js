@@ -36,13 +36,17 @@ Object.defineProperties(Typograph.prototype, {
   },
   style: {
     get () {
-      return {
+      const style = {
         fontFamily: this.fontFamily,
         fontWeight: this.font.fontWeight,
         fontStyle: this.font.fontStyle,
         fontSize: `${this.fontSize}px`,
         color: this.color.color,
       };
+      if (this.lineHeight !== -1) {
+        style.lineHeight = `${this.lineHeight}px`;
+      }
+      return style;
     },
   },
 });
@@ -54,6 +58,7 @@ Typograph.prototype.applyStyle = function (ref) {
   ref.style.fontStyle = style.fontStyle;
   ref.style.fontSize = style.fontSize;
   ref.style.color = style.color;
+  ref.style.lineHeight = style.lineHeight;
 };
 
 diezHTMLExtensions.push(() => {

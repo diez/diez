@@ -30,7 +30,7 @@ extension Typograph {
      */
     @objc
     public var uiFont: UIFont? {
-        return UIFont.from(typograph: self)
+        return uiFont(for: nil)
     }
 
     /**
@@ -41,20 +41,58 @@ extension Typograph {
      This uses the `UIFont(name:size)` initializer and may return nil as a result.
      */
     @objc(uiFontWithTraitCollection:)
-    public func uiFont(for traitCollection: UITraitCollection) -> UIFont? {
+    public func uiFont(for traitCollection: UITraitCollection? = nil) -> UIFont? {
         return UIFont.from(typograph: self, traitCollection: traitCollection)
     }
 
     /**
-     `NSAttributedString` attributes of the `Typograph`.
+    - Tag: Typograph.attributedStringAttributes
+
+     `NSAttributedString` attributes for the `Typograph`.
+
+     - Note: If a `lineHeight` is provided, these attributes will provide a `.baselineOffset` which can break baseline alignment when used directly in `UIKit` views. To prevent this behavior, use [Typograph.attributedStringAttributesWith(...)](x-source-tag://Typograph.attributedStringAttributesWith) instead, or use one of the provided view subclasses to apply the `Typograph`.
      */
     @objc
     public var attributedStringAttributes: [NSAttributedString.Key: Any] {
+        return attributedStringAttributesWith()
+    }
+
+    /**
+     - Tag: Typograph.attributedStringAttributesWith
+
+     `NSAttributedString` attributes for the `Typograph`.
+
+     - Note: If `preventBaselineOffset` is `false` (the default), these attributes will provide a `.baselineOffset` which can break baseline alignment when used directly in `UIKit` views. To prevent this behavior, set `preventBaselineOffset` and/or `preventLineHeightAdjustment` to `true`, or use one of the provided view subclasses to apply the `Typograph`.
+
+     - Parameter preventLineHeightAdjustment: If true, prevents the `.paragraphStyle`'s `minimumLineHeight` and `maximumLineHeight` from being set.
+     - Parameter preventBaselineOffset: If true, prevents the baselineOffset from being set on the attributed string. When false, the offset is adjusted so that the text appears centered within the lineHeight, rather than bottom aligned (the default behavior) to match design tools and web layout.
+     */
+    @objc(attributedStringAttributesWithAlignment:traitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
+    public func attributedStringAttributesWith(
+        alignment: NSTextAlignment = .natural,
+        traitCollection: UITraitCollection? = nil,
+        preventLineHeightAdjustment: Bool = false,
+        preventBaselineOffset: Bool = false
+    ) -> [NSAttributedString.Key: Any] {
         var attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(color: color),
+            .baselineOffset: 0,
         ]
 
-        if let font = uiFont {
+        let paragraphStyle = NSMutableParagraphStyle()
+        if let lineHeight = scaledLineHeight, !preventLineHeightAdjustment {
+            paragraphStyle.minimumLineHeight = lineHeight
+            paragraphStyle.maximumLineHeight = lineHeight
+            if !preventBaselineOffset {
+                attributes[.baselineOffset] = baselineOffset
+            }
+        }
+
+        paragraphStyle.alignment = alignment
+
+        attributes[.paragraphStyle] = paragraphStyle
+
+        if let font = UIFont.from(typograph: self, traitCollection: traitCollection) {
             attributes[.font] = font
         }
 
@@ -64,9 +102,9 @@ extension Typograph {
     /**
      Constructs an `NSAttributedString` decorating the provided `String`.
      */
-    @objc(attributedStringDecoratingString:)
-    public func attributedString(decorating string: String) -> NSAttributedString {
-        return NSAttributedString(string: string, typograph: self)
+    @objc(attributedStringDecoratingString:withTraitCollection:)
+    public func attributedString(decorating string: String, withTraitCollection traitCollection: UITraitCollection? = nil) -> NSAttributedString {
+        return NSAttributedString(string: string, typograph: self, traitCollection: traitCollection)
     }
 
     /**
@@ -89,6 +127,66 @@ extension Typograph {
         default: return .body
         }
     }
+
+    /**
+     The line height scaled using `UIFontMetrics` for the `uiFontTextStyle`. This value is `nil` if the `lineHeight` is `nil`.
+
+     This value will be scaled based on the user's dynamic type settings if `shouldScale` is true.
+     */
+    public var scaledLineHeight: CGFloat? {
+        guard lineHeight != -1 else {
+            return nil
+        }
+
+        guard shouldScale else {
+            return lineHeight
+        }
+
+        // Note: This scaled value will not dynamically update as the dynamic type settings change.
+        return UIFontMetrics(forTextStyle: uiFontTextStyle).scaledValue(for: lineHeight)
+    }
+
+    /**
+     The line height scaled using `UIFontMetrics` for the `uiFontTextStyle`. This value is `nil` if the `lineHeight` is `nil`.
+
+     This value will be scaled based on the user's dynamic type settings if `shouldScale` is true.
+     */
+    @objc
+    var scaledLineHeightNumber: NSNumber? {
+        guard let scaledLineHeight = scaledLineHeight else {
+            return nil
+        }
+
+        return NSNumber(value: Double(scaledLineHeight))
+    }
+
+    /**
+     The amount that the baseline should be offset in attributed string attributes. This corresponds to the `NSAttributedString.Key.baselineOffset` value of the attributed string attributes.
+
+     The baseline will be offset when a `lineHeight` is provided in order to center the text within the line. By default, iOS renders the text such that it's aligned with the bottom of the view.
+
+     This value will be `0` if the `lineHeight` is `-1` (unset) or the `uiFont` is `nil`.
+
+     This value will be scaled based on the user's dynamic type settings if `shouldScale` is `true`.
+     */
+    @objc
+    public var baselineOffset: CGFloat {
+        guard let adjustedLineHeight = scaledLineHeight, let uiFont = uiFont else {
+            return 0
+        }
+
+        let center = adjustedLineHeight / 2
+        let offset = uiFont.ascender - (uiFont.lineHeight / 2)
+        return center - offset
+    }
+
+    /**
+     Edge insets that can be used to compensate for the `baselineOffset` so that the text appears centered within the lines instead of having the text pinned to the bottom of the line (the system default behavior in `UIKit`).
+     */
+    @objc
+    public var baselineOffsetCompensationEdgeInsets: UIEdgeInsets {
+        return UIEdgeInsets(top: -baselineOffset, left: 0, bottom: baselineOffset, right: 0)
+    }
 }
 
 extension UIFont {
@@ -110,11 +208,6 @@ extension UIFont {
         }
 
         let metrics = UIFontMetrics(forTextStyle: typograph.uiFontTextStyle)
-
-        guard let traitCollection = traitCollection else {
-            return metrics.scaledFont(for: font)
-        }
-
         return metrics.scaledFont(for: font, compatibleWith: traitCollection)
     }
 }
@@ -124,61 +217,93 @@ extension NSAttributedString {
      - Tag: NSAttributedString.init
 
      Initializes an `NSAttributedString` with the provided string and `Typograph`.
+
+     - See [Typograph.attributedStringAttributes](x-source-tag://Typograph.attributedStringAttributes).
      */
     @objc(dez_initWithString:typograph:)
     public convenience init(string: String, typograph: Typograph) {
-        self.init(string: string, attributes: typograph.attributedStringAttributes)
+        self.init(string: string, attributes: typograph.attributedStringAttributesWith())
     }
 
     /**
-     - See [NSAttributedString(string: String, typograph: Typograph)](x-source-tag://NSAttributedString.init)
-      */
-    @objc(dez_stringWithString:typograph:)
-    public static func from(string: String, typograph: Typograph) -> NSAttributedString {
-        return NSAttributedString(string: string, typograph: typograph)
+     - Tag: NSAttributedString.initAdvanced
+
+     Initializes an `NSAttributedString` with the provided `Typograph`.
+
+     - See [Typograph.attributedStringAttributesWith(...)](x-source-tag://Typograph.attributedStringAttributesWith).
+     */
+    @objc(dez_initWithString:typograph:alignment:traitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
+    public convenience init(
+        string: String,
+        typograph: Typograph,
+        alignment: NSTextAlignment = .natural,
+        traitCollection: UITraitCollection? = nil,
+        preventLineHeightAdjustment: Bool = false,
+        preventBaselineOffset: Bool = false
+    ) {
+        let attributes = typograph.attributedStringAttributesWith(
+            alignment: alignment,
+            traitCollection: traitCollection,
+            preventBaselineOffset: preventBaselineOffset
+        )
+        self.init(string: string, attributes: attributes)
     }
 }
 
-extension UILabel {
+extension UINavigationBar {
     /**
-     Applies the provided `Typograph` to the receiver.
+     Applies the provided `Tyopgraph` to the `UINavigationBar`'s `titleTextAttributes`.
+
+     - Note: This does not apply the `Typograph`'s `lineHeight`.
      */
-    @objc(dez_applyTypograph:withTraitCollection:)
-    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
-        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
-        textColor = UIColor(color: typograph.color)
-        adjustsFontForContentSizeCategory = typograph.shouldScale
+    @objc(dez_applyTitleAttributesWithTypograph:traitCollection:)
+    public func applyTitleAttributesWith(typograph: Typograph, traitCollection: UITraitCollection? = nil) {
+        titleTextAttributes = typograph.attributedStringAttributesWith(
+            traitCollection: traitCollection,
+            preventLineHeightAdjustment: true,
+            preventBaselineOffset: true
+        )
     }
 }
 
-extension UITextView {
+extension UISegmentedControl {
     /**
-     Applies the provided `Typograph` to the receiver.
+     Applies the provided `Tyopgraph` to the `UISegmentedControl`'s title text attributes for the provided state.
+
+     - Note: This does not apply the `Typograph`'s `lineHeight`.
      */
-    @objc(dez_applyTypograph:withTraitCollection:)
-    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
-        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
-        textColor = UIColor(color: typograph.color)
-        adjustsFontForContentSizeCategory = typograph.shouldScale
+    @objc(dez_applyTitleAttributesWithTypograph:forState:traitCollection:)
+    public func applyTitleAttributes(
+        with typograph: Typograph,
+        for state: UIControl.State,
+        traitCollection: UITraitCollection? = nil
+    ) {
+        let attributes = typograph.attributedStringAttributesWith(
+            traitCollection: traitCollection,
+            preventLineHeightAdjustment: true,
+            preventBaselineOffset: true
+        )
+        setTitleTextAttributes(attributes, for: state)
     }
 }
 
-extension UITextField {
+extension UIBarItem {
     /**
-     Applies the provided `Typograph` to the receiver.
-     */
-    @objc(dez_applyTypograph:withTraitCollection:)
-    public func apply(_ typograph: Typograph, withTraitCollection traitCollection: UITraitCollection? = nil) {
-        // Setting the default text attributes overrides text alignment.
-        // Re-set the alignment after applying the style.
-        let textAlignment = self.textAlignment
-        defer {
-            self.textAlignment = textAlignment
-        }
+     Applies the provided `Tyopgraph` to the `UIBarButtonItem`'s title text attributes for the provided state.
 
-        font = UIFont.from(typograph: typograph, traitCollection: traitCollection)
-        textColor = UIColor(color: typograph.color)
-        adjustsFontForContentSizeCategory = typograph.shouldScale
-        defaultTextAttributes = typograph.attributedStringAttributes
+     - Note: This does not apply the `Typograph`'s `lineHeight`.
+     */
+    @objc(dez_applyTitleAttributesWithTypograph:forState:traitCollection:)
+    public func applyTitleAttributes(
+        with typograph: Typograph,
+        for state: UIControl.State,
+        traitCollection: UITraitCollection? = nil
+    ) {
+        let attributes = typograph.attributedStringAttributesWith(
+            traitCollection: traitCollection,
+            preventLineHeightAdjustment: true,
+            preventBaselineOffset: true
+        )
+        setTitleTextAttributes(attributes, for: state)
     }
 }

@@ -7,7 +7,7 @@ const examplesPath = join(sourcesPath, 'ios', 'examples', 'Panel');
 
 const binding: IosBinding<Panel> = {
   sources: [
-    join(sourcesPath, 'ios', 'bindings', 'Panel+Binding.swift'),
+    join(sourcesPath, 'ios', 'bindings', 'PanelView.swift'),
   ],
   examples: [{
     example: 'PanelView',

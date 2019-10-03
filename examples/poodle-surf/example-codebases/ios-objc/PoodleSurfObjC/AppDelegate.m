@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions {
-
     UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     window.rootViewController = [[ViewController alloc] init];
     [window makeKeyAndVisible];

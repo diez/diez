@@ -16,7 +16,8 @@ data class Typograph(
     val font: Font,
     val fontSize: Float,
     val color: Color,
-    val shouldScale: Boolean
+    val shouldScale: Boolean,
+    val lineHeight: Float
 ) {
     companion object {}
 
@@ -54,6 +55,29 @@ fun TextView.apply(typograph: Typograph) {
     val unit = if (typograph.shouldScale) TypedValue.COMPLEX_UNIT_SP else TypedValue.COMPLEX_UNIT_DIP
     this.setTextSize(unit, typograph.fontSize)
     this.setTextColor(typograph.color.color)
+
+    // TODO: Test for `null` instead of a magic number.
+    if (typograph.lineHeight != -1f) {
+        val lineHeight = if (typograph.shouldScale) typograph.lineHeight.spToPx() else typograph.lineHeight.dpToPx()
+        val fontHeight = this.paint.getFontMetricsInt(null)
+        this.setLineSpacing(lineHeight.toFloat() - fontHeight, 1f)
+        this.firstBaselineToTopHeight = 0
+
+        val fontMiddle = fontHeight / 2
+        val lineHeightMiddle = lineHeight / 2
+
+        val fontMetrics = this.paint.fontMetricsInt
+        // fontMetrics.top and fontMetrics.ascent are negative values (y+ is downward). Invert to get the offset as a distance.
+        val topOffset = maxOf(-fontMetrics.top, -fontMetrics.ascent)
+        val bottomOffset = maxOf(fontMetrics.bottom, fontMetrics.descent)
+
+        this.firstBaselineToTopHeight = topOffset - fontMiddle + lineHeightMiddle
+        this.lastBaselineToBottomHeight = bottomOffset - fontMiddle + lineHeightMiddle
+    } else {
+        this.setLineSpacing(0f, 1f)
+        this.firstBaselineToTopHeight = 0
+        this.lastBaselineToBottomHeight = 0
+    }
 }
 
 private data class FontResolver(val name: String, val weight: Int, val style: Int)

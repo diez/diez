@@ -10,7 +10,7 @@ import UIKit
 import DiezPoodleSurf
 
 class ForecastCardView: PanelView {
-    let titleLabel = UILabel()
+    let titleLabel = Label()
     let earlyPart = DayPartView()
     let middlePart = DayPartView()
     let latePart = DayPartView()

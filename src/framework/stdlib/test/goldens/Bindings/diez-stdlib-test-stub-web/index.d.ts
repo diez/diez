@@ -100,7 +100,7 @@ export declare class Typograph {
   /**
    * An `Object` with CSS values for this `Typograph`.
    */
-  style: {color: string, fontSize: string, fontFamily: string, fontWeight: number, fontStyle: string};
+  style: {color: string, fontSize: string, fontFamily: string, fontWeight: number, fontStyle: string, lineHeight?: string};
   /**
    * Applies the `Typograph` CSS styles to the given HTMLElement.
    */
@@ -199,6 +199,7 @@ export declare class Bindings extends RootComponent {
   image: Image;
   lottie: Lottie;
   typograph: Typograph;
+  tallTypograph: Typograph;
   linearGradient: LinearGradient;
   point: Point2D;
   size: Size2D;

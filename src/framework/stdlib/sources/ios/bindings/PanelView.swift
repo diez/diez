@@ -16,14 +16,7 @@ open class PanelView: UIView {
 
      This view is constrainted to the receiver's `layoutMarginsGuide`.
      */
-    public var contentView = UIView()
-
-    @objc(applyPanel:)
-    public func apply(_ panel: Panel) {
-        applyBackground(panel.background)
-        layer.apply(panel.dropShadow)
-        backgroundView?.layer.cornerRadius = panel.cornerRadius
-    }
+    public let contentView = UIView()
 
     @objc(initWithPanel:)
     public convenience init(panel: Panel? = nil) {
@@ -44,6 +37,13 @@ open class PanelView: UIView {
         super.init(coder: aDecoder)
 
         setup()
+    }
+
+    @objc(applyPanel:)
+    public func apply(_ panel: Panel) {
+        apply(panel.background)
+        layer.apply(panel.dropShadow)
+        backgroundView?.layer.cornerRadius = panel.cornerRadius
     }
 
     private var backgroundView: UIView? {
@@ -73,7 +73,7 @@ open class PanelView: UIView {
         ])
     }
 
-    private func applyBackground(_ fill: Fill) {
+    private func apply(_ fill: Fill) {
         switch fill.type {
         case "Color":
             guard let colorAppliable = backgroundView else {
@@ -97,5 +97,9 @@ open class PanelView: UIView {
             backgroundView?.removeFromSuperview()
             backgroundView = nil
         }
+    }
+
+    class open override var requiresConstraintBasedLayout: Bool {
+        return true
     }
 }

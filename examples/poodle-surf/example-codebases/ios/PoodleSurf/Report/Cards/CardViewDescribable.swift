@@ -10,7 +10,7 @@ import UIKit
 import DiezPoodleSurf
 
 protocol CardViewDescribable: PanelView {
-    var titleLabel: UILabel { get }
+    var titleLabel: Label { get }
     var layoutMargins: UIEdgeInsets { get }
     var titleContentSpacing: CGFloat { get set }
 }

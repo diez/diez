@@ -3,5 +3,5 @@
 {{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
 Typograph *typograph = designSystem.{{path}};
 
-UITextView *textView = [[UITextView alloc] init];
-[textView dez_applyTypograph:typograph withTraitCollection::nil];
+DEZLabel *label = [[DEZLabel alloc] init];
+[label applyTypograph:typograph withTraitCollection::nil];

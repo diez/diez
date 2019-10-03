@@ -1,4 +1,0 @@
-{
-  "extends": "../../tsconfig.shared.json",
-  "include": ["src/**/*.ts", "playground/**/*.ts"]
-}

@@ -9,6 +9,7 @@ describe('typograph', () => {
       color: Color.hsla(0, 0, 0, 0.5),
       shouldScale: true,
       iosTextStyle: IOSTextStyle.Title1,
+      lineHeight: 20,
     });
 
     expect(typograph.serialize()).toEqual({
@@ -23,6 +24,7 @@ describe('typograph', () => {
       color: {h: 0, s: 0, l: 0, a: 0.5},
       shouldScale: true,
       iosTextStyle: 'title1',
+      lineHeight: 20,
     });
 
     const typographWithSpecificName = new Typograph({
@@ -44,6 +46,31 @@ describe('typograph', () => {
       color: {h: 0, s: 0, l: 0, a: 0.5},
       shouldScale: false,
       iosTextStyle: 'title2',
+      lineHeight: -1,
+    });
+  });
+  test('sanitization', () => {
+    const typographWithSpecificName = new Typograph({
+      font: Font.fromFile('Bloop-MediumItalic.ttf', 'SomethingElse'),
+      fontSize: -10,
+      color: Color.hsla(0, 0, 0, 0.5),
+      iosTextStyle: IOSTextStyle.Title2,
+      lineHeight: -10,
+    });
+
+    expect(typographWithSpecificName.serialize()).toEqual({
+      font: {
+        file: {src: 'Bloop-MediumItalic.ttf', type: 'font'},
+        name: 'SomethingElse',
+        style: 'normal',
+        weight: 400,
+        fallbacks: ['sans-serif'],
+      },
+      fontSize: 0,
+      color: {h: 0, s: 0, l: 0, a: 0.5},
+      shouldScale: false,
+      iosTextStyle: 'title2',
+      lineHeight: 0,
     });
   });
 });

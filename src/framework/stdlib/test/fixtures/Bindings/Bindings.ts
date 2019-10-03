@@ -15,20 +15,28 @@ import {
   Typograph,
 } from '@diez/prefabs';
 
+const someFont = new Font({
+  name: 'SomeFont',
+  file: new File({src: 'assets/SomeFont.ttf', type: FileType.Font}),
+  weight: 700,
+  fallbacks: ['Verdana', 'serif'],
+});
+
 export class Bindings {
   image = Image.responsive('assets/image with spaces.jpg', 246, 246);
 
   lottie = Lottie.fromJson('assets/lottie.json');
 
   typograph = new Typograph({
-    font: new Font({
-      name: 'SomeFont',
-      file: new File({src: 'assets/SomeFont.ttf', type: FileType.Font}),
-      weight: 700,
-      fallbacks: ['Verdana', 'serif'],
-    }),
+    font: someFont,
     fontSize: 50,
     color: Color.hex('#ff0'),
+  });
+
+  tallTypograph = new Typograph({
+    font: someFont,
+    fontSize: 50,
+    lineHeight: 100,
   });
 
   linearGradient = LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));

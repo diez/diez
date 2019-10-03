@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import DiezPoodleSurf
 
 class DayPartView: UIView {
     let iconView = UIImageView()
-    let valueLabel = UILabel()
-    let unitLabel = UILabel()
-    let timeLabel = UILabel()
+    let valueLabel = Label()
+    let unitLabel = Label()
+    let timeLabel = Label()
 
     override init(frame: CGRect) {
         valueStackView = UIStackView(arrangedSubviews: [

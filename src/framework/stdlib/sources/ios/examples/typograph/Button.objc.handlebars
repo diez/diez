@@ -3,5 +3,5 @@
 {{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
 Typograph *typograph = designSystem.{{path}};
 
-UILabel *label = [[UILabel alloc] init];
-[label dez_applyTypograph:typograph withTraitCollection::nil];
+DEZButton *button = [[DEZButton alloc] init];
+[button applyTypograph:typograph forState:UIControlStateNormal];

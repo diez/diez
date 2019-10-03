@@ -74,7 +74,7 @@ extension ReportViewController {
 
     private func apply(_ design: SharedCardDesign, to view: CardViewDescribable) {
         view.titleLabel.attributedText = design.titleTypograph.attributedString(decorating: design.title)
-        view.titleLabel.adjustsFontForContentSizeCategory = design.titleTypograph.shouldScale
+        view.titleLabel.uiLabel.adjustsFontForContentSizeCategory = design.titleTypograph.shouldScale
         view.titleContentSpacing = design.titleContentSpacing
         view.layoutMargins = UIEdgeInsets(design.layoutMargins)
         view.apply(design.panel)
@@ -102,7 +102,7 @@ extension ReportViewController {
         view.imageView.image = design.icon.uiImage
 
         // Applying the typograph manually to add test coverage for the .uiFont getter.
-        view.label.font = design.typograph.uiFont
-        view.label.textColor = UIColor(color: design.typograph.color)
+        view.label.uiLabel.font = design.typograph.uiFont
+        view.label.uiLabel.textColor = UIColor(color: design.typograph.color)
     }
 }

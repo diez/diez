@@ -44,15 +44,19 @@ const binding: WebBinding<Typograph> = {
         },
       });
     }
+    const declaration = {
+      'font-family': fontFamily,
+      'font-weight': instance.font.weight.toString(),
+      'font-style': instance.font.style.toString(),
+      'font-size': `${instance.fontSize}px`,
+      color: colorValue,
+    };
+    if (instance.lineHeight !== -1) {
+      Object.assign(declaration, {'line-height': `${instance.lineHeight}px`});
+    }
     output.styleSheet.styles.insertRule({
+      declaration,
       selector: name,
-      declaration: {
-        'font-family': fontFamily,
-        'font-weight': instance.font.weight.toString(),
-        'font-style': instance.font.style.toString(),
-        'font-size': `${instance.fontSize}px`,
-        color: colorValue,
-      },
     });
   },
   dependencies: [{

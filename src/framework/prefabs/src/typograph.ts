@@ -98,6 +98,9 @@ export const enum IOSTextStyle {
  */
 export interface TypographData {
   font: Font;
+  /**
+   * Negative values will be sanatized to `0`.
+   */
   fontSize: number;
   color: Color;
   /**
@@ -108,6 +111,16 @@ export interface TypographData {
    * Indicates whether the `Typograph` should scale with the system's accessibility settings (iOS and Android only).
    */
   shouldScale: boolean;
+  /**
+   * The desired line height in density independent pixels.
+   *
+   * A value of `-1` will be treated as if the value is not set.
+   *
+   * Negative values (other than `-1`) will be sanatized to `0`.
+   *
+   * TODO: Use optionality on `lineHeight` instead when it is supported by the compiler.
+   */
+  lineHeight: number;
 }
 
 /**
@@ -123,12 +136,25 @@ export class Typograph extends prefab<TypographData>() {
     color: Color.hsla(0, 0, 0, 1),
     iosTextStyle: IOSTextStyle.Body,
     shouldScale: false,
+    lineHeight: -1,
   };
 
   options = {
     iosTextStyle: {targets: [Target.Ios]},
     shouldScale: {targets: [Target.Ios, Target.Android]},
   };
+
+  sanitize (data: TypographData) {
+    if (data.lineHeight < 0 && data.lineHeight !== -1) {
+      data.lineHeight = 0;
+    }
+
+    if (data.fontSize < 0) {
+      data.fontSize = 0;
+    }
+
+    return data;
+  }
 }
 
 /**

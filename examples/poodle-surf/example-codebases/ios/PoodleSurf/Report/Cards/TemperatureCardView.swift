@@ -10,7 +10,7 @@ import UIKit
 import DiezPoodleSurf
 
 class TemperatureCardView: PanelView {
-    let titleLabel = UILabel()
+    let titleLabel = Label()
     let temperatureView = HorizontalImageLabelView()
     let wetsuitView = HorizontalImageVerticalLabelsView()
 

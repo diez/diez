@@ -31,17 +31,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UILabel *label = [[UILabel alloc] init];
-    label.textAlignment = NSTextAlignmentCenter;
+    DEZLabel *label = [[DEZLabel alloc] init];
+    label.uiLabel.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:label];
 
-    UITextView *textView = [[UITextView alloc] init];
-    textView.textAlignment = NSTextAlignmentCenter;
-    textView.scrollEnabled = NO;
-    textView.backgroundColor = UIColor.clearColor;
+    DEZTextView *textView = [[DEZTextView alloc] init];
+    textView.uiTextView.textAlignment = NSTextAlignmentCenter;
+    textView.uiTextView.scrollEnabled = NO;
     [self.stackView appendView:textView];
 
-    UITextField *textField = [[UITextField alloc] init];
+    DEZTextField *textField = [[DEZTextField alloc] init];
     textField.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:textField];
 
@@ -80,16 +79,19 @@ NS_ASSUME_NONNULL_BEGIN
         self.stackView.spacing = component.designs.report.contentSpacing;
         self.stackView.layoutMargins = DEZUIEdgeInsetsMake(component.designs.report.contentLayoutMargins);
 
-        [label dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
+        [label applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         label.text = component.designs.navigationTitle.title;
 
-        [textView dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
+        [textView applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         textView.text = component.designs.navigationTitle.title;
 
-        [textField dez_applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
+        [textField applyTypograph:component.designs.navigationTitle.typograph withTraitCollection:nil];
         textField.text = component.designs.navigationTitle.title;
 
         imageView.image = [UIImage dez_imageWithDEZImage:component.designs.navigationTitle.icon];
+
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Ten" style:UIBarButtonItemStylePlain target:nil action:nil];
+        self.navigationItem.rightBarButtonItem = item;
 
         [imageView.layer dez_applyDropShadow:component.designs.report.wind.shared.panel.dropShadow];
 

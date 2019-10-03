@@ -60,6 +60,15 @@ $bindings-file: url("/diez/assets/SomeFile.txt");
   color: hsla(60, 100%, 50%, 1);
 }
 
+@mixin bindings-tall-typograph {
+  font-family: "SomeFont","Verdana",serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 50px;
+  color: hsla(0, 0%, 0%, 1);
+  line-height: 100px;
+}
+
 @mixin bindings-linear-gradient-background {
   background: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 }

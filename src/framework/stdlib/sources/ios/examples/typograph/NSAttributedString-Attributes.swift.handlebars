@@ -3,5 +3,5 @@ import Diez{{case projectName style="pascal"}}
 let designSystem = {{case rootType style="pascal"}}()
 let typograph = designSystem.{{path}}
 
-let textField = UITextField()
-textField.defaultTextAttributes = typograph.attributedStringAttributes;
+let attributes = typograph.attributedStringAttributes
+let attributedString = NSAttributedString(string: "Ten", attributes: attributes)
