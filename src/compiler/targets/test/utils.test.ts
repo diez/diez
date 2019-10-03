@@ -18,6 +18,7 @@ describe('webComponentListHelper', () => {
       initializer: '{bar: "baz"}',
       name: 'foo',
       description: {body: ''},
+      references: [],
     })).toThrow();
   });
 
@@ -29,6 +30,7 @@ describe('webComponentListHelper', () => {
       initializer: '[[[[[[[[[["10"]]]]]]]]]]',
       name:'foo',
       description: {body: ''},
+      references: [],
     })).toThrow();
   });
 
@@ -40,6 +42,7 @@ describe('webComponentListHelper', () => {
       initializer: '',
       name: 'foo',
       description: {body: ''},
+      references: [],
     })).toBe('this.foo = foo.map((value1) => new Foo(value1));');
   });
 
@@ -51,6 +54,7 @@ describe('webComponentListHelper', () => {
       initializer: '',
       name: 'foo',
       description: {body: ''},
+      references: [],
     })).toBe('this.foo = foo.map((value1) => value1.map((value2) => value2.map((value3) => new Foo(value3))));');
   });
 });

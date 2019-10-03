@@ -18,6 +18,7 @@ const mockProperty: Property = {
   description: {
     body: '',
   },
+  references: [],
 };
 
 describe('android image binding', () => {

@@ -26,7 +26,7 @@ export interface CompilerOptions {
 }
 
 /**
- * JSDoc description of a property.
+ * The description of a property, providing context and meaning beyond the type of the property.
  */
 export interface PropertyDescription {
   body: string;
@@ -81,6 +81,25 @@ export interface DiezComponentWarnings {
 export type PropertyType = string | PrimitiveType;
 
 /**
+ * A source reference for a property. If a property is defined using a reference to another property, we can unpack
+ * using a a `PropertyReference` descriptor.
+ */
+export interface PropertyReference {
+  /**
+   * The path to the referenced property.
+   */
+  path: string[];
+  /**
+   * The type of the property's parent.
+   */
+  parentType: PropertyType;
+  /**
+   * The name of the property from the parent.
+   */
+  name: string;
+}
+
+/**
  * A component compiler property descriptor.
  */
 export interface Property {
@@ -108,6 +127,10 @@ export interface Property {
    * Description of the property.
    */
   description: PropertyDescription;
+  /**
+   * Any references encountered while parsing the property.
+   */
+  references: PropertyReference[];
 }
 
 /**
@@ -132,7 +155,11 @@ export interface DiezComponent {
    * The resolvable module that provides the property's component type. Used for assembling bindings for
    * some compiler targets.
    */
-  source: string;
+  sourceModule: string;
+  /**
+   * The source file where the property's component is declared. Only set for root components.
+   */
+  sourceFile?: string;
   /**
    * Warnings encountered while attempting to compile this component.
    */
@@ -193,15 +220,15 @@ export interface PrimitiveTypes {
 export interface Parser extends EventEmitter {
   /**
    * A map of (unique!) component names to target component specifications. This is derived recursively
-   * and includes both prefabs from external modules and local components.
+   * and includes both prefabs from external modules and root components.
    */
   components: NamedComponentMap;
   /**
-   * The names of local components encountered during compiler execution.
+   * The names of root components encountered during compiler execution.
    */
   rootComponentNames: Set<PropertyType>;
   /**
-   * The root of the project whose local components we should compile.
+   * The root of the project whose root components we should compile.
    */
   projectRoot: string;
   /**

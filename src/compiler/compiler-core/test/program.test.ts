@@ -21,6 +21,8 @@ describe('compiler program', () => {
     const validComponent = program.components.get('Valid')!;
     expect(validComponent).toBeDefined();
     expect(validComponent.isFixedComponent).toBe(true);
+    expect(validComponent.sourceModule).toBe('.');
+    expect(validComponent.sourceFile).toBe('src/index.ts');
     expect(validComponent.properties.length).toBe(10);
 
     expect(findProperty(validComponent, 'int').type).toBe(PrimitiveType.Int);

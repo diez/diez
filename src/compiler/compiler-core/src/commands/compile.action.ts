@@ -28,7 +28,7 @@ export = async (options: CompilerOptions) => {
   await program.run();
 
   if (!program.rootComponentNames.size) {
-    throw new Error('No local components found!');
+    throw new Error('No root components found!');
   }
 
   printWarnings(program.components);

@@ -30,6 +30,7 @@ describe('asset binding', () => {
     description: {
       body: '',
     },
+    references: [],
   };
 
   test('file handling exceptions', async () => {

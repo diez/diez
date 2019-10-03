@@ -23,6 +23,7 @@ describe('compiler', () => {
         depth: 0,
         description: {body: ''},
         name: 'includeMe',
+        references: [],
       },
       {
         initializer: '[true, true, true]',
@@ -31,6 +32,7 @@ describe('compiler', () => {
         depth: 1,
         description: {body: ''},
         name: 'includeUs',
+        references: [],
       },
     ]);
   });

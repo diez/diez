@@ -4,10 +4,10 @@ import {serialize} from '@diez/engine';
 import {EventEmitter} from 'events';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program, SymbolFlags, sys} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, Expression, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards} from 'ts-morph';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program, SymbolFlags, sys, TypeFormatFlags} from 'typescript';
 import {v4} from 'uuid';
-import {CompilerEvent, CompilerOptions, DiezComponent, MaybeNestedArray, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, Property, PropertyDescription, PropertyType, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
+import {CompilerEvent, CompilerOptions, DiezComponent, MaybeNestedArray, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, Property, PropertyDescription, PropertyReference, PropertyType, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, getProject, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
@@ -143,6 +143,117 @@ export class ProjectParser extends EventEmitter implements Parser {
   }
 
   /**
+   * Attach references recursively from an expression, typically originating as a property declaration in a class.
+   *
+   * Currently, we only support reference parsing from property access and "new ComponentName({})" expressions.
+   *
+   * Note: today, there is an implicit assumption of immutability in reference tracking. This requirement can and should
+   * be loosened in the future.
+   */
+  private attachReferencesFromExpression (path: string[], references: PropertyReference[], expression?: Expression) {
+    // istanbul ignore if
+    if (!expression) {
+      return;
+    }
+
+    // Resolve simple property access expressions. This allows us to unwrap references like this:
+    //   class Colors {
+    //     purple = Color.rgba(...);
+    //   }
+    //
+    //   const colors = new Colors();
+    //
+    //   class Palette {
+    //     primary = colors.purple;
+    //   }
+    //
+    // The expected return for Palette.primary is:
+    // [{
+    //   path: [],
+    //   parentType: "Colors",
+    //   name: "purple"
+    // }]
+    if (TypeGuards.isPropertyAccessExpression(expression)) {
+      const predicate = expression.getExpression();
+      const predicateType = this.checker.getTypeAtLocation(predicate);
+      // Ban anonymous and non-class types.
+      // This should eventually be seen as unnecessarily restrictive.
+      if (predicateType.isAnonymous() || !predicateType.isClass()) {
+        return;
+      }
+
+      // Carefully traverse down to our source file to ensure we are not looking at another module's type.
+      const predicateSymbol = predicateType.getSymbol();
+      // istanbul ignore if
+      if (!predicateSymbol) {
+        return;
+      }
+      const predicateTypeValue = predicateSymbol.getValueDeclaration();
+      // istanbul ignore if
+      if (!predicateTypeValue) {
+        return;
+      }
+      const predicateSourceFilePath = predicateTypeValue.getSourceFile();
+      // istanbul ignore if
+      if (predicateSourceFilePath.isFromExternalLibrary()) {
+        return;
+      }
+
+      references.push({
+        path,
+        parentType: this.checker.getTypeAtLocation(predicate).getText(undefined, TypeFormatFlags.OmitParameterModifiers),
+        name: expression.getName(),
+      });
+      return;
+    }
+
+    // Resolve constructor expressions for prefabs. This allows us to unwrap references like this:
+    //   class Colors {
+    //     purple = Color.rgba(...);
+    //   }
+    //
+    //   const colors = new Colors();
+    //
+    //   class Typography {
+    //     heading1 = new Typograph({color: colors.purple, ...});
+    //   }
+    //
+    // The expected return for Typography.heading1 is:
+    // [{
+    //   path: ["color"],
+    //   parentType: "Colors",
+    //   name: "purple"
+    // }]
+    if (TypeGuards.isNewExpression(expression)) {
+      const data = expression.getArguments()[0];
+      // For now, we can limit our scope of concern to object literal expressions.
+      if (!data || !TypeGuards.isObjectLiteralExpression(data)) {
+        return;
+      }
+
+      for (const propertyAssignment of data.getProperties()) {
+        // Skip spread notation, methods, and anything else which might confound here.
+        if (!TypeGuards.isPropertyAssignment(propertyAssignment)) {
+          continue;
+        }
+
+        this.attachReferencesFromExpression([...path, propertyAssignment.getName()], references, propertyAssignment.getInitializer());
+      }
+    }
+  }
+
+  private getReferencesFromPropertyDeclaration (propertyDeclaration: PropertyDeclaration): PropertyReference[] {
+    const initializer = propertyDeclaration.getInitializer();
+    if (!initializer) {
+      return [];
+    }
+
+    const references: PropertyReference[] = [];
+    this.attachReferencesFromExpression([], references, initializer);
+    return references;
+  }
+
+  /**
    * Processes a component type and attaches it to a preconstructed target component map.
    *
    * @returns `true` if we were able to process the type as a component.
@@ -203,17 +314,22 @@ export class ProjectParser extends EventEmitter implements Parser {
       constructorClass = constructorClass.getBaseClass();
     }
 
+    const sourcePath = typeValue.getSourceFile().getFilePath();
+    const sourceModule = sourceMap.get(sourcePath);
+    const sourceFile = (sourceModule !== undefined && sourceModule !== '.') ? undefined : relative(this.projectRoot, sourcePath);
+
     const newTarget: DiezComponent = {
       isRootComponent,
       typescriptType,
       type,
+      sourceFile,
       isFixedComponent: !constructorClass || constructorClass.getConstructors().every(
         (constructor) => !constructor.getParameters().length),
       properties: [],
       warnings: {
         ambiguousTypes: new Set(),
       },
-      source: sourceMap.get(typeValue.getSourceFile().getFilePath()) || '.',
+      sourceModule: sourceModule || '.',
       description: this.getDescriptionForValue(typeValue),
     };
 
@@ -239,6 +355,8 @@ export class ProjectParser extends EventEmitter implements Parser {
         continue;
       }
 
+      const references = this.getReferencesFromPropertyDeclaration(valueDeclaration);
+
       if (
         propertyType.isString() ||
         propertyType.isBoolean() ||
@@ -251,7 +369,15 @@ export class ProjectParser extends EventEmitter implements Parser {
         if (primitiveType === PrimitiveType.Unknown) {
           newTarget.warnings.ambiguousTypes.add(propertyName);
         } else {
-          newTarget.properties.push({depth, description, name: propertyName, isComponent: false, type: primitiveType});
+          newTarget.properties.push({
+            depth,
+            description,
+            references,
+            name: propertyName,
+            isComponent: false,
+            type: primitiveType,
+          });
+
         }
         continue;
       }
@@ -272,6 +398,7 @@ export class ProjectParser extends EventEmitter implements Parser {
       newTarget.properties.push({
         depth,
         description,
+        references,
         name: propertyName,
         isComponent: true,
         type: candidateSymbol.getName(),
@@ -609,7 +736,7 @@ export abstract class Compiler<
 
       const propertyComponent = this.parser.components.get(property.type)!;
       const propertyBinding = await getBinding<BindingType>(
-        this.parser.options.target, propertyComponent.source, property.type);
+        this.parser.options.target, propertyComponent.sourceModule, property.type);
       if (propertyBinding) {
         if (propertyBinding.assetsBinder) {
           await propertyBinding.assetsBinder(instance, this.parser, this.output, targetComponent, property);
@@ -660,7 +787,7 @@ export abstract class Compiler<
     }
 
     if (!this.output.processedComponents.has(name)) {
-      targetComponent.binding = await getBinding<BindingType>(this.parser.options.target, component.source || '.', name);
+      targetComponent.binding = await getBinding<BindingType>(this.parser.options.target, component.sourceModule || '.', name);
       this.output.processedComponents.set(name, targetComponent);
     }
 
@@ -668,7 +795,7 @@ export abstract class Compiler<
   }
 
   /**
-   * Runs the compilation routine, processing all local components and populating output based on the results.
+   * Runs the compilation routine, processing all root components and populating output based on the results.
    *
    * The compilation routine is not guaranteed to be idempotent, which is the reason `buildHot` resets output before running.
    */
