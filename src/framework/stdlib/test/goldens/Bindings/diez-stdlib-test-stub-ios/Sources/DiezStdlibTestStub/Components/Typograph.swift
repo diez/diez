@@ -12,6 +12,7 @@ public final class Typograph: NSObject, Decodable {
     @objc public internal(set) var iosTextStyle: String
     @objc public internal(set) var shouldScale: Bool
     @objc public internal(set) var lineHeight: CGFloat
+    @objc public internal(set) var letterSpacing: CGFloat
 
     init(
         font: Font,
@@ -19,7 +20,8 @@ public final class Typograph: NSObject, Decodable {
         color: Color,
         iosTextStyle: String,
         shouldScale: Bool,
-        lineHeight: CGFloat
+        lineHeight: CGFloat,
+        letterSpacing: CGFloat
     ) {
         self.font = font
         self.fontSize = fontSize
@@ -27,6 +29,7 @@ public final class Typograph: NSObject, Decodable {
         self.iosTextStyle = iosTextStyle
         self.shouldScale = shouldScale
         self.lineHeight = lineHeight
+        self.letterSpacing = letterSpacing
     }
 }
 

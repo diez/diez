@@ -32,6 +32,7 @@ export class Typography {
     fontSize: 24,
     color: Color.rgb(0, 200, 200),
     iosTextStyle: IOSTextStyle.Title1,
+    letterSpacing: 18,
   });
   buttonPressed = new Typograph({
     font: Fonts.Nunito.ExtraLight,

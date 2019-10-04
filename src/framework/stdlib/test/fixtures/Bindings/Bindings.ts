@@ -37,6 +37,7 @@ export class Bindings {
     font: someFont,
     fontSize: 50,
     lineHeight: 100,
+    letterSpacing: 10,
   });
 
   linearGradient = LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));

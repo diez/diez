@@ -10,6 +10,7 @@ describe('typograph', () => {
       shouldScale: true,
       iosTextStyle: IOSTextStyle.Title1,
       lineHeight: 20,
+      letterSpacing: 5,
     });
 
     expect(typograph.serialize()).toEqual({
@@ -25,6 +26,7 @@ describe('typograph', () => {
       shouldScale: true,
       iosTextStyle: 'title1',
       lineHeight: 20,
+      letterSpacing: 5,
     });
 
     const typographWithSpecificName = new Typograph({
@@ -47,8 +49,10 @@ describe('typograph', () => {
       shouldScale: false,
       iosTextStyle: 'title2',
       lineHeight: -1,
+      letterSpacing: 0,
     });
   });
+
   test('sanitization', () => {
     const typographWithSpecificName = new Typograph({
       font: Font.fromFile('Bloop-MediumItalic.ttf', 'SomethingElse'),
@@ -71,6 +75,7 @@ describe('typograph', () => {
       shouldScale: false,
       iosTextStyle: 'title2',
       lineHeight: 0,
+      letterSpacing: 0,
     });
   });
 });

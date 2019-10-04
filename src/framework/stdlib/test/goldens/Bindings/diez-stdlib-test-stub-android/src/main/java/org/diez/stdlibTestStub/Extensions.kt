@@ -6,18 +6,26 @@ package org.diez.stdlibTestStub
 import android.content.res.Resources
 import android.util.TypedValue
 
-fun Number.dpToPx(): Int {
+fun Number.dpToPxFloat(): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
         Resources.getSystem().displayMetrics
-    ).toInt()
+    )
 }
 
-fun Number.spToPx(): Int {
+fun Number.dpToPx(): Int {
+    return dpToPxFloat().toInt()
+}
+
+fun Number.spToPxFloat(): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_SP,
         this.toFloat(),
         Resources.getSystem().displayMetrics
-    ).toInt()
+    )
+}
+
+fun Number.spToPx(): Int {
+    return spToPxFloat().toInt()
 }

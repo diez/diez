@@ -64,6 +64,7 @@
   font-style: normal;
   font-size: 50px;
   color: hsla(60, 100%, 50%, 1);
+  letter-spacing: 0px;
 }
 
 .bindings-tall-typograph {
@@ -72,6 +73,7 @@
   font-style: normal;
   font-size: 50px;
   color: hsla(0, 0%, 0%, 1);
+  letter-spacing: 10px;
   line-height: 100px;
 }
 

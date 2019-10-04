@@ -2,7 +2,15 @@ export declare class Typograph {
   /**
    * An `Object` with CSS values for this `Typograph`.
    */
-  style: {color: string, fontSize: string, fontFamily: string, fontWeight: number, fontStyle: string, lineHeight?: string};
+  style: {
+    color: string,
+    fontSize: string,
+    fontFamily: string,
+    fontWeight: number,
+    fontStyle: string,
+    lineHeight?: string,
+    letterSpacing: number,
+  };
   /**
    * Applies the `Typograph` CSS styles to the given HTMLElement.
    */

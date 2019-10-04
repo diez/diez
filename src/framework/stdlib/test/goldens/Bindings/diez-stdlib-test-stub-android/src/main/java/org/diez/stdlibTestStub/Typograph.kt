@@ -17,7 +17,8 @@ data class Typograph(
     val fontSize: Float,
     val color: Color,
     val shouldScale: Boolean,
-    val lineHeight: Float
+    val lineHeight: Float,
+    val letterSpacing: Float
 ) {
     companion object {}
 
@@ -55,13 +56,13 @@ fun TextView.apply(typograph: Typograph) {
     val unit = if (typograph.shouldScale) TypedValue.COMPLEX_UNIT_SP else TypedValue.COMPLEX_UNIT_DIP
     this.setTextSize(unit, typograph.fontSize)
     this.setTextColor(typograph.color.color)
+    this.letterSpacing = ((typograph.fontSize + typograph.letterSpacing) / typograph.fontSize) - 1
 
     // TODO: Test for `null` instead of a magic number.
     if (typograph.lineHeight != -1f) {
-        val lineHeight = if (typograph.shouldScale) typograph.lineHeight.spToPx() else typograph.lineHeight.dpToPx()
-        val fontHeight = this.paint.getFontMetricsInt(null)
-        this.setLineSpacing(lineHeight.toFloat() - fontHeight, 1f)
-        this.firstBaselineToTopHeight = 0
+        val lineHeight = if (typograph.shouldScale) typograph.lineHeight.spToPxFloat() else typograph.lineHeight.dpToPxFloat()
+        val fontHeight = this.paint.getFontMetrics(null)
+        this.setLineSpacing(lineHeight - fontHeight, 1f)
 
         val fontMiddle = fontHeight / 2
         val lineHeightMiddle = lineHeight / 2
@@ -71,8 +72,8 @@ fun TextView.apply(typograph: Typograph) {
         val topOffset = maxOf(-fontMetrics.top, -fontMetrics.ascent)
         val bottomOffset = maxOf(fontMetrics.bottom, fontMetrics.descent)
 
-        this.firstBaselineToTopHeight = topOffset - fontMiddle + lineHeightMiddle
-        this.lastBaselineToBottomHeight = bottomOffset - fontMiddle + lineHeightMiddle
+        this.firstBaselineToTopHeight = (topOffset - fontMiddle + lineHeightMiddle).toInt()
+        this.lastBaselineToBottomHeight = (bottomOffset - fontMiddle + lineHeightMiddle).toInt()
     } else {
         this.setLineSpacing(0f, 1f)
         this.firstBaselineToTopHeight = 0

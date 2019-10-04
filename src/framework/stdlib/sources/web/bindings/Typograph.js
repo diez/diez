@@ -42,6 +42,7 @@ Object.defineProperties(Typograph.prototype, {
         fontStyle: this.font.fontStyle,
         fontSize: `${this.fontSize}px`,
         color: this.color.color,
+        letterSpacing: `${this.letterSpacing}px`,
       };
       if (this.lineHeight !== -1) {
         style.lineHeight = `${this.lineHeight}px`;
@@ -59,6 +60,7 @@ Typograph.prototype.applyStyle = function (ref) {
   ref.style.fontSize = style.fontSize;
   ref.style.color = style.color;
   ref.style.lineHeight = style.lineHeight;
+  ref.style.letterSpacing = style.letterSpacing;
 };
 
 diezHTMLExtensions.push(() => {

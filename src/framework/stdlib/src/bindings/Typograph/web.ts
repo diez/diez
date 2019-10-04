@@ -50,6 +50,7 @@ const binding: WebBinding<Typograph> = {
       'font-style': instance.font.style.toString(),
       'font-size': `${instance.fontSize}px`,
       color: colorValue,
+      'letter-spacing': `${instance.letterSpacing}px`,
     };
     if (instance.lineHeight !== -1) {
       Object.assign(declaration, {'line-height': `${instance.lineHeight}px`});

@@ -80,6 +80,7 @@ extension Typograph {
         var attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(color: color),
             .baselineOffset: 0,
+            .kern: scaledLetterSpacing,
         ]
 
         let paragraphStyle = NSMutableParagraphStyle()
@@ -147,6 +148,21 @@ extension Typograph {
 
         // Note: This scaled value will not dynamically update as the dynamic type settings change.
         return UIFontMetrics(forTextStyle: uiFontTextStyle).scaledValue(for: lineHeight)
+    }
+
+    /**
+     The letter spacing scaled using `UIFontMetrics` for the `uiFontTextStyle`.
+
+     This value will be scaled based on the user's dynamic type settings if `shouldScale` is true.
+     */
+    @objc
+    public var scaledLetterSpacing: CGFloat {
+        guard shouldScale else {
+            return letterSpacing
+        }
+
+        // Note: This scaled value will not dynamically update as the dynamic type settings change.
+        return UIFontMetrics(forTextStyle: uiFontTextStyle).scaledValue(for: letterSpacing)
     }
 
     /**

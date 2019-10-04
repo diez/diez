@@ -118,9 +118,17 @@ export interface TypographData {
    *
    * Negative values (other than `-1`) will be sanatized to `0`.
    *
+   * This value will be scaled according to `shouldScale`.
+   *
    * TODO: Use optionality on `lineHeight` instead when it is supported by the compiler.
    */
   lineHeight: number;
+  /**
+   * The amount to increase/decrease the spacing between letters in density independent pixels.
+   *
+   * This value will be scaled according to `shouldScale`.
+   */
+  letterSpacing: number;
 }
 
 /**
@@ -137,6 +145,7 @@ export class Typograph extends prefab<TypographData>() {
     iosTextStyle: IOSTextStyle.Body,
     shouldScale: false,
     lineHeight: -1,
+    letterSpacing: 0,
   };
 
   options = {
