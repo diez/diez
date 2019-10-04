@@ -142,12 +142,6 @@ export interface DiezComponent {
    */
   properties: Property[];
   /**
-   * The wrapped TypeScript type of the component. Used mainly for detecting naming collisions.
-   *
-   * This value should never be serialized.
-   */
-  typescriptType?: Type;
-  /**
    * The unique type name.
    */
   type: DiezType;
@@ -214,6 +208,15 @@ export interface PrimitiveTypes {
 }
 
 /**
+ * Collects information about a Diez type.
+ */
+export interface DiezTypeMetadata {
+  typescriptType: Type;
+  typeValue: AcceptableType;
+  symbolName: DiezType;
+}
+
+/**
  * A complete compiler program.
  * @noinheritdoc
  */
@@ -259,6 +262,10 @@ export interface Parser extends EventEmitter {
    * A method for retrieving a component for a type.
    */
   getComponentForTypeOrThrow (type: DiezType): DiezComponent;
+  /**
+   * A method for retrieving type metadata for a known type.
+   */
+  getMetadataForTypeOrThrow (type: DiezType): DiezTypeMetadata;
 }
 
 /**

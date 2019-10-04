@@ -4,10 +4,10 @@ import {pascalCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {existsSync} from 'fs-extra';
 import {join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys, TypeFormatFlags} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards, VariableDeclaration} from 'ts-morph';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
-import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
+import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, DiezTypeMetadata, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
 import {getDescriptionForValue, getProject, isAcceptableType} from './utils';
 
 /**
@@ -43,6 +43,11 @@ export class ProjectParser extends EventEmitter implements Parser {
    * The component declaration, which we can use to determine component-ness using the typechecker.
    */
   private readonly prefabDeclaration: ClassDeclaration;
+
+  /**
+   * An account of private type metadata.
+   */
+  private readonly typeManifest = new Map<DiezType, DiezTypeMetadata>();
 
   /**
    * The active TypeScript program.
@@ -145,7 +150,7 @@ export class ProjectParser extends EventEmitter implements Parser {
    * Note: today, there is an implicit assumption of immutability in reference tracking. This requirement can and should
    * be loosened in the future.
    */
-  private attachReferencesFromExpression (path: string[], references: PropertyReference[], expression?: Expression) {
+  private attachReferencesFromExpression (path: string[], references: PropertyReference[], sourceMap: Map<string, string>, expression?: Expression) {
     // istanbul ignore if
     if (!expression) {
       return;
@@ -171,23 +176,16 @@ export class ProjectParser extends EventEmitter implements Parser {
     if (TypeGuards.isPropertyAccessExpression(expression)) {
       const predicate = expression.getExpression();
       const predicateType = this.checker.getTypeAtLocation(predicate);
-      // Ban anonymous and non-class types.
-      // This should eventually be seen as unnecessarily restrictive.
-      if (predicateType.isAnonymous() || !predicateType.isClass()) {
+      // Important: ensure any referenced types will be populated in `this.components`.
+      // These are not necessarily root level components, but might be.
+      const parentType = this.processType(predicateType, sourceMap);
+      if (!parentType) {
         return;
       }
-
       // Carefully traverse down to our source file to ensure we are not looking at another module's type.
-      const predicateSymbol = predicateType.getSymbol();
-      // istanbul ignore if
-      if (!predicateSymbol) {
-        return;
-      }
-      const predicateTypeValue = predicateSymbol.getValueDeclaration();
-      // istanbul ignore if
-      if (!predicateTypeValue) {
-        return;
-      }
+      // We can rely on the following calls not throwing and the casting below being correct due to the resolution of
+      // `parentType` above.
+      const predicateTypeValue = predicateType.getSymbolOrThrow().getValueDeclarationOrThrow() as AcceptableType;
       const predicateSourceFilePath = predicateTypeValue.getSourceFile();
       // istanbul ignore if
       if (predicateSourceFilePath.isFromExternalLibrary()) {
@@ -196,7 +194,7 @@ export class ProjectParser extends EventEmitter implements Parser {
 
       references.push({
         path,
-        parentType: this.checker.getTypeAtLocation(predicate).getText(undefined, TypeFormatFlags.OmitParameterModifiers),
+        parentType,
         name: expression.getName(),
       });
       return;
@@ -232,20 +230,41 @@ export class ProjectParser extends EventEmitter implements Parser {
           continue;
         }
 
-        this.attachReferencesFromExpression([...path, propertyAssignment.getName()], references, propertyAssignment.getInitializer());
+        this.attachReferencesFromExpression(
+          [...path, propertyAssignment.getName()],
+          references,
+          sourceMap,
+          propertyAssignment.getInitializer(),
+        );
       }
     }
   }
 
-  private getReferencesFromPropertyDeclaration (propertyDeclaration: PropertyDeclaration): PropertyReference[] {
+  private getReferencesFromPropertyDeclaration (propertyDeclaration: PropertyDeclaration, sourceMap: Map<string, string>): PropertyReference[] {
     const initializer = propertyDeclaration.getInitializer();
     if (!initializer) {
       return [];
     }
 
     const references: PropertyReference[] = [];
-    this.attachReferencesFromExpression([], references, initializer);
+    this.attachReferencesFromExpression([], references, sourceMap, initializer);
     return references;
+  }
+
+  private storeTypeMetadata (predicate: ClassDeclaration | VariableDeclaration, typeValue: AcceptableType, typescriptType: Type): DiezType | undefined {
+    const symbolName = predicate.getName();
+    if (!symbolName) {
+      return;
+    }
+
+    const type = pascalCase(symbolName);
+    this.typeManifest.set(type, {
+      symbolName,
+      typescriptType,
+      typeValue,
+    });
+
+    return type;
   }
 
   /**
@@ -253,19 +272,18 @@ export class ProjectParser extends EventEmitter implements Parser {
    *
    * This name is always cast to pascal case.
    */
-  private getTypeForValueDeclaration (typeValue: AcceptableType): DiezType | undefined {
+  private getTypeForValueDeclaration (typeValue: AcceptableType, typescriptType: Type): DiezType | undefined {
     if (TypeGuards.isClassDeclaration(typeValue)) {
-      const className = typeValue.getName();
-      return className && pascalCase(className);
+      return this.storeTypeMetadata(typeValue, typeValue, typescriptType);
     }
 
     const predicate = typeValue.getParent();
     if (!TypeGuards.isVariableDeclaration(predicate)) {
-      // This should never happen in real life, but technically an unassigned object literally expression is valid TypeScript.
+      // This should never happen in real life, but technically an unassigned object literal expression is valid TypeScript.
       return;
     }
 
-    return pascalCase(predicate.getName());
+    return this.storeTypeMetadata(predicate, typeValue, typescriptType);
   }
 
   /**
@@ -284,18 +302,26 @@ export class ProjectParser extends EventEmitter implements Parser {
       return;
     }
 
-    const type = this.getTypeForValueDeclaration(typeValue);
+    const type = this.getTypeForValueDeclaration(typeValue, typescriptType);
     if (!type) {
-      Log.warning('Unable to determine name for type value. Components without names are skipped.');
       return;
     }
 
     if (this.components.has(type)) {
-      if (this.components.get(type)!.typescriptType !== typescriptType) {
+      const component = this.components.get(type)!;
+      const metadata = this.typeManifest.get(type)!;
+      if (metadata.typescriptType !== typescriptType) {
         // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
         // We should be able to do this entirely within `getTypeValueForValueDeclaration`, using a `Map<Type, DiezType>`.
         Log.warning(`Encountered a duplicate component name: ${type}. Please ensure no component names are duplicated.`);
         return;
+      }
+
+      // Important: we may have encountered this type in a context before it appeared as an exported symbol of the Diez project.
+      // This ensures that the list of root components is correct.
+      if (isRootComponent) {
+        component.isRootComponent = true;
+        this.rootComponentNames.add(type);
       }
 
       // We have already encountered this type and can safely skip it.
@@ -312,7 +338,9 @@ export class ProjectParser extends EventEmitter implements Parser {
           children.push(symbol);
         }
       } else {
-        for (const property of typeValue.getProperties()) {
+        // TODO: it might be feasible to unwrap static properties here as well. The utility of doing this isn't perfectly clear,
+        //       but it might unlock checking static references if this is a desired feature.
+        for (const property of typeValue.getInstanceProperties()) {
           if (property.getScope() !== Scope.Public) {
             continue;
           }
@@ -341,7 +369,6 @@ export class ProjectParser extends EventEmitter implements Parser {
 
     const newTarget: DiezComponent = {
       isRootComponent,
-      typescriptType,
       type,
       sourceFile,
       isFixedComponent: !constructorClass || constructorClass.getConstructors().every(
@@ -376,7 +403,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         continue;
       }
 
-      const references = this.getReferencesFromPropertyDeclaration(valueDeclaration);
+      const references = this.getReferencesFromPropertyDeclaration(valueDeclaration, sourceMap);
 
       if (
         propertyType.isString() ||
@@ -452,12 +479,21 @@ export class ProjectParser extends EventEmitter implements Parser {
     }
   }
 
+  getMetadataForTypeOrThrow (type: DiezType) {
+    const manifest = this.typeManifest.get(type);
+    if (!manifest) {
+      throw new Error(`Type not found in type manifest: ${type}`);
+    }
+    return manifest;
+  }
+
   /**
    * Runs the compiler and emits to listeners.
    */
   async run (throwOnErrors = true) {
     this.components.clear();
     this.rootComponentNames.clear();
+    this.typeManifest.clear();
     if (!await this.compile()) {
       if (throwOnErrors) {
         throw new Error('Unable to compile project!');
