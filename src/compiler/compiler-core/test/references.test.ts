@@ -1,11 +1,11 @@
-import {createProgramForFixture} from './helpers';
+import {createParserForFixture} from './helpers';
 
 describe('references', () => {
   test('correct reference tracking', async () => {
-    const program = await createProgramForFixture('References');
-    expect(program.components.size).toBe(5);
+    const parser = await createParserForFixture('References');
+    expect(parser.components.size).toBe(5);
 
-    const references = program.components.get('References')!;
+    const references = parser.components.get('References')!;
     const bar = references.properties[0];
     const baz = references.properties[1];
     const bat = references.properties[2];

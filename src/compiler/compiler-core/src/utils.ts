@@ -4,7 +4,7 @@ import {noCase} from 'change-case';
 import {dirname, join, resolve} from 'path';
 import {Project} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
-import {AssemblerFactory, CompilerProvider, ComponentModule, Constructor, NamedComponentMap, PropertyType, TargetOutput} from './api';
+import {AssemblerFactory, CompilerProvider, ComponentModule, Constructor, DiezType, NamedComponentMap, TargetOutput} from './api';
 
 /**
  * A type guard for identifying a [[Constructor]] vs. a plain object.
@@ -48,6 +48,15 @@ export const getProject = (projectRoot: string) => {
   }
 
   const project = new Project({tsConfigFilePath});
+  project.compilerOptions.set({
+    // Enabling this option greatly speeds up builds.
+    skipLibCheck: true,
+    // See https://github.com/Microsoft/TypeScript/issues/7363.
+    suppressOutputPathCheck: true,
+    // Instead of emitting invalid code, we should bail on compilation.
+    noEmitOnError: true,
+  });
+
   projectCache.set(projectRoot, project);
   return project;
 };
@@ -83,8 +92,8 @@ export const getTargets = async (): Promise<Map<Target, CompilerProvider>> => {
   return targets;
 };
 
-const hashComponent = (source: string, componentName: PropertyType) => `${source}:${componentName}`;
-const hashBinding = (target: string, source: string, componentName: PropertyType) => `${target}|${hashComponent(source, componentName)}`;
+const hashComponent = (source: string, componentName: DiezType) => `${source}:${componentName}`;
+const hashBinding = (target: string, source: string, componentName: DiezType) => `${target}|${hashComponent(source, componentName)}`;
 const bindingLocations = new Map<string, string>();
 const resolvedBindings = new Map<string, any>();
 
@@ -94,7 +103,7 @@ const resolvedBindings = new Map<string, any>();
 const getBindingLocation = async (
   target: string,
   source: string,
-  componentName: PropertyType,
+  componentName: DiezType,
 ): Promise<string | undefined> => {
   const hash = hashBinding(target, source, componentName);
   if (bindingLocations.size > 0) {
@@ -133,7 +142,7 @@ const getBindingLocation = async (
 export const getBinding = async <T>(
   target: string,
   source: string,
-  componentName: PropertyType,
+  componentName: DiezType,
 ): Promise<T | undefined> => {
   const hash = hashBinding(target, source, componentName);
   if (resolvedBindings.has(hash)) {

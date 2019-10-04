@@ -1,5 +1,5 @@
 import {DiezComponent, PrimitiveType} from '../src/api';
-import {createProgramForFixture} from './helpers';
+import {createParserForFixture} from './helpers';
 
 beforeAll(() => {
   // Allow 1 minute per test.
@@ -12,13 +12,13 @@ beforeAll(() => {
 const findProperty = (component: DiezComponent, name: string) =>
   component.properties.find((property) => property.name === name)!;
 
-describe('compiler program', () => {
-  test('valid program', async () => {
-    const program = await createProgramForFixture('Valid');
-    expect(program.components.size).toBe(3);
-    expect(Array.from(program.rootComponentNames)).toEqual(['Valid']);
+describe('parser', () => {
+  test('valid project', async () => {
+    const parser = await createParserForFixture('Valid');
+    expect(parser.components.size).toBe(3);
+    expect(Array.from(parser.rootComponentNames)).toEqual(['Valid']);
 
-    const validComponent = program.components.get('Valid')!;
+    const validComponent = parser.components.get('Valid')!;
     expect(validComponent).toBeDefined();
     expect(validComponent.isFixedComponent).toBe(true);
     expect(validComponent.sourceModule).toBe('.');
@@ -60,7 +60,7 @@ describe('compiler program', () => {
     expect(child.type).toBe('ChildComponent');
     expect(child.isComponent).toBe(true);
 
-    const childComponent = program.components.get('ChildComponent')!;
+    const childComponent = parser.components.get('ChildComponent')!;
     expect(childComponent.isRootComponent).toBe(false);
     expect(childComponent.isFixedComponent).toBe(true);
     expect(childComponent).toBeDefined();
@@ -71,7 +71,7 @@ describe('compiler program', () => {
     expect(grandchild.type).toBe('GrandchildComponent');
     expect(grandchild.isComponent).toBe(true);
 
-    const grandchildComponent = program.components.get('GrandchildComponent')!;
+    const grandchildComponent = parser.components.get('GrandchildComponent')!;
     expect(grandchildComponent.isRootComponent).toBe(false);
     expect(grandchildComponent.isFixedComponent).toBe(true);
     expect(grandchildComponent).toBeDefined();

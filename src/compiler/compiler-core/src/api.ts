@@ -78,7 +78,7 @@ export interface DiezComponentWarnings {
  *
  * Strings represent globally unique component names, and the integer enum type [[PrimitiveType]] represents all others.
  */
-export type PropertyType = string | PrimitiveType;
+export type DiezType = string | PrimitiveType;
 
 /**
  * A source reference for a property. If a property is defined using a reference to another property, we can unpack
@@ -92,7 +92,7 @@ export interface PropertyReference {
   /**
    * The type of the property's parent.
    */
-  parentType: PropertyType;
+  parentType: DiezType;
   /**
    * The name of the property from the parent.
    */
@@ -118,11 +118,11 @@ export interface Property {
   /**
    * The unique type name.
    */
-  type: PropertyType;
+  type: DiezType;
   /**
    * The name of the host of the property.
    */
-  parentType?: PropertyType;
+  parentType?: DiezType;
   /**
    * Description of the property.
    */
@@ -150,7 +150,7 @@ export interface DiezComponent {
   /**
    * The unique type name.
    */
-  type: PropertyType;
+  type: DiezType;
   /**
    * The resolvable module that provides the property's component type. Used for assembling bindings for
    * some compiler targets.
@@ -181,7 +181,7 @@ export interface DiezComponent {
 /**
  * A named component map, provided as the main compiler input.
  */
-export type NamedComponentMap = Map<PropertyType, DiezComponent>;
+export type NamedComponentMap = Map<DiezType, DiezComponent>;
 
 /**
  * Compiler target handlers perform the actual work of compilation, and are triggered with `diez compile`.
@@ -226,7 +226,7 @@ export interface Parser extends EventEmitter {
   /**
    * The names of root components encountered during compiler execution.
    */
-  rootComponentNames: Set<PropertyType>;
+  rootComponentNames: Set<DiezType>;
   /**
    * The root of the project whose root components we should compile.
    */
@@ -258,7 +258,7 @@ export interface Parser extends EventEmitter {
   /**
    * A method for retrieving a component for a type.
    */
-  getComponentForTypeOrThrow (type: PropertyType): DiezComponent;
+  getComponentForTypeOrThrow (type: DiezType): DiezComponent;
 }
 
 /**
@@ -317,7 +317,7 @@ export interface TargetProperty extends Property {
    * The canonical type of the original target property. We may mutate the type of the target property at runtime, e.g.
    * for specifying array/list types correctly or declaring primitives.
    */
-  originalType?: PropertyType;
+  originalType?: DiezType;
 }
 
 /**
@@ -341,7 +341,7 @@ export interface TargetOutput<
   Binding = {},
 > {
   hotUrl?: string;
-  processedComponents: Map<PropertyType, TargetDiezComponent<Binding>>;
+  processedComponents: Map<DiezType, TargetDiezComponent<Binding>>;
   dependencies: Set<Dependency>;
   assetBindings: AssetBindings;
   projectName: string;

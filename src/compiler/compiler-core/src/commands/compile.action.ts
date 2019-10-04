@@ -2,7 +2,7 @@ import {Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {valid} from 'semver';
 import {CompilerOptions} from '../api';
-import {ProjectParser} from '../compiler';
+import {ProjectParser} from '../parser';
 import {getProjectRoot, getTargets, printWarnings} from '../utils';
 
 export = async (options: CompilerOptions) => {

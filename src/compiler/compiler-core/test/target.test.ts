@@ -1,12 +1,12 @@
 import {PrimitiveType} from '../src/api';
-import {createProgramForFixture, TestCompiler} from './helpers';
+import {createParserForFixture, TestCompiler} from './helpers';
 
 describe('compiler', () => {
   test('filtered', async () => {
-    const program = await createProgramForFixture('Filtered');
-    expect(program.components.size).toBe(1);
-    expect(Array.from(program.rootComponentNames)).toEqual(['Filtered']);
-    const compiler = new TestCompiler(program);
+    const parser = await createParserForFixture('Filtered');
+    expect(parser.components.size).toBe(1);
+    expect(Array.from(parser.rootComponentNames)).toEqual(['Filtered']);
+    const compiler = new TestCompiler(parser);
     await compiler.start();
     expect(compiler.writeSdkMock).toHaveBeenCalled();
     expect(compiler.printUsageInstructionsMock).toHaveBeenCalled();

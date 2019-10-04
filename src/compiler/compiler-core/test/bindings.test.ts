@@ -2,7 +2,7 @@ import {findPlugins} from '@diez/cli-core';
 import {registerExpectations} from '@diez/test-utils';
 import {join} from 'path';
 import {printWarnings} from '../src/utils';
-import {createProgramForFixture, TestCompiler} from './helpers';
+import {createParserForFixture, TestCompiler} from './helpers';
 
 registerExpectations();
 
@@ -32,12 +32,12 @@ describe('bindings', () => {
       },
     );
 
-    const program = await createProgramForFixture('Bindings');
-    expect(program.components.size).toBe(2);
-    expect(Array.from(program.rootComponentNames)).toEqual(['BoundComponent', 'Bindings']);
-    expect(program.components.get('Bindings')!.isFixedComponent).toBe(true);
-    expect(program.components.get('BoundComponent')!.isFixedComponent).toBe(false);
-    const compiler = new TestCompiler(program);
+    const parser = await createParserForFixture('Bindings');
+    expect(parser.components.size).toBe(2);
+    expect(Array.from(parser.rootComponentNames)).toEqual(['BoundComponent', 'Bindings']);
+    expect(parser.components.get('Bindings')!.isFixedComponent).toBe(true);
+    expect(parser.components.get('BoundComponent')!.isFixedComponent).toBe(false);
+    const compiler = new TestCompiler(parser);
     compiler.staticRoot = join(compiler.output.sdkRoot, 'static');
     await compiler.start();
     expect(Array.from(compiler.output.assetBindings)).toEqual([
@@ -46,7 +46,7 @@ describe('bindings', () => {
     ]);
 
     compiler.writeAssets();
-    expect(join(program.projectRoot, 'build')).toMatchDirectory(join(__dirname, 'goldens', 'bindings-output'));
-    printWarnings(program.components);
+    expect(join(parser.projectRoot, 'build')).toMatchDirectory(join(__dirname, 'goldens', 'bindings-output'));
+    printWarnings(parser.components);
   });
 });

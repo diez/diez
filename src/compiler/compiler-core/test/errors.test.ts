@@ -1,11 +1,10 @@
 import {Target} from '@diez/engine';
-import {getTempFileName} from '@diez/storage';
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {ProjectParser} from '../src/compiler';
+import {ProjectParser} from '../src/parser';
 import {projectCache} from '../src/utils';
 
-const tempLocation = getTempFileName();
+const tempLocation = join(__dirname, '.temp');
 
 beforeEach(() => {
   ensureDirSync(join(tempLocation, 'src'));

@@ -1,7 +1,7 @@
 import {CliAction} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {CompilerEvent, CompilerOptions} from '../api';
-import {ProjectParser} from '../compiler';
+import {ProjectParser} from '../parser';
 import {getProjectRoot, getTargets, printWarnings} from '../utils';
 
 const action: CliAction = (options: CompilerOptions) => new Promise(async (resolve, reject) => {

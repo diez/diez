@@ -57,7 +57,7 @@ jest.doMock('net', () => ({
 import {ensureDirSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {CompilerEvent} from '../src/api';
-import {createProgramForFixture, stubProjectRoot, TestCompiler} from './helpers';
+import {createParserForFixture, stubProjectRoot, TestCompiler} from './helpers';
 
 jest.mock('debounce', () => (callback: () => void) => callback);
 
@@ -71,11 +71,11 @@ beforeEach(() => {
 describe('hot server', () => {
   test('hot e2e', async () => {
     // This test actually starts a hot TypeScript server, ensuring the steps we take to start the hot server are safe.
-    const program = await createProgramForFixture('Filtered', true);
+    const parser = await createParserForFixture('Filtered', true);
 
     return new Promise((resolve) => {
-      program.once(CompilerEvent.Compiled, async () => {
-        const compiler = new TestCompiler(program);
+      parser.once(CompilerEvent.Compiled, async () => {
+        const compiler = new TestCompiler(parser);
         await compiler.start();
         expect(mockExitTrap).toHaveBeenCalled();
         expect(mockExpressRender).toHaveBeenCalledWith('component', {componentName: 'foobar', layout: false});
@@ -89,29 +89,29 @@ describe('hot server', () => {
         mockSocket.emit('data', JSON.stringify({event: 'reload'}));
 
         // Wait for next failure.
-        program.once(CompilerEvent.Error, () => {
+        parser.once(CompilerEvent.Error, () => {
           // Wait for next success.
-          program.once(CompilerEvent.Compiled, () => {
-            program.close();
+          parser.once(CompilerEvent.Compiled, () => {
+            parser.close();
             webpackCloser();
             resolve();
           });
 
           // Write valid TypeScript to the project root.
           writeFileSync(
-            join(program.projectRoot, 'src', 'index.ts'),
+            join(parser.projectRoot, 'src', 'index.ts'),
             'const diez = 10;',
           );
         });
 
         // Write invalid TypeScript to the project root.
         writeFileSync(
-          join(program.projectRoot, 'src', 'index.ts'),
+          join(parser.projectRoot, 'src', 'index.ts'),
           'const diez = √100;',
         );
       });
 
-      program.watch();
+      parser.watch();
     });
   });
 });

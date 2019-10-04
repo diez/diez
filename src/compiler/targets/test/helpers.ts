@@ -41,7 +41,7 @@ export const getFixtureComponentDeclaration = async (fixture: string) => {
 /**
  * Generates a program for the specified fixture and target.
  */
-const createProgramForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
+const createParserForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
@@ -80,8 +80,8 @@ const createProgramForFixture = async (fixture: string, target: Target, options?
  * Creates iOS output for a fixture.
  */
 export const createIosCompilerForFixture = async (fixture: string): Promise<IosCompiler> => {
-  const program = await createProgramForFixture(fixture, Target.Ios, {cocoapods: true, carthage: true});
-  const compiler = new IosCompiler(program);
+  const parser = await createParserForFixture(fixture, Target.Ios, {cocoapods: true, carthage: true});
+  const compiler = new IosCompiler(parser);
   compiler.clear();
   return compiler;
 };
@@ -90,8 +90,8 @@ export const createIosCompilerForFixture = async (fixture: string): Promise<IosC
  * Creates Android output for a fixture.
  */
 export const createAndroidCompilerForFixture = async (fixture: string): Promise<AndroidCompiler> => {
-  const program = await createProgramForFixture(fixture, Target.Android);
-  const compiler = new AndroidCompiler(program);
+  const parser = await createParserForFixture(fixture, Target.Android);
+  const compiler = new AndroidCompiler(parser);
   compiler.clear();
   return compiler;
 };
@@ -100,8 +100,8 @@ export const createAndroidCompilerForFixture = async (fixture: string): Promise<
  * Creates Web output for a fixture.
  */
 export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
-  const program = await createProgramForFixture(fixture, Target.Web);
-  const compiler = new WebCompiler(program);
+  const parser = await createParserForFixture(fixture, Target.Web);
+  const compiler = new WebCompiler(parser);
   compiler.clear();
   return compiler;
 };

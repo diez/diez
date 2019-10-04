@@ -2,7 +2,8 @@ import {Target} from '@diez/engine';
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from '../src/api';
-import {Compiler, ProjectParser} from '../src/compiler';
+import {Compiler} from '../src/compiler';
+import {ProjectParser} from '../src/parser';
 
 /**
  * The root for workspace examples.
@@ -24,7 +25,7 @@ export const getFixtures = () => readdirSync(fixturesRoot);
 /**
  * Generates a program for the specified fixtures.
  */
-export const createProgramForFixture = async (fixture: string, hot = false) => {
+export const createParserForFixture = async (fixture: string, hot = false) => {
   writeFileSync(
     join(stubProjectRoot, 'src', 'index.ts'),
     readFileSync(join(fixturesRoot, fixture, `${fixture}.ts`)),
