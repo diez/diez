@@ -200,7 +200,6 @@ class DiezButton: UIButton {
         let range = NSRange(location: 0, length: attributedTitle.length)
         let inputAttributes = attributedTitle.attributes(at: 0, longestEffectiveRange: nil, in: range)
         let typographAttributes = typograph.attributedStringAttributesWith(
-            alignment: self.titleLabel?.textAlignment ?? .natural,
             preventLineHeightAdjustment: false,
             preventBaselineOffset: true
         )

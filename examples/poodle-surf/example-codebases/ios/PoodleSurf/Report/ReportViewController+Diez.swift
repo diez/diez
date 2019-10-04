@@ -33,7 +33,7 @@ extension ReportViewController {
         view.locationImageWidthAndHeight = design.locationImage.widthAndHeight
         view.bannerHeight = design.bannerHeight
         view.labelsStackViewLayoutMargins = UIEdgeInsets(design.labelsLayoutMargin)
-        view.regionLabelToPinIconSpacing = design.pinIconToLabelSpacing
+        view.placeLabelToPinIconSpacing = design.pinIconToLabelSpacing
         view.labelsVerticalSpacing = design.labelsSpacing
     }
 

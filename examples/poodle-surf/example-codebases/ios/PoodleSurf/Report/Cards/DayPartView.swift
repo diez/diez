@@ -95,8 +95,6 @@ class DayPartView: UIView {
         valueStackView.axis = .horizontal
         valueStackView.alignment = .firstBaseline
 
-        timeLabel.textAlignment = .center
-
         valueLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         unitLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

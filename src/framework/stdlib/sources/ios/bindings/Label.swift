@@ -63,15 +63,6 @@ public class Label: WrappedView {
     }
 
     /**
-     A proxy for `UILabel`'s `textAlignment` property.
-     */
-    @objc
-    public var textAlignment: NSTextAlignment {
-        get { return uiLabel.textAlignment }
-        set { uiLabel.textAlignment = newValue }
-    }
-
-    /**
      The most recently applied `Typograph`, or `nil` if one has not been applied.
      */
     @objc
@@ -131,7 +122,6 @@ extension UILabel {
         let range = NSRange(location: 0, length: attributedText.length)
         let inputAttributes = attributedText.attributes(at: 0, longestEffectiveRange: nil, in: range)
         let typographAttributes = typograph.attributedStringAttributesWith(
-            alignment: self.textAlignment,
             traitCollection: traitCollection,
             preventLineHeightAdjustment: preventLineHeightAdjustment,
             preventBaselineOffset: preventBaselineOffset

@@ -94,6 +94,19 @@ export const enum IOSTextStyle {
 }
 
 /**
+ * An enumeration of text alignment types.
+ */
+export const enum TextAlignment {
+  /**
+   * Aligns according to the system's default for the current language.
+   */
+  Natural = 'natural',
+  Left = 'left',
+  Right = 'right',
+  Center = 'center',
+}
+
+/**
  * Typograph data.
  */
 export interface TypographData {
@@ -129,6 +142,10 @@ export interface TypographData {
    * This value will be scaled according to `shouldScale`.
    */
   letterSpacing: number;
+  /**
+   * The alignment of the text.
+   */
+  alignment: TextAlignment;
 }
 
 /**
@@ -146,6 +163,7 @@ export class Typograph extends prefab<TypographData>() {
     shouldScale: false,
     lineHeight: -1,
     letterSpacing: 0,
+    alignment: TextAlignment.Natural,
   };
 
   options = {

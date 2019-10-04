@@ -1,4 +1,4 @@
-const {fontToCss, FontFormats} = require('@diez/web-sdk-common');
+const {fontToCss, FontFormats, textAlignmentToCss} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -43,6 +43,7 @@ Object.defineProperties(Typograph.prototype, {
         fontSize: `${this.fontSize}px`,
         color: this.color.color,
         letterSpacing: `${this.letterSpacing}px`,
+        textAlign: textAlignmentToCss(this.alignment),
       };
       if (this.lineHeight !== -1) {
         style.lineHeight = `${this.lineHeight}px`;
@@ -61,6 +62,7 @@ Typograph.prototype.applyStyle = function (ref) {
   ref.style.color = style.color;
   ref.style.lineHeight = style.lineHeight;
   ref.style.letterSpacing = style.letterSpacing;
+  ref.style.textAlign = style.textAlign;
 };
 
 diezHTMLExtensions.push(() => {

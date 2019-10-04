@@ -93,7 +93,6 @@ class View: UIView {
         animationStackView.addArrangedSubview(animationContainerView)
 
         animationLabel.numberOfLines = 0
-        animationLabel.textAlignment = .center
         animationStackView.addArrangedSubview(animationLabel)
 
         let animationStackViewContainerView = UIView()

@@ -42,15 +42,6 @@ public class TextView: WrappedView {
     }
 
     /**
-     A proxy for `UITextView`'s `textAlignment` property.
-     */
-    @objc
-    public var textAlignment: NSTextAlignment {
-        get { return uiTextView.textAlignment }
-        set { uiTextView.textAlignment = newValue }
-    }
-
-    /**
      A proxy for  `UITextView`'s `isScrollEnabled` property.
      */
     @objc
@@ -126,7 +117,6 @@ extension UITextView {
         let range = NSRange(location: 0, length: attributedText.length)
         let inputAttributes = attributedText.attributes(at: 0, longestEffectiveRange: nil, in: range)
         let typographAttributes = typograph.attributedStringAttributesWith(
-            alignment: self.textAlignment,
             traitCollection: traitCollection,
             preventLineHeightAdjustment: preventLineHeightAdjustment,
             preventBaselineOffset: preventBaselineOffset

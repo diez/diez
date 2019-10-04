@@ -42,15 +42,6 @@ public class TextField: WrappedView {
     }
 
     /**
-     A proxy for `UITextField`'s `textAlignment` property.
-     */
-    @objc
-    public var textAlignment: NSTextAlignment {
-        get { return uiTextField.textAlignment }
-        set { uiTextField.textAlignment = newValue }
-    }
-
-    /**
      The most recently applied `Typograph`, or `nil` if one has not been applied.
      */
     @objc
@@ -148,7 +139,6 @@ extension UITextField {
         let range = NSRange(location: 0, length: attributedText.length)
         let inputAttributes = attributedText.attributes(at: 0, longestEffectiveRange: nil, in: range)
         let typographAttributes = typograph.attributedStringAttributesWith(
-            alignment: self.textAlignment,
             traitCollection: traitCollection,
             preventLineHeightAdjustment: true,
             preventBaselineOffset: true

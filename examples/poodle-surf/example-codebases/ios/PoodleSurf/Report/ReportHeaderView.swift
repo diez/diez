@@ -43,7 +43,7 @@ class ReportHeaderView: UIView {
         set { locationLabelsOutterStackView.layoutMargins = newValue }
     }
 
-    var regionLabelToPinIconSpacing: CGFloat {
+    var placeLabelToPinIconSpacing: CGFloat {
         get { return placeImageLabelStackView.spacing }
         set { placeImageLabelStackView.spacing = newValue }
     }
@@ -103,11 +103,10 @@ class ReportHeaderView: UIView {
     }
 
     private func configureViews() {
-        regionLabel.textAlignment = .center
-
         placeImageLabelStackView.axis = .horizontal
 
         locationLabelsOutterStackView.axis = .vertical
+        locationLabelsOutterStackView.alignment = .center
         locationLabelsOutterStackView.isLayoutMarginsRelativeArrangement = true
 
         locationImageView.clipsToBounds = true

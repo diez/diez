@@ -1,7 +1,7 @@
 import {diezVersion} from '@diez/cli-core';
 import {Typograph} from '@diez/prefabs';
 import {joinToKebabCase, WebBinding, WebLanguages} from '@diez/targets';
-import {colorToCss, fontToCss} from '@diez/web-sdk-common';
+import {colorToCss, fontToCss, textAlignmentToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
 import {getQualifiedCssUrl, sourcesPath} from '../../utils';
 
@@ -51,6 +51,7 @@ const binding: WebBinding<Typograph> = {
       'font-size': `${instance.fontSize}px`,
       color: colorValue,
       'letter-spacing': `${instance.letterSpacing}px`,
+      'text-align': textAlignmentToCss(instance.alignment),
     };
     if (instance.lineHeight !== -1) {
       Object.assign(declaration, {'line-height': `${instance.lineHeight}px`});

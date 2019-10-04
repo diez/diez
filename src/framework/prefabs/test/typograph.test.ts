@@ -1,5 +1,5 @@
 import {Color} from '../src/color';
-import {Font, IOSTextStyle, Typograph} from '../src/typograph';
+import {Font, IOSTextStyle, TextAlignment, Typograph} from '../src/typograph';
 
 describe('typograph', () => {
   test('basic functionality', () => {
@@ -11,6 +11,7 @@ describe('typograph', () => {
       iosTextStyle: IOSTextStyle.Title1,
       lineHeight: 20,
       letterSpacing: 5,
+      alignment: TextAlignment.Center,
     });
 
     expect(typograph.serialize()).toEqual({
@@ -27,6 +28,7 @@ describe('typograph', () => {
       iosTextStyle: 'title1',
       lineHeight: 20,
       letterSpacing: 5,
+      alignment: 'center',
     });
 
     const typographWithSpecificName = new Typograph({
@@ -50,6 +52,7 @@ describe('typograph', () => {
       iosTextStyle: 'title2',
       lineHeight: -1,
       letterSpacing: 0,
+      alignment: 'natural',
     });
   });
 
@@ -76,6 +79,7 @@ describe('typograph', () => {
       iosTextStyle: 'title2',
       lineHeight: 0,
       letterSpacing: 0,
+      alignment: 'natural',
     });
   });
 });

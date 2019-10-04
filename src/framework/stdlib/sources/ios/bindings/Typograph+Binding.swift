@@ -67,9 +67,8 @@ extension Typograph {
      - Parameter preventLineHeightAdjustment: If true, prevents the `.paragraphStyle`'s `minimumLineHeight` and `maximumLineHeight` from being set.
      - Parameter preventBaselineOffset: If true, prevents the baselineOffset from being set on the attributed string. When false, the offset is adjusted so that the text appears centered within the lineHeight, rather than bottom aligned (the default behavior) to match design tools and web layout.
      */
-    @objc(attributedStringAttributesWithAlignment:traitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
+    @objc(attributedStringAttributesWithTraitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
     public func attributedStringAttributesWith(
-        alignment: NSTextAlignment = .natural,
         traitCollection: UITraitCollection? = nil,
         preventLineHeightAdjustment: Bool = false,
         preventBaselineOffset: Bool = false
@@ -89,7 +88,7 @@ extension Typograph {
             }
         }
 
-        paragraphStyle.alignment = alignment
+        paragraphStyle.alignment = nsTextAlignment
 
         attributes[.paragraphStyle] = paragraphStyle
 
@@ -126,6 +125,20 @@ extension Typograph {
         case "title2": return .title2
         case "title3": return .title3
         default: return .body
+        }
+    }
+
+    /**
+     The `NSTextAlignment` for the `Typograph`.
+     */
+    @objc
+    public var nsTextAlignment: NSTextAlignment {
+        switch alignment {
+        case "natural": return .natural
+        case "left": return .left
+        case "right": return .right
+        case "center": return .center
+        default: return .natural
         }
     }
 
@@ -248,17 +261,15 @@ extension NSAttributedString {
 
      - See [Typograph.attributedStringAttributesWith(...)](x-source-tag://Typograph.attributedStringAttributesWith).
      */
-    @objc(dez_initWithString:typograph:alignment:traitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
+    @objc(dez_initWithString:typograph:traitCollection:preventLineHeightAdjustment:preventBaselineOffset:)
     public convenience init(
         string: String,
         typograph: Typograph,
-        alignment: NSTextAlignment = .natural,
         traitCollection: UITraitCollection? = nil,
         preventLineHeightAdjustment: Bool = false,
         preventBaselineOffset: Bool = false
     ) {
         let attributes = typograph.attributedStringAttributesWith(
-            alignment: alignment,
             traitCollection: traitCollection,
             preventBaselineOffset: preventBaselineOffset
         )

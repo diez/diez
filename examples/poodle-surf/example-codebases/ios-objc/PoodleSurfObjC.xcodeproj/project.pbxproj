@@ -16,7 +16,6 @@
 		46E14C80226A7148007938DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E14C7F226A7148007938DA /* Assets.xcassets */; };
 		46E14C83226A7148007938DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E14C81226A7148007938DA /* LaunchScreen.storyboard */; };
 		46E14C86226A7148007938DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E14C85226A7148007938DA /* main.m */; };
-		46E14C94226A76D0007938DA /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E14C93226A76D0007938DA /* Empty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +36,6 @@
 		46E14C84226A7148007938DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46E14C85226A7148007938DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		46E14C8C226A7291007938DA /* PoodleSurfObjC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PoodleSurfObjC-Bridging-Header.h"; sourceTree = "<group>"; };
-		46E14C93226A76D0007938DA /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +115,6 @@
 			children = (
 				46E14C76226A7146007938DA /* AppDelegate.h */,
 				46E14C77226A7146007938DA /* AppDelegate.m */,
-				46E14C93226A76D0007938DA /* Empty.swift */,
 				4685DF3522861BA7006B7FA2 /* Extensions */,
 				4685DF3D22861F22006B7FA2 /* Generic Views */,
 				46E14C85226A7148007938DA /* main.m */,
@@ -259,7 +256,6 @@
 			files = (
 				4685DF3422860870006B7FA2 /* ScrollableStackViewView.m in Sources */,
 				46E14C7B226A7146007938DA /* ViewController.m in Sources */,
-				46E14C94226A76D0007938DA /* Empty.swift in Sources */,
 				46E14C86226A7148007938DA /* main.m in Sources */,
 				4685DF4022861F40006B7FA2 /* GradientView.m in Sources */,
 				46E14C78226A7146007938DA /* AppDelegate.m in Sources */,

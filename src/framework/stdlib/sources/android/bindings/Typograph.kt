@@ -8,6 +8,8 @@ import java.io.FileOutputStream
 import android.os.StrictMode
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
 
 {{> androidDataClassStart }}
 
@@ -38,6 +40,17 @@ import android.util.TypedValue
 
             return getTypeface(font)
         }
+
+    val gravity: Int
+        get() {
+            return when (alignment) {
+                "natural" -> Gravity.START
+                "left" -> Gravity.LEFT
+                "center" -> Gravity.CENTER_HORIZONTAL
+                "right" -> Gravity.RIGHT
+                else -> Gravity.START
+            }
+        }
 }
 
 fun TextView.apply(typograph: Typograph) {
@@ -46,6 +59,8 @@ fun TextView.apply(typograph: Typograph) {
     this.setTextSize(unit, typograph.fontSize)
     this.setTextColor(typograph.color.color)
     this.letterSpacing = ((typograph.fontSize + typograph.letterSpacing) / typograph.fontSize) - 1
+    this.gravity = typograph.gravity
+    this.textAlignment = View.TEXT_ALIGNMENT_GRAVITY
 
     // TODO: Test for `null` instead of a magic number.
     if (typograph.lineHeight != -1f) {

@@ -1,4 +1,4 @@
-import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D} from '@diez/prefabs';
+import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment} from '@diez/prefabs';
 import {Margin} from './components/Margin';
 
 /**
@@ -62,6 +62,7 @@ class Typography {
     font: Fonts.SourceSansPro.Regular,
     fontSize: 18,
     color: palette.text,
+    alignment: TextAlignment.Center,
   });
 
   caption = new Typograph({

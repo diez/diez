@@ -1,4 +1,4 @@
-import {Font, IOSTextStyle, LinearGradient, Toward, Typograph} from '@diez/prefabs';
+import {Font, IOSTextStyle, LinearGradient, Toward, Typograph, TextAlignment} from '@diez/prefabs';
 import {poodleSurfTokens} from './PoodleSurf.sketch';
 
 class Palette {
@@ -53,6 +53,7 @@ class Typographs {
     fontSize: FontSizes.Title,
     color: palette.foreground,
     iosTextStyle: IOSTextStyle.Title1,
+    alignment: TextAlignment.Center,
   });
   headerCaption = new Typograph({
     font: Fonts.Nunito.Regular,
@@ -72,18 +73,21 @@ class Typographs {
     fontSize: FontSizes.Value,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Headline,
+    alignment: TextAlignment.Center,
   });
   unit = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Unit,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Subheadline,
+    alignment: TextAlignment.Center,
   });
   caption = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Caption2,
+    alignment: TextAlignment.Center,
   });
   captionHeader = new Typograph({
     font: Fonts.Nunito.Bold,

@@ -32,16 +32,13 @@ NS_ASSUME_NONNULL_BEGIN
     [super viewDidLoad];
 
     DEZLabel *label = [[DEZLabel alloc] init];
-    label.uiLabel.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:label];
 
     DEZTextView *textView = [[DEZTextView alloc] init];
-    textView.uiTextView.textAlignment = NSTextAlignmentCenter;
     textView.uiTextView.scrollEnabled = NO;
     [self.stackView appendView:textView];
 
     DEZTextField *textField = [[DEZTextField alloc] init];
-    textField.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:textField];
 
     UIImageView *imageView = [[UIImageView alloc] init];
@@ -61,11 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
     [panelView.heightAnchor constraintEqualToAnchor:panelView.widthAnchor multiplier:0.25].active = YES;
 
     UILabel *pointLabel = [[UILabel alloc] init];
-    pointLabel.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:pointLabel];
 
     UILabel *sizeLabel = [[UILabel alloc] init];
-    sizeLabel.textAlignment = NSTextAlignmentCenter;
     [self.stackView appendView:sizeLabel];
 
     self.diez = [[DEZDiezDesignSystem alloc] initWithView:self.view];

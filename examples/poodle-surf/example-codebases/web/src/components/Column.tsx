@@ -18,10 +18,10 @@ export default class Column extends React.PureComponent<ColumnProps> {
     const {name, value, icon, iconSize, ds, style} = this.props;
 
     return (
-      <div style={{textAlign: 'center', ...style}}>
+      <div style={style}>
         {icon && iconSize && <img src={icon} alt="" style={iconSize.style} />}
         <p style={{margin: 0, ...ds.valueTypograph.style}}>{value} <span style={ds.unitTypograph.style}>ft</span></p>
-        <span style={ds.timeTypograph.style}>{name}</span>
+        <p style={ds.timeTypograph.style}>{name}</p>
       </div>
     );
   }
