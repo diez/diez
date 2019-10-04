@@ -1,6 +1,6 @@
 import {Prefab, Target} from '@diez/engine';
 import {EventEmitter} from 'events';
-import {Type} from 'ts-morph';
+import {ClassDeclaration, ObjectLiteralExpression, Type} from 'ts-morph';
 
 declare module '@diez/cli-core/types/api' {
   /**
@@ -441,3 +441,8 @@ export interface Assembler<T extends TargetOutput> {
  * A factory for constructing an [[Assembler]].
  */
 export type AssemblerFactory<T extends TargetOutput> = (output: T) => Assembler<T>;
+
+/**
+ * An acceptable type for transpilation purposes is either a class declaration or a singleton object literal expression.
+ */
+export type AcceptableType = ClassDeclaration | ObjectLiteralExpression;

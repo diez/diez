@@ -2,9 +2,9 @@ import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from 
 import {Target} from '@diez/engine';
 import {noCase} from 'change-case';
 import {dirname, join, resolve} from 'path';
-import {Project} from 'ts-morph';
+import {Node, Project, TypeGuards} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
-import {AssemblerFactory, CompilerProvider, ComponentModule, Constructor, DiezType, NamedComponentMap, TargetOutput} from './api';
+import {AcceptableType, AssemblerFactory, CompilerProvider, ComponentModule, Constructor, DiezType, NamedComponentMap, PropertyDescription, TargetOutput} from './api';
 
 /**
  * A type guard for identifying a [[Constructor]] vs. a plain object.
@@ -237,4 +237,37 @@ export const inferProjectName = (projectName: string) => {
   } catch (error) {
     return 'design-system';
   }
+};
+
+/**
+ * A typeguard for determining if a type value has an acceptable type for transpilation purposes.
+ */
+export const isAcceptableType = (typeValue?: Node): typeValue is AcceptableType => {
+  if (typeValue === undefined) {
+    return false;
+  }
+
+  return TypeGuards.isClassDeclaration(typeValue) || TypeGuards.isObjectLiteralExpression(typeValue);
+};
+
+/**
+ * Retrives the description for an acceptable type.
+ */
+export const getDescriptionForValue = (typeValue: Node): PropertyDescription => {
+  const describable = (TypeGuards.isClassDeclaration(typeValue) || TypeGuards.isPropertyDeclaration(typeValue)) ?
+    typeValue :
+    typeValue.getParent();
+  if (!describable || !TypeGuards.isJSDocableNode(describable)) {
+    return {body: ''};
+  }
+
+  const lines = [];
+  for (const jsDoc of describable.getJsDocs()) {
+    const comment = jsDoc.getComment();
+    if (comment !== undefined) {
+      lines.push(comment);
+    }
+  }
+
+  return {body: lines.join('\n')};
 };

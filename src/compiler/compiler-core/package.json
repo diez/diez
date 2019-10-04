@@ -36,6 +36,7 @@
     "webpack-hot-middleware": "^2.24.3"
   },
   "devDependencies": {
+    "@diez/prefabs": "^10.0.0-beta.5",
     "@diez/test-utils": "^10.0.0-beta.5",
     "@types/cors": "^2.8.4",
     "@types/debounce": "^1.2.0",

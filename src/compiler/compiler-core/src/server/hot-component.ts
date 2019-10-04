@@ -10,6 +10,7 @@ declare global {
 window.__resourceQuery = '?timeout=1000';
 
 import {Patcher, serialize} from '@diez/engine';
+import {camelCase} from 'change-case';
 import {subscribe} from 'webpack-hot-middleware/client';
 
 // Mirrored in ../api.ts, but required at runtime in the web.
@@ -27,7 +28,8 @@ subscribe((message) => {
 
 const getComponentDefinition = async (): Promise<object | Constructor> => {
   const componentFile = await import(`${'@'}`) as any;
-  return componentFile[window.componentName];
+  // Fall back to the camel case variant of the component name. The parser capitalizes component names automatically.
+  return componentFile[window.componentName] || componentFile[camelCase(window.componentName)];
 };
 
 const loadComponent = async () => {

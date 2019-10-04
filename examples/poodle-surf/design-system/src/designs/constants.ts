@@ -1,27 +1,26 @@
 import {Font, IOSTextStyle, LinearGradient, Toward, Typograph, TextAlignment} from '@diez/prefabs';
 import {poodleSurfTokens} from './PoodleSurf.sketch';
 
-class Palette {
-  foreground = poodleSurfTokens.colors.black;
-  background = poodleSurfTokens.colors.white;
-  loadingBackground = poodleSurfTokens.colors.blue;
-  primary = poodleSurfTokens.colors.pink;
-  secondary = poodleSurfTokens.colors.orange;
-  separator = poodleSurfTokens.colors.whiteA40;
-  contentForeground = poodleSurfTokens.colors.white;
-  contentBackground = LinearGradient.make(Toward.BottomRight, this.primary, this.secondary);
-}
+const primary = poodleSurfTokens.colors.pink;
+const secondary = poodleSurfTokens.colors.orange;
 
 /**
  * A palette singleton, used throughout the design system.
  */
-export const palette = new Palette();
-
-class Shadows {
-  card = poodleSurfTokens.shadows.cardStyleDropShadow;
+export const palette = {
+  primary,
+  secondary,
+  foreground: poodleSurfTokens.colors.black,
+  background: poodleSurfTokens.colors.white,
+  loadingBackground: poodleSurfTokens.colors.blue,
+  separator: poodleSurfTokens.colors.whiteA40,
+  contentForeground: poodleSurfTokens.colors.white,
+  contentBackground: LinearGradient.make(Toward.BottomRight, primary, secondary),
 }
 
-export const shadows = new Shadows();
+export const shadows = {
+  card: poodleSurfTokens.shadows.cardStyleDropShadow,
+};
 
 /**
  * A registry of all of the design's fonts.

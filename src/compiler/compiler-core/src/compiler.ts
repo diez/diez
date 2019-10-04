@@ -1,6 +1,7 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
 import {serialize} from '@diez/engine';
+import {camelCase} from 'change-case';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';
 import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
@@ -220,7 +221,8 @@ export abstract class Compiler<
     purgeRequireCache(require.resolve(this.parser.emitRoot));
     const componentModule = await loadComponentModule(this.parser.emitRoot);
     for (const componentName of this.parser.rootComponentNames) {
-      const maybeConstructor = componentModule[componentName];
+      // Fall back to the camel case variant of the component name. The parser capitalizes component names automatically.
+      const maybeConstructor = componentModule[componentName] || componentModule[camelCase(componentName.toString())];
       if (!maybeConstructor) {
         Log.warning(`Unable to resolve component instance from ${this.parser.projectRoot}: ${componentName}.`);
         continue;

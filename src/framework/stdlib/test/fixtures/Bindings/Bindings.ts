@@ -22,39 +22,39 @@ const someFont = new Font({
   fallbacks: ['Verdana', 'serif'],
 });
 
-export class Bindings {
-  image = Image.responsive('assets/image with spaces.jpg', 246, 246);
+export const bindings = {
+  image: Image.responsive('assets/image with spaces.jpg', 246, 246),
 
-  lottie = Lottie.fromJson('assets/lottie.json');
+  lottie: Lottie.fromJson('assets/lottie.json'),
 
-  typograph = new Typograph({
+  typograph: new Typograph({
     font: someFont,
     fontSize: 50,
     color: Color.hex('#ff0'),
-  });
+  }),
 
-  tallTypograph = new Typograph({
+  tallTypograph: new Typograph({
     font: someFont,
     fontSize: 50,
     lineHeight: 100,
     letterSpacing: 10,
-  });
+  }),
 
-  linearGradient = LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255));
+  linearGradient: LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255)),
 
-  point = Point2D.make(0.5, 0.5);
+  point: Point2D.make(0.5, 0.5),
 
-  size = Size2D.make(400, 300);
+  size: Size2D.make(400, 300),
 
-  shadow = new DropShadow({
+  shadow: new DropShadow({
     offset: Point2D.make(1, 2),
     radius: 3,
     color: Color.rgba(0, 255, 0, 0.5),
-  });
+  }),
 
-  fill = Fill.color(Color.rgb(255, 0, 0));
+  fill: Fill.color(Color.rgb(255, 0, 0)),
 
-  panel = new Panel({
+  panel: new Panel({
     cornerRadius: 5,
     background: Fill.color(Color.rgb(0, 0, 255)),
     dropShadow: new DropShadow({
@@ -63,9 +63,9 @@ export class Bindings {
       color: Color.rgb(255, 0, 0),
     }),
     elevation: 6,
-  });
+  }),
 
-  color = new Color();
+  color: new Color(),
 
-  file = new File({src: 'assets/SomeFile.txt'});
-}
+  file: new File({src: 'assets/SomeFile.txt'}),
+};

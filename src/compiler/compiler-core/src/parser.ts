@@ -1,13 +1,14 @@
 /* tslint:disable:max-line-length ban-types */
 import {Log} from '@diez/cli-core';
+import {pascalCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {existsSync} from 'fs-extra';
 import {join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Expression, JSDocableNode, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, isClassDeclaration, Program, SymbolFlags, sys, TypeFormatFlags} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards} from 'ts-morph';
+import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys, TypeFormatFlags} from 'typescript';
 import {v4} from 'uuid';
-import {CompilerEvent, CompilerOptions, DiezComponent, DiezType, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyDescription, PropertyReference} from './api';
-import {getProject} from './utils';
+import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
+import {getDescriptionForValue, getProject, isAcceptableType} from './utils';
 
 /**
  * A [[Parser]] for a Diez project.
@@ -136,18 +137,6 @@ export class ProjectParser extends EventEmitter implements Parser {
     return PrimitiveType.Unknown;
   }
 
-  private getDescriptionForValue (describable: JSDocableNode): PropertyDescription {
-    const lines: string[] = [];
-    for (const jsDoc of describable.getJsDocs()) {
-      const comment = jsDoc.getComment();
-      if (comment !== undefined) {
-        lines.push(comment);
-      }
-    }
-
-    return {body: lines.join('\n')};
-  }
-
   /**
    * Attach references recursively from an expression, typically originating as a property declaration in a class.
    *
@@ -260,62 +249,88 @@ export class ProjectParser extends EventEmitter implements Parser {
   }
 
   /**
+   * Retrieves a globally unique type name for a symbol.
+   *
+   * This name is always cast to pascal case.
+   */
+  private getTypeForValueDeclaration (typeValue: AcceptableType): DiezType | undefined {
+    if (TypeGuards.isClassDeclaration(typeValue)) {
+      const className = typeValue.getName();
+      return className && pascalCase(className);
+    }
+
+    const predicate = typeValue.getParent();
+    if (!TypeGuards.isVariableDeclaration(predicate)) {
+      // This should never happen in real life, but technically an unassigned object literally expression is valid TypeScript.
+      return;
+    }
+
+    return pascalCase(predicate.getName());
+  }
+
+  /**
    * Processes a component type and attaches it to a preconstructed target component map.
    *
    * @returns `true` if we were able to process the type as a component.
    */
-  private processType (typescriptType: Type, sourceMap: Map<string, string>, isRootComponent = false) {
+  private processType (typescriptType: Type, sourceMap: Map<string, string>, isRootComponent = false): DiezType | undefined {
     const typeSymbol = typescriptType.getSymbol();
     if (!typescriptType.isObject() || !typeSymbol) {
-      return false;
+      return;
     }
 
-    const typeValue = typeSymbol.getValueDeclaration() as ClassDeclaration | undefined;
+    const typeValue = typeSymbol.getValueDeclaration();
+    if (!isAcceptableType(typeValue)) {
+      return;
+    }
 
-    if (typeValue === undefined || !isClassDeclaration(typeValue.compilerNode)) {
-      // FIXME: we should allow non-class declarations as long as they use explicit types.
-      return false;
+    const type = this.getTypeForValueDeclaration(typeValue);
+    if (!type) {
+      Log.warning('Unable to determine name for type value. Components without names are skipped.');
+      return;
+    }
+
+    if (this.components.has(type)) {
+      if (this.components.get(type)!.typescriptType !== typescriptType) {
+        // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
+        // We should be able to do this entirely within `getTypeValueForValueDeclaration`, using a `Map<Type, DiezType>`.
+        Log.warning(`Encountered a duplicate component name: ${type}. Please ensure no component names are duplicated.`);
+        return;
+      }
+
+      // We have already encountered this type and can safely skip it.
+      return type;
     }
 
     const children: Symbol[] = [];
-    if (typeValue.getBaseClass() === this.prefabDeclaration) {
-      for (const symbol of typescriptType.getProperties()) {
-        if (symbol.getFlags() !== SymbolFlags.Property) {
-          continue;
+    if (TypeGuards.isClassDeclaration(typeValue)) {
+      if (typeValue.getBaseClass() === this.prefabDeclaration) {
+        for (const symbol of typescriptType.getProperties()) {
+          if (symbol.getFlags() !== SymbolFlags.Property) {
+            continue;
+          }
+          children.push(symbol);
         }
-        children.push(symbol);
+      } else {
+        for (const property of typeValue.getProperties()) {
+          if (property.getScope() !== Scope.Public) {
+            continue;
+          }
+
+          children.push(typeSymbol.getMemberOrThrow(property.getName()));
+        }
       }
     } else {
       for (const property of typeValue.getProperties()) {
-        if (property.getScope() !== Scope.Public) {
-          continue;
+        // TODO: support spread notation, etc.
+        if (TypeGuards.isPropertyAssignment(property) || TypeGuards.isShorthandPropertyAssignment(property)) {
+          children.push(typeSymbol.getMemberOrThrow(property.getName()));
         }
-
-        children.push(typeSymbol.getMemberOrThrow(property.getName()));
       }
     }
 
-    const type = typeValue.getName();
-    if (!type) {
-      // FIXME: we should be able to handle this by automatically generating anonymous componenet names.
-      Log.warning('Encountered an unnamed component class. Components without names are skipped.');
-      return false;
-    }
-
-    if (
-      this.components.has(type)
-    ) {
-      if (this.components.get(type)!.typescriptType !== typescriptType) {
-        // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
-        Log.warning(`Encountered a duplicate component name: ${type}. Please ensure no component names are duplicated.`);
-        return false;
-      }
-
-      return true;
-    }
-
-    // Note if the object in question is fixed, i.e. receives no constructor arguments.
-    let constructorClass: ClassDeclaration | undefined = typeValue;
+    // Note if the object in question is fixed, i.e. receives no constructor arguments. This is true of all anonymous types (object literals).
+    let constructorClass: ClassDeclaration | undefined = TypeGuards.isClassDeclaration(typeValue) ? typeValue : undefined;
     while (constructorClass && !constructorClass.getConstructors().length) {
       constructorClass = constructorClass.getBaseClass();
     }
@@ -336,7 +351,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         ambiguousTypes: new Set(),
       },
       sourceModule: sourceModule || '.',
-      description: this.getDescriptionForValue(typeValue),
+      description: getDescriptionForValue(typeValue),
     };
 
     for (const typeMember of children) {
@@ -346,7 +361,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         continue;
       }
       const propertyName = valueDeclaration.getName();
-      const description = this.getDescriptionForValue(valueDeclaration);
+      const description = getDescriptionForValue(valueDeclaration);
       let propertyType = this.checker.getTypeAtLocation(valueDeclaration);
       // Process array type depth.
       // TODO: support tuples and other iterables.
@@ -395,11 +410,10 @@ export class ProjectParser extends EventEmitter implements Parser {
         continue;
       }
 
-      if (!this.processType(propertyType, sourceMap)) {
+      const diezType = this.processType(propertyType, sourceMap);
+      if (!diezType) {
         continue;
       }
-
-      const candidateSymbol = propertyType.getSymbolOrThrow();
 
       newTarget.properties.push({
         depth,
@@ -407,13 +421,13 @@ export class ProjectParser extends EventEmitter implements Parser {
         references,
         name: propertyName,
         isComponent: true,
-        type: candidateSymbol.getName(),
+        type: diezType,
         parentType: type,
       });
     }
 
     this.components.set(type, newTarget);
-    return true;
+    return type;
   }
 
   private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
@@ -458,9 +472,10 @@ export class ProjectParser extends EventEmitter implements Parser {
     this.locateSources(sourceFile, sourceMap);
     for (const exportedDeclarations of sourceFile.getExportedDeclarations().values()) {
       for (const exportDeclaration of exportedDeclarations) {
-        const type = this.checker.getTypeAtLocation(exportDeclaration);
-        if (this.processType(type, sourceMap, true)) {
-          this.rootComponentNames.add(type.getSymbolOrThrow().getName());
+        const typescriptType = this.checker.getTypeAtLocation(exportDeclaration);
+        const diezType = this.processType(typescriptType, sourceMap, true);
+        if (diezType) {
+          this.rootComponentNames.add(diezType);
         }
       }
     }
