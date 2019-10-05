@@ -18,18 +18,18 @@ export = {
     }
 
     if (
-      runQuiet('git remote get-url upstream') !== 'git@github.com:diez/diez.git' ||
+      runQuiet('git remote get-url origin') !== 'git@github.com:diez/diez.git' ||
       runQuiet('git ls-remote --get-url') !== 'git@github.com:diez/diez.git'
     ) {
-      throw new Error('You must track an `upstream` remote at `git@github.com:diez/diez.git` to create a release.');
+      throw new Error('You must track an `origin` remote at `git@github.com:diez/diez.git` to create a release.');
     }
 
     if (runQuiet('git diff') || runQuiet('git diff --staged')) {
       throw new Error('Working tree has untracked changes; unable to proceed.');
     }
 
-    run('git fetch upstream --tags');
-    if (runQuiet('git diff upstream/master')) {
+    run('git fetch origin --tags');
+    if (runQuiet('git diff origin/master')) {
       throw new Error('You must be up to date on the latest `master` branch to create a release.');
     }
 
