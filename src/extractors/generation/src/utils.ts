@@ -256,7 +256,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
         ...[2, 3, 4].map((multiplier) => ({
           name: `${assetName}${multiplier}x`,
           isStatic: true,
-          initializer: `new File({src: "${parsedSrc.dir}/${parsedSrc.name}@${multiplier}x${parsedSrc.ext}"})`,
+          initializer: `new File({src: "${join(parsedSrc.dir, parsedSrc.name)}@${multiplier}x${parsedSrc.ext}"})`,
         })),
       ]);
       imagesClass.addProperty({
