@@ -22,6 +22,7 @@ export const primitives = {
   // Lists of consistent depth and typing should carry through without issue.
   integers: [[1, 2], [3, 4], [5]],
   strings: [[['6'], ['7']], [['8'], ['9']], [['10']]],
+  emptyList: [] as string[],
 
   // This child component should override the default value.
   child: new ChildComponent({diez: 10}),

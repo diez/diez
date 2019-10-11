@@ -13,6 +13,7 @@ export declare class Primitives extends RootComponent {
   boolean: boolean;
   integers: number[][];
   strings: string[][][];
+  emptyList: string[];
   child: ChildComponent;
   childs: ChildComponent[][];
   emptyChild: EmptyComponent;

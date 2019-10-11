@@ -23,7 +23,7 @@ describe('parser', () => {
     expect(validComponent.isFixedComponent).toBe(true);
     expect(validComponent.sourceModule).toBe('.');
     expect(validComponent.sourceFile).toBe('src/index.ts');
-    expect(validComponent.properties.length).toBe(10);
+    expect(validComponent.properties.length).toBe(11);
 
     expect(findProperty(validComponent, 'int').type).toBe(PrimitiveType.Int);
     expect(findProperty(validComponent, 'int').depth).toBe(0);
@@ -47,6 +47,10 @@ describe('parser', () => {
     expect(list2.type).toBe(PrimitiveType.String);
     expect(list1.depth).toBe(1);
     expect(list2.depth).toBe(2);
+
+    const emptyList = findProperty(validComponent, 'emptyList');
+    expect(emptyList.type).toBe(PrimitiveType.String);
+    expect(emptyList.depth).toBe(1);
 
     const warnings = validComponent.warnings;
     expect(warnings.ambiguousTypes.has('invalidEnum')).toBe(true);

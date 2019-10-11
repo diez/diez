@@ -3,6 +3,7 @@ import {
   Assembler,
   Compiler,
   CompilerTargetHandler,
+  DiezType,
   getAssemblerFactory,
   PrimitiveType,
   Property,
@@ -113,11 +114,23 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
    *
    * @abstract
    */
-  protected collectComponentProperties (allProperties: (TargetProperty | undefined)[]) {
+  protected collectComponentProperties (
+    parent: Property,
+    allProperties: (TargetProperty | undefined)[],
+  ) {
     const properties = allProperties.filter((property) => property !== undefined) as TargetProperty[];
     const reference = properties[0];
     if (!reference) {
-      return;
+      const name = parent.isComponent ? parent.type : this.getPrimitiveName(parent.type);
+      if (!name) {
+        return;
+      }
+
+      return {
+        ...parent,
+        type: `[${name}]`,
+        initializer: '[]',
+      };
     }
 
     return {
@@ -145,36 +158,36 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
   /**
    * @abstract
    */
-  protected getPrimitive (property: Property, instance: any): TargetProperty | undefined {
-    switch (property.type) {
+  protected getPrimitiveName (type: DiezType): string | undefined {
+    switch (type) {
       case PrimitiveType.String:
-        return {
-          ...property,
-          type: 'String',
-          initializer: `"${instance}"`,
-        };
+        return 'String';
       case PrimitiveType.Float:
       case PrimitiveType.Number:
-        return {
-          ...property,
-          type: 'CGFloat',
-          initializer: instance.toString(),
-        };
+        return 'CGFloat';
       case PrimitiveType.Int:
-        return {
-          ...property,
-          type: 'Int',
-          initializer: instance.toString(),
-        };
+        return 'Int';
       case PrimitiveType.Boolean:
-        return {
-          ...property,
-          type: 'Bool',
-          initializer: instance.toString(),
-        };
+        return 'Bool';
       default:
-        Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
-        return;
+        return undefined;
+    }
+  }
+
+  /**
+   * @abstract
+   */
+  protected getPrimitiveInitializer (type: DiezType, instance: any): string | undefined {
+    switch (type) {
+      case PrimitiveType.String:
+        return `"${instance}"`;
+      case PrimitiveType.Float:
+      case PrimitiveType.Number:
+      case PrimitiveType.Int:
+      case PrimitiveType.Boolean:
+        return instance.toString();
+      default:
+        return undefined;
     }
   }
 

@@ -18,7 +18,7 @@ describe('compiler', () => {
     expect(targetComponent.properties).toEqual([
       {
         initializer: 'true',
-        type: PrimitiveType.Boolean,
+        type: PrimitiveType.Boolean.toString(),
         isComponent: false,
         depth: 0,
         description: {body: ''},
@@ -27,7 +27,7 @@ describe('compiler', () => {
       },
       {
         initializer: '[true, true, true]',
-        type: `Array<${PrimitiveType.Boolean}>`,
+        type: `Array<${PrimitiveType.Boolean.toString()}>`,
         isComponent: false,
         depth: 1,
         description: {body: ''},

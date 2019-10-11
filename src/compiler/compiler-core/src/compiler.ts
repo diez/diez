@@ -42,7 +42,7 @@ export abstract class Compiler<
    * For example, this method might turn `["foo", "bar"]` into `new ArrayList<String>(){{ add("foo"); add("bar"); }}`
    * for a Java target.
    */
-  protected abstract collectComponentProperties (allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined;
+  protected abstract collectComponentProperties (parent: Property, allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined;
 
   /**
    * Gets the target-specific initializer for a given target component spec.
@@ -52,9 +52,18 @@ export abstract class Compiler<
   protected abstract getInitializer (targetComponent: TargetDiezComponent): string;
 
   /**
-   * Gets the target-specific spec for given primitive component type.
+   * Gets the target-specific primitive type name for the provided type.
+   *
+   * For example, this method might return `String` on a platform where "String" is the target's string type name.
    */
-  protected abstract getPrimitive (property: Property, instance: any): TargetProperty | undefined;
+  protected abstract getPrimitiveName (type: DiezType): string | undefined;
+
+  /**
+   * Gets the target-specific primitive type initializer for the provided type.
+   *
+   * For example, this method might return `"foo"` for a string.
+   */
+  protected abstract getPrimitiveInitializer (type: DiezType, instance: any): string | undefined;
 
   /**
    * The root where we should place static assets.
@@ -123,6 +132,24 @@ export abstract class Compiler<
   }
 
   /**
+   * Gets the target-specific spec for given primitive component type.
+   */
+  protected getPrimitive (property: Property, instance: any): TargetProperty | undefined {
+    const name = this.getPrimitiveName(property.type);
+    const initializer = this.getPrimitiveInitializer(property.type, instance);
+    if (!name || !initializer) {
+      Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
+      return;
+    }
+
+    return {
+      ...property,
+      initializer,
+      type: name,
+    };
+  }
+
+  /**
    * Recursively processes a component property.
    */
   protected async processComponentProperty (
@@ -138,7 +165,7 @@ export abstract class Compiler<
         return;
       }
 
-      return this.collectComponentProperties(await Promise.all(instance.map(async (child, index) =>
+      return this.collectComponentProperties(property, await Promise.all(instance.map(async (child, index) =>
         this.processComponentProperty(property, child, serializedInstance[index], component),
       )));
     }

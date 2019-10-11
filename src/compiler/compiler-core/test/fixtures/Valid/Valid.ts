@@ -69,6 +69,9 @@ export class Valid {
   validListDepth1 = [10, 10, 10, 10];
   validListDepth2 = [['10', '10'], ['10', '10']];
 
+  // Ensure empty lists are generated
+  emptyList: string[] = [];
+
   // This list type has uniform depth, but of an underlying union.
   invalidListUniformDepth = [10, '10'];
 

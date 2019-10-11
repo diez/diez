@@ -29,6 +29,7 @@ class Primitives {
     boolean = true,
     integers = [[1, 2], [3, 4], [5]],
     strings = [[["6"], ["7"]], [["8"], ["9"]], [["10"]]],
+    emptyList = [],
     child = {diez: 10},
     childs = [[{diez: 10}]],
     emptyChild = {}
@@ -40,6 +41,7 @@ class Primitives {
     this.boolean = boolean;
     this.integers = integers;
     this.strings = strings;
+    this.emptyList = emptyList;
     this.child = new ChildComponent(child);
     this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));
     this.emptyChild = new EmptyComponent(emptyChild);

@@ -10,6 +10,7 @@ public final class Primitives: NSObject, RootComponent {
     @objc public internal(set) var boolean: Bool
     @objc public internal(set) var integers: [[CGFloat]]
     @objc public internal(set) var strings: [[[String]]]
+    @objc public internal(set) var emptyList: [String]
     @objc public internal(set) var child: ChildComponent
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent
@@ -23,6 +24,7 @@ public final class Primitives: NSObject, RootComponent {
             boolean: true,
             integers: [[1, 2], [3, 4], [5]],
             strings: [[["6"], ["7"]], [["8"], ["9"]], [["10"]]],
+            emptyList: [],
             child: ChildComponent(diez: 10),
             childs: [[ChildComponent(diez: 10)]],
             emptyChild: EmptyComponent()
@@ -37,6 +39,7 @@ public final class Primitives: NSObject, RootComponent {
         boolean: Bool,
         integers: [[CGFloat]],
         strings: [[[String]]],
+        emptyList: [String],
         child: ChildComponent,
         childs: [[ChildComponent]],
         emptyChild: EmptyComponent
@@ -48,6 +51,7 @@ public final class Primitives: NSObject, RootComponent {
         self.boolean = boolean
         self.integers = integers
         self.strings = strings
+        self.emptyList = emptyList
         self.child = child
         self.childs = childs
         self.emptyChild = emptyChild

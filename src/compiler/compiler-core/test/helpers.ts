@@ -1,7 +1,7 @@
 import {Target} from '@diez/engine';
 import {readdirSync, readFileSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
-import {Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from '../src/api';
+import {DiezType, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from '../src/api';
 import {Compiler} from '../src/compiler';
 import {ProjectParser} from '../src/parser';
 
@@ -68,11 +68,12 @@ export class TestCompiler extends Compiler<TargetOutput, TargetBinding> {
   }
 
   protected collectComponentProperties (
+    parent: Property,
     allProperties: (TargetProperty | undefined)[]): TargetProperty | undefined {
     const properties = allProperties as TargetProperty[];
     return {
       ...properties[0],
-      type: `Array<${properties[0].type}>`,
+      type: `Array<${parent.type}>`,
       initializer: `[${properties.map((property) => property.initializer).join(', ')}]`,
     };
   }
@@ -86,11 +87,12 @@ export class TestCompiler extends Compiler<TargetOutput, TargetBinding> {
     return `${targetComponent.type}(${propertyInitializers.join(', ')})`;
   }
 
-  protected getPrimitive (property: Property, instance: any) {
-    return {
-      ...property,
-      initializer: instance.toString(),
-    };
+  protected getPrimitiveName (type: DiezType) {
+    return type.toString();
+  }
+
+  protected getPrimitiveInitializer (type: DiezType, instance: any) {
+    return instance.toString();
   }
 
   printUsageInstructionsMock = jest.fn();
