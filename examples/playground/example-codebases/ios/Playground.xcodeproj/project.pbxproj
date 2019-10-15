@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		462092AA23512B1D0004E268 /* EditableTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462092A923512B1D0004E268 /* EditableTextViewController.swift */; };
+		462092AC235131B10004E268 /* EditableTextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462092AB235131B10004E268 /* EditableTextFieldViewController.swift */; };
 		4631DE97234666750077FF38 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4631DE96234666750077FF38 /* AppDelegate.swift */; };
 		4631DEB92346670D0077FF38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4631DEA92346670C0077FF38 /* Assets.xcassets */; };
 		4631DEBA2346670D0077FF38 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4631DEAA2346670C0077FF38 /* LaunchScreen.storyboard */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		462092A923512B1D0004E268 /* EditableTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTextViewController.swift; sourceTree = "<group>"; };
+		462092AB235131B10004E268 /* EditableTextFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTextFieldViewController.swift; sourceTree = "<group>"; };
 		4631DE93234666750077FF38 /* Playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Playground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4631DE96234666750077FF38 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4631DEA92346670C0077FF38 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				4631DEB12346670D0077FF38 /* BarButtonItemViewController.swift */,
 				4631DEAF2346670D0077FF38 /* NavigationItems.swift */,
 				4631DEB22346670D0077FF38 /* SegmentedControlViewController.swift */,
+				462092A923512B1D0004E268 /* EditableTextViewController.swift */,
+				462092AB235131B10004E268 /* EditableTextFieldViewController.swift */,
 				4631DEB02346670D0077FF38 /* TextSettableView.swift */,
 			);
 			path = Typograph;
@@ -280,8 +286,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				462092AC235131B10004E268 /* EditableTextFieldViewController.swift in Sources */,
 				4631DEC32346670D0077FF38 /* NavigationItem.swift in Sources */,
 				4631DEBC2346670D0077FF38 /* NavigationItems.swift in Sources */,
+				462092AA23512B1D0004E268 /* EditableTextViewController.swift in Sources */,
 				4631DEC02346670D0077FF38 /* BaselineAlignViewController.swift in Sources */,
 				4631DEBE2346670D0077FF38 /* BarButtonItemViewController.swift in Sources */,
 				4631DEC12346670D0077FF38 /* BaselineAlignView.swift in Sources */,

@@ -31,6 +31,9 @@ let typographNavigationItem = NavigationItem(title: "Typograph", content: .list(
                 }
             )
         })),
+        NavigationItem(title: "Editable Text", content: .viewController({
+            EditableTextViewController()
+        })),
     ])),
     NavigationItem(title: "TextField", content: .list([
         NavigationItem(title: "Baseline Alignment", content: .viewController({
@@ -40,6 +43,9 @@ let typographNavigationItem = NavigationItem(title: "Typograph", content: .list(
                     textField.apply(typograph)
                 }
             )
+        })),
+        NavigationItem(title: "Editable Text", content: .viewController({
+            EditableTextFieldViewController()
         })),
     ])),
     NavigationItem(title: "Button", content: .list([

@@ -99,7 +99,7 @@ extension UITextView {
         preventBaselineOffset: Bool = false
     ) {
         guard let typograph = typograph else {
-            self.attributedText = text
+            self.attributedText = textStorage(from: text)
             return
         }
 
@@ -108,12 +108,12 @@ extension UITextView {
         adjustsFontForContentSizeCategory = typograph.shouldScale
 
         guard let attributedText = text else {
-            self.attributedText = text
+            self.attributedText = nil
             return
         }
 
         guard attributedText.length > 0 else {
-            self.attributedText = attributedText
+            self.attributedText = textStorage(from: text)
             return
         }
 
@@ -126,6 +126,17 @@ extension UITextView {
         )
         let attributes = inputAttributes.merging(typographAttributes, uniquingKeysWith: { $1 })
 
-        self.attributedText = NSAttributedString(string: attributedText.string, attributes: attributes)
+        let attributedString = NSAttributedString(string: attributedText.string, attributes: attributes)
+        self.attributedText = textStorage(from: attributedString)
+    }
+
+    // Wrapping the string in NSTextStorage seeems to resolve an issue where `NSOriginalFont` would be added to the attributed string attributes.
+    // See https://stackoverflow.com/a/32177149
+    private func textStorage(from attributedString: NSAttributedString?) -> NSTextStorage? {
+        guard let attributedString = attributedString else {
+            return nil
+        }
+
+        return NSTextStorage(attributedString: attributedString)
     }
 }

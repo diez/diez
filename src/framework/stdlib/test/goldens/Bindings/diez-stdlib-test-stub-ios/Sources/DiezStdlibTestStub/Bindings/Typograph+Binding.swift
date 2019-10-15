@@ -5,7 +5,12 @@ import UIKit
 
 private var registeredFonts: Set<String> = []
 
-private func registerFont(_ font: Font) {
+/**
+ Registers the provided font.
+
+ - Note: This registration occurs automatically when applying a `Typograph`. You should only call this manually if you'd like to utilize `Font` without going through `Typograph`, or if you'd like to register fonts that are not referenced direclty by a `Typograph` (e.g. if you want a `TextView` to be capable toggling the bold-ness of text but only reference the bold font face in your exported Diez project).
+ */
+public func registerFont(_ font: Font) {
     if font.file.src == "" || registeredFonts.contains(font.file.src) {
         return
     }
@@ -14,8 +19,7 @@ private func registerFont(_ font: Font) {
 
     guard
         let url = font.file.url,
-        let data = try? Data(contentsOf: url) as CFData,
-        let dataProvider = CGDataProvider(data: data),
+        let dataProvider = CGDataProvider(url: url as CFURL),
         let cgFont = CGFont(dataProvider) else {
             return
     }
