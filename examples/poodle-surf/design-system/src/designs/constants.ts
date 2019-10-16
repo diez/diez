@@ -46,54 +46,54 @@ enum FontSizes {
   Unit = 16,
 }
 
-class Typographs {
-  headerTitle = new Typograph({
+export const typographs = {
+  headerTitle: new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Title,
     color: palette.foreground,
     iosTextStyle: IOSTextStyle.Title1,
     alignment: TextAlignment.Center,
-  });
-  headerCaption = new Typograph({
+  }),
+  headerCaption: new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.foreground,
     iosTextStyle: IOSTextStyle.Caption1,
-  });
-  cardTitle = new Typograph({
+  }),
+  cardTitle: new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.CardTitle,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Title2,
     shouldScale: true,
-  });
-  value = new Typograph({
+  }),
+  value: new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Value,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Headline,
     alignment: TextAlignment.Center,
-  });
-  unit = new Typograph({
+  }),
+  unit: new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Unit,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Subheadline,
     alignment: TextAlignment.Center,
-  });
-  caption = new Typograph({
+  }),
+  caption: new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: FontSizes.Caption,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Caption2,
     alignment: TextAlignment.Center,
-  });
-  captionHeader = new Typograph({
+  }),
+  captionHeader: new Typograph({
     font: Fonts.Nunito.Bold,
     fontSize: FontSizes.Caption,
     color: palette.contentForeground,
     iosTextStyle: IOSTextStyle.Caption2,
-  });
+  }),
 }
 
 /**
@@ -106,8 +106,3 @@ export enum LayoutValues {
   DefaultSpacing = 10,
   CompactSpacing = 5,
 }
-
-/**
- * A Typographs singleton, used throughout the design system.
- */
-export const typographs = new Typographs();

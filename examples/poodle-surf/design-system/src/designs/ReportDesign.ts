@@ -1,27 +1,27 @@
-import {Color, DropShadow, LinearGradient, Panel, Size2D, Typograph, Fill} from '@diez/prefabs';
+import {Color, Panel, Size2D, Typograph, Fill} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
 import {PoodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
 import {LayoutValues, palette, shadows, typographs} from './constants';
 
-class LocationImageDesign {
-  strokeWidth = 3;
-  strokeGradient = palette.contentBackground;
-  widthAndHeight = 106;
+const locationImageDesign = {
+  strokeWidth: 3,
+  strokeGradient: palette.contentBackground,
+  widthAndHeight: 106,
 }
 
-class HeaderDesign {
-  regionLabel = typographs.headerTitle;
-  placeLabel = typographs.headerCaption;
-  mapPinIcon = PoodleSurfSlices.MapPin;
-  locationImage = new LocationImageDesign();
-  bannerHeight = 149;
-  labelsLayoutMargin = EdgeInsets.simple(
+const headerDesign = {
+  regionLabel: typographs.headerTitle,
+  placeLabel: typographs.headerCaption,
+  mapPinIcon: PoodleSurfSlices.MapPin,
+  locationImage: locationImageDesign,
+  bannerHeight: 149,
+  labelsLayoutMargin: EdgeInsets.simple(
     LayoutValues.CompactMargin,
     LayoutValues.DefaultMargin,
-  );
-  pinIconToLabelSpacing = LayoutValues.DefaultSpacing;
-  labelsSpacing = LayoutValues.CompactSpacing;
+  ),
+  pinIconToLabelSpacing: LayoutValues.DefaultSpacing,
+  labelsSpacing: LayoutValues.CompactSpacing,
 }
 
 interface SharedCardDesignData {
@@ -52,44 +52,44 @@ class SharedCardDesign extends prefab<SharedCardDesignData>() {
   };
 }
 
-class TemperatureDesign {
-  typograph = typographs.value;
-  icon = PoodleSurfSlices.Thermometer;
-  iconSpacing = LayoutValues.DefaultSpacing;
+const temperatureDesign = {
+  typograph: typographs.value,
+  icon: PoodleSurfSlices.Thermometer,
+  iconSpacing: LayoutValues.DefaultSpacing,
 }
 
-class WetsuitDesign {
-  headerText = 'Recommended';
-  headerTypograph = typographs.captionHeader;
-  valueTypograph = typographs.caption;
-  labelSpacing = LayoutValues.CompactSpacing;
-  iconSpacing = LayoutValues.DefaultSpacing;
-  icon = PoodleSurfSlices.Gear;
+const wetsuitDesign = {
+  headerText: 'Recommended',
+  headerTypograph: typographs.captionHeader,
+  valueTypograph: typographs.caption,
+  labelSpacing: LayoutValues.CompactSpacing,
+  iconSpacing: LayoutValues.DefaultSpacing,
+  icon: PoodleSurfSlices.Gear,
 }
 
-class WaterTemperatureCardDesign {
-  shared = new SharedCardDesign({
+const waterTemperatureCardDesign = {
+  shared: new SharedCardDesign({
     title: 'Water temperature',
-  });
-  horizontalSpacing = LayoutValues.DefaultMargin;
-  temperature = new TemperatureDesign();
-  wetsuit = new WetsuitDesign();
+  }),
+  horizontalSpacing: LayoutValues.DefaultMargin,
+  temperature: temperatureDesign,
+  wetsuit: wetsuitDesign,
 }
 
-const DayPartIconSize = 78;
+const dayPartIconSize = 78;
 
-class DayPartDesign {
-  valueTypograph = typographs.value;
-  unitTypograph = typographs.unit;
-  timeTypograph = typographs.caption;
-  valueUnitSpacing = LayoutValues.CompactSpacing;
-  layoutMargins = new EdgeInsets();
-  iconSize = Size2D.make(DayPartIconSize, DayPartIconSize);
+const dayPartDesign = {
+  valueTypograph: typographs.value,
+  unitTypograph: typographs.unit,
+  timeTypograph: typographs.caption,
+  valueUnitSpacing: LayoutValues.CompactSpacing,
+  layoutMargins: new EdgeInsets(),
+  iconSize: Size2D.make(dayPartIconSize, dayPartIconSize),
 }
 
 interface ForecastCardDesignData {
   shared: SharedCardDesign;
-  dayPart: DayPartDesign;
+  dayPart: typeof dayPartDesign;
   unit: string;
   dayPartsHorizontalSpacing: number;
   dayPartVerticalSpacing: number;
@@ -101,7 +101,7 @@ interface ForecastCardDesignData {
 class ForecastCardDesign extends prefab<ForecastCardDesignData>() {
   defaults = {
     shared: new SharedCardDesign(),
-    dayPart: new DayPartDesign(),
+    dayPart: dayPartDesign,
     unit: '',
     dayPartsHorizontalSpacing: LayoutValues.DefaultMargin,
     dayPartVerticalSpacing: LayoutValues.LooseMargin,
@@ -114,13 +114,13 @@ class ForecastCardDesign extends prefab<ForecastCardDesignData>() {
 /**
  * The report design.
  */
-export class ReportDesign {
-  backgroundColor = palette.background;
-  contentLayoutMargins = EdgeInsets.simple(LayoutValues.DefaultMargin);
-  contentSpacing = LayoutValues.DefaultMargin;
-  header = new HeaderDesign();
-  waterTemperature = new WaterTemperatureCardDesign();
-  wind = new ForecastCardDesign({
+export const reportDesign = {
+  backgroundColor: palette.background,
+  contentLayoutMargins: EdgeInsets.simple(LayoutValues.DefaultMargin),
+  contentSpacing: LayoutValues.DefaultMargin,
+  header: headerDesign,
+  waterTemperature: waterTemperatureCardDesign,
+  wind: new ForecastCardDesign({
     shared: new SharedCardDesign({
       title: 'Wind',
     }),
@@ -129,17 +129,17 @@ export class ReportDesign {
     valueUnitMargins: new EdgeInsets({
       top: LayoutValues.DefaultMargin,
     }),
-  });
-  swell = new ForecastCardDesign({
+  }),
+  swell: new ForecastCardDesign({
     shared: new SharedCardDesign({
       title: 'Swell',
     }),
     unit: 'ft',
-  });
-  tide = new ForecastCardDesign({
+  }),
+  tide: new ForecastCardDesign({
     shared: new SharedCardDesign({
       title: 'Tide',
     }),
     unit: 'ft',
-  });
+  }),
 }

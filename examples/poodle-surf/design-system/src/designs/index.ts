@@ -1,4 +1,4 @@
-export {LoadingDesign} from './LoadingDesign';
-export {ReportDesign} from './ReportDesign';
-export {NavigationTitleDesign} from './NavigationTitleDesign';
+export {loadingDesign} from './LoadingDesign';
+export {reportDesign} from './ReportDesign';
+export {navigationTitleDesign} from './NavigationTitleDesign';
 export * from './constants';

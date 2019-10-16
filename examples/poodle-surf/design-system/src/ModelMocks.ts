@@ -1,8 +1,8 @@
-import {ReportModelMock} from './mocks';
+import {reportModelMock} from './mocks';
 
 /**
  * The model mocks for Poodle Surf.
  */
-export class ModelMocks {
-  report = new ReportModelMock();
+export const modelMocks = {
+  report: reportModelMock,
 }

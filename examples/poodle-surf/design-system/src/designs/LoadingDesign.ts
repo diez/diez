@@ -10,7 +10,7 @@ enum LottieJsons {
 /**
  * The loading design.
  */
-export class LoadingDesign {
-  backgroundColor = palette.loadingBackground;
-  animation = Lottie.fromJson(LottieJsons.PoodleSurf);
+export const loadingDesign = {
+  backgroundColor: palette.loadingBackground,
+  animation: Lottie.fromJson(LottieJsons.PoodleSurf),
 }

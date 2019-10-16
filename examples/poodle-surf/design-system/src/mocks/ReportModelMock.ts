@@ -3,16 +3,16 @@ import {prefab} from '@diez/engine';
 import {DayPartTimes} from './constants';
 import {PoodleSurfSlicesFiles} from '../designs/PoodleSurf.sketch';
 
-class LocationMock {
-  region = 'Santa Cruz, CA';
-  place = 'Natural Bridges State Park';
-  mapImage = PoodleSurfSlicesFiles.SantaCruzMap3x;
-  bannerImage = PoodleSurfSlicesFiles.SantaCruzBanner3x;
+const locationMock = {
+  region: 'Santa Cruz, CA',
+  place: 'Natural Bridges State Park',
+  mapImage: PoodleSurfSlicesFiles.SantaCruzMap3x,
+  bannerImage: PoodleSurfSlicesFiles.SantaCruzBanner3x,
 }
 
-class TemperatureMock {
-  value = '55°F';
-  gear = '4mm Wetsuit';
+const temperatureMock = {
+  value: '55°F',
+  gear: '4mm Wetsuit',
 }
 
 interface WindDayPartMockData {
@@ -29,22 +29,22 @@ class WindDayPartMock extends prefab<WindDayPartMockData>() {
   };
 }
 
-class WindMock {
-  early = new WindDayPartMock({
+const windMock = {
+  early: new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionSouthWest3x,
     value: '4',
     dayPart: DayPartTimes.Early,
-  });
-  middle = new WindDayPartMock({
+  }),
+  middle: new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionSouth3x,
     value: '12',
     dayPart: DayPartTimes.Middle,
-  });
-  late = new WindDayPartMock({
+  }),
+  late: new WindDayPartMock({
     direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
     value: '17',
     dayPart: DayPartTimes.Late,
-  });
+  }),
 }
 
 interface ForecastDayPartMockData {
@@ -76,11 +76,11 @@ class ForecastMock extends prefab<ForecastMockData>() {
 /**
  * A mock API report object.
  */
-export class ReportModelMock {
-  location = new LocationMock();
-  temperature = new TemperatureMock();
-  wind = new WindMock();
-  swell = new ForecastMock({
+export const reportModelMock = {
+  location: locationMock,
+  temperature: temperatureMock,
+  wind: windMock,
+  swell: new ForecastMock({
     early: new ForecastDayPartMock({
       value: '6.3',
       dayPart: DayPartTimes.Early,
@@ -93,8 +93,8 @@ export class ReportModelMock {
       value: '6.5',
       dayPart: DayPartTimes.Late,
     }),
-  });
-  tide = new ForecastMock({
+  }),
+  tide: new ForecastMock({
     early: new ForecastDayPartMock({
       value: '5',
       dayPart: DayPartTimes.Early,
@@ -107,5 +107,5 @@ export class ReportModelMock {
       value: '4',
       dayPart: DayPartTimes.Late,
     }),
-  });
+  }),
 }

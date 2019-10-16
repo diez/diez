@@ -1,16 +1,16 @@
-import {LoadingDesign, NavigationTitleDesign, palette, ReportDesign, typographs} from './designs';
+import {loadingDesign, navigationTitleDesign, palette, reportDesign, typographs} from './designs';
 
-class Designs {
-  report = new ReportDesign();
-  loading = new LoadingDesign();
-  navigationTitle = new NavigationTitleDesign();
+const designs = {
+  report: reportDesign,
+  loading: loadingDesign,
+  navigationTitle: navigationTitleDesign,
 }
 
 /**
  * The design system for Poodle Surf.
  */
-export class DesignSystem {
-  palette = palette;
-  typographs = typographs;
-  designs = new Designs();
+export const designSystem = {
+  designs,
+  palette,
+  typographs,
 }

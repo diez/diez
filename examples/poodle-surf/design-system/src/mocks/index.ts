@@ -1,1 +1,1 @@
-export {ReportModelMock} from './ReportModelMock';
+export {reportModelMock} from './ReportModelMock';

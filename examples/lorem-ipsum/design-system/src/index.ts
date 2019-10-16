@@ -3,4 +3,4 @@
  * components exported here will be made available to the packages generated when
  * you run `diez compile`.
  */
-export {DesignSystem} from './DesignSystem';
+export {designSystem} from './DesignSystem';
