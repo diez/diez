@@ -1,4 +1,4 @@
-# Diez &middot; [![Build Status](https://travis-ci.com/diez/diez.svg?token=R7p5y7u83p1oNU4bsu1p&branch=master)](https://travis-ci.com/diez/diez) [![codecov](https://codecov.io/gh/diez/diez/branch/master/graph/badge.svg?token=pgB9U8YLUU)](https://codecov.io/gh/diez/diez)
+# Diez &middot; [![Build Status](https://travis-ci.com/diez/diez.svg?token=YuETDnVqzQjQytETzD8J&branch=master)](https://travis-ci.com/diez/diez) [![codecov](https://codecov.io/gh/diez/diez/branch/master/graph/badge.svg?token=pgB9U8YLUU)](https://codecov.io/gh/diez/diez)
 
 Diez is a tool for creating highly scalable, cross-platform design systems. The core of Diez is a [framework](https://github.com/diez/diez/tree/master/src/framework) for composing design tokens in TypeScript, plus a [compiler](https://github.com/diez/diez/tree/master/src/compiler) (transpiler) that builds those tokens into pure-native SDKs for iOS, Android, and the Web.
 
