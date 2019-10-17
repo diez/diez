@@ -283,7 +283,8 @@ class Typograph {
     color,
     lineHeight,
     letterSpacing,
-    alignment
+    alignment,
+    decoration
   }) {
     this.font = new Font(font);
     this.fontSize = fontSize;
@@ -291,13 +292,14 @@ class Typograph {
     this.lineHeight = lineHeight;
     this.letterSpacing = letterSpacing;
     this.alignment = alignment;
+    this.decoration = decoration;
   }
 }
 
 
 module.exports.Typograph = Typograph;
 
-const {fontToCss, FontFormats, textAlignmentToCss} = require('@diez/web-sdk-common');
+const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -343,6 +345,7 @@ Object.defineProperties(Typograph.prototype, {
         color: this.color.color,
         letterSpacing: `${this.letterSpacing}px`,
         textAlign: textAlignmentToCss(this.alignment),
+        textDecoration: textDecorationsToCss(this.decoration),
       };
       if (this.lineHeight !== -1) {
         style.lineHeight = `${this.lineHeight}px`;
@@ -539,8 +542,8 @@ class Bindings {
   constructor({
     image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, size: {width: 246, height: 246}},
     lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
-    typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}, lineHeight: -1, letterSpacing: 0, alignment: "natural"},
-    tallTypograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0, s: 0, l: 0, a: 1}, lineHeight: 100, letterSpacing: 10, alignment: "natural"},
+    typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []},
+    tallTypograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0, s: 0, l: 0, a: 1}, lineHeight: 100, letterSpacing: 10, alignment: "natural", decoration: ["underline", "strikethrough"]},
     linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
     point = {x: 0.5, y: 0.5},
     size = {width: 400, height: 300},

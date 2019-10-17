@@ -10,6 +10,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.graphics.Paint
 
 {{> androidDataClassStart }}
 
@@ -61,6 +62,22 @@ fun TextView.apply(typograph: Typograph) {
     this.letterSpacing = ((typograph.fontSize + typograph.letterSpacing) / typograph.fontSize) - 1
     this.gravity = typograph.gravity
     this.textAlignment = View.TEXT_ALIGNMENT_GRAVITY
+
+    var paintFlags = this.paintFlags
+
+    val hasUnderline = typograph.decoration.contains("underline")
+    paintFlags = when(hasUnderline) {
+        true -> paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        else -> paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+    }
+
+    val hasStrikethrough = typograph.decoration.contains("strikethrough")
+    paintFlags = when(hasStrikethrough) {
+        true -> paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        else -> paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+    }
+
+    this.paintFlags = paintFlags
 
     // TODO: Test for `null` instead of a magic number.
     if (typograph.lineHeight != -1f) {

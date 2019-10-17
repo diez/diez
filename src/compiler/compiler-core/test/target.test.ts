@@ -8,6 +8,7 @@ describe('compiler', () => {
     expect(Array.from(parser.rootComponentNames)).toEqual(['Filtered']);
     const compiler = new TestCompiler(parser);
     await compiler.start();
+
     expect(compiler.writeSdkMock).toHaveBeenCalled();
     expect(compiler.printUsageInstructionsMock).toHaveBeenCalled();
     expect(compiler.output.processedComponents.has('Filtered')).toBe(true);

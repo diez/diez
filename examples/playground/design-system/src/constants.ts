@@ -1,4 +1,4 @@
-import {Color, IOSTextStyle, Font, Typograph} from '@diez/prefabs';
+import {Color, IOSTextStyle, Font, Typograph, TextDecoration} from '@diez/prefabs';
 
 const Fonts = {
   Nunito: {
@@ -30,9 +30,10 @@ export class Typography {
   tallLineHeight = new Typograph({
     font: Fonts.Nunito.Regular,
     fontSize: 16,
-    color: Color.rgb(0, 50, 50),
+    color: Color.rgb(0, 125, 0),
     iosTextStyle: IOSTextStyle.Body,
     lineHeight: 60,
+    decoration: [TextDecoration.Underline, TextDecoration.Strikethrough]
   });
   navigationTitle = new Typograph({
     font: Fonts.Nunito.Bold,

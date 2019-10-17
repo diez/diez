@@ -60,6 +60,7 @@ $bindings-file: url("/diez/assets/SomeFile.txt");
   color: hsla(60, 100%, 50%, 1);
   letter-spacing: 0px;
   text-align: start;
+  text-decoration: none;
 }
 
 @mixin bindings-tall-typograph {
@@ -70,6 +71,7 @@ $bindings-file: url("/diez/assets/SomeFile.txt");
   color: hsla(0, 0%, 0%, 1);
   letter-spacing: 10px;
   text-align: start;
+  text-decoration: underline line-through;
   line-height: 100px;
 }
 

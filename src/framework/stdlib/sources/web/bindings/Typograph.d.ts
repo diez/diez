@@ -11,6 +11,7 @@ export declare class Typograph {
     lineHeight?: string,
     letterSpacing: number,
     textAlign: "start" | "left" | "right" | "center",
+    textDecoration: string,
   };
   /**
    * Applies the `Typograph` CSS styles to the given HTMLElement.

@@ -107,14 +107,28 @@ export const enum TextAlignment {
 }
 
 /**
+ * An enumerated list of text decorations.
+ */
+export const enum TextDecoration {
+  Underline = 'underline',
+  Strikethrough = 'strikethrough',
+}
+
+/**
  * Typograph data.
  */
 export interface TypographData {
+  /**
+   * The `Font` of the `Typograph`.
+   */
   font: Font;
   /**
    * Negative values will be sanatized to `0`.
    */
   fontSize: number;
+  /**
+   * The `Color` of the `Typograph`.
+   */
   color: Color;
   /**
    * The iOS `UIFont.TextStyle` of the `Typograph` (iOS only).
@@ -146,6 +160,10 @@ export interface TypographData {
    * The alignment of the text.
    */
   alignment: TextAlignment;
+  /**
+   * A list of `TextDecoration`s to apply to the `Typograph`.
+   */
+  decoration: TextDecoration[];
 }
 
 /**
@@ -164,6 +182,7 @@ export class Typograph extends prefab<TypographData>() {
     lineHeight: -1,
     letterSpacing: 0,
     alignment: TextAlignment.Natural,
+    decoration: [],
   };
 
   options = {

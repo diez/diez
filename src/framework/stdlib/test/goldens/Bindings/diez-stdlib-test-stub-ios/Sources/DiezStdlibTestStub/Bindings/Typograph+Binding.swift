@@ -80,11 +80,20 @@ extension Typograph {
         preventLineHeightAdjustment: Bool = false,
         preventBaselineOffset: Bool = false
     ) -> [NSAttributedString.Key: Any] {
+        let color = UIColor(color: self.color)
         var attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(color: color),
+            .foregroundColor: color,
             .baselineOffset: 0,
             .kern: scaledLetterSpacing,
         ]
+
+        if decoration.contains("underline") {
+            attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
+        }
+
+        if decoration.contains("strikethrough") {
+            attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue
+        }
 
         let paragraphStyle = NSMutableParagraphStyle()
         if let lineHeight = scaledLineHeight, !preventLineHeightAdjustment {
@@ -340,4 +349,12 @@ extension UIBarItem {
         )
         setTitleTextAttributes(attributes, for: state)
     }
+}
+
+private struct TextDecoration: OptionSet {
+    let rawValue: Int
+
+    static let none = TextDecoration(rawValue: 0)
+    static let underline = TextDecoration(rawValue: 1 << 0)
+    static let strikethrough = TextDecoration(rawValue: 1 << 1)
 }

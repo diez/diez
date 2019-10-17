@@ -1,4 +1,4 @@
-const {fontToCss, FontFormats, textAlignmentToCss} = require('@diez/web-sdk-common');
+const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -44,6 +44,7 @@ Object.defineProperties(Typograph.prototype, {
         color: this.color.color,
         letterSpacing: `${this.letterSpacing}px`,
         textAlign: textAlignmentToCss(this.alignment),
+        textDecoration: textDecorationsToCss(this.decoration),
       };
       if (this.lineHeight !== -1) {
         style.lineHeight = `${this.lineHeight}px`;

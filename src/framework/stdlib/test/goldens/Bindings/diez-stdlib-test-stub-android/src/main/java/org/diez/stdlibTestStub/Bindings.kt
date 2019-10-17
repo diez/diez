@@ -6,8 +6,8 @@ package org.diez.stdlibTestStub
 data class Bindings(
     val image: Image = Image(File("assets/image%20with%20spaces.jpg", "image"), File("assets/image%20with%20spaces@2x.jpg", "image"), File("assets/image%20with%20spaces@3x.jpg", "image"), File("assets/image%20with%20spaces@4x.jpg", "image"), Size2D(246f, 246f)),
     val lottie: Lottie = Lottie(File("assets/lottie.json", "raw"), true, true),
-    val typograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0.16666666666666666f, 1f, 0.5f, 1f), false, -1f, 0f, "natural"),
-    val tallTypograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0f, 0f, 0f, 1f), false, 100f, 10f, "natural"),
+    val typograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0.16666666666666666f, 1f, 0.5f, 1f), false, -1f, 0f, "natural", arrayOf<String>()),
+    val tallTypograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0f, 0f, 0f, 1f), false, 100f, 10f, "natural", arrayOf<String>("underline", "strikethrough")),
     val linearGradient: LinearGradient = LinearGradient(arrayOf<GradientStop>(GradientStop(0f, Color(0f, 1f, 0.5f, 1f)), GradientStop(1f, Color(0.6666666666666666f, 1f, 0.5f, 1f))), Point2D(0f, 0.5f), Point2D(1f, 0.5f)),
     val point: Point2D = Point2D(0.5f, 0.5f),
     val size: Size2D = Size2D(400f, 300f),

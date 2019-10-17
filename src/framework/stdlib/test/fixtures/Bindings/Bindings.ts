@@ -11,6 +11,7 @@ import {
   Panel,
   Point2D,
   Size2D,
+  TextDecoration,
   Toward,
   Typograph,
 } from '@diez/prefabs';
@@ -38,6 +39,7 @@ export const bindings = {
     fontSize: 50,
     lineHeight: 100,
     letterSpacing: 10,
+    decoration: [TextDecoration.Underline, TextDecoration.Strikethrough],
   }),
 
   linearGradient: LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255)),
