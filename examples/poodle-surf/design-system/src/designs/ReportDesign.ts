@@ -1,6 +1,6 @@
 import {Color, Panel, Size2D, Typograph, Fill} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
-import {PoodleSurfSlices} from './PoodleSurf.sketch';
+import {poodleSurfSlices} from './PoodleSurf.sketch';
 import {EdgeInsets} from './components/EdgeInsets';
 import {LayoutValues, palette, shadows, typographs} from './constants';
 
@@ -13,7 +13,7 @@ const locationImageDesign = {
 const headerDesign = {
   regionLabel: typographs.headerTitle,
   placeLabel: typographs.headerCaption,
-  mapPinIcon: PoodleSurfSlices.MapPin,
+  mapPinIcon: poodleSurfSlices.mapPin,
   locationImage: locationImageDesign,
   bannerHeight: 149,
   labelsLayoutMargin: EdgeInsets.simple(
@@ -54,7 +54,7 @@ class SharedCardDesign extends prefab<SharedCardDesignData>() {
 
 const temperatureDesign = {
   typograph: typographs.value,
-  icon: PoodleSurfSlices.Thermometer,
+  icon: poodleSurfSlices.thermometer,
   iconSpacing: LayoutValues.DefaultSpacing,
 }
 
@@ -64,7 +64,7 @@ const wetsuitDesign = {
   valueTypograph: typographs.caption,
   labelSpacing: LayoutValues.CompactSpacing,
   iconSpacing: LayoutValues.DefaultSpacing,
-  icon: PoodleSurfSlices.Gear,
+  icon: poodleSurfSlices.gear,
 }
 
 const waterTemperatureCardDesign = {

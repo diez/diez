@@ -1,4 +1,4 @@
-import {PoodleSurfSlices} from './PoodleSurf.sketch';
+import {poodleSurfSlices} from './PoodleSurf.sketch';
 import {LayoutValues, palette, typographs} from './constants';
 
 /**
@@ -6,7 +6,7 @@ import {LayoutValues, palette, typographs} from './constants';
  */
 export const navigationTitleDesign = {
   barTintColor: palette.background,
-  icon: PoodleSurfSlices.Icon,
+  icon: poodleSurfSlices.icon,
   title: 'P o o d l e S u r f',
   typograph: typographs.headerTitle,
   iconToTitleSpacing: LayoutValues.DefaultSpacing,

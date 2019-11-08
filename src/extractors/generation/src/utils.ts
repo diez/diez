@@ -5,8 +5,8 @@ import {pascalCase} from 'change-case';
 import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
 import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import {basename, extname, join, parse, relative} from 'path';
-import {ObjectLiteralExpression, VariableDeclarationKind} from 'ts-morph';
-import {AssetFolder, CodegenDesignSystem, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
+import {CodeBlockWriter, ObjectLiteralExpression, VariableDeclarationKind, WriterFunctionOrValue, Writers} from 'ts-morph';
+import {AssetFolder, CodegenDesignSystem, CodegenEntity, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -133,6 +133,29 @@ See installation instructions here: https://github.com/adobe-type-tools/afdko#in
 };
 
 /**
+ * Reduce a collection of codegen entities to a single object that has the entity name as the key and the initializer
+ * as a value.
+ */
+const reduceEntitiesToObject = (collection: CodegenEntity[], fallbackName: string, resolver: UniqueNameResolver) => {
+  return collection.reduce<{[key: string]: WriterFunctionOrValue}>((acc, {name, initializer}) => {
+    const safeName = resolver.getPropertyName(name || 'Untitled Color', fallbackName);
+    acc[safeName] = initializer;
+    return acc;
+  }, {});
+};
+
+const newLine = (writer: CodeBlockWriter) => {
+  writer.newLine();
+};
+
+/**
+ * Returns a valid writable object initializer.
+ */
+const entitiesToWritableObject = (collection: CodegenEntity[], fallbackName: string, resolver: UniqueNameResolver) => {
+  return Writers.object(reduceEntitiesToObject(collection, fallbackName, resolver));
+};
+
+/**
  * Registers an asset belonging to a given asset folder in a collection.
  */
 export const registerFont = async (font: GeneratedFont, collection: GeneratedFonts) => {
@@ -156,10 +179,10 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const sourceFile = project.createSourceFile(spec.filename, '', {overwrite: true});
 
   const designSystemImports = new Set<string>();
-  const colorsName = localResolver.getComponentName(`${designSystemName} Colors`);
-  const gradientsName = localResolver.getComponentName(`${designSystemName} Gradients`);
-  const shadowsName = localResolver.getComponentName(`${designSystemName} Shadows`);
-  const typographsName = localResolver.getComponentName(`${designSystemName} Typography`);
+  const colorsName = camelCase(localResolver.getComponentName(`${designSystemName} Colors`));
+  const gradientsName = camelCase(localResolver.getComponentName(`${designSystemName} Gradients`));
+  const shadowsName = camelCase(localResolver.getComponentName(`${designSystemName} Shadows`));
+  const typographsName = camelCase(localResolver.getComponentName(`${designSystemName} Typography`));
 
   const hasColors = spec.colors.length > 0;
   const hasGradients = spec.gradients.length > 0;
@@ -168,15 +191,13 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
 
   if (hasColors) {
     designSystemImports.add('Color');
-    sourceFile.addClass({
-      name: colorsName,
-      properties: spec.colors.map(({name, initializer}) => {
-        const colorName = localResolver.getPropertyName(name || 'Untitled Color', colorsName);
-        return {
-          initializer,
-          name: colorName,
-        };
-      }),
+    sourceFile.addVariableStatement({
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: colorsName,
+        initializer: entitiesToWritableObject(spec.colors, colorsName, localResolver),
+      }],
     });
   }
 
@@ -185,15 +206,13 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     designSystemImports.add('Color');
     designSystemImports.add('GradientStop');
     designSystemImports.add('Point2D');
-    sourceFile.addClass({
-      name: gradientsName,
-      properties: spec.gradients.map(({name, initializer}) => {
-        const gradientName = localResolver.getPropertyName(name || 'Untitled Linear Gradient', gradientsName);
-        return {
-          initializer,
-          name: gradientName,
-        };
-      }),
+    sourceFile.addVariableStatement({
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: gradientsName,
+        initializer: entitiesToWritableObject(spec.gradients, gradientsName, localResolver),
+      }],
     });
   }
 
@@ -201,70 +220,14 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     designSystemImports.add('Color');
     designSystemImports.add('Point2D');
     designSystemImports.add('DropShadow');
-    sourceFile.addClass({
-      name: shadowsName,
-      properties: spec.shadows.map(({name, initializer}) => {
-        const shadowName = localResolver.getPropertyName(name || 'Untitled Shadow', shadowsName);
-        return {
-          initializer,
-          name: shadowName,
-        };
-      }),
+    sourceFile.addVariableStatement({
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: shadowsName,
+        initializer: entitiesToWritableObject(spec.shadows, shadowsName, localResolver),
+      }],
     });
-  }
-
-  if (hasTypographs) {
-    designSystemImports.add('Color');
-    designSystemImports.add('Typograph');
-    sourceFile.addClass({
-      name: typographsName,
-      properties: spec.typographs.map(({name, initializer}) => {
-        const typographName = localResolver.getPropertyName(
-          name || 'Untitled Typograph',
-          typographsName,
-        );
-        return {
-          initializer,
-          name: typographName,
-        };
-      }),
-    });
-  }
-
-  for (const [folder, assetsMap] of spec.assets) {
-    designSystemImports.add('Image');
-    designSystemImports.add('File');
-    const filesClass = sourceFile.addClass({
-      name: pascalCase(`${spec.designSystemName} ${folder} Files`),
-      isExported: true,
-    });
-
-    const imagesClass = sourceFile.addClass({
-      name: pascalCase(`${spec.designSystemName} ${folder}`),
-      isExported: true,
-    });
-
-    for (const [name, asset] of assetsMap) {
-      const assetName = pascalCase(name);
-      const parsedSrc = parse(asset.src);
-      filesClass.addProperties([
-        {
-          name: assetName,
-          isStatic: true,
-          initializer: `new File({src: "${asset.src}"})`,
-        },
-        ...[2, 3, 4].map((multiplier) => ({
-          name: `${assetName}${multiplier}x`,
-          isStatic: true,
-          initializer: `new File({src: "${join(parsedSrc.dir, parsedSrc.name)}@${multiplier}x${parsedSrc.ext}"})`,
-        })),
-      ]);
-      imagesClass.addProperty({
-        name: assetName,
-        isStatic: true,
-        initializer: `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`,
-      });
-    }
   }
 
   if (spec.fonts.size) {
@@ -272,10 +235,11 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     const fontDirectory = join(assetsDirectory, 'fonts');
     ensureDirSync(fontDirectory);
     const fontsExpression = sourceFile.addVariableStatement({
+      leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
       isExported: true,
       declarations: [{
-        name: `${designSystemName}Fonts`,
+        name: camelCase(`${designSystemName}Fonts`),
         initializer: '{}',
       }],
     }).getDeclarations()[0].getInitializer() as ObjectLiteralExpression;
@@ -303,48 +267,88 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     }
   }
 
+  if (hasTypographs) {
+    designSystemImports.add('Color');
+    designSystemImports.add('Typograph');
+    sourceFile.addVariableStatement({
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: typographsName,
+        initializer: entitiesToWritableObject(spec.typographs, typographsName, localResolver),
+      }],
+    });
+  }
+
+  for (const [folder, assetsMap] of spec.assets) {
+    designSystemImports.add('Image');
+    designSystemImports.add('File');
+
+    const files: any = {};
+    const images: any = {};
+
+    for (const [name, asset] of assetsMap) {
+      const assetName = camelCase(name);
+      const parsedSrc = parse(asset.src);
+
+      files[assetName] = `new File({src: "${asset.src}"})`;
+      [2, 3, 4].forEach((multiplier) => {
+        const baseName = join(parsedSrc.dir, parsedSrc.name);
+        files[`${assetName}${multiplier}x`] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
+      });
+
+      images[assetName] = `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`;
+    }
+
+    sourceFile.addVariableStatement({
+      isExported: true,
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: camelCase(`${spec.designSystemName} ${folder} Files`),
+        initializer: Writers.object(files),
+      }],
+    });
+
+    sourceFile.addVariableStatement({
+      isExported: true,
+      leadingTrivia: newLine,
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: camelCase(`${spec.designSystemName} ${folder}`),
+        initializer: Writers.object(images),
+      }],
+    });
+  }
+
   const componentName = `${designSystemName}Tokens`;
-  const exportedClassDeclaration = sourceFile.addClass({
-    isExported: true,
-    name: componentName,
-  });
+  const exportedInitializer: {[key: string]: any} = {};
 
   if (hasColors) {
-    exportedClassDeclaration.addProperty({
-      name: 'colors',
-      initializer: `new ${colorsName}()`,
-    });
+    exportedInitializer.colors = colorsName;
   }
 
   if (hasGradients) {
-    exportedClassDeclaration.addProperty({
-      name: 'gradients',
-      initializer: `new ${gradientsName}()`,
-    });
+    exportedInitializer.gradients = gradientsName;
   }
 
   if (hasShadows) {
-    exportedClassDeclaration.addProperty({
-      name: 'shadows',
-      initializer: `new ${shadowsName}()`,
-    });
+    exportedInitializer.shadows = shadowsName;
   }
 
   if (hasTypographs) {
     designSystemImports.add('Font');
-    exportedClassDeclaration.addProperty({
-      name: 'typography',
-      initializer: `new ${typographsName}()`,
-    });
+    exportedInitializer.typography = typographsName;
   }
 
   sourceFile.addVariableStatement({
+    isExported: true,
+    leadingTrivia: newLine,
     declarationKind: VariableDeclarationKind.Const,
     declarations: [{
       name: camelCase(componentName),
-      initializer: `new ${componentName}()`,
+      initializer: Writers.object(exportedInitializer),
     }],
-    isExported: true,
   });
 
   if (designSystemImports.size) {
@@ -354,6 +358,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     });
   }
 
+  sourceFile.formatText();
   return sourceFile.save();
 };
 

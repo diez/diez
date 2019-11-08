@@ -27,7 +27,7 @@
     "istextorbinary": "^2.5.1",
     "klaw": "^3.0.0",
     "lerna": "^3.13.1",
-    "ts-morph": "^4.0.0",
+    "ts-morph": "^4.3.1",
     "ts-node": "^8.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",

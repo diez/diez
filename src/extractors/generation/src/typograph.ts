@@ -1,5 +1,5 @@
 import {execAsync, isMacOS, Log} from '@diez/cli-core';
-import {pascalCase} from 'change-case';
+import {camelCase, pascalCase} from 'change-case';
 import {join} from 'path';
 import {GeneratedFont} from './api';
 
@@ -81,7 +81,7 @@ export const getTypographInitializer = (
   colorInitializer?: string,
 ) => {
   const font = candidateFont ?
-    `${pascalCase(`${designSystemName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
+    `${camelCase(`${designSystemName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
     `new Font({name: "${fontName}"})`;
 
   if (colorInitializer) {

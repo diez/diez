@@ -231,7 +231,7 @@ describe('Sketch', () => {
         projectRoot: '.',
         typographs: [
           {
-            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), font: TestFonts.Foobar.BoldItalic, fontSize: 20})',
+            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), font: testFonts.Foobar.BoldItalic, fontSize: 20})',
             name: 'Heading 1',
           },
         ],

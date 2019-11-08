@@ -441,11 +441,11 @@ describe('Figma', () => {
           {
             name: 'Foobar Typograph',
             initializer:
-              'new Typograph({color: Color.rgba(100, 100, 100, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
+              'new Typograph({color: Color.rgba(100, 100, 100, 1), font: helloFonts.Foobar.BoldItalic, fontSize: 9001})',
           },
           {
             name: 'Gradient Typograph',
-            initializer: 'new Typograph({color: Color.rgba(255, 0, 0, 1), font: HelloFonts.Foobar.BoldItalic, fontSize: 9001})',
+            initializer: 'new Typograph({color: Color.rgba(255, 0, 0, 1), font: helloFonts.Foobar.BoldItalic, fontSize: 9001})',
           },
         ],
       });

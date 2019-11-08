@@ -1,13 +1,13 @@
 import {File} from '@diez/prefabs';
 import {prefab} from '@diez/engine';
 import {DayPartTimes} from './constants';
-import {PoodleSurfSlicesFiles} from '../designs/PoodleSurf.sketch';
+import {poodleSurfSlicesFiles} from '../designs/PoodleSurf.sketch';
 
 const locationMock = {
   region: 'Santa Cruz, CA',
   place: 'Natural Bridges State Park',
-  mapImage: PoodleSurfSlicesFiles.SantaCruzMap3x,
-  bannerImage: PoodleSurfSlicesFiles.SantaCruzBanner3x,
+  mapImage: poodleSurfSlicesFiles.santaCruzMap3x,
+  bannerImage: poodleSurfSlicesFiles.santaCruzBanner3x,
 }
 
 const temperatureMock = {
@@ -23,7 +23,7 @@ interface WindDayPartMockData {
 
 class WindDayPartMock extends prefab<WindDayPartMockData>() {
   defaults = {
-    direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
+    direction: poodleSurfSlicesFiles.directionNorthEast3x,
     value: '',
     dayPart: '',
   };
@@ -31,17 +31,17 @@ class WindDayPartMock extends prefab<WindDayPartMockData>() {
 
 const windMock = {
   early: new WindDayPartMock({
-    direction: PoodleSurfSlicesFiles.DirectionSouthWest3x,
+    direction: poodleSurfSlicesFiles.directionSouthWest3x,
     value: '4',
     dayPart: DayPartTimes.Early,
   }),
   middle: new WindDayPartMock({
-    direction: PoodleSurfSlicesFiles.DirectionSouth3x,
+    direction: poodleSurfSlicesFiles.directionSouth3x,
     value: '12',
     dayPart: DayPartTimes.Middle,
   }),
   late: new WindDayPartMock({
-    direction: PoodleSurfSlicesFiles.DirectionNorthEast3x,
+    direction: poodleSurfSlicesFiles.directionNorthEast3x,
     value: '17',
     dayPart: DayPartTimes.Late,
   }),

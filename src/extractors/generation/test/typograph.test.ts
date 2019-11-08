@@ -88,7 +88,7 @@ describe('typograph', () => {
       'Foobar-Regular',
       20,
     )).toBe(
-      'new Typograph({font: DesignSystemFonts.Foobar.Regular, fontSize: 20})',
+      'new Typograph({font: designSystemFonts.Foobar.Regular, fontSize: 20})',
     );
   });
 });

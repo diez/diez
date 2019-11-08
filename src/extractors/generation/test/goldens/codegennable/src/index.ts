@@ -1,53 +1,51 @@
 import { Color, DropShadow, File, Font, GradientStop, Image, LinearGradient, Point2D, Typograph } from "@diez/prefabs";
 
-class MyDesignSystemColors {
-    untitledColor = 2;
-    someColor = 3;
-}
+const myDesignSystemColors = {
+    untitledColor: 2,
+    someColor: 3
+};
 
-class MyDesignSystemGradients {
-    untitledLinearGradient = 4;
-    someGradient = 5;
-}
+const myDesignSystemGradients = {
+    untitledColor: 4,
+    someGradient: 5
+};
 
-class MyDesignSystemShadows {
-    untitledShadow = 6;
-    someShadow = 7;
-}
+const myDesignSystemShadows = {
+    untitledColor: 6,
+    someShadow: 7
+};
 
-class MyDesignSystemTypography {
-    untitledTypograph = 0;
-    someTypograph = 1;
-}
-
-export class MyDesignSystemSlicesFiles {
-    static Foobar = new File({src: "assets/blah/Foobar.png"});
-    static Foobar2x = new File({src: "assets/blah/Foobar@2x.png"});
-    static Foobar3x = new File({src: "assets/blah/Foobar@3x.png"});
-    static Foobar4x = new File({src: "assets/blah/Foobar@4x.png"});
-    static Bazbat = new File({src: "assets/blah/Bazbat.png"});
-    static Bazbat2x = new File({src: "assets/blah/Bazbat@2x.png"});
-    static Bazbat3x = new File({src: "assets/blah/Bazbat@3x.png"});
-    static Bazbat4x = new File({src: "assets/blah/Bazbat@4x.png"});
-}
-
-export class MyDesignSystemSlices {
-    static Foobar = Image.responsive("assets/blah/Foobar.png", 640, 480);
-    static Bazbat = Image.responsive("assets/blah/Bazbat.png", 320, 240);
-}
-
-export const MyDesignSystemFonts = {
+export const myDesignSystemFonts = {
     SomeFont: {
         BoldItalic: Font.fromFile("assets/fonts/SomeFont-BoldItalic.ttf"),
         ExtraMedium: Font.fromFile("assets/fonts/SomeFont-ExtraMedium.ttf")
     }
 };
 
-export class MyDesignSystemTokens {
-    colors = new MyDesignSystemColors();
-    gradients = new MyDesignSystemGradients();
-    shadows = new MyDesignSystemShadows();
-    typography = new MyDesignSystemTypography();
-}
+const myDesignSystemTypography = {
+    untitledColor: 0,
+    someTypograph: 1
+};
 
-export const myDesignSystemTokens = new MyDesignSystemTokens();
+export const myDesignSystemSlicesFiles = {
+    foobar: new File({ src: "assets/blah/Foobar.png" }),
+    foobar2x: new File({ src: "assets/blah/Foobar@2x.png" }),
+    foobar3x: new File({ src: "assets/blah/Foobar@3x.png" }),
+    foobar4x: new File({ src: "assets/blah/Foobar@4x.png" }),
+    bazbat: new File({ src: "assets/blah/Bazbat.png" }),
+    bazbat2x: new File({ src: "assets/blah/Bazbat@2x.png" }),
+    bazbat3x: new File({ src: "assets/blah/Bazbat@3x.png" }),
+    bazbat4x: new File({ src: "assets/blah/Bazbat@4x.png" })
+};
+
+export const myDesignSystemSlices = {
+    foobar: Image.responsive("assets/blah/Foobar.png", 640, 480),
+    bazbat: Image.responsive("assets/blah/Bazbat.png", 320, 240)
+};
+
+export const myDesignSystemTokens = {
+    colors: myDesignSystemColors,
+    gradients: myDesignSystemGradients,
+    shadows: myDesignSystemShadows,
+    typography: myDesignSystemTypography
+};
