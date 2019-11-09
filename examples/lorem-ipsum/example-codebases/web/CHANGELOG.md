@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.6](https://github.com/diez/diez/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2019-11-09)
+
+
+### Features
+
+* **typograph:** add textAlignment to Typograph ([#308](https://github.com/diez/diez/issues/308)) ([8af6913](https://github.com/diez/diez/commit/8af6913))
+
+
+
+
+
 # [10.0.0-beta.5](https://github.com/diez/diez/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2019-09-24)
 
 **Note:** Version bump only for package lorem-ipsum-app

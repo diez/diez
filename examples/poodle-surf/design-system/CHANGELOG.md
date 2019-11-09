@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0-beta.6](https://github.com/diez/diez/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2019-11-09)
+
+
+### Features
+
+* **compiler:** add support for object literal types in the Diez compiler ([#310](https://github.com/diez/diez/issues/310)) ([671b0de](https://github.com/diez/diez/commit/671b0de))
+* **compiler:** track local source files for component definitions and references for component properties ([#305](https://github.com/diez/diez/issues/305)) ([bffafbc](https://github.com/diez/diez/commit/bffafbc))
+* **typograph:** add textAlignment to Typograph ([#308](https://github.com/diez/diez/issues/308)) ([8af6913](https://github.com/diez/diez/commit/8af6913))
+
+
+
+
+
 # [10.0.0-beta.5](https://github.com/diez/diez/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2019-09-24)
 
 
