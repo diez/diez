@@ -2,7 +2,7 @@
   "name": "@diez/generation",
   "main": "lib/index.js",
   "version": "10.0.0-beta.6",
-  "description": "Utilities for design system code generation.",
+  "description": "Utilities for design language code generation.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
   "typings": "types/index.d.ts",

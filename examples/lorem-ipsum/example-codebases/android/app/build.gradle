@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-def hotFile = new File('../../design-system/.diez/android-hot-url')
+def hotFile = new File('../../design-language/.diez/android-hot-url')
 
 android {
     compileSdkVersion 28

@@ -74,11 +74,11 @@ describe('typograph', () => {
   });
 
   test('typograph initializer', () => {
-    expect(getTypographInitializer('DesignSystem', undefined, 'Foobar-Regular', 20, 'new Color()')).toBe(
+    expect(getTypographInitializer('DesignLanguage', undefined, 'Foobar-Regular', 20, 'new Color()')).toBe(
       'new Typograph({color: new Color(), font: new Font({name: "Foobar-Regular"}), fontSize: 20})',
     );
     expect(getTypographInitializer(
-      'DesignSystem',
+      'DesignLanguage',
       {
         family: 'Foobar',
         style: 'Regular',
@@ -88,7 +88,7 @@ describe('typograph', () => {
       'Foobar-Regular',
       20,
     )).toBe(
-      'new Typograph({font: designSystemFonts.Foobar.Regular, fontSize: 20})',
+      'new Typograph({font: designLanguageFonts.Foobar.Regular, fontSize: 20})',
     );
   });
 });

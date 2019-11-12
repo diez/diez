@@ -105,7 +105,7 @@
       <section id="extensiblity" class="section-split">
         <div class="half align-top">
           <h2>Documentation Generator (coming soon)</h2>
-          <p>From code comments and static analysis, Diez can automatically build customizable, ready-to-deploy documentation for your design system. This is not yet available as part of Early Access, but it will be shipping soon!</p>
+          <p>From code comments and static analysis, Diez can automatically build customizable, ready-to-deploy documentation for your design language. This is not yet available as part of Early Access, but it will be shipping soon!</p>
         </div>
         <div class="half mobile-reorder">
           <div class="holster-tri-card">

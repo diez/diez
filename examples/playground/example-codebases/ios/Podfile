@@ -13,7 +13,7 @@ end
 target 'Playground' do
   use_frameworks!
 
-  pod 'DiezPlayground', :path => '../../design-system/build/diez-playground-ios'
+  pod 'DiezPlayground', :path => '../../design-language/build/diez-playground-ios'
 
   pod 'lottie-ios', '3.1.1'
   pod 'SnapKit', '5.0.1'

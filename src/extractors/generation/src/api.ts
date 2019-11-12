@@ -44,11 +44,11 @@ export interface GeneratedFont {
 export type GeneratedFonts = Map<string, Map<string, {name: string, path?: string}>>;
 
 /**
- * A specification for a generatable design system.
+ * A specification for a generatable design language.
  */
-export interface CodegenDesignSystem {
+export interface CodegenDesignLanguage {
   assetsDirectory: string;
-  designSystemName: string;
+  designLanguageName: string;
   filename: string;
   projectRoot: string;
   colors: CodegenEntity[];

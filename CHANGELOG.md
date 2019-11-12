@@ -50,7 +50,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * add Panel ([#234](https://github.com/diez/diez/issues/234)) ([304a408](https://github.com/diez/diez/commit/304a408))
 * **compiler:** define interfaces to declare code examples ([#291](https://github.com/diez/diez/issues/291)) ([de59593](https://github.com/diez/diez/commit/de59593))
-* **docs:** parse JS docs from design system sources ([#245](https://github.com/diez/diez/issues/245)) ([deae7e0](https://github.com/diez/diez/commit/deae7e0))
+* **docs:** parse JS docs from design language sources ([#245](https://github.com/diez/diez/issues/245)) ([deae7e0](https://github.com/diez/diez/commit/deae7e0))
 * **lorem-ipsum:** add a `diez start` command for example projects ([#259](https://github.com/diez/diez/issues/259)) ([7c98f83](https://github.com/diez/diez/commit/7c98f83))
 * **site:** add notes about platform compatibility support ([#256](https://github.com/diez/diez/issues/256)) ([8bf739f](https://github.com/diez/diez/commit/8bf739f))
 * **stdlib:** extricate the Diez standard library as a separate package ([#286](https://github.com/diez/diez/issues/286)) ([356a23f](https://github.com/diez/diez/commit/356a23f))
@@ -231,7 +231,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **targets:** add Carthage support to iOS ([#67](https://github.com/diez/diez/issues/67)) ([31ed20f](https://github.com/diez/diez/commit/31ed20f))
 * **targets:** Lottie & Animator config options ([#66](https://github.com/diez/diez/issues/66)) ([c7328e3](https://github.com/diez/diez/commit/c7328e3))
 * add script that generates example templates for createproject ([#115](https://github.com/diez/diez/issues/115)) ([943513c](https://github.com/diez/diez/commit/943513c))
-* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+* add support for design language extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
 * finalize early access guides ([#149](https://github.com/diez/diez/issues/149)) ([f9dc8a6](https://github.com/diez/diez/commit/f9dc8a6))
 
 

@@ -1,1 +1,0 @@
-export {DesignSystem} from './DesignSystem';

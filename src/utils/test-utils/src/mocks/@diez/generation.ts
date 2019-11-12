@@ -1,5 +1,5 @@
 /**
- * A mock singleton for `codegenDesignSystem` in `@diez/generation`.
+ * A mock singleton for `codegenDesignLanguage` in `@diez/generation`.
  */
 export const mockCodegen = jest.fn();
 
@@ -13,6 +13,6 @@ export const mockLocateFont = jest.fn();
  */
 export const mockGenerationFactory = () => ({
   ...jest.requireActual('@diez/generation'),
-  codegenDesignSystem: mockCodegen,
+  codegenDesignLanguage: mockCodegen,
   locateFont: mockLocateFont,
 });

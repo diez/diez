@@ -29,10 +29,6 @@ const webpackConfig = {
       template: './src/index.html',
       filename: './index.html',
     }),
-    new CopyWebpackPlugin([
-      { from: 'public' },
-      { from: 'public/diez', to: 'diez' },
-    ]),
     new DiezWebpackPlugin({
       sdk: 'diez-lorem-ipsum'
     }),

@@ -237,7 +237,7 @@ export const inferProjectName = (projectName: string) => {
   try {
     return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
   } catch (error) {
-    return 'design-system';
+    return 'design-language';
   }
 };
 

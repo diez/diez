@@ -77,7 +77,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **cli:** add opt-out analytics to `diez` ([#92](https://github.com/diez/diez/issues/92)) ([08291ec](https://github.com/diez/diez/commit/08291ec))
 * **createproject:** `yarn create`/`npm init` starter kits for Diez ([#130](https://github.com/diez/diez/issues/130)) ([86caab2](https://github.com/diez/diez/commit/86caab2))
 * **services:** move Figma OAuth handshake broker into the monorepo and migrate to the serverless stack ([#94](https://github.com/diez/diez/issues/94)) ([6f050b7](https://github.com/diez/diez/commit/6f050b7))
-* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+* add support for design language extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
 
 
 ### Performance Improvements

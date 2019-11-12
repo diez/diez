@@ -1,7 +1,7 @@
 @import Diez{{case projectName style="pascal"}};
 
-{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
-Typograph *typograph = designSystem.{{path}};
+{{case rootType style="pascal"}} *designLanguage = [[{{case rootType style="pascal"}} alloc] init];
+Typograph *typograph = designLanguage.{{path}};
 
 DEZLabel *label = [[DEZLabel alloc] init];
 [label applyTypograph:typograph withTraitCollection::nil];

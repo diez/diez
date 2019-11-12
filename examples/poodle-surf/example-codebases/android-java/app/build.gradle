@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def hotFile = new File('../../design-system/.diez/android-hot-url')
+def hotFile = new File('../../design-language/.diez/android-hot-url')
 
 android {
     compileSdkVersion 28

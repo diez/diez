@@ -54,9 +54,9 @@ const populateTemplateMapForCasedName = (name: string, map: Map<string, string>)
 };
 
 const removeUnwantedFiles = (directory: string) => {
-  removeSync(join(directory, exampleProject, 'design-system', 'scripts'));
-  removeSync(join(directory, exampleProject, 'design-system', 'CHANGELOG.md'));
-  removeSync(join(directory, exampleProject, 'design-system', 'designs', 'LoremIpsum.sketch'));
+  removeSync(join(directory, exampleProject, 'design-language', 'scripts'));
+  removeSync(join(directory, exampleProject, 'design-language', 'CHANGELOG.md'));
+  removeSync(join(directory, exampleProject, 'design-language', 'designs', 'LoremIpsum.sketch'));
 };
 
 const removeGitIgnoredFiles = (directory: string) => {
@@ -86,7 +86,7 @@ export = {
     ensureDirSync(swapDestination);
 
     Log.info('Building web SDK to preserve symlink...');
-    await execAsync('diez compile -t web', {cwd: join(loremIpsumRoot, 'design-system')});
+    await execAsync('diez compile -t web', {cwd: join(loremIpsumRoot, 'design-language')});
 
     Log.info(`Generating template using ${loremIpsumRoot} to ${archiveDestination} via ${swapDestination}...`);
     await copy(loremIpsumRoot, join(swapDestination, exampleProject));

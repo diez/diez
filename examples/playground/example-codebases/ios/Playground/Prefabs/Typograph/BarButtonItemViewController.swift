@@ -2,7 +2,7 @@ import UIKit
 import DiezPlayground
 
 class BarButtonItemViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
     let barButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
 
     override func viewDidLoad() {
@@ -14,16 +14,16 @@ class BarButtonItemViewController: UIViewController {
             switch result {
             case .failure(let error):
                 fatalError(error.localizedDescription)
-            case .success(let designSystem):
-                self?.apply(designSystem)
+            case .success(let designLanguage):
+                self?.apply(designLanguage)
             }
         }
 
         view.backgroundColor = .white
     }
 
-    private func apply(_ designSystem: DesignSystem) {
-        barButtonItem.applyTitleAttributes(with: designSystem.typography.buttonPressed, for: .normal)
-        barButtonItem.applyTitleAttributes(with: designSystem.typography.navigationTitle, for: .highlighted)
+    private func apply(_ designLanguage: DesignLanguage) {
+        barButtonItem.applyTitleAttributes(with: designLanguage.typography.buttonPressed, for: .normal)
+        barButtonItem.applyTitleAttributes(with: designLanguage.typography.navigationTitle, for: .highlighted)
     }
 }

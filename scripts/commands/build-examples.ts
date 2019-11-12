@@ -25,12 +25,12 @@ export = {
       throw new Error('--target is required.');
     }
 
-    const buildScripts = await getGlobMatches(join(root, 'examples', '*', 'design-system', 'scripts', `build-${target}-ci.sh`));
+    const buildScripts = await getGlobMatches(join(root, 'examples', '*', 'design-language', 'scripts', `build-${target}-ci.sh`));
     for (const buildScript of buildScripts) {
       const exampleRoot = resolve(buildScript, '..', '..', '..');
-      const designSystemRoot = join(buildScript, '..');
+      const designLanguageRoot = join(buildScript, '..');
       Log.info(`Building for ${target}: ${basename(exampleRoot)}`);
-      run(buildScript, designSystemRoot);
+      run(buildScript, designLanguageRoot);
     }
   },
 };

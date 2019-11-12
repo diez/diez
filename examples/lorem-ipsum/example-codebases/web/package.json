@@ -7,7 +7,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
-    "diez-lorem-ipsum": "link:../../design-system/build/diez-lorem-ipsum-web",
+    "diez-lorem-ipsum": "link:../../design-language/build/diez-lorem-ipsum-web",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

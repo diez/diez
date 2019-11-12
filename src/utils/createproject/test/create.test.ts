@@ -111,6 +111,6 @@ describe('create project', () => {
       .getTypeAtLocation(exported[0][0])
       .getSymbolOrThrow()
       .getValueDeclarationOrThrow() as ClassDeclaration;
-    expect(exportedType.getName()).toBe('DesignSystem');
+    expect(exportedType.getName()).toBe('DesignLanguage');
   });
 });

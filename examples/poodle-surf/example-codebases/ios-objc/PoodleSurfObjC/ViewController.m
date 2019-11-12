@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ViewController ()
 
-@property (nonatomic, nullable) DEZDiezDesignSystem *diez;
+@property (nonatomic, nullable) DEZDiezDesignLanguage *diez;
 
 @property (readonly) ScrollableStackViewView *stackView;
 
@@ -63,8 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
     UILabel *sizeLabel = [[UILabel alloc] init];
     [self.stackView appendView:sizeLabel];
 
-    self.diez = [[DEZDiezDesignSystem alloc] initWithView:self.view];
-    [self.diez attach:^(DEZDesignSystem  * _Nullable component, NSError * _Nullable error) {
+    self.diez = [[DEZDiezDesignLanguage alloc] initWithView:self.view];
+    [self.diez attach:^(DEZDesignLanguage  * _Nullable component, NSError * _Nullable error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);
             return;

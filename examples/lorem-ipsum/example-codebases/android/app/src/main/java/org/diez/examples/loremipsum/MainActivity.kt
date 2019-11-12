@@ -16,47 +16,47 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Here we are observing hot updates to our design system.
+        // Here we are observing hot updates to our design language.
         //
-        // Since this instance of Diez is initialized with a DesignSystem, it will deliver updates to the DesignSystem
-        // object described in `src/DesignSystem.ts` (relative to the root of the Diez project).
-        Diez(DesignSystem(), root).attach(fun(designSystem) {
+        // Since this instance of Diez is initialized with a DesignLanguage, it will deliver updates to the DesignLanguage
+        // object described in `src/DesignLanguage.ts` (relative to the root of the Diez project).
+        Diez(DesignLanguage(), root).attach(fun(designLanguage) {
             runOnUiThread {
-                apply(designSystem)
+                apply(designLanguage)
             }
         })
     }
 
-    private fun apply(designSystem: DesignSystem) {
-        root.setBackgroundColor(designSystem.palette.contentBackground.color)
+    private fun apply(designLanguage: DesignLanguage) {
+        root.setBackgroundColor(designLanguage.palette.contentBackground.color)
 
-        headerLayout.background = backgroundFromGradient(designSystem.palette.headerBackground)
+        headerLayout.background = backgroundFromGradient(designLanguage.palette.headerBackground)
 
-        headerView.loadBackgroundImage(designSystem.images.masthead)
+        headerView.loadBackgroundImage(designLanguage.images.masthead)
 
-        imageView.load(designSystem.images.logo)
+        imageView.load(designLanguage.images.logo)
 
         imageView.afterLayout {
             val paddingBottom = -imageView.width / 2
-            imageView.setPadding(designSystem.layoutValues.contentMargin.left.dpToPx(), 0, 0, paddingBottom)
+            imageView.setPadding(designLanguage.layoutValues.contentMargin.left.dpToPx(), 0, 0, paddingBottom)
         }
 
-        val padding = designSystem.layoutValues.contentMargin
+        val padding = designLanguage.layoutValues.contentMargin
         contentLayout.setPadding(padding.left.dpToPx(), padding.top.dpToPx(), padding.right.dpToPx(), padding.bottom.dpToPx())
 
-        titleTextView.text = designSystem.strings.title
-        titleTextView.apply(designSystem.typography.heading1)
-        titleSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.dpToPx()
+        titleTextView.text = designLanguage.strings.title
+        titleTextView.apply(designLanguage.typography.heading1)
+        titleSpacer.layoutParams.height = designLanguage.layoutValues.spacingSmall.dpToPx()
 
-        captionTextView.text = designSystem.strings.caption
-        captionTextView.apply(designSystem.typography.caption)
-        captionSpacer.layoutParams.height = designSystem.layoutValues.spacingSmall.dpToPx()
+        captionTextView.text = designLanguage.strings.caption
+        captionTextView.apply(designLanguage.typography.caption)
+        captionSpacer.layoutParams.height = designLanguage.layoutValues.spacingSmall.dpToPx()
 
-        animationView.load(designSystem.loadingAnimation)
-        animationSpacer.layoutParams.height = designSystem.layoutValues.spacingMedium.dpToPx()
+        animationView.load(designLanguage.loadingAnimation)
+        animationSpacer.layoutParams.height = designLanguage.layoutValues.spacingMedium.dpToPx()
 
-        animationTextView.text = designSystem.strings.helper
-        animationTextView.apply(designSystem.typography.body)
+        animationTextView.text = designLanguage.strings.helper
+        animationTextView.apply(designLanguage.typography.body)
     }
 
     private fun backgroundFromGradient(gradient: LinearGradient): PaintDrawable {

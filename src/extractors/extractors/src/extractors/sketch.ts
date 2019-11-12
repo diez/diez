@@ -2,9 +2,9 @@ import {execAsync, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
-  codegenDesignSystem,
-  CodegenDesignSystem,
-  createDesignSystemSpec,
+  codegenDesignLanguage,
+  CodegenDesignLanguage,
+  createDesignLanguageSpec,
   GeneratedAssets,
   getColorInitializer,
   getDropShadowInitializer,
@@ -171,7 +171,7 @@ const getLinearGradientInitializerForSketchGradient = (gradient: SketchLinearGra
   return getLinearGradientInitializer(stops, gradient.from, gradient.to);
 };
 
-const populateInitializerForSketchGradient = (gradient: SketchGradient, name: string, spec: CodegenDesignSystem) => {
+const populateInitializerForSketchGradient = (gradient: SketchGradient, name: string, spec: CodegenDesignLanguage) => {
   if (isSketchLinearGradient(gradient)) {
     spec.gradients.push({
       name,
@@ -220,8 +220,8 @@ class SketchExtractor implements Extractor {
       throw new Error('Unable to locate Sketch installation');
     }
 
-    const designSystemName = pascalCase(basename(source, '.sketch'));
-    const assetName = `${designSystemName}.sketch`;
+    const designLanguageName = pascalCase(basename(source, '.sketch'));
+    const assetName = `${designLanguageName}.sketch`;
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}`);
@@ -234,8 +234,8 @@ class SketchExtractor implements Extractor {
 
     reporters.progress(`Extracting design tokens for ${assetName}`);
     const dump = JSON.parse(rawDump) as SketchDump;
-    const codegenSpec = createDesignSystemSpec(
-      designSystemName,
+    const codegenSpec = createDesignLanguageSpec(
+      designLanguageName,
       assetsDirectory,
       join(code, `${assetName}.ts`),
       projectRoot,
@@ -285,7 +285,7 @@ class SketchExtractor implements Extractor {
       codegenSpec.typographs.push({
         name,
         initializer: getTypographInitializer(
-          codegenSpec.designSystemName,
+          codegenSpec.designLanguageName,
           candidateFont,
           textStyle.NSFont.attributes.NSFontNameAttribute,
           fontSize,
@@ -296,7 +296,7 @@ class SketchExtractor implements Extractor {
       });
     }
 
-    return codegenDesignSystem(codegenSpec);
+    return codegenDesignLanguage(codegenSpec);
   }
 }
 

@@ -1,7 +1,7 @@
 import DiezPlayground
 import SnapKit
 
-let buttonPressedTypograph = DesignSystem().typography.buttonPressed
+let buttonPressedTypograph = DesignLanguage().typography.buttonPressed
 
 let typographNavigationItem = NavigationItem(title: "Typograph", content: .list([
     NavigationItem(title: "Label", content: .list([

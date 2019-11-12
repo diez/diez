@@ -136,7 +136,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **ios:** throw and error when NSAllowsLocalNetworking is not set to true ([#90](https://github.com/diez/diez/issues/90)) ([7692103](https://github.com/diez/diez/commit/7692103))
 * **ios:** use Result type for attachment subscriptions on iOS ([#79](https://github.com/diez/diez/issues/79)) ([3e6ee84](https://github.com/diez/diez/commit/3e6ee84))
 * **targets:** add Carthage support to iOS ([#67](https://github.com/diez/diez/issues/67)) ([31ed20f](https://github.com/diez/diez/commit/31ed20f))
-* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+* add support for design language extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
 * **targets:** Lottie & Animator config options ([#66](https://github.com/diez/diez/issues/66)) ([c7328e3](https://github.com/diez/diez/commit/c7328e3))
 
 

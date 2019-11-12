@@ -11,7 +11,7 @@ import DiezPoodleSurf
 import Lottie
 
 class LoadingViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -30,7 +30,7 @@ class LoadingViewController: UIViewController {
         }
     }
 
-    private func apply(_ system: DesignSystem){
+    private func apply(_ system: DesignLanguage){
         apply(system.designs.loading, to: loadingView)
     }
 

@@ -3,7 +3,7 @@ import DiezPlayground
 import SnapKit
 
 class EditableTextFieldViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
     private let textField = TextField()
 
     override func viewDidLoad() {
@@ -21,15 +21,15 @@ class EditableTextFieldViewController: UIViewController {
             switch result {
             case .failure(let error):
                 fatalError(error.localizedDescription)
-            case .success(let designSystem):
-                self?.apply(designSystem)
+            case .success(let designLanguage):
+                self?.apply(designLanguage)
             }
         }
 
         view.backgroundColor = .white
     }
 
-    private func apply(_ designSystem: DesignSystem) {
-        textField.apply(designSystem.typography.basic)
+    private func apply(_ designLanguage: DesignLanguage) {
+        textField.apply(designLanguage.typography.basic)
     }
 }

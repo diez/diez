@@ -1,2 +1,2 @@
 include ':app', ':diez'
-project(':diez').projectDir = new File("${new File("../../design-system/build").absolutePath}/diez-poodle-surf-android")
+project(':diez').projectDir = new File("${new File("../../design-language/build").absolutePath}/diez-poodle-surf-android")

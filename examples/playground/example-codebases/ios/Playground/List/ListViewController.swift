@@ -7,7 +7,7 @@ class ListViewController: UITableViewController {
 
     let items: [NavigationItem]
 
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
 
     init(title: String, items: [NavigationItem]) {
         self.items = items
@@ -29,18 +29,18 @@ class ListViewController: UITableViewController {
             switch result {
             case .failure(let error):
                 fatalError(error.localizedDescription)
-            case .success(let designSystem):
-                self?.apply(designSystem)
+            case .success(let designLanguage):
+                self?.apply(designLanguage)
             }
         }
     }
 
-    func apply(_ designSystem: DesignSystem) {
+    func apply(_ designLanguage: DesignLanguage) {
         guard let navigationController = navigationController else {
             fatalError("No navigation controller found.")
         }
 
-        navigationController.navigationBar.applyTitleAttributesWith(typograph: designSystem.typography.navigationTitle)
+        navigationController.navigationBar.applyTitleAttributesWith(typograph: designLanguage.typography.navigationTitle)
     }
 }
 

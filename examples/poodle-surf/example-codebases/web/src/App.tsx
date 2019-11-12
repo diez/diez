@@ -1,12 +1,12 @@
-import {DesignSystem, Diez, ModelMocks} from 'diez-poodle-surf';
+import {DesignLanguage, Diez, ModelMocks} from 'diez-poodle-surf';
 import * as React from 'react';
 import ForecastCard from './components/ForecastCard';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import WaterTemperatureCard from './components/WaterTemperatureCard';
 
-class App extends React.PureComponent<{}, {ds: DesignSystem, mocks: ModelMocks}> {
-  private diezDs = new Diez<DesignSystem>(DesignSystem);
+class App extends React.PureComponent<{}, {ds: DesignLanguage, mocks: ModelMocks}> {
+  private diezDs = new Diez<DesignLanguage>(DesignLanguage);
   private diezMocks = new Diez<ModelMocks>(ModelMocks);
 
   componentWillMount () {

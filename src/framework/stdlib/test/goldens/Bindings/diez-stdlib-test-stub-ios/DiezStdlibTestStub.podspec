@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.version = version
   s.summary = 'Diez Design System'
   s.description = <<-DESC
-                    Diez design system.
+                    Diez design language.
                   DESC
   s.license = 'MIT'
   s.author = 'Diez'

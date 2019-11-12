@@ -2,9 +2,9 @@ import {Log, UnauthorizedRequestException} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
-  codegenDesignSystem,
-  CodegenDesignSystem,
-  createDesignSystemSpec,
+  codegenDesignLanguage,
+  CodegenDesignLanguage,
+  createDesignLanguageSpec,
   getDropShadowInitializer,
   getLinearGradientInitializer,
   getTypographInitializer,
@@ -251,7 +251,7 @@ const getDropShadowInitializerFromFigma = (shadow: FigmaDropShadow) =>
     colorInitializer: getColorInitializerFromFigma(shadow.color),
   });
 
-const populateInitializerForFigmaEffect = (effect: FigmaEffect, name: string, spec: CodegenDesignSystem) => {
+const populateInitializerForFigmaEffect = (effect: FigmaEffect, name: string, spec: CodegenDesignLanguage) => {
   if (isFigmaDropShadow(effect)) {
     spec.shadows.push({
       name,
@@ -277,7 +277,7 @@ const getLinearGradientInitializerFromFigma = (gradient: FigmaLinearGradient) =>
   return getLinearGradientInitializer(stops, gradient.gradientHandlePositions[0], gradient.gradientHandlePositions[1]);
 };
 
-const populateInitializerForFigmaPaint = (paint: FigmaPaint, name: string, spec: CodegenDesignSystem) => {
+const populateInitializerForFigmaPaint = (paint: FigmaPaint, name: string, spec: CodegenDesignLanguage) => {
   if (isFigmaSolid(paint)) {
     spec.colors.push({
       name,
@@ -315,7 +315,7 @@ const getInitializerForTypographColorFromFigma = (node: FigmaNode) => {
 };
 
 const processFigmaNode = async (
-  spec: CodegenDesignSystem,
+  spec: CodegenDesignLanguage,
   effects: Map<string, string>,
   fills: Map<string, string>,
   typographs: Map<string, string>,
@@ -352,7 +352,7 @@ const processFigmaNode = async (
       spec.typographs.push({
         name: typographs.get(node.styles.text)!,
         initializer: getTypographInitializer(
-          spec.designSystemName,
+          spec.designLanguageName,
           candidateFont,
           node.style.fontPostScriptName,
           node.style.fontSize,
@@ -379,7 +379,7 @@ const processFigmaNode = async (
 };
 
 const parseFigmaFile = async (
-  spec: CodegenDesignSystem,
+  spec: CodegenDesignLanguage,
   filenameMap: Map<string, string>,
   assetsDirectory: string,
   file: FigmaFile,
@@ -482,15 +482,15 @@ class FigmaExtractor implements Extractor, OAuthable {
 
     reporters.progress('Fetching information from Figma.');
     const file = await fetchFile(projectData.id, this.token);
-    const designSystemName = pascalCase(file.name);
-    const assetName = `${designSystemName}.figma`;
+    const designLanguageName = pascalCase(file.name);
+    const assetName = `${designLanguageName}.figma`;
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}`);
     await createFolders(assetsDirectory, folders.values());
 
-    const codegenSpec = createDesignSystemSpec(
-      designSystemName,
+    const codegenSpec = createDesignLanguageSpec(
+      designLanguageName,
       assetsDirectory,
       join(code, `${assetName}.ts`),
       projectRoot,
@@ -502,7 +502,7 @@ class FigmaExtractor implements Extractor, OAuthable {
     await parseFigmaFile(codegenSpec, filenameMap, relative(projectRoot, assetsDirectory), file);
     return Promise.all([
       downloadAssets(filenameMap, assetsDirectory, projectData.id, this.token),
-      codegenDesignSystem(codegenSpec),
+      codegenDesignLanguage(codegenSpec),
     ]);
   }
 }

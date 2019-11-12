@@ -4,7 +4,7 @@ PODS:
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
-  - DiezPlayground (from `../../design-system/build/diez-playground-ios`)
+  - DiezPlayground (from `../../design-language/build/diez-playground-ios`)
   - lottie-ios (= 3.1.1)
   - SnapKit (= 5.0.1)
 
@@ -15,7 +15,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   DiezPlayground:
-    :path: "../../design-system/build/diez-playground-ios"
+    :path: "../../design-language/build/diez-playground-ios"
 
 SPEC CHECKSUMS:
   DiezPlayground: c2a83752bf75e6ac0bdd1322ac1c03d9d9ea62b5

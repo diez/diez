@@ -6,7 +6,7 @@ import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
 import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import {basename, extname, join, parse, relative} from 'path';
 import {CodeBlockWriter, ObjectLiteralExpression, VariableDeclarationKind, WriterFunctionOrValue, Writers} from 'ts-morph';
-import {AssetFolder, CodegenDesignSystem, CodegenEntity, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
+import {AssetFolder, CodegenDesignLanguage, CodegenEntity, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -53,16 +53,16 @@ export class UniqueNameResolver {
 export {pascalCase};
 
 /**
- * Generates a fresh design system spec.
+ * Generates a fresh design language spec.
  */
-export const createDesignSystemSpec = (
-  designSystemName: string,
+export const createDesignLanguageSpec = (
+  designLanguageName: string,
   assetsDirectory: string,
   filename: string,
   projectRoot: string,
-): CodegenDesignSystem => ({
+): CodegenDesignLanguage => ({
   assetsDirectory,
-  designSystemName,
+  designLanguageName,
   filename,
   projectRoot,
   colors: [],
@@ -169,20 +169,20 @@ export const registerFont = async (font: GeneratedFont, collection: GeneratedFon
 };
 
 /**
- * Generates source code for a design system.
+ * Generates source code for a design language.
  */
-export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
-  spec.designSystemName = pascalCase(spec.designSystemName);
-  const {assetsDirectory, designSystemName, projectRoot} = spec;
+export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
+  spec.designLanguageName = pascalCase(spec.designLanguageName);
+  const {assetsDirectory, designLanguageName, projectRoot} = spec;
   const localResolver = new UniqueNameResolver();
   const project = getProject(projectRoot);
   const sourceFile = project.createSourceFile(spec.filename, '', {overwrite: true});
 
-  const designSystemImports = new Set<string>();
-  const colorsName = camelCase(localResolver.getComponentName(`${designSystemName} Colors`));
-  const gradientsName = camelCase(localResolver.getComponentName(`${designSystemName} Gradients`));
-  const shadowsName = camelCase(localResolver.getComponentName(`${designSystemName} Shadows`));
-  const typographsName = camelCase(localResolver.getComponentName(`${designSystemName} Typography`));
+  const designLanguageImports = new Set<string>();
+  const colorsName = camelCase(localResolver.getComponentName(`${designLanguageName} Colors`));
+  const gradientsName = camelCase(localResolver.getComponentName(`${designLanguageName} Gradients`));
+  const shadowsName = camelCase(localResolver.getComponentName(`${designLanguageName} Shadows`));
+  const typographsName = camelCase(localResolver.getComponentName(`${designLanguageName} Typography`));
 
   const hasColors = spec.colors.length > 0;
   const hasGradients = spec.gradients.length > 0;
@@ -190,7 +190,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   const hasTypographs = spec.typographs.length > 0;
 
   if (hasColors) {
-    designSystemImports.add('Color');
+    designLanguageImports.add('Color');
     sourceFile.addVariableStatement({
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
@@ -202,10 +202,10 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (hasGradients) {
-    designSystemImports.add('LinearGradient');
-    designSystemImports.add('Color');
-    designSystemImports.add('GradientStop');
-    designSystemImports.add('Point2D');
+    designLanguageImports.add('LinearGradient');
+    designLanguageImports.add('Color');
+    designLanguageImports.add('GradientStop');
+    designLanguageImports.add('Point2D');
     sourceFile.addVariableStatement({
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
@@ -217,9 +217,9 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (hasShadows) {
-    designSystemImports.add('Color');
-    designSystemImports.add('Point2D');
-    designSystemImports.add('DropShadow');
+    designLanguageImports.add('Color');
+    designLanguageImports.add('Point2D');
+    designLanguageImports.add('DropShadow');
     sourceFile.addVariableStatement({
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
@@ -231,7 +231,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (spec.fonts.size) {
-    designSystemImports.add('Font');
+    designLanguageImports.add('Font');
     const fontDirectory = join(assetsDirectory, 'fonts');
     ensureDirSync(fontDirectory);
     const fontsExpression = sourceFile.addVariableStatement({
@@ -239,7 +239,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
       declarationKind: VariableDeclarationKind.Const,
       isExported: true,
       declarations: [{
-        name: camelCase(`${designSystemName}Fonts`),
+        name: camelCase(`${designLanguageName}Fonts`),
         initializer: '{}',
       }],
     }).getDeclarations()[0].getInitializer() as ObjectLiteralExpression;
@@ -268,8 +268,8 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (hasTypographs) {
-    designSystemImports.add('Color');
-    designSystemImports.add('Typograph');
+    designLanguageImports.add('Color');
+    designLanguageImports.add('Typograph');
     sourceFile.addVariableStatement({
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
@@ -281,8 +281,8 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   for (const [folder, assetsMap] of spec.assets) {
-    designSystemImports.add('Image');
-    designSystemImports.add('File');
+    designLanguageImports.add('Image');
+    designLanguageImports.add('File');
 
     const files: any = {};
     const images: any = {};
@@ -305,7 +305,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
-        name: camelCase(`${spec.designSystemName} ${folder} Files`),
+        name: camelCase(`${spec.designLanguageName} ${folder} Files`),
         initializer: Writers.object(files),
       }],
     });
@@ -315,13 +315,13 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
-        name: camelCase(`${spec.designSystemName} ${folder}`),
+        name: camelCase(`${spec.designLanguageName} ${folder}`),
         initializer: Writers.object(images),
       }],
     });
   }
 
-  const componentName = `${designSystemName}Tokens`;
+  const componentName = `${designLanguageName}Tokens`;
   const exportedInitializer: {[key: string]: any} = {};
 
   if (hasColors) {
@@ -337,7 +337,7 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
   }
 
   if (hasTypographs) {
-    designSystemImports.add('Font');
+    designLanguageImports.add('Font');
     exportedInitializer.typography = typographsName;
   }
 
@@ -351,10 +351,10 @@ export const codegenDesignSystem = async (spec: CodegenDesignSystem) => {
     }],
   });
 
-  if (designSystemImports.size) {
+  if (designLanguageImports.size) {
     sourceFile.addImportDeclaration({
       moduleSpecifier: '@diez/prefabs',
-      namedImports: Array.from(designSystemImports).sort().map((name) => ({name})),
+      namedImports: Array.from(designLanguageImports).sort().map((name) => ({name})),
     });
   }
 

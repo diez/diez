@@ -14,7 +14,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import org.diez.poodleSurf.*;
 
 public class MainActivity extends AppCompatActivity {
-    private DesignSystem diez;
+    private DesignLanguage diez;
     private ModelMocks mocks;
 
     @Override
@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DesignSystem designSystem = new DesignSystem();
+        DesignLanguage designLanguage = new DesignLanguage();
 
-        new Diez<>(new DesignSystem(), findViewById(android.R.id.content)).attach((DesignSystem component) -> {
+        new Diez<>(new DesignLanguage(), findViewById(android.R.id.content)).attach((DesignLanguage component) -> {
             runOnUiThread(() -> {
                 diez = component;
                 onDiezUpdated();

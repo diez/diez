@@ -225,7 +225,7 @@ describe('Sketch', () => {
             initializer: 'new DropShadow({offset: Point2D.make(0, 2), radius: 30, color: Color.rgba(255, 63, 112, 0.7)})',
           },
         ],
-        designSystemName: 'Test',
+        designLanguageName: 'Test',
         filename: 'src/Test.sketch.ts',
         fonts: new Map([['Foobar', new Map([['BoldItalic', {name: 'Foobar-BoldItalic', path: '/path/to/Foobar-BoldItalic.ttf'}]])]]),
         projectRoot: '.',

@@ -7,7 +7,7 @@ module.exports = function override(config, env) {
   if (env === 'production') {
     config.plugins.push(
       new CopyWebpackPlugin([{
-        from: join(__dirname, '..', '..', 'design-system', 'build', 'diez-poodle-surf-web', 'static'),
+        from: join(__dirname, '..', '..', 'design-language', 'build', 'diez-poodle-surf-web', 'static'),
         to: join(__dirname, 'public', 'diez'),
       }]),
       new WriteFileWebpackPlugin(),

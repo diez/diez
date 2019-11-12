@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Diez, DesignSystem } from 'diez-lorem-ipsum';
+import { Diez, DesignLanguage } from 'diez-lorem-ipsum';
 import styles from './App.module.scss';
 
 const Animation = (props) => {
@@ -20,13 +20,13 @@ const Animation = (props) => {
 
 const App = () => {
   const [ds, setDs] = useState();
-  const diez = new Diez(DesignSystem);
+  const diez = new Diez(DesignLanguage);
 
   useEffect(() => {
-    // Here we are observing hot updates to our design system.
+    // Here we are observing hot updates to our design language.
     //
-    // Since this instance of Diez was initialized with DesignSystem, it will deliver updates to the DesignSystem
-    // object described in `src/DesignSystem.ts` (relative to the root of the Diez project).
+    // Since this instance of Diez was initialized with DesignLanguage, it will deliver updates to the DesignLanguage
+    // object described in `src/DesignLanguage.ts` (relative to the root of the Diez project).
     diez.attach(setDs);
   }, []);
 

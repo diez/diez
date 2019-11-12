@@ -74,14 +74,14 @@ export const locateFont = async (
  * @ignore
  */
 export const getTypographInitializer = (
-  designSystemName: string,
+  designLanguageName: string,
   candidateFont: GeneratedFont | undefined,
   fontName: string,
   fontSize: number,
   colorInitializer?: string,
 ) => {
   const font = candidateFont ?
-    `${camelCase(`${designSystemName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
+    `${camelCase(`${designLanguageName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
     `new Font({name: "${fontName}"})`;
 
   if (colorInitializer) {

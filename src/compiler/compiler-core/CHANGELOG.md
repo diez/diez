@@ -96,7 +96,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **createproject:** `yarn create`/`npm init` starter kits for Diez ([#130](https://github.com/diez/diez/issues/130)) ([86caab2](https://github.com/diez/diez/commit/86caab2))
 * **ios:** generate asset catalog for images ([#87](https://github.com/diez/diez/issues/87)) ([806a331](https://github.com/diez/diez/commit/806a331))
 * **targets:** add Carthage support to iOS ([#67](https://github.com/diez/diez/issues/67)) ([31ed20f](https://github.com/diez/diez/commit/31ed20f))
-* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+* add support for design language extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
 
 
 ### Performance Improvements

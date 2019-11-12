@@ -10,7 +10,7 @@ import UIKit
 import DiezPoodleSurf
 
 class ReportViewController: UIViewController {
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
     private var binder: ReportViewModelBinder?
 
     override func viewDidLoad() {
@@ -22,15 +22,15 @@ class ReportViewController: UIViewController {
 
         diez.attach { [weak self] result in
             switch result {
-            case .success(let system):
-                self?.apply(system)
+            case .success(let lang):
+                self?.apply(lang)
             case .failure(let error):
                 print(error)
             }
         }
     }
 
-    private func apply(_ system: DesignSystem) {
+    private func apply(_ lang: DesignLanguage) {
         self.view.layoutIfNeeded()
         
         UIView.animate(withDuration: 0.5) {
@@ -38,14 +38,14 @@ class ReportViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }
 
-            self.apply(system.designs.report, to: self.reportView)
+            self.apply(lang.designs.report, to: self.reportView)
 
             guard let navigationBar = self.navigationController?.navigationBar else {
                 print("Failed to get navigation bar.")
                 return
             }
 
-            self.apply(system.designs.navigationTitle, toView: self.titleView, navigationBar: navigationBar)
+            self.apply(lang.designs.navigationTitle, toView: self.titleView, navigationBar: navigationBar)
         }
     }
 

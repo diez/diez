@@ -79,7 +79,7 @@ export = async (_: {}, target: Target, targetRootIn?: string) => {
     Log.comment(`
 Your Diez project is now running in hot mode for ${target}.
 
-In hot mode, Diez observes and emits changes to your design system in real time.
+In hot mode, Diez observes and emits changes to your design language in real time.
 
 To learn more, follow along with the guide at:
 

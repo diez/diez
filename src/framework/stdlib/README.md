@@ -1,6 +1,6 @@
 # `@diez/stdlib`
 
-This package contains bindings, core files, and package assemblers for all of the design system primitives provided by `@diez/prefabs` for targets `android,` `ios`, and `web`. Collectively, these bindings function as an open standard library for building Diez SDKs for production.
+This package contains bindings, core files, and package assemblers for all of the design language primitives provided by `@diez/prefabs` for targets `android,` `ios`, and `web`. Collectively, these bindings function as an open standard library for building Diez SDKs for production.
 
 ## Contributing
 

@@ -15,13 +15,13 @@ import org.diez.poodleSurf.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var diez: DesignSystem
+    lateinit var diez: DesignLanguage
     lateinit var mocks: ModelMocks
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Diez(DesignSystem(), root).attach(fun(component) {
+        Diez(DesignLanguage(), root).attach(fun(component) {
             runOnUiThread {
                 diez = component
                 onDiezUpdated()

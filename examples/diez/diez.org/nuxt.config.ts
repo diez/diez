@@ -1,6 +1,6 @@
 import fontLoader from './helpers/font-loader';
 
-const siteTitle = 'Diez - Cross-platform design system framework for native iOS, Android, and Web';
+const siteTitle = 'Diez - Cross-platform design language framework for native iOS, Android, and Web';
 const siteDesc = 'Diez makes it easy to adopt a unified design language across codebases, platforms, and teams.';
 
 export default {

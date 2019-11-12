@@ -4,7 +4,7 @@ PODS:
   - lottie-ios (3.1.1)
 
 DEPENDENCIES:
-  - DiezLoremIpsum (from `../../design-system/build/diez-lorem-ipsum-ios`)
+  - DiezLoremIpsum (from `../../design-language/build/diez-lorem-ipsum-ios`)
   - lottie-ios (= 3.1.1)
 
 SPEC REPOS:
@@ -13,7 +13,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   DiezLoremIpsum:
-    :path: "../../design-system/build/diez-lorem-ipsum-ios"
+    :path: "../../design-language/build/diez-lorem-ipsum-ios"
 
 SPEC CHECKSUMS:
   DiezLoremIpsum: e4b40e70559db532d5256bc8eb279602f012b4fb

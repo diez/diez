@@ -27,12 +27,12 @@ class Palette {
   red = Color.rgb(255, 0, 0);
 }
 
-export class DesignSystem {
+export class DesignLanguage {
   palette = new Palette();
 }
 ```
 
-the parser will build a typed, abstract tree based on the exported component `DesignSystem`. Because `Color` and `Palette` are recursive dependencies of `DesignSystem`, they will also be processed. The resulting abstract tree is the main input to the next compilation phase.
+the parser will build a typed, abstract tree based on the exported component `DesignLanguage`. Because `Color` and `Palette` are recursive dependencies of `DesignLanguage`, they will also be processed. The resulting abstract tree is the main input to the next compilation phase.
 
 ### Phase 2: Compilation
 

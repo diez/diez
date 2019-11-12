@@ -7,7 +7,7 @@ class BaselineAlignViewController<TextView: TextSettableView>: UIViewController 
     private let textViewFactory: BaselineAlignView<TextView>.TextViewFactory
     private let applicator: TextViewApplicator
 
-    private lazy var diez = Diez<DesignSystem>(view: view)
+    private lazy var diez = Diez<DesignLanguage>(view: view)
     private lazy var baselineAlignView = BaselineAlignView<TextView>(viewFactory: textViewFactory)
     private var timer: Timer?
     private let textParts = [
@@ -42,8 +42,8 @@ class BaselineAlignViewController<TextView: TextSettableView>: UIViewController 
             switch result {
             case .failure(let error):
                 fatalError(error.localizedDescription)
-            case .success(let designSystem):
-                self?.apply(designSystem)
+            case .success(let designLanguage):
+                self?.apply(designLanguage)
             }
         }
 
@@ -67,12 +67,12 @@ class BaselineAlignViewController<TextView: TextSettableView>: UIViewController 
         view = baselineAlignView
     }
 
-    private func apply(_ designSystem: DesignSystem) {
+    private func apply(_ designLanguage: DesignLanguage) {
         baselineAlignView.singleLineViews.forEach {
-            self.applicator($0, designSystem.typography.basic, designSystem.typography.buttonPressed)
+            self.applicator($0, designLanguage.typography.basic, designLanguage.typography.buttonPressed)
         }
         baselineAlignView.multiLineViews.forEach {
-            self.applicator($0, designSystem.typography.tallLineHeight, designSystem.typography.buttonPressed)
+            self.applicator($0, designLanguage.typography.tallLineHeight, designLanguage.typography.buttonPressed)
         }
     }
 

@@ -71,7 +71,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * add script that generates example templates for createproject ([#115](https://github.com/diez/diez/issues/115)) ([943513c](https://github.com/diez/diez/commit/943513c))
-* add support for design system extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
+* add support for design language extraction for Figma files ([#140](https://github.com/diez/diez/issues/140)) ([26b6d87](https://github.com/diez/diez/commit/26b6d87))
 * **analytics:** add Sentry crash reporting for private beta ([#152](https://github.com/diez/diez/issues/152)) ([a47a9de](https://github.com/diez/diez/commit/a47a9de))
 * **cli:** add opt-out analytics to `diez` ([#92](https://github.com/diez/diez/issues/92)) ([08291ec](https://github.com/diez/diez/commit/08291ec))
 * **cli:** allow default command options to be specified in .diezrc ([#84](https://github.com/diez/diez/issues/84)) ([0e8a1bb](https://github.com/diez/diez/commit/0e8a1bb))

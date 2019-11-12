@@ -3,13 +3,13 @@ import {UniqueNameResolver} from '../src/utils';
 describe('UniqueNameResolver', () => {
   test('provides conventional component names', () => {
     const resolver = new UniqueNameResolver();
-    const name = resolver.getComponentName('my design_system');
-    const name1 = resolver.getComponentName('my design_system');
-    const name2 = resolver.getComponentName('some-other-design-system');
+    const name = resolver.getComponentName('my design_language');
+    const name1 = resolver.getComponentName('my design_language');
+    const name2 = resolver.getComponentName('some-other-design-language');
 
-    expect(name).toBe('MyDesignSystem');
-    expect(name1).toBe('MyDesignSystem1');
-    expect(name2).toBe('SomeOtherDesignSystem');
+    expect(name).toBe('MyDesignLanguage');
+    expect(name1).toBe('MyDesignLanguage1');
+    expect(name2).toBe('SomeOtherDesignLanguage');
   });
 
   test('provides conventional property names', () => {

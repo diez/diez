@@ -1,8 +1,8 @@
 @import Diez{{case projectName style="pascal"}};
 @import Lottie;
 
-{{case rootType style="pascal"}} *designSystem = [[{{case rootType style="pascal"}} alloc] init];
-DEZLottie *lottie = designSystem.{{path}};
+{{case rootType style="pascal"}} *designLanguage = [[{{case rootType style="pascal"}} alloc] init];
+DEZLottie *lottie = designLanguage.{{path}};
 
 AnimationView *view = [[AnimationView alloc] init];
 [view dez_loadLottie:lottie];

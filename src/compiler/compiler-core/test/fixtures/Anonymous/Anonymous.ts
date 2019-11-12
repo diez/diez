@@ -15,8 +15,8 @@ const colors = {
 };
 
 /**
- * Here is the design system.
+ * Here is the design language.
  */
-export const designSystem = {
+export const designLanguage = {
   colors,
 };

@@ -424,7 +424,7 @@ describe('Figma', () => {
             name: 'Diez Red To Purple',
           },
         ],
-        designSystemName: 'Hello',
+        designLanguageName: 'Hello',
         filename: 'src/Hello.figma.ts',
         fonts: new Map([[
           'Foobar',
