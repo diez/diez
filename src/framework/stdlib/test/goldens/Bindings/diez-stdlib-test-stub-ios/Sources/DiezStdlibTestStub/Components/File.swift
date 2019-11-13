@@ -3,10 +3,15 @@
 
 import Foundation
 import CoreGraphics
-
 @objc(DEZFile)
 public final class File: NSObject, Decodable {
+    /**
+    File data.
+    **/
     @objc public internal(set) var src: String
+    /**
+    File data.
+    **/
     @objc public internal(set) var type: String
 
     init(

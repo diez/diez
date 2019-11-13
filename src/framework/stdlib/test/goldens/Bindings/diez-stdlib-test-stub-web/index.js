@@ -69,12 +69,26 @@ class Diez {
 
 module.exports.Diez = Diez;
 
+/**
+Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
+and more. This component is used internally by [[Image]] and [[Font]].
+
+The compiler may enforce certain restrictions on the `type` of a `File` instance.
+
+Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
+**/
 class File {
   constructor({
     src,
     type
   }) {
+  /**
+  File data.
+  **/
     this.src = src;
+  /**
+  File data.
+  **/
     this.type = type;
   }
 }
@@ -90,12 +104,23 @@ Object.defineProperties(File.prototype, {
   },
 });
 
+/**
+Provides a two dimensional size.
+
+Usage: `size = Size2D.make(1920, 1080);`.
+**/
 class Size2D {
   constructor({
     width,
     height
   }) {
+  /**
+  Size data.
+  **/
     this.width = width;
+  /**
+  Size data.
+  **/
     this.height = height;
   }
 }
@@ -121,6 +146,12 @@ Object.defineProperties(Size2D.prototype, {
   },
 });
 
+/**
+Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
+accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
+file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
+image is expected to exist and provide an image with the specified dimensions.
+**/
 class Image {
   constructor({
     file,
@@ -162,6 +193,9 @@ Object.defineProperties(Image.prototype, {
   },
 });
 
+/**
+Provides an abstraction for [Lottie](https://airbnb.io/lottie/#/) animations.
+**/
 class Lottie {
   constructor({
     file,
@@ -169,7 +203,13 @@ class Lottie {
     autoplay
   }) {
     this.file = new File(file);
+  /**
+  Lottie data.
+  **/
     this.loop = loop;
+  /**
+  Lottie data.
+  **/
     this.autoplay = autoplay;
   }
 }
@@ -202,6 +242,9 @@ diezHTMLExtensions.push(() => {
   };
 });
 
+/**
+A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
+**/
 class Font {
   constructor({
     file,
@@ -211,9 +254,21 @@ class Font {
     style
   }) {
     this.file = new File(file);
+  /**
+  Font data.
+  **/
     this.name = name;
+  /**
+  Font data.
+  **/
     this.fallbacks = fallbacks;
+  /**
+  Font data.
+  **/
     this.weight = weight;
+  /**
+  Font data.
+  **/
     this.style = style;
   }
 }
@@ -221,6 +276,12 @@ class Font {
 
 module.exports.Font = Font;
 
+/**
+A component encapsulating color, including alpha transparency.
+
+You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
+[[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
+**/
 class Color {
   constructor({
     h,
@@ -228,9 +289,21 @@ class Color {
     l,
     a
   }) {
+  /**
+  Provides simple hue-saturation-lightness-alpha color data.
+  **/
     this.h = h;
+  /**
+  Provides simple hue-saturation-lightness-alpha color data.
+  **/
     this.s = s;
+  /**
+  Provides simple hue-saturation-lightness-alpha color data.
+  **/
     this.l = l;
+  /**
+  Provides simple hue-saturation-lightness-alpha color data.
+  **/
     this.a = a;
   }
 }
@@ -276,6 +349,10 @@ Object.defineProperties(Color.prototype, {
   },
 });
 
+/**
+Describes a typograph including specification of a font name (understood to specify both a font face and a font
+weight) as well as a font size in device-local units and a font color.
+**/
 class Typograph {
   constructor({
     font,
@@ -287,11 +364,26 @@ class Typograph {
     decoration
   }) {
     this.font = new Font(font);
+  /**
+  Typograph data.
+  **/
     this.fontSize = fontSize;
     this.color = new Color(color);
+  /**
+  Typograph data.
+  **/
     this.lineHeight = lineHeight;
+  /**
+  Typograph data.
+  **/
     this.letterSpacing = letterSpacing;
+  /**
+  Typograph data.
+  **/
     this.alignment = alignment;
+  /**
+  Typograph data.
+  **/
     this.decoration = decoration;
   }
 }
@@ -373,11 +465,17 @@ diezHTMLExtensions.push(() => {
   };
 });
 
+/**
+Provides a gradient stop.
+**/
 class GradientStop {
   constructor({
     position,
     color
   }) {
+  /**
+  GradientStop data.
+  **/
     this.position = position;
     this.color = new Color(color);
   }
@@ -386,12 +484,27 @@ class GradientStop {
 
 module.exports.GradientStop = GradientStop;
 
+/**
+Provides a two dimensional point.
+
+Taken alone, points are designated in an abstract space with no inherit dimensions or directionality. In the
+context of other prefabs like [[LinearGradient]], points typically should use the standard two dimensional graphics
+space, often normalized in the unit square, where x increases from left to right and y increases from top to bottom.
+
+Usage: `point = Point2D.make(0.5, 0.5);`.
+**/
 class Point2D {
   constructor({
     x,
     y
   }) {
+  /**
+  Point data.
+  **/
     this.x = x;
+  /**
+  Point data.
+  **/
     this.y = y;
   }
 }
@@ -399,6 +512,9 @@ class Point2D {
 
 module.exports.Point2D = Point2D;
 
+/**
+Provides a linear gradient.
+**/
 class LinearGradient {
   constructor({
     stops,
@@ -438,6 +554,9 @@ Object.defineProperties(LinearGradient.prototype, {
   },
 });
 
+/**
+Provides a drop shadow.
+**/
 class DropShadow {
   constructor({
     offset,
@@ -445,6 +564,9 @@ class DropShadow {
     color
   }) {
     this.offset = new Point2D(offset);
+  /**
+  DropShadow data.
+  **/
     this.radius = radius;
     this.color = new Color(color);
   }
@@ -494,6 +616,9 @@ Object.defineProperties(DropShadow.prototype, {
   },
 });
 
+/**
+Describes a fill type.
+**/
 class Fill {
   constructor({
     color,
@@ -502,6 +627,9 @@ class Fill {
   }) {
     this.color = new Color(color);
     this.linearGradient = new LinearGradient(linearGradient);
+  /**
+  Fill data.
+  **/
     this.type = type;
   }
 }
@@ -509,12 +637,18 @@ class Fill {
 
 module.exports.Fill = Fill;
 
+/**
+Provides a simple rectangular panel description.
+**/
 class Panel {
   constructor({
     cornerRadius,
     background,
     dropShadow
   }) {
+  /**
+  Panel data.
+  **/
     this.cornerRadius = cornerRadius;
     this.background = new Fill(background);
     this.dropShadow = new DropShadow(dropShadow);

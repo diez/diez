@@ -3,7 +3,6 @@
 
 import Foundation
 import UIKit
-
 @objc(DEZBindings)
 public final class Bindings: NSObject, RootComponent {
     @objc public internal(set) var image: Image

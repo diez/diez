@@ -1,6 +1,5 @@
 import Foundation
 import CoreGraphics
-
 @objc(DEZChildComponent)
 public final class ChildComponent: NSObject, Decodable {
     @objc public internal(set) var diez: CGFloat

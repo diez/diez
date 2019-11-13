@@ -3,7 +3,11 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "declarationDir": "types"
+    "declarationDir": "types",
+    "baseUrl": ".",
+    "paths": {
+      "jsdoc-to-markdown": ["src/jsdoc-to-markdown-shims.d.ts"]
+    }
   },
   "include": [
     "src/**/*.ts"

@@ -3,11 +3,19 @@
 
 import Foundation
 import CoreGraphics
-
 @objc(DEZLinearGradient)
 public final class LinearGradient: NSObject, Decodable {
+    /**
+    LinearGradient data.
+    **/
     @objc public internal(set) var stops: [GradientStop]
+    /**
+    LinearGradient data.
+    **/
     @objc public internal(set) var start: Point2D
+    /**
+    LinearGradient data.
+    **/
     @objc public internal(set) var end: Point2D
 
     init(

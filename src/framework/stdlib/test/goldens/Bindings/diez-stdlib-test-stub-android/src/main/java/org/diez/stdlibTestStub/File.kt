@@ -6,8 +6,22 @@ package org.diez.stdlibTestStub
 import android.net.Uri
 import java.net.URL
 
+/**
+  Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
+and more. This component is used internally by [[Image]] and [[Font]].
+
+The compiler may enforce certain restrictions on the `type` of a `File` instance.
+
+Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
+**/
 data class File(
+    /**
+      File data.
+    **/
     val src: String,
+    /**
+      File data.
+    **/
     val type: String
 ) {
     companion object {}

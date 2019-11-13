@@ -3,10 +3,15 @@
 
 import Foundation
 import CoreGraphics
-
 @objc(DEZFont)
 public final class Font: NSObject, Decodable {
+    /**
+    Font data.
+    **/
     @objc public internal(set) var file: File
+    /**
+    Font data.
+    **/
     @objc public internal(set) var name: String
 
     init(

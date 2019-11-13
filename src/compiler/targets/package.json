@@ -28,7 +28,8 @@
     "change-case": "^3.1.0",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
-    "internal-ip": "^4.3.0"
+    "internal-ip": "^4.3.0",
+    "jsdoc-to-markdown": "^5.0.2"
   },
   "devDependencies": {
     "@diez/test-utils": "^10.0.0-beta.6",

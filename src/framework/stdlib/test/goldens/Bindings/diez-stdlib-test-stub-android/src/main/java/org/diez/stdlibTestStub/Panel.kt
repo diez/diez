@@ -11,9 +11,21 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
 
+/**
+  Provides a simple rectangular panel description.
+**/
 data class Panel(
+    /**
+      Panel data.
+    **/
     val cornerRadius: Float,
+    /**
+      Panel data.
+    **/
     val background: Fill,
+    /**
+      Panel data.
+    **/
     val elevation: Float
 ) {
     companion object {}

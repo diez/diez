@@ -51,7 +51,6 @@ const hexRgb = (r: number, g: number, b: number, a: number = 255) => Color.rgba(
  *
  * You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
  * [[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
- *
  * @noinheritdoc
  */
 export class Color extends prefab<ColorData>() {

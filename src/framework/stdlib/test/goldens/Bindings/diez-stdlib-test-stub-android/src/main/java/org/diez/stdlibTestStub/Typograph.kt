@@ -15,14 +15,42 @@ import android.view.Gravity
 import android.view.View
 import android.graphics.Paint
 
+/**
+  Describes a typograph including specification of a font name (understood to specify both a font face and a font
+weight) as well as a font size in device-local units and a font color.
+**/
 data class Typograph(
+    /**
+      Typograph data.
+    **/
     val font: Font,
+    /**
+      Typograph data.
+    **/
     val fontSize: Float,
+    /**
+      Typograph data.
+    **/
     val color: Color,
+    /**
+      Typograph data.
+    **/
     val shouldScale: Boolean,
+    /**
+      Typograph data.
+    **/
     val lineHeight: Float,
+    /**
+      Typograph data.
+    **/
     val letterSpacing: Float,
+    /**
+      Typograph data.
+    **/
     val alignment: String,
+    /**
+      Typograph data.
+    **/
     val decoration: Array<String>
 ) {
     companion object {}

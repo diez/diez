@@ -298,6 +298,7 @@ export class ProjectParser extends EventEmitter implements Parser {
     }
 
     const typeValue = typeSymbol.getValueDeclaration();
+
     if (!isAcceptableType(typeValue)) {
       return;
     }
@@ -314,6 +315,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         // FIXME: we should be able to handle this by automatically renaming components (e.g. `Color`, `Color0`...).
         // We should be able to do this entirely within `getTypeValueForValueDeclaration`, using a `Map<Type, DiezType>`.
         Log.warning(`Encountered a duplicate component name: ${type}. Please ensure no component names are duplicated.`);
+
         return;
       }
 

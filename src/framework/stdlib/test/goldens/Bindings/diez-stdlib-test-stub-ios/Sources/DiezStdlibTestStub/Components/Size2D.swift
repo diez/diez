@@ -3,10 +3,15 @@
 
 import Foundation
 import CoreGraphics
-
 @objc(DEZSize2D)
 public final class Size2D: NSObject, Decodable {
+    /**
+    Size data.
+    **/
     @objc public internal(set) var width: CGFloat
+    /**
+    Size data.
+    **/
     @objc public internal(set) var height: CGFloat
 
     init(

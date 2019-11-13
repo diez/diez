@@ -3,8 +3,17 @@
 
 package org.diez.stdlibTestStub
 
+/**
+  Provides a gradient stop.
+**/
 data class GradientStop(
+    /**
+      GradientStop data.
+    **/
     val position: Float,
+    /**
+      GradientStop data.
+    **/
     val color: Color
 ) {
     companion object {}

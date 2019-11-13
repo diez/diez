@@ -11,9 +11,21 @@ import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.LottieListener
 import com.airbnb.lottie.LottieDrawable
 
+/**
+  Provides an abstraction for [Lottie](https://airbnb.io/lottie/#/) animations.
+**/
 data class Lottie(
+    /**
+      Lottie data.
+    **/
     val file: File,
+    /**
+      Lottie data.
+    **/
     val loop: Boolean,
+    /**
+      Lottie data.
+    **/
     val autoplay: Boolean
 ) {
     companion object {}

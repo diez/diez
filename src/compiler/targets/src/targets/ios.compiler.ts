@@ -16,10 +16,10 @@ import {pascalCase} from 'change-case';
 import {readFileSync} from 'fs-extra';
 import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
+import jsdocToMarkdown from 'jsdoc-to-markdown';
 import {basename, join} from 'path';
 import {sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
-
 /**
  * The root location for source files.
  */
@@ -321,6 +321,12 @@ class ViewController: UIViewController {
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
       // For each fixed, replace it with its simple constructor.
+      if (targetComponent.description.body) {
+        targetComponent.description.body = await jsdocToMarkdown.render({
+          source: `/** ${targetComponent.description.body} */`,
+        });
+      }
+
       for (const property of Object.values(targetComponent.properties)) {
         if (
           property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {

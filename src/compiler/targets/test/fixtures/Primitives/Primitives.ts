@@ -12,7 +12,13 @@ class ChildComponent extends prefab<ChildComponentData>() {
 
 class EmptyComponent {}
 
+/**
+ * Test object comment
+ */
 export const primitives = {
+  /**
+   * Test property comment
+   */
   number: 10,
   integer: 10 as Integer,
   float: 10.0 as Float,

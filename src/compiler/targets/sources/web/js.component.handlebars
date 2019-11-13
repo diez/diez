@@ -1,7 +1,17 @@
+{{#if description.body}}
+/**
+{{{description.body}}}
+**/
+{{/if}}
 class {{{type}}} {
   constructor({
 {{#if fixed}}
 {{#each properties}}
+  {{#if this.description.body}}
+  /**
+  {{{this.description.body}}}
+  **/
+  {{/if}}
     {{{this.name}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
   } = {}) {
@@ -13,6 +23,11 @@ class {{{type}}} {
 {{/if}}
 {{#each properties}}
 {{#unless this.isComponent}}
+  {{#if this.description.body}}
+  /**
+  {{{this.description.body}}}
+  **/
+  {{/if}}
     this.{{{this.name}}} = {{{this.name}}};
 {{else if this.depth}}
     {{#list this}}{{/list}}

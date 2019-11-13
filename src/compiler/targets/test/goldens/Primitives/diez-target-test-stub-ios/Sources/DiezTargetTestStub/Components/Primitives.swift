@@ -1,8 +1,10 @@
 import Foundation
 import UIKit
-
 @objc(DEZPrimitives)
 public final class Primitives: NSObject, RootComponent {
+    /**
+    Test property comment
+    **/
     @objc public internal(set) var number: CGFloat
     @objc public internal(set) var integer: Int
     @objc public internal(set) var float: CGFloat
@@ -17,6 +19,9 @@ public final class Primitives: NSObject, RootComponent {
 
     convenience public override init() {
         self.init(
+              /**
+              Test property comment
+              **/
             number: 10,
             integer: 10,
             float: 10,

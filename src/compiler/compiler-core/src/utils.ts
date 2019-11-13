@@ -4,7 +4,8 @@ import {noCase} from 'change-case';
 import {dirname, join, resolve} from 'path';
 import {Node, Project, TypeGuards} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
-import {AcceptableType, AssemblerFactory, CompilerProvider, ComponentModule, Constructor, DiezType, NamedComponentMap, PropertyDescription, TargetOutput} from './api';
+import {AcceptableType, AssemblerFactory, CompilerProvider, ComponentModule,
+  Constructor, DiezType, NamedComponentMap, PropertyDescription, TargetOutput} from './api';
 
 /**
  * A type guard for identifying a [[Constructor]] vs. a plain object.
@@ -93,7 +94,8 @@ export const getTargets = async (): Promise<Map<Target, CompilerProvider>> => {
 };
 
 const hashComponent = (source: string, componentName: DiezType) => `${source}:${componentName}`;
-const hashBinding = (target: string, source: string, componentName: DiezType) => `${target}|${hashComponent(source, componentName)}`;
+const hashBinding = (target: string,
+  source: string, componentName: DiezType) => `${target}|${hashComponent(source, componentName)}`;
 const bindingLocations = new Map<string, string>();
 const resolvedBindings = new Map<string, any>();
 
@@ -250,6 +252,29 @@ export const isAcceptableType = (typeValue?: Node): typeValue is AcceptableType 
   return TypeGuards.isClassDeclaration(typeValue) || TypeGuards.isObjectLiteralExpression(typeValue);
 };
 
+const getDescriptionForLiteralValue = (typeVale: Node): PropertyDescription => {
+  if (typeVale) {
+    let typeValeNode = typeVale;
+    if (TypeGuards.isObjectLiteralExpression(typeVale)) {
+      // we need three parents deep to get the object comments
+      const parent = typeVale.getParent();
+      if (parent) {
+        const grandParent = parent.getParent();
+        if (grandParent) {
+          const greatGrandParent = grandParent.getParent();
+          if (greatGrandParent) {
+            typeValeNode = greatGrandParent;
+          }
+        }
+      }
+    }
+    const maybeComment = typeValeNode.getFirstChild();
+    if (maybeComment && TypeGuards.isJSDoc(maybeComment)) {
+      return {body: maybeComment.getComment() || ''};
+    }
+  }
+  return {body: ''};
+};
 /**
  * Retrives the description for an acceptable type.
  */
@@ -258,7 +283,7 @@ export const getDescriptionForValue = (typeValue: Node): PropertyDescription => 
     typeValue :
     typeValue.getParent();
   if (!describable || !TypeGuards.isJSDocableNode(describable)) {
-    return {body: ''};
+    return getDescriptionForLiteralValue(typeValue);
   }
 
   const lines = [];

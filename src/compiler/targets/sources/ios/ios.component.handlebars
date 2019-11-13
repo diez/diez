@@ -4,7 +4,11 @@ import UIKit
 {{else}}
 import CoreGraphics
 {{/if}}
-
+{{#if description.body}}
+/**
+{{{description.body}}}
+**/
+{{/if}}
 @objc(DEZ{{{type}}})
 {{#if isRootComponent}}
 public final class {{{type}}}: NSObject, RootComponent {
@@ -12,6 +16,11 @@ public final class {{{type}}}: NSObject, RootComponent {
 public final class {{{type}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
+    {{#if this.description.body}}
+    /**
+    {{{this.description.body}}}
+    **/
+    {{/if}}
     @objc public internal(set) var {{this.name}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
@@ -20,6 +29,11 @@ public final class {{{type}}}: NSObject, Decodable {
     convenience {{#if isRootComponent}}public {{/if}}override init() {
         self.init(
             {{#each properties}}
+              {{#if this.description.body}}
+              /**
+              {{{this.description.body}}}
+              **/
+              {{/if}}
             {{this.name}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
             {{/each}}
         )

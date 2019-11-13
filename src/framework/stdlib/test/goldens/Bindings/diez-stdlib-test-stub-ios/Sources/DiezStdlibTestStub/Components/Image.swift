@@ -3,12 +3,23 @@
 
 import Foundation
 import CoreGraphics
-
 @objc(DEZImage)
 public final class Image: NSObject, Decodable {
+    /**
+    Responsive image data.
+    **/
     @objc public internal(set) var file: File
+    /**
+    Responsive image data.
+    **/
     @objc public internal(set) var file2x: File
+    /**
+    Responsive image data.
+    **/
     @objc public internal(set) var file3x: File
+    /**
+    Responsive image data.
+    **/
     @objc public internal(set) var size: Size2D
 
     init(
