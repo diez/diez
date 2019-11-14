@@ -2,7 +2,6 @@
   "providers": {
     "extractors": [
       "./lib/extractors/figma",
-      "./lib/extractors/invision",
       "./lib/extractors/sketch"
     ]
   }

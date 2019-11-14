@@ -4,7 +4,7 @@ Diez is a tool for creating highly scalable, cross-platform design systems. The 
 
 This monorepo also includes:
 
- * [Design extractors](https://github.com/diez/diez/tree/master/src/extractors): Extract image assets and strongly typed style definitions from any Sketch, Figma, InVision DSM, or Adobe XD file
+ * [Design extractors](https://github.com/diez/diez/tree/master/src/extractors): Extract image assets and strongly typed style definitions from any Sketch or Figma file
  * [Prefabs](https://github.com/diez/diez/tree/master/src/framework/prefabs): Pre-built, reusable components for common design system elements like Colors and Typography
  * A cross-platform [standard library](https://github.com/diez/diez/tree/master/src/framework/stdlib): iOS, Android, and Web native bindings for all the prefabs included with Diez
  * [Diez CLI](https://github.com/diez/diez/tree/master/src/cli): Generate, configure, and manage Diez projects
