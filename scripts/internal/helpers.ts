@@ -11,7 +11,7 @@ export const root = global.process.cwd();
 /**
  * The root of the site.
  */
-export const siteRoot = join(root, 'examples', 'diez', 'beta.diez.org');
+export const siteRoot = join(root, 'examples', 'diez', 'diez.org');
 
 /**
  * The current version of the package.
