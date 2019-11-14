@@ -73,4 +73,4 @@ Diez Enterprise Edition includes the Diez DocsGen add-on — an additional compi
 
 Diez EE also comes with flexible commercial licensing if the [Community Edition license](https://diez.org/licensing/) doesn't meet your needs, plus availability for integration, training, and support from the Diez team.
 
-[Learn more about Diez EE.](https://diez.org/enterprise)
+[Learn more about Diez EE.](https://diez.org/#enterprise-grade)

@@ -17,7 +17,7 @@ src
     └── diez-webpack-plugin [MIT]
 ```
 
-If the open source licenses of Diez Community Edition do not meet your requirements, custom commercial licensing is available with Diez Enterprise Edition.  [Read more here](https://diez.org/enterprise)
+If the open source licenses of Diez Community Edition do not meet your requirements, custom commercial licensing is available with Diez Enterprise Edition.  [Read more here](https://diez.org/#enterprise-grade)
 
 For any files or directories in this repository that are not members of the directories listed above or do not have a license otherwise specified, the default license is AGPLv3, the full text of which follows:
 
