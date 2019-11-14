@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 10.0.0 (2019-11-14)
+
+
+### Bug Fixes
+
+* shim in @types/babel__core dependency to fix spurious compiler crashes ([ef5418c](https://github.com/diez/diez/commit/ef5418c))
+* **compiler:** add support for declaring empty array properties ([#312](https://github.com/diez/diez/issues/312)) ([965d666](https://github.com/diez/diez/commit/965d666))
+
+
+### Features
+
+* **compiler:** add support for object literal types in the Diez compiler ([#310](https://github.com/diez/diez/issues/310)) ([63df4b2](https://github.com/diez/diez/commit/63df4b2))
+* **compiler:** track local source files for component definitions and references for component properties ([#305](https://github.com/diez/diez/issues/305)) ([c9f4dca](https://github.com/diez/diez/commit/c9f4dca))
+* **typograph:** add text decoration (underline/strikethrough) support to Typograph ([#315](https://github.com/diez/diez/issues/315)) ([582e07f](https://github.com/diez/diez/commit/582e07f))
+* add support for generating comments. ([#321](https://github.com/diez/diez/issues/321)) ([9a86f1e](https://github.com/diez/diez/commit/9a86f1e))
+* add support for line-height on Typograph ([#303](https://github.com/diez/diez/issues/303)) ([f8f36f0](https://github.com/diez/diez/commit/f8f36f0))
+* create @diez/framework-core ([#304](https://github.com/diez/diez/issues/304)) ([e8d2c4c](https://github.com/diez/diez/commit/e8d2c4c))
+
+
+
+
+
 # [10.0.0-beta.6](https://github.com/diez/diez/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2019-11-09)
 
 

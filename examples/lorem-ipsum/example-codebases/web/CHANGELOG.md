@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 10.0.0 (2019-11-14)
+
+
+### Features
+
+* **typograph:** add textAlignment to Typograph ([#308](https://github.com/diez/diez/issues/308)) ([7da88d1](https://github.com/diez/diez/commit/7da88d1))
+
+
+
+
+
 # [10.0.0-beta.6](https://github.com/diez/diez/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2019-11-09)
 
 

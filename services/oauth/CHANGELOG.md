@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 10.0.0 (2019-11-14)
+
+
+### Features
+
+* **services:** move Figma OAuth handshake broker into the monorepo and migrate to the serverless stack ([#94](https://github.com/diez/diez/issues/94)) ([c397a49](https://github.com/diez/diez/commit/c397a49))
+
+
+
+
+
 # [10.0.0-beta.6](https://github.com/diez/diez/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2019-11-09)
 
 **Note:** Version bump only for package @diez/oauth
