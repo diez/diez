@@ -7,11 +7,11 @@ import CoreGraphics
 public final class GradientStop: NSObject, Decodable {
     /**
     GradientStop data.
-    **/
+    */
     @objc public internal(set) var position: CGFloat
     /**
     GradientStop data.
-    **/
+    */
     @objc public internal(set) var color: Color
 
     init(

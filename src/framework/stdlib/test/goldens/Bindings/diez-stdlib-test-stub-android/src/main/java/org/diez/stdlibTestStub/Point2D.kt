@@ -11,15 +11,15 @@ context of other prefabs like [[LinearGradient]], points typically should use th
 space, often normalized in the unit square, where x increases from left to right and y increases from top to bottom.
 
 Usage: `point = Point2D.make(0.5, 0.5);`.
-**/
+*/
 data class Point2D(
     /**
       Point data.
-    **/
+    */
     val x: Float,
     /**
       Point data.
-    **/
+    */
     val y: Float
 ) {
     companion object {}

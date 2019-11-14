@@ -7,15 +7,15 @@ import CoreGraphics
 public final class Panel: NSObject, Decodable {
     /**
     Panel data.
-    **/
+    */
     @objc public internal(set) var cornerRadius: CGFloat
     /**
     Panel data.
-    **/
+    */
     @objc public internal(set) var background: Fill
     /**
     Panel data.
-    **/
+    */
     @objc public internal(set) var dropShadow: DropShadow
 
     init(

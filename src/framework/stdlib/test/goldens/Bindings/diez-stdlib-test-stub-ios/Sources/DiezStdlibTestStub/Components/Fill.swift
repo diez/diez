@@ -7,15 +7,15 @@ import CoreGraphics
 public final class Fill: NSObject, Decodable {
     /**
     Fill data.
-    **/
+    */
     @objc public internal(set) var color: Color
     /**
     Fill data.
-    **/
+    */
     @objc public internal(set) var linearGradient: LinearGradient
     /**
     Fill data.
-    **/
+    */
     @objc public internal(set) var type: String
 
     init(

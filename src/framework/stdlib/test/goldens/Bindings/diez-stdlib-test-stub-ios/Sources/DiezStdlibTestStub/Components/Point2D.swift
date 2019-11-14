@@ -7,11 +7,11 @@ import CoreGraphics
 public final class Point2D: NSObject, Decodable {
     /**
     Point data.
-    **/
+    */
     @objc public internal(set) var x: CGFloat
     /**
     Point data.
-    **/
+    */
     @objc public internal(set) var y: CGFloat
 
     init(

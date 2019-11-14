@@ -4,7 +4,7 @@ import UIKit
 public final class Primitives: NSObject, RootComponent {
     /**
     Test property comment
-    **/
+    */
     @objc public internal(set) var number: CGFloat
     @objc public internal(set) var integer: Int
     @objc public internal(set) var float: CGFloat
@@ -21,7 +21,7 @@ public final class Primitives: NSObject, RootComponent {
         self.init(
               /**
               Test property comment
-              **/
+              */
             number: 10,
             integer: 10,
             float: 10,

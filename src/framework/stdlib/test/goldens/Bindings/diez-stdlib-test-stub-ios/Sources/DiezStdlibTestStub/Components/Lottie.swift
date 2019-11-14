@@ -7,15 +7,15 @@ import CoreGraphics
 public final class Lottie: NSObject, Decodable {
     /**
     Lottie data.
-    **/
+    */
     @objc public internal(set) var file: File
     /**
     Lottie data.
-    **/
+    */
     @objc public internal(set) var loop: Bool
     /**
     Lottie data.
-    **/
+    */
     @objc public internal(set) var autoplay: Bool
 
     init(

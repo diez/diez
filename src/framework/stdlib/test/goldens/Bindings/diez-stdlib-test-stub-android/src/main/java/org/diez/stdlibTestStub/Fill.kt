@@ -5,19 +5,19 @@ package org.diez.stdlibTestStub
 
 /**
   Describes a fill type.
-**/
+*/
 data class Fill(
     /**
       Fill data.
-    **/
+    */
     val color: Color,
     /**
       Fill data.
-    **/
+    */
     val linearGradient: LinearGradient,
     /**
       Fill data.
-    **/
+    */
     val type: String
 ) {
     companion object {}

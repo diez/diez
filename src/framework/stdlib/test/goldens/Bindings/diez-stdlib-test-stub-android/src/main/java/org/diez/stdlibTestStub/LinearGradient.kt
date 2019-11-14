@@ -9,19 +9,19 @@ import android.graphics.drawable.ShapeDrawable
 
 /**
   Provides a linear gradient.
-**/
+*/
 data class LinearGradient(
     /**
       LinearGradient data.
-    **/
+    */
     val stops: Array<GradientStop>,
     /**
       LinearGradient data.
-    **/
+    */
     val start: Point2D,
     /**
       LinearGradient data.
-    **/
+    */
     val end: Point2D
 ) {
     companion object {}

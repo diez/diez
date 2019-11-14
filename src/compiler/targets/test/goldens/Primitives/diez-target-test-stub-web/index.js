@@ -22,12 +22,9 @@ module.exports.EmptyComponent = EmptyComponent;
 
 /**
 Test object comment
-**/
+*/
 class Primitives {
   constructor({
-  /**
-  Test property comment
-  **/
     number = 10,
     integer = 10,
     float = 10,
@@ -42,7 +39,7 @@ class Primitives {
   } = {}) {
   /**
   Test property comment
-  **/
+  */
     this.number = number;
     this.integer = integer;
     this.float = float;

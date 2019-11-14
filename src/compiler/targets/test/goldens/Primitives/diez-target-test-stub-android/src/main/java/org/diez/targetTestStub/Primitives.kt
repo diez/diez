@@ -2,11 +2,11 @@ package org.diez.targetTestStub
 
 /**
   Test object comment
-**/
+*/
 data class Primitives(
     /**
       Test property comment
-    **/
+    */
     val number: Float = 10f,
     val integer: Int = 10,
     val float: Float = 10f,

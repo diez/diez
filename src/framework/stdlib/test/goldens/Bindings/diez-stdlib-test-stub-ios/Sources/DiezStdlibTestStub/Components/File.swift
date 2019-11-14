@@ -7,11 +7,11 @@ import CoreGraphics
 public final class File: NSObject, Decodable {
     /**
     File data.
-    **/
+    */
     @objc public internal(set) var src: String
     /**
     File data.
-    **/
+    */
     @objc public internal(set) var type: String
 
     init(

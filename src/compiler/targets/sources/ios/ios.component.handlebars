@@ -7,7 +7,7 @@ import CoreGraphics
 {{#if description.body}}
 /**
 {{{description.body}}}
-**/
+*/
 {{/if}}
 @objc(DEZ{{{type}}})
 {{#if isRootComponent}}
@@ -19,7 +19,7 @@ public final class {{{type}}}: NSObject, Decodable {
     {{#if this.description.body}}
     /**
     {{{this.description.body}}}
-    **/
+    */
     {{/if}}
     @objc public internal(set) var {{this.name}}: {{this.type}}
     {{/each}}
@@ -32,7 +32,7 @@ public final class {{{type}}}: NSObject, Decodable {
               {{#if this.description.body}}
               /**
               {{{this.description.body}}}
-              **/
+              */
               {{/if}}
             {{this.name}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
             {{/each}}

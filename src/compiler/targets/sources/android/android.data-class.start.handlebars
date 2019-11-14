@@ -2,7 +2,7 @@
 {{#if description.body}}
 /**
   {{{description.body}}}
-**/
+*/
 {{/if}}
 data class {{{type}}}(
 {{#if fixed}}
@@ -10,7 +10,7 @@ data class {{{type}}}(
   {{#if this.description.body}}
     /**
       {{{this.description.body}}}
-    **/
+    */
   {{/if}}
     val {{{this.name}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
@@ -19,7 +19,7 @@ data class {{{type}}}(
   {{#if this.description.body}}
     /**
       {{{this.description.body}}}
-    **/
+    */
   {{/if}}
     val {{{this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
 {{/each}}
@@ -28,7 +28,7 @@ data class {{{type}}}(
 {{#if description.body}}
 /**
   {{{description.body}}}
-**/
+*/
 {{/if}}
 data class {{{type}}}(
     val nonce: String = ""
