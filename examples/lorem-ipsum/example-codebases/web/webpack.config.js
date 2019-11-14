@@ -4,7 +4,7 @@ const DiezWebpackPlugin = require('diez-webpack-plugin');
 
 const webpackConfig = {
   entry: './src/index.jsx',
-  resolve: { symlinks: false },
+  resolve: {symlinks: false},
   module: {
     rules: [
       {
@@ -18,7 +18,7 @@ const webpackConfig = {
         test: /\.scss$/i,
         use: [
           'style-loader',
-          { loader: 'css-loader', options: { modules: true } },
+          {loader: 'css-loader', options: {modules: true}},
           'sass-loader',
         ],
       },
@@ -29,12 +29,16 @@ const webpackConfig = {
       template: './src/index.html',
       filename: './index.html',
     }),
+    new CopyWebpackPlugin([
+      {from: 'public'},
+      {from: 'public/diez', to: 'diez'},
+    ]),
     new DiezWebpackPlugin({
-      sdk: 'diez-lorem-ipsum'
+      sdk: 'diez-lorem-ipsum',
     }),
   ],
-  performance: { hints: false },
-  devServer: { stats: 'errors-only', open: true, hot: true },
+  performance: {hints: false},
+  devServer: {stats: 'errors-only', open: true, hot: true},
 };
 
 module.exports = webpackConfig;
