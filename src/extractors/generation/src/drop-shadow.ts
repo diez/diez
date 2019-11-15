@@ -12,5 +12,7 @@ interface GeneratedDropShadow {
  * @ignore
  */
 export const getDropShadowInitializer = (shadow: GeneratedDropShadow) => {
-  return `new DropShadow({offset: ${getPoint2DInitializer(shadow.offset)}, radius: ${roundFloat(shadow.radius)}, color: ${shadow.colorInitializer}})`;
+  const offset = getPoint2DInitializer(shadow.offset);
+  const radius = roundFloat(shadow.radius);
+  return `new DropShadow({offset: ${offset}, radius: ${radius}, color: ${shadow.colorInitializer}})`;
 };
