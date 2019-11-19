@@ -1,6 +1,6 @@
 # `@diez/extractors`
 
-This package provides extractor implementations for Sketch and Figma based on the core capabilities of `@diez/extractors-core`.
+This package provides extractor implementations for Sketch, Figma, and Adobe XD based on the core capabilities of `@diez/extractors-core`.
 
 The supported extraction sources based on web services can be registered in `.diezrc` like so:
 
@@ -15,4 +15,4 @@ The supported extraction sources based on web services can be registered in `.di
 }
 ```
 
-Currently, Sketch extraction is supported via design files located in `./designs/`.
+Currently, Sketch and Adobe XD extraction is supported via design files located in `./designs/`.
