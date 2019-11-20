@@ -2,7 +2,7 @@
 
 This example app demonstrates how to consume a Diez-compiled SDK for Android.
 
-For more information about how to get started with Diez on Android, check out the [Getting Started Guide](https://beta.diez.org/getting-started/kotlin.html).
+For more information about how to get started with Diez on Android, check out the [Getting Started Guide](https://diez.org/getting-started/kotlin.html).
 
 ## Quick Start
 

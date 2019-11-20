@@ -1,6 +1,6 @@
 # diez
 
-This Diez project includes the design language used to build the [Diez website](https://beta.diez.org), a simple static site based on [VuePress](https://vuepress.vuejs.org).
+This Diez project includes the design language used to build the [Diez website](https://diez.org), a simple static site based on [VuePress](https://vuepress.vuejs.org).
 
 ## Building and running the website locally in hot mode
 

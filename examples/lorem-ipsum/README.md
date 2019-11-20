@@ -1,6 +1,6 @@
 # lorem-ipsum
 
-This project was created with [Diez](https://beta.diez.org).
+This project was created with [Diez](https://diez.org).
 
 ## What's in the box
 
@@ -24,4 +24,4 @@ The `example-codebases` directory contains example projects connected to your Di
 
 To quickly experience how Diez works, simply run `yarn demo` from `design-language`. This command will use Diez to compile a JavaScript SDK for your design language and link it to the example web project located in `codebases/web`, then start the example web project in your browser.
 
-Check out our [Getting Started guide](https://beta.diez.org/getting-started/) to learn more.
+Check out our [Getting Started guide](https://diez.org/getting-started/) to learn more.

@@ -61,7 +61,7 @@ jest.mock('request', () => (_: never, callback: any) => {
 describe('utils.network', () => {
   test('oauth handshake', async () => {
     expect(await getOAuthCodeFromBrowser('http://server.com/login', 9001)).toEqual({code: 'foo', state: 'bar'});
-    expect(MockServer.mockResponse.writeHead).toHaveBeenCalledWith(302, {Location: 'https://beta.diez.org/signed-in'});
+    expect(MockServer.mockResponse.writeHead).toHaveBeenCalledWith(302, {Location: 'https://diez.org/signed-in'});
     expect(MockServer.mockResponse.end).toHaveBeenCalled();
     expect(MockServer.mockDestroy).toHaveBeenCalled();
   });

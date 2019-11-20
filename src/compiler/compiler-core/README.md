@@ -36,6 +36,6 @@ the parser will build a typed, abstract tree based on the exported component `De
 
 ### Phase 2: Compilation
 
-The compilation phase generates native source code for the requested target platform. This process typically involves generating design token component classes from code templates, assembling additional functionality and features from [native bindings](https://beta.diez.org/glossary/#bindings), transcribing file assets and other dependencies, and ultimately writing build artifacts out to disk.
+The compilation phase generates native source code for the requested target platform. This process typically involves generating design token component classes from code templates, assembling additional functionality and features from [native bindings](https://diez.org/glossary/#bindings), transcribing file assets and other dependencies, and ultimately writing build artifacts out to disk.
 
-For convenience, the compiler core includes an [abstract compiler class](https://beta.diez.org/docs/latest/classes/compiler_compiler_core.compiler.html). Although this class may provide useful time-saving abstractions, there is no requirement to use it when building support for a new Diez compiler target.
+For convenience, the compiler core includes an [abstract compiler class](https://diez.org/docs/latest/classes/compiler_compiler_core.compiler.html). Although this class may provide useful time-saving abstractions, there is no requirement to use it when building support for a new Diez compiler target.

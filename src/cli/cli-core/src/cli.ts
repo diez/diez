@@ -186,7 +186,7 @@ improve our services.
 
 By default, anonymous aggregate analytics and crash reporting will be activated
 the next time you run a Diez command. Learn more about what data we collect and
-how to opt out here: https://beta.diez.org/analytics
+how to opt out here: https://diez.org/analytics
 `);
     await enableAnalytics();
   }

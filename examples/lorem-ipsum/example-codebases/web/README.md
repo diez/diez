@@ -2,7 +2,7 @@
 
 This example app demonstrates how to consume a Diez-compiled SDK within a web project built with [React](https://reactjs.org) and [Webpack](https://webpack.js.org).
 
-For more information about how to get started with Diez on web, check out the [Getting Started Guide](https://beta.diez.org/getting-started/javascript.html).
+For more information about how to get started with Diez on web, check out the [Getting Started Guide](https://diez.org/getting-started/javascript.html).
 
 ## Quick Start
 

@@ -9,7 +9,7 @@ const binding: AndroidBinding<DropShadow> = {
   sources: [],
   examples: [{
     example: 'DropShadow',
-    comment: 'While the DropShadow compoment is accessible in the generated Android SDK, no bindings are provided. We recommend defining an "elevation" property that can be consumed by Android clients instead. See [Panel](https://beta.diez.org/docs/latest/classes/framework_prefabs.panel.html).',
+    comment: 'While the DropShadow compoment is accessible in the generated Android SDK, no bindings are provided. We recommend defining an "elevation" property that can be consumed by Android clients instead. See [Panel](https://diez.org/docs/latest/classes/framework_prefabs.panel.html).',
     snippets: [
       {
         lang: AndroidLanguages.Kotlin,

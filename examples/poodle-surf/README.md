@@ -1,6 +1,6 @@
 # poodle-surf
 
-This project was created with [Diez](https://beta.diez.org).
+This project was created with [Diez](https://diez.org).
 
 ## Running example projects in hot mode
 
