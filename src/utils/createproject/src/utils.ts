@@ -231,6 +231,6 @@ To get started, we suggest running:
   ${Format.code(`cd ${relative(cwd, designLanguageRoot)}
   ${useYarn ? 'yarn' : 'npm run'} demo`)}
 `);
-    Log.info('Check out https://beta.diez.org/getting-started to learn more.');
+    Log.info('Check out https://diez.org/getting-started to learn more.');
   }
 };

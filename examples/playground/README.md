@@ -1,6 +1,6 @@
 # Playground
 
-This project can be used to iterate on the stdlib for [Diez](https://beta.diez.org).
+This project can be used to iterate on the stdlib for [Diez](https://diez.org).
 
 ## Running example projects in hot mode
 

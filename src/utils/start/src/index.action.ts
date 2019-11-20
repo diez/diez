@@ -9,9 +9,9 @@ import {gt} from 'semver';
 const minCocoapodsVersion = '1.7.0';
 
 const guideUrls = {
-  [Target.Android]: 'https://beta.diez.org/getting-started/kotlin.html',
-  [Target.Ios]: 'https://beta.diez.org/getting-started/swift.html',
-  [Target.Web]: 'https://beta.diez.org/getting-started/javascript.html',
+  [Target.Android]: 'https://diez.org/getting-started/kotlin.html',
+  [Target.Ios]: 'https://diez.org/getting-started/swift.html',
+  [Target.Web]: 'https://diez.org/getting-started/javascript.html',
 };
 
 export = async (_: {}, target: Target, targetRootIn?: string) => {

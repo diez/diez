@@ -47,7 +47,7 @@ export const getOAuthCodeFromBrowser = (authUrl: string, port: number): Promise<
         if (serverRequest) {
           const {searchParams: qs} = new URL(serverRequest.url!, `http:localhost:${port}`);
           response.writeHead(302, {
-            Location: 'https://beta.diez.org/signed-in',
+            Location: 'https://diez.org/signed-in',
           });
           response.end();
           server.destroy();
