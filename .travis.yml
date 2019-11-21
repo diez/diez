@@ -8,7 +8,6 @@ matrix:
     cache:
       directories:
       - $HOME/.cache/yarn
-      - node_modules
     before_script:
     - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/6e183b224dc20d6dc7e82ea9ea52bf18dcf1ae3c/Formula/xcodegen.rb
     script:
@@ -26,7 +25,6 @@ matrix:
     cache:
       directories:
       - $HOME/.cache/yarn
-      - node_modules
       - $HOME/.gradle/caches/
       - $HOME/.gradle/wrapper/
       - $HOME/.android/build-cache
@@ -45,7 +43,6 @@ matrix:
       cocoapods: true
       directories:
       - $HOME/.cache/yarn
-      - node_modules
     before_script:
     - gem install cocoapods -v '1.7.4'
     - pod repo update
