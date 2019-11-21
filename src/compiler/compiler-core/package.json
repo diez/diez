@@ -1,7 +1,7 @@
 {
   "name": "@diez/compiler-core",
   "main": "lib/index.js",
-  "version": "10.0.1",
+  "version": "10.0.0",
   "description": "The Diez compiler and related functionality.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -15,7 +15,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.1",
+    "@diez/cli-core": "^10.0.0",
     "@diez/engine": "^10.0.0",
     "@diez/storage": "^10.0.0",
     "@types/babel__core": "^7.1.0",
