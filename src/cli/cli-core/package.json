@@ -1,7 +1,7 @@
 {
   "name": "@diez/cli-core",
   "main": "lib/index.js",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "APIs for the Diez command line interface.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
