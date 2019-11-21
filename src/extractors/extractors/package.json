@@ -1,7 +1,7 @@
 {
   "name": "@diez/extractors",
   "main": "lib/index.js",
-  "version": "10.0.1",
+  "version": "10.0.0",
   "description": "Diez extractors for various design tools.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,9 +20,9 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.1",
-    "@diez/extractors-core": "^10.0.1",
-    "@diez/generation": "^10.0.1",
+    "@diez/cli-core": "^10.0.0",
+    "@diez/extractors-core": "^10.0.0",
+    "@diez/generation": "^10.0.0",
     "@diez/storage": "^10.0.0",
     "fs-extra": "^7.0.1",
     "fs-walk": "^0.0.2",

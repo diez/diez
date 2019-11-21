@@ -1,7 +1,7 @@
 {
   "name": "@diez/extractors-core",
   "main": "lib/index.js",
-  "version": "10.0.1",
+  "version": "10.0.0",
   "description": "Utilities and metaprogramming extensions for extracting design tokens from design files.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,8 +20,8 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.0.1",
-    "@diez/compiler-core": "^10.0.1",
+    "@diez/cli-core": "^10.0.0",
+    "@diez/compiler-core": "^10.0.0",
     "async": "^2.6.2",
     "chokidar": "^3.0.1",
     "fs-extra": "^7.0.1"

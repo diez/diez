@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [10.0.1](https://github.com/diez/diez/compare/v10.0.0...v10.0.1) (2019-11-21)
-
-
-### Bug Fixes
-
-* use removeListener instead of off to improve node compat ([#10](https://github.com/diez/diez/issues/10)) ([9a938e9](https://github.com/diez/diez/commit/9a938e9))
-
-
-
-
-
 # 10.0.0 (2019-11-14)
 
 
