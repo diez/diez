@@ -1,7 +1,8 @@
 /* tslint:disable:no-var-requires max-line-length */
-import {execSync, StdioOptions} from 'child_process';
+import {exec, execSync, StdioOptions} from 'child_process';
 import {existsSync, readFile, writeFile} from 'fs-extra';
 import {join} from 'path';
+import {promisify} from 'util';
 
 /**
  * The root of the monorepo.
@@ -22,6 +23,11 @@ export const currentVersion = require(join(root, 'src', 'framework', 'engine', '
  * Runs the provided command synchronously.
  */
 export const run = (command: string, cwd = root, stdio: StdioOptions = 'inherit') => execSync(command, {cwd, stdio});
+
+/**
+ * Runs the provided command asynchronously.
+ */
+export const runAsync = (command: string, cwd = root) => promisify(exec)(command, {cwd});
 
 /**
  * Runs the provided command synchronously in band.

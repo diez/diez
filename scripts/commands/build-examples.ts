@@ -2,7 +2,7 @@
 import {Log} from '@diez/cli-core';
 import glob from 'glob';
 import {basename, join, resolve} from 'path';
-import {root, run} from '../internal/helpers';
+import {root, runAsync} from '../internal/helpers';
 
 interface Flags {
   target: 'ios' | 'android' | 'web';
@@ -30,7 +30,7 @@ export = {
       const exampleRoot = resolve(buildScript, '..', '..', '..');
       const designLanguageRoot = join(buildScript, '..');
       Log.info(`Building for ${target}: ${basename(exampleRoot)}`);
-      run(buildScript, designLanguageRoot);
+      await runAsync(buildScript, designLanguageRoot);
     }
   },
 };
