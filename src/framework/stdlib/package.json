@@ -1,7 +1,7 @@
 {
   "name": "@diez/stdlib",
   "main": "lib/index.js",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "description": "Diez bindings and core files for various platforms.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -26,7 +26,7 @@
     "@diez/engine": "^10.0.0",
     "@diez/prefabs": "^10.0.0",
     "@diez/targets": "^10.0.1",
-    "@diez/web-sdk-common": "^10.0.0",
+    "@diez/web-sdk-common": "^10.0.2",
     "fontkit": "^1.8.0",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1"
