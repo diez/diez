@@ -44,7 +44,7 @@
     "diez": "ts-node ./node_modules/.bin/diez",
     "docs": "yarn diez generate-docs",
     "extract-lorem-ipsum": "yarn diez extract-lorem-ipsum",
-    "compile": "lerna run compile --parallel",
+    "compile": "lerna run compile --stream",
     "fix": "lerna run fix --no-bail --stream --parallel",
     "health": "yarn diez health",
     "lint": "lerna run lint --no-bail --stream --parallel",
