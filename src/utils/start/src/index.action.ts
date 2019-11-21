@@ -119,8 +119,9 @@ To learn more, follow along with the guide at:
 
   const handleBuilt = (message: string) => {
     if (message === 'built') {
-      hotProcess.off('message', handleBuilt);
+      hotProcess.removeListener('message', handleBuilt);
       runApp();
+
     }
   };
   hotProcess.on('message', handleBuilt);
