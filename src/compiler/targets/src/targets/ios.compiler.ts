@@ -86,11 +86,7 @@ export class IosCompiler extends Compiler<IosOutput, IosBinding> {
    * @abstract
    */
   async hostname () {
-    try {
-      return `${await execAsync('scutil --get LocalHostName')}.local`;
-    } catch (_) {
-      return await v4();
-    }
+    return await v4();
   }
 
   /**
