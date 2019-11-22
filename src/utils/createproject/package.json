@@ -39,7 +39,7 @@
     "ts-morph": "^4.3.1",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
-    "typescript": "^3.6.2"
+    "typescript": "^3.7.2"
   },
   "publishConfig": {
     "access": "public"

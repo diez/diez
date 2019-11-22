@@ -14,7 +14,7 @@
     "@diez/stdlib": "^10.0.2",
     "diez": "^10.0.2",
     "semver": "^6.0.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.7.2"
   },
   "scripts": {
     "start": "diez start",

@@ -34,7 +34,7 @@
     "typedoc": "^0.15.0",
     "typedoc-plugin-no-inherit": "^1.1.6",
     "typedoc-theme-diez": "^1.0.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.7.2",
     "uglify-es": "^3.3.9"
   },
   "scripts": {
@@ -58,7 +58,7 @@
   "resolutions": {
     "@types/webpack": "4.4.27",
     "istanbul-api": "^2.0.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.7.2",
     "webpack": "^4.35.0"
   }
 }
