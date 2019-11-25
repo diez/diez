@@ -2,7 +2,7 @@ import {diezVersion} from '@diez/cli-core';
 import {readJsonSync, writeJsonSync} from 'fs-extra';
 import {join} from 'path';
 import {gte, parse, valid} from 'semver';
-import {root, run, runQuiet, siteRoot} from '../internal/helpers';
+import {root, run, runQuiet, scriptsRoot} from '../internal/helpers';
 
 export = {
   name: 'release [version]',
@@ -35,8 +35,6 @@ export = {
 
     try {
       runQuiet('aws s3 ls s3://diez-docs');
-      runQuiet('aws s3 ls s3://diez-www-secret');
-      runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_WWW_DISTRIBUTION_SECRET}`);
       runQuiet(`aws cloudfront get-distribution-config --id ${process.env.DIEZ_EXAMPLES_DISTRIBUTION}`);
     } catch (e) {
       throw new Error('Unable to run AWS S3 and CloudFront commands. `aws` is either not installed or missing privileges.');
@@ -57,7 +55,7 @@ export = {
     // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.
     run(`yarn extract-lorem-ipsum --currentVersion ${version}`);
 
-    const versionsPath = join(siteRoot, 'data', 'diez-versions.json');
+    const versionsPath = join(scriptsRoot, 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {
       const lastVersionParsed = parse(versions[0].version);
