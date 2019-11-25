@@ -54,19 +54,19 @@ export = async (_: {}, target: Target, targetRootIn?: string) => {
   const guideUrl = guideUrls[target];
   switch (target) {
     case Target.Android:
-      execSync(`${diez} compile -t android`, {stdio: 'inherit'});
+      execSync('yarn diez compile -t android', {stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'android'], {stdio: 'inherit'});
       break;
     case Target.Ios:
-      execSync(`${diez} compile -t ios --cocoapods`, {stdio: 'inherit'});
+      execSync('yarn diez compile -t ios --cocoapods', {stdio: 'inherit'});
       Log.comment('Installing CocoaPods dependencies in example codebase...');
       execSync('pod install', {cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'ios'], {stdio: 'inherit'});
       break;
     case Target.Web:
-      execSync(`${diez} compile -t web`, {stdio: 'inherit'});
+      execSync('yarn diez compile -t web', {stdio: 'inherit'});
       Log.comment('Installing Node dependencies in example codebase...');
       execSync('yarn', {cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
@@ -112,15 +112,16 @@ To learn more, follow along with the guide at:
         return spawn(
           'yarn',
           ['start'],
-          {cwd: targetRoot, stdio: 'inherit'},
+          {cwd: targetRoot, stdio: 'inherit', shell: true},
         );
     }
   };
 
   const handleBuilt = (message: string) => {
     if (message === 'built') {
-      hotProcess.off('message', handleBuilt);
+      hotProcess.removeListener('message', handleBuilt);
       runApp();
+
     }
   };
   hotProcess.on('message', handleBuilt);

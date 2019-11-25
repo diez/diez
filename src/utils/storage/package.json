@@ -1,7 +1,7 @@
 {
   "name": "@diez/storage",
   "main": "lib/index.js",
-  "version": "10.0.0",
+  "version": "10.0.2",
   "description": "Storage helpers and utilities for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,7 +20,7 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.0.0",
+    "@diez/test-utils": "^10.0.2",
     "@types/fs-extra": "^5.0.5",
     "@types/jest": "^24.0.11",
     "@types/klaw": "^3.0.0",
@@ -31,7 +31,7 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
-    "typescript": "^3.6.2"
+    "typescript": "^3.7.2"
   },
   "dependencies": {
     "fs-extra": "^7.0.1",

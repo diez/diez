@@ -1,1 +1,0 @@
-export {DesignLanguage} from './DesignLanguage';

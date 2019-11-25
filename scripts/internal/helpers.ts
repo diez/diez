@@ -10,9 +10,9 @@ import {promisify} from 'util';
 export const root = global.process.cwd();
 
 /**
- * The root of the site.
+ * The root of the scripts folder.
  */
-export const siteRoot = join(root, 'examples', 'diez', 'diez.org');
+export const scriptsRoot = join(root, 'scripts');
 
 /**
  * The current version of the package.

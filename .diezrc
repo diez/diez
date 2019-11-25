@@ -8,8 +8,6 @@
       "./scripts/commands/health",
       "./scripts/commands/minify-sources",
       "./scripts/commands/release",
-      "./scripts/commands/release-preview-site",
-      "./scripts/commands/release-site",
       "./scripts/commands/watch"
     ]
   }
