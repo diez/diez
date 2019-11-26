@@ -14,7 +14,7 @@ const guideUrls = {
   [Target.Web]: 'https://diez.org/getting-started/javascript.html',
 };
 
-export = async (_: {}, target: Target, targetRootIn?: string) => {
+export = async (_: {}, target: Target) => {
   if (![Target.Android, Target.Web, Target.Ios].includes(target)) {
     Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}>`);
     process.exit(1);
@@ -47,7 +47,7 @@ export = async (_: {}, target: Target, targetRootIn?: string) => {
 
   const diez = require.resolve('diez');
   const root = global.process.cwd();
-  const targetRoot = targetRootIn || resolve(root, '..', 'example-codebases', target);
+  const targetRoot = resolve(root, '..', 'example-codebases', target);
 
   Log.comment(`Building Diez project for target ${target}...`);
   let hotProcess!: ChildProcess;
