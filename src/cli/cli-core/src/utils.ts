@@ -1,10 +1,10 @@
 import {each} from 'async';
-import {ChildProcess, exec as coreExec, ExecException, ExecOptions} from 'child_process';
+import {ChildProcess, exec as coreExec, ExecException, ExecOptions, spawn} from 'child_process';
 import {existsSync, readFileSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
 import {dirname, join} from 'path';
-import {DiezConfiguration} from './api';
+import {DiezConfiguration, PagerOptions} from './api';
 import {Log} from './reporting';
 
 // tslint:disable-next-line:no-var-requires
@@ -50,6 +50,12 @@ export const execAsync = (command: string, options?: ExecOptions) => new Promise
  * @ignore
  */
 export const isMacOS = () => platform() === 'darwin';
+
+/**
+ * Returns true iff we are on the Windows platform.
+ * @ignore
+ */
+export const isWindows = () => platform() === 'win32';
 
 /**
  * @internal
@@ -209,4 +215,49 @@ export const exitTrap = (cleanup: () => void) => {
  */
 export const isChildProcess = (proc: void | ChildProcess | Buffer): proc is ChildProcess => {
   return Boolean(proc) && (proc as ChildProcess).kill !== undefined;
+}
+
+/**
+ * Encodes a package name to be safely transmitted via HTTP requests.
+ */
+export const encodePackageName = (name: string) => {
+  return name.replace('/', '+');
+};
+
+/**
+ * Decodes a package name transmitted via HTTP requests.
+ */
+export const decodePackageName = (name: string) => {
+  return name.replace('+', '/');
+};
+
+/**
+ * Page an input source using sensible pager applications per-platform.
+ */
+export const pager = (options: PagerOptions) => {
+  return new Promise<{code: number | null, signal: string | null}>((resolve, reject) => {
+    const command = isWindows() ? 'powershell' : 'sh';
+    const paging =  isWindows() ? `cat ${options.source} | Out-Host -Paging` : `cat ${options.source} | less`;
+
+    setProcessStdinRaw(true);
+    const ps = spawn(command, ['-c', paging], {stdio : [null, 1, 2]});
+
+    ps.on('exit', (code, signal) => {
+      setProcessStdinRaw(false);
+      process.stdin.pause();
+      resolve({code, signal});
+    });
+
+    if (ps.stdin) {
+      ps.stdin.on('error', (error) => {
+        // Ignore EPIPE and ECONNRESET.
+      });
+    }
+  });
+};
+
+const setProcessStdinRaw = (mode: boolean) => {
+  if (process.stdin.setRawMode) {
+    process.stdin.setRawMode(mode);
+  }
 };

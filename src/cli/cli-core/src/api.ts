@@ -136,3 +136,10 @@ export interface FullDiezConfiguration {
  * See [here](https://github.com/diez/diez/blob/master/compiler/targets/.diezrc) for an example.
  */
 export type DiezConfiguration = Partial<FullDiezConfiguration>;
+
+/**
+ * Valid options that can be provided to the pager.
+ */
+export interface PagerOptions {
+  source: string;
+}
