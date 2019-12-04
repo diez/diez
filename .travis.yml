@@ -5,9 +5,10 @@ matrix:
   - name: Core
     language: objective-c
     osx_image: xcode10.2
-    cache: yarn
+    cache:
+      directories:
+      - $HOME/.cache/yarn
     before_script:
-    - pod repo update
     - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/6e183b224dc20d6dc7e82ea9ea52bf18dcf1ae3c/Formula/xcodegen.rb
     script:
     - yarn health
@@ -18,6 +19,15 @@ matrix:
     language: android
     dist: trusty
     jdk: oraclejdk8
+    before_cache:
+      - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+      - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+    cache:
+      directories:
+      - $HOME/.cache/yarn
+      - $HOME/.gradle/caches/
+      - $HOME/.gradle/wrapper/
+      - $HOME/.android/build-cache
     android:
       components:
       - tools
@@ -27,9 +37,14 @@ matrix:
     - yarn build-examples --target android
   - name: iOS Examples
     language: objective-c
+    podfile: examples/poodle-surf/example-codebases/ios/Podfile
     osx_image: xcode10.2
-    cache: cocoapods
+    cache:
+      cocoapods: true
+      directories:
+      - $HOME/.cache/yarn
     before_script:
+    - gem install cocoapods -v '1.7.4'
     - pod repo update
     - brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/6e183b224dc20d6dc7e82ea9ea52bf18dcf1ae3c/Formula/xcodegen.rb
     script:
@@ -41,7 +56,6 @@ before_install:
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.19.1
 - nvm use 10.16.3
 - export PATH="$HOME/.yarn/bin:$PATH"
-- gem install cocoapods -v '1.7.4'
 install: yarn
 branches:
   only:
