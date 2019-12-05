@@ -275,7 +275,7 @@ export abstract class Compiler<
   /**
    * A hot URL mutex clients can look for.
    */
-  get hotUrlMutex () {
+  private get hotUrlMutex () {
     return join(this.parser.projectRoot, '.diez', `${this.parser.options.target}-hot-url`);
   }
 
