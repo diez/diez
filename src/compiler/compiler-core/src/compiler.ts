@@ -8,6 +8,9 @@ import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Proper
 import {serveHot} from './server';
 import {getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
+/**
+ * Custom error class intended to be used on errors related to existing hot URL mutex.
+ */
 export class ExistingHotUrlMutexError extends Error {
   mutexPath: string;
 
