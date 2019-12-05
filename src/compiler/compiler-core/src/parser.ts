@@ -8,7 +8,7 @@ import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclarat
 import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, DiezTypeMetadata, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
-import {getDescriptionForValue, getProject, isAcceptableType, projectCache} from './utils';
+import {getDescriptionForValue, getProject, isAcceptableType} from './utils';
 
 /**
  * A [[Parser]] for a Diez project.
