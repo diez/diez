@@ -1,11 +1,23 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
 import {serialize} from '@diez/engine';
+import {watch} from 'chokidar';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';
 import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
 import {getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
+
+export class ExistingHotUrlMutexError extends Error {
+  mutexPath: string;
+
+  constructor (message: string, mutexPath: string) {
+    super(message);
+    this.name = 'ExistingHotUrlMutexError';
+    this.message = message;
+    this.mutexPath = mutexPath;
+  }
+}
 
 /**
  * An abstract class wrapping the basic functions of a compiler.
@@ -263,7 +275,7 @@ export abstract class Compiler<
   /**
    * A hot URL mutex clients can look for.
    */
-  private get hotUrlMutex () {
+  get hotUrlMutex () {
     return join(this.parser.projectRoot, '.diez', `${this.parser.options.target}-hot-url`);
   }
 
@@ -280,12 +292,15 @@ export abstract class Compiler<
    */
   private writeHotUrlMutex (hostname: string, devPort: number) {
     if (existsSync(this.hotUrlMutex)) {
-      throw new Error(`Found existing hot URL at ${this.hotUrlMutex}. If this is an error, please manually remove the file.`);
+      throw new ExistingHotUrlMutexError(
+        `Found existing hot URL at ${this.hotUrlMutex}. If this is an error, please manually remove the file.`,
+        this.hotUrlMutex,
+      );
     }
-
     exitTrap(() => this.cleanupHotUrlMutex());
     this.output.hotUrl = `http://${hostname}:${devPort}`;
     writeFileSync(this.hotUrlMutex, this.output.hotUrl);
+    watch(this.hotUrlMutex).on('unlink', this.cleanupHotUrlMutex);
   }
 
   /**
