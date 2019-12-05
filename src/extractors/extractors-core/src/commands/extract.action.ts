@@ -4,7 +4,7 @@ import {queue} from 'async';
 import {watch} from 'chokidar';
 import {ensureDirSync, existsSync, readdirSync, removeSync, writeFileSync} from 'fs-extra';
 import {createServer, Socket} from 'net';
-import {join, resolve} from 'path';
+import {basename, join, resolve} from 'path';
 import readline from 'readline';
 import {DesignSources, ExtractorInput} from '../api';
 import {performExtraction} from '../utils';
@@ -19,6 +19,8 @@ const defaultConfiguration: DesignSources = {
   code: './src/designs',
   services: [],
 };
+
+const ignoredFiles = new Set(['.gitkeep']);
 
 const syncQueue = queue<ExtractorInput & {sockets: Iterable<Socket>}>(async (input, callback) => {
   try {
@@ -48,6 +50,7 @@ export = async ({hot}: SyncOptions) => {
   ensureDirSync(configuration.sources);
   const sources = readdirSync(configuration.sources)
     .map((designFile) => join(configuration.sources, designFile))
+    .filter((designFile) => !ignoredFiles.has(basename(designFile)))
     .concat(configuration.services);
 
   await Promise.all(sources.map(async (source) => {
