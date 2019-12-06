@@ -22,30 +22,34 @@ const askToRemoveHotUrl = async () => {
   return await prompt<Answers>(questions);
 };
 
-const runProgram = async (options: CompilerOptions, targetProvider: CompilerProvider) => new Promise(async (resolve, reject) => {
-  const program = new ProjectParser(await getProjectRoot(), options, true);
-  // Print warnings on every `Compiled` event.
-  program.on(CompilerEvent.Compiled, () => printWarnings(program.components));
+const runProgram = async (options: CompilerOptions, targetProvider: CompilerProvider) =>
+  new Promise(async (resolve, reject) => {
+    const program = new ProjectParser(await getProjectRoot(), options, true);
+    // Print warnings on every `Compiled` event.
+    program.on(CompilerEvent.Compiled, () => printWarnings(program.components));
 
-  // Start the hot handler on the first `Compiled` event.
-  program.once(CompilerEvent.Compiled, () => {
-    targetProvider.handler(program).catch(async (error) => {
-      if (error instanceof ExistingHotUrlMutexError) {
-        const {removeMutex} = await askToRemoveHotUrl();
-        if (removeMutex) {
-          removeSync(error.mutexPath);
-          program.close();
-          projectCache.clear();
-          runProgram(options, targetProvider);
-        }
-      } else {
-        reject(error);
-      }
-    }).then(resolve);
+    // Start the hot handler on the first `Compiled` event.
+    program.once(CompilerEvent.Compiled, () => {
+      targetProvider
+        .handler(program)
+        .catch(async (error) => {
+          if (error instanceof ExistingHotUrlMutexError) {
+            const {removeMutex} = await askToRemoveHotUrl();
+            if (removeMutex) {
+              removeSync(error.mutexPath);
+              program.close();
+              projectCache.clear();
+              runProgram(options, targetProvider);
+            }
+          } else {
+            reject(error);
+          }
+        })
+        .then(resolve);
+    });
+
+    program.watch();
   });
-
-  program.watch();
-});
 
 const action: CliAction = async (options: CompilerOptions) => {
   options.target = options.target.toLowerCase() as Target;
