@@ -15,7 +15,7 @@ export const performGetRequest = <T>(uri: string, json = true, headers?: Headers
     request({uri, headers, json}, (error, response, body) => {
       if (error || response.statusCode !== 200) {
         // For the purpose of HTTP requests made in this package, 403 and 404 both can mean an unauthorized request.
-        if (response.statusCode === 403 || response.statusCode === 404) {
+        if (response && (response.statusCode === 403 || response.statusCode === 404)) {
           reject(new UnauthorizedRequestException());
         } else {
           reject(new Error(error ? error.message : body.err));
