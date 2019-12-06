@@ -6,21 +6,7 @@ import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFi
 import {dirname, join} from 'path';
 import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
-
-/**
- * Custom error class intended to be used on errors related to existing hot URL mutex.
- */
-export class ExistingHotUrlMutexError extends Error {
-  mutexPath: string;
-
-  constructor (message: string, mutexPath: string) {
-    super(message);
-    this.name = 'ExistingHotUrlMutexError';
-    this.message = message;
-    this.mutexPath = mutexPath;
-  }
-}
+import {ExistingHotUrlMutexError, getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
 
 /**
  * An abstract class wrapping the basic functions of a compiler.

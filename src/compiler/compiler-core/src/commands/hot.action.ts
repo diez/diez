@@ -3,9 +3,8 @@ import {Target} from '@diez/engine';
 import {prompt} from 'enquirer';
 import {removeSync} from 'fs-extra';
 import {CompilerEvent, CompilerOptions, CompilerProvider} from '../api';
-import {ExistingHotUrlMutexError} from '../compiler';
 import {ProjectParser} from '../parser';
-import {getProjectRoot, getTargets, printWarnings, projectCache} from '../utils';
+import {ExistingHotUrlMutexError, getProjectRoot, getTargets, printWarnings, projectCache} from '../utils';
 
 interface Answers {
   removeMutex: boolean;
