@@ -208,5 +208,5 @@ export const exitTrap = (cleanup: () => void) => {
  * Checks if an argument is a ChildProcess
  */
 export const isChildProcess = (proc: void | ChildProcess | Buffer): proc is ChildProcess => {
-  return (proc as ChildProcess).kill !== undefined;
+  return Boolean(proc) && (proc as ChildProcess).kill !== undefined;
 };
