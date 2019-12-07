@@ -33,17 +33,19 @@ const runProgram = async (options: CompilerOptions, targetProvider: CompilerProv
       targetProvider
         .handler(program)
         .catch(async (error) => {
-          if (error instanceof ExistingHotUrlMutexError) {
-            const {removeMutex} = await askToRemoveHotUrl();
-            if (removeMutex) {
-              removeSync(error.mutexPath);
-              program.close();
-              projectCache.clear();
-              runProgram(options, targetProvider);
-            }
-          } else {
-            reject(error);
+          if (!(error instanceof ExistingHotUrlMutexError)) {
+            return reject(error);
           }
+
+          const {removeMutex} = await askToRemoveHotUrl();
+          if (!removeMutex) {
+            process.exit(0);
+          }
+          removeSync(error.mutexPath);
+          program.close();
+          projectCache.clear();
+          runProgram(options, targetProvider);
+
         })
         .then(resolve);
     });

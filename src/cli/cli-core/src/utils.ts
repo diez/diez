@@ -1,5 +1,5 @@
 import {each} from 'async';
-import {exec as coreExec, ExecException, ExecOptions} from 'child_process';
+import {ChildProcess, exec as coreExec, ExecException, ExecOptions} from 'child_process';
 import {existsSync, readFileSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';
@@ -202,4 +202,11 @@ export const exitTrap = (cleanup: () => void) => {
   global.process.once('SIGHUP', cleanup);
   global.process.once('SIGQUIT', cleanup);
   global.process.once('SIGTSTP', cleanup);
+};
+
+/**
+ * Checks if an argument is a ChildProcess
+ */
+export const isChildProcess = (proc: void | ChildProcess | Buffer): proc is ChildProcess => {
+  return (proc as ChildProcess).kill !== undefined;
 };
