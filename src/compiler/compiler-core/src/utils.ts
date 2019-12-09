@@ -296,3 +296,17 @@ export const getDescriptionForValue = (typeValue: Node): PropertyDescription => 
 
   return {body: lines.join('\n')};
 };
+
+/**
+ * Custom error class intended to be used on errors related to existing hot URL mutex.
+ */
+export class ExistingHotUrlMutexError extends Error {
+  mutexPath: string;
+
+  constructor (message: string, mutexPath: string) {
+    super(message);
+    this.name = 'ExistingHotUrlMutexError';
+    this.message = message;
+    this.mutexPath = mutexPath;
+  }
+}

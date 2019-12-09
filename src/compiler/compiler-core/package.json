@@ -23,6 +23,7 @@
     "chokidar": "^3.0.1",
     "cors": "^2.8.5",
     "debounce": "^1.2.0",
+    "enquirer": "^2.3.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "fs-extra": "^7.0.1",

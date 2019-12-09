@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {canRunCommand, Format, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
+import {canRunCommand, Format, isChildProcess, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
 import {readdirSync} from 'fs-extra';
@@ -117,12 +117,19 @@ To learn more, follow along with the guide at:
     }
   };
 
+  let appProcess: void | ChildProcess | Buffer;
+
   const handleBuilt = (message: string) => {
     if (message === 'built') {
       hotProcess.removeListener('message', handleBuilt);
-      runApp();
-
+      appProcess = runApp();
     }
   };
+
   hotProcess.on('message', handleBuilt);
+  hotProcess.on('exit', () => {
+    if (isChildProcess(appProcess)) {
+      appProcess.kill();
+    }
+  });
 };
