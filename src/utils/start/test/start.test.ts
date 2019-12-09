@@ -12,6 +12,7 @@ jest.doMock('child_process', () => {
   return childProcess;
 });
 
+import * as child_process from 'child_process';
 import {EventEmitter} from 'events';
 
 const mockProcess = new EventEmitter();
@@ -41,6 +42,24 @@ describe('diez start command', () => {
     mockCanRunCommand.mockResolvedValue(false);
     await diezRun('start web');
     expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('kills app process if start exits', async () => {
+    await diezRun('start web');
+    const appProcess = {
+      killed: false,
+      kill () {
+        Object.assign(this, {killed: true});
+      },
+    } as child_process.ChildProcess;
+
+    jest.spyOn(child_process, 'spawn').mockReturnValue(appProcess);
+    expect(child_process.fork).toHaveBeenNthCalledWith(
+      1, expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
+
+    mockProcess.emit('message', 'built');
+    mockProcess.emit('exit');
+    expect(appProcess.killed).toBe(true);
   });
 
   test('Android golden path', async () => {

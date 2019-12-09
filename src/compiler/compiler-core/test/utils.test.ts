@@ -1,7 +1,7 @@
 import {findPlugins} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {join} from 'path';
-import {getAssemblerFactory, getProjectRoot, getTargets} from '../src/utils';
+import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets} from '../src/utils';
 
 describe('utils', () => {
   test('target discovery', async () => {
@@ -39,5 +39,12 @@ describe('utils', () => {
     });
 
     expect(await getAssemblerFactory(Target.Android)).toBe(require('./assembler'));
+  });
+
+  test('ExistingHotUrlMutexError', () => {
+    const error = new ExistingHotUrlMutexError('Hot error', 'mutex/path');
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toBe('Hot error');
+    expect(error.mutexPath).toBe('mutex/path');
   });
 });
