@@ -3,7 +3,7 @@ import {createServer} from 'http';
 import open from 'open';
 import request, {Headers} from 'request';
 import serverDestroy from 'server-destroy';
-import {URL} from 'url';
+import {URL, URLSearchParams} from 'url';
 import {v4} from 'uuid';
 import {OAuthCode} from './api';
 
