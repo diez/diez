@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.1.0](https://github.com/diez/diez/compare/v10.0.2...v10.1.0) (2019-12-11)
+
+
+### Bug Fixes
+
+* **start:** remove unused parameter from start script causing userland errors ([#17](https://github.com/diez/diez/issues/17)) ([1da7ea3](https://github.com/diez/diez/commit/1da7ea3))
+
+
+### Features
+
+* **cli:** add a prompt to remove existing watchers ([#20](https://github.com/diez/diez/issues/20)) ([2a4d5d5](https://github.com/diez/diez/commit/2a4d5d5))
+
+
+
+
+
 ## [10.0.2](https://github.com/diez/diez/compare/v10.0.1...v10.0.2) (2019-11-21)
 
 **Note:** Version bump only for package @diez/start
