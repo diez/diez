@@ -215,7 +215,7 @@ export const exitTrap = (cleanup: () => void) => {
  */
 export const isChildProcess = (proc: void | ChildProcess | Buffer): proc is ChildProcess => {
   return Boolean(proc) && (proc as ChildProcess).kill !== undefined;
-}
+};
 
 /**
  * Encodes a package name to be safely transmitted via HTTP requests.
