@@ -9,7 +9,7 @@ jest.doMock('child_process', () => ({
 
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, locateBinaryMacOS} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, locateBinaryMacOS, isWindows} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -56,6 +56,12 @@ describe('utils', () => {
     expect(isMacOS()).toBe(false);
     mockOsData.platform = 'darwin';
     expect(isMacOS()).toBe(true);
+  });
+
+  test('isWindows', async () => {
+    expect(isWindows()).toBe(false);
+    mockOsData.platform = 'win32';
+    expect(isWindows()).toBe(true);
   });
 
   test('locateBinaryMacOS', async () => {

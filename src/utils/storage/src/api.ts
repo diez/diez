@@ -10,6 +10,10 @@ export interface DiezRegistryOptions {
    * Whether or not analytics are enabled.
    */
   analyticsEnabled: boolean;
+  /**
+   * Diez enterprise activation key.
+   */
+  activationKey: string;
 }
 
 /**
