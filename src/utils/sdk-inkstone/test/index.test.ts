@@ -6,21 +6,21 @@ describe('index', () => {
   describe('#performActivation', () => {
     test('returns an empty object if the activation was valid', async () => {
       jest.spyOn(transport, 'post').mockReturnValueOnce(Promise.resolve({body: '', httpResponse: {statusCode: 200}}));
-      const validActivation = await methods.performActivation({activationId: 'validId'});
+      const validActivation = await methods.performActivation({activationKey: 'validId'});
       expect(validActivation).toMatchObject({});
     });
 
     test('returns an error if seat was already activated', async () => {
       jest.spyOn(transport, 'post').mockReturnValueOnce(Promise.resolve({body: '', httpResponse: {statusCode: 409}}));
-      const validActivation = await methods.performActivation({activationId: 'alreadyActivatedId'});
+      const validActivation = await methods.performActivation({activationKey: 'alreadyActivatedId'});
       expect(validActivation).toHaveProperty('error');
       expect((validActivation as InvalidResponse).error).toBeInstanceOf(Error);
-      expect((validActivation as InvalidResponse).error.message).toMatch('This license has already been activated');
+      expect((validActivation as InvalidResponse).error.message).toMatch('This device has already been activated');
     });
 
     test('returns an error if the activation id is invalid', async () => {
       jest.spyOn(transport, 'post').mockReturnValueOnce(Promise.resolve({body: '', httpResponse: {statusCode: 400}}));
-      const validActivation = await methods.performActivation({activationId: 'invalidActivationId'});
+      const validActivation = await methods.performActivation({activationKey: 'invalidactivationKey'});
       expect(validActivation).toHaveProperty('error');
       expect((validActivation as InvalidResponse).error).toBeInstanceOf(Error);
     });
@@ -31,7 +31,7 @@ describe('index', () => {
       jest.spyOn(transport, 'get').mockReturnValueOnce(
         Promise.resolve({body: 'validOrgKey', httpResponse: {statusCode: 200}}),
       );
-      const response = await methods.checkActivation({activationId: 'validId'});
+      const response = await methods.checkActivation({activationKey: 'validId'});
       expect(response).toMatchObject({organizationKey: 'validOrgKey'});
     });
 
@@ -39,7 +39,7 @@ describe('index', () => {
       jest.spyOn(transport, 'get').mockReturnValueOnce(
         Promise.resolve({body: '', httpResponse: {statusCode: 400}}),
       );
-      const response = await methods.checkActivation({activationId: 'invalidId'});
+      const response = await methods.checkActivation({activationKey: 'invalidId'});
       expect(response).toHaveProperty('error');
       expect((response as InvalidResponse).error).toBeInstanceOf(Error);
     });
@@ -51,7 +51,7 @@ describe('index', () => {
       const response = await methods.getPackageUrls({
         names: ['package1', 'package2'],
         version: '10.10.10',
-        activationId: 'xxxx',
+        activationKey: 'xxxx',
       });
 
       expect(response).toMatchObject({
@@ -67,7 +67,7 @@ describe('index', () => {
       const response = await methods.getPackageUrls({
         names: ['validpackage'],
         version: '10.10.10',
-        activationId: '"invalid"',
+        activationKey: '"invalid"',
       });
 
       expect(response).toHaveProperty('error');
