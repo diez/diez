@@ -1,5 +1,5 @@
 import {each} from 'async';
-import {ChildProcess, exec as coreExec, ExecException, ExecOptions, spawn} from 'child_process';
+import {ChildProcess, exec as coreExec, ExecException, ExecOptions, spawn, spawnSync} from 'child_process';
 import {existsSync, readFileSync} from 'fs-extra';
 import {platform} from 'os';
 import {AbbreviatedVersion as PackageJson} from 'package-json';

@@ -6,5 +6,5 @@ For more information about how to get started with Diez on iOS, check out the [G
 
 ## Quick Start
 
-1. From the root of your Diez project, run `yarn start-ios`.
+1. From the root of your Diez project, run `yarn start ios`.
 2. Once the hot server is running, open `Playground.xcworkspace`.

@@ -4,6 +4,7 @@ import {execSync} from 'child_process';
 import {readFileSync, writeJSONSync} from 'fs-extra';
 import {resolve} from 'path';
 import {CliAction} from '../api';
+import {packageManager} from '../package-manager';
 import {loadingMessage, Log} from '../reporting';
 import {diezVersion} from '../utils';
 
@@ -28,7 +29,7 @@ const installAction: CliAction = async (_, packageId: string) => {
   const packageJson = JSON.parse(readFileSync(resolve('./package.json')).toString());
   writeJSONSync('./package.json', packageJson, {spaces: 2});
 
-  execSync(`yarn add ${response.packageUrls['@diez/docs']}`, {stdio: 'inherit'});
+  await packageManager.add(response.packageUrls['@diez/docs'], {stdio: 'inherit'});
   activationMessage.stop();
   Log.info('Package installed!');
 };

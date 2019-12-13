@@ -38,12 +38,6 @@ describe('diez start command', () => {
     expect(process.exit).toHaveBeenCalledWith(1);
   });
 
-  test('crashes if no yarn', async () => {
-    mockCanRunCommand.mockResolvedValue(false);
-    await diezRun('start web');
-    expect(process.exit).toHaveBeenCalledWith(1);
-  });
-
   test('kills app process if start exits', async () => {
     await diezRun('start web');
     const appProcess = {

@@ -143,3 +143,20 @@ export type DiezConfiguration = Partial<FullDiezConfiguration>;
 export interface PagerOptions {
   source: string;
 }
+
+/**
+ * Supported package managers
+ */
+export enum PackageManagers {
+  npm = 'npm',
+  yarn = 'yarn',
+}
+
+/**
+ * Describes package manager commands grouped by package manager.
+ */
+export type PackageManagerCommands = {
+  [key in PackageManagers]: {
+    [key: string]: string,
+  };
+};
