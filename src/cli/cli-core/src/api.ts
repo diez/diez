@@ -148,8 +148,8 @@ export interface PagerOptions {
  * Supported package managers
  */
 export enum PackageManagers {
-  npm = 'npm',
-  yarn = 'yarn',
+  Npm = 'npm',
+  Yarn = 'yarn',
 }
 
 /**

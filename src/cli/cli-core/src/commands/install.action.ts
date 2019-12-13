@@ -1,6 +1,5 @@
 import {getPackageUrls} from '@diez/sdk-inkstone';
 import {Registry} from '@diez/storage';
-import {execSync} from 'child_process';
 import {readFileSync, writeJSONSync} from 'fs-extra';
 import {resolve} from 'path';
 import {CliAction} from '../api';

@@ -92,4 +92,7 @@ class PackageManager {
   }
 }
 
+/**
+ * Abstraction to manage complexities around node package managers.
+ */
 export const packageManager = new PackageManager();
