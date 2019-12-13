@@ -44,4 +44,8 @@ export const mockCliCoreFactory = () => ({
   findOpenPort () {
     return Promise.resolve(9001);
   },
+  packageManager: {
+    exec: jest.fn(() => new Promise((resolve) => resolve({}))),
+    install: jest.fn(() => new Promise((resolve) => resolve({}))),
+  },
 });
