@@ -4,7 +4,7 @@ jest.doMock('child_process', () => ({
   spawnSync: mockedSpawnSync,
 }));
 
-import {canUseNpm} from '../src/utils';
+import {canUseNpm} from '../src/package-manager';
 
 describe('canUseNpm', () => {
   mockedSpawnSync.mockReturnValue({
