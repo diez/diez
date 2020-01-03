@@ -147,7 +147,7 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
 
   const exampleCodebasesRoot = join(root, 'example-codebases');
 
-  const message = loadingMessage('Installing dependencies0000000000000000. This might take a couple of minutes.');
+  const message = loadingMessage('Installing dependencies. This might take a couple of minutes.');
   try {
     await packageManager.install({cwd: designLanguageRoot});
   } catch (error) {
