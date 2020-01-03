@@ -28,7 +28,7 @@ const installAction: CliAction = async (_, packageId: string) => {
   const packageJson = JSON.parse(readFileSync(resolve('./package.json')).toString());
   writeJSONSync('./package.json', packageJson, {spaces: 2});
 
-  await packageManager.add(response.packageUrls['@diez/docs'], {stdio: 'inherit'});
+  await packageManager.addDependency(response.packageUrls['@diez/docs'], {stdio: 'inherit'});
   activationMessage.stop();
   Log.info('Package installed!');
 };

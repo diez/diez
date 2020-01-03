@@ -1,7 +1,7 @@
 /* tslint:disable:max-line-length */
 import {canRunCommand, Format, isChildProcess, isMacOS, locateBinaryMacOS, Log, packageManager} from '@diez/cli-core';
 import {Target} from '@diez/engine';
-import {ChildProcess, execSync, fork} from 'child_process';
+import {ChildProcess, execSync, fork, spawn} from 'child_process';
 import {readdirSync} from 'fs-extra';
 import {join, resolve} from 'path';
 import {gt} from 'semver';
@@ -47,21 +47,21 @@ export = async (_: {}, target: Target) => {
   const guideUrl = guideUrls[target];
   switch (target) {
     case Target.Android:
-      await packageManager.exec(['diez', 'compile', '-t', 'android'], {stdio: 'inherit'}).promise;
+      await packageManager.exec(['diez', 'compile', '-t', 'android'], {stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'android'], {stdio: 'inherit'});
       break;
     case Target.Ios:
-      await packageManager.exec(['diez', 'compile', '-t', 'ios', '--cocoapods'], {stdio: 'inherit'}).promise;
+      await packageManager.exec(['diez', 'compile', '-t', 'ios', '--cocoapods'], {stdio: 'inherit'});
       Log.comment('Installing CocoaPods dependencies in example codebase...');
       execSync('pod install', {cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'ios'], {stdio: 'inherit'});
       break;
     case Target.Web:
-      await packageManager.exec(['diez', 'compile', '-t', 'web'], {stdio: 'inherit'}).promise;
+      await packageManager.exec(['diez', 'compile', '-t', 'web'], {stdio: 'inherit'});
       Log.comment('Installing Node dependencies in example codebase...');
-      await packageManager.install({cwd: targetRoot, stdio: 'inherit'});
+      await packageManager.installAllDependencies({cwd: targetRoot, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web'], {stdio: 'inherit'});
       break;
@@ -102,7 +102,7 @@ To learn more, follow along with the guide at:
           return;
         }
       case Target.Web:
-        return packageManager.exec(['start'], {cwd: targetRoot, stdio: 'inherit', shell: true}).task;
+        return spawn(packageManager.bin, ['start'], {cwd: targetRoot, stdio: 'inherit', shell: true});
     }
   };
 

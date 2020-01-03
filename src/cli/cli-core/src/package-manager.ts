@@ -46,12 +46,12 @@ export const canUseNpm = async (root: string) => {
 
 const commands: PackageManagerCommands = {
   [PackageManagers.Npm]: {
-    add: 'install',
-    install: 'install',
+    addDependency: 'install',
+    installAllDependencies: 'install',
   },
   [PackageManagers.Yarn]: {
-    add: 'add',
-    install: 'install',
+    addDependency: 'add',
+    installAllDependencies: 'install',
   },
 };
 
@@ -72,17 +72,27 @@ class PackageManager {
     return commands[this.bin];
   }
 
-  add (packages: string, options?: SpawnOptions) {
-    return this.exec([this.commands.add, packages], options).promise;
+  /**
+   * Adds a new dependency to a project.
+   */
+  addDependency (packages: string, options?: SpawnOptions) {
+    return this.exec([this.commands.addDependency, packages], options);
   }
 
-  install (options?: SpawnOptions) {
-    return this.exec([this.commands.install], options).promise;
+  /**
+   * Installs all the dependencies listed in package.json.
+   */
+  installAllDependencies (options?: SpawnOptions) {
+    return this.exec([this.commands.installAllDependencies], options);
   }
 
+  /**
+   * Executes a custom command with the current package manager.
+   */
   exec (args: string[], options: SpawnOptions = {}) {
     const task = spawn(this.bin, args, options);
-    const promise = new Promise((resolve, reject) => {
+
+    return new Promise((resolve, reject) => {
       task.on('close', () => {
         resolve();
       });
@@ -91,8 +101,6 @@ class PackageManager {
         reject(error);
       });
     });
-
-    return {task, promise};
   }
 }
 

@@ -149,7 +149,7 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
 
   const message = loadingMessage('Installing dependencies. This might take a couple of minutes.');
   try {
-    await packageManager.install({cwd: designLanguageRoot});
+    await packageManager.addDependency({cwd: designLanguageRoot});
   } catch (error) {
     Log.warning('Unable to install dependencies. Are you connected to the Internet?');
     Log.warning(`You may need to run ${Format.code(`${packageManager.bin} install`)} before ${Format.code('diez')} commands will work.`);
