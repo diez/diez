@@ -35,6 +35,7 @@ const webpackConfig = {
     ]),
     new DiezWebpackPlugin({
       sdk: 'diez-lorem-ipsum',
+      projectPath: resolve(__dirname, '..', '..', 'design-language'),
     }),
   ],
   performance: {hints: false},
