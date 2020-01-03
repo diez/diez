@@ -68,12 +68,16 @@ class PackageManager {
     }
   }
 
+  get commands () {
+    return commands[this.bin];
+  }
+
   add (packages: string, options?: SpawnOptions) {
-    return this.exec([commands[this.bin].add, packages], options).promise;
+    return this.exec([this.commands.add, packages], options).promise;
   }
 
   install (options?: SpawnOptions) {
-    return this.exec([commands[this.bin].install], options).promise;
+    return this.exec([this.commands.install], options).promise;
   }
 
   exec (args: string[], options: SpawnOptions = {}) {
