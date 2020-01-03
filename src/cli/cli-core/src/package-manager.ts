@@ -55,6 +55,9 @@ const commands: PackageManagerCommands = {
   },
 };
 
+/**
+ * Abstraction around the logic to manage node package-manager related tasks such as installing, removing packages, etc.
+ */
 class PackageManager {
   readonly bin = shouldUseYarn() ? PackageManagers.Yarn : PackageManagers.Npm;
 
@@ -105,6 +108,6 @@ class PackageManager {
 }
 
 /**
- * Abstraction to manage complexities around node package managers.
+ * Shared instance of a PackageManager.
  */
 export const packageManager = new PackageManager();
