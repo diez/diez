@@ -58,21 +58,12 @@ const commands: PackageManagerCommands = {
 /**
  * Abstraction around the logic to manage node package-manager related tasks such as installing, removing packages, etc.
  */
-class PackageManager {
-  readonly bin = shouldUseYarn() ? PackageManagers.Yarn : PackageManagers.Npm;
-
-  constructor () {
-    this.validate();
-  }
-
-  private async validate () {
-    if (this.bin === PackageManagers.Npm && !await canUseNpm(process.cwd())) {
-      throw new Error('Unable to start an NPM process.');
-    }
+export class PackageManager {
+  constructor (readonly binary: PackageManagers) {
   }
 
   get commands () {
-    return commands[this.bin];
+    return commands[this.binary];
   }
 
   /**
@@ -93,7 +84,7 @@ class PackageManager {
    * Executes a custom command with the current package manager.
    */
   exec (args: string[], options: SpawnOptions = {}) {
-    const task = spawn(this.bin, args, options);
+    const task = spawn(this.binary, args, options);
 
     return new Promise((resolve, reject) => {
       task.on('close', () => {
@@ -107,7 +98,22 @@ class PackageManager {
   }
 }
 
+let packageManager: PackageManager;
+
 /**
- * Shared instance of a PackageManager.
+ * Returns a cached package manager instance with the binary set according depending on the availability of npm/yarn.
  */
-export const packageManager = new PackageManager();
+export const getPackageManager = async () => {
+  if (packageManager) {
+    return packageManager;
+  }
+
+  const binary = await shouldUseYarn() ? PackageManagers.Yarn : PackageManagers.Npm;
+
+  if (binary === PackageManagers.Npm && !await canUseNpm(process.cwd())) {
+    throw new Error('Unable to start an NPM process.');
+  }
+
+  packageManager = new PackageManager(binary);
+  return packageManager;
+};

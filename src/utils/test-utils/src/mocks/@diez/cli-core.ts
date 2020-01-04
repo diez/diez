@@ -46,6 +46,6 @@ export const mockCliCoreFactory = () => ({
   },
   packageManager: {
     exec: jest.fn(() => new Promise((resolve) => resolve({}))),
-    install: jest.fn(() => new Promise((resolve) => resolve({}))),
+    installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
   },
 });

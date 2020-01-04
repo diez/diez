@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {canRunCommand, Format, isChildProcess, isMacOS, locateBinaryMacOS, Log, packageManager} from '@diez/cli-core';
+import {canRunCommand, Format, getPackageManager, isChildProcess, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
 import {readdirSync} from 'fs-extra';
@@ -41,6 +41,7 @@ export = async (_: {}, target: Target) => {
   const diez = require.resolve('diez');
   const root = global.process.cwd();
   const targetRoot = resolve(root, '..', 'example-codebases', target);
+  const packageManager = await getPackageManager();
 
   Log.comment(`Building Diez project for target ${target}...`);
   let hotProcess!: ChildProcess;
@@ -102,7 +103,7 @@ To learn more, follow along with the guide at:
           return;
         }
       case Target.Web:
-        return spawn(packageManager.bin, ['start'], {cwd: targetRoot, stdio: 'inherit', shell: true});
+        return spawn(packageManager.binary, ['start'], {cwd: targetRoot, stdio: 'inherit', shell: true});
     }
   };
 
