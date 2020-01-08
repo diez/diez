@@ -1,3 +1,5 @@
+import {PackageManagers} from "@diez/cli-core";
+
 /**
  * A mock singleton for `execAsync` in `@diez/cli-core`.
  */
@@ -31,7 +33,16 @@ export const cleanupMockCommandData = () => {
   mockCanRunCommand.mockReset();
 };
 
-const mockPackageManagerInstance = {
+/**
+ * A mock singleton for `shouldUseYarn` in `@diez/cli-core`.
+ */
+export const mockShouldUseYarn = jest.fn();
+
+/**
+ * A mock singleton for `packageManager` in `@diez/cli-core`.
+ */
+export const mockPackageManagerInstance = {
+  binary: PackageManagers.Yarn,
   exec: jest.fn(() => new Promise((resolve) => resolve({}))),
   installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
 };
@@ -46,6 +57,7 @@ export const mockCliCoreFactory = () => ({
   socketTrap: mockSocketTrap,
   canRunCommand: mockCanRunCommand,
   locateBinaryMacOS: mockLocateBinaryMacOS,
+  shouldUseYarn: mockShouldUseYarn,
   findOpenPort () {
     return Promise.resolve(9001);
   },
