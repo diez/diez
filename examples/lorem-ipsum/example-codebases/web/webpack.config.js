@@ -1,3 +1,4 @@
+const {resolve} = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const DiezWebpackPlugin = require('diez-webpack-plugin');
