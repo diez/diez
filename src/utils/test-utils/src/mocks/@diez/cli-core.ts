@@ -1,5 +1,3 @@
-import {PackageManagers} from "@diez/cli-core";
-
 /**
  * A mock singleton for `execAsync` in `@diez/cli-core`.
  */
@@ -42,7 +40,7 @@ export const mockShouldUseYarn = jest.fn();
  * A mock singleton for `packageManager` in `@diez/cli-core`.
  */
 export const mockPackageManagerInstance = {
-  binary: PackageManagers.Yarn,
+  binary: 'yarn',
   exec: jest.fn(() => new Promise((resolve) => resolve({}))),
   installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
 };
