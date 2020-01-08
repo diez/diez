@@ -31,6 +31,11 @@ export const cleanupMockCommandData = () => {
   mockCanRunCommand.mockReset();
 };
 
+const mockPackageManagerInstance = {
+  exec: jest.fn(() => new Promise((resolve) => resolve({}))),
+  installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
+};
+
 /**
  * Module mock factory.
  */
@@ -44,8 +49,7 @@ export const mockCliCoreFactory = () => ({
   findOpenPort () {
     return Promise.resolve(9001);
   },
-  packageManager: {
-    exec: jest.fn(() => new Promise((resolve) => resolve({}))),
-    installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
+  getPackageManager () {
+    return Promise.resolve(mockPackageManagerInstance);
   },
 });

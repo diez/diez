@@ -17,6 +17,10 @@ import * as child_process from 'child_process';
 import {EventEmitter} from 'events';
 
 const mockProcess = new EventEmitter();
+let packageManager: any;
+cliCore.getPackageManager().then((mockedPackageManager: any) => {
+  packageManager = mockedPackageManager;
+});
 
 assignMock(process, 'exit');
 
@@ -27,7 +31,7 @@ beforeEach(() => {
   mockSpawn.mockReset();
   mockExecSync.mockReset();
   mockExecSync.mockReturnValue('');
-  cliCore.packageManager.exec.mockClear();
+  packageManager.exec.mockClear();
 });
 
 afterEach(() => {
@@ -41,7 +45,6 @@ describe('diez start command', () => {
   });
 
   test('kills app process if start exits', async () => {
-    await diezRun('start web');
     const appProcess = {
       killed: false,
       kill () {
@@ -49,19 +52,22 @@ describe('diez start command', () => {
       },
     } as child_process.ChildProcess;
 
-    jest.spyOn(cliCore.packageManager, 'exec').mockReturnValue({task: appProcess});
+    jest.spyOn(child_process, 'spawn').mockReturnValueOnce(appProcess);
+
+    await diezRun('start web');
     expect(child_process.fork).toHaveBeenNthCalledWith(
       1, expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
 
     mockProcess.emit('message', 'built');
     mockProcess.emit('exit');
     expect(appProcess.killed).toBe(true);
+    expect(process.exit).toHaveBeenCalled();
   });
 
   test('Android golden path', async () => {
     await diezRun('start android');
     mockProcess.emit('message', 'built');
-    expect(cliCore.packageManager.exec).toHaveBeenNthCalledWith(
+    expect(packageManager.exec).toHaveBeenNthCalledWith(
       1, expect.arrayContaining(['diez', 'compile', '-t', 'android']), expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'android'], expect.anything());
@@ -84,7 +90,7 @@ describe('diez start command', () => {
     await diezRun('start ios');
     mockProcess.emit('message', 'built');
     expect(mockExecSync).toHaveBeenNthCalledWith(1, 'pod --version');
-    expect(cliCore.packageManager.exec).toHaveBeenCalledWith(
+    expect(packageManager.exec).toHaveBeenCalledWith(
       expect.arrayContaining(['diez', 'compile', '-t', 'ios', '--cocoapods']), expect.anything());
     expect(mockExecSync).toHaveBeenLastCalledWith('pod install', expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
@@ -94,7 +100,7 @@ describe('diez start command', () => {
   test('Web golden path', async () => {
     await diezRun('start web');
     mockProcess.emit('message', 'built');
-    expect(cliCore.packageManager.exec).toHaveBeenNthCalledWith(
+    expect(packageManager.exec).toHaveBeenNthCalledWith(
       1, expect.arrayContaining(['diez', 'compile', '-t', 'web']), expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
