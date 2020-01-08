@@ -39,6 +39,17 @@ To contribute code to Diez, please submit a pull request to the Diez monorepo. Y
 
 - Use [conventional commits](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md) (Angular style) to describe it.
   - Be sure to prefix your PR title with `feat:`, `fix:`, `perf:`, etc. if you want your change to be included in the Diez changelog.
+    - The following prefix tags are supported:
+      - `feat:` for Features
+      - `fix:` for Bug Fixes
+      - `perf:` for Performance Improvements
+      - `revert:` for Reverts
+      - `docs:` for Documentation
+      - `style:` for Styles
+      - `refactor:` for Code Refactoring
+      - `test:` for Tests
+      - `build:` for Build System
+      - `ci:` for Continuous Integration
   - Describe the intent and impact of your change in its description using the imperative present tense.
   - Outline any breaking changes at the bottom of its description with the `BREAKING CHANGE:` prefix.
 - Be branched from a recent commit to `master`.
