@@ -1,6 +1,6 @@
 {
   "name": "diez-lorem-ipsum",
-  "version": "0.1.0",
+  "version": "10.1.0",
   "license": "MIT",
   "dependencies": {
     "@diez/web-sdk-common": "^10.1.0",
