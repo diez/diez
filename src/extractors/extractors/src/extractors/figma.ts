@@ -72,6 +72,7 @@ interface FigmaLinearGradient {
 interface FigmaSolid {
   type: FigmaPaintType.Solid;
   color: FigmaColor;
+  opacity: number;
 }
 
 type FigmaPaint = FigmaSolid | FigmaLinearGradient | {type: unknown};
@@ -262,10 +263,10 @@ const populateInitializerForFigmaEffect = (effect: FigmaEffect, name: string, sp
 };
 
 const getColorInitializerFromFigma = ({r, g, b, a}: FigmaColor) =>
-  `Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+`Color.rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
 
 const getSolidInitializerFromFigma = (solid: FigmaSolid) =>
-  getColorInitializerFromFigma(solid.color);
+  getColorInitializerFromFigma({...solid.color, a: solid.opacity ? solid.opacity : solid.color.a});
 
 const getLinearGradientInitializerFromFigma = (gradient: FigmaLinearGradient) => {
   const stops = gradient.gradientStops.map((stop) => {
