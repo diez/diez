@@ -89,7 +89,7 @@ const downloadAndExtractProject = async (templateRoot: string) => {
   return new Promise((onComplete) => writeStream.on('close', onComplete));
 };
 
-const createTemplateProject = async (cwd: string, name: string) => {
+const createTemplateProject = async (cwd: string, name: string, packageManager: PackageManagers) => {
   const templateRoot = resolve(getTempFileName(), 'examples');
   ensureDirSync(templateRoot);
   await downloadAndExtractProject(templateRoot);
@@ -109,6 +109,7 @@ const createTemplateProject = async (cwd: string, name: string) => {
     nameConstantCase: constantCase(name),
     nameHeaderCase: headerCase(name),
     nameDotCase: dotCase(name),
+    designSystemLinkingProtocol: packageManager === PackageManagers.Yarn ? 'link' : 'file',
   };
 
   return outputTemplatePackage(templateRoot, cwd, tokens);
@@ -138,7 +139,7 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
       resolve(__dirname, '..', 'templates', 'project'), root, tokens);
   } else {
     try {
-      await createTemplateProject(cwd, packageName);
+      await createTemplateProject(cwd, packageName, packageManager.binary);
     } catch (error) {
       Log.warning('Unable to download template project from the Diez CDN. Are you connected to the internet?');
       Log.warning(`If you would like to generate an empty project, you can re-run this command with ${Format.code('--bare')}.`);

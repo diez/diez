@@ -1,4 +1,3 @@
-const {resolve} = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const DiezWebpackPlugin = require('diez-webpack-plugin');
@@ -36,7 +35,6 @@ const webpackConfig = {
     ]),
     new DiezWebpackPlugin({
       sdk: 'diez-lorem-ipsum',
-      projectPath: resolve(__dirname, '..', '..', 'design-language'),
     }),
   ],
   performance: {hints: false},
