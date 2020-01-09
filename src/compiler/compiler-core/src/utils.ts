@@ -233,11 +233,24 @@ export const purgeRequireCache = (path: string, prefix?: string) => {
  * @internal
  * @ignore
  */
-export const inferProjectName = (projectName: string) => {
+export const inferProjectName = (projectRoot: string) => {
   try {
-    return noCase(require(join(projectName, 'package.json')).name as string, undefined, '-');
+    return noCase(require(join(projectRoot, 'package.json')).name as string, undefined, '-');
   } catch (error) {
     return 'design-language';
+  }
+};
+
+/**
+ * Infers package version from the project root.
+ * @internal
+ * @ignore
+ */
+export const inferProjectVersion = (projectRoot: string) => {
+  try {
+    return require(join(projectRoot, 'package.json')).version as string;
+  } catch (error) {
+    return '0.1.0';
   }
 };
 
