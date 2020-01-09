@@ -4,6 +4,6 @@
   "license": "MIT",
   "dependencies": {
     "lottie-web": "^5.5.2",
-    "@diez/web-sdk-common": "^10.0.2"
+    "@diez/web-sdk-common": "^10.1.0"
   }
 }
