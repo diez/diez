@@ -3,18 +3,20 @@ import {Target} from '@diez/engine';
 import {valid} from 'semver';
 import {CompilerOptions} from '../api';
 import {ProjectParser} from '../parser';
-import {getProjectRoot, getTargets, printWarnings} from '../utils';
+import {getProjectRoot, getTargets, inferProjectVersion, printWarnings} from '../utils';
 
 export = async (options: CompilerOptions) => {
   options.target = options.target.toLowerCase() as Target;
   const validSemver = valid(options.sdkVersion);
+  const projectRoot = await getProjectRoot();
   if (validSemver) {
     options.sdkVersion = validSemver;
   } else {
     if (options.sdkVersion !== undefined) {
       Log.warning(`Invalid SDK version: ${options.sdkVersion}.`);
     }
-    options.sdkVersion = '0.1.0';
+
+    options.sdkVersion = inferProjectVersion(projectRoot);
   }
 
   const targetProvider = (await getTargets()).get(options.target);
@@ -24,7 +26,7 @@ export = async (options: CompilerOptions) => {
     throw new Error(`Invalid target: ${options.target}. See --help for options.`);
   }
 
-  const program = new ProjectParser(await getProjectRoot(), options);
+  const program = new ProjectParser(projectRoot, options);
   await program.run();
 
   if (!program.rootComponentNames.size) {
