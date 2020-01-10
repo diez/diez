@@ -6342,11 +6342,9 @@ dfa@^1.0.0:
   dependencies:
     babel-runtime "^6.11.6"
 
-"diez-lorem-ipsum@file:examples/lorem-ipsum/design-language/build/diez-lorem-ipsum-web":
-  version "0.1.0"
-  dependencies:
-    "@diez/web-sdk-common" "^10.1.0"
-    lottie-web "^5.5.2"
+"diez-lorem-ipsum@link:examples/lorem-ipsum/design-language/build/diez-lorem-ipsum-web":
+  version "0.0.0"
+  uid ""
 
 "diez-poodle-surf@link:examples/poodle-surf/design-language/build/diez-poodle-surf-web":
   version "0.0.0"
