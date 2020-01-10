@@ -32,6 +32,20 @@ export const cleanupMockCommandData = () => {
 };
 
 /**
+ * A mock singleton for `shouldUseYarn` in `@diez/cli-core`.
+ */
+export const mockShouldUseYarn = jest.fn();
+
+/**
+ * A mock singleton for `packageManager` in `@diez/cli-core`.
+ */
+export const mockPackageManagerInstance = {
+  binary: 'yarn',
+  exec: jest.fn(() => new Promise((resolve) => resolve({}))),
+  installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
+};
+
+/**
  * Module mock factory.
  */
 export const mockCliCoreFactory = () => ({
@@ -41,7 +55,11 @@ export const mockCliCoreFactory = () => ({
   socketTrap: mockSocketTrap,
   canRunCommand: mockCanRunCommand,
   locateBinaryMacOS: mockLocateBinaryMacOS,
+  shouldUseYarn: mockShouldUseYarn,
   findOpenPort () {
     return Promise.resolve(9001);
+  },
+  getPackageManager () {
+    return Promise.resolve(mockPackageManagerInstance);
   },
 });

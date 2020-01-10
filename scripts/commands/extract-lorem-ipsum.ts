@@ -125,7 +125,9 @@ export = {
           replaceOccurrencesInString(originalContents.toString(), replacements);
 
         if (originalRelativeFilename.includes('package.json')) {
-          contents = contents.toString().replace(/"version": "*.*"/g, '"version": "0.1.0"');
+          contents = contents.toString()
+            .replace(/"version": "*.*"/g, '"version": "0.1.0"')
+            .replace('link', '{{designSystemLinkingProtocol}}');
         }
 
         writeFileSync(qualifiedFilename, contents, {mode: stats.mode});

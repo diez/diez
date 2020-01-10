@@ -22,6 +22,6 @@ The `example-codebases` directory contains example projects connected to your Di
 
 ## Quickstart
 
-To quickly experience how Diez works, simply run `yarn demo` from `design-language`. This command will use Diez to compile a JavaScript SDK for your design language and link it to the example web project located in `codebases/web`, then start the example web project in your browser.
+To quickly experience how Diez works, simply run `yarn demo` or `npm run demo` from `design-language`. This command will use Diez to compile a JavaScript SDK for your design language and link it to the example web project located in `codebases/web`, then start the example web project in your browser.
 
 Check out our [Getting Started guide](https://diez.org/getting-started/) to learn more.

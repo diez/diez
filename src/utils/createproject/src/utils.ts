@@ -1,11 +1,12 @@
 import {
-  canRunCommand,
+  canUseNpm,
   devDependencies,
   diezVersion,
-  execAsync,
   Format,
+  getPackageManager,
   loadingMessage,
   Log,
+  PackageManagers,
 } from '@diez/cli-core';
 import {downloadStream, getTempFileName, outputTemplatePackage} from '@diez/storage';
 import {
@@ -20,7 +21,6 @@ import {
   snakeCase,
   titleCase,
 } from 'change-case';
-import {spawnSync} from 'child_process';
 import {ensureDirSync, existsSync, lstatSync} from 'fs-extra';
 import {basename, join, relative, resolve} from 'path';
 import {x} from 'tar';
@@ -50,48 +50,6 @@ const validatePackageName = (packageName: string) => {
 
     throw new Error(`Unable to create project with name ${packageName}.`);
   }
-};
-
-/**
- * Provides an async check for if we are equipped to use `yarn` for package management operations.
- * @internal
- */
-const shouldUseYarn = () => canRunCommand('yarnpkg --version');
-
-/**
- * Provides an async check for if we are equipped to use `npm` in the current root as fallback for package management
- * operations.
- *
- * @see {@link https://github.com/facebook/create-react-app/blob/7864ba3/packages/create-react-app/createReactApp.js#L826}.
- * @ignore
- */
-export const canUseNpm = async (root: string) => {
-  let childOutput = null;
-  try {
-    // Note: intentionally using `spawn` over `exec` since
-    // some scenarios doesn't reproduce otherwise.
-    // `npm config list` is the only reliable way I could find
-    // to reproduce the wrong path. Just printing process.cwd()
-    // in a Node process was not enough.
-    childOutput = spawnSync('npm', ['config', 'list']).output.join('');
-  } catch (_) {
-    // Something went wrong spawning node.
-    // Not great, but it means we can't do this check.
-    return true;
-  }
-  if (typeof childOutput !== 'string') {
-    return true;
-  }
-
-  // `npm config list` output includes the following line:
-  // "; cwd = C:\path\to\current\dir" (unquoted)
-  const matches = childOutput.match(/^; cwd = (.*)$/m);
-  if (matches === null) {
-    // Fail gracefully. They could remove it.
-    return true;
-  }
-
-  return matches[1] === root;
 };
 
 /**
@@ -131,7 +89,7 @@ const downloadAndExtractProject = async (templateRoot: string) => {
   return new Promise((onComplete) => writeStream.on('close', onComplete));
 };
 
-const createTemplateProject = async (cwd: string, name: string) => {
+const createTemplateProject = async (cwd: string, name: string, packageManager: PackageManagers) => {
   const templateRoot = resolve(getTempFileName(), 'examples');
   ensureDirSync(templateRoot);
   await downloadAndExtractProject(templateRoot);
@@ -151,6 +109,7 @@ const createTemplateProject = async (cwd: string, name: string) => {
     nameConstantCase: constantCase(name),
     nameHeaderCase: headerCase(name),
     nameDotCase: dotCase(name),
+    designSystemLinkingProtocol: packageManager === PackageManagers.Yarn ? 'link' : 'file',
   };
 
   return outputTemplatePackage(templateRoot, cwd, tokens);
@@ -163,7 +122,8 @@ const createTemplateProject = async (cwd: string, name: string) => {
 export const createProject = async (packageName: string, bare: boolean, cwd = process.cwd()) => {
   validatePackageName(packageName);
 
-  const useYarn = await shouldUseYarn();
+  const packageManager = await getPackageManager();
+  const useYarn = packageManager.binary === PackageManagers.Yarn;
   const root = resolve(cwd, basename(packageName));
   const designLanguageRoot = bare ? root : join(root, 'design-language');
   await validateProjectRoot(designLanguageRoot, useYarn);
@@ -179,7 +139,7 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
       resolve(__dirname, '..', 'templates', 'project'), root, tokens);
   } else {
     try {
-      await createTemplateProject(cwd, packageName);
+      await createTemplateProject(cwd, packageName, packageManager.binary);
     } catch (error) {
       Log.warning('Unable to download template project from the Diez CDN. Are you connected to the internet?');
       Log.warning(`If you would like to generate an empty project, you can re-run this command with ${Format.code('--bare')}.`);
@@ -191,10 +151,10 @@ export const createProject = async (packageName: string, bare: boolean, cwd = pr
 
   const message = loadingMessage('Installing dependencies. This might take a couple of minutes.');
   try {
-    await execAsync(`${useYarn ? 'yarn' : 'npm'} install`, {cwd: designLanguageRoot});
+    await packageManager.installAllDependencies({cwd: designLanguageRoot});
   } catch (error) {
     Log.warning('Unable to install dependencies. Are you connected to the Internet?');
-    Log.warning(`You may need to run ${Format.code(`${useYarn ? 'yarn' : 'npm'} install`)} before ${Format.code('diez')} commands will work.`);
+    Log.warning(`You may need to run ${Format.code(`${packageManager.binary} install`)} before ${Format.code('diez')} commands will work.`);
   }
 
   message.stop();

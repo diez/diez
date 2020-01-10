@@ -41,8 +41,11 @@ for (const requirePath of Module._nodeModulePaths(global.process.cwd())) {
     try {
       const {version: latestVersion} = await packageJson('@diez/cli-core');
       if (semver.gt(latestVersion, diezVersion)) {
-        Log.warning('You are using an out-of-date version of Diez. Please upgrade to the latest version:');
+        Log.warning('You are using an out-of-date version of Diez. Please upgrade to the latest version:\n');
+        Log.info('If you are using yarn:');
         Log.code('yarn upgrade diez --latest\n\n');
+        Log.info('If you are using npm:');
+        Log.code(`npm install diez@${latestVersion} --save\n\n `);
       }
     } catch (_) {
       // Noop.
