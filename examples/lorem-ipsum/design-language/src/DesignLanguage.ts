@@ -104,13 +104,13 @@ const shadows = {
  * exported components for your apps' codebases.
  *
  * For example:
- *   - If you run `yarn/npm start web`, Diez will create a Node package called
+ *   - If you run `yarn start web` or `npm run start web`, Diez will create a Node package called
  *     `diez-lorem-ipsum-web`. Look for `App.jsx` inside `examples/web` to see
  *     how you can use Diez in a web codebase.
- *   - If you run `yarn/npm start ios`, Diez will create a CocoaPods dependency
+ *   - If you run `yarn start ios` or `npm run start ios`, Diez will create a CocoaPods dependency
  *     called `DiezLoremIpsum`. Look for `ViewController.swift` inside
  *     `examples/ios` to see how you can use Diez in an iOS codebase.
- *   - If you run `yarn/npm start android`, Diez will create an Android library.
+ *   - If you run `yarn start android` or `npm run start android`, Diez will create an Android library.
  *     Look for `MainActivity.kt` inside `examples/android` to see how you can
  *     use Diez in an Android codebase.
  */
