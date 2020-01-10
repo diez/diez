@@ -4,10 +4,22 @@ import {join} from 'path';
 import {gte, parse, valid} from 'semver';
 import {root, run, runQuiet, scriptsRoot} from '../internal/helpers';
 
+interface ReleaseOptions {
+  distTag: string;
+}
+
 export = {
   name: 'release [version]',
   description: 'Creates a release.',
-  loadAction: () => async (_: {}, rawVersion: string) => {
+  options: [
+    {
+      longName: 'dist-tag',
+      description: 'Set a distribution tag in npm',
+      valueName: 'distTag',
+    },
+  ],
+  loadAction: () => async (options: ReleaseOptions, rawVersion: string) => {
+    const distTag = options.distTag || 'latest';
     const version = valid(rawVersion);
     if (!version || gte(diezVersion, version)) {
       throw new Error('Refusing to set an invalid or lower version.');
@@ -94,6 +106,6 @@ export = {
     run('aws s3 sync api s3://diez-docs/latest');
 
     // Create the release with Lerna.
-    run(`yarn lerna publish ${version} --github-release --conventional-commits --force-publish=*`);
+    run(`yarn lerna publish ${version} --github-release --conventional-commits --force-publish=* --dist-tag=${distTag}`);
   },
 };
