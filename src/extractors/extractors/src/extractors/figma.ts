@@ -356,8 +356,10 @@ const processFigmaNode = async (
           spec.designLanguageName,
           candidateFont,
           node.style.fontPostScriptName,
-          node.style.fontSize,
-          getInitializerForTypographColorFromFigma(node),
+          {
+            fontSize: node.style.fontSize,
+            color: getInitializerForTypographColorFromFigma(node),
+          },
         ),
       });
       typographs.delete(node.styles.text);

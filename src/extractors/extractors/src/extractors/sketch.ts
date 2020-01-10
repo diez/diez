@@ -86,6 +86,7 @@ interface SketchSharedTypograph {
   name: string;
   value: {
     textStyle: {
+      NSKern: number;
       MSAttributedStringColorAttribute?: {
         value: string;
       };
@@ -96,6 +97,13 @@ interface SketchSharedTypograph {
         };
         family: string;
       };
+      NSParagraphStyle: {
+        style: {
+          alignment: number;
+          maximumLineHeight: number;
+        },
+      }
+
     };
   };
 }
@@ -178,6 +186,21 @@ const populateInitializerForSketchGradient = (gradient: SketchGradient, name: st
       initializer: getLinearGradientInitializerForSketchGradient(gradient),
     });
     return;
+  }
+};
+
+const mapNSTextAlignment = (aligment: number) => {
+  switch (aligment) {
+    case 0:
+      return 'TextAlignment.Left';
+    case 1:
+      return 'TextAlignment.Right';
+    case 2:
+      return 'TextAlignment.Center';
+    case 4:
+      return 'TextAlignment.Natural';
+    default:
+      return undefined;
   }
 };
 
@@ -272,6 +295,9 @@ class SketchExtractor implements Extractor {
 
     for (const {name, value: {textStyle}} of dump.layerTextStyles.objects) {
       const fontSize = textStyle.NSFont.attributes.NSFontSizeAttribute;
+      const letterSpacing = textStyle.NSKern;
+      const lineHeight = textStyle.NSParagraphStyle.style.maximumLineHeight;
+      const alignment = mapNSTextAlignment(textStyle.NSParagraphStyle.style.alignment);
       const candidateFont = await locateFont(
         textStyle.NSFont.family,
         {name: textStyle.NSFont.attributes.NSFontNameAttribute},
@@ -288,10 +314,15 @@ class SketchExtractor implements Extractor {
           codegenSpec.designLanguageName,
           candidateFont,
           textStyle.NSFont.attributes.NSFontNameAttribute,
-          fontSize,
-          textStyle.MSAttributedStringColorAttribute ?
-            getColorInitializer(textStyle.MSAttributedStringColorAttribute.value) :
-            undefined,
+          {
+            fontSize,
+            letterSpacing,
+            lineHeight,
+            alignment,
+            color: textStyle.MSAttributedStringColorAttribute ?
+              getColorInitializer(textStyle.MSAttributedStringColorAttribute.value) :
+              undefined,
+          },
         ),
       });
     }

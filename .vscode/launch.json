@@ -61,6 +61,16 @@
       "sourceMaps": true,
       "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
     },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Diez extract - Lorem Ipsum",
+      "program": "${workspaceFolder}/node_modules/.bin/diez",
+      "args": ["extract"],
+      "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+    },
   ],
   "compounds": [
     {
