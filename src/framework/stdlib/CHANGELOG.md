@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0-beta.0](https://github.com/diez/diez/compare/v10.1.0...v10.2.0-beta.0) (2020-01-11)
+
+
+### Bug Fixes
+
+* **createproject:** modify template to start at version 0.1.0 ([#56](https://github.com/diez/diez/issues/56)) ([b594646](https://github.com/diez/diez/commit/b594646))
+* **stdlib:** safeguard JavaScript SDK for server side rendering ([#58](https://github.com/diez/diez/issues/58)) ([93be6b5](https://github.com/diez/diez/commit/93be6b5))
+
+
+
+
+
 # [10.1.0](https://github.com/diez/diez/compare/v10.0.2...v10.1.0) (2019-12-11)
 
 

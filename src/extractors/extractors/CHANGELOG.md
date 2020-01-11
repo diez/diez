@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0-beta.0](https://github.com/diez/diez/compare/v10.1.0...v10.2.0-beta.0) (2020-01-11)
+
+
+### Bug Fixes
+
+* **extractors:** support alpha values for solid colors in Figma ([#55](https://github.com/diez/diez/issues/55)) ([2153276](https://github.com/diez/diez/commit/2153276))
+
+
+
+
+
 # [10.1.0](https://github.com/diez/diez/compare/v10.0.2...v10.1.0) (2019-12-11)
 
 
