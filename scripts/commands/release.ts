@@ -64,9 +64,6 @@ export = {
       throw new Error('Generating docs produced an error. Please fix the issue and try again.');
     }
 
-    // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.
-    run(`yarn extract-lorem-ipsum --currentVersion ${version}`);
-
     const versionsPath = join(scriptsRoot, 'data', 'diez-versions.json');
     const versions = readJsonSync(versionsPath);
     if (versions.length) {
@@ -107,5 +104,7 @@ export = {
 
     // Create the release with Lerna.
     run(`yarn lerna publish ${version} --github-release --conventional-commits --force-publish=* --dist-tag ${distTag}`);
+    // Upload the latest version of lorem-ipsum templates for `diez create` to the CDN.
+    run(`yarn extract-lorem-ipsum --currentVersion ${version}`);
   },
 };

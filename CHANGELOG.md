@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0-beta.2](https://github.com/diez/diez/compare/v10.2.0-beta.1...v10.2.0-beta.2) (2020-01-13)
+
+**Note:** Version bump only for package @diez/mono
+
+
+
+
+
+# [10.2.0-beta.1](https://github.com/diez/diez/compare/v10.2.0-beta.0...v10.2.0-beta.1) (2020-01-13)
+
+
+### Bug Fixes
+
+* **cli-core:** use correct path when running npm checks ([#60](https://github.com/diez/diez/issues/60)) ([df25370](https://github.com/diez/diez/commit/df25370))
+
+
+
+
+
 # [10.2.0-beta.0](https://github.com/diez/diez/compare/v10.1.0...v10.2.0-beta.0) (2020-01-11)
 
 
