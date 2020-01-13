@@ -99,6 +99,13 @@ beforeEach(() => {
               name: 'Heading 1',
               value: {
                 textStyle: {
+                  NSKern: 0,
+                  NSParagraphStyle: {
+                    style: {
+                      maximumLineHeight: 22,
+                      alignment: 2,
+                    },
+                  },
                   MSAttributedStringColorAttribute: {
                     value: '#333333',
                   },
@@ -231,7 +238,7 @@ describe('Sketch', () => {
         projectRoot: '.',
         typographs: [
           {
-            initializer: 'new Typograph({color: Color.rgba(51, 51, 51, 1), font: testFonts.Foobar.BoldItalic, fontSize: 20})',
+            initializer: 'new Typograph({fontSize: 20, letterSpacing: 0, lineHeight: 22, alignment: TextAlignment.Center, color: Color.rgba(51, 51, 51, 1), font: testFonts.Foobar.BoldItalic})',
             name: 'Heading 1',
           },
         ],
