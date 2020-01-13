@@ -23,7 +23,7 @@ export const canUseNpm = async (root: string) => {
     // `npm config list` is the only reliable way I could find
     // to reproduce the wrong path. Just printing process.cwd()
     // in a Node process was not enough.
-    childOutput = spawnSync('npm', ['config', 'list']).output.join('');
+    childOutput = spawnSync('npm', ['config', 'list'], {cwd: root}).output.join('');
   } catch (_) {
     // Something went wrong spawning node.
     // Not great, but it means we can't do this check.
