@@ -2,9 +2,9 @@ import {execAsync, Log} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
-  codegenDesignSystem,
-  CodegenDesignSystem,
-  createDesignSystemSpec,
+  codegenDesignLanguage,
+  CodegenDesignLanguage,
+  createDesignLanguageSpec,
   getTypographInitializer,
   locateFont,
   pascalCase,
@@ -67,7 +67,7 @@ interface XdManifest {
   };
 }
 
-const assimilateColor = (codegenSpec: CodegenDesignSystem, element: XdColor) => {
+const assimilateColor = (codegenSpec: CodegenDesignLanguage, element: XdColor) => {
   const representation = element.representations[0];
   if (!representation || representation.type !== 'application/vnd.adobe.xdcolor+json') {
     return;
@@ -80,7 +80,7 @@ const assimilateColor = (codegenSpec: CodegenDesignSystem, element: XdColor) => 
   });
 };
 
-const assimilateCharacterStyle = async (codegenSpec: CodegenDesignSystem, element: XdCharacterStyle) => {
+const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, element: XdCharacterStyle) => {
   const representation = element.representations[0];
   if (!representation || representation.type !== 'application/vnd.adobe.characterstyle+json') {
     return;
@@ -102,7 +102,7 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignSystem, elemen
   codegenSpec.typographs.push({
     name: element.name,
     initializer: getTypographInitializer(
-      codegenSpec.designSystemName,
+      codegenSpec.designLanguageName,
       candidateFont,
       name,
       fontSize,
@@ -111,7 +111,7 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignSystem, elemen
   });
 };
 
-const parseManifest = async (codegenSpec: CodegenDesignSystem, manifest?: XdManifest) => {
+const parseManifest = async (codegenSpec: CodegenDesignLanguage, manifest?: XdManifest) => {
   if (
     !manifest || !manifest.resources || !manifest.resources.meta ||
     !manifest.resources.meta.ux || !manifest.resources.meta.ux.documentLibrary) {
@@ -160,13 +160,13 @@ class XdExtractor implements Extractor {
       throw new Error('Invalid source file');
     }
 
-    const designSystemName = pascalCase(basename(source, '.xd'));
-    const assetName = `${designSystemName}.xd`;
+    const designLanguageName = pascalCase(basename(source, '.xd'));
+    const assetName = `${designLanguageName}.xd`;
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}...`);
     await createFolders(assetsDirectory, [AssetFolder.Slice]);
-    reporters.progress(`Extracting design system from ${assetName}...`);
+    reporters.progress(`Extracting design language from ${assetName}...`);
     const contentsDirectory = getTempFileName();
     ensureDirSync(contentsDirectory);
     await execAsync(`unzip ${source} -d ${contentsDirectory}`);
@@ -176,8 +176,8 @@ class XdExtractor implements Extractor {
     const manifestPath = join(contentsDirectory, 'resources', 'graphics', 'graphicContent.agc');
     const manifestJson = readJsonSync(manifestPath) as XdManifest;
 
-    const codegenSpec = createDesignSystemSpec(
-      designSystemName,
+    const codegenSpec = createDesignLanguageSpec(
+      designLanguageName,
       assetsDirectory,
       join(code, `${assetName}.ts`),
       projectRoot,
@@ -185,7 +185,7 @@ class XdExtractor implements Extractor {
 
     await parseManifest(codegenSpec, manifestJson);
 
-    return codegenDesignSystem(codegenSpec);
+    return codegenDesignLanguage(codegenSpec);
   }
 }
 
