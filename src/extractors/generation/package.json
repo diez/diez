@@ -25,6 +25,7 @@
     "@diez/storage": "^10.2.0-beta.2",
     "change-case": "^3.1.0",
     "color-string": "^1.5.3",
+    "decompress": "^4.2.0",
     "fontkit": "^1.8.0",
     "fs-extra": "^7.0.1",
     "ts-morph": "^4.3.1"
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@diez/test-utils": "^10.2.0-beta.2",
     "@types/color-string": "^1.5.0",
+    "@types/decompress": "^4.2.3",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

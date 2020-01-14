@@ -1,4 +1,4 @@
-import {execAsync, Log} from '@diez/cli-core';
+import {Log} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
@@ -12,7 +12,8 @@ import {
   registerFont,
 } from '@diez/generation';
 import {getTempFileName} from '@diez/storage';
-import {ensureDirSync, pathExists, readJsonSync} from 'fs-extra';
+import decompress from 'decompress';
+import {ensureDirSync, pathExists} from 'fs-extra';
 import {basename, extname, join} from 'path';
 import {cliReporters, createFolders} from '../utils';
 
@@ -221,12 +222,18 @@ class XdExtractor implements Extractor {
     reporters.progress(`Extracting design language from ${assetName}...`);
     const contentsDirectory = getTempFileName();
     ensureDirSync(contentsDirectory);
-    await execAsync(`unzip ${source} -d ${contentsDirectory}`);
+    let manifestJson: XdManifest;
 
-    reporters.progress(`Parsing design tokens from ${assetName}...`);
+    try {
+      const decompressedFiles = await decompress(source, contentsDirectory, {
+        filter: (file) => file.path.includes(join('resources', 'graphics', 'graphicContent.agc')),
+      });
 
-    const manifestPath = join(contentsDirectory, 'resources', 'graphics', 'graphicContent.agc');
-    const manifestJson = readJsonSync(manifestPath) as XdManifest;
+      const rawManifest = decompressedFiles[0].data.toString();
+      manifestJson = JSON.parse(rawManifest) as XdManifest;
+    } catch (error) {
+      throw new Error(`Error while trying to open ${source}: ${error.message}`);
+    }
 
     const codegenSpec = createDesignLanguageSpec(
       designLanguageName,
