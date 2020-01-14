@@ -270,6 +270,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
   if (hasTypographs) {
     designLanguageImports.add('Color');
     designLanguageImports.add('Typograph');
+    designLanguageImports.add('TextAlignment');
     sourceFile.addVariableStatement({
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
@@ -376,3 +377,14 @@ const addCommentHeader = (sourceFile: SourceFile) => {
  */
 export const roundFloat = (value: number, decimals: number = 15) =>
   Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+
+/**
+ * Converts a record containing primitives into a string representing JavaScript source code.
+ */
+export const objectToSource = (obj: Record<string, string|number|undefined>) => {
+  const values = [];
+  for (const key in obj) {
+    values.push(`${key}: ${obj[key]}`);
+  }
+  return `{${values.join(', ')}}`;
+};

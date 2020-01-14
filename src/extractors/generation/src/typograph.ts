@@ -1,7 +1,8 @@
 import {execAsync, isMacOS, Log} from '@diez/cli-core';
 import {camelCase, pascalCase} from 'change-case';
 import {join} from 'path';
-import {GeneratedFont} from './api';
+import {GeneratedFont, SerializedTypographData} from './api';
+import {objectToSource} from './utils';
 
 interface FontLookup {
   name: string;
@@ -77,16 +78,12 @@ export const getTypographInitializer = (
   designLanguageName: string,
   candidateFont: GeneratedFont | undefined,
   fontName: string,
-  fontSize: number,
-  colorInitializer?: string,
+  typographData: Partial<SerializedTypographData>,
 ) => {
   const font = candidateFont ?
     `${camelCase(`${designLanguageName} Fonts`)}.${pascalCase(candidateFont.family)}.${pascalCase(candidateFont.style)}` :
     `new Font({name: "${fontName}"})`;
 
-  if (colorInitializer) {
-    return `new Typograph({color: ${colorInitializer}, font: ${font}, fontSize: ${fontSize}})`;
-  }
-
-  return `new Typograph({font: ${font}, fontSize: ${fontSize}})`;
+  Object.assign(typographData, {font});
+  return `new Typograph(${objectToSource(typographData)})`;
 };

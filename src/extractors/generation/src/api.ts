@@ -58,3 +58,14 @@ export interface CodegenDesignLanguage {
   fonts: GeneratedFonts;
   assets: GeneratedAssets;
 }
+
+/**
+ * Describes typograph data serialized in a format useful to manipulate.
+ */
+export interface SerializedTypographData {
+  color: string;
+  fontSize: number;
+  letterSpacing: number;
+  lineHeight: number;
+  alignment: string;
+}

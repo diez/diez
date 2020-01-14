@@ -74,8 +74,8 @@ describe('typograph', () => {
   });
 
   test('typograph initializer', () => {
-    expect(getTypographInitializer('DesignLanguage', undefined, 'Foobar-Regular', 20, 'new Color()')).toBe(
-      'new Typograph({color: new Color(), font: new Font({name: "Foobar-Regular"}), fontSize: 20})',
+    expect(getTypographInitializer('DesignLanguage', undefined, 'Foobar-Regular', {fontSize: 20, color: 'new Color()'})).toBe(
+      'new Typograph({fontSize: 20, color: new Color(), font: new Font({name: "Foobar-Regular"})})',
     );
     expect(getTypographInitializer(
       'DesignLanguage',
@@ -86,9 +86,14 @@ describe('typograph', () => {
         path: '/path/to/Foobar-Regular.ttf',
       },
       'Foobar-Regular',
-      20,
+      {
+        fontSize: 20,
+        letterSpacing: 33,
+        lineHeight: 12,
+        alignment: 'TextAlignment.Center',
+      },
     )).toBe(
-      'new Typograph({font: designLanguageFonts.Foobar.Regular, fontSize: 20})',
+      'new Typograph({fontSize: 20, letterSpacing: 33, lineHeight: 12, alignment: TextAlignment.Center, font: designLanguageFonts.Foobar.Regular})',
     );
   });
 });
