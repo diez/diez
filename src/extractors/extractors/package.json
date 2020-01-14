@@ -24,6 +24,7 @@
     "@diez/extractors-core": "^10.2.0-beta.2",
     "@diez/generation": "^10.2.0-beta.2",
     "@diez/storage": "^10.2.0-beta.2",
+    "decompress": "^4.2.0",
     "fs-extra": "^7.0.1",
     "fs-walk": "^0.0.2",
     "open": "^6.0.0",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@diez/test-utils": "^10.2.0-beta.2",
+    "@types/decompress": "^4.2.3",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^24.0.11",
     "@types/open": "^6.0.0",
