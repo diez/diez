@@ -112,7 +112,7 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, elem
       candidateFont,
       name,
       fontSize,
-      `rgb(${r}, ${g}, ${b})`,
+      getColorInitializerFromXd(fontColor),
     ),
   });
 };
