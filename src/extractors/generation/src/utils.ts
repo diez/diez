@@ -136,9 +136,9 @@ See installation instructions here: https://github.com/adobe-type-tools/afdko#in
  * Reduce a collection of codegen entities to a single object that has the entity name as the key and the initializer
  * as a value.
  */
-const reduceEntitiesToObject = (collection: CodegenEntity[], fallbackName: string, resolver: UniqueNameResolver) => {
+const reduceEntitiesToObject = (collection: CodegenEntity[], scope: string, resolver: UniqueNameResolver, kind: string) => {
   return collection.reduce<{[key: string]: WriterFunctionOrValue}>((acc, {name, initializer}) => {
-    const safeName = resolver.getPropertyName(name || 'Untitled Color', fallbackName);
+    const safeName = resolver.getPropertyName(name || `Untitled ${kind}`, scope);
     acc[safeName] = initializer;
     return acc;
   }, {});
@@ -151,8 +151,8 @@ const newLine = (writer: CodeBlockWriter) => {
 /**
  * Returns a valid writable object initializer.
  */
-const entitiesToWritableObject = (collection: CodegenEntity[], fallbackName: string, resolver: UniqueNameResolver) => {
-  return Writers.object(reduceEntitiesToObject(collection, fallbackName, resolver));
+const entitiesToWritableObject = (collection: CodegenEntity[], scope: string, resolver: UniqueNameResolver, kind: string) => {
+  return Writers.object(reduceEntitiesToObject(collection, scope, resolver, kind));
 };
 
 /**
@@ -196,7 +196,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
         name: colorsName,
-        initializer: entitiesToWritableObject(spec.colors, colorsName, localResolver),
+        initializer: entitiesToWritableObject(spec.colors, colorsName, localResolver, 'Color'),
       }],
     });
   }
@@ -211,7 +211,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
         name: gradientsName,
-        initializer: entitiesToWritableObject(spec.gradients, gradientsName, localResolver),
+        initializer: entitiesToWritableObject(spec.gradients, gradientsName, localResolver, 'LinearGradient'),
       }],
     });
   }
@@ -225,7 +225,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
         name: shadowsName,
-        initializer: entitiesToWritableObject(spec.shadows, shadowsName, localResolver),
+        initializer: entitiesToWritableObject(spec.shadows, shadowsName, localResolver, 'Shadow'),
       }],
     });
   }
@@ -276,7 +276,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
         name: typographsName,
-        initializer: entitiesToWritableObject(spec.typographs, typographsName, localResolver),
+        initializer: entitiesToWritableObject(spec.typographs, typographsName, localResolver, 'Typograph'),
       }],
     });
   }
