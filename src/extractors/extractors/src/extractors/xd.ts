@@ -62,6 +62,9 @@ interface XdCharacterStyleRepresentation {
     fontStyle: string;
     fontSize: number;
     fontColor: XdColorValue;
+    charSpacing: number;
+    lineSpacing: number;
+    postscriptName: string;
   };
 }
 
@@ -128,12 +131,10 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, elem
     return;
   }
 
-  const {fontFamily, fontStyle, fontSize, fontColor} = representation.content;
-  // Really "likely name"…#fixme
-  const name = `${fontFamily}-${fontStyle}`;
+  const {fontFamily, fontStyle, fontSize, fontColor, postscriptName, charSpacing, lineSpacing} = representation.content;
   const candidateFont = await locateFont(
     fontFamily,
-    {name},
+    {name: postscriptName},
   );
   if (candidateFont) {
     await registerFont(candidateFont, codegenSpec.fonts);
@@ -146,9 +147,13 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, elem
     initializer: getTypographInitializer(
       codegenSpec.designLanguageName,
       candidateFont,
-      name,
-      fontSize,
-      getColorInitializerFromXd(fontColor),
+      postscriptName,
+      {
+        fontSize,
+        letterSpacing: charSpacing,
+        lineHeight: lineSpacing,
+        color: getColorInitializerFromXd(fontColor),
+      },
     ),
   });
 };
