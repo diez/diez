@@ -5,6 +5,7 @@ import {
   codegenDesignLanguage,
   CodegenDesignLanguage,
   createDesignLanguageSpec,
+  getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
   pascalCase,
@@ -27,15 +28,31 @@ interface XdColorValue {
   };
 }
 
+interface XdGradientValue {
+  color: XdColorValue;
+  stop: number;
+}
+
 interface XdColorRepresentation {
   type: 'application/vnd.adobe.xdcolor+json' | 'unknown';
   content: XdColorValue;
+}
+
+interface XdGradientRepresentation {
+  type: 'application/vnd.adobe.xdlineargradient+json' | 'unknown';
+  content: XdGradientValue[];
 }
 
 interface XdColor {
   type: 'application/vnd.adobe.element.color+dcx' | 'unknown';
   name: string;
   representations: XdColorRepresentation[];
+}
+
+interface XdGradient {
+  type: 'application/vnd.adobe.element.gradient+dcx' | 'unknown';
+  name: string;
+  representations: XdGradientRepresentation[];
 }
 
 interface XdCharacterStyleRepresentation {
@@ -54,7 +71,7 @@ interface XdCharacterStyle {
   representations: XdCharacterStyleRepresentation[];
 }
 
-type XdElement = XdColor | XdCharacterStyle | {type: 'unknown'};
+type XdElement = XdColor | XdCharacterStyle | XdGradient | {type: 'unknown'};
 
 interface XdManifest {
   resources?: {
@@ -70,7 +87,7 @@ interface XdManifest {
 
 const getColorInitializerFromXd = (color: XdColorValue) => {
   const {r, g, b} = color.value;
-  const alpha = color.alpha ?? 1;
+  const alpha = color.alpha || 1;
   return `Color.rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
@@ -83,6 +100,25 @@ const assimilateColor = (codegenSpec: CodegenDesignLanguage, element: XdColor) =
   codegenSpec.colors.push({
     name: element.name,
     initializer: getColorInitializerFromXd(representation.content),
+  });
+};
+
+const assimilateGradient = (codegenSpec: CodegenDesignLanguage, element: XdGradient) => {
+  const representation = element.representations[0];
+  if (!representation || representation.type !== 'application/vnd.adobe.xdlineargradient+json') {
+    return;
+  }
+
+  const stops = representation.content.map(({stop, color}) => {
+    return {
+      position: stop,
+      colorInitializer: getColorInitializerFromXd(color),
+    };
+  });
+
+  codegenSpec.gradients.push({
+    name: element.name,
+    initializer: getLinearGradientInitializer(stops, {x:0, y:0}, {x:1, y:1}),
   });
 };
 
@@ -127,6 +163,11 @@ const parseManifest = async (codegenSpec: CodegenDesignLanguage, manifest?: XdMa
   for (const element of manifest.resources.meta.ux.documentLibrary.elements) {
     if (element.type === 'application/vnd.adobe.element.color+dcx') {
       assimilateColor(codegenSpec, element);
+      continue;
+    }
+
+    if (element.type === 'application/vnd.adobe.element.gradient+dcx') {
+      assimilateGradient(codegenSpec, element);
       continue;
     }
 
