@@ -19,6 +19,7 @@ const xdExtension = '.xd';
 
 interface XdColorValue {
   mode: 'RGB';
+  alpha?: number;
   value: {
     r: number;
     g: number;
@@ -67,16 +68,21 @@ interface XdManifest {
   };
 }
 
+const getColorInitializerFromXd = (color: XdColorValue) => {
+  const {r, g, b} = color.value;
+  const alpha = color.alpha ?? 1;
+  return `Color.rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
 const assimilateColor = (codegenSpec: CodegenDesignLanguage, element: XdColor) => {
   const representation = element.representations[0];
   if (!representation || representation.type !== 'application/vnd.adobe.xdcolor+json') {
     return;
   }
 
-  const {r, g, b} = representation.content.value;
   codegenSpec.colors.push({
     name: element.name,
-    initializer: `Color.rgb(${r}, ${g}, ${b})`,
+    initializer: getColorInitializerFromXd(representation.content),
   });
 };
 
@@ -86,7 +92,7 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, elem
     return;
   }
 
-  const {fontFamily, fontStyle, fontSize, fontColor: {value: {r, g, b}}} = representation.content;
+  const {fontFamily, fontStyle, fontSize, fontColor} = representation.content;
   // Really "likely name"…#fixme
   const name = `${fontFamily}-${fontStyle}`;
   const candidateFont = await locateFont(
