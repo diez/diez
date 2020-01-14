@@ -209,6 +209,7 @@ export abstract class Compiler<
     for (const property of component.properties) {
       // TODO: move this check upstream of the compiler, into the compiler metadata stream where it belongs.
       if (
+        instance &&
         instance.options &&
         instance.options[property.name] &&
         Array.isArray(instance.options[property.name].targets) &&
