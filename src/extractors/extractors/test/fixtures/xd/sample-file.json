@@ -1,0 +1,293 @@
+{
+  "version": "1.5.0",
+  "children": [],
+  "resources": {
+    "gradients": {
+      "867780b0-3a14-493f-9fe9-7f830fd793d1": {
+        "type": "linear",
+        "stops": [
+          {
+            "offset": 0,
+            "color": {
+              "mode": "RGB",
+              "value": {
+                "r": 0,
+                "g": 15,
+                "b": 12
+              },
+              "alpha": 0.14901960784313725
+            }
+          },
+          {
+            "offset": 0.2561579942703247,
+            "color": {
+              "mode": "RGB",
+              "value": {
+                "r": 18,
+                "g": 68,
+                "b": 103
+              },
+              "alpha": 0.14901960784313725
+            }
+          },
+          {
+            "offset": 0.4384239912033081,
+            "color": {
+              "mode": "RGB",
+              "value": {
+                "r": 31,
+                "g": 105,
+                "b": 167
+              },
+              "alpha": 0.14901960784313725
+            }
+          },
+          {
+            "offset": 0.5073890089988708,
+            "color": {
+              "mode": "RGB",
+              "value": {
+                "r": 37,
+                "g": 93,
+                "b": 199
+              },
+              "alpha": 0.14901960784313725
+            }
+          },
+          {
+            "offset": 1,
+            "color": {
+              "mode": "RGB",
+              "value": {
+                "r": 20,
+                "g": 128,
+                "b": 107
+              },
+              "alpha": 0.14901960784313725
+            }
+          }
+        ]
+      }
+    },
+    "clipPaths": {},
+    "meta": {
+      "ux": {
+        "symbols": [],
+        "colorSwatches": [],
+        "documentLibrary": {
+          "version": 4,
+          "elements": [
+            {
+              "id": "9a6e03a4-2b86-43f7-8caf-f5967cc8267a",
+              "type": "application/vnd.adobe.element.color+dcx",
+              "name": "DaFunk",
+              "created": 1579027765728,
+              "modified": 1579040186647,
+              "displayName": null,
+              "index": 0,
+              "representations": [
+                {
+                  "id": "dec97f92-4087-446b-922c-e29c010c2389",
+                  "type": "application/vnd.adobe.xdcolor+json",
+                  "relationship": "primary",
+                  "content": {
+                    "mode": "RGB",
+                    "value": {
+                      "r": 112,
+                      "g": 112,
+                      "b": 112
+                    }
+                  }
+                }
+              ],
+              "updateElement": 0
+            },
+            {
+              "id": "dbcc303f-470a-4d6e-8a09-ef3d8165dc7f",
+              "type": "application/vnd.adobe.element.gradient+dcx",
+              "name": "OneMoreTime",
+              "created": 1579028815070,
+              "modified": 1579040199619,
+              "displayName": null,
+              "index": 1,
+              "representations": [
+                {
+                  "id": "eb1d958d-8e80-4e3a-ad82-b7487f467bb3",
+                  "type": "application/vnd.adobe.xdlineargradient+json",
+                  "relationship": "primary",
+                  "content": [
+                    {
+                      "stop": 0,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 0,
+                          "g": 15,
+                          "b": 12
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    },
+                    {
+                      "stop": 0,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 13,
+                          "g": 54,
+                          "b": 79
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    },
+                    {
+                      "stop": 0.2561579942703247,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 18,
+                          "g": 68,
+                          "b": 103
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    },
+                    {
+                      "stop": 0.4384239912033081,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 31,
+                          "g": 105,
+                          "b": 167
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    },
+                    {
+                      "stop": 0.7832509875297546,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 37,
+                          "g": 93,
+                          "b": 199
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    },
+                    {
+                      "stop": 1,
+                      "color": {
+                        "mode": "RGB",
+                        "value": {
+                          "r": 20,
+                          "g": 128,
+                          "b": 107
+                        },
+                        "alpha": 0.14901960784313725
+                      }
+                    }
+                  ]
+                }
+              ],
+              "updateElement": 0
+            },
+            {
+              "id": "242510f9-bc95-402c-ad64-aa23630f5c12",
+              "type": "application/vnd.adobe.element.characterstyle+dcx",
+              "name": "Foobar",
+              "created": 1579030503633,
+              "modified": 1579040205156,
+              "displayName": null,
+              "index": 2,
+              "representations": [
+                {
+                  "id": "b6e6256b-51f0-4747-8693-63cafbc3b488",
+                  "type": "application/vnd.adobe.characterstyle+json",
+                  "relationship": "primary",
+                  "content": {
+                    "fontFamily": "Foobar-BoldItalic",
+                    "fontStyle": "BoldItalic",
+                    "fontSize": 22,
+                    "fontColor": {
+                      "mode": "RGB",
+                      "value": {
+                        "r": 112,
+                        "g": 112,
+                        "b": 112
+                      }
+                    },
+                    "charSpacing": 196,
+                    "lineSpacing": 0,
+                    "linkId": "",
+                    "underline": false,
+                    "postscriptName": "Foobar-BoldItalic",
+                    "strikethrough": false,
+                    "textTransform": "none",
+                    "textScript": "none"
+                  }
+                }
+              ],
+              "updateElement": 0,
+              "listViewPosition": 0
+            },
+            {
+              "id": "242510f9-bc95-402c-ad64-aa23630f5c74",
+              "type": "application/vnd.adobe.element.characterstyle+dcx",
+              "name": "GetLucky",
+              "created": 1579030503633,
+              "modified": 1579040205156,
+              "displayName": null,
+              "index": 2,
+              "representations": [
+                {
+                  "id": "b6e6256b-51f0-4747-8693-63cafbc3b487",
+                  "type": "application/vnd.adobe.characterstyle+json",
+                  "relationship": "primary",
+                  "content": {
+                    "fontFamily": "InaiMathi",
+                    "fontStyle": "Bold",
+                    "fontSize": 33,
+                    "fontColor": {
+                      "mode": "RGB",
+                      "value": {
+                        "r": 112,
+                        "g": 112,
+                        "b": 112
+                      }
+                    },
+                    "charSpacing": 196,
+                    "lineSpacing": 0,
+                    "linkId": "",
+                    "underline": false,
+                    "postscriptName": "InaiMathi-Bold",
+                    "strikethrough": false,
+                    "textTransform": "none",
+                    "textScript": "none"
+                  }
+                }
+              ],
+              "updateElement": 0,
+              "listViewPosition": 0
+            }
+          ]
+        },
+        "gridDefaults": {
+          "defaultGrid": null,
+          "layoutOverrides": null
+        }
+      }
+    }
+  },
+  "artboards": {
+    "b9be21c5-ea6e-410e-ba81-07182164b938": {
+      "width": 1920,
+      "height": 1080,
+      "name": "Web 1920 – 1",
+      "x": 0,
+      "y": 0,
+      "viewportHeight": 1080
+    }
+  }
+}
