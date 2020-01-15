@@ -4,6 +4,8 @@ const sourceFileMock = {
   addImportDeclaration: jest.fn(),
   save: jest.fn(),
   formatText: jest.fn(),
+  fixUnusedIdentifiers: jest.fn(),
+  getFullWidth: jest.fn(() => 1),
 };
 
 jest.doMock('@diez/compiler-core', () => {
