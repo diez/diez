@@ -360,6 +360,7 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
   }
 
   addCommentHeader(sourceFile);
+  cleanUnusedImports(sourceFile);
   sourceFile.formatText();
   return sourceFile.save();
 };
@@ -370,6 +371,15 @@ const addCommentHeader = (sourceFile: SourceFile) => {
  * Changes to this file may cause incorrect behavior and will be lost if the code is regenerated.
  */
 `);
+};
+
+const cleanUnusedImports = (sourceFile: SourceFile) => {
+  let lastWidth: number;
+
+  do {
+    lastWidth = sourceFile.getFullWidth();
+    sourceFile.fixUnusedIdentifiers();
+  } while (lastWidth !== sourceFile.getFullWidth());
 };
 
 /**

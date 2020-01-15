@@ -194,6 +194,45 @@
               "updateElement": 0
             },
             {
+              "id": "242510f9-bc95-402c-ad64-aa23630f5c12",
+              "type": "application/vnd.adobe.element.characterstyle+dcx",
+              "name": "Foobar",
+              "created": 1579030503633,
+              "modified": 1579040205156,
+              "displayName": null,
+              "index": 2,
+              "representations": [
+                {
+                  "id": "b6e6256b-51f0-4747-8693-63cafbc3b488",
+                  "type": "application/vnd.adobe.characterstyle+json",
+                  "relationship": "primary",
+                  "content": {
+                    "fontFamily": "Foobar-BoldItalic",
+                    "fontStyle": "BoldItalic",
+                    "fontSize": 22,
+                    "fontColor": {
+                      "mode": "RGB",
+                      "value": {
+                        "r": 112,
+                        "g": 112,
+                        "b": 112
+                      }
+                    },
+                    "charSpacing": 196,
+                    "lineSpacing": 0,
+                    "linkId": "",
+                    "underline": false,
+                    "postscriptName": "Foobar-BoldItalic",
+                    "strikethrough": false,
+                    "textTransform": "none",
+                    "textScript": "none"
+                  }
+                }
+              ],
+              "updateElement": 0,
+              "listViewPosition": 0
+            },
+            {
               "id": "242510f9-bc95-402c-ad64-aa23630f5c74",
               "type": "application/vnd.adobe.element.characterstyle+dcx",
               "name": "GetLucky",
