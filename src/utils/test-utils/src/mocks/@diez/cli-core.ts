@@ -61,6 +61,26 @@ export const mockLogCode = jest.fn();
 export const mockLogInfo = jest.fn();
 
 /**
+ * A mock singleton for `Log.comment` in `@diez/cli-core`.
+ */
+export const mockLogComment = jest.fn();
+
+/**
+ * A mock singleton for `Log.infoTitle` in `@diez/cli-core`.
+ */
+export const mockLogInfoTitle = jest.fn();
+
+/**
+ * A mock singleton for `Log.warning` in `@diez/cli-core`.
+ */
+export const mockLogWarning = jest.fn();
+
+/**
+ * A mock singleton for `Log.warningOnce` in `@diez/cli-core`.
+ */
+export const mockLogWarningOnce = jest.fn();
+
+/**
  * Module mock factory.
  */
 export const mockCliCoreFactory = () => ({
@@ -75,6 +95,10 @@ export const mockCliCoreFactory = () => ({
     error: mockLogError,
     code: mockLogCode,
     info: mockLogInfo,
+    comment: mockLogComment,
+    infoTitle: mockLogInfoTitle,
+    warning: mockLogWarning,
+    warningOnce: mockLogWarningOnce,
   },
   findOpenPort () {
     return Promise.resolve(9001);

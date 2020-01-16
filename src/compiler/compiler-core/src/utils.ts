@@ -58,6 +58,7 @@ export const getProject = (projectRoot: string) => {
     suppressOutputPathCheck: true,
     // Instead of emitting invalid code, we should bail on compilation.
     noEmitOnError: true,
+    // Emit source maps for better error reporting.
     sourceMap: true,
   });
 
