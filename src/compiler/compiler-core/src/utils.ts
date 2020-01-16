@@ -1,7 +1,9 @@
 import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {noCase} from 'change-case';
+import {readFile} from 'fs-extra';
 import {dirname, join, resolve} from 'path';
+import {SourceMapConsumer} from 'source-map';
 import {Node, Project, TypeGuards} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
 import {AcceptableType, AssemblerFactory, CompilerProvider, ComponentModule,
@@ -56,6 +58,7 @@ export const getProject = (projectRoot: string) => {
     suppressOutputPathCheck: true,
     // Instead of emitting invalid code, we should bail on compilation.
     noEmitOnError: true,
+    sourceMap: true,
   });
 
   projectCache.set(projectRoot, project);
@@ -323,3 +326,52 @@ export class ExistingHotUrlMutexError extends Error {
     this.mutexPath = mutexPath;
   }
 }
+
+/**
+ * Tries to show the best possible stack trace inferred from a runtime error.
+ */
+export const showStackTracesFromRuntimeError = async (error: Error) => {
+  if (error.stack === undefined) {
+    Log.error(error.message);
+    return;
+  }
+
+  const firstStackTrace = error.stack.split('\n')[1];
+  if (!firstStackTrace) {
+    Log.error(error.toString());
+    return;
+  }
+
+  const rawFile = firstStackTrace.match(/\(([^\)]+)\)/);
+
+  if (!rawFile) {
+    Log.error(error.toString());
+    return;
+  }
+
+  const [file, line, column] = rawFile[1].split(':');
+
+  if (!file || !line || !column) {
+    Log.error(error.toString());
+    return;
+  }
+  try {
+    const rawSourceMap = await readFile(`${file}.map`);
+    const sourceMap = await new SourceMapConsumer(rawSourceMap.toString());
+    const originalPosition = sourceMap.originalPositionFor({line: Number(line), column: Number(column)});
+    const originalFile = resolve(file, '..', originalPosition.source || '');
+    Log.error(error.message);
+    Log.error(`    at ${originalFile}:${originalPosition.line}:${originalPosition.column}`);
+    if (originalPosition.line) {
+      const fileContents = await readFile(originalFile);
+      const lineContents = fileContents.toString().split('\n')[originalPosition.line - 1];
+      let caret = '';
+      if (originalPosition.column) {
+        caret = `${' '.repeat(originalPosition.column - 1 || 0)}^`;
+      }
+      Log.code(`${lineContents}\n${caret}`);
+    }
+  } catch (internalError) {
+    Log.error(error.toString());
+  }
+};

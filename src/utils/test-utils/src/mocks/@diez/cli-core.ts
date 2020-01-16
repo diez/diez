@@ -46,6 +46,21 @@ export const mockPackageManagerInstance = {
 };
 
 /**
+ * A mock singleton for `Log.error` in `@diez/cli-core`.
+ */
+export const mockLogError = jest.fn();
+
+/**
+ * A mock singleton for `Log.code` in `@diez/cli-core`.
+ */
+export const mockLogCode = jest.fn();
+
+/**
+ * A mock singleton for `Log.info` in `@diez/cli-core`.
+ */
+export const mockLogInfo = jest.fn();
+
+/**
  * Module mock factory.
  */
 export const mockCliCoreFactory = () => ({
@@ -56,6 +71,11 @@ export const mockCliCoreFactory = () => ({
   canRunCommand: mockCanRunCommand,
   locateBinaryMacOS: mockLocateBinaryMacOS,
   shouldUseYarn: mockShouldUseYarn,
+  Log: {
+    error: mockLogError,
+    code: mockLogCode,
+    info: mockLogInfo,
+  },
   findOpenPort () {
     return Promise.resolve(9001);
   },
