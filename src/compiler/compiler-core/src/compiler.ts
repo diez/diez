@@ -6,7 +6,7 @@ import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFi
 import {dirname, join} from 'path';
 import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty} from './api';
 import {serveHot} from './server';
-import {ExistingHotUrlMutexError, getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache} from './utils';
+import {ExistingHotUrlMutexError, getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache, showStackTracesFromRuntimeError} from './utils';
 
 /**
  * An abstract class wrapping the basic functions of a compiler.
@@ -247,7 +247,15 @@ export abstract class Compiler<
   async run () {
     // Important: reset the require cache before each run.
     purgeRequireCache(require.resolve(this.parser.emitRoot));
-    const componentModule = await loadComponentModule(this.parser.emitRoot);
+    let componentModule;
+
+    try {
+      componentModule = await loadComponentModule(this.parser.emitRoot);
+    } catch (error) {
+      await showStackTracesFromRuntimeError(error);
+      process.exit(1);
+    }
+
     for (const componentName of this.parser.rootComponentNames) {
       // Fall back to the camel case variant of the component name. The parser capitalizes component names automatically.
       const {symbolName} = this.parser.getMetadataForTypeOrThrow(componentName);

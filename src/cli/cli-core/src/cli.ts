@@ -77,7 +77,13 @@ const registerWithProvider = async (provider: CliCommandProvider, defaultOptions
           await client.close(1000);
         }
       }
-      Log.error(error.message);
+
+      if (error.stack) {
+        Log.error(error.stack);
+      } else {
+        Log.error(error.message);
+      }
+
       process.exit(1);
     }
   });
