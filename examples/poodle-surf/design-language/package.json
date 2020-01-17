@@ -2,17 +2,17 @@
   "name": "poodle-surf",
   "private": true,
   "main": "lib/index.js",
-  "version": "10.2.0-beta.2",
+  "version": "10.2.0",
   "dependencies": {
-    "@diez/engine": "^10.2.0-beta.2",
-    "@diez/prefabs": "^10.2.0-beta.2"
+    "@diez/engine": "^10.2.0",
+    "@diez/prefabs": "^10.2.0"
   },
   "devDependencies": {
-    "@diez/compiler-core": "^10.2.0-beta.2",
-    "@diez/extractors": "^10.2.0-beta.2",
-    "@diez/start": "^10.2.0-beta.2",
-    "@diez/stdlib": "^10.2.0-beta.2",
-    "diez": "^10.2.0-beta.2",
+    "@diez/compiler-core": "^10.2.0",
+    "@diez/extractors": "^10.2.0",
+    "@diez/start": "^10.2.0",
+    "@diez/stdlib": "^10.2.0",
+    "diez": "^10.2.0",
     "semver": "^6.0.0",
     "typescript": "^3.7.2"
   },

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0](https://github.com/diez/diez/compare/v10.2.0-beta.2...v10.2.0) (2020-01-17)
+
+
+### Features
+
+* **extractors:** add missing typograph properties in Sketch extractor ([#61](https://github.com/diez/diez/issues/61)) ([aea53cf](https://github.com/diez/diez/commit/aea53cf))
+* **extractors:** add support for AdobeXD ([#63](https://github.com/diez/diez/issues/63)) ([8c678a5](https://github.com/diez/diez/commit/8c678a5))
+
+
+
+
+
 # [10.2.0-beta.2](https://github.com/diez/diez/compare/v10.2.0-beta.1...v10.2.0-beta.2) (2020-01-13)
 
 **Note:** Version bump only for package @diez/extractors

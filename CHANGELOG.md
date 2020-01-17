@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0](https://github.com/diez/diez/compare/v10.2.0-beta.2...v10.2.0) (2020-01-17)
+
+
+### Bug Fixes
+
+* **compiler:** avoid crashing if a component instance is explicitly excluded from host ([#62](https://github.com/diez/diez/issues/62)) ([830a84b](https://github.com/diez/diez/commit/830a84b))
+
+
+### Features
+
+* **compiler:** add stack traces and hints for runtime errors ([#64](https://github.com/diez/diez/issues/64)) ([65b798f](https://github.com/diez/diez/commit/65b798f))
+* **extractors:** add missing typograph properties in Sketch extractor ([#61](https://github.com/diez/diez/issues/61)) ([aea53cf](https://github.com/diez/diez/commit/aea53cf))
+* **extractors:** add support for AdobeXD ([#63](https://github.com/diez/diez/issues/63)) ([8c678a5](https://github.com/diez/diez/commit/8c678a5))
+
+
+
+
+
 # [10.2.0-beta.2](https://github.com/diez/diez/compare/v10.2.0-beta.1...v10.2.0-beta.2) (2020-01-13)
 
 **Note:** Version bump only for package @diez/mono
