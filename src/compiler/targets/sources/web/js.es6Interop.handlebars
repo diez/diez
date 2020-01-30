@@ -1,0 +1,6 @@
+import {{main}} from './index.js';
+{{#each modules}}
+export const {{.}} = {{../main}}.{{.}};
+{{/each}}
+export const Diez = {{main}}.Diez;
+export default {{main}};

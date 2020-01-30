@@ -2,6 +2,11 @@
   "name": "{{{moduleName}}}",
   "version": "{{{sdkVersion}}}",
   "license": "MIT",
+  "main": "./index.js",
+  "exports": {
+    "require": "./index.js",
+    "import": "./wrapper.mjs"
+  },
   "dependencies": {
   {{#each dependencies}}
     "{{{this.packageJson.name}}}": "{{{this.packageJson.versionConstraint}}}"{{#unless @last}},{{/unless}}

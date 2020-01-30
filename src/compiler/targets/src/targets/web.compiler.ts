@@ -326,11 +326,13 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
 
   async writeSdk () {
     const componentTemplate = readFileSync(join(coreWeb, 'js.component.handlebars')).toString();
+    const es6InteropTemplate = readFileSync(join(coreWeb, 'js.es6Interop.handlebars')).toString();
     const declarationTemplate = readFileSync(join(coreWeb, 'js.declaration.handlebars')).toString();
 
     const builder = await getAssemblerFactory<WebOutput>(Target.Web);
     const assembler = builder(this.output);
     await assembler.addCoreFiles();
+    const es6Interop = new Set<string>();
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);
@@ -352,6 +354,8 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
           fixed: targetComponent.isRootComponent || this.parser.getComponentForTypeOrThrow(type).isFixedComponent,
         }),
       );
+
+      es6Interop.add(targetComponent.type.toString());
 
       if (binding) {
         this.mergeBindingToOutput(binding);
@@ -384,6 +388,10 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       assembler.writeFile(
         join(this.output.sdkRoot, 'index.d.ts'),
         this.generateDeclaration(),
+      ),
+      assembler.writeFile(
+        join(this.output.sdkRoot, 'wrapper.mjs'),
+        compile(es6InteropTemplate)({modules: Array.from(es6Interop), main: 'DiezModule'}),
       ),
       outputTemplatePackage(join(coreWeb, 'sdk'), this.output.sdkRoot, tokens),
     ]);

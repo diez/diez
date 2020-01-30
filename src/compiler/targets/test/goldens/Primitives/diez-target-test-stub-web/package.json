@@ -2,6 +2,11 @@
   "name": "diez-target-test-stub",
   "version": "10.10.10",
   "license": "MIT",
+  "main": "./index.js",
+  "exports": {
+    "require": "./index.js",
+    "import": "./wrapper.mjs"
+  },
   "dependencies": {
     "meow": "^10.10.10"
   }
