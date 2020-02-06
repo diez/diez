@@ -1,7 +1,7 @@
 {
   "name": "@diez/oauth",
   "private": true,
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "An OAuth 2.0 handshake broker for Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",

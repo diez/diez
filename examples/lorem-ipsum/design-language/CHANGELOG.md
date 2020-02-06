@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.2.1](https://github.com/diez/diez/compare/v10.2.0...v10.2.1) (2020-02-06)
+
+
+### Features
+
+* make the JS SDK a dual CommonJS/ES Module package ([#65](https://github.com/diez/diez/issues/65)) ([c0b03a6](https://github.com/diez/diez/commit/c0b03a6)), closes [/nodejs.org/api/esm.html#esm_approach_1](https://github.com//nodejs.org/api/esm.html/issues/esm_approach_1)
+
+
+
+
+
 # [10.2.0](https://github.com/diez/diez/compare/v10.2.0-beta.2...v10.2.0) (2020-01-17)
 
 **Note:** Version bump only for package lorem-ipsum

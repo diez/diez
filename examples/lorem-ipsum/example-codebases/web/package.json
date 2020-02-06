@@ -1,6 +1,6 @@
 {
   "name": "lorem-ipsum-app",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "private": true,
   "scripts": {
     "start": "webpack-dev-server",
@@ -19,7 +19,7 @@
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.5",
     "css-loader": "^2.1.1",
-    "diez-webpack-plugin": "^10.2.0",
+    "diez-webpack-plugin": "^10.2.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",

@@ -1,7 +1,7 @@
 {
   "name": "@diez/createproject",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Project creation for Diez",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,8 +20,8 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.2.0",
-    "@diez/storage": "^10.2.0",
+    "@diez/cli-core": "^10.2.1",
+    "@diez/storage": "^10.2.1",
     "change-case": "^3.1.0",
     "enquirer": "^2.3.0",
     "fs-extra": "^7.0.1",
@@ -29,7 +29,7 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.2.0",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "@types/tar": "^4.0.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",

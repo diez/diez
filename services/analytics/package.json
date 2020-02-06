@@ -1,7 +1,7 @@
 {
   "name": "@diez/analytics",
   "private": true,
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "An analytics back end for the Diez CLI.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",

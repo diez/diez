@@ -1,7 +1,7 @@
 {
   "name": "@diez/start",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Provides a simple command for starting Diez demo projects.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,13 +20,13 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.2.0",
-    "@diez/engine": "^10.2.0",
+    "@diez/cli-core": "^10.2.1",
+    "@diez/engine": "^10.2.1",
     "fs-extra": "^7.0.1",
     "semver": "^6.0.0"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.2.0",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

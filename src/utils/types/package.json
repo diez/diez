@@ -1,7 +1,7 @@
 {
   "name": "@types/diez",
   "private": true,
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Third party typings used by Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
