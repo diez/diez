@@ -1,7 +1,7 @@
 {
   "name": "@diez/web-sdk-common",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Common functionality among generated Diez web SDKs.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,11 +20,11 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/framework-core": "^10.2.0"
+    "@diez/framework-core": "^10.2.1"
   },
   "devDependencies": {
-    "@diez/prefabs": "^10.2.0",
-    "@diez/test-utils": "^10.2.0",
+    "@diez/prefabs": "^10.2.1",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

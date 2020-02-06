@@ -1,7 +1,7 @@
 {
   "name": "@diez/sdk-inkstone",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Minimal SDK for Inkstone+Diez EE license server",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -23,7 +23,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.2.0",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "cross-env": "^5.1.6",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",

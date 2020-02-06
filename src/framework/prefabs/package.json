@@ -1,7 +1,7 @@
 {
   "name": "@diez/prefabs",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Components for building a design language with Diez.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -20,12 +20,12 @@
     "fix": "tslint -p . -t stylish --fix"
   },
   "dependencies": {
-    "@diez/engine": "^10.2.0",
-    "@diez/framework-core": "^10.2.0",
+    "@diez/engine": "^10.2.1",
+    "@diez/framework-core": "^10.2.1",
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.2.0",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.2.1](https://github.com/diez/diez/compare/v10.2.0...v10.2.1) (2020-02-06)
+
+
+### Bug Fixes
+
+* update webpack config of lorem-ipsum to fix hot reload in Ubuntu ([#66](https://github.com/diez/diez/issues/66)) ([428244c](https://github.com/diez/diez/commit/428244c))
+
+
+
+
+
 # [10.2.0](https://github.com/diez/diez/compare/v10.2.0-beta.2...v10.2.0) (2020-01-17)
 
 **Note:** Version bump only for package lorem-ipsum-app

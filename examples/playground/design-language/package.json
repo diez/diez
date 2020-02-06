@@ -2,17 +2,17 @@
   "name": "playground",
   "private": true,
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "dependencies": {
-    "@diez/engine": "^10.2.0",
-    "@diez/prefabs": "^10.2.0"
+    "@diez/engine": "^10.2.1",
+    "@diez/prefabs": "^10.2.1"
   },
   "devDependencies": {
-    "@diez/compiler-core": "^10.2.0",
-    "@diez/extractors": "^10.2.0",
-    "@diez/start": "^10.2.0",
-    "@diez/stdlib": "^10.2.0",
-    "diez": "^10.2.0",
+    "@diez/compiler-core": "^10.2.1",
+    "@diez/extractors": "^10.2.1",
+    "@diez/start": "^10.2.1",
+    "@diez/stdlib": "^10.2.1",
+    "diez": "^10.2.1",
     "semver": "^6.0.0",
     "typescript": "^3.7.2"
   },

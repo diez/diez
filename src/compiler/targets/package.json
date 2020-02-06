@@ -1,7 +1,7 @@
 {
   "name": "@diez/targets",
   "main": "lib/index.js",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Diez compiler targets for various platforms.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -21,10 +21,10 @@
     "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.2.0",
-    "@diez/compiler-core": "^10.2.0",
-    "@diez/engine": "^10.2.0",
-    "@diez/storage": "^10.2.0",
+    "@diez/cli-core": "^10.2.1",
+    "@diez/compiler-core": "^10.2.1",
+    "@diez/engine": "^10.2.1",
+    "@diez/storage": "^10.2.1",
     "change-case": "^3.1.0",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
@@ -32,7 +32,7 @@
     "jsdoc-to-markdown": "^5.0.2"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.2.0",
+    "@diez/test-utils": "^10.2.1",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

@@ -1,6 +1,6 @@
 {
   "name": "diez-webpack-plugin",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "Webpack plugin to plug Diez into a web codebase with hot updates.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
