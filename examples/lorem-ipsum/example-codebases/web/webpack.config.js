@@ -38,7 +38,15 @@ const webpackConfig = {
     }),
   ],
   performance: {hints: false},
-  devServer: {stats: 'errors-only', open: true, hot: true},
+  devServer: {
+    stats: 'errors-only',
+    open: true,
+    hot: true,
+    watchOptions: {
+      poll: 500,
+      ignored: ['node_modules/**', '.git/**'],
+    },
+  },
 };
 
 module.exports = webpackConfig;
