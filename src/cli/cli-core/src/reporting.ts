@@ -105,12 +105,12 @@ export class Log {
  * Display the provided message alongside a simple spinner.
  */
 export const loadingMessage = (message: string) => {
-  const ticks = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  const ticks = ['-', '\\', '|', '/'];
   let displayMessage = message;
   let i = 0;
   const interval = setInterval(() => {
-    process.stdout.write(`${ticks[i++ % 10]} ${displayMessage}\r`);
-  }, 30);
+    process.stdout.write(`${ticks[i++ % ticks.length]} ${displayMessage}\r`);
+  }, 130);
 
   return {
     update (newMessage: string) {
