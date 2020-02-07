@@ -1,4 +1,4 @@
-import {spawn, SpawnOptions, spawnSync} from 'child_process';
+import {execSync, ExecSyncOptions, spawn, SpawnOptions, spawnSync} from 'child_process';
 import {PackageManagerCommands, PackageManagers} from './api';
 import {canRunCommand} from './utils';
 
@@ -48,10 +48,12 @@ const commands: PackageManagerCommands = {
   [PackageManagers.Npm]: {
     addDependency: 'install',
     installAllDependencies: 'install',
+    execBinary: 'npx',
   },
   [PackageManagers.Yarn]: {
     addDependency: 'add',
     installAllDependencies: 'install',
+    execBinary: 'yarn',
   },
 };
 
@@ -76,8 +78,8 @@ export class PackageManager {
   /**
    * Installs all the dependencies listed in package.json.
    */
-  installAllDependencies (options?: SpawnOptions) {
-    return this.exec([this.commands.installAllDependencies], options);
+  installAllDependencies (options?: ExecSyncOptions) {
+    return execSync(`${this.binary} ${this.commands.installAllDependencies}`, options);
   }
 
   /**
@@ -95,6 +97,10 @@ export class PackageManager {
         reject(error);
       });
     });
+  }
+
+  execBinary (command: string, options?: ExecSyncOptions) {
+    execSync(`${this.commands.execBinary} ${command}`, options);
   }
 }
 
