@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import {canRunCommand, Format, getPackageManager, isChildProcess, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
+import {canRunCommand, Format, getPackageManager, isChildProcess, isMacOS, locateBinaryMacOS, Log, loadingMessage} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
 import {readdirSync} from 'fs-extra';
@@ -61,8 +61,9 @@ export = async (_: {}, target: Target) => {
       break;
     case Target.Web:
       packageManager.execBinary('diez compile -t web', {stdio: 'inherit'});
-      Log.comment('Installing Node dependencies in example codebase...');
-      await packageManager.installAllDependencies({cwd: targetRoot, stdio: 'inherit'});
+      const installingMessage = loadingMessage('Installing Node dependencies in example codebase...');
+      await packageManager.installAllDependencies({cwd: targetRoot});
+      installingMessage.stop();
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web'], {stdio: 'inherit'});
       break;
