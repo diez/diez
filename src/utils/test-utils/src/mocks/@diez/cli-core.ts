@@ -41,8 +41,14 @@ export const mockShouldUseYarn = jest.fn();
  */
 export const mockPackageManagerInstance = {
   binary: 'yarn',
+  commands: {
+    yarn: {
+      execBinary: 'yarn',
+    },
+  },
   exec: jest.fn(() => new Promise((resolve) => resolve({}))),
   installAllDependencies: jest.fn(() => new Promise((resolve) => resolve({}))),
+  execBinary: jest.fn(),
 };
 
 /**

@@ -61,8 +61,8 @@ describe('diez start command', () => {
   test('Android golden path', async () => {
     await diezRun('start android');
     mockProcess.emit('message', 'built');
-    expect(mockExecSync).toHaveBeenNthCalledWith(
-      1, expect.stringContaining('diez compile -t android'), expect.anything());
+    expect(mockPackageManagerInstance.execBinary).toHaveBeenLastCalledWith(
+      expect.stringContaining('diez compile -t android'), expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'android'], expect.anything());
   });
@@ -84,8 +84,8 @@ describe('diez start command', () => {
     await diezRun('start ios');
     mockProcess.emit('message', 'built');
     expect(mockExecSync).toHaveBeenNthCalledWith(1, 'pod --version');
-    expect(mockExecSync).toHaveBeenNthCalledWith(
-      7, expect.stringContaining('diez compile -t ios --cocoapods'), expect.anything());
+    expect(mockPackageManagerInstance.execBinary).toHaveBeenLastCalledWith(
+      expect.stringContaining('diez compile -t ios --cocoapods'), expect.anything());
     expect(mockExecSync).toHaveBeenLastCalledWith('pod install', expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'ios'], expect.anything());
@@ -94,8 +94,8 @@ describe('diez start command', () => {
   test('Web golden path', async () => {
     await diezRun('start web');
     mockProcess.emit('message', 'built');
-    expect(mockExecSync).toHaveBeenNthCalledWith(
-      1, expect.stringContaining('diez compile -t web'), expect.anything());
+    expect(mockPackageManagerInstance.execBinary).toHaveBeenLastCalledWith(
+      expect.stringContaining('diez compile -t web'), expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
   });
