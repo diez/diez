@@ -1,4 +1,4 @@
-import {execSync, ExecSyncOptions, spawn, SpawnOptions, spawnSync} from 'child_process';
+import {exec, ExecOptions, execSync, ExecSyncOptions, spawn, SpawnOptions, spawnSync} from 'child_process';
 import {PackageManagerCommands, PackageManagers} from './api';
 import {canRunCommand} from './utils';
 
@@ -78,8 +78,16 @@ export class PackageManager {
   /**
    * Installs all the dependencies listed in package.json.
    */
-  installAllDependencies (options?: ExecSyncOptions) {
-    return execSync(`${this.binary} ${this.commands.installAllDependencies}`, options);
+  installAllDependencies (options?: ExecOptions) {
+    return new Promise((resolve, reject) => {
+      exec(`${this.binary} ${this.commands.installAllDependencies}`, options, (error) => {
+        if (error) {
+          return reject(error);
+        }
+
+        resolve();
+      });
+    });
   }
 
   /**

@@ -35,7 +35,7 @@ export = async ({bare}: CreateOptions, projectNameIn: string) => {
     projectName = answers.projectName;
   }
 
-  return createProject(
+  return await createProject(
     kebabCase(projectName),
     bare,
   );
