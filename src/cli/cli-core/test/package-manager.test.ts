@@ -2,11 +2,15 @@ import {EventEmitter} from 'events';
 const mockedSpawnSync = jest.fn();
 const mockedSpawnTask = new EventEmitter();
 const mockedSpawn = jest.fn(() => mockedSpawnTask);
+const mockedExec = jest.fn((command: string, opts: any, callback: () => {}) => {
+  callback();
+});
 
 jest.doMock('child_process', () => ({
   ...jest.requireActual('child_process'),
   spawnSync: mockedSpawnSync,
   spawn: mockedSpawn,
+  exec: mockedExec,
 }));
 
 import {PackageManagers} from '../src';
@@ -79,7 +83,7 @@ describe('PackageManager', () => {
     const installAllDependenciesPromise = pm.installAllDependencies();
     mockedSpawnTask.emit('close');
     await installAllDependenciesPromise;
-    expect(mockedSpawn).toHaveBeenCalledWith('npm', ['install'], {});
+    expect(mockedExec).toHaveBeenCalledWith('npm install', undefined, expect.anything());
   });
 
   test('when yarn is detected as the package manager of choice', async () => {
@@ -92,7 +96,7 @@ describe('PackageManager', () => {
     const installAllDependenciesPromise = pm.installAllDependencies();
     mockedSpawnTask.emit('close');
     await installAllDependenciesPromise;
-    expect(mockedSpawn).toHaveBeenCalledWith('yarn', ['install'], {});
+    expect(mockedExec).lastCalledWith('yarn install', undefined, expect.anything());
   });
 });
 
