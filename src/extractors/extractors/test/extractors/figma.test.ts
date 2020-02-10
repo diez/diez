@@ -105,6 +105,8 @@ const mockFullResponse = {
                 fontFamily: 'Foobar',
                 fontPostScriptName: 'Foobar-BoldItalic',
                 fontSize: 9001,
+                letterSpacing: 0.4824822,
+                lineHeightPx: 11,
               },
               styles: {
                 text: 'text',
@@ -154,6 +156,8 @@ const mockFullResponse = {
                 fontFamily: 'Foobar',
                 fontPostScriptName: 'Foobar-BoldItalic',
                 fontSize: 9001,
+                letterSpacing: 0.2222,
+                lineHeightPx: 1010,
               },
               styles: {
                 text: 'gradientText',
@@ -467,11 +471,11 @@ describe('Figma', () => {
           {
             name: 'Foobar Typograph',
             initializer:
-              'new Typograph({fontSize: 9001, color: Color.rgba(100, 100, 100, 1), font: helloFonts.Foobar.BoldItalic})',
+              'new Typograph({letterSpacing: 0.4824822, fontSize: 9001, lineHeight: 11, color: Color.rgba(100, 100, 100, 1), font: helloFonts.Foobar.BoldItalic})',
           },
           {
             name: 'Gradient Typograph',
-            initializer: 'new Typograph({fontSize: 9001, color: Color.rgba(255, 0, 0, 1), font: helloFonts.Foobar.BoldItalic})',
+            initializer: 'new Typograph({letterSpacing: 0.2222, fontSize: 9001, lineHeight: 1010, color: Color.rgba(255, 0, 0, 1), font: helloFonts.Foobar.BoldItalic})',
           },
         ],
       });
