@@ -115,6 +115,8 @@ interface FigmaTextStyle {
   fontFamily: string;
   fontPostScriptName: string;
   fontSize: number;
+  letterSpacing: number;
+  lineHeightPx: number;
 }
 
 interface FigmaDimensions {
@@ -350,6 +352,8 @@ const processFigmaNode = async (
         Log.warning(`Unable to locate system font assets for ${node.style.fontFamily}.`);
       }
 
+      const {fontSize, letterSpacing, lineHeightPx} = node.style;
+
       spec.typographs.push({
         name: typographs.get(node.styles.text)!,
         initializer: getTypographInitializer(
@@ -357,7 +361,9 @@ const processFigmaNode = async (
           candidateFont,
           node.style.fontPostScriptName,
           {
-            fontSize: node.style.fontSize,
+            letterSpacing,
+            fontSize,
+            lineHeight: lineHeightPx,
             color: getInitializerForTypographColorFromFigma(node),
           },
         ),
