@@ -446,6 +446,7 @@ class FigmaExtractor implements Extractor, OAuthable {
    */
   static async shouldRetryError (error: Error) {
     if (error instanceof UnauthorizedRequestException) {
+      Log.warning('Your Figma authentication token was expired or invalid, trying to fetch a new token.');
       await Registry.delete('figmaAccessToken');
       return true;
     }
