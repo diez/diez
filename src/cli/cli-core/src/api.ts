@@ -133,7 +133,7 @@ export interface FullDiezConfiguration {
  * A Diez configuration, which can be provided by a module either as the `"diez"` key in `package.json` or in a separate
  * `.diezrc` file located at the project root.
  *
- * See [here](https://github.com/diez/diez/blob/master/compiler/targets/.diezrc) for an example.
+ * See [here](https://github.com/diez/diez/blob/master/src/compiler/targets/.diezrc) for an example.
  */
 export type DiezConfiguration = Partial<FullDiezConfiguration>;
 
