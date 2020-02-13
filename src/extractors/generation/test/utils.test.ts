@@ -1,3 +1,12 @@
+const writersObjectMock = jest.fn();
+
+jest.doMock('ts-morph', () => ({
+  ...jest.requireActual('ts-morph'),
+  Writers: {
+    object: writersObjectMock,
+  }
+}));
+
 const sourceFileMock = {
   addVariableStatement: jest.fn(),
   insertStatements: jest.fn(),
@@ -22,7 +31,7 @@ jest.doMock('@diez/compiler-core', () => {
 
 import {VariableDeclarationKind} from 'ts-morph';
 import {AssetFolder} from '../src';
-import {codegenDesignLanguage, objectToSource, UniqueNameResolver} from '../src/utils';
+import {codegenDesignLanguage, objectToSource, UniqueNameResolver, quoteInvalidPropertyName} from '../src/utils';
 
 describe('UniqueNameResolver', () => {
   test('provides conventional component names', () => {
@@ -54,10 +63,16 @@ describe('#codegenDesignLanguage', () => {
     designLanguageName: 'LoremIpsum',
     filename: 'LoremIpsum.sketch.ts',
     projectRoot: 'lorem-ipsum/design-language',
-    colors: [{
-      name: 'black',
-      initializer: 'Color.rgba(255, 255, 255, 1)',
-    }],
+    colors: [
+      {
+        name: 'black',
+        initializer: 'Color.rgba(255, 255, 255, 1)',
+      },
+      {
+        name: '00 invalid name',
+        initializer: 'Color.rgba(255, 255, 255, 1)',
+      }
+    ],
     gradients: [{
       name: 'masthead-gradient',
       initializer: 'new LinearGradient({stops: [GradientStop.make(0, Color.rgba(22, 11, 54, 1)), GradientStop.make(1, Color.rgba(0, 0, 16, 1))], start: Point2D.make(0.5, 0.004077454971923), end: Point2D.make(0.5, 0.808830439666012)})',
@@ -76,6 +91,7 @@ describe('#codegenDesignLanguage', () => {
     fonts: new Map(),
     assets: new Map([
       [AssetFolder.Slice, new Map([['name', {src: 'asdf', width: 15, height: 15}]])],
+      [AssetFolder.Slice, new Map([['00 invalid slice name', {src: 'asdf', width: 15, height: 15}]])],
     ]),
   };
 
@@ -133,6 +149,18 @@ describe('#codegenDesignLanguage', () => {
     );
   });
 
+  test('Quotes invalid property names', () => {
+    codegenDesignLanguage(specMock);
+
+    expect(writersObjectMock).toHaveBeenNthCalledWith(1, expect.objectContaining({
+      "'00InvalidName'": expect.anything(),
+    }));
+
+    expect(writersObjectMock).toHaveBeenNthCalledWith(6, expect.objectContaining({
+      "'00InvalidSliceName'": expect.anything(),
+    }));``
+  });
+
   test('formats and saves the file when is done', () => {
     codegenDesignLanguage(specMock);
     expect(sourceFileMock.save).toHaveBeenCalled();
@@ -144,5 +172,20 @@ describe('objectToSource', () => {
   test('converts an object to a string representation of JS source code', () => {
     const obj = {str: 'a', numb: 2, undef: undefined};
     expect(objectToSource(obj)).toEqual('{str: a, numb: 2, undef: undefined}');
+  });
+});
+
+
+describe('quoteInvalidPropertyName', () => {
+  test('wraps in quotes invalid TypeScript property names', () => {
+    expect(quoteInvalidPropertyName('myProperty')).toBe('myProperty');
+    expect(quoteInvalidPropertyName('π')).toBe('π');
+    expect(quoteInvalidPropertyName('10')).toBe('10');
+    expect(quoteInvalidPropertyName('12x')).toBe('\'12x\'');
+    expect(quoteInvalidPropertyName('delete')).toBe('\'delete\'');
+    expect(quoteInvalidPropertyName('00MyProperty')).toBe('\'00MyProperty\'');
+    expect(quoteInvalidPropertyName('10SpOverline')).toBe('\'10SpOverline\'');
+    expect(quoteInvalidPropertyName('foo bar')).toBe('\'foo bar\'');
+    expect(quoteInvalidPropertyName('foo-bar')).toBe('\'foo-bar\'');
   });
 });
