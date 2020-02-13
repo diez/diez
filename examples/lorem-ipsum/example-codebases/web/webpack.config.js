@@ -31,7 +31,7 @@ const webpackConfig = {
     }),
     new CopyWebpackPlugin([
       {from: 'public'},
-      {from: 'public/diez', to: 'diez'},
+      {from: '../../design-language/build/diez-lorem-ipsum-web/static', to: 'diez'},
     ]),
     new DiezWebpackPlugin({
       sdk: 'diez-lorem-ipsum',
