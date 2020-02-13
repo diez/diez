@@ -3,9 +3,15 @@ import {compile} from 'handlebars';
 import {isBinarySync} from 'istextorbinary';
 import klaw from 'klaw';
 import nodeFetch from 'node-fetch';
-import {tmpdir} from 'os';
+import {platform, tmpdir} from 'os';
 import {dirname, join, relative} from 'path';
 import {v4} from 'uuid';
+
+/**
+ * Returns true iff we are on the Windows platform.
+ * @ignore
+ */
+export const isWindows = () => platform() === 'win32';
 
 /**
  * Templatizes an entire directory using [handlebars](https://handlebarsjs.com), then outputs the results to the
@@ -25,8 +31,16 @@ export const outputTemplatePackage = async (
       return;
     }
 
+    let compiledRelativeFilename;
+
+    if (isWindows()) {
+      compiledRelativeFilename = compile(relativeFilename.replace(/\\/g, '\\\\'))(tokens);
+    } else {
+      compiledRelativeFilename = compile(relativeFilename)(tokens);
+    }
+
     // Note: even the file and directory names can be tokenized.
-    const outputPath = join(outputRoot, compile(relativeFilename)(tokens));
+    const outputPath = join(outputRoot, compiledRelativeFilename);
     ensureDirSync(dirname(outputPath));
 
     // Preserve symbolic links.
