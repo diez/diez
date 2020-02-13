@@ -183,6 +183,7 @@ describe('quoteInvalidPropertyName', () => {
     expect(quoteInvalidPropertyName('10')).toBe('10');
     expect(quoteInvalidPropertyName('12x')).toBe('\'12x\'');
     expect(quoteInvalidPropertyName('delete')).toBe('\'delete\'');
+    expect(quoteInvalidPropertyName('\u0061')).toBe('a');
     expect(quoteInvalidPropertyName('00MyProperty')).toBe('\'00MyProperty\'');
     expect(quoteInvalidPropertyName('10SpOverline')).toBe('\'10SpOverline\'');
     expect(quoteInvalidPropertyName('foo bar')).toBe('\'foo bar\'');
