@@ -7,6 +7,7 @@ import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import {basename, extname, join, parse, relative} from 'path';
 import {CodeBlockWriter, ObjectLiteralExpression, SourceFile, VariableDeclarationKind, WriterFunctionOrValue, Writers} from 'ts-morph';
 import {AssetFolder, CodegenDesignLanguage, CodegenEntity, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
+import {regexES3ReservedWord, regexIdentifierNameES5, regexIdentifierNameES6, regexNumber, regexZeroWidth} from './regexes';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -38,12 +39,12 @@ export class UniqueNameResolver {
     const lookupKey = `${className}:${propertyName}`;
     if (!this.propertyResolver.has(lookupKey)) {
       this.propertyResolver.set(lookupKey, 0);
-      return propertyName;
+      return quoteInvalidPropertyName(propertyName);
     }
 
     const counter = this.propertyResolver.get(lookupKey)! + 1;
     this.propertyResolver.set(lookupKey, counter);
-    return `${propertyName}${counter}`;
+    return quoteInvalidPropertyName(`${propertyName}${counter}`);
   }
 }
 
@@ -291,14 +292,15 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
     for (const [name, asset] of assetsMap) {
       const assetName = camelCase(name);
       const parsedSrc = parse(asset.src);
+      const sanitizedAssetName = quoteInvalidPropertyName(assetName);
 
-      files[assetName] = `new File({src: "${asset.src}"})`;
+      files[sanitizedAssetName] = `new File({src: "${asset.src}"})`;
       [2, 3, 4].forEach((multiplier) => {
         const baseName = join(parsedSrc.dir, parsedSrc.name);
-        files[`${assetName}${multiplier}x`] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
+        files[quoteInvalidPropertyName(`${assetName}${multiplier}x`)] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
       });
 
-      images[assetName] = `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`;
+      images[sanitizedAssetName] = `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`;
     }
 
     sourceFile.addVariableStatement({
@@ -397,4 +399,63 @@ export const objectToSource = (obj: Record<string, string|number|undefined>) => 
     values.push(`${key}: ${obj[key]}`);
   }
   return `{${values.join(', ')}}`;
+};
+
+/**
+ * Checks if a string is a numeric literal by comparing the value as a string with the value as a number
+ */
+const isNumericLiteral = (value: string) => {
+  const valueAsNumber = Number(value);
+  return regexNumber.test(value) && !isNaN(valueAsNumber);
+};
+
+/**
+ * Returns the actual value of a escaped string sequence.
+ *
+ * @example valueAsUnescapedString('\u0061') => 'a'
+ */
+const valueAsUnescapedString = (value: string): string => {
+  return value.replace(/\\u([a-fA-F0-9]{4})|\\u\{([0-9a-fA-F]{1,})\}/g, ($0, $1, $2) => {
+    const codePoint = parseInt($2 || $1, 16);
+    // If it’s a surrogate…
+    if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
+      // Return a character that is never valid in an identifier.
+      // This prevents the surrogate from pairing with another.
+      return '\0';
+    }
+
+    return String.fromCodePoint(codePoint);
+  });
+};
+
+/**
+ * Checks if a value is an invalid ES5 identifier.
+ */
+const isInvalidEs5Identifier = (identifier: string) => {
+  return !regexIdentifierNameES5.test(
+    // Only Unicode escapes are allowed in ES5 identifiers.
+    identifier.replace(/\\u([a-fA-F0-9]{4})/g, ($0, $1) => String.fromCodePoint(parseInt($1, 16))),
+  );
+};
+
+/**
+ * Returns the provided string surrounded with single quotes if is not a valid JavaScript identifier.
+ *
+ * @example quoteInvalidPropertyName('valid') => 'valid';
+ * @example quoteInvalidPropertyName('00invalid') => '\'00invalid\'';
+ */
+export const quoteInvalidPropertyName = (name: string): string => {
+  let needsQuotes = true;
+
+  const nameAsUnescapedString = valueAsUnescapedString(name);
+  const nameIsIdentifierNameES6 = regexIdentifierNameES6.test(nameAsUnescapedString);
+  const nameIsNumericLiteral = isNumericLiteral(name);
+
+  if (nameIsIdentifierNameES6) {
+    needsQuotes = isInvalidEs5Identifier(name) || regexES3ReservedWord.test(nameAsUnescapedString) || regexZeroWidth.test(nameAsUnescapedString);
+  } else if (nameIsNumericLiteral) {
+    needsQuotes = false;
+  }
+
+  return needsQuotes ? `'${name}'` : name;
 };
