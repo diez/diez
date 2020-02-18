@@ -1,5 +1,5 @@
 import {PropertyOptions, Serializable} from './api';
-import {serialize} from './serialization';
+import {presentProperties, serialize} from './serialization';
 
 /**
  * The abstract Prefab class provides a harness for reusable, instantiable design token prefabs.
@@ -77,6 +77,11 @@ export abstract class Prefab<T extends object> implements Serializable<T> {
    */
   serialize () {
     return serialize(this.sanitize(Object.assign(this.defaults, this.overrides)));
+  }
+
+  toPresentableValue () {
+    const serialized = presentProperties(this.sanitize(Object.assign(this.defaults, this.overrides)));
+    return Object.keys(serialized).map((key) => `${key}: ${serialized[key]}`).join(' | ');
   }
 }
 

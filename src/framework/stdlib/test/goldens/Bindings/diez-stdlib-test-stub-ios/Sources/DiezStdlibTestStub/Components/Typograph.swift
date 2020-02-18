@@ -6,40 +6,51 @@ import CoreGraphics
 @objc(DEZTypograph)
 public final class Typograph: NSObject, Decodable {
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     * SomeFont, 700, normal
+     */
     @objc public internal(set) var font: Font
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var fontSize: CGFloat
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     * hsla(0.17, 1, 0.5, 1)
+     */
     @objc public internal(set) var color: Color
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var iosTextStyle: String
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var shouldScale: Bool
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var lineHeight: CGFloat
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var letterSpacing: CGFloat
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var alignment: String
     /**
-    Typograph data.
-    */
+     * Typograph data.
+     *
+     */
     @objc public internal(set) var decoration: [String]
 
     init(

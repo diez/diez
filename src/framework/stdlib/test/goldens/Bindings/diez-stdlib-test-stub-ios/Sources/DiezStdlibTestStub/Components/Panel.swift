@@ -6,16 +6,25 @@ import CoreGraphics
 @objc(DEZPanel)
 public final class Panel: NSObject, Decodable {
     /**
-    Panel data.
-    */
+     * Panel data.
+     *
+     */
     @objc public internal(set) var cornerRadius: CGFloat
     /**
-    Panel data.
-    */
+     * Panel data.
+     *
+     * color: hsla(0.67, 1, 0.5, 1)
+     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+     * type: Color
+     */
     @objc public internal(set) var background: Fill
     /**
-    Panel data.
-    */
+     * Panel data.
+     *
+     * offset: [2, 3]
+     * radius: 4
+     * color: hsla(0, 1, 0.5, 1)
+     */
     @objc public internal(set) var dropShadow: DropShadow
 
     init(

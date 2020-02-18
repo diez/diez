@@ -6,20 +6,24 @@ import CoreGraphics
 @objc(DEZColor)
 public final class Color: NSObject, Decodable {
     /**
-    Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     @objc public internal(set) var h: CGFloat
     /**
-    Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     @objc public internal(set) var s: CGFloat
     /**
-    Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     @objc public internal(set) var l: CGFloat
     /**
-    Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     @objc public internal(set) var a: CGFloat
 
     init(

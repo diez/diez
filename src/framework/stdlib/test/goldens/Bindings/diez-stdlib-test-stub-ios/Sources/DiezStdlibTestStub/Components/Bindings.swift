@@ -5,32 +5,162 @@ import Foundation
 import UIKit
 @objc(DEZBindings)
 public final class Bindings: NSObject, RootComponent {
+    /**
+     * assets/image with spaces.jpg (246 x 246)
+     */
     @objc public internal(set) var image: Image
+    /**
+     * file: assets/lottie.json
+     * loop: true
+     * autoplay: true
+     */
     @objc public internal(set) var lottie: Lottie
+    /**
+     * font: SomeFont, 700, normal
+     * fontSize: 50
+     * color: hsla(0.17, 1, 0.5, 1)
+     * iosTextStyle: body
+     * shouldScale: false
+     * lineHeight: -1
+     * letterSpacing: 0
+     * alignment: natural
+     * decoration: []
+     */
     @objc public internal(set) var typograph: Typograph
+    /**
+     * font: SomeFont, 700, normal
+     * fontSize: 50
+     * color: hsla(0, 0, 0, 1)
+     * iosTextStyle: body
+     * shouldScale: false
+     * lineHeight: 100
+     * letterSpacing: 10
+     * alignment: natural
+     * decoration: [underline,strikethrough]
+     */
     @objc public internal(set) var tallTypograph: Typograph
+    /**
+     * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
+     */
     @objc public internal(set) var linearGradient: LinearGradient
+    /**
+     * [0.5, 0.5]
+     */
     @objc public internal(set) var point: Point2D
+    /**
+     * (400 x 300)
+     */
     @objc public internal(set) var size: Size2D
+    /**
+     * offset: [1, 2]
+     * radius: 3
+     * color: hsla(0.33, 1, 0.5, 0.5)
+     */
     @objc public internal(set) var shadow: DropShadow
+    /**
+     * color: hsla(0, 1, 0.5, 1)
+     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+     * type: Color
+     */
     @objc public internal(set) var fill: Fill
+    /**
+     * cornerRadius: 5
+     * background: color: hsla(0.67, 1, 0.5, 1)
+     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+     * type: Color
+     * dropShadow: offset: [2, 3]
+     * radius: 4
+     * color: hsla(0, 1, 0.5, 1)
+     * elevation: 6
+     */
     @objc public internal(set) var panel: Panel
+    /**
+     * hsla(0, 0, 0, 1)
+     */
     @objc public internal(set) var color: Color
+    /**
+     * assets/SomeFile.txt
+     */
     @objc public internal(set) var file: File
 
     convenience public override init() {
         self.init(
+            /**
+             * assets/image with spaces.jpg (246 x 246)
+             */
             image: Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), size: Size2D(width: 246, height: 246)),
+            /**
+             * file: assets/lottie.json
+             * loop: true
+             * autoplay: true
+             */
             lottie: Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true),
+            /**
+             * font: SomeFont, 700, normal
+             * fontSize: 50
+             * color: hsla(0.17, 1, 0.5, 1)
+             * iosTextStyle: body
+             * shouldScale: false
+             * lineHeight: -1
+             * letterSpacing: 0
+             * alignment: natural
+             * decoration: []
+             */
             typograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1), iosTextStyle: "body", shouldScale: false, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []),
+            /**
+             * font: SomeFont, 700, normal
+             * fontSize: 50
+             * color: hsla(0, 0, 0, 1)
+             * iosTextStyle: body
+             * shouldScale: false
+             * lineHeight: 100
+             * letterSpacing: 10
+             * alignment: natural
+             * decoration: [underline,strikethrough]
+             */
             tallTypograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0, s: 0, l: 0, a: 1), iosTextStyle: "body", shouldScale: false, lineHeight: 100, letterSpacing: 10, alignment: "natural", decoration: ["underline", "strikethrough"]),
+            /**
+             * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
+             */
             linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 1, l: 0.5, a: 1)), GradientStop(position: 1, color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1))], start: Point2D(x: 0, y: 0.5), end: Point2D(x: 1, y: 0.5)),
+            /**
+             * [0.5, 0.5]
+             */
             point: Point2D(x: 0.5, y: 0.5),
+            /**
+             * (400 x 300)
+             */
             size: Size2D(width: 400, height: 300),
+            /**
+             * offset: [1, 2]
+             * radius: 3
+             * color: hsla(0.33, 1, 0.5, 0.5)
+             */
             shadow: DropShadow(offset: Point2D(x: 1, y: 2), radius: 3, color: Color(h: 0.3333333333333333, s: 1, l: 0.5, a: 0.5)),
+            /**
+             * color: hsla(0, 1, 0.5, 1)
+             * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+             * type: Color
+             */
             fill: Fill(color: Color(h: 0, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"),
+            /**
+             * cornerRadius: 5
+             * background: color: hsla(0.67, 1, 0.5, 1)
+             * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+             * type: Color
+             * dropShadow: offset: [2, 3]
+             * radius: 4
+             * color: hsla(0, 1, 0.5, 1)
+             * elevation: 6
+             */
             panel: Panel(cornerRadius: 5, background: Fill(color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"), dropShadow: DropShadow(offset: Point2D(x: 2, y: 3), radius: 4, color: Color(h: 0, s: 1, l: 0.5, a: 1))),
+            /**
+             * hsla(0, 0, 0, 1)
+             */
             color: Color(h: 0, s: 0, l: 0, a: 1),
+            /**
+             * assets/SomeFile.txt
+             */
             file: File(src: "assets/SomeFile.txt", type: "raw")
         )
     }

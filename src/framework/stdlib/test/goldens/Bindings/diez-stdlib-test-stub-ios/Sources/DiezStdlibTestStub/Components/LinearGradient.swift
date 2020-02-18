@@ -6,16 +6,22 @@ import CoreGraphics
 @objc(DEZLinearGradient)
 public final class LinearGradient: NSObject, Decodable {
     /**
-    LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * hsla(0, 1, 0.5, 1) at 0
+     */
     @objc public internal(set) var stops: [GradientStop]
     /**
-    LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * [0, 0.5]
+     */
     @objc public internal(set) var start: Point2D
     /**
-    LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * [1, 0.5]
+     */
     @objc public internal(set) var end: Point2D
 
     init(

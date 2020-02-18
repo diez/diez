@@ -1,7 +1,8 @@
 import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {noCase} from 'change-case';
-import {readFile} from 'fs-extra';
+import {readFile, readFileSync} from 'fs-extra';
+import {HelperDelegate, registerHelper, registerPartial} from 'handlebars';
 import {dirname, join, resolve} from 'path';
 import {SourceMapConsumer} from 'source-map';
 import {Node, Project, TypeGuards} from 'ts-morph';
@@ -375,4 +376,46 @@ export const showStackTracesFromRuntimeError = async (error: Error) => {
   } catch (internalError) {
     Log.error(error.toString());
   }
+};
+
+/**
+ * Splits a multiline string and gives uniform indentation to all lines.
+ *
+ * @ignore
+ */
+export const indentContentHelper: HelperDelegate = (context, indentation = '  ', data) => {
+  const splitter = typeof data === 'string' ? data : '\n';
+  return context.split(splitter).map((line: string) => `${indentation}${line}`).join('\n');
+};
+
+/**
+ * Checks if a property has comments.
+ *
+ * @ignore
+ */
+export const propertyIsCommentableHelper: HelperDelegate = (context, options) => {
+  if (context.description && context.description.body) {
+    return options.fn(context);
+  }
+
+  if (context.presentation) {
+    if (context.presentation.value) {
+      return options.fn(context);
+    }
+
+    if (context.presentation.properties && context.presentation.properties.length) {
+      return options.fn(context);
+    }
+  }
+
+  return options.inverse(context);
+};
+
+/**
+ * Set up core Handlebars helpers and partials.
+ */
+export const setUpHandlebars = () => {
+  registerPartial('comment', readFileSync(resolve(__dirname, '..', 'views', 'comment.handlebars')).toString());
+  registerHelper('indent', indentContentHelper);
+  registerHelper('ifIsCommentable', propertyIsCommentableHelper);
 };

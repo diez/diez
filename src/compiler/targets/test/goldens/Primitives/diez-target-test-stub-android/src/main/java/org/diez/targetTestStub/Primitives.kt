@@ -1,8 +1,9 @@
 package org.diez.targetTestStub
 
 /**
-  Test object comment
-*/
+ * Test object comment
+ *
+ */
 data class Primitives(
     /**
       Test property comment

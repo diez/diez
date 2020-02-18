@@ -6,20 +6,28 @@ import CoreGraphics
 @objc(DEZImage)
 public final class Image: NSObject, Decodable {
     /**
-    Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces.jpg
+     */
     @objc public internal(set) var file: File
     /**
-    Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces@2x.jpg
+     */
     @objc public internal(set) var file2x: File
     /**
-    Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces@3x.jpg
+     */
     @objc public internal(set) var file3x: File
     /**
-    Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * (246 x 246)
+     */
     @objc public internal(set) var size: Size2D
 
     init(

@@ -4,16 +4,20 @@
 package org.diez.stdlibTestStub
 
 /**
-  Provides a gradient stop.
-*/
+ * Provides a gradient stop.
+ *
+ */
 data class GradientStop(
     /**
-      GradientStop data.
-    */
+     * GradientStop data.
+     *
+     */
     val position: Float,
     /**
-      GradientStop data.
-    */
+     * GradientStop data.
+     *
+     * hsla(0.67, 1, 0.5, 1)
+     */
     val color: Color
 ) {
     companion object {}

@@ -67,4 +67,8 @@ export class Image extends prefab<ImageData>() {
       targets: [Target.Android],
     },
   };
+
+  toPresentableValue () {
+    return `${this.file.src} ${this.size.toPresentableValue()}`;
+  }
 }

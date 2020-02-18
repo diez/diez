@@ -12,20 +12,27 @@ import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
 
 /**
-  Provides a simple rectangular panel description.
-*/
+ * Provides a simple rectangular panel description.
+ *
+ */
 data class Panel(
     /**
-      Panel data.
-    */
+     * Panel data.
+     *
+     */
     val cornerRadius: Float,
     /**
-      Panel data.
-    */
+     * Panel data.
+     *
+     * color: hsla(0.67, 1, 0.5, 1)
+     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+     * type: Color
+     */
     val background: Fill,
     /**
-      Panel data.
-    */
+     * Panel data.
+     *
+     */
     val elevation: Float
 ) {
     companion object {}

@@ -4,20 +4,26 @@
 package org.diez.stdlibTestStub
 
 /**
-  Provides a drop shadow.
-*/
+ * Provides a drop shadow.
+ *
+ */
 data class DropShadow(
     /**
-      DropShadow data.
-    */
+     * DropShadow data.
+     *
+     * [1, 2]
+     */
     val offset: Point2D,
     /**
-      DropShadow data.
-    */
+     * DropShadow data.
+     *
+     */
     val radius: Float,
     /**
-      DropShadow data.
-    */
+     * DropShadow data.
+     *
+     * hsla(0.33, 1, 0.5, 0.5)
+     */
     val color: Color
 ) {
     companion object {}

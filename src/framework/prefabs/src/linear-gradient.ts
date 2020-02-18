@@ -37,6 +37,10 @@ export class GradientStop extends prefab<GradientStopData>() {
   static make (position: number, color: Color) {
     return new GradientStop({position, color});
   }
+
+  toPresentableValue () {
+    return `${this.color.toPresentableValue()} at ${this.position}`;
+  }
 }
 
 /**
@@ -164,5 +168,9 @@ export class LinearGradient extends prefab<LinearGradientData>() {
     }
 
     return data;
+  }
+
+  toPresentableValue () {
+    return `start ${this.start.toPresentableValue()}, end ${this.end.toPresentableValue()}, stops: [${this.stops.map((stop) => stop.toPresentableValue())}]`;
   }
 }

@@ -1,8 +1,4 @@
-{{#if description.body}}
-/**
-{{{description.body}}}
-*/
-{{/if}}
+{{> comment .}}
 class {{{type}}} {
   constructor({
 {{#if fixed}}
@@ -18,20 +14,12 @@ class {{{type}}} {
 {{/if}}
 {{#each properties}}
 {{#unless this.isComponent}}
-  {{#if this.description.body}}
-  /**
-  {{{this.description.body}}}
-  */
-  {{/if}}
+    {{> comment .}}
     this.{{{this.name}}} = {{{this.name}}};
 {{else if this.depth}}
     {{#list this}}{{/list}}
 {{else}}
-    {{#if this.description.body}}
-    /**
-    {{{this.description.body}}}
-    **/
-    {{/if}}
+    {{> comment .}}
     this.{{{this.name}}} = new {{{this.type}}}({{{this.name}}});
 {{/unless}}
 {{/each}}

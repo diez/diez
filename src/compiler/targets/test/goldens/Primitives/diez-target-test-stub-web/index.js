@@ -21,8 +21,9 @@ class EmptyComponent {
 module.exports.EmptyComponent = EmptyComponent;
 
 /**
-Test object comment
-*/
+ * Test object comment
+ *
+ */
 class Primitives {
   constructor({
     number = 10,
@@ -37,9 +38,10 @@ class Primitives {
     childs = [[{diez: 10}]],
     emptyChild = {}
   } = {}) {
-  /**
-  Test property comment
-  */
+    /**
+     * Test property comment
+     *
+     */
     this.number = number;
     this.integer = integer;
     this.float = float;
@@ -48,6 +50,9 @@ class Primitives {
     this.integers = integers;
     this.strings = strings;
     this.emptyList = emptyList;
+    /**
+     * diez: 10
+     */
     this.child = new ChildComponent(child);
     this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));
     this.emptyChild = new EmptyComponent(emptyChild);

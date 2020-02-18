@@ -74,6 +74,10 @@ export class Font extends prefab<FontData>() {
 
     return new this({name, file: new File({src, type: FileType.Font})});
   }
+
+  toPresentableValue () {
+    return `${this.name}, ${this.weight}, ${this.style}`;
+  }
 }
 
 /**

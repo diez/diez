@@ -7,27 +7,32 @@ import android.graphics.Color as CoreColor
 import androidx.core.graphics.ColorUtils
 
 /**
-  A component encapsulating color, including alpha transparency.
-
-You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
-[[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
-*/
+ * A component encapsulating color, including alpha transparency.
+ * 
+ * You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
+ * [[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
+ *
+ */
 data class Color(
     /**
-      Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     val h: Float,
     /**
-      Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     val s: Float,
     /**
-      Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     val l: Float,
     /**
-      Provides simple hue-saturation-lightness-alpha color data.
-    */
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     */
     val a: Float
 ) {
     companion object {}

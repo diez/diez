@@ -8,20 +8,27 @@ import android.graphics.LinearGradient
 import android.graphics.drawable.ShapeDrawable
 
 /**
-  Provides a linear gradient.
-*/
+ * Provides a linear gradient.
+ *
+ */
 data class LinearGradient(
     /**
-      LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * hsla(0, 1, 0.5, 1) at 0
+     */
     val stops: Array<GradientStop>,
     /**
-      LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * [0, 0.5]
+     */
     val start: Point2D,
     /**
-      LinearGradient data.
-    */
+     * LinearGradient data.
+     *
+     * [1, 0.5]
+     */
     val end: Point2D
 ) {
     companion object {}

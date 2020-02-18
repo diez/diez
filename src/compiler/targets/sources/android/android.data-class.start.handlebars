@@ -1,9 +1,5 @@
 {{#if hasProperties}}
-{{#if description.body}}
-/**
-  {{{description.body}}}
-*/
-{{/if}}
+{{> comment .}}
 data class {{{type}}}(
 {{#if fixed}}
 {{#each properties}}
@@ -16,20 +12,12 @@ data class {{{type}}}(
 {{/each}}
 {{else}}
 {{#each properties}}
-  {{#if this.description.body}}
-    /**
-      {{{this.description.body}}}
-    */
-  {{/if}}
+    {{> comment .}}
     val {{{this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{/if}}
 {{else}}
-{{#if description.body}}
-/**
-  {{{description.body}}}
-*/
-{{/if}}
+{{> comment .}}
 data class {{{type}}}(
     val nonce: String = ""
 {{/if}}

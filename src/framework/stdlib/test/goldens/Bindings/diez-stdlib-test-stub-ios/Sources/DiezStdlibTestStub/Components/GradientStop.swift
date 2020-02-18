@@ -6,12 +6,15 @@ import CoreGraphics
 @objc(DEZGradientStop)
 public final class GradientStop: NSObject, Decodable {
     /**
-    GradientStop data.
-    */
+     * GradientStop data.
+     *
+     */
     @objc public internal(set) var position: CGFloat
     /**
-    GradientStop data.
-    */
+     * GradientStop data.
+     *
+     * hsla(0.67, 1, 0.5, 1)
+     */
     @objc public internal(set) var color: Color
 
     init(
