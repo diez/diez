@@ -218,5 +218,6 @@ export declare class Bindings extends RootComponent {
   panel: Panel;
   color: Color;
   file: File;
+  referencedColor: Color;
 }
 

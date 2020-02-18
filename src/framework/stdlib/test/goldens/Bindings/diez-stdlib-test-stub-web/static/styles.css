@@ -37,6 +37,7 @@
   --bindings-shadow-filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
   --bindings-color: hsla(0, 0%, 0%, 1);
   --bindings-file: url("/diez/assets/SomeFile.txt");
+  --bindings-referenced-color: hsla(0, 0%, 6.2745098039215685%, 1);
 }
 
 .bindings-image-background-image {
@@ -118,5 +119,13 @@
 
 .bindings-color-color {
   color: hsla(0, 0%, 0%, 1);
+}
+
+.bindings-referenced-color-background-color {
+  background-color: hsla(0, 0%, 6.2745098039215685%, 1);
+}
+
+.bindings-referenced-color-color {
+  color: hsla(0, 0%, 6.2745098039215685%, 1);
 }
 

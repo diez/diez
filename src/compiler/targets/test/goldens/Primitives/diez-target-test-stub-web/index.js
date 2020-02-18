@@ -36,7 +36,8 @@ class Primitives {
     emptyList = [],
     child = {diez: 10},
     childs = [[{diez: 10}]],
-    emptyChild = {}
+    emptyChild = {},
+    referred = 10
   } = {}) {
     /**
      * Test property comment
@@ -56,6 +57,11 @@ class Primitives {
     this.child = new ChildComponent(child);
     this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));
     this.emptyChild = new EmptyComponent(emptyChild);
+    /**
+     * References too!
+     *
+     */
+    this.referred = referred;
   }
 }
 

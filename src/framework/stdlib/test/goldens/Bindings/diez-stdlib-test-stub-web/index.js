@@ -820,7 +820,8 @@ class Bindings {
     fill = {color: {h: 0, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"},
     panel = {cornerRadius: 5, background: {color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"}, dropShadow: {offset: {x: 2, y: 3}, radius: 4, color: {h: 0, s: 1, l: 0.5, a: 1}}},
     color = {h: 0, s: 0, l: 0, a: 1},
-    file = {src: "assets/SomeFile.txt", type: "raw"}
+    file = {src: "assets/SomeFile.txt", type: "raw"},
+    referencedColor = {h: 0, s: 0, l: 0.06274509803921569, a: 1}
   } = {}) {
     /**
      * assets/image with spaces.jpg (246 x 246)
@@ -899,6 +900,12 @@ class Bindings {
      * assets/SomeFile.txt
      */
     this.file = new File(file);
+    /**
+     * Referenced color value
+     *
+     * References.referencedColor `hsla(0, 0, 0.06, 1)`
+     */
+    this.referencedColor = new Color(referencedColor);
   }
 }
 

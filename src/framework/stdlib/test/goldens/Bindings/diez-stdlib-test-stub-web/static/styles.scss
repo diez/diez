@@ -36,6 +36,7 @@ $bindings-shadow: 1px 2px 3px hsla(120, 100%, 50%, 0.5);
 $bindings-shadow-filter: drop-shadow(1px 2px 1.5px hsla(120, 100%, 50%, 0.5));
 $bindings-color: hsla(0, 0%, 0%, 1);
 $bindings-file: url("/diez/assets/SomeFile.txt");
+$bindings-referenced-color: hsla(0, 0%, 6.2745098039215685%, 1);
 
 @mixin bindings-image-background-image {
   background-image: url("/diez/assets/image with spaces.jpg");
@@ -112,5 +113,13 @@ $bindings-file: url("/diez/assets/SomeFile.txt");
 
 @mixin bindings-color-color {
   color: hsla(0, 0%, 0%, 1);
+}
+
+@mixin bindings-referenced-color-background-color {
+  background-color: hsla(0, 0%, 6.2745098039215685%, 1);
+}
+
+@mixin bindings-referenced-color-color {
+  color: hsla(0, 0%, 6.2745098039215685%, 1);
 }
 

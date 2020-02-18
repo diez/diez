@@ -15,7 +15,11 @@ data class Bindings(
     val fill: Fill = Fill(Color(0f, 1f, 0.5f, 1f), LinearGradient(arrayOf<GradientStop>(GradientStop(0f, Color(0f, 0f, 0f, 1f)), GradientStop(1f, Color(0f, 0f, 1f, 1f))), Point2D(0f, 0f), Point2D(1f, 1f)), "Color"),
     val panel: Panel = Panel(5f, Fill(Color(0.6666666666666666f, 1f, 0.5f, 1f), LinearGradient(arrayOf<GradientStop>(GradientStop(0f, Color(0f, 0f, 0f, 1f)), GradientStop(1f, Color(0f, 0f, 1f, 1f))), Point2D(0f, 0f), Point2D(1f, 1f)), "Color"), 6f),
     val color: Color = Color(0f, 0f, 0f, 1f),
-    val file: File = File("assets/SomeFile.txt", "raw")
+    val file: File = File("assets/SomeFile.txt", "raw"),
+    /**
+      Referenced color value
+    */
+    val referencedColor: Color = Color(0f, 0f, 0.06274509803921569f, 1f)
 ) : RootComponent {
     companion object {}
     override val name = "Bindings"

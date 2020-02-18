@@ -86,4 +86,11 @@ describe('typograph', () => {
       decoration: [],
     });
   });
+
+  describe('Font', () => {
+    it('#toPresentableValue', () => {
+      const font = Font.fromFile('Bloop-MediumItalic.ttf')
+      expect(font.toPresentableValue()).toBe('Bloop-MediumItalic, 400, normal');
+    });
+  });
 });

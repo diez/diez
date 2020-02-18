@@ -23,6 +23,11 @@ public final class Primitives: NSObject, RootComponent {
      */
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent
+    /**
+     * References too!
+     *
+     */
+    @objc public internal(set) var referred: CGFloat
 
     convenience public override init() {
         self.init(
@@ -46,7 +51,12 @@ public final class Primitives: NSObject, RootComponent {
              * diez: 10
              */
             childs: [[ChildComponent(diez: 10)]],
-            emptyChild: EmptyComponent()
+            emptyChild: EmptyComponent(),
+            /**
+             * References too!
+             *
+             */
+            referred: 10
         )
     }
 
@@ -61,7 +71,8 @@ public final class Primitives: NSObject, RootComponent {
         emptyList: [String],
         child: ChildComponent,
         childs: [[ChildComponent]],
-        emptyChild: EmptyComponent
+        emptyChild: EmptyComponent,
+        referred: CGFloat
     ) {
         self.number = number
         self.integer = integer
@@ -74,6 +85,7 @@ public final class Primitives: NSObject, RootComponent {
         self.child = child
         self.childs = childs
         self.emptyChild = emptyChild
+        self.referred = referred
     }
 
     public static let name = "Primitives"

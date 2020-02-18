@@ -18,7 +18,11 @@ data class Primitives(
     val emptyList: Array<String> = arrayOf<String>(),
     val child: ChildComponent = ChildComponent(10f),
     val childs: Array<Array<ChildComponent>> = arrayOf<Array<ChildComponent>>(arrayOf<ChildComponent>(ChildComponent(10f))),
-    val emptyChild: EmptyComponent = EmptyComponent()
+    val emptyChild: EmptyComponent = EmptyComponent(),
+    /**
+      References too!
+    */
+    val referred: Float = 10f
 ) : RootComponent {
     companion object {}
     override val name = "Primitives"

@@ -82,6 +82,12 @@ public final class Bindings: NSObject, RootComponent {
      * assets/SomeFile.txt
      */
     @objc public internal(set) var file: File
+    /**
+     * Referenced color value
+     *
+     * References.referencedColor `hsla(0, 0, 0.06, 1)`
+     */
+    @objc public internal(set) var referencedColor: Color
 
     convenience public override init() {
         self.init(
@@ -161,7 +167,13 @@ public final class Bindings: NSObject, RootComponent {
             /**
              * assets/SomeFile.txt
              */
-            file: File(src: "assets/SomeFile.txt", type: "raw")
+            file: File(src: "assets/SomeFile.txt", type: "raw"),
+            /**
+             * Referenced color value
+             *
+             * References.referencedColor `hsla(0, 0, 0.06, 1)`
+             */
+            referencedColor: Color(h: 0, s: 0, l: 0.06274509803921569, a: 1)
         )
     }
 
@@ -177,7 +189,8 @@ public final class Bindings: NSObject, RootComponent {
         fill: Fill,
         panel: Panel,
         color: Color,
-        file: File
+        file: File,
+        referencedColor: Color
     ) {
         self.image = image
         self.lottie = lottie
@@ -191,6 +204,7 @@ public final class Bindings: NSObject, RootComponent {
         self.panel = panel
         self.color = color
         self.file = file
+        self.referencedColor = referencedColor
     }
 
     public static let name = "Bindings"

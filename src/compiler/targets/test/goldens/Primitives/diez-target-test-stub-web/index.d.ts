@@ -17,5 +17,6 @@ export declare class Primitives extends RootComponent {
   child: ChildComponent;
   childs: ChildComponent[][];
   emptyChild: EmptyComponent;
+  referred: number;
 }
 
