@@ -65,11 +65,40 @@ declare global {
   }
 }
 
+/**
+ * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
+ *
+ */
 export declare class Font {
+  /**
+   * Font data.
+   *
+   * assets/SomeFont.ttf
+   */
   file: File;
+  /**
+   * Font data.
+   *
+   * SomeFont
+   */
   name: string;
+  /**
+   * Font data.
+   *
+   * Verdana
+   */
   fallbacks: string[];
+  /**
+   * Font data.
+   *
+   * 700
+   */
   weight: number;
+  /**
+   * Font data.
+   *
+   * normal
+   */
   style: string;
 }
 
@@ -128,13 +157,46 @@ declare global {
   }
 }
 
+/**
+ * Provides a gradient stop.
+ *
+ */
 export declare class GradientStop {
+  /**
+   * GradientStop data.
+   *
+   * 1
+   */
   position: number;
+  /**
+   * GradientStop data.
+   *
+   * hsla(0.67, 1, 0.5, 1)
+   */
   color: Color;
 }
 
+/**
+ * Provides a two dimensional point.
+ * 
+ * Taken alone, points are designated in an abstract space with no inherit dimensions or directionality. In the
+ * context of other prefabs like [[LinearGradient]], points typically should use the standard two dimensional graphics
+ * space, often normalized in the unit square, where x increases from left to right and y increases from top to bottom.
+ * 
+ * Usage: `point = Point2D.make(0.5, 0.5);`.
+ *
+ */
 export declare class Point2D {
+  /**
+   * Point data.
+   *
+   */
   x: number;
+  /**
+   * Point data.
+   *
+   * 0.5
+   */
   y: number;
 }
 
@@ -188,9 +250,28 @@ export declare class DropShadow {
   filterStyle: {filter: string};
 }
 
+/**
+ * Describes a fill type.
+ *
+ */
 export declare class Fill {
+  /**
+   * Fill data.
+   *
+   * hsla(0, 1, 0.5, 1)
+   */
   color: Color;
+  /**
+   * Fill data.
+   *
+   * start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+   */
   linearGradient: LinearGradient;
+  /**
+   * Fill data.
+   *
+   * Color
+   */
   type: string;
 }
 
@@ -206,18 +287,84 @@ export declare class Panel {
 }
 
 export declare class Bindings extends RootComponent {
+  /**
+   * assets/image with spaces.jpg (246 x 246)
+   */
   image: Image;
+  /**
+   * - file: `assets/lottie.json`
+   * - loop: `true`
+   * - autoplay: `true`
+   */
   lottie: Lottie;
+  /**
+   * - font: `SomeFont, 700, normal`
+   * - fontSize: `50`
+   * - color: `hsla(0.17, 1, 0.5, 1)`
+   * - iosTextStyle: `body`
+   * - shouldScale: `false`
+   * - lineHeight: `-1`
+   * - letterSpacing: `0`
+   * - alignment: `natural`
+   * - decoration: `[]`
+   */
   typograph: Typograph;
+  /**
+   * - font: `SomeFont, 700, normal`
+   * - fontSize: `50`
+   * - color: `hsla(0, 0, 0, 1)`
+   * - iosTextStyle: `body`
+   * - shouldScale: `false`
+   * - lineHeight: `100`
+   * - letterSpacing: `10`
+   * - alignment: `natural`
+   * - decoration: `[underline,strikethrough]`
+   */
   tallTypograph: Typograph;
+  /**
+   * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
+   */
   linearGradient: LinearGradient;
+  /**
+   * [0.5, 0.5]
+   */
   point: Point2D;
+  /**
+   * (400 x 300)
+   */
   size: Size2D;
+  /**
+   * - offset: `[1, 2]`
+   * - radius: `3`
+   * - color: `hsla(0.33, 1, 0.5, 0.5)`
+   */
   shadow: DropShadow;
+  /**
+   * - color: `hsla(0, 1, 0.5, 1)`
+   * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+   * - type: `Color`
+   */
   fill: Fill;
+  /**
+   * - cornerRadius: `5`
+   * - background: ``
+   * - dropShadow: ``
+   * - elevation: `6`
+   */
   panel: Panel;
+  /**
+   * hsla(0, 0, 0, 1)
+   */
   color: Color;
+  /**
+   * assets/SomeFile.txt
+   */
   file: File;
+  /**
+   * Referenced color value
+   *
+   * `References.referencedColor` ( hsla(0, 0, 0.06, 1) )
+   */
   referencedColor: Color;
 }
 
