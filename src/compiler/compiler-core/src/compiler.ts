@@ -194,7 +194,7 @@ export abstract class Compiler<
         this.processComponentProperty(property, child, serializedInstance[index], component),
       )));
 
-      if (processedCollection){
+      if (processedCollection) {
         processedCollection.presentation = this.getPropertyPresentation(property, instance);
       }
 
