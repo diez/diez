@@ -21,7 +21,6 @@ public final class {{{type}}}: NSObject, Decodable {
     convenience {{#if isRootComponent}}public {{/if}}override init() {
         self.init(
             {{#each properties}}
-            {{> comment .}}
             {{this.name}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
             {{/each}}
         )

@@ -17,6 +17,7 @@ data class Font(
     /**
      * Font data.
      *
+     * SomeFont
      */
     val name: String
 ) {

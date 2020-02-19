@@ -20,6 +20,7 @@ public final class Fill: NSObject, Decodable {
     /**
      * Fill data.
      *
+     * Color
      */
     @objc public internal(set) var type: String
 

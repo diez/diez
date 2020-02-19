@@ -23,6 +23,7 @@ data class Fill(
     /**
      * Fill data.
      *
+     * Color
      */
     val type: String
 ) {

@@ -2,6 +2,9 @@ class ChildComponent {
   constructor({
     diez
   }) {
+    /**
+     * 10
+     */
     this.diez = diez;
   }
 }
@@ -42,13 +45,32 @@ class Primitives {
     /**
      * Test property comment
      *
+     * 10
      */
     this.number = number;
+    /**
+     * 10
+     */
     this.integer = integer;
+    /**
+     * 10
+     */
     this.float = float;
+    /**
+     * ten
+     */
     this.string = string;
+    /**
+     * true
+     */
     this.boolean = boolean;
+    /**
+     * 1
+     */
     this.integers = integers;
+    /**
+     * 6
+     */
     this.strings = strings;
     this.emptyList = emptyList;
     /**
@@ -60,6 +82,7 @@ class Primitives {
     /**
      * References too!
      *
+     * `References.myRef` ( 10 )
      */
     this.referred = referred;
   }

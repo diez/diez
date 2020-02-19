@@ -13,6 +13,7 @@ public final class Point2D: NSObject, Decodable {
     /**
      * Point data.
      *
+     * 0.5
      */
     @objc public internal(set) var y: CGFloat
 

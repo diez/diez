@@ -30,6 +30,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * 50
      */
     val fontSize: Float,
     /**
@@ -46,6 +47,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * -1
      */
     val lineHeight: Float,
     /**
@@ -56,6 +58,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * natural
      */
     val alignment: String,
     /**

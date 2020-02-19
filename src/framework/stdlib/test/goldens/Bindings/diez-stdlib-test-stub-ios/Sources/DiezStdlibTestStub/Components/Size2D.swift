@@ -8,11 +8,13 @@ public final class Size2D: NSObject, Decodable {
     /**
      * Size data.
      *
+     * 246
      */
     @objc public internal(set) var width: CGFloat
     /**
      * Size data.
      *
+     * 246
      */
     @objc public internal(set) var height: CGFloat
 

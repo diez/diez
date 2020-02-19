@@ -8,11 +8,13 @@ public final class File: NSObject, Decodable {
     /**
      * File data.
      *
+     * assets/image%20with%20spaces.jpg
      */
     @objc public internal(set) var src: String
     /**
      * File data.
      *
+     * image
      */
     @objc public internal(set) var type: String
 

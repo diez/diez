@@ -14,11 +14,13 @@ public final class Lottie: NSObject, Decodable {
     /**
      * Lottie data.
      *
+     * true
      */
     @objc public internal(set) var loop: Bool
     /**
      * Lottie data.
      *
+     * true
      */
     @objc public internal(set) var autoplay: Bool
 

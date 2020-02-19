@@ -14,6 +14,7 @@ public final class DropShadow: NSObject, Decodable {
     /**
      * DropShadow data.
      *
+     * 3
      */
     @objc public internal(set) var radius: CGFloat
     /**

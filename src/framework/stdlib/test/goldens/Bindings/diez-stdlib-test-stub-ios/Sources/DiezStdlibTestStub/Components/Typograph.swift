@@ -14,6 +14,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * 50
      */
     @objc public internal(set) var fontSize: CGFloat
     /**
@@ -25,6 +26,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * body
      */
     @objc public internal(set) var iosTextStyle: String
     /**
@@ -35,6 +37,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * -1
      */
     @objc public internal(set) var lineHeight: CGFloat
     /**
@@ -45,6 +48,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * natural
      */
     @objc public internal(set) var alignment: String
     /**

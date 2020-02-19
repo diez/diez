@@ -8,6 +8,7 @@ public final class Panel: NSObject, Decodable {
     /**
      * Panel data.
      *
+     * 5
      */
     @objc public internal(set) var cornerRadius: CGFloat
     /**

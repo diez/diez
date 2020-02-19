@@ -3,11 +3,7 @@
 data class {{{type}}}(
 {{#if fixed}}
 {{#each properties}}
-  {{#if this.description.body}}
-    /**
-      {{{this.description.body}}}
-    */
-  {{/if}}
+    {{> comment .}}
     val {{{this.name}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{else}}

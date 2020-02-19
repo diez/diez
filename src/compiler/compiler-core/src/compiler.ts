@@ -1,6 +1,6 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
-import {isPresentable, presentProperties, serialize} from '@diez/engine';
+import {isPresentable, presentProperties, presentProperty, serialize} from '@diez/engine';
 import {watch} from 'chokidar';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';
@@ -149,7 +149,29 @@ export abstract class Compiler<
       ...property,
       initializer,
       type: name,
+      presentation: this.getPropertyPresentation(property, instance),
     };
+  }
+
+  protected getPropertyPresentation (property: Property, instance: any): TargetPropertyPresentation {
+    const presentation: TargetPropertyPresentation = {
+      value: presentProperty(instance),
+      reference: '',
+      properties: presentProperties({...instance.defaults, ...instance.overrides}),
+    };
+
+    for (const reference of property.references) {
+      const parent = reference.parentType;
+
+      if (!reference.path.length) {
+        presentation.reference = `${parent}.${reference.name}`;
+        continue;
+      }
+
+      // TODO: add support for nested references.
+    }
+
+    return presentation;
   }
 
   /**
@@ -189,27 +211,8 @@ export abstract class Compiler<
         }
       }
 
-      const presentation: TargetPropertyPresentation = {
-        value: isPresentable(instance) ? instance.toPresentableValue() : '',
-        reference: '',
-        properties: presentProperties({...instance.defaults, ...instance.overrides}),
-      };
-
-      if (isPresentable(instance)) {
-        for (const reference of property.references) {
-          const parent = reference.parentType;
-
-          if (!reference.path.length) {
-            presentation.reference = `${parent}.${reference.name}`;
-            continue;
-          }
-
-          // TODO: add support for nested references.
-        }
-      }
-
       return Object.assign({originalType: property.type}, property, {
-        presentation,
+        presentation: this.getPropertyPresentation(property, instance),
         initializer: this.getInitializer(targetComponent),
       });
     }

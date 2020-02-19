@@ -5,13 +5,32 @@ public final class Primitives: NSObject, RootComponent {
     /**
      * Test property comment
      *
+     * 10
      */
     @objc public internal(set) var number: CGFloat
+    /**
+     * 10
+     */
     @objc public internal(set) var integer: Int
+    /**
+     * 10
+     */
     @objc public internal(set) var float: CGFloat
+    /**
+     * ten
+     */
     @objc public internal(set) var string: String
+    /**
+     * true
+     */
     @objc public internal(set) var boolean: Bool
+    /**
+     * 1
+     */
     @objc public internal(set) var integers: [[CGFloat]]
+    /**
+     * 6
+     */
     @objc public internal(set) var strings: [[[String]]]
     @objc public internal(set) var emptyList: [String]
     /**
@@ -26,15 +45,12 @@ public final class Primitives: NSObject, RootComponent {
     /**
      * References too!
      *
+     * `References.myRef` ( 10 )
      */
     @objc public internal(set) var referred: CGFloat
 
     convenience public override init() {
         self.init(
-            /**
-             * Test property comment
-             *
-             */
             number: 10,
             integer: 10,
             float: 10,
@@ -43,19 +59,9 @@ public final class Primitives: NSObject, RootComponent {
             integers: [[1, 2], [3, 4], [5]],
             strings: [[["6"], ["7"]], [["8"], ["9"]], [["10"]]],
             emptyList: [],
-            /**
-             * diez: 10
-             */
             child: ChildComponent(diez: 10),
-            /**
-             * diez: 10
-             */
             childs: [[ChildComponent(diez: 10)]],
             emptyChild: EmptyComponent(),
-            /**
-             * References too!
-             *
-             */
             referred: 10
         )
     }

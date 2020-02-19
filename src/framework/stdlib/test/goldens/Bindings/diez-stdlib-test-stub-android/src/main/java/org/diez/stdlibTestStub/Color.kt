@@ -17,21 +17,25 @@ data class Color(
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 0.16666666666666666
      */
     val h: Float,
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 1
      */
     val s: Float,
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 0.5
      */
     val l: Float,
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 1
      */
     val a: Float
 ) {

@@ -36,7 +36,7 @@ export const serialize = <T>(value: T): any => {
   return serialized;
 };
 
-const presentProperty = <T>(value: T): any => {
+export const presentProperty = <T>(value: T): any => {
   if (isPresentable(value)) {
     // Important! We must recursively serialize any subcomponents below.
     return presentProperty(value.toPresentableValue());

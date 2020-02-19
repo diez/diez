@@ -25,11 +25,13 @@ data class Lottie(
     /**
      * Lottie data.
      *
+     * true
      */
     val loop: Boolean,
     /**
      * Lottie data.
      *
+     * true
      */
     val autoplay: Boolean
 ) {

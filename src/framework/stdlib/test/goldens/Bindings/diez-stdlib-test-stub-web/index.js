@@ -94,11 +94,13 @@ class File {
     /**
      * File data.
      *
+     * assets/image%20with%20spaces.jpg
      */
     this.src = src;
     /**
      * File data.
      *
+     * image
      */
     this.type = type;
   }
@@ -129,11 +131,13 @@ class Size2D {
     /**
      * Size data.
      *
+     * 246
      */
     this.width = width;
     /**
      * Size data.
      *
+     * 246
      */
     this.height = height;
   }
@@ -247,11 +251,13 @@ class Lottie {
     /**
      * Lottie data.
      *
+     * true
      */
     this.loop = loop;
     /**
      * Lottie data.
      *
+     * true
      */
     this.autoplay = autoplay;
   }
@@ -306,21 +312,25 @@ class Font {
     /**
      * Font data.
      *
+     * SomeFont
      */
     this.name = name;
     /**
      * Font data.
      *
+     * Verdana
      */
     this.fallbacks = fallbacks;
     /**
      * Font data.
      *
+     * 700
      */
     this.weight = weight;
     /**
      * Font data.
      *
+     * normal
      */
     this.style = style;
   }
@@ -346,21 +356,25 @@ class Color {
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 0.16666666666666666
      */
     this.h = h;
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 1
      */
     this.s = s;
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 0.5
      */
     this.l = l;
     /**
      * Provides simple hue-saturation-lightness-alpha color data.
      *
+     * 1
      */
     this.a = a;
   }
@@ -431,6 +445,7 @@ class Typograph {
     /**
      * Typograph data.
      *
+     * 50
      */
     this.fontSize = fontSize;
     /**
@@ -442,6 +457,7 @@ class Typograph {
     /**
      * Typograph data.
      *
+     * -1
      */
     this.lineHeight = lineHeight;
     /**
@@ -452,6 +468,7 @@ class Typograph {
     /**
      * Typograph data.
      *
+     * natural
      */
     this.alignment = alignment;
     /**
@@ -551,6 +568,7 @@ class GradientStop {
     /**
      * GradientStop data.
      *
+     * 1
      */
     this.position = position;
     /**
@@ -588,6 +606,7 @@ class Point2D {
     /**
      * Point data.
      *
+     * 0.5
      */
     this.y = y;
   }
@@ -668,6 +687,7 @@ class DropShadow {
     /**
      * DropShadow data.
      *
+     * 3
      */
     this.radius = radius;
     /**
@@ -748,6 +768,7 @@ class Fill {
     /**
      * Fill data.
      *
+     * Color
      */
     this.type = type;
   }
@@ -769,6 +790,7 @@ class Panel {
     /**
      * Panel data.
      *
+     * 5
      */
     this.cornerRadius = cornerRadius;
     /**
@@ -903,7 +925,7 @@ class Bindings {
     /**
      * Referenced color value
      *
-     * References.referencedColor `hsla(0, 0, 0.06, 1)`
+     * `References.referencedColor` ( hsla(0, 0, 0.06, 1) )
      */
     this.referencedColor = new Color(referencedColor);
   }

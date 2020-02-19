@@ -385,7 +385,7 @@ export const showStackTracesFromRuntimeError = async (error: Error) => {
  */
 export const indentContentHelper: HelperDelegate = (context, indentation = '  ', data) => {
   const splitter = typeof data === 'string' ? data : '\n';
-  return context.split(splitter).map((line: string) => `${indentation}${line}`).join('\n');
+  return String(context).split(splitter).map((line: string) => `${indentation}${line}`).join('\n');
 };
 
 /**

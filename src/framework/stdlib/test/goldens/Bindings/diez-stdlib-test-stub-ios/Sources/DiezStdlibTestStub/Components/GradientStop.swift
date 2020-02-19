@@ -8,6 +8,7 @@ public final class GradientStop: NSObject, Decodable {
     /**
      * GradientStop data.
      *
+     * 1
      */
     @objc public internal(set) var position: CGFloat
     /**

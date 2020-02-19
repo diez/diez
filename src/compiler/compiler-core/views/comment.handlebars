@@ -6,13 +6,13 @@
 {{/with}}
 {{#if presentation.value}}
   {{#if presentation.reference}}
- * {{{presentation.reference}}} `{{~{presentation.value}}}`
+ * `{{{presentation.reference}}}` ( {{{presentation.value}}} )
   {{else}}
  {{~{indent presentation.value ' * ' ' | '}}}
   {{/if}}
 {{else}}
   {{#if presentation.reference}}
- * {{{presentation.reference }}}
+ * `{{{presentation.reference }}}`
   {{/if}}
   {{#each presentation.properties}}
  * - {{@key}}: `{{{.}}}`

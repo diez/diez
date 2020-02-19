@@ -13,11 +13,13 @@ data class Size2D(
     /**
      * Size data.
      *
+     * 246
      */
     val width: Float,
     /**
      * Size data.
      *
+     * 246
      */
     val height: Float
 ) {

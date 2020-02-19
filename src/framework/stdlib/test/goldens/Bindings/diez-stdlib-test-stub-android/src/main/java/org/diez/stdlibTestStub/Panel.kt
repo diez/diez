@@ -19,6 +19,7 @@ data class Panel(
     /**
      * Panel data.
      *
+     * 5
      */
     val cornerRadius: Float,
     /**
@@ -32,6 +33,7 @@ data class Panel(
     /**
      * Panel data.
      *
+     * 6
      */
     val elevation: Float
 ) {

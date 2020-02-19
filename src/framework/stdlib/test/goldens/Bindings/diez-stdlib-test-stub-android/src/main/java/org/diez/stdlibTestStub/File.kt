@@ -19,11 +19,13 @@ data class File(
     /**
      * File data.
      *
+     * assets/image%20with%20spaces.jpg
      */
     val src: String,
     /**
      * File data.
      *
+     * image
      */
     val type: String
 ) {

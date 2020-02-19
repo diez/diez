@@ -14,6 +14,7 @@ public final class Font: NSObject, Decodable {
     /**
      * Font data.
      *
+     * SomeFont
      */
     @objc public internal(set) var name: String
 
