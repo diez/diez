@@ -1,5 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
-import {Target, Serializable, Presentable} from '@diez/engine';
+import {Target, Serializable} from '@diez/engine';
 import {
   mockCliCoreFactory,
   mockLogCode,
@@ -60,6 +60,7 @@ jest.doMock('source-map', () => {
 });
 
 import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets, showStackTracesFromRuntimeError, indentContentHelper, propertyIsCommentableHelper, setUpHandlebars, presentProperties} from '../src/utils';
+import {Presentable} from '../src/api';
 
 beforeEach(() => {
   mockLogError.mockReset();
