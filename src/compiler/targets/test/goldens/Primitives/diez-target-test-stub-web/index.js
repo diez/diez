@@ -2,6 +2,9 @@ class ChildComponent {
   constructor({
     diez
   }) {
+    /**
+     * 10
+     */
     this.diez = diez;
   }
 }
@@ -21,8 +24,9 @@ class EmptyComponent {
 module.exports.EmptyComponent = EmptyComponent;
 
 /**
-Test object comment
-*/
+ * Test object comment
+ *
+ */
 class Primitives {
   constructor({
     number = 10,
@@ -35,22 +39,55 @@ class Primitives {
     emptyList = [],
     child = {diez: 10},
     childs = [[{diez: 10}]],
-    emptyChild = {}
+    emptyChild = {},
+    referred = 10
   } = {}) {
-  /**
-  Test property comment
-  */
+    /**
+     * Test property comment
+     *
+     * 10
+     */
     this.number = number;
+    /**
+     * 10
+     */
     this.integer = integer;
+    /**
+     * 10
+     */
     this.float = float;
+    /**
+     * ten
+     */
     this.string = string;
+    /**
+     * true
+     */
     this.boolean = boolean;
+    /**
+     * [[1,2],[3,4],[5]]
+     */
     this.integers = integers;
+    /**
+     * [[[6],[7]],[[8],[9]],[[10]]]
+     */
     this.strings = strings;
+    /**
+     * []
+     */
     this.emptyList = emptyList;
+    /**
+     * - diez: `10`
+     */
     this.child = new ChildComponent(child);
     this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));
     this.emptyChild = new EmptyComponent(emptyChild);
+    /**
+     * References too!
+     *
+     * `References.myRef` ( 10 )
+     */
+    this.referred = referred;
   }
 }
 

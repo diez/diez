@@ -6,16 +6,22 @@ import CoreGraphics
 @objc(DEZDropShadow)
 public final class DropShadow: NSObject, Decodable {
     /**
-    DropShadow data.
-    */
+     * DropShadow data.
+     *
+     * [1, 2]
+     */
     @objc public internal(set) var offset: Point2D
     /**
-    DropShadow data.
-    */
+     * DropShadow data.
+     *
+     * 3
+     */
     @objc public internal(set) var radius: CGFloat
     /**
-    DropShadow data.
-    */
+     * DropShadow data.
+     *
+     * hsla(0.33, 1, 0.5, 0.5)
+     */
     @objc public internal(set) var color: Color
 
     init(

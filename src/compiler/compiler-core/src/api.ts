@@ -33,6 +33,15 @@ export interface PropertyDescription {
 }
 
 /**
+ * An user-friendly description of a property, for presentation purposes.
+ */
+export interface TargetPropertyPresentation {
+  value: string;
+  reference: string;
+  properties: Record<string, string>;
+}
+
+/**
  * Provides an arbitrarily nested array type, i.e. `T[] | T[][] | T[][] | ...`.
  *
  * @typeparam T - The type of the nested array. Must be a type supported by the Diez compiler; that is, either a
@@ -325,6 +334,10 @@ export interface TargetProperty extends Property {
    * for specifying array/list types correctly or declaring primitives.
    */
   originalType?: DiezType;
+  /**
+   * An user-friendly description this property, used for presentation purposes.
+   */
+  presentation?: TargetPropertyPresentation;
 }
 
 /**
@@ -453,3 +466,10 @@ export type AssemblerFactory<T extends TargetOutput> = (output: T) => Assembler<
  * An acceptable type for transpilation purposes is either a class declaration or a singleton object literal expression.
  */
 export type AcceptableType = ClassDeclaration | ObjectLiteralExpression;
+
+/**
+ * An interface for providing user-friendly values.
+ */
+export interface Presentable<T> {
+  toPresentableValue (): T;
+}

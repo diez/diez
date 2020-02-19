@@ -4,18 +4,23 @@
 package org.diez.stdlibTestStub
 
 /**
-  Provides a two dimensional size.
-
-Usage: `size = Size2D.make(1920, 1080);`.
-*/
+ * Provides a two dimensional size.
+ * 
+ * Usage: `size = Size2D.make(1920, 1080);`.
+ *
+ */
 data class Size2D(
     /**
-      Size data.
-    */
+     * Size data.
+     *
+     * 246
+     */
     val width: Float,
     /**
-      Size data.
-    */
+     * Size data.
+     *
+     * 246
+     */
     val height: Float
 ) {
     companion object {}

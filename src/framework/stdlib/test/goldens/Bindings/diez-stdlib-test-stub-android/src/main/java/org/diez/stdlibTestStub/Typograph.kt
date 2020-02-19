@@ -16,41 +16,58 @@ import android.view.View
 import android.graphics.Paint
 
 /**
-  Describes a typograph including specification of a font name (understood to specify both a font face and a font
-weight) as well as a font size in device-local units and a font color.
-*/
+ * Describes a typograph including specification of a font name (understood to specify both a font face and a font
+ * weight) as well as a font size in device-local units and a font color.
+ *
+ */
 data class Typograph(
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * SomeFont, 700, normal
+     */
     val font: Font,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * 50
+     */
     val fontSize: Float,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * hsla(0.17, 1, 0.5, 1)
+     */
     val color: Color,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * false
+     */
     val shouldScale: Boolean,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * -1
+     */
     val lineHeight: Float,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * 0
+     */
     val letterSpacing: Float,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * natural
+     */
     val alignment: String,
     /**
-      Typograph data.
-    */
+     * Typograph data.
+     *
+     * []
+     */
     val decoration: Array<String>
 ) {
     companion object {}

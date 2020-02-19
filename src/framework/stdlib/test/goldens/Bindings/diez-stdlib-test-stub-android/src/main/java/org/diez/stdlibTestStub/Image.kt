@@ -19,31 +19,42 @@ import android.widget.TextView
 import kotlin.math.roundToInt
 
 /**
-  Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
-accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
-file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
-image is expected to exist and provide an image with the specified dimensions.
-*/
+ * Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
+ * accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
+ * file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
+ * image is expected to exist and provide an image with the specified dimensions.
+ *
+ */
 data class Image(
     /**
-      Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces.jpg
+     */
     val file: File,
     /**
-      Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces@2x.jpg
+     */
     val file2x: File,
     /**
-      Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces@3x.jpg
+     */
     val file3x: File,
     /**
-      Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * assets/image with spaces@4x.jpg
+     */
     val file4x: File,
     /**
-      Responsive image data.
-    */
+     * Responsive image data.
+     *
+     * (246 x 246)
+     */
     val size: Size2D
 ) {
     companion object {}

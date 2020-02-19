@@ -5,18 +5,85 @@ import Foundation
 import UIKit
 @objc(DEZBindings)
 public final class Bindings: NSObject, RootComponent {
+    /**
+     * assets/image with spaces.jpg (246 x 246)
+     */
     @objc public internal(set) var image: Image
+    /**
+     * - file: `assets/lottie.json`
+     * - loop: `true`
+     * - autoplay: `true`
+     */
     @objc public internal(set) var lottie: Lottie
+    /**
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0.17, 1, 0.5, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
+     */
     @objc public internal(set) var typograph: Typograph
+    /**
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0, 0, 0, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `100`
+     * - letterSpacing: `10`
+     * - alignment: `natural`
+     * - decoration: `[underline,strikethrough]`
+     */
     @objc public internal(set) var tallTypograph: Typograph
+    /**
+     * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
+     */
     @objc public internal(set) var linearGradient: LinearGradient
+    /**
+     * [0.5, 0.5]
+     */
     @objc public internal(set) var point: Point2D
+    /**
+     * (400 x 300)
+     */
     @objc public internal(set) var size: Size2D
+    /**
+     * - offset: `[1, 2]`
+     * - radius: `3`
+     * - color: `hsla(0.33, 1, 0.5, 0.5)`
+     */
     @objc public internal(set) var shadow: DropShadow
+    /**
+     * - color: `hsla(0, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
+     */
     @objc public internal(set) var fill: Fill
+    /**
+     * - cornerRadius: `5`
+     * - background: ``
+     * - dropShadow: ``
+     * - elevation: `6`
+     */
     @objc public internal(set) var panel: Panel
+    /**
+     * hsla(0, 0, 0, 1)
+     */
     @objc public internal(set) var color: Color
+    /**
+     * assets/SomeFile.txt
+     */
     @objc public internal(set) var file: File
+    /**
+     * Referenced color value
+     *
+     * `References.referencedColor` ( hsla(0, 0, 0.06, 1) )
+     */
+    @objc public internal(set) var referencedColor: Color
 
     convenience public override init() {
         self.init(
@@ -31,7 +98,8 @@ public final class Bindings: NSObject, RootComponent {
             fill: Fill(color: Color(h: 0, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"),
             panel: Panel(cornerRadius: 5, background: Fill(color: Color(h: 0.6666666666666666, s: 1, l: 0.5, a: 1), linearGradient: LinearGradient(stops: [GradientStop(position: 0, color: Color(h: 0, s: 0, l: 0, a: 1)), GradientStop(position: 1, color: Color(h: 0, s: 0, l: 1, a: 1))], start: Point2D(x: 0, y: 0), end: Point2D(x: 1, y: 1)), type: "Color"), dropShadow: DropShadow(offset: Point2D(x: 2, y: 3), radius: 4, color: Color(h: 0, s: 1, l: 0.5, a: 1))),
             color: Color(h: 0, s: 0, l: 0, a: 1),
-            file: File(src: "assets/SomeFile.txt", type: "raw")
+            file: File(src: "assets/SomeFile.txt", type: "raw"),
+            referencedColor: Color(h: 0, s: 0, l: 0.06274509803921569, a: 1)
         )
     }
 
@@ -47,7 +115,8 @@ public final class Bindings: NSObject, RootComponent {
         fill: Fill,
         panel: Panel,
         color: Color,
-        file: File
+        file: File,
+        referencedColor: Color
     ) {
         self.image = image
         self.lottie = lottie
@@ -61,6 +130,7 @@ public final class Bindings: NSObject, RootComponent {
         self.panel = panel
         self.color = color
         self.file = file
+        self.referencedColor = referencedColor
     }
 
     public static let name = "Bindings"

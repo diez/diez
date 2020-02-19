@@ -6,12 +6,16 @@ import CoreGraphics
 @objc(DEZFont)
 public final class Font: NSObject, Decodable {
     /**
-    Font data.
-    */
+     * Font data.
+     *
+     * assets/SomeFont.ttf
+     */
     @objc public internal(set) var file: File
     /**
-    Font data.
-    */
+     * Font data.
+     *
+     * SomeFont
+     */
     @objc public internal(set) var name: String
 
     init(

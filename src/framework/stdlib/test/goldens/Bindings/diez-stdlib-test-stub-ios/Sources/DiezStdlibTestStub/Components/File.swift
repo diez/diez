@@ -6,12 +6,16 @@ import CoreGraphics
 @objc(DEZFile)
 public final class File: NSObject, Decodable {
     /**
-    File data.
-    */
+     * File data.
+     *
+     * assets/image%20with%20spaces.jpg
+     */
     @objc public internal(set) var src: String
     /**
-    File data.
-    */
+     * File data.
+     *
+     * image
+     */
     @objc public internal(set) var type: String
 
     init(

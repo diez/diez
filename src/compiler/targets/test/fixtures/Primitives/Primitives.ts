@@ -12,6 +12,10 @@ class ChildComponent extends prefab<ChildComponentData>() {
 
 class EmptyComponent {}
 
+const references = {
+  myRef: 10,
+}
+
 /**
  * Test object comment
  */
@@ -37,4 +41,9 @@ export const primitives = {
   childs: [[new ChildComponent({diez: 10})]],
 
   emptyChild: new EmptyComponent(),
+
+  /**
+   * References too!
+   */
+  referred: references.myRef,
 };

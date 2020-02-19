@@ -12,4 +12,9 @@ describe('image', () => {
       size: Size2D.make(640, 480).serialize(),
     });
   });
+
+  test('#toPresentableValue', () => {
+    const image = Image.responsive('path/to/image.png', 640, 480);
+    expect(image.toPresentableValue()).toBe(`path/to/image.png (640 x 480)`);
+  });
 });

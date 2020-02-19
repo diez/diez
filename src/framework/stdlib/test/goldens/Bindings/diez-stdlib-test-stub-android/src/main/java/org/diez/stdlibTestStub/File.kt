@@ -7,21 +7,26 @@ import android.net.Uri
 import java.net.URL
 
 /**
-  Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
-and more. This component is used internally by [[Image]] and [[Font]].
-
-The compiler may enforce certain restrictions on the `type` of a `File` instance.
-
-Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
-*/
+ * Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
+ * and more. This component is used internally by [[Image]] and [[Font]].
+ * 
+ * The compiler may enforce certain restrictions on the `type` of a `File` instance.
+ * 
+ * Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
+ *
+ */
 data class File(
     /**
-      File data.
-    */
+     * File data.
+     *
+     * assets/image%20with%20spaces.jpg
+     */
     val src: String,
     /**
-      File data.
-    */
+     * File data.
+     *
+     * image
+     */
     val type: String
 ) {
     companion object {}
