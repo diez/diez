@@ -42,6 +42,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * false
      */
     val shouldScale: Boolean,
     /**
@@ -53,6 +54,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * 0
      */
     val letterSpacing: Float,
     /**

@@ -463,6 +463,7 @@ class Typograph {
     /**
      * Typograph data.
      *
+     * 0
      */
     this.letterSpacing = letterSpacing;
     /**
@@ -601,6 +602,7 @@ class Point2D {
     /**
      * Point data.
      *
+     * 0
      */
     this.x = x;
     /**

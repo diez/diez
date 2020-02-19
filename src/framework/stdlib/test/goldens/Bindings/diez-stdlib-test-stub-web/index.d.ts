@@ -190,6 +190,7 @@ export declare class Point2D {
   /**
    * Point data.
    *
+   * 0
    */
   x: number;
   /**

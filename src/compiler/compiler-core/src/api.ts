@@ -466,3 +466,10 @@ export type AssemblerFactory<T extends TargetOutput> = (output: T) => Assembler<
  * An acceptable type for transpilation purposes is either a class declaration or a singleton object literal expression.
  */
 export type AcceptableType = ClassDeclaration | ObjectLiteralExpression;
+
+/**
+ * An interface for providing user-friendly values.
+ */
+export interface Presentable<T> {
+  toPresentableValue (): T;
+}

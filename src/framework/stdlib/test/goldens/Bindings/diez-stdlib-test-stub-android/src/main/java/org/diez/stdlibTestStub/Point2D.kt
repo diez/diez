@@ -17,6 +17,7 @@ data class Point2D(
     /**
      * Point data.
      *
+     * 0
      */
     val x: Float,
     /**

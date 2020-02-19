@@ -32,6 +32,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * false
      */
     @objc public internal(set) var shouldScale: Bool
     /**
@@ -43,6 +44,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * 0
      */
     @objc public internal(set) var letterSpacing: CGFloat
     /**

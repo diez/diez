@@ -1,12 +1,12 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
-import {presentProperties, presentProperty, serialize} from '@diez/engine';
+import {serialize} from '@diez/engine';
 import {watch} from 'chokidar';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';
 import {CompilerEvent, DiezComponent, DiezType, MaybeNestedArray, Parser, Property, TargetBinding, TargetDiezComponent, TargetOutput, TargetProperty, TargetPropertyPresentation} from './api';
 import {serveHot} from './server';
-import {ExistingHotUrlMutexError, getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, purgeRequireCache, setUpHandlebars, showStackTracesFromRuntimeError} from './utils';
+import {ExistingHotUrlMutexError, getBinding, getHotPort, inferProjectName, isConstructible, loadComponentModule, presentProperties, presentProperty, purgeRequireCache, setUpHandlebars, showStackTracesFromRuntimeError} from './utils';
 
 /**
  * An abstract class wrapping the basic functions of a compiler.

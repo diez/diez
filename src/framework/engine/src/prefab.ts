@@ -1,5 +1,5 @@
 import {PropertyOptions, Serializable} from './api';
-import {presentProperties, serialize} from './serialization';
+import {serialize} from './serialization';
 
 /**
  * The abstract Prefab class provides a harness for reusable, instantiable design token prefabs.

@@ -7,13 +7,6 @@ export interface Serializable<T> {
 }
 
 /**
- * An interface for providing user-friendly values.
- */
-export interface Presentable<T> {
-  toPresentableValue (): T;
-}
-
-/**
  * A patcher takes any serializable payload and patches it up to its controller.
  */
 export type Patcher = (payload: any) => void;

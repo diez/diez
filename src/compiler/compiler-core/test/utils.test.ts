@@ -1,5 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
-import {Target} from '@diez/engine';
+import {Target, Serializable, Presentable} from '@diez/engine';
 import {
   mockCliCoreFactory,
   mockLogCode,
@@ -59,7 +59,7 @@ jest.doMock('source-map', () => {
   };
 });
 
-import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets, showStackTracesFromRuntimeError, indentContentHelper, propertyIsCommentableHelper, setUpHandlebars} from '../src/utils';
+import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets, showStackTracesFromRuntimeError, indentContentHelper, propertyIsCommentableHelper, setUpHandlebars, presentProperties} from '../src/utils';
 
 beforeEach(() => {
   mockLogError.mockReset();
@@ -206,4 +206,36 @@ at Module._compile (internal/modules/cjs/loader.js:778:30)
       });
     });
   });
+
+  describe('#presentProperties', () => {
+    test('payload', () => {
+
+      class FooString implements Serializable<string> {
+        constructor (private readonly input: string) {}
+
+        serialize () {
+          return `foo${this.input}`;
+        }
+      }
+
+      class BarString extends FooString implements Presentable<string> {
+        toPresentableValue () {
+          return 'presented bar'
+        }
+      }
+
+      const values = {
+        justbar: 'bar',
+        foo: [new FooString('foo')],
+        bar: new BarString('bar'),
+      };
+
+      expect(presentProperties(values)).toEqual({
+        justbar: 'bar',
+        foo: '[]',
+        bar: 'presented bar'
+      });
+    });
+  });
+
 });
