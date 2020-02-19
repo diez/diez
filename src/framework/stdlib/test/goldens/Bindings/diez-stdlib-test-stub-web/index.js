@@ -318,7 +318,7 @@ class Font {
     /**
      * Font data.
      *
-     * Verdana
+     * [Verdana,serif]
      */
     this.fallbacks = fallbacks;
     /**
@@ -475,6 +475,7 @@ class Typograph {
     /**
      * Typograph data.
      *
+     * []
      */
     this.decoration = decoration;
   }

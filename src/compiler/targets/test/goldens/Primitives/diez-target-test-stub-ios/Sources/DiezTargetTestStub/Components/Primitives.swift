@@ -25,20 +25,23 @@ public final class Primitives: NSObject, RootComponent {
      */
     @objc public internal(set) var boolean: Bool
     /**
-     * 1
+     * [[1,2],[3,4],[5]]
      */
     @objc public internal(set) var integers: [[CGFloat]]
     /**
-     * 6
+     * [[[6],[7]],[[8],[9]],[[10]]]
      */
     @objc public internal(set) var strings: [[[String]]]
+    /**
+     * []
+     */
     @objc public internal(set) var emptyList: [String]
     /**
      * - diez: `10`
      */
     @objc public internal(set) var child: ChildComponent
     /**
-     * - diez: `10`
+     * [[]]
      */
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent

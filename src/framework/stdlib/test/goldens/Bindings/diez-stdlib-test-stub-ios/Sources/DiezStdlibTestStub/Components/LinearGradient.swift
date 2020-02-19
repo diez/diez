@@ -8,7 +8,7 @@ public final class LinearGradient: NSObject, Decodable {
     /**
      * LinearGradient data.
      *
-     * hsla(0, 1, 0.5, 1) at 0
+     * [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
      */
     @objc public internal(set) var stops: [GradientStop]
     /**

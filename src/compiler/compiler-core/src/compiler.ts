@@ -190,9 +190,15 @@ export abstract class Compiler<
         return;
       }
 
-      return this.collectComponentProperties(property, await Promise.all(instance.map(async (child, index) =>
+      const processedCollection = this.collectComponentProperties(property, await Promise.all(instance.map(async (child, index) =>
         this.processComponentProperty(property, child, serializedInstance[index], component),
       )));
+
+      if (processedCollection){
+        processedCollection.presentation = this.getPropertyPresentation(property, instance);
+      }
+
+      return processedCollection;
     }
 
     if (property.isComponent) {

@@ -66,6 +66,7 @@ data class Typograph(
     /**
      * Typograph data.
      *
+     * []
      */
     val decoration: Array<String>
 ) {

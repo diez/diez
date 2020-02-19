@@ -85,7 +85,7 @@ export declare class Font {
   /**
    * Font data.
    *
-   * Verdana
+   * [Verdana,serif]
    */
   fallbacks: string[];
   /**

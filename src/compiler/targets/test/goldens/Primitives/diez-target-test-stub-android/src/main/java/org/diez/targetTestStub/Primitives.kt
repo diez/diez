@@ -28,20 +28,23 @@ data class Primitives(
      */
     val boolean: Boolean = true,
     /**
-     * 1
+     * [[1,2],[3,4],[5]]
      */
     val integers: Array<Array<Float>> = arrayOf<Array<Float>>(arrayOf<Float>(1f, 2f), arrayOf<Float>(3f, 4f), arrayOf<Float>(5f)),
     /**
-     * 6
+     * [[[6],[7]],[[8],[9]],[[10]]]
      */
     val strings: Array<Array<Array<String>>> = arrayOf<Array<Array<String>>>(arrayOf<Array<String>>(arrayOf<String>("6"), arrayOf<String>("7")), arrayOf<Array<String>>(arrayOf<String>("8"), arrayOf<String>("9")), arrayOf<Array<String>>(arrayOf<String>("10"))),
+    /**
+     * []
+     */
     val emptyList: Array<String> = arrayOf<String>(),
     /**
      * - diez: `10`
      */
     val child: ChildComponent = ChildComponent(10f),
     /**
-     * - diez: `10`
+     * [[]]
      */
     val childs: Array<Array<ChildComponent>> = arrayOf<Array<ChildComponent>>(arrayOf<ChildComponent>(ChildComponent(10f))),
     val emptyChild: EmptyComponent = EmptyComponent(),

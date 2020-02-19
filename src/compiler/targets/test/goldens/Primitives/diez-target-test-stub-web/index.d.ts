@@ -33,20 +33,23 @@ export declare class Primitives extends RootComponent {
    */
   boolean: boolean;
   /**
-   * 1
+   * [[1,2],[3,4],[5]]
    */
   integers: number[][];
   /**
-   * 6
+   * [[[6],[7]],[[8],[9]],[[10]]]
    */
   strings: string[][][];
+  /**
+   * []
+   */
   emptyList: string[];
   /**
    * - diez: `10`
    */
   child: ChildComponent;
   /**
-   * - diez: `10`
+   * [[]]
    */
   childs: ChildComponent[][];
   emptyChild: EmptyComponent;

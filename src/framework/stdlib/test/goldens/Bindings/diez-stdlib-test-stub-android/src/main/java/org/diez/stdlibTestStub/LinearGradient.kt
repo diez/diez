@@ -15,7 +15,7 @@ data class LinearGradient(
     /**
      * LinearGradient data.
      *
-     * hsla(0, 1, 0.5, 1) at 0
+     * [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
      */
     val stops: Array<GradientStop>,
     /**

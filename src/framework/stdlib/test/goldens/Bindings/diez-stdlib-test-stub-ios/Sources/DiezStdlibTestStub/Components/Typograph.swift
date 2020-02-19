@@ -56,6 +56,7 @@ public final class Typograph: NSObject, Decodable {
     /**
      * Typograph data.
      *
+     * []
      */
     @objc public internal(set) var decoration: [String]
 
