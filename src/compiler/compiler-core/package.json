@@ -27,6 +27,7 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.1",
     "semver": "^6.0.0",
     "source-map": "^0.7.3",
     "time-fix-plugin": "^2.0.6",

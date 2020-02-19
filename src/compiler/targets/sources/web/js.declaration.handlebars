@@ -1,9 +1,12 @@
 {{#if isRootComponent}}
+{{> comment .}}
 export declare class {{{type}}} extends RootComponent {
 {{else}}
+{{> comment .}}
 export declare class {{{type}}} {
 {{/if}}
   {{#each properties}}
+  {{> comment .}}
   {{{this.name}}}: {{this.type}};
   {{/each}}
 }

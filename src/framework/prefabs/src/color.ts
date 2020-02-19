@@ -10,6 +10,10 @@ export interface ColorData {
   a: number;
 }
 
+const round = (n: number) => {
+  return Math.round(n * 100) / 100;
+};
+
 const getSaturation = (min: number, max: number, lightness: number) => {
   if (min === max) {
     return 0;
@@ -194,6 +198,10 @@ export class Color extends prefab<ColorData>() {
    */
   fade (amount: number) {
     return Color.hsla(this.h, this.s, this.l, this.a - amount);
+  }
+
+  toPresentableValue () {
+    return `hsla(${round(this.h)}, ${round(this.s)}, ${round(this.l)}, ${round(this.a)})`;
   }
 }
 

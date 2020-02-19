@@ -4,16 +4,21 @@
 package org.diez.stdlibTestStub
 
 /**
-  A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
-*/
+ * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
+ *
+ */
 data class Font(
     /**
-      Font data.
-    */
+     * Font data.
+     *
+     * assets/SomeFont.ttf
+     */
     val file: File,
     /**
-      Font data.
-    */
+     * Font data.
+     *
+     * SomeFont
+     */
     val name: String
 ) {
     companion object {}

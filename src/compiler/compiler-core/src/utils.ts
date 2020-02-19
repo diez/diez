@@ -1,13 +1,14 @@
 import {cliRequire, findOpenPort, findPlugins, getCandidatePortRange, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {noCase} from 'change-case';
-import {readFile} from 'fs-extra';
+import {readFile, readFileSync} from 'fs-extra';
+import {HelperDelegate, registerHelper, registerPartial} from 'handlebars';
 import {dirname, join, resolve} from 'path';
 import {SourceMapConsumer} from 'source-map';
 import {Node, Project, TypeGuards} from 'ts-morph';
 import {findConfigFile, sys} from 'typescript';
 import {AcceptableType, AssemblerFactory, CompilerProvider, ComponentModule,
-  Constructor, DiezType, NamedComponentMap, PropertyDescription, TargetOutput} from './api';
+  Constructor, DiezType, NamedComponentMap, Presentable, PropertyDescription, TargetOutput} from './api';
 
 /**
  * A type guard for identifying a [[Constructor]] vs. a plain object.
@@ -375,4 +376,83 @@ export const showStackTracesFromRuntimeError = async (error: Error) => {
   } catch (internalError) {
     Log.error(error.toString());
   }
+};
+
+/**
+ * Splits a multiline string and gives uniform indentation to all lines.
+ *
+ * @ignore
+ */
+export const indentContentHelper: HelperDelegate = (context, indentation = '  ', data) => {
+  const splitter = typeof data === 'string' ? data : '\n';
+  return String(context).split(splitter).map((line: string) => `${indentation}${line}`).join('\n');
+};
+
+/**
+ * Checks if a property has comments.
+ *
+ * @ignore
+ */
+export const propertyIsCommentableHelper: HelperDelegate = (context, options) => {
+  if (context.description && context.description.body) {
+    return options.fn(context);
+  }
+
+  if (context.presentation) {
+    if (context.presentation.value) {
+      return options.fn(context);
+    }
+
+    if (context.presentation.properties && Object.entries(context.presentation.properties).length !== 0) {
+      return options.fn(context);
+    }
+  }
+
+  return options.inverse(context);
+};
+
+/**
+ * Set up core Handlebars helpers and partials.
+ */
+export const setUpHandlebars = () => {
+  registerPartial('comment', readFileSync(resolve(__dirname, '..', 'views', 'comment.handlebars')).toString());
+  registerHelper('indent', indentContentHelper);
+  registerHelper('ifIsCommentable', propertyIsCommentableHelper);
+};
+
+const isPrimitive = (value: any) => value === null || typeof value !== 'object';
+
+/**
+ * Checks if a value conforms to the [[Presentable]] interface
+ *
+ * @ignore
+ */
+export const isPresentable = (value: any): value is Presentable<any> => value && value.toPresentableValue instanceof Function;
+
+/**
+ * Presents a single property in a user-friendly way.
+ */
+export const presentProperty = <T>(value: T): any => {
+  if (isPresentable(value)) {
+    return presentProperty(value.toPresentableValue());
+  }
+
+  if (isPrimitive(value)) {
+    return String(value);
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map(presentProperty)}]`;
+  }
+};
+
+/**
+ * Presents a record collection of properties in a user-friendly way.
+ */
+export const presentProperties = (value: Record<string, any>): Record<string, string> => {
+  const serialized: any = {};
+  for (const key in value) {
+    serialized[key] = presentProperty(value[key]);
+  }
+  return serialized;
 };

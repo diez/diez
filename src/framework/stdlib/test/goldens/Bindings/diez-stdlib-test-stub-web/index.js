@@ -78,25 +78,30 @@ class Diez {
 module.exports.Diez = Diez;
 
 /**
-Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
-and more. This component is used internally by [[Image]] and [[Font]].
-
-The compiler may enforce certain restrictions on the `type` of a `File` instance.
-
-Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
-*/
+ * Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,
+ * and more. This component is used internally by [[Image]] and [[Font]].
+ * 
+ * The compiler may enforce certain restrictions on the `type` of a `File` instance.
+ * 
+ * Usage: `file = new File({src: 'assets/images/file.jpg', type: FileType.Image});`.
+ *
+ */
 class File {
   constructor({
     src,
     type
   }) {
-  /**
-  File data.
-  */
+    /**
+     * File data.
+     *
+     * assets/image%20with%20spaces.jpg
+     */
     this.src = src;
-  /**
-  File data.
-  */
+    /**
+     * File data.
+     *
+     * image
+     */
     this.type = type;
   }
 }
@@ -113,22 +118,27 @@ Object.defineProperties(File.prototype, {
 });
 
 /**
-Provides a two dimensional size.
-
-Usage: `size = Size2D.make(1920, 1080);`.
-*/
+ * Provides a two dimensional size.
+ * 
+ * Usage: `size = Size2D.make(1920, 1080);`.
+ *
+ */
 class Size2D {
   constructor({
     width,
     height
   }) {
-  /**
-  Size data.
-  */
+    /**
+     * Size data.
+     *
+     * 246
+     */
     this.width = width;
-  /**
-  Size data.
-  */
+    /**
+     * Size data.
+     *
+     * 246
+     */
     this.height = height;
   }
 }
@@ -155,11 +165,12 @@ Object.defineProperties(Size2D.prototype, {
 });
 
 /**
-Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
-accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
-file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
-image is expected to exist and provide an image with the specified dimensions.
-*/
+ * Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in
+ * accordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional
+ * file naming. The availability of retina resolutions is expected to be a compile-time concern, and the "src" of the
+ * image is expected to exist and provide an image with the specified dimensions.
+ *
+ */
 class Image {
   constructor({
     file,
@@ -168,20 +179,28 @@ class Image {
     size
   }) {
     /**
-    Responsive image data.
-    **/
+     * Responsive image data.
+     *
+     * assets/image with spaces.jpg
+     */
     this.file = new File(file);
     /**
-    Responsive image data.
-    **/
+     * Responsive image data.
+     *
+     * assets/image with spaces@2x.jpg
+     */
     this.file2x = new File(file2x);
     /**
-    Responsive image data.
-    **/
+     * Responsive image data.
+     *
+     * assets/image with spaces@3x.jpg
+     */
     this.file3x = new File(file3x);
     /**
-    Responsive image data.
-    **/
+     * Responsive image data.
+     *
+     * (246 x 246)
+     */
     this.size = new Size2D(size);
   }
 }
@@ -214,8 +233,9 @@ Object.defineProperties(Image.prototype, {
 });
 
 /**
-Provides an abstraction for [Lottie](https://airbnb.io/lottie/#/) animations.
-*/
+ * Provides an abstraction for [Lottie](https://airbnb.io/lottie/#/) animations.
+ *
+ */
 class Lottie {
   constructor({
     file,
@@ -223,16 +243,22 @@ class Lottie {
     autoplay
   }) {
     /**
-    Lottie data.
-    **/
+     * Lottie data.
+     *
+     * assets/lottie.json
+     */
     this.file = new File(file);
-  /**
-  Lottie data.
-  */
+    /**
+     * Lottie data.
+     *
+     * true
+     */
     this.loop = loop;
-  /**
-  Lottie data.
-  */
+    /**
+     * Lottie data.
+     *
+     * true
+     */
     this.autoplay = autoplay;
   }
 }
@@ -266,8 +292,9 @@ diezHTMLExtensions.push(() => {
 });
 
 /**
-A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
-*/
+ * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
+ *
+ */
 class Font {
   constructor({
     file,
@@ -277,24 +304,34 @@ class Font {
     style
   }) {
     /**
-    Font data.
-    **/
+     * Font data.
+     *
+     * assets/SomeFont.ttf
+     */
     this.file = new File(file);
-  /**
-  Font data.
-  */
+    /**
+     * Font data.
+     *
+     * SomeFont
+     */
     this.name = name;
-  /**
-  Font data.
-  */
+    /**
+     * Font data.
+     *
+     * [Verdana,serif]
+     */
     this.fallbacks = fallbacks;
-  /**
-  Font data.
-  */
+    /**
+     * Font data.
+     *
+     * 700
+     */
     this.weight = weight;
-  /**
-  Font data.
-  */
+    /**
+     * Font data.
+     *
+     * normal
+     */
     this.style = style;
   }
 }
@@ -303,11 +340,12 @@ class Font {
 module.exports.Font = Font;
 
 /**
-A component encapsulating color, including alpha transparency.
-
-You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
-[[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
-*/
+ * A component encapsulating color, including alpha transparency.
+ * 
+ * You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and
+ * [[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.
+ *
+ */
 class Color {
   constructor({
     h,
@@ -315,21 +353,29 @@ class Color {
     l,
     a
   }) {
-  /**
-  Provides simple hue-saturation-lightness-alpha color data.
-  */
+    /**
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     * 0.16666666666666666
+     */
     this.h = h;
-  /**
-  Provides simple hue-saturation-lightness-alpha color data.
-  */
+    /**
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     * 1
+     */
     this.s = s;
-  /**
-  Provides simple hue-saturation-lightness-alpha color data.
-  */
+    /**
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     * 0.5
+     */
     this.l = l;
-  /**
-  Provides simple hue-saturation-lightness-alpha color data.
-  */
+    /**
+     * Provides simple hue-saturation-lightness-alpha color data.
+     *
+     * 1
+     */
     this.a = a;
   }
 }
@@ -376,9 +422,10 @@ Object.defineProperties(Color.prototype, {
 });
 
 /**
-Describes a typograph including specification of a font name (understood to specify both a font face and a font
-weight) as well as a font size in device-local units and a font color.
-*/
+ * Describes a typograph including specification of a font name (understood to specify both a font face and a font
+ * weight) as well as a font size in device-local units and a font color.
+ *
+ */
 class Typograph {
   constructor({
     font,
@@ -390,32 +437,46 @@ class Typograph {
     decoration
   }) {
     /**
-    Typograph data.
-    **/
+     * Typograph data.
+     *
+     * SomeFont, 700, normal
+     */
     this.font = new Font(font);
-  /**
-  Typograph data.
-  */
+    /**
+     * Typograph data.
+     *
+     * 50
+     */
     this.fontSize = fontSize;
     /**
-    Typograph data.
-    **/
+     * Typograph data.
+     *
+     * hsla(0.17, 1, 0.5, 1)
+     */
     this.color = new Color(color);
-  /**
-  Typograph data.
-  */
+    /**
+     * Typograph data.
+     *
+     * -1
+     */
     this.lineHeight = lineHeight;
-  /**
-  Typograph data.
-  */
+    /**
+     * Typograph data.
+     *
+     * 0
+     */
     this.letterSpacing = letterSpacing;
-  /**
-  Typograph data.
-  */
+    /**
+     * Typograph data.
+     *
+     * natural
+     */
     this.alignment = alignment;
-  /**
-  Typograph data.
-  */
+    /**
+     * Typograph data.
+     *
+     * []
+     */
     this.decoration = decoration;
   }
 }
@@ -498,20 +559,25 @@ diezHTMLExtensions.push(() => {
 });
 
 /**
-Provides a gradient stop.
-*/
+ * Provides a gradient stop.
+ *
+ */
 class GradientStop {
   constructor({
     position,
     color
   }) {
-  /**
-  GradientStop data.
-  */
+    /**
+     * GradientStop data.
+     *
+     * 1
+     */
     this.position = position;
     /**
-    GradientStop data.
-    **/
+     * GradientStop data.
+     *
+     * hsla(0.67, 1, 0.5, 1)
+     */
     this.color = new Color(color);
   }
 }
@@ -520,26 +586,31 @@ class GradientStop {
 module.exports.GradientStop = GradientStop;
 
 /**
-Provides a two dimensional point.
-
-Taken alone, points are designated in an abstract space with no inherit dimensions or directionality. In the
-context of other prefabs like [[LinearGradient]], points typically should use the standard two dimensional graphics
-space, often normalized in the unit square, where x increases from left to right and y increases from top to bottom.
-
-Usage: `point = Point2D.make(0.5, 0.5);`.
-*/
+ * Provides a two dimensional point.
+ * 
+ * Taken alone, points are designated in an abstract space with no inherit dimensions or directionality. In the
+ * context of other prefabs like [[LinearGradient]], points typically should use the standard two dimensional graphics
+ * space, often normalized in the unit square, where x increases from left to right and y increases from top to bottom.
+ * 
+ * Usage: `point = Point2D.make(0.5, 0.5);`.
+ *
+ */
 class Point2D {
   constructor({
     x,
     y
   }) {
-  /**
-  Point data.
-  */
+    /**
+     * Point data.
+     *
+     * 0
+     */
     this.x = x;
-  /**
-  Point data.
-  */
+    /**
+     * Point data.
+     *
+     * 0.5
+     */
     this.y = y;
   }
 }
@@ -548,8 +619,9 @@ class Point2D {
 module.exports.Point2D = Point2D;
 
 /**
-Provides a linear gradient.
-*/
+ * Provides a linear gradient.
+ *
+ */
 class LinearGradient {
   constructor({
     stops,
@@ -558,12 +630,16 @@ class LinearGradient {
   }) {
     this.stops = stops.map((value1) => new GradientStop(value1));
     /**
-    LinearGradient data.
-    **/
+     * LinearGradient data.
+     *
+     * [0, 0.5]
+     */
     this.start = new Point2D(start);
     /**
-    LinearGradient data.
-    **/
+     * LinearGradient data.
+     *
+     * [1, 0.5]
+     */
     this.end = new Point2D(end);
   }
 }
@@ -596,8 +672,9 @@ Object.defineProperties(LinearGradient.prototype, {
 });
 
 /**
-Provides a drop shadow.
-*/
+ * Provides a drop shadow.
+ *
+ */
 class DropShadow {
   constructor({
     offset,
@@ -605,16 +682,22 @@ class DropShadow {
     color
   }) {
     /**
-    DropShadow data.
-    **/
+     * DropShadow data.
+     *
+     * [1, 2]
+     */
     this.offset = new Point2D(offset);
-  /**
-  DropShadow data.
-  */
+    /**
+     * DropShadow data.
+     *
+     * 3
+     */
     this.radius = radius;
     /**
-    DropShadow data.
-    **/
+     * DropShadow data.
+     *
+     * hsla(0.33, 1, 0.5, 0.5)
+     */
     this.color = new Color(color);
   }
 }
@@ -664,8 +747,9 @@ Object.defineProperties(DropShadow.prototype, {
 });
 
 /**
-Describes a fill type.
-*/
+ * Describes a fill type.
+ *
+ */
 class Fill {
   constructor({
     color,
@@ -673,16 +757,22 @@ class Fill {
     type
   }) {
     /**
-    Fill data.
-    **/
+     * Fill data.
+     *
+     * hsla(0, 1, 0.5, 1)
+     */
     this.color = new Color(color);
     /**
-    Fill data.
-    **/
+     * Fill data.
+     *
+     * start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
+     */
     this.linearGradient = new LinearGradient(linearGradient);
-  /**
-  Fill data.
-  */
+    /**
+     * Fill data.
+     *
+     * Color
+     */
     this.type = type;
   }
 }
@@ -691,25 +781,36 @@ class Fill {
 module.exports.Fill = Fill;
 
 /**
-Provides a simple rectangular panel description.
-*/
+ * Provides a simple rectangular panel description.
+ *
+ */
 class Panel {
   constructor({
     cornerRadius,
     background,
     dropShadow
   }) {
-  /**
-  Panel data.
-  */
+    /**
+     * Panel data.
+     *
+     * 5
+     */
     this.cornerRadius = cornerRadius;
     /**
-    Panel data.
-    **/
+     * Panel data.
+     *
+     * - color: `hsla(0.67, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
+     */
     this.background = new Fill(background);
     /**
-    Panel data.
-    **/
+     * Panel data.
+     *
+     * - offset: `[2, 3]`
+     * - radius: `4`
+     * - color: `hsla(0, 1, 0.5, 1)`
+     */
     this.dropShadow = new DropShadow(dropShadow);
   }
 }
@@ -744,20 +845,88 @@ class Bindings {
     fill = {color: {h: 0, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"},
     panel = {cornerRadius: 5, background: {color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}, linearGradient: {stops: [{position: 0, color: {h: 0, s: 0, l: 0, a: 1}}, {position: 1, color: {h: 0, s: 0, l: 1, a: 1}}], start: {x: 0, y: 0}, end: {x: 1, y: 1}}, type: "Color"}, dropShadow: {offset: {x: 2, y: 3}, radius: 4, color: {h: 0, s: 1, l: 0.5, a: 1}}},
     color = {h: 0, s: 0, l: 0, a: 1},
-    file = {src: "assets/SomeFile.txt", type: "raw"}
+    file = {src: "assets/SomeFile.txt", type: "raw"},
+    referencedColor = {h: 0, s: 0, l: 0.06274509803921569, a: 1}
   } = {}) {
+    /**
+     * assets/image with spaces.jpg (246 x 246)
+     */
     this.image = new Image(image);
+    /**
+     * - file: `assets/lottie.json`
+     * - loop: `true`
+     * - autoplay: `true`
+     */
     this.lottie = new Lottie(lottie);
+    /**
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0.17, 1, 0.5, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
+     */
     this.typograph = new Typograph(typograph);
+    /**
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0, 0, 0, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `100`
+     * - letterSpacing: `10`
+     * - alignment: `natural`
+     * - decoration: `[underline,strikethrough]`
+     */
     this.tallTypograph = new Typograph(tallTypograph);
+    /**
+     * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
+     */
     this.linearGradient = new LinearGradient(linearGradient);
+    /**
+     * [0.5, 0.5]
+     */
     this.point = new Point2D(point);
+    /**
+     * (400 x 300)
+     */
     this.size = new Size2D(size);
+    /**
+     * - offset: `[1, 2]`
+     * - radius: `3`
+     * - color: `hsla(0.33, 1, 0.5, 0.5)`
+     */
     this.shadow = new DropShadow(shadow);
+    /**
+     * - color: `hsla(0, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
+     */
     this.fill = new Fill(fill);
+    /**
+     * - cornerRadius: `5`
+     * - background: ``
+     * - dropShadow: ``
+     * - elevation: `6`
+     */
     this.panel = new Panel(panel);
+    /**
+     * hsla(0, 0, 0, 1)
+     */
     this.color = new Color(color);
+    /**
+     * assets/SomeFile.txt
+     */
     this.file = new File(file);
+    /**
+     * Referenced color value
+     *
+     * `References.referencedColor` ( hsla(0, 0, 0.06, 1) )
+     */
+    this.referencedColor = new Color(referencedColor);
   }
 }
 

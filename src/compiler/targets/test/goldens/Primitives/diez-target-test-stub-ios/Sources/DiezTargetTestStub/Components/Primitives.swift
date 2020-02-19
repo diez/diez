@@ -3,25 +3,57 @@ import UIKit
 @objc(DEZPrimitives)
 public final class Primitives: NSObject, RootComponent {
     /**
-    Test property comment
-    */
+     * Test property comment
+     *
+     * 10
+     */
     @objc public internal(set) var number: CGFloat
+    /**
+     * 10
+     */
     @objc public internal(set) var integer: Int
+    /**
+     * 10
+     */
     @objc public internal(set) var float: CGFloat
+    /**
+     * ten
+     */
     @objc public internal(set) var string: String
+    /**
+     * true
+     */
     @objc public internal(set) var boolean: Bool
+    /**
+     * [[1,2],[3,4],[5]]
+     */
     @objc public internal(set) var integers: [[CGFloat]]
+    /**
+     * [[[6],[7]],[[8],[9]],[[10]]]
+     */
     @objc public internal(set) var strings: [[[String]]]
+    /**
+     * []
+     */
     @objc public internal(set) var emptyList: [String]
+    /**
+     * - diez: `10`
+     */
     @objc public internal(set) var child: ChildComponent
+    /**
+     * [[]]
+     */
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent
+    /**
+     * References too!
+     *
+     * `References.myRef` ( 10 )
+     */
+    @objc public internal(set) var referred: CGFloat
 
     convenience public override init() {
         self.init(
-              /**
-              Test property comment
-              */
             number: 10,
             integer: 10,
             float: 10,
@@ -32,7 +64,8 @@ public final class Primitives: NSObject, RootComponent {
             emptyList: [],
             child: ChildComponent(diez: 10),
             childs: [[ChildComponent(diez: 10)]],
-            emptyChild: EmptyComponent()
+            emptyChild: EmptyComponent(),
+            referred: 10
         )
     }
 
@@ -47,7 +80,8 @@ public final class Primitives: NSObject, RootComponent {
         emptyList: [String],
         child: ChildComponent,
         childs: [[ChildComponent]],
-        emptyChild: EmptyComponent
+        emptyChild: EmptyComponent,
+        referred: CGFloat
     ) {
         self.number = number
         self.integer = integer
@@ -60,6 +94,7 @@ public final class Primitives: NSObject, RootComponent {
         self.child = child
         self.childs = childs
         self.emptyChild = emptyChild
+        self.referred = referred
     }
 
     public static let name = "Primitives"

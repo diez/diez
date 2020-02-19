@@ -193,4 +193,11 @@ describe('linear-gradient', () => {
       ],
     });
   });
+
+  test('#toPresentableValue', () => {
+    const start = Point2D.make(0, 0);
+    const end = Point2D.make(1, 1);
+    const gradient = new LinearGradient({start, end, stops: []});
+    expect(gradient.toPresentableValue()).toBe('start [0, 0], end [1, 1], stops: []');
+  });
 });

@@ -78,6 +78,10 @@ export abstract class Prefab<T extends object> implements Serializable<T> {
   serialize () {
     return serialize(this.sanitize(Object.assign(this.defaults, this.overrides)));
   }
+
+  toPresentableValue () {
+    return '';
+  }
 }
 
 /**

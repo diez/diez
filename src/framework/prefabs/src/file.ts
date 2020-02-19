@@ -39,4 +39,8 @@ export class File extends prefab<FileData>() {
       type: data.type,
     };
   }
+
+  toPresentableValue () {
+    return this.src;
+  }
 }

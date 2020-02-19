@@ -6,12 +6,16 @@ import CoreGraphics
 @objc(DEZPoint2D)
 public final class Point2D: NSObject, Decodable {
     /**
-    Point data.
-    */
+     * Point data.
+     *
+     * 0
+     */
     @objc public internal(set) var x: CGFloat
     /**
-    Point data.
-    */
+     * Point data.
+     *
+     * 0.5
+     */
     @objc public internal(set) var y: CGFloat
 
     init(

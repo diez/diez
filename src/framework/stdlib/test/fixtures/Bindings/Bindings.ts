@@ -23,6 +23,10 @@ const someFont = new Font({
   fallbacks: ['Verdana', 'serif'],
 });
 
+const references = {
+  referencedColor: Color.hex('#101010'),
+}
+
 export const bindings = {
   image: Image.responsive('assets/image with spaces.jpg', 246, 246),
 
@@ -70,4 +74,9 @@ export const bindings = {
   color: new Color(),
 
   file: new File({src: 'assets/SomeFile.txt'}),
+
+  /**
+   * Referenced color value
+   */
+  referencedColor: references.referencedColor,
 };

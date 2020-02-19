@@ -33,4 +33,8 @@ export class Size2D extends prefab<Size2DData>() {
   static make (width: number, height: number) {
     return new Size2D({width, height});
   }
+
+  toPresentableValue () {
+    return `(${this.width} x ${this.height})`;
+  }
 }

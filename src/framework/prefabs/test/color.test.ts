@@ -46,4 +46,9 @@ describe('Color', () => {
     const alphaRed = red.fade(0.5);
     expect(alphaRed.serialize()).toEqual({h: 0, s: 1, l: 0.5, a: 0.5});
   });
+
+  test('#toPresentableValue', () => {
+    const red = Color.rgba(255, 0, 0, 1);
+    expect(red.toPresentableValue()).toBe('hsla(0, 1, 0.5, 1)');
+  });
 });

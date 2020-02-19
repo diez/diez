@@ -6,16 +6,22 @@ import CoreGraphics
 @objc(DEZLottie)
 public final class Lottie: NSObject, Decodable {
     /**
-    Lottie data.
-    */
+     * Lottie data.
+     *
+     * assets/lottie.json
+     */
     @objc public internal(set) var file: File
     /**
-    Lottie data.
-    */
+     * Lottie data.
+     *
+     * true
+     */
     @objc public internal(set) var loop: Bool
     /**
-    Lottie data.
-    */
+     * Lottie data.
+     *
+     * true
+     */
     @objc public internal(set) var autoplay: Bool
 
     init(

@@ -1,7 +1,6 @@
 import {Serializable} from './api';
 
 const isSerializable = (value: any): value is Serializable<any> => value && value.serialize instanceof Function;
-
 const isPrimitive = (value: any) => value === null || typeof value !== 'object';
 
 /**
