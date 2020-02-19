@@ -9,33 +9,33 @@ data class Bindings(
      */
     val image: Image = Image(File("assets/image%20with%20spaces.jpg", "image"), File("assets/image%20with%20spaces@2x.jpg", "image"), File("assets/image%20with%20spaces@3x.jpg", "image"), File("assets/image%20with%20spaces@4x.jpg", "image"), Size2D(246f, 246f)),
     /**
-     * file: assets/lottie.json
-     * loop: true
-     * autoplay: true
+     * - file: `assets/lottie.json`
+     * - loop: `true`
+     * - autoplay: `true`
      */
     val lottie: Lottie = Lottie(File("assets/lottie.json", "raw"), true, true),
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0.17, 1, 0.5, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: -1
-     * letterSpacing: 0
-     * alignment: natural
-     * decoration: []
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0.17, 1, 0.5, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
      */
     val typograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0.16666666666666666f, 1f, 0.5f, 1f), false, -1f, 0f, "natural", arrayOf<String>()),
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0, 0, 0, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: 100
-     * letterSpacing: 10
-     * alignment: natural
-     * decoration: [underline,strikethrough]
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0, 0, 0, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `100`
+     * - letterSpacing: `10`
+     * - alignment: `natural`
+     * - decoration: `[underline,strikethrough]`
      */
     val tallTypograph: Typograph = Typograph(Font(File("assets/SomeFont.ttf", "font"), "SomeFont"), 50f, Color(0f, 0f, 0f, 1f), false, 100f, 10f, "natural", arrayOf<String>("underline", "strikethrough")),
     /**
@@ -51,26 +51,22 @@ data class Bindings(
      */
     val size: Size2D = Size2D(400f, 300f),
     /**
-     * offset: [1, 2]
-     * radius: 3
-     * color: hsla(0.33, 1, 0.5, 0.5)
+     * - offset: `[1, 2]`
+     * - radius: `3`
+     * - color: `hsla(0.33, 1, 0.5, 0.5)`
      */
     val shadow: DropShadow = DropShadow(Point2D(1f, 2f), 3f, Color(0.3333333333333333f, 1f, 0.5f, 0.5f)),
     /**
-     * color: hsla(0, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
+     * - color: `hsla(0, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
      */
     val fill: Fill = Fill(Color(0f, 1f, 0.5f, 1f), LinearGradient(arrayOf<GradientStop>(GradientStop(0f, Color(0f, 0f, 0f, 1f)), GradientStop(1f, Color(0f, 0f, 1f, 1f))), Point2D(0f, 0f), Point2D(1f, 1f)), "Color"),
     /**
-     * cornerRadius: 5
-     * background: color: hsla(0.67, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
-     * dropShadow: offset: [2, 3]
-     * radius: 4
-     * color: hsla(0, 1, 0.5, 1)
-     * elevation: 6
+     * - cornerRadius: `5`
+     * - background: ``
+     * - dropShadow: ``
+     * - elevation: `6`
      */
     val panel: Panel = Panel(5f, Fill(Color(0.6666666666666666f, 1f, 0.5f, 1f), LinearGradient(arrayOf<GradientStop>(GradientStop(0f, Color(0f, 0f, 0f, 1f)), GradientStop(1f, Color(0f, 0f, 1f, 1f))), Point2D(0f, 0f), Point2D(1f, 1f)), "Color"), 6f),
     /**

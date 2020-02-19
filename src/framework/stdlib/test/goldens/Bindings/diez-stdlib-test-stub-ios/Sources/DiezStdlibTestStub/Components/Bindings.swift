@@ -10,33 +10,33 @@ public final class Bindings: NSObject, RootComponent {
      */
     @objc public internal(set) var image: Image
     /**
-     * file: assets/lottie.json
-     * loop: true
-     * autoplay: true
+     * - file: `assets/lottie.json`
+     * - loop: `true`
+     * - autoplay: `true`
      */
     @objc public internal(set) var lottie: Lottie
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0.17, 1, 0.5, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: -1
-     * letterSpacing: 0
-     * alignment: natural
-     * decoration: []
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0.17, 1, 0.5, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
      */
     @objc public internal(set) var typograph: Typograph
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0, 0, 0, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: 100
-     * letterSpacing: 10
-     * alignment: natural
-     * decoration: [underline,strikethrough]
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0, 0, 0, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `100`
+     * - letterSpacing: `10`
+     * - alignment: `natural`
+     * - decoration: `[underline,strikethrough]`
      */
     @objc public internal(set) var tallTypograph: Typograph
     /**
@@ -52,26 +52,22 @@ public final class Bindings: NSObject, RootComponent {
      */
     @objc public internal(set) var size: Size2D
     /**
-     * offset: [1, 2]
-     * radius: 3
-     * color: hsla(0.33, 1, 0.5, 0.5)
+     * - offset: `[1, 2]`
+     * - radius: `3`
+     * - color: `hsla(0.33, 1, 0.5, 0.5)`
      */
     @objc public internal(set) var shadow: DropShadow
     /**
-     * color: hsla(0, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
+     * - color: `hsla(0, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
      */
     @objc public internal(set) var fill: Fill
     /**
-     * cornerRadius: 5
-     * background: color: hsla(0.67, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
-     * dropShadow: offset: [2, 3]
-     * radius: 4
-     * color: hsla(0, 1, 0.5, 1)
-     * elevation: 6
+     * - cornerRadius: `5`
+     * - background: ``
+     * - dropShadow: ``
+     * - elevation: `6`
      */
     @objc public internal(set) var panel: Panel
     /**

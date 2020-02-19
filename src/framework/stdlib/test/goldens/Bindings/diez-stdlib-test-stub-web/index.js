@@ -796,17 +796,17 @@ class Panel {
     /**
      * Panel data.
      *
-     * color: hsla(0.67, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
+     * - color: `hsla(0.67, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
      */
     this.background = new Fill(background);
     /**
      * Panel data.
      *
-     * offset: [2, 3]
-     * radius: 4
-     * color: hsla(0, 1, 0.5, 1)
+     * - offset: `[2, 3]`
+     * - radius: `4`
+     * - color: `hsla(0, 1, 0.5, 1)`
      */
     this.dropShadow = new DropShadow(dropShadow);
   }
@@ -850,33 +850,33 @@ class Bindings {
      */
     this.image = new Image(image);
     /**
-     * file: assets/lottie.json
-     * loop: true
-     * autoplay: true
+     * - file: `assets/lottie.json`
+     * - loop: `true`
+     * - autoplay: `true`
      */
     this.lottie = new Lottie(lottie);
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0.17, 1, 0.5, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: -1
-     * letterSpacing: 0
-     * alignment: natural
-     * decoration: []
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0.17, 1, 0.5, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
      */
     this.typograph = new Typograph(typograph);
     /**
-     * font: SomeFont, 700, normal
-     * fontSize: 50
-     * color: hsla(0, 0, 0, 1)
-     * iosTextStyle: body
-     * shouldScale: false
-     * lineHeight: 100
-     * letterSpacing: 10
-     * alignment: natural
-     * decoration: [underline,strikethrough]
+     * - font: `SomeFont, 700, normal`
+     * - fontSize: `50`
+     * - color: `hsla(0, 0, 0, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `100`
+     * - letterSpacing: `10`
+     * - alignment: `natural`
+     * - decoration: `[underline,strikethrough]`
      */
     this.tallTypograph = new Typograph(tallTypograph);
     /**
@@ -892,26 +892,22 @@ class Bindings {
      */
     this.size = new Size2D(size);
     /**
-     * offset: [1, 2]
-     * radius: 3
-     * color: hsla(0.33, 1, 0.5, 0.5)
+     * - offset: `[1, 2]`
+     * - radius: `3`
+     * - color: `hsla(0.33, 1, 0.5, 0.5)`
      */
     this.shadow = new DropShadow(shadow);
     /**
-     * color: hsla(0, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
+     * - color: `hsla(0, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
      */
     this.fill = new Fill(fill);
     /**
-     * cornerRadius: 5
-     * background: color: hsla(0.67, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
-     * dropShadow: offset: [2, 3]
-     * radius: 4
-     * color: hsla(0, 1, 0.5, 1)
-     * elevation: 6
+     * - cornerRadius: `5`
+     * - background: ``
+     * - dropShadow: ``
+     * - elevation: `6`
      */
     this.panel = new Panel(panel);
     /**

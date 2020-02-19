@@ -34,11 +34,11 @@ public final class Primitives: NSObject, RootComponent {
     @objc public internal(set) var strings: [[[String]]]
     @objc public internal(set) var emptyList: [String]
     /**
-     * diez: 10
+     * - diez: `10`
      */
     @objc public internal(set) var child: ChildComponent
     /**
-     * diez: 10
+     * - diez: `10`
      */
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent

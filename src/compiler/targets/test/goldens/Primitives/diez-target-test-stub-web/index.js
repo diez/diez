@@ -74,7 +74,7 @@ class Primitives {
     this.strings = strings;
     this.emptyList = emptyList;
     /**
-     * diez: 10
+     * - diez: `10`
      */
     this.child = new ChildComponent(child);
     this.childs = childs.map((value1) => value1.map((value2) => new ChildComponent(value2)));

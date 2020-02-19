@@ -80,8 +80,7 @@ export abstract class Prefab<T extends object> implements Serializable<T> {
   }
 
   toPresentableValue () {
-    const serialized = presentProperties(this.sanitize(Object.assign(this.defaults, this.overrides)));
-    return Object.keys(serialized).map((key) => `${key}: ${serialized[key]}`).join(' | ');
+    return '';
   }
 }
 

@@ -403,7 +403,7 @@ export const propertyIsCommentableHelper: HelperDelegate = (context, options) =>
       return options.fn(context);
     }
 
-    if (context.presentation.properties && context.presentation.properties.length) {
+    if (context.presentation.properties && Object.entries(context.presentation.properties).length !== 0) {
       return options.fn(context);
     }
   }

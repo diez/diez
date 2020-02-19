@@ -1,6 +1,6 @@
 /* tslint:disable:max-line-length ban-types */
 import {exitTrap, Log} from '@diez/cli-core';
-import {isPresentable, presentProperties, presentProperty, serialize} from '@diez/engine';
+import {presentProperties, presentProperty, serialize} from '@diez/engine';
 import {watch} from 'chokidar';
 import {copySync, ensureDirSync, existsSync, outputFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {dirname, join} from 'path';

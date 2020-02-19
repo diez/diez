@@ -37,11 +37,11 @@ data class Primitives(
     val strings: Array<Array<Array<String>>> = arrayOf<Array<Array<String>>>(arrayOf<Array<String>>(arrayOf<String>("6"), arrayOf<String>("7")), arrayOf<Array<String>>(arrayOf<String>("8"), arrayOf<String>("9")), arrayOf<Array<String>>(arrayOf<String>("10"))),
     val emptyList: Array<String> = arrayOf<String>(),
     /**
-     * diez: 10
+     * - diez: `10`
      */
     val child: ChildComponent = ChildComponent(10f),
     /**
-     * diez: 10
+     * - diez: `10`
      */
     val childs: Array<Array<ChildComponent>> = arrayOf<Array<ChildComponent>>(arrayOf<ChildComponent>(ChildComponent(10f))),
     val emptyChild: EmptyComponent = EmptyComponent(),

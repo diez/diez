@@ -25,9 +25,9 @@ data class Panel(
     /**
      * Panel data.
      *
-     * color: hsla(0.67, 1, 0.5, 1)
-     * linearGradient: start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]
-     * type: Color
+     * - color: `hsla(0.67, 1, 0.5, 1)`
+     * - linearGradient: `start [0, 0], end [1, 1], stops: [hsla(0, 0, 0, 1) at 0,hsla(0, 0, 1, 1) at 1]`
+     * - type: `Color`
      */
     val background: Fill,
     /**
