@@ -1,6 +1,6 @@
 {
   "name": "diez-lorem-ipsum",
-  "version": "10.2.3",
+  "version": "10.3.0-beta.0",
   "license": "MIT",
   "main": "./index.js",
   "exports": {
@@ -8,7 +8,7 @@
     "import": "./wrapper.mjs"
   },
   "dependencies": {
-    "@diez/web-sdk-common": "^10.2.3",
+    "@diez/web-sdk-common": "^10.3.0-beta.0",
     "lottie-web": "^5.5.2"
   }
 }
