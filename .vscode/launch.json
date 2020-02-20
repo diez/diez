@@ -9,7 +9,10 @@
       "args": ["compile", "-t", "android"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
     },
     {
       "type": "node",
@@ -19,7 +22,10 @@
       "args": ["compile", "-t", "android"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "poodlesurf"
+      }
     },
     {
       "type": "node",
@@ -29,7 +35,10 @@
       "args": ["compile", "-t", "ios"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
     },
     {
       "type": "node",
@@ -39,7 +48,10 @@
       "args": ["compile", "-t", "ios"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "poodlesurf"
+      }
     },
     {
       "type": "node",
@@ -49,7 +61,10 @@
       "args": ["compile", "-t", "web"],
       "cwd": "${workspaceFolder}/examples/poodle-surf/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "poodlesurf"
+      }
     },
     {
       "type": "node",
@@ -59,27 +74,47 @@
       "args": ["compile", "-t", "web"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Diez extract - Lorem Ipsum",
+      "name": "extract - Lorem Ipsum",
       "program": "${workspaceFolder}/node_modules/.bin/diez",
       "args": ["extract"],
       "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"]
-    },
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
+    }
   ],
   "compounds": [
     {
       "name": "All - Compile Lorem Ipsum",
-      "configurations": ["Android - Compile Lorem Ipsum", "iOS - Compile Lorem Ipsum", "Web - Compile Lorem Ipsum"]
+      "configurations": [
+        "Android - Compile Lorem Ipsum",
+        "iOS - Compile Lorem Ipsum",
+        "Web - Compile Lorem Ipsum"
+      ],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
     },
     {
       "name": "All - Compile PoodleSurf",
-      "configurations": ["Android - Compile PoodleSurf", "iOS - Compile PoodleSurf", "Web - Compile PoodleSurf"]
+      "configurations": [
+        "Android - Compile PoodleSurf",
+        "iOS - Compile PoodleSurf",
+        "Web - Compile PoodleSurf"
+      ],
+      "presentation": {
+        "group": "poodlesurf"
+      }
     }
   ]
 }
