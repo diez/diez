@@ -1,7 +1,11 @@
 [
   {
+    "version": "10.3.0-beta.0",
+    "name": "latest (10.3.0-beta.0)"
+  },
+  {
     "version": "10.2.3",
-    "name": "latest (10.2.3)"
+    "name": "10.2.3"
   },
   {
     "version": "10.1.0",
