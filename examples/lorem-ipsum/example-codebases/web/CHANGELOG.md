@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.3.0-beta.0](https://github.com/diez/diez/compare/v10.2.3...v10.3.0-beta.0) (2020-02-20)
+
+
+### Bug Fixes
+
+* **create:** use path to build files in webpack conf instead of symlink ([#76](https://github.com/diez/diez/issues/76)) ([3e56c39](https://github.com/diez/diez/commit/3e56c39))
+
+
+
+
+
 ## [10.2.3](https://github.com/diez/diez/compare/v10.2.2...v10.2.3) (2020-02-07)
 
 **Note:** Version bump only for package lorem-ipsum-app

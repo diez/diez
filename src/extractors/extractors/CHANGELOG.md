@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.3.0-beta.0](https://github.com/diez/diez/compare/v10.2.3...v10.3.0-beta.0) (2020-02-20)
+
+
+### Bug Fixes
+
+* **extractors:** show a warning message before cleaning invalid Figma tokens ([#70](https://github.com/diez/diez/issues/70)) ([f50d52c](https://github.com/diez/diez/commit/f50d52c))
+
+
+### Features
+
+* **extractors:** add missing typograph properties in Figma extractor ([#73](https://github.com/diez/diez/issues/73)) ([9dafce7](https://github.com/diez/diez/commit/9dafce7))
+
+
+
+
+
 ## [10.2.3](https://github.com/diez/diez/compare/v10.2.2...v10.2.3) (2020-02-07)
 
 **Note:** Version bump only for package @diez/extractors
