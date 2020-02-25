@@ -150,6 +150,13 @@ const newLine = (writer: CodeBlockWriter) => {
 };
 
 /**
+ * Ensures that paths with explicit back-slashes are forced into forward-slashes
+ */
+const windowsPathSanitize = (path: string) => {
+  return unescape(escape(path).replace(/%5C/g, '/'));
+};
+
+/**
  * Returns a valid writable object initializer.
  */
 const entitiesToWritableObject = (collection: CodegenEntity[], scope: string, resolver: UniqueNameResolver, kind: string) => {
@@ -291,16 +298,17 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
 
     for (const [name, asset] of assetsMap) {
       const assetName = camelCase(name);
-      const parsedSrc = parse(asset.src);
+      const sanitizedSrc = windowsPathSanitize(asset.src);
+      const parsedSrc = parse(sanitizedSrc);
       const sanitizedAssetName = quoteInvalidPropertyName(assetName);
 
-      files[sanitizedAssetName] = `new File({src: "${asset.src}"})`;
+      files[sanitizedAssetName] = `new File({src: "${sanitizedSrc}"})`;
       [2, 3, 4].forEach((multiplier) => {
-        const baseName = join(parsedSrc.dir, parsedSrc.name);
+        const baseName = windowsPathSanitize(join(parsedSrc.dir, parsedSrc.name));
         files[quoteInvalidPropertyName(`${assetName}${multiplier}x`)] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
       });
 
-      images[sanitizedAssetName] = `Image.responsive("${asset.src}", ${asset.width}, ${asset.height})`;
+      images[sanitizedAssetName] = `Image.responsive("${sanitizedSrc}", ${asset.width}, ${asset.height})`;
     }
 
     sourceFile.addVariableStatement({
