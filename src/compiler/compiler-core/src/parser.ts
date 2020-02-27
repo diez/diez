@@ -583,7 +583,6 @@ export class ProjectParser extends EventEmitter implements Parser {
     };
 
     host.afterProgramCreate = (watchProgram) => {
-      this.watchProgram = watchProgram;
       this.program = watchProgram.getProgram();
 
       const changedFiles = watchProgram.getState().changedFilesSet;
