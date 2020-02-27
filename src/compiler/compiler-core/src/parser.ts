@@ -589,7 +589,11 @@ export class ProjectParser extends EventEmitter implements Parser {
 
       if (changedFiles) {
         for (const file of changedFiles.keys()) {
-          this.project.getSourceFileOrThrow(file).refreshFromFileSystemSync();
+          const sourceFile = this.project.getSourceFile(file);
+
+          if (sourceFile) {
+            sourceFile.refreshFromFileSystemSync();
+          }
         }
       }
 
