@@ -4,8 +4,8 @@ import {pascalCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {existsSync} from 'fs-extra';
 import {join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards, VariableDeclaration} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, ExportDeclaration, Expression, ImportDeclaration, Project, PropertyDeclaration, Scope, SourceFile, Symbol, ts, Type, TypeChecker, TypeGuards, VariableDeclaration} from 'ts-morph';
+import {BuilderProgram, createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, DiezTypeMetadata, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
 import {getDescriptionForValue, getProject, isAcceptableType} from './utils';
@@ -561,7 +561,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         },
       ),
       sys,
-      createAbstractBuilder,
+      createSemanticDiagnosticsBuilderProgram,
       (diagnostic) => this.printDiagnostics(diagnostic),
       (diagnostic) => this.printDiagnostics(diagnostic),
     );
@@ -572,7 +572,18 @@ export class ProjectParser extends EventEmitter implements Parser {
     };
 
     host.afterProgramCreate = (watchProgram) => {
+      this.watchProgram = watchProgram;
       this.program = watchProgram.getProgram();
+
+      const changedFiles = watchProgram.getState().changedFilesSet;
+
+      if (changedFiles) {
+        for (const file of changedFiles.keys()) {
+          Log.info(`Refresing: ${file}`);
+          this.project.getSourceFileOrThrow(file).refreshFromFileSystemSync();
+        }
+      }
+
       this.run(false);
     };
 
