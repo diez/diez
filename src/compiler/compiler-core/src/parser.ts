@@ -460,24 +460,33 @@ export class ProjectParser extends EventEmitter implements Parser {
   }
 
   private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
-    if (!sourceFile.compilerNode.resolvedModules) {
-      return;
-    }
+    const literalsReferencingOtherSourceFiles = sourceFile.getLiteralsReferencingOtherSourceFiles();
+    const referencedSourceFiles = sourceFile.getReferencedSourceFiles();
 
-    for (const resolvedModule of sourceFile.compilerNode.resolvedModules.values()) {
+    for (let index = 0; index < referencedSourceFiles.length; index++) {
+      const literal = literalsReferencingOtherSourceFiles[index];
+      const referencedSourceFile = referencedSourceFiles[index];
+      const modulename = literal.getLiteralValue();
+      const {resolvedModule} = ts.resolveModuleName(
+        modulename,
+        sourceFile.getFilePath(),
+        this.project.getCompilerOptions(),
+        this.project.getModuleResolutionHost(),
+      );
+
       if (!resolvedModule) {
         continue;
       }
 
+      const isExternalLibraryImport = Boolean(resolvedModule.isExternalLibraryImport);
+      const packageName = resolvedModule.packageId && resolvedModule.packageId.name;
+
       sourceMap.set(
-        resolvedModule.resolvedFileName,
-        (resolvedModule.isExternalLibraryImport && resolvedModule.packageId) ? resolvedModule.packageId.name : '.',
+        referencedSourceFile.getFilePath(),
+        (isExternalLibraryImport && packageName) ? packageName : '.',
       );
 
-      this.locateSources(
-        this.project.getSourceFileOrThrow(resolvedModule.resolvedFileName),
-        sourceMap,
-      );
+      this.locateSources(referencedSourceFile, sourceMap);
     }
   }
 
