@@ -464,6 +464,8 @@ export class ProjectParser extends EventEmitter implements Parser {
     const referencedSourceFiles = sourceFile.getReferencedSourceFiles();
 
     for (let index = 0; index < referencedSourceFiles.length; index++) {
+      // It's safe to use the same index for both arrays, internally they are both generated from the same `Map`
+      // see https://bit.ly/3a7NKWD (ts-morph/SourceFile.ts) for more context.
       const literal = literalsReferencingOtherSourceFiles[index];
       const referencedSourceFile = referencedSourceFiles[index];
       const modulename = literal.getLiteralValue();
@@ -588,7 +590,6 @@ export class ProjectParser extends EventEmitter implements Parser {
 
       if (changedFiles) {
         for (const file of changedFiles.keys()) {
-          Log.info(`Refresing: ${file}`);
           this.project.getSourceFileOrThrow(file).refreshFromFileSystemSync();
         }
       }
