@@ -211,7 +211,7 @@ export const fromFigmaTokens = {
 
 ```
 
-Extracted tokens are intended to be _imported_ and _referenced_ by other files in your project — then updated at will be designers, and extracted again whenever you want.  As another application of "semantic tokens," this separation of concerns allows you to treat design files as versionable code assets.
+Extracted tokens are intended to be _imported_ and _referenced_ by other files in your project — then updated through design tools, and extracted again.  As another application of "semantic tokens," this separation of concerns allows you to treat design files as versionable code assets.
 
 For example:
 
