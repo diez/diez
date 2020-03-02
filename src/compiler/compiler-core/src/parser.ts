@@ -459,17 +459,24 @@ export class ProjectParser extends EventEmitter implements Parser {
     return type;
   }
 
+  private getLiteralReferenceFromSourceFile (sourceFile: SourceFile, referencedSourceFile: SourceFile) {
+    return referencedSourceFile
+      .getReferencingLiteralsInOtherSourceFiles()
+      .find((literal) => literal.getSourceFile() === sourceFile);
+  }
+
   private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
-    const literalsReferencingOtherSourceFiles = sourceFile.getLiteralsReferencingOtherSourceFiles();
     const referencedSourceFiles = sourceFile.getReferencedSourceFiles();
 
-    for (let index = 0; index < referencedSourceFiles.length; index++) {
-      // It's safe to use the same index for both arrays, internally they are both generated from the same `Map`
-      // see https://bit.ly/3a7NKWD (ts-morph/SourceFile.ts) for more context.
-      const literal = literalsReferencingOtherSourceFiles[index];
-      const referencedSourceFile = referencedSourceFiles[index];
-      const modulename = literal.getLiteralValue();
-      const {resolvedModule} = ts.resolveModuleName(
+    for (const referencedSourceFile of referencedSourceFiles) {
+      const literalReference = this.getLiteralReferenceFromSourceFile(sourceFile, referencedSourceFile);
+
+      if (!literalReference) {
+        continue;
+      }
+
+      const modulename = literalReference.getLiteralValue();
+      const {resolvedModule} =  ts.resolveModuleName(
         modulename,
         sourceFile.getFilePath(),
         this.project.getCompilerOptions(),
