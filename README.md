@@ -109,14 +109,14 @@ This example also shows how tokens can be separated into multiple files and easi
 ```TypeScript
 //typography.ts
 import {Typograph} from '@diez/prefabs';
-import {sizes} from './sizes'
-import {semanticColors} from './colors' //from example above
+import {sizes} from './sizes';
+import {semanticColors} from './colors'; //from example above
 
 export const typography = {
   heading1: new Typograph({
     color: semanticColors.foreground,
     font: fonts.PoppinsExtraBold.Regular,
-    fontSize: sizes.xxl 
+    fontSize: sizes.xxl
   }),
   heading2: new Typograph({
     color: semanticColors.foreground50,
@@ -127,7 +127,7 @@ export const typography = {
     color: semanticColors.foreground,
     font: shibuiFonts.Poppins.Regular,
     fontSize: sizes.sm
-  })
+  }),
 }
 ```
 
@@ -217,7 +217,7 @@ For example:
 
 ```TypeScript
 //colors.ts, pulling data right out of Figma
-import {fromFigmaColors} from './designs/FromFigma'
+import {fromFigmaColors} from './designs/FromFigma';
 
 const semanticColors = {
   foreground: fromFigmaColors.teal50,
