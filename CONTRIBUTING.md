@@ -33,6 +33,17 @@ The Diez monorepo is built with NodeJS `10.16.3` and Yarn `1.19.1`. The followin
 
 You will also need to follow the [macOS instructions](https://github.com/diez/diez/wiki/IDE-setup-(macOS)) to ensure that all of the examples and tests can run.
 
+## Universal commands
+
+The following commands are available in all subpackages, as well as in the monorepo itself. Running these commands in the monorepo will run across all subpackages.
+
+ * `yarn compile` - compile all TypeScript to JS.
+ * `yarn watch` - compile, then watch for changes.
+ * `yarn lint` - lint TypeScript sources.
+ * `yarn fix` - lint and automatically fix any automatically fixable lint issues found.
+ * `yarn test` - run unit/integration tests.
+ * `yarn health` - run tests and lint code with machine-readable outputs for CI.
+
 ## Contributing code
 
 To contribute code to Diez, please submit a pull request to the Diez monorepo. Your pull request should:
