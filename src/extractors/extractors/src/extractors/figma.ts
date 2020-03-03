@@ -349,7 +349,7 @@ const processFigmaNode = async (
       if (candidateFont) {
         await registerFont(candidateFont, spec.fonts);
       } else {
-        Log.warning(`Unable to locate system font assets for ${node.style.fontFamily}.`);
+        Log.warningOnce(`Unable to locate system font assets for ${node.style.fontFamily}.`);
       }
 
       const {fontSize, letterSpacing, lineHeightPx} = node.style;
