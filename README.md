@@ -246,7 +246,7 @@ Design tokens are a community movement and the creators of Diez are actively con
 **What does the name Diez mean?**
 
 _Diez_ is the Spanish number 10.  This project is called Diez for two reasons:
- - In Spanish, Diez is pronounced roughly like the English letters "D S" — like _design system._ 
+ - In Spanish, Diez is pronounced roughly like saying the English letters "D S" — like _design system._ 
  - El Diez is the magic jersey number in soccer/football, reserved for the star player on the team.  We hope Diez is such a time-saver and collaboration-aid for your team that it earns its place as El Diez!
  
 We came up with the "codename Diez" during a [Haiku team summit in Patagonia](https://www.haikuforteams.com/blog/remote-team-summit).  Then we decided to make the "codename" the "real name."  And here we are.
@@ -257,7 +257,7 @@ While design tokens are often expressed in JSON or YAML, TypeScript solves sever
 
    - **Complexity:** As codebases grow and change, YAML and JSON get complex and hard to reason about.  With limited or no affordances for multiple files, references, or comments, YAML and JSON quickly snowball into complexity or "no one touch this or it will break everything!" 
 
-   - **Modularity & reuse:** Maintainers of design tokens often find a need to reuse certain chunks of tokens across files.  A common example: a color palette may need to be referenced both in a typography definition and in a panel style — or in both a dark-mode and a light-mode theme.  In these cases, yaml and json leave authors holding the bag — either contrive a module system for JSON, or copy, paste, and pray no one needs to update this again.
+   - **Modularity & reuse:** Maintainers of design tokens often find a need to reuse certain chunks of tokens across files.  A common example: a color palette may need to be referenced both in a typography definition and in a panel style — or in both a dark-mode and a light-mode theme.  In these cases, YAML and JSON leave authors holding the bag — either contrive a module system for JSON, or copy, paste, and pray no one needs to update this again.
 
    - **Expressions & permutations:** Wouldn't it be nice to store your _core_ color palette once, and to express variations — for example shades and tints, or theme variations — as a function of that core palette?  TypeScript handles all of this out-of-the-box, and Diez offers helpers for variants like `.lighten` and `.darken`.  [See an example here](https://github.com/HaikuTeam/shibui/blob/master/src/Palette.ts#L56)
 
