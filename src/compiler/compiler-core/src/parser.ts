@@ -4,8 +4,8 @@ import {pascalCase} from 'change-case';
 import {EventEmitter} from 'events';
 import {existsSync} from 'fs-extra';
 import {join, relative} from 'path';
-import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, Type, TypeChecker, TypeGuards, VariableDeclaration} from 'ts-morph';
-import {createAbstractBuilder, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
+import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclaration, Scope, SourceFile, Symbol, ts, Type, TypeChecker, TypeGuards, VariableDeclaration} from 'ts-morph';
+import {createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, DiezTypeMetadata, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
 import {getDescriptionForValue, getProject, isAcceptableType} from './utils';
@@ -459,25 +459,43 @@ export class ProjectParser extends EventEmitter implements Parser {
     return type;
   }
 
-  private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
-    if (!sourceFile.compilerNode.resolvedModules) {
-      return;
-    }
+  private getLiteralReferenceFromSourceFile (sourceFile: SourceFile, referencedSourceFile: SourceFile) {
+    return referencedSourceFile
+      .getReferencingLiteralsInOtherSourceFiles()
+      .find((literal) => literal.getSourceFile() === sourceFile);
+  }
 
-    for (const resolvedModule of sourceFile.compilerNode.resolvedModules.values()) {
+  private locateSources (sourceFile: SourceFile, sourceMap: Map<string, string>) {
+    const referencedSourceFiles = sourceFile.getReferencedSourceFiles();
+
+    for (const referencedSourceFile of referencedSourceFiles) {
+      const literalReference = this.getLiteralReferenceFromSourceFile(sourceFile, referencedSourceFile);
+
+      if (!literalReference) {
+        continue;
+      }
+
+      const modulename = literalReference.getLiteralValue();
+      const {resolvedModule} =  ts.resolveModuleName(
+        modulename,
+        sourceFile.getFilePath(),
+        this.project.getCompilerOptions(),
+        this.project.getModuleResolutionHost(),
+      );
+
       if (!resolvedModule) {
         continue;
       }
 
+      const isExternalLibraryImport = Boolean(resolvedModule.isExternalLibraryImport);
+      const packageName = resolvedModule.packageId && resolvedModule.packageId.name;
+
       sourceMap.set(
-        resolvedModule.resolvedFileName,
-        (resolvedModule.isExternalLibraryImport && resolvedModule.packageId) ? resolvedModule.packageId.name : '.',
+        referencedSourceFile.getFilePath(),
+        (isExternalLibraryImport && packageName) ? packageName : '.',
       );
 
-      this.locateSources(
-        this.project.getSourceFileOrThrow(resolvedModule.resolvedFileName),
-        sourceMap,
-      );
+      this.locateSources(referencedSourceFile, sourceMap);
     }
   }
 
@@ -561,7 +579,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         },
       ),
       sys,
-      createAbstractBuilder,
+      createSemanticDiagnosticsBuilderProgram,
       (diagnostic) => this.printDiagnostics(diagnostic),
       (diagnostic) => this.printDiagnostics(diagnostic),
     );
@@ -573,6 +591,19 @@ export class ProjectParser extends EventEmitter implements Parser {
 
     host.afterProgramCreate = (watchProgram) => {
       this.program = watchProgram.getProgram();
+
+      const changedFiles = watchProgram.getState().changedFilesSet;
+
+      if (changedFiles) {
+        for (const file of changedFiles.keys()) {
+          const sourceFile = this.project.getSourceFile(file);
+
+          if (sourceFile) {
+            sourceFile.refreshFromFileSystemSync();
+          }
+        }
+      }
+
       this.run(false);
     };
 
