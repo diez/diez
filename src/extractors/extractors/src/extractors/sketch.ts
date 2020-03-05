@@ -251,7 +251,7 @@ class SketchExtractor implements Extractor {
     await createFolders(assetsDirectory, [AssetFolder.Slice]);
     reporters.progress(`Running sketchtool export commands for ${assetName}`);
     const [rawDump] = await Promise.all([
-      execAsync(`${parserCliPath} dump ${source}`, {maxBuffer: 48 * (1 << 20)}),
+      execAsync(`${parserCliPath} dump ${escapeShell(source)}`, {maxBuffer: Infinity}),
       runExportCommand(parserCliPath, source, AssetFolder.Slice, assetsDirectory),
     ]);
 

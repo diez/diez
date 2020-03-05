@@ -210,37 +210,49 @@ const downloadAssets = async (
 
   Log.info('Retrieving component URLs from the Figma API...');
   const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
-  const downloadParams: AssetDownloadParams[] = [];
   const scales = ['1', '2', '3', '4'];
-  for (const scale of scales) {
-    for (const chunkedIds of componentIds) {
+  const streams: Promise<void>[] = [];
+
+  for (const chunkedIds of componentIds) {
+    const downloadParams: AssetDownloadParams[] = [];
+
+    for (const scale of scales) {
       downloadParams.push({scale, ids: chunkedIds.join(',')});
     }
-  }
-  const resolvedUrlMap = new Map<string, Map<string, string>>(scales.map((scale) => [scale, new Map()]));
-  await Promise.all(downloadParams.map(async ({scale, ids}) => {
-    const params = new URLSearchParams([
-      ['format', 'png'],
-      ['ids', ids],
-      ['scale', scale],
-    ]);
-    const urlMap = resolvedUrlMap.get(scale)!;
+    const resolvedUrlMap = new Map<string, Map<string, string>>(scales.map((scale) => [scale, new Map()]));
+    await Promise.all(downloadParams.map(async ({scale, ids}) => {
+      const params = new URLSearchParams([
+        ['format', 'png'],
+        ['ids', ids],
+        ['scale', scale],
+      ]);
+      const urlMap = resolvedUrlMap.get(scale)!;
 
-    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-      `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
-    for (const [id, url] of Object.entries(images)) {
-      urlMap.set(id, url);
-    }
-  }));
+      try {
+        const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
+          `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
+        for (const [id, url] of Object.entries(images)) {
+          urlMap.set(id, url);
+        }
+      } catch (requestError) {
+        Log.warning('Figma failed to render some of your components to images, this generally happens when one or more of your components is too big. Diez will skip these images.');
+      }
+    }));
 
-  const streams: Promise<void>[] = [];
-  for (const [scale, urls] of resolvedUrlMap) {
-    for (const [id, url] of urls) {
-      const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
-      Log.info(`Downloading asset ${filename} from the Figma CDN...`);
-      streams.push(downloadStream(url).then((stream) => {
-        stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
-      }));
+    for (const [scale, urls] of resolvedUrlMap) {
+      for (const [id, url] of urls) {
+        if (!url) {
+          continue;
+        }
+
+        const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
+        Log.info(`Downloading asset ${filename} from the Figma CDN...`);
+        streams.push(downloadStream(url).then((stream) => {
+          stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
+        }).catch(() => {
+          Log.warning(`Error downloading ${filename}`);
+        }));
+      }
     }
   }
 
