@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.1](https://github.com/diez/diez/compare/v10.3.0...v10.3.1) (2020-03-03)
+
+**Note:** Version bump only for package @diez/extractors-core
+
+
+
+
+
 # [10.3.0](https://github.com/diez/diez/compare/v10.3.0-beta.0...v10.3.0) (2020-02-20)
 
 **Note:** Version bump only for package @diez/extractors-core
