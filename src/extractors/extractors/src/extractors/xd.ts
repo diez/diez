@@ -140,7 +140,7 @@ const assimilateCharacterStyle = async (codegenSpec: CodegenDesignLanguage, elem
   if (candidateFont) {
     await registerFont(candidateFont, codegenSpec.fonts);
   } else {
-    Log.warning(`Unable to locate system font assets for family ${fontFamily} and style ${fontStyle}.`);
+    Log.warningOnce(`Unable to locate system font assets for family ${fontFamily} and style ${fontStyle}.`);
   }
 
   codegenSpec.typographs.push({

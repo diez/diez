@@ -67,7 +67,7 @@ export class Log {
    * Logs warning messages.
    */
   static warning = (...messages: string[]) => {
-    for (const message in messages) {
+    for (const message of messages) {
       warnings.add(message);
     }
     console.log(Format.warning(...messages));
@@ -77,7 +77,7 @@ export class Log {
    * Logs warning messages once.
    */
   static warningOnce = (...messages: string[]) => {
-    for (const message in messages) {
+    for (const message of messages) {
       if (!warnings.has(message)) {
         Log.warning(message);
       }

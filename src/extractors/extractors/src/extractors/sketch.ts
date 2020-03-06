@@ -305,7 +305,7 @@ class SketchExtractor implements Extractor {
       if (candidateFont) {
         await registerFont(candidateFont, codegenSpec.fonts);
       } else {
-        Log.warning(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
+        Log.warningOnce(`Unable to locate system font assets for ${textStyle.NSFont.attributes.NSFontNameAttribute}.`);
       }
 
       codegenSpec.typographs.push({
