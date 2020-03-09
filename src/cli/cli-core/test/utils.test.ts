@@ -9,7 +9,7 @@ jest.doMock('child_process', () => ({
 
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, locateBinaryMacOS, isWindows} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
