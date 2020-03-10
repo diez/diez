@@ -12,7 +12,7 @@ export const colorToCss = ({h, s, l, a}: ColorData) => `hsla(${h * 360}, ${s * 1
  */
 export const colorToLowFidelityCss = ({h, s, l, a}: ColorData) => {
   return `hsla(${round(h * 360)}, ${round(s * 100)}%, ${round(l * 100)}%, ${a})`;
-}
+};
 
 const round = (number: number) => {
   return Math.round(number * 10) / 10;
