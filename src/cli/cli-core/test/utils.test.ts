@@ -26,11 +26,11 @@ describe('utils', () => {
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
       callback(new Error('whoops'));
     });
-    expect(execAsync('hello')).rejects.toThrow();
+    await expect(execAsync('hello')).rejects.toThrow();
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
       callback(null, '');
     });
-    expect(execAsync('hello')).rejects.not.toThrow();
+    await expect(execAsync('hello')).resolves.not.toThrow();
   });
 
   test('canRunCommand', async () => {
@@ -66,7 +66,7 @@ describe('utils', () => {
 
   test('locateBinaryMacOS', async () => {
     // This method is only allowed on macOS.
-    expect(locateBinaryMacOS('com.foo.bar')).rejects.toThrow();
+    await expect(locateBinaryMacOS('com.foo.bar')).rejects.toThrow();
     mockOsData.platform = 'darwin';
 
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
