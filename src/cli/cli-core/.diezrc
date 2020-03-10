@@ -2,8 +2,6 @@
   "providers": {
     "commands": [
       "./lib/commands/analytics",
-      "./lib/commands/activate",
-      "./lib/commands/install",
       "./lib/commands/update"
     ]
   }

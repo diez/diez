@@ -138,13 +138,6 @@ export interface FullDiezConfiguration {
 export type DiezConfiguration = Partial<FullDiezConfiguration>;
 
 /**
- * Valid options that can be provided to the pager.
- */
-export interface PagerOptions {
-  source: string;
-}
-
-/**
  * Supported package managers
  */
 export enum PackageManagers {

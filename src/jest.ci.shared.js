@@ -14,6 +14,6 @@ module.exports = Object.assign(
     collectCoverage: true,
     collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
     coverageDirectory: '.',
-    coverageReporters: ['istanbul-reporter-cobertura-haiku', 'text'],
+    coverageReporters: ['istanbul-reporter-cobertura-haiku'],
   },
 );
