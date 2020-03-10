@@ -1,9 +1,14 @@
-const {colorToCss} = require('@diez/web-sdk-common');
+const {colorToCss, colorToLowFidelityCss} = require('@diez/web-sdk-common');
 
 Object.defineProperties(Color.prototype, {
   color: {
     get () {
       return colorToCss(this);
+    },
+  },
+  lowFidelityColor: {
+    get () {
+      return colorToLowFidelityCss(this);
     },
   },
   colorStyle: {
