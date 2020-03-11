@@ -12,10 +12,9 @@ jest.mock('package-json', () => () => ({
   versions: {'10.10.10': {}, '9.9.9': {}},
 }));
 
-
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS, getDiezVersionInformationFromNpm} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, getDiezVersionInformationFromNpm, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();

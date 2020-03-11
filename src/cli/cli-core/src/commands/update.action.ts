@@ -17,8 +17,17 @@ const updateAction: CliAction = async (options: UpdateOptions) => {
   }
 
   const updateMessage = loadingMessage(`Updating Diez and related packages to version ${versionToUpdate}`);
-  const userPackageJson = await readJson('./package.json');
   const dependencyGroups = ['dependencies', 'devDependencies', 'optionalDependencies'];
+  let userPackageJson;
+
+  try {
+    userPackageJson = await readJson('./package.json');
+  } catch (_) {
+    updateMessage.stop();
+    throw new Error(
+      'Unable to find or read a package.json file in the current directory, please ensure you are running this command in a Diez project.',
+    );
+  }
 
   for (const dependencyGroup of dependencyGroups) {
     for (const [name] of Object.entries(userPackageJson[dependencyGroup] || {})) {
@@ -28,12 +37,18 @@ const updateAction: CliAction = async (options: UpdateOptions) => {
     }
   }
 
-  await writeJson('./package.json', userPackageJson, {spaces: 2});
+  try {
+    await writeJson('./package.json', userPackageJson, {spaces: 2});
+    const packageManager = await getPackageManager();
+    await packageManager.installAllDependencies();
+  } catch (_) {
+    updateMessage.stop();
+    throw new Error(
+      'There was an error installing the updated Diez packages, please try again or update package versions manually.',
+    );
+  }
 
-  const packageManager = await getPackageManager();
-  await packageManager.installAllDependencies();
   updateMessage.stop();
-
   Log.info('Diez packages updated.');
 };
 

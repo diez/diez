@@ -19,37 +19,38 @@ jest.mock('package-json', () => () => ({
 }));
 
 const mockedWriteJson = jest.fn();
+const mockedReadJson = jest.fn().mockReturnValue(
+  Promise.resolve({
+    name: 'lorem-ipsum',
+    private: true,
+    main: 'lib/index.js',
+    version: '8.8.8',
+    dependencies: {
+      '@diez/engine': '^8.8.8',
+      '@diez/prefabs': '^8.8.8',
+    },
+    devDependencies: {
+      '@diez/compiler-core': '^8.8.8',
+      '@diez/extractors': '^8.8.8',
+      '@diez/start': '^8.8.8',
+      '@diez/stdlib': '^8.8.8',
+      diez: '^8.8.8',
+      semver: '^6.0.0',
+      typescript: '^3.7.2',
+    },
+    optionalDependencies: {
+      '@diez/optional': '^8.7.8',
+    },
+    scripts: {
+      start: 'diez start',
+      demo: 'diez start web',
+    },
+  }),
+);
 
 jest.mock('fs-extra', () => ({
   writeJson: mockedWriteJson,
-  readJson () {
-    return Promise.resolve({
-      name: 'lorem-ipsum',
-      private: true,
-      main: 'lib/index.js',
-      version: '8.8.8',
-      dependencies: {
-        '@diez/engine': '^8.8.8',
-        '@diez/prefabs': '^8.8.8',
-      },
-      devDependencies: {
-        '@diez/compiler-core': '^8.8.8',
-        '@diez/extractors': '^8.8.8',
-        '@diez/start': '^8.8.8',
-        '@diez/stdlib': '^8.8.8',
-        diez: '^8.8.8',
-        semver: '^6.0.0',
-        typescript: '^3.7.2',
-      },
-      optionalDependencies: {
-        '@diez/optional': '^8.7.8',
-      },
-      scripts: {
-        start: 'diez start',
-        demo: 'diez start web',
-      },
-    });
-  },
+  readJson: mockedReadJson,
 }));
 
 import updateAction from '../src/commands/update.action';
@@ -100,6 +101,24 @@ describe('cli.update', () => {
       'npm install',
       undefined,
       expect.anything(),
+    );
+  });
+
+  test('throws an error if is not able to find or read a package.json file in the current directory', async () => {
+    mockedReadJson.mockReturnValueOnce(Promise.reject());
+    await expect(updateAction({toVersion: '10.10.10'})).rejects.toThrow(
+      expect.objectContaining({message: expect.stringContaining('Unable to find or read a package.json file')}),
+    );
+  });
+
+  test('throws an error if there is a problem installing packages', async () => {
+    mockedExec.mockImplementation((command, opts, callback) => {
+      // @ts-ignore
+      callback(new Error('error installing dependencies!'));
+    });
+
+    await expect(updateAction({toVersion: '10.10.10'})).rejects.toThrow(
+      expect.objectContaining({message: expect.stringContaining('There was an error installing the updated Diez packages')}),
     );
   });
 });
