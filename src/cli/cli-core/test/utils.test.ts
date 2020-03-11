@@ -7,9 +7,15 @@ jest.doMock('child_process', () => ({
   exec: mockExec,
 }));
 
+jest.mock('package-json', () => () => ({
+  version: '10.10.10',
+  versions: {'10.10.10': {}, '9.9.9': {}},
+}));
+
+
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS, getDiezVersionInformationFromNpm} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -86,6 +92,12 @@ describe('utils', () => {
     });
     expect(await locateBinaryMacOS('com.foo.bar')).toBe('/path/to/first/match');
     expect(mockExec.mock.calls[0][0]).toBe('mdfind kMDItemCFBundleIdentifier=com.foo.bar');
+  });
+
+  test('getDiezVersionInformationFromNpm', async () => {
+    const {latestDiezVersion, allDiezVersions} = await getDiezVersionInformationFromNpm();
+    expect(latestDiezVersion).toBe('10.10.10');
+    expect(allDiezVersions).toEqual(expect.objectContaining({'9.9.9': expect.anything()}));
   });
 
   test('exitTrap', () => {
