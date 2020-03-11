@@ -10,13 +10,13 @@ interface UpdateOptions {
 
 const updateAction: CliAction = async (options: UpdateOptions) => {
   const {latestDiezVersion, allDiezVersions} = await getDiezVersionInformationFromNpm();
-  const version = options.toVersion || latestDiezVersion;
+  const versionToUpdate = options.toVersion || latestDiezVersion;
 
-  if (!allDiezVersions[version]) {
+  if (!allDiezVersions[versionToUpdate]) {
     throw new Error('Invalid version provided.');
   }
 
-  const updateMessage = loadingMessage(`Updating Diez and related packages to version ${version}`);
+  const updateMessage = loadingMessage(`Updating Diez and related packages to version ${versionToUpdate}`);
   const userPackageJson = await readJson('./package.json');
   const dependencyGroups = ['dependencies', 'devDependencies', 'optionalDependencies'];
   const packagesToUpdate = new Set<string>();
@@ -25,7 +25,7 @@ const updateAction: CliAction = async (options: UpdateOptions) => {
     for (const [name] of Object.entries(userPackageJson[dependencyGroup] || {})) {
       if (isDiezPackage(name)) {
         packagesToUpdate.add(name);
-        userPackageJson[dependencyGroup][name] = `^${version}`;
+        userPackageJson[dependencyGroup][name] = `^${versionToUpdate}`;
       }
     }
   }
