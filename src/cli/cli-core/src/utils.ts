@@ -275,10 +275,10 @@ export const isDiezPackage = (packageName: string) => {
  * @ignore
  */
 export const getDiezVersionInformationFromNpm = async () => {
-  const {version, versions} = await packageJson('diez', {allVersions: true});
+  const {'dist-tags': distTags, versions} = await packageJson('diez', {allVersions: true});
 
   return {
-    latestDiezVersion: version as string,
+    latestDiezVersion: distTags.latest,
     allDiezVersions: versions,
   };
 };

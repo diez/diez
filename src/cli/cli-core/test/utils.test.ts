@@ -8,7 +8,7 @@ jest.doMock('child_process', () => ({
 }));
 
 jest.mock('package-json', () => () => ({
-  version: '10.10.10',
+  'dist-tags': {latest: '10.10.10'},
   versions: {'10.10.10': {}, '9.9.9': {}},
 }));
 
