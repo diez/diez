@@ -99,6 +99,33 @@ export const semanticColors = {
   background50: rawColors.clover.lighten(.5),
 }
 ```
+### Specify values per target
+To specify values per target is by providing an options property. For instance, this would be:
+
+```TypeScript
+import {Target} from '@diez/engine';
+
+const layoutValues = { 
+  spacingSmall: 5,
+  spacingSmallAndroid: 5, // only visible for android target
+  spacingMedium: 25,
+  spacingLarge: 40,
+  contentMargin: new Margin({
+    top: 40,
+    left: 10,
+    right: 10,
+    bottom: 10
+  }),
+  
+  // here you can provide specific options per property
+  options: {
+    // tell Diez to only output `spacingSmallAndroid` for the `Android` target.
+    spacingSmallAndroid: {
+      targets: [Target.Android],
+    },
+  },
+};
+```
 
 ### Nesting & reuse example
 
