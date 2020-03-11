@@ -1,5 +1,6 @@
 import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment} from '@diez/prefabs';
 import {Margin} from './components/Margin';
+import {Target} from '@diez/engine';
 
 /**
  * You can collect anything inside a Diez component. Design tokens specified as
@@ -72,6 +73,7 @@ const images = {
  */
 const layoutValues = {
   spacingSmall: 5,
+  spacingSmallAndroid: 5, // only visible for android target
   spacingMedium: 25,
   spacingLarge: 40,
   contentMargin: new Margin({
@@ -80,6 +82,14 @@ const layoutValues = {
     right: 10,
     bottom: 10,
   }),
+  
+  // here you can provide specific options per property
+  options: {
+    // tell Diez to only output `spacingSmallAndroid` for the `Android` target.
+    spacingSmallAndroid: {
+      targets: [Target.Android],
+    },
+  },
 }
 
 /**
