@@ -1,36 +1,23 @@
-import {readFileSync, writeJSONSync} from 'fs-extra';
-import packageJson from 'package-json';
-import {resolve} from 'path';
+import {readJson, writeJson} from 'fs-extra';
 import {CliAction} from '../api';
 import {getPackageManager} from '../package-manager';
 import {loadingMessage, Log} from '../reporting';
+import {getDiezVersionInformationFromNpm, isDiezPackage} from '../utils';
 
 interface UpdateOptions {
   toVersion?: string;
 }
 
-const updateVersion = async (suggestedVersion?: string) => {
-  const {version, versions} = await packageJson('diez', {allVersions: true});
+const updateAction: CliAction = async (options: UpdateOptions) => {
+  const {latestDiezVersion, allDiezVersions} = await getDiezVersionInformationFromNpm();
+  const version = options.toVersion || latestDiezVersion;
 
-  if (suggestedVersion) {
-    if (!versions[suggestedVersion]) {
-      throw new Error('Invalid version provided.');
-    }
-
-    return suggestedVersion;
+  if (!allDiezVersions[version]) {
+    throw new Error('Invalid version provided.');
   }
 
-  return version;
-};
-
-const isDiezPackage = (packageName: string) => {
-  return packageName === 'diez' || packageName.includes('@diez/');
-};
-
-const updateAction: CliAction = async (options: UpdateOptions) => {
-  const version = await updateVersion(options.toVersion);
   const updateMessage = loadingMessage(`Updating Diez and related packages to version ${version}`);
-  const userPackageJson = JSON.parse(readFileSync(resolve('./package.json')).toString());
+  const userPackageJson = await readJson('./package.json');
   const dependencyGroups = ['dependencies', 'devDependencies', 'optionalDependencies'];
   const packagesToUpdate = new Set<string>();
 
@@ -48,7 +35,7 @@ const updateAction: CliAction = async (options: UpdateOptions) => {
     return;
   }
 
-  writeJSONSync('./package.json', userPackageJson, {spaces: 2});
+  await writeJson('./package.json', userPackageJson, {spaces: 2});
 
   const packageManager = await getPackageManager();
   await packageManager.installAllDependencies();

@@ -2,25 +2,25 @@ import {each} from 'async';
 import {ChildProcess, exec as coreExec, ExecException, ExecOptions, spawn} from 'child_process';
 import {existsSync, readFileSync} from 'fs-extra';
 import {platform} from 'os';
-import {AbbreviatedVersion as PackageJson} from 'package-json';
+import packageJson, {AbbreviatedVersion as PackageJson} from 'package-json';
 import {dirname, join} from 'path';
 import {DiezConfiguration, PagerOptions} from './api';
 import {Log} from './reporting';
 
 // tslint:disable-next-line:no-var-requires
-const packageJson = require(join('..', 'package.json'));
+const cliCorePackageJson = require(join('..', 'package.json'));
 
 /**
  * The development dependencies of this package.
  * @ignore
  */
-export const devDependencies: {[key: string]: string} = packageJson.devDependencies;
+export const devDependencies: {[key: string]: string} = cliCorePackageJson.devDependencies;
 
 /**
  * The version of this package. Used for synchronizing Diez versions.
  * @ignore
  */
-export const diezVersion: string = packageJson.version;
+export const diezVersion: string = cliCorePackageJson.version;
 
 /**
  * Cache for found plugins.
@@ -260,4 +260,25 @@ const setProcessStdinRaw = (mode: boolean) => {
   if (process.stdin.setRawMode) {
     process.stdin.setRawMode(mode);
   }
+};
+
+/**
+ * Checks if a package name seems to be a Diez package.
+ * @ignore
+ */
+export const isDiezPackage = (packageName: string) => {
+  return packageName === 'diez' || packageName.includes('@diez/');
+};
+
+/**
+ * Fetch information about the diez package in the npm registry.
+ * @ignore
+ */
+export const getDiezVersionInformationFromNpm = async () => {
+  const {version, versions} = await packageJson('diez', {allVersions: true});
+
+  return {
+    latestDiezVersion: version as string,
+    allDiezVersions: versions,
+  };
 };

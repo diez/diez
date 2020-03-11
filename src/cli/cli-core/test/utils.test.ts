@@ -9,7 +9,7 @@ jest.doMock('child_process', () => ({
 
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -62,6 +62,13 @@ describe('utils', () => {
     expect(isWindows()).toBe(false);
     mockOsData.platform = 'win32';
     expect(isWindows()).toBe(true);
+  });
+
+  test('isDiezPackage', () => {
+    expect(isDiezPackage('fs-extra')).toBe(false);
+    expect(isDiezPackage('@vue/cli-core')).toBe(false);
+    expect(isDiezPackage('@diez/my-package')).toBe(true);
+    expect(isDiezPackage('diez')).toBe(true);
   });
 
   test('locateBinaryMacOS', async () => {
