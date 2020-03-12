@@ -43,9 +43,9 @@ for (const requirePath of Module._nodeModulePaths(global.process.cwd())) {
       if (semver.gt(latestVersion, diezVersion)) {
         Log.warning('You are using an out-of-date version of Diez. Please upgrade to the latest version:\n');
         Log.info('If you are using yarn:');
-        Log.code('yarn upgrade diez --latest\n\n');
+        Log.code('yarn diez update\n\n');
         Log.info('If you are using npm:');
-        Log.code(`npm install diez@${latestVersion} --save\n\n `);
+        Log.code(`npx diez update\n\n `);
       }
     } catch (_) {
       // Noop.

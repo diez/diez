@@ -7,9 +7,14 @@ jest.doMock('child_process', () => ({
   exec: mockExec,
 }));
 
+jest.mock('package-json', () => () => ({
+  'dist-tags': {latest: '10.10.10'},
+  versions: {'10.10.10': {}, '9.9.9': {}},
+}));
+
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, isChildProcess, isMacOS, locateBinaryMacOS, isWindows} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, getDiezVersionInformationFromNpm, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -26,11 +31,11 @@ describe('utils', () => {
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
       callback(new Error('whoops'));
     });
-    expect(execAsync('hello')).rejects.toThrow();
+    await expect(execAsync('hello')).rejects.toThrow();
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
       callback(null, '');
     });
-    expect(execAsync('hello')).rejects.not.toThrow();
+    await expect(execAsync('hello')).resolves.not.toThrow();
   });
 
   test('canRunCommand', async () => {
@@ -64,9 +69,16 @@ describe('utils', () => {
     expect(isWindows()).toBe(true);
   });
 
+  test('isDiezPackage', () => {
+    expect(isDiezPackage('fs-extra')).toBe(false);
+    expect(isDiezPackage('@vue/cli-core')).toBe(false);
+    expect(isDiezPackage('@diez/my-package')).toBe(true);
+    expect(isDiezPackage('diez')).toBe(true);
+  });
+
   test('locateBinaryMacOS', async () => {
     // This method is only allowed on macOS.
-    expect(locateBinaryMacOS('com.foo.bar')).rejects.toThrow();
+    await expect(locateBinaryMacOS('com.foo.bar')).rejects.toThrow();
     mockOsData.platform = 'darwin';
 
     mockExec.mockImplementationOnce((command: any, options: any, callback: Function) => {
@@ -79,6 +91,12 @@ describe('utils', () => {
     });
     expect(await locateBinaryMacOS('com.foo.bar')).toBe('/path/to/first/match');
     expect(mockExec.mock.calls[0][0]).toBe('mdfind kMDItemCFBundleIdentifier=com.foo.bar');
+  });
+
+  test('getDiezVersionInformationFromNpm', async () => {
+    const {latestDiezVersion, allDiezVersions} = await getDiezVersionInformationFromNpm();
+    expect(latestDiezVersion).toBe('10.10.10');
+    expect(allDiezVersions).toEqual(expect.objectContaining({'9.9.9': expect.anything()}));
   });
 
   test('exitTrap', () => {
