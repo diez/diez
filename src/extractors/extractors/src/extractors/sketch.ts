@@ -17,6 +17,7 @@ import {
 } from '@diez/generation';
 import {pathExists} from 'fs-extra';
 import {basename, extname, join, relative} from 'path';
+import {ImageFormats} from '../api';
 import {cliReporters, createFolders, escapeShell} from '../utils';
 
 const sketchExtension = '.sketch';
@@ -28,10 +29,23 @@ const sketchExtension = '.sketch';
  */
 const runExportCommand = (sketchtoolPath: string, source: string, folder: string, out: string) => {
   const output = escapeShell(join(out, folder));
-  const command =
-    `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=${output} ${folder} ${escapeShell(source)}`;
 
-  return execAsync(command);
+  const exportOptions = [
+    {
+      format: ImageFormats.svg,
+      scales: [1],
+    },
+    {
+      format: ImageFormats.png,
+      scales: [1, 2, 3, 4],
+    },
+  ];
+
+  const commands = exportOptions
+    .map(({format, scales}) => `${sketchtoolPath} export --format=${format} --scales=${scales.join(',')} --output=${output} ${folder} ${escapeShell(source)}`)
+    .map((command) => execAsync(command));
+
+  return Promise.all(commands);
 };
 
 interface SketchColor {

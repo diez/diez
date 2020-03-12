@@ -205,9 +205,11 @@ describe('Sketch', () => {
       await writeFile('test.sketch', '');
       await sketch.export({source: 'test.sketch', assets: 'out', code: 'src'}, '.');
       expect(mockLocateBinaryMacOS).toHaveBeenCalledWith('com.bohemiancoding.sketch3');
-      expect(mockExec).toHaveBeenCalledTimes(2);
+      expect(mockExec).toHaveBeenCalledTimes(3);
       expect(mockExec).toHaveBeenNthCalledWith(1, `${sketchtoolPath} dump test.sketch`, expect.anything());
       expect(mockExec).toHaveBeenNthCalledWith(2,
+        `${sketchtoolPath} export --format=svg --scales=1 --output=out/Test.sketch.contents/slices slices test.sketch`);
+      expect(mockExec).toHaveBeenNthCalledWith(3,
         `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=out/Test.sketch.contents/slices slices test.sketch`);
       expect(mockCodegen).toHaveBeenCalled();
       expect(mockCodegen).toHaveBeenCalledWith({
