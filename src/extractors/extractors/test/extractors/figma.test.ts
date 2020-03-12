@@ -422,6 +422,15 @@ describe('Figma', () => {
         },
         expect.anything(),
       );
+      expect(mockRequest).toHaveBeenNthCalledWith(
+        6,
+        {
+          headers: {Authorization: 'Bearer mock-token'},
+          json: true,
+          uri: 'https://api.figma.com/v1/images/key?format=svg&ids=legacyComponent%2Ccomponent&scale=1',
+        },
+        expect.anything(),
+      );
 
       expect(mockCodegen).toHaveBeenCalledWith({
         assets: new Map([[

@@ -18,7 +18,7 @@ import {downloadStream, Registry} from '@diez/storage';
 import {createWriteStream} from 'fs-extra';
 import {join, relative} from 'path';
 import {parse, URLSearchParams} from 'url';
-import {OAuthable} from '../api';
+import {ImageFormats, OAuthable} from '../api';
 import {chunk, cliReporters, createFolders} from '../utils';
 import {
   getFigmaAccessToken,
@@ -192,10 +192,23 @@ const fetchFile = (id: string, authToken: string): Promise<FigmaFile> => {
   return performGetRequestWithBearerToken<FigmaFile>(`${apiBase}/files/${id}`, authToken);
 };
 
-interface AssetDownloadParams {
-  scale: string;
-  ids: string;
-}
+const getImageUrls = async (fileId: string, authToken: string, format: string, scale: string, ids: string) => {
+  const params = new URLSearchParams([
+    ['format', format],
+    ['ids', ids],
+    ['scale', scale],
+  ]);
+
+  try {
+    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
+      `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
+
+    return {format, scale, images: Object.entries(images)};
+  } catch (requestError) {
+    Log.warning('Figma failed to render some of your components to images, this generally happens when one or more of your components is too big. Diez will skip these images.');
+    return {format, scale, images: []};
+  }
+};
 
 const downloadAssets = async (
   filenameMap: Map<string, string>,
@@ -208,50 +221,42 @@ const downloadAssets = async (
     return;
   }
 
-  Log.info('Retrieving component URLs from the Figma API...');
-  const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
-  const scales = ['1', '2', '3', '4'];
   const streams: Promise<void>[] = [];
+  const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
+  const exportOptions = [
+    {
+      format: ImageFormats.png,
+      scales: ['1', '2', '3', '4'],
+    },
+    {
+      format: ImageFormats.svg,
+      scales: ['1'],
+    },
+  ];
 
   for (const chunkedIds of componentIds) {
-    const downloadParams: AssetDownloadParams[] = [];
+    const exports = [];
+    const ids = chunkedIds.join(',');
 
-    for (const scale of scales) {
-      downloadParams.push({scale, ids: chunkedIds.join(',')});
-    }
-    const resolvedUrlMap = new Map<string, Map<string, string>>(scales.map((scale) => [scale, new Map()]));
-    await Promise.all(downloadParams.map(async ({scale, ids}) => {
-      const params = new URLSearchParams([
-        ['format', 'png'],
-        ['ids', ids],
-        ['scale', scale],
-      ]);
-      const urlMap = resolvedUrlMap.get(scale)!;
-
-      try {
-        const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-          `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
-        for (const [id, url] of Object.entries(images)) {
-          urlMap.set(id, url);
-        }
-      } catch (requestError) {
-        Log.warning('Figma failed to render some of your components to images, this generally happens when one or more of your components is too big. Diez will skip these images.');
+    for (const {format, scales} of exportOptions) {
+      for (const scale of scales) {
+        exports.push(getImageUrls(fileId, authToken, format, scale, ids));
       }
-    }));
+    }
 
-    for (const [scale, urls] of resolvedUrlMap) {
-      for (const [id, url] of urls) {
-        if (!url) {
-          continue;
-        }
-
-        const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
+    for (const {format, scale, images} of await Promise.all(exports)) {
+      for (const [id, url] of images) {
+        const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.${format}`;
         Log.info(`Downloading asset ${filename} from the Figma CDN...`);
-        streams.push(downloadStream(url).then((stream) => {
-          stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
-        }).catch(() => {
-          Log.warning(`Error downloading ${filename}`);
-        }));
+        streams.push(
+          downloadStream(url)
+            .then((stream) => {
+              stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
+            })
+            .catch(() => {
+              Log.warning(`Error downloading ${filename}`);
+            }),
+        );
       }
     }
   }
