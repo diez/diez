@@ -1,6 +1,6 @@
 import {File} from '@diez/prefabs';
-import {fileAssetBinder as assetsBinder} from '../../asset-binders/file';
 import {DocsBinding} from '@diez/targets';
+import {fileAssetBinder as assetsBinder} from '../../asset-binders/file';
 
 const binding: DocsBinding<File> = {
   assetsBinder,

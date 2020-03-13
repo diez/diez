@@ -17,13 +17,11 @@ import {
   UsageExampleTree,
 } from '@diez/compiler-core';
 import {serialize} from '@diez/engine';
-import {getPackageUrls} from '@diez/sdk-inkstone';
 import {copy, ensureDir, outputFile, readFileSync, remove, writeJson} from 'fs-extra';
 import {dirname, join} from 'path';
-import {DocsTargetSpec, ParsedExampleTree} from './docs.api';
-import {check, getKey} from '../utils/check';
 import {handlebars, highlight, markdown} from '../utils/format';
 import {buildIndex} from '../utils/search';
+import {DocsTargetSpec, ParsedExampleTree} from './docs.api';
 
 /**
  * Compiler for docs.
@@ -42,7 +40,6 @@ export class DocsCompiler {
   }
 
   async start () {
-    await check();
     await this.writeAssets(await this.getTrees());
   }
 
@@ -299,23 +296,14 @@ export class DocsCompiler {
     await ensureDir(this.root);
     await writeJson(join(this.root, 'tree.json'), trees, {spaces: 2});
     await writeJson(join(this.root, 'searchIndex.json'), searchIndex);
-    const resolutions = await getPackageUrls({
-      names: ['@diez/docs-template-app', '@diez/docs', '@diez/docs-design-language'],
-      version: diezVersion,
-      activationKey: await getKey() || '',
-    });
-
-    if ('error' in resolutions) {
-      throw resolutions.error;
-    }
-
     await writeJson(
       join(this.root, 'package.json'),
       {
         name: `diez-${inferProjectName(this.parser.projectRoot)}-docs`,
         version: this.parser.options.sdkVersion,
         dependencies: {
-          '@diez/docs-template-app': `${resolutions.packageUrls['@diez/docs-template-app']}`,
+          '@diez/docs-template-app': `^${diezVersion}`,
+          '@diez/docs-design-language': `^${diezVersion}`,
         },
         scripts: {
           build: 'docs-app build',

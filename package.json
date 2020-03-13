@@ -4,6 +4,7 @@
   "workspaces": [
     "src/*/*",
     "examples/*/*",
+    "examples/*/*/build/docs",
     "examples/*/example-codebases/web",
     "services/*"
   ],
