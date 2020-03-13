@@ -15,11 +15,11 @@ const binding: WebBinding<Color> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: '@include {{path style="kebab" separator="-"}}-background-color();',
+          template: '@include {{case name style="kebab" separator="-"}}-background-color();',
         },
         {
           lang: WebLanguages.Css,
-          template: '.{{path style="kebab" separator="-"}}-background-color {}',
+          template: '.{{case name style="kebab" separator="-"}}-background-color {}',
         },
         {
           lang: WebLanguages.JavaScript,
@@ -33,11 +33,11 @@ const binding: WebBinding<Color> = {
       snippets: [
         {
           lang: WebLanguages.Scss,
-          template: 'color: \${{path style="kebab" separator="-"}};',
+          template: 'color: \${{case name style="kebab" separator="-"}};',
         },
         {
           lang: WebLanguages.Css,
-          template: 'color: var(--{{path style="kebab" separator="-"}});',
+          template: 'color: var(--{{case name style="kebab" separator="-"}});',
         },
         {
           lang: WebLanguages.JavaScript,
