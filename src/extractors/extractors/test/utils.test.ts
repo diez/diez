@@ -1,7 +1,7 @@
 import {cleanupMockFileSystem, mockFileSystem, mockFsExtraFactory} from '@diez/test-utils';
 jest.doMock('fs-extra', mockFsExtraFactory);
 
-import {AssetFolder} from '@diez/generation';
+import {assetFolders, ExtractableAssetType} from '@diez/generation';
 import {writeFile} from 'fs-extra';
 import {join} from 'path';
 import {ImageFormats} from '../src/api';
@@ -83,8 +83,8 @@ describe('createFolders', () => {
 
   test('creates the provided folders inside the root folder in disk', async () => {
     expect(mockFileSystem['out/path/slices']).toBeUndefined();
-    await createFolders('out/path', [AssetFolder.Slice]);
-    expect(mockFileSystem['out/path/slices']).toBe('FOLDER');
+    await createFolders('out/path', [assetFolders[ExtractableAssetType.Slice]]);
+    expect(mockFileSystem['out/path/images']).toBe('FOLDER');
   });
 });
 

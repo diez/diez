@@ -7,12 +7,32 @@ export interface CodegenEntity {
 }
 
 /**
+ * Describes assets that can be extracted from design tools.
+ */
+export enum ExtractableAssetType {
+  Slice = 'slice',
+  Component = 'component',
+}
+
+/**
  * Folder names where we should store extracted assets.
  */
 export enum AssetFolder {
+  Image = 'images',
+  /**
+   * @deprecated since version 10.4.0
+   */
   Slice = 'slices',
-  Component = 'components',
+  /**
+   * @deprecated since version 10.4.0
+   */
+  Component  = 'component',
 }
+
+/**
+ * Maps assets that can be extracted from design tools to folder names.
+ */
+export type AssetFolderByAssetType = Record<ExtractableAssetType, AssetFolder>;
 
 /**
  * A generated asset.
@@ -26,7 +46,7 @@ export interface GeneratedAsset {
 /**
  * A collection of extracted assets.
  */
-export type GeneratedAssets = Map<AssetFolder, Map<string, GeneratedAsset>>;
+export type GeneratedAssets = Map<ExtractableAssetType, Map<string, GeneratedAsset>>;
 
 /**
  * A generated font.
