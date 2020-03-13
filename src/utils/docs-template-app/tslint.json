@@ -1,0 +1,7 @@
+{
+  "extends": ["tslint-config-haiku"],
+  "rules": {
+    "import-name": false,
+    "no-implicit-dependencies": [true, "dev", ["@/assets", "@/components", "@/utils", "@/api", "@/views", "@/filters"]]
+  }
+}

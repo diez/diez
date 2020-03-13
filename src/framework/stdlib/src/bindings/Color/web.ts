@@ -19,7 +19,7 @@ const binding: WebBinding<Color> = {
         },
         {
           lang: WebLanguages.Css,
-          template: '.{{path}}-background-color {}',
+          template: '.{{path style="kebab" separator="-"}}-background-color {}',
         },
         {
           lang: WebLanguages.JavaScript,

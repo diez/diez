@@ -1,0 +1,93 @@
+@import "@diez/styles.scss";
+@import "~prismjs/themes/prism.css";
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+*::-webkit-scrollbar {
+  @include scrollbar-size();
+}
+
+*::-webkit-scrollbar-thumb {
+  @include scrollbar-panel();
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  @include typography-copy();
+}
+
+h1 {
+  @include typography-heading-one();
+  letter-spacing: 3.54px;
+}
+
+h2 {
+  @include typography-heading-two();
+}
+
+h3 {
+  @include typography-heading-three();
+}
+
+h4 {
+  @include typography-heading-four();
+}
+
+a, .link {
+  @include typography-link();
+}
+
+button {
+  @include button-panel();
+  @include typography-button();
+  display: flex;
+  outline: none;
+  border: 1px solid currentColor;
+  padding: 3px 15px;
+  cursor: pointer;
+
+  &.active {
+    @include button-panel-active();
+    color: $palette-primary;
+    border: 1px solid currentColor;
+  }
+
+  svg {
+    margin-right: 8px;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+figure {
+  margin: 0;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+input:focus {
+  outline: 1px solid $palette-electric-violet;
+  box-shadow: none;
+}
+
+p code {
+  background-color: $palette-secondary-fill;
+  padding: 0 4px;
+  border-radius: $corner-radii-base-px;
+}

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ESNext",
+    "rootDir": "src",
+    "outDir": "lib",
+    "module": "commonjs",
+    "strict": true
+  },
+  "include": ["src/**/*.ts"]
+}

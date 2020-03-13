@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../../diez/src/tsconfig.shared.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "lib"
+  },
+  "include": [
+    "**/*.ts",
+    "nightwatch.d.ts"
+  ]
+}

@@ -10,52 +10,62 @@
     "@diez/prefabs:Color": {
       "ios": "./lib/bindings/Color/ios",
       "android": "./lib/bindings/Color/android",
-      "web": "./lib/bindings/Color/web"
+      "web": "./lib/bindings/Color/web",
+      "docs": "./lib/bindings/Color/docs"
     },
     "@diez/prefabs:DropShadow": {
       "ios": "./lib/bindings/DropShadow/ios",
       "android": "./lib/bindings/DropShadow/android",
-      "web": "./lib/bindings/DropShadow/web"
+      "web": "./lib/bindings/DropShadow/web",
+      "docs": "./lib/bindings/DropShadow/docs"
     },
     "@diez/prefabs:File": {
       "ios": "./lib/bindings/File/ios",
       "android": "./lib/bindings/File/android",
-      "web": "./lib/bindings/File/web"
+      "web": "./lib/bindings/File/web",
+      "docs": "./lib/bindings/File/docs"
     },
     "@diez/prefabs:Image": {
       "ios": "./lib/bindings/Image/ios",
       "android": "./lib/bindings/Image/android",
-      "web": "./lib/bindings/Image/web"
+      "web": "./lib/bindings/Image/web",
+      "docs": "./lib/bindings/Image/docs"
     },
     "@diez/prefabs:LinearGradient": {
       "ios": "./lib/bindings/LinearGradient/ios",
       "android": "./lib/bindings/LinearGradient/android",
-      "web": "./lib/bindings/LinearGradient/web"
+      "web": "./lib/bindings/LinearGradient/web",
+      "docs": "./lib/bindings/LinearGradient/docs"
     },
     "@diez/prefabs:Lottie": {
       "ios": "./lib/bindings/Lottie/ios",
       "android": "./lib/bindings/Lottie/android",
-      "web": "./lib/bindings/Lottie/web"
+      "web": "./lib/bindings/Lottie/web",
+      "docs": "./lib/bindings/Lottie/docs"
     },
     "@diez/prefabs:Point2D": {
       "ios": "./lib/bindings/Point2D/ios",
       "android": "./lib/bindings/Point2D/android",
-      "web": "./lib/bindings/Point2D/web"
+      "web": "./lib/bindings/Point2D/web",
+      "docs": "./lib/bindings/Point2D/docs"
     },
     "@diez/prefabs:Panel": {
       "ios": "./lib/bindings/Panel/ios",
       "android": "./lib/bindings/Panel/android",
-      "web": "./lib/bindings/Panel/web"
+      "web": "./lib/bindings/Panel/web",
+      "docs": "./lib/bindings/Panel/docs"
     },
     "@diez/prefabs:Size2D": {
       "ios": "./lib/bindings/Size2D/ios",
       "android": "./lib/bindings/Size2D/android",
-      "web": "./lib/bindings/Size2D/web"
+      "web": "./lib/bindings/Size2D/web",
+      "docs": "./lib/bindings/Size2D/docs"
     },
     "@diez/prefabs:Typograph": {
       "ios": "./lib/bindings/Typograph/ios",
       "android": "./lib/bindings/Typograph/android",
-      "web": "./lib/bindings/Typograph/web"
+      "web": "./lib/bindings/Typograph/web",
+      "docs": "./lib/bindings/Typograph/docs"
     }
   }
 }

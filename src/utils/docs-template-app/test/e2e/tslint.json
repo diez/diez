@@ -1,0 +1,7 @@
+{
+  "extends": ["tslint-config-haiku"],
+  "rules": {
+    "no-implicit-dependencies": [true, "dev", ["@"]],
+    "no-unused-expression": false
+  }
+}
