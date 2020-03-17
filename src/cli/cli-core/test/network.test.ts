@@ -1,6 +1,8 @@
 import {EventEmitter} from 'events';
 import {findOpenPort, getCandidatePortRange, socketTrap} from '../src/network';
 
+jest.mock('package-json', () => () => {});
+
 class MockServer extends EventEmitter {
   listen (port: number) {
     if (port === 8999) {

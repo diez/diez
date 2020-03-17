@@ -104,7 +104,7 @@ describe('getPackageManager', () => {
   test('throws if it cant use npm or yarn', async () => {
     jest.spyOn(packageManager, 'shouldUseYarn').mockReturnValueOnce(Promise.resolve(false));
     jest.spyOn(packageManager, 'canUseNpm').mockReturnValueOnce(Promise.resolve(false));
-    expect(packageManager.getPackageManager()).rejects.toMatch('Unable to start an NPM process.');
+    await expect(packageManager.getPackageManager()).rejects.toMatchObject({message: 'Unable to start an NPM process.'});
   });
 
   test('returns a package manager instance', async () => {
