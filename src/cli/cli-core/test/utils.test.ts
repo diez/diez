@@ -14,7 +14,7 @@ jest.mock('package-json', () => () => ({
 
 import {ChildProcess} from 'child_process';
 import {join} from 'path';
-import {canRunCommand, execAsync, exitTrap, findPlugins, getDiezVersionInformationFromNpm, isChildProcess, isDiezPackage, isMacOS, isWindows, locateBinaryMacOS} from '../src/utils';
+import {canRunCommand, execAsync, exitTrap, findPlugins, getDiezVersionInformationFromNpm, isChildProcess, isDiezPackage, isMacOS, locateBinaryMacOS} from '../src/utils';
 
 beforeEach(() => {
   cleanupMockOsData();
@@ -61,12 +61,6 @@ describe('utils', () => {
     expect(isMacOS()).toBe(false);
     mockOsData.platform = 'darwin';
     expect(isMacOS()).toBe(true);
-  });
-
-  test('isWindows', async () => {
-    expect(isWindows()).toBe(false);
-    mockOsData.platform = 'win32';
-    expect(isWindows()).toBe(true);
   });
 
   test('isDiezPackage', () => {
