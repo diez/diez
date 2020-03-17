@@ -3,7 +3,8 @@
     "extractors": [
       "./lib/extractors/figma",
       "./lib/extractors/sketch",
-      "./lib/extractors/xd"
+      "./lib/extractors/xd",
+      "./lib/extractors/invision"
     ]
   }
 }
