@@ -29,7 +29,7 @@ import {DocsTargetSpec, ParsedExampleTree} from './docs.api';
 export class DocsCompiler {
   constructor (readonly parser: Parser) {
     if (parser.hot) {
-      throw new Error('Docs cannot be build in hot mode.');
+      throw new Error('Docs cannot be built in hot mode.');
     }
   }
 
