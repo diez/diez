@@ -43,8 +43,7 @@
     "fs-extra": "^7.0.1",
     "package-json": "^6.3.0",
     "server-destroy": "^1.0.1",
-    "stack-trace": "^0.0.10",
-    "typed-errors": "^1.1.0"
+    "stack-trace": "^0.0.10"
   },
   "publishConfig": {
     "access": "public"
