@@ -1,4 +1,4 @@
-import {diezVersion, Log} from '@diez/cli-core';
+import {diezVersion, Log, getPackageManager} from '@diez/cli-core';
 import {
   DiezComponent,
   DiezType,
@@ -331,6 +331,8 @@ export class DocsCompiler {
 
       await outputFile(outputPath, binding.contents);
     }
+
+    await (await getPackageManager()).installAllDependencies({cwd: this.output.sdkRoot});
   }
 
   clear () {
