@@ -1,6 +1,6 @@
 {
   "name": "@diez/docs-template-app",
-  "version": "10.3.1",
+  "version": "10.4.0",
   "private": true,
   "description": "Vue app used as a template for docs",
   "author": "The Haiku Team <contact@haiku.ai>",
