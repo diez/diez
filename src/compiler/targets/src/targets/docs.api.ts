@@ -70,6 +70,6 @@ export enum TemplateTypes {
   Icon = 'icon',
 }
 
-export interface DocsOutput extends TargetOutput<any, DocsBinding> {
+export interface DocsOutput extends Pick<TargetOutput, 'projectName' | 'sdkRoot'> {
   assetBindings: AssetBindings;
 }

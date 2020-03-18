@@ -1,6 +1,5 @@
 import {diezVersion, Log} from '@diez/cli-core';
 import {
-  AssetBindings,
   DiezComponent,
   DiezType,
   getBinding,
@@ -21,22 +20,32 @@ import {copy, ensureDir, outputFile, readFileSync, remove, writeJson} from 'fs-e
 import {dirname, join} from 'path';
 import {handlebars, highlight, markdown} from '../utils/format';
 import {buildIndex} from '../utils/search';
-import {DocsTargetSpec, ParsedExampleTree} from './docs.api';
+import {DocsTargetSpec, ParsedExampleTree, DocsOutput} from './docs.api';
 
 /**
  * Compiler for docs.
  */
 export class DocsCompiler {
+  output: DocsOutput;
+
   constructor (readonly parser: Parser) {
+    const projectName = inferProjectName(parser.projectRoot);
+    this.output = this.createOutput(
+      join(parser.projectRoot, 'build', `diez-${projectName}-${parser.options.target}`),
+      projectName,
+    );
+
     if (parser.hot) {
       throw new Error('Docs cannot be built in hot mode.');
     }
   }
 
-  assetBindings: AssetBindings = new Map();
-
-  get root () {
-    return join(this.parser.projectRoot, 'build', 'docs');
+  private createOutput (sdkRoot: string, projectName: string) {
+    return {
+      projectName,
+      sdkRoot,
+      assetBindings: new Map(),
+    }
   }
 
   async start () {
@@ -111,7 +120,7 @@ export class DocsCompiler {
 
       if (binding.assetsBinder) {
         await binding.assetsBinder(
-          instance, this.parser, {assetBindings: this.assetBindings}, component, instance);
+          instance, this.parser, {assetBindings: this.output.assetBindings}, component, instance);
       }
 
       spec.binding = serializedBinding;
@@ -292,18 +301,17 @@ export class DocsCompiler {
   private async writeAssets (trees: DocsTargetSpec[]) {
     const searchIndex = buildIndex(trees);
 
-    await remove(this.root);
-    await ensureDir(this.root);
-    await writeJson(join(this.root, 'tree.json'), trees, {spaces: 2});
-    await writeJson(join(this.root, 'searchIndex.json'), searchIndex);
+    await remove(this.output.sdkRoot);
+    await ensureDir(this.output.sdkRoot);
+    await writeJson(join(this.output.sdkRoot, 'tree.json'), trees, {spaces: 2});
+    await writeJson(join(this.output.sdkRoot, 'searchIndex.json'), searchIndex);
     await writeJson(
-      join(this.root, 'package.json'),
+      join(this.output.sdkRoot, 'package.json'),
       {
         name: `diez-${inferProjectName(this.parser.projectRoot)}-docs`,
         version: this.parser.options.sdkVersion,
         dependencies: {
           '@diez/docs-template-app': `^${diezVersion}`,
-          '@diez/docs-design-language': `^${diezVersion}`,
         },
         scripts: {
           build: 'docs-app build',
@@ -313,8 +321,8 @@ export class DocsCompiler {
       {spaces: 2},
     );
 
-    for (const [path, binding] of this.assetBindings) {
-      const outputPath = join(this.root, path);
+    for (const [path, binding] of this.output.assetBindings) {
+      const outputPath = join(this.output.sdkRoot, path);
       await ensureDir(dirname(outputPath));
       if (binding.copy) {
         await copy(binding.contents as string, outputPath);
@@ -326,7 +334,7 @@ export class DocsCompiler {
   }
 
   clear () {
-    this.assetBindings.clear();
+    this.output.assetBindings.clear();
   }
 }
 
