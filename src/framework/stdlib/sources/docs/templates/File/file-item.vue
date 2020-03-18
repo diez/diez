@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {FileData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import FileIcon from './file-icon.vue';

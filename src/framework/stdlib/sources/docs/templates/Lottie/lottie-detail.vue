@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {LottieData} from '@diez/prefabs';
 import lottieWeb from 'lottie-web';
 import {Component, Prop, Vue} from 'vue-property-decorator';

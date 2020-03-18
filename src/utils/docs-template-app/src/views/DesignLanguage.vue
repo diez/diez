@@ -6,7 +6,7 @@
 import DynamicLoader from '@/components/DynamicLoader.vue';
 import ListView from '@/views/ListView.vue';
 import NotFound from '@/views/NotFound.vue';
-import {TemplateTypes} from '@diez/docs';
+import {TemplateTypes} from '@diez/targets';
 import {Component, Mixins} from 'vue-property-decorator';
 
 /**

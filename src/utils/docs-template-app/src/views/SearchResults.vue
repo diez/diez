@@ -21,7 +21,7 @@ import DefaultItem from '@/components/items/DefaultItem.vue';
 import GroupItem from '@/components/items/GroupItem.vue';
 import NumberItem from '@/components/items/NumberItem.vue';
 import StringItem from '@/components/items/StringItem.vue';
-import {DocsTargetSpec, TemplateTypes} from '@diez/docs';
+import {DocsTargetSpec, TemplateTypes} from '@diez/targets';
 import {Index, Query, tokenizer} from 'lunr';
 import {Component, Mixins, Watch} from 'vue-property-decorator';
 import {ComponentTypesMap} from '../api';

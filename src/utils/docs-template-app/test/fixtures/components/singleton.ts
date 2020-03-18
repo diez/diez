@@ -1,4 +1,4 @@
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 
 export const singletonComponent: DocsTargetSpec = {
   id: '/DesignLanguage/Palette/red',

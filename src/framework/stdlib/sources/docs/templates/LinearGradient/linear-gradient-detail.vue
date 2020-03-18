@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import {displayableHsla, DocsTargetSpec} from '@diez/docs';
+import {displayableHsla, DocsTargetSpec} from '@diez/targets';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';

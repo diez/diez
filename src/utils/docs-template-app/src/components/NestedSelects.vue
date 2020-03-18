@@ -8,7 +8,7 @@
 <script lang="ts">
 import CustomSelect from '@/components/CustomSelect.vue';
 import {KnownPlatformNames} from '@/utils';
-import {ParsedExampleTree} from '@diez/docs';
+import {ParsedExampleTree} from '@diez/targets';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 /**

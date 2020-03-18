@@ -6,7 +6,7 @@ import {
   hasExamples,
   isBagOfComponents,
 } from '@/utils/component';
-import {ParsedExampleTree} from '@diez/docs';
+import {ParsedExampleTree} from '@diez/targets';
 import {join} from 'path';
 import {singletonComponent} from '../fixtures/components/singleton';
 import {buildRoot} from '../helpers';

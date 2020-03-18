@@ -10,7 +10,7 @@
 
 
 <script lang="ts">
-import {displayableHsla, DocsTargetSpec, hslToHex} from '@diez/docs';
+import {displayableHsla, DocsTargetSpec, hslToHex} from '@diez/targets';
 import {Color, DropShadowData, Point2D} from '@diez/prefabs';
 import {colorToCss, dropShadowToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';

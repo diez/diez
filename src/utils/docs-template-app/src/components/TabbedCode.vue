@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import {ParsedExample, ParsedSnippet} from '@diez/docs';
+import {ParsedExample, ParsedSnippet} from '@diez/targets';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 /**

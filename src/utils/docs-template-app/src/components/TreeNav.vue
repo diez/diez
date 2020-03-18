@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, TemplateTypes} from '@diez/docs';
+import {DocsTargetSpec, TemplateTypes} from '@diez/targets';
 import {Component, Mixins, Prop} from 'vue-property-decorator';
 import Box from '../assets/icons/Box.vue';
 import Chevron from '../assets/icons/Chevron.vue';

@@ -1,4 +1,4 @@
-import {DocsPropertySpec, DocsTargetSpec, ParsedExampleTree} from '@diez/docs';
+import {DocsPropertySpec, DocsTargetSpec, ParsedExampleTree} from '@diez/targets';
 
 /**
  * Checks if a component has usage examples.

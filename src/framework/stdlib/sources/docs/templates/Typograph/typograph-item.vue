@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, getPangram} from '@diez/docs';
+import {DocsTargetSpec, getPangram} from '@diez/targets';
 import {TypographData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';

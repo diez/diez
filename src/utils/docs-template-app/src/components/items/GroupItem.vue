@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Box from '@/assets/icons/Box.vue';
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 /**

@@ -30,7 +30,7 @@ import Breadcrumb from '@/components/Breadcrumb.vue';
 import DetailsTable from '@/components/DetailsTable.vue';
 import Pill from '@/components/Pill.vue';
 import {getDocumentationLinkForType} from '@/utils/component';
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 /**

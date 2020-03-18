@@ -13,7 +13,7 @@ import DefaultItem from '@/components/items/DefaultItem.vue';
 import NumberItem from '@/components/items/NumberItem.vue';
 import StringItem from '@/components/items/StringItem.vue';
 import RecursiveList from '@/components/RecursiveList.vue';
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 /**
@@ -54,7 +54,7 @@ export default class ListView extends Vue {
       if (component.isPrimitive) {
         grid.values.push({component, template: this.getPrimitiveTemplate(component)});
       } else if (component.binding) {
-        const template = await import(`@diez/docs/sources/templates/${component.binding.templates.item}`);
+        const template = await import(`@diez/targets/sources/templates/${component.binding.templates.item}`);
         grid.values.push({component, template: template.default || DefaultItem});
       } else if (component) {
         grid.collections.push(await this.fetchGrid(component));

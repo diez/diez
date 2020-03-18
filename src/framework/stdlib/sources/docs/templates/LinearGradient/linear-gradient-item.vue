@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/docs';
+import {DocsTargetSpec} from '@diez/targets';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';

@@ -2,7 +2,7 @@
   "name": "@diez/docs-design-language",
   "main": "build/diez-diez-docs-design-language-web",
   "version": "10.4.0",
-  "description": "Design language for @diez/docs template",
+  "description": "Design language for docs template",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
   "dependencies": {

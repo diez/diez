@@ -8,7 +8,7 @@
 
 
 <script lang="ts">
-import {displayableHsla, displayableRgba, DocsTargetSpec, hslToHex} from '@diez/docs';
+import {displayableHsla, displayableRgba, DocsTargetSpec, hslToHex} from '@diez/targets';
 import {Color, FillData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
