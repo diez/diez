@@ -91,6 +91,19 @@
       "presentation": {
         "group": "lorem-ipsum"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Docs - Compile Lorem Ipsum",
+      "program": "${workspaceFolder}/node_modules/.bin/diez",
+      "args": ["compile", "-t", "docs"],
+      "cwd": "${workspaceFolder}/examples/lorem-ipsum/design-language",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/src/*/*/lib/**/*.js"],
+      "presentation": {
+        "group": "lorem-ipsum"
+      }
     }
   ],
   "compounds": [
