@@ -12,11 +12,11 @@ const {spawnSync} = require('child_process');
 const {resolve, join} = require('path');
 const {copySync, existsSync} = require('fs-extra');
 const args = process.argv.slice(2);
-const scriptIndex = args.findIndex((x) => x === 'serve');
+const scriptIndex = args.findIndex((x) => x === 'start');
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 
 switch (script) {
-  case 'serve': {
+  case 'start': {
     const jsonPath = resolve('./tree.json');
     const searchIndexPath = resolve('./searchIndex.json');
     const app = resolve(__dirname, '..');

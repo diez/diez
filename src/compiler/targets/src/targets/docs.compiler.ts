@@ -315,7 +315,7 @@ export class DocsCompiler {
         },
         scripts: {
           build: 'docs-app build',
-          serve: 'docs-app serve',
+          start: 'docs-app start',
         },
       },
       {spaces: 2},
