@@ -39,6 +39,7 @@ import DefaultIcon from './tree-icons/DefaultIcon.vue';
 import NumberIcon from './tree-icons/NumberIcon.vue';
 import StringIcon from './tree-icons/StringIcon.vue';
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
+type TemplateTypes = import('@diez/targets').TemplateTypes;
 
 /**
  * Nested navigation recursively built from a tree.
@@ -56,7 +57,7 @@ export default class TreeNav extends Mixins(DynamicLoader) {
   private readonly storageOpenIdsKey = 'open-ids';
   private open = false;
   protected active = false;
-  protected templateType = 'icon';
+  protected templateType: TemplateTypes = 'icon';
   protected defaultTemplate = DefaultIcon;
   protected notFoundTemplate = DefaultIcon;
 

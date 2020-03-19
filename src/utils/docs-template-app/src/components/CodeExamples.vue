@@ -24,7 +24,7 @@ import TabbedCode from '@/components/TabbedCode.vue';
 import {findExampleFromSelection, hasExamples} from '@/utils/component';
 import {storage} from '@/utils/storage';
 import {Component, Mixins} from 'vue-property-decorator';
-// import {ParsedExample, ParsedExampleTree} from '../api';
+
 type ParsedExample = import('@diez/targets').ParsedExample;
 type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
 

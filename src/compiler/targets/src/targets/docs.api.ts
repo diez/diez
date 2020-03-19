@@ -63,12 +63,11 @@ type DocsTemplateDeclaration = {
 
 /**
  * Describes all the template types that a binding may provide.
+ *
+ * note: this is intentionally a `type` and not an `enum` so we can do a type import
+ * in the consuming Vue app, preventing problems with webpack.
  */
-export enum TemplateTypes {
-  Item = 'item',
-  Detail = 'detail',
-  Icon = 'icon',
-}
+export type TemplateTypes = 'item' | 'detail' | 'icon';
 
 export interface DocsOutput extends Pick<TargetOutput, 'projectName' | 'sdkRoot'> {
   assetBindings: AssetBindings;

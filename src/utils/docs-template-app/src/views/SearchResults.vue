@@ -25,6 +25,7 @@ import {Index, Query, tokenizer} from 'lunr';
 import {Component, Mixins, Watch} from 'vue-property-decorator';
 import {ComponentTypesMap} from '../api';
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
+type TemplateTypes = import('@diez/targets').TemplateTypes;
 
 /**
  * Search results view.
@@ -39,7 +40,7 @@ export default class SearchResults extends Mixins(DynamicLoader) {
   private searchIndex?: Index;
   results: ComponentTypesMap = {};
   defaultTemplate = GroupItem;
-  templateType = 'item';
+  templateType: TemplateTypes = 'item';
 
   @Watch('$route.query.type')
   @Watch('$route.query.name')

@@ -1,4 +1,3 @@
-// import {DocsPropertySpec, DocsTargetSpec, ParsedExampleTree} from '../api';
 type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
 type DocsPropertySpec = import('@diez/targets').DocsPropertySpec<any>;
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
