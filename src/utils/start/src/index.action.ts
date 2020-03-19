@@ -12,11 +12,12 @@ const guideUrls = {
   [Target.Android]: 'https://diez.org/getting-started/kotlin.html',
   [Target.Ios]: 'https://diez.org/getting-started/swift.html',
   [Target.Web]: 'https://diez.org/getting-started/javascript.html',
+  [Target.Docs]: 'https://diez.org/getting-started/docs.html',
 };
 
 export = async (_: {}, target: Target) => {
-  if (![Target.Android, Target.Web, Target.Ios].includes(target)) {
-    Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}>`);
+  if (![Target.Android, Target.Web, Target.Ios, Target.Docs].includes(target)) {
+    Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}|${Target.Docs}>`);
     process.exit(1);
     return;
   }

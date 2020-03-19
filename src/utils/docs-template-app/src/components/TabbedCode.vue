@@ -15,8 +15,10 @@
 </template>
 
 <script lang="ts">
-import {ParsedExample, ParsedSnippet} from '@diez/targets';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+// import {ParsedExample, ParsedSnippet} from '../api';
+type ParsedExample = import('@diez/targets').ParsedExample;
+type ParsedSnippet = import('@diez/targets').ParsedSnippet;
 
 /**
  * Code blobs with tabs.

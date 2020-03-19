@@ -27,8 +27,8 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, TemplateTypes} from '@diez/targets';
 import {Component, Mixins, Prop} from 'vue-property-decorator';
+// import {DocsTargetSpec, TemplateTypes} from '../api';
 import Box from '../assets/icons/Box.vue';
 import Chevron from '../assets/icons/Chevron.vue';
 import {isBagOfComponents, sortByBagsOfComponentsFirst} from '../utils/component';
@@ -38,6 +38,7 @@ import BooleanIcon from './tree-icons/BooleanIcon.vue';
 import DefaultIcon from './tree-icons/DefaultIcon.vue';
 import NumberIcon from './tree-icons/NumberIcon.vue';
 import StringIcon from './tree-icons/StringIcon.vue';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 /**
  * Nested navigation recursively built from a tree.
@@ -55,7 +56,7 @@ export default class TreeNav extends Mixins(DynamicLoader) {
   private readonly storageOpenIdsKey = 'open-ids';
   private open = false;
   protected active = false;
-  protected templateType = TemplateTypes.Icon;
+  protected templateType = 'icon';
   protected defaultTemplate = DefaultIcon;
   protected notFoundTemplate = DefaultIcon;
 

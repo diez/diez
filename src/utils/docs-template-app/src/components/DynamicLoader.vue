@@ -1,8 +1,8 @@
 <script lang="ts">
 import {findComponentFromPath} from '@/utils/component';
-import {DocsTargetSpec, TemplateTypes} from '@diez/targets';
 import {Component as VueComponent, CreateElement} from 'vue';
 import {Component, Vue, Watch} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 @Component
 class VoidComponent extends Vue {
@@ -19,7 +19,7 @@ export default class DynamicLoader extends Vue {
   protected component!: DocsTargetSpec | undefined;
   protected notFoundTemplate: VueComponent = VoidComponent;
   protected defaultTemplate: VueComponent = VoidComponent;
-  protected templateType!: TemplateTypes;
+  protected templateType!: string;
 
   protected template: () => VueComponent | Promise<VueComponent> = () => this.notFoundTemplate;
 
@@ -44,14 +44,15 @@ export default class DynamicLoader extends Vue {
         return this.getPrimitiveTemplate(component);
       }
 
+      // @ts-ignore
       if (component.binding && component.binding.templates && component.binding.templates[this.templateType]) {
         // TODO: be smarter and allow third party modules.
-        const template =
-          await import(`@diez/targets/sources/templates/${component.binding.templates[this.templateType]}`);
+        // const template =
+        //   await import(`@diez/stdlib/sources/docs/templates/${component.binding.templates[this.templateType]}`);
 
-        if (template) {
-          return template as VueComponent;
-        }
+        // if (template) {
+        //   return template as VueComponent;
+        // }
       }
 
       return this.defaultTemplate;

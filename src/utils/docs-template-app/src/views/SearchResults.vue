@@ -21,10 +21,10 @@ import DefaultItem from '@/components/items/DefaultItem.vue';
 import GroupItem from '@/components/items/GroupItem.vue';
 import NumberItem from '@/components/items/NumberItem.vue';
 import StringItem from '@/components/items/StringItem.vue';
-import {DocsTargetSpec, TemplateTypes} from '@diez/targets';
 import {Index, Query, tokenizer} from 'lunr';
 import {Component, Mixins, Watch} from 'vue-property-decorator';
 import {ComponentTypesMap} from '../api';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 /**
  * Search results view.
@@ -39,7 +39,7 @@ export default class SearchResults extends Mixins(DynamicLoader) {
   private searchIndex?: Index;
   results: ComponentTypesMap = {};
   defaultTemplate = GroupItem;
-  templateType = TemplateTypes.Item;
+  templateType = 'item';
 
   @Watch('$route.query.type')
   @Watch('$route.query.name')

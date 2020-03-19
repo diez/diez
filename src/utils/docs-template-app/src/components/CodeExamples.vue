@@ -23,8 +23,10 @@ import NestedSelects from '@/components/NestedSelects.vue';
 import TabbedCode from '@/components/TabbedCode.vue';
 import {findExampleFromSelection, hasExamples} from '@/utils/component';
 import {storage} from '@/utils/storage';
-import {ParsedExample, ParsedExampleTree} from '@diez/targets';
 import {Component, Mixins} from 'vue-property-decorator';
+// import {ParsedExample, ParsedExampleTree} from '../api';
+type ParsedExample = import('@diez/targets').ParsedExample;
+type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
 
 /**
  * Code examples for the current visible component.

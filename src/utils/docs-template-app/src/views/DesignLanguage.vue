@@ -6,8 +6,8 @@
 import DynamicLoader from '@/components/DynamicLoader.vue';
 import ListView from '@/views/ListView.vue';
 import NotFound from '@/views/NotFound.vue';
-import {TemplateTypes} from '@diez/targets';
 import {Component, Mixins} from 'vue-property-decorator';
+// import {TemplateTypes} from '../api';
 
 /**
  * Dynamic view loader/wrapper for the Design System.
@@ -16,6 +16,6 @@ import {Component, Mixins} from 'vue-property-decorator';
 export default class DesignLanguage extends Mixins(DynamicLoader) {
   notFoundTemplate = NotFound;
   defaultTemplate = ListView;
-  templateType = TemplateTypes.Detail;
+  templateType = 'detail';
 }
 </script>

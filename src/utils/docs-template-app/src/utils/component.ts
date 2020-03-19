@@ -1,4 +1,7 @@
-import {DocsPropertySpec, DocsTargetSpec, ParsedExampleTree} from '@diez/targets';
+// import {DocsPropertySpec, DocsTargetSpec, ParsedExampleTree} from '../api';
+type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
+type DocsPropertySpec = import('@diez/targets').DocsPropertySpec<any>;
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 /**
  * Checks if a component has usage examples.
@@ -34,7 +37,7 @@ export const isBagOfComponents = (component: DocsTargetSpec) => {
 /**
  * Sort component properties putting singletons (bags of state) first.
  */
-export const sortByBagsOfComponentsFirst = (properties: DocsPropertySpec<any>) => {
+export const sortByBagsOfComponentsFirst = (properties: DocsPropertySpec) => {
   return Object.values(properties)
     .sort((a, b) => {
       const ea = Number(isBagOfComponents(a));
@@ -83,13 +86,13 @@ export const findComponentFromPath = (pathArray: string[], trees: DocsTargetSpec
 /**
  * Find all types in a design language tree.
  */
-export const findAvailableTypes = (tree: DocsTargetSpec<any>[]) => {
+export const findAvailableTypes = (tree: DocsTargetSpec[]) => {
   const types = new Set<string>();
   tree.forEach((item) => findAvailableTypesInBranch(item.properties, types));
   return types;
 };
 
-const findAvailableTypesInBranch = (branch: DocsPropertySpec<any>, types: Set<string>) => {
+const findAvailableTypesInBranch = (branch: DocsPropertySpec, types: Set<string>) => {
   for (const item of Object.values(branch)) {
     if (item.binding) {
       types.add(item.type.toString());

@@ -1,5 +1,11 @@
-import {DocsTargetSpec} from '@diez/targets';
+// import type {DocsTargetSpec} from '@diez/targets';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 import {Component as VueComponent} from 'vue';
+
+// export type DocsTargetSpec;
+
+// export type {DocsTargetSpec, ParsedExampleTree, ParsedExample, ParsedSnippet, TemplateTypes, DocsPropertySpec,
+// } from '@diez/targets';
 
 /**
  * A Grid item.
