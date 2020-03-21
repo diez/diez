@@ -1491,16 +1491,6 @@
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
 
-"@diez/framework-core@^10.3.1":
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/@diez/framework-core/-/framework-core-10.3.1.tgz#8153a15d496cf98cb2c1919c2f28975e3ed9385b"
-
-"@diez/web-sdk-common@^10.1.0":
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/@diez/web-sdk-common/-/web-sdk-common-10.3.1.tgz#b6ad12a16822d29497f21a2e309a1b4580d34b9b"
-  dependencies:
-    "@diez/framework-core" "^10.3.1"
-
 "@dsherret/to-absolute-glob@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dsherret/to-absolute-glob/-/to-absolute-glob-2.0.2.tgz#1f6475dc8bd974cea07a2daf3864b317b1dd332c"
