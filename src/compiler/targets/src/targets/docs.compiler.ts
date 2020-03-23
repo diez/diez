@@ -1,4 +1,4 @@
-import {diezVersion, Log, getPackageManager} from '@diez/cli-core';
+import {diezVersion, Log, getPackageManager, Format, PackageManager} from '@diez/cli-core';
 import {
   DiezComponent,
   DiezType,
@@ -27,6 +27,7 @@ import {DocsTargetSpec, ParsedExampleTree, DocsOutput} from './docs.api';
  */
 export class DocsCompiler {
   output: DocsOutput;
+  private packageManager!: PackageManager;
 
   constructor (readonly parser: Parser) {
     const projectName = inferProjectName(parser.projectRoot);
@@ -48,8 +49,15 @@ export class DocsCompiler {
     }
   }
 
+  private printUsageInstructions () {
+    Log.info(`\nA web application containing documentation for your design system has been generated at ${this.output.sdkRoot}.\n`);
+    Log.info(`You can start this application by running ${Format.code(`${this.packageManager.binary} start`)} in the build folder.`);
+  }
+
   async start () {
+    this.packageManager = await getPackageManager();
     await this.writeAssets(await this.getTrees());
+    this.printUsageInstructions();
   }
 
   private async getTrees () {
@@ -332,7 +340,8 @@ export class DocsCompiler {
       await outputFile(outputPath, binding.contents);
     }
 
-    await (await getPackageManager()).installAllDependencies({cwd: this.output.sdkRoot});
+    await this.packageManager.installAllDependencies({cwd: this.output.sdkRoot});
+
   }
 
   clear () {
