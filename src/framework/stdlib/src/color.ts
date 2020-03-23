@@ -74,21 +74,20 @@ const hueToRgba = (p: number, q: number, tp: number) => {
   return p;
 };
 
-
 const round = (n: number) => {
-return Math.round(n * 100) / 100;
+  return Math.round(n * 100) / 100;
 };
 
 /**
-* User friendly, rounded representation of a color in HSLA format.
-*/
+ * User friendly, rounded representation of a color in HSLA format.
+ */
 export const displayableHsla = (hsl: ColorData) => {
-return `hsla(${round(hsl.h)}, ${round(hsl.s)}, ${round(hsl.l)}, ${round(hsl.a)})`;
+  return `hsla(${round(hsl.h)}, ${round(hsl.s)}, ${round(hsl.l)}, ${round(hsl.a)})`;
 };
 
 /**
-* User friendly, rounded representation of a color in RGBA format.
-*/
+ * User friendly, rounded representation of a color in RGBA format.
+ */
 export const displayableRgba = (hsl: ColorData) => {
   const rgb = hslToRgba(hsl);
   return `rgba(${round(rgb.r)}, ${round(rgb.g)}, ${round(rgb.b)}, ${round(hsl.a)})`;

@@ -69,6 +69,9 @@ type DocsTemplateDeclaration = {
  */
 export type TemplateTypes = 'item' | 'detail' | 'icon';
 
+/**
+ * Describes the complete output for a transpiled Docs target.
+ */
 export interface DocsOutput extends Pick<TargetOutput, 'projectName' | 'sdkRoot'> {
   assetBindings: AssetBindings;
 }

@@ -1,4 +1,4 @@
-import {diezVersion, Log, getPackageManager, Format, PackageManager} from '@diez/cli-core';
+import {diezVersion, Format, getPackageManager, Log, PackageManager} from '@diez/cli-core';
 import {
   DiezComponent,
   DiezType,
@@ -20,7 +20,7 @@ import {copy, ensureDir, outputFile, readFileSync, remove, writeJson} from 'fs-e
 import {dirname, join} from 'path';
 import {handlebars, highlight, markdown} from '../utils/format';
 import {buildIndex} from '../utils/search';
-import {DocsTargetSpec, ParsedExampleTree, DocsOutput} from './docs.api';
+import {DocsOutput, DocsTargetSpec, ParsedExampleTree} from './docs.api';
 
 /**
  * Compiler for docs.
@@ -46,7 +46,7 @@ export class DocsCompiler {
       projectName,
       sdkRoot,
       assetBindings: new Map(),
-    }
+    };
   }
 
   private printUsageInstructions () {
@@ -56,7 +56,8 @@ export class DocsCompiler {
 
   async start () {
     this.packageManager = await getPackageManager();
-    await this.writeAssets(await this.getTrees());
+    const trees = await this.getTrees();
+    await this.writeAssets(trees);
     this.printUsageInstructions();
   }
 

@@ -109,6 +109,6 @@ const findAvailableTypesInBranch = (branch: DocsPropertySpec, types: Set<string>
 /**
  * Find a link to the Diez docs for the given type.
  */
-export const getDocumentationLinkForType = (type: any) => {
+export const getDocumentationLinkForType = (type: DiezType) => {
   return `https://diez.org/docs/latest/classes/framework_prefabs.${type.toString().toLowerCase()}.html`;
 };
