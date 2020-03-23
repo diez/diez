@@ -12,17 +12,19 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, hslToHex} from '@diez/targets';
-import {ColorData} from '@diez/prefabs';
+// import {DocsTargetSpec, hslToHex} from '@diez/targets';
+import {hslToHex} from '../../../../src/color';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type ColorData = import('@diez/prefabs').ColorData;
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<ColorData>;
 
 /**
  * Color Item view.
  */
 @Component
 export default class ColorItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<ColorData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get details () {
     const {h, s, l, a} = this.tree.properties;

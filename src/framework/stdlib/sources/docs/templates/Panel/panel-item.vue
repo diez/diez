@@ -14,16 +14,15 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, hslToHex} from '@diez/targets';
-import {Color, PanelData, Point2D} from '@diez/prefabs';
-import {colorToCss, dropShadowToCss} from '@diez/web-sdk-common';
+import {PanelData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import PanelIcon from './panel-icon.vue';
 
-/**
- * File Item view.
- */
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<PanelData>;
 
+/**
+ * Panel Item view.
+ */
 @Component({
   name: 'PanelItem',
   components: {
@@ -31,7 +30,7 @@ import PanelIcon from './panel-icon.vue';
   },
 })
 export default class PanelItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<PanelData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 }
 </script>
 

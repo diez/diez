@@ -3,17 +3,17 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<LinearGradientData>;
 
 /**
  * Linear Gradient Icon view.
  */
 @Component
 export default class ColorIcon extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<LinearGradientData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get style () {
     return {
@@ -30,7 +30,7 @@ export default class ColorIcon extends Vue {
           const {h, s, l, a} = stop.properties.color.properties;
           return GradientStop.make(
             stop.properties.position.value,
-            new Color({h: h.value, s: s.value, l: l.value, a: a.value}),
+            Color.hsla(h.value, s.value, l.value, a.value),
           );
         }),
       }),

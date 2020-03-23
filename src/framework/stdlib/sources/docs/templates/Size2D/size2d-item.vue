@@ -7,16 +7,16 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {Size2DData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<Size2DData>;
 
 /**
  * Point2D view item.
  */
 @Component
 export default class StringItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<Size2DData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get widthHeightValues () {
     return `[${this.tree.properties.width.value}, ${this.tree.properties.height.value}]`;

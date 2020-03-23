@@ -2,7 +2,6 @@
 import {findComponentFromPath} from '@/utils/component';
 import {Component as VueComponent, CreateElement} from 'vue';
 import {Component, Vue, Watch} from 'vue-property-decorator';
-// import {TemplateTypes} from '../api';
 type TemplateTypes = import('@diez/targets').TemplateTypes;
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
@@ -48,12 +47,12 @@ export default class DynamicLoader extends Vue {
 
       if (component.binding && component.binding.templates && component.binding.templates[this.templateType]) {
         // TODO: be smarter and allow third party modules.
-        // const template =
-        //   await import(`@diez/stdlib/sources/docs/templates/${component.binding.templates[this.templateType]}`);
+        const template =
+          await import(`@diez/stdlib/sources/docs/templates/${component.binding.templates[this.templateType]}`);
 
-        // if (template) {
-        //   return template as VueComponent;
-        // }
+        if (template) {
+          return template as VueComponent;
+        }
       }
 
       return this.defaultTemplate;

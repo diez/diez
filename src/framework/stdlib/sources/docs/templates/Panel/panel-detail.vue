@@ -12,11 +12,10 @@
 
 
 <script lang="ts">
-import {DocsTargetSpec, hslToHex} from '@diez/targets';
-import {Color, PanelData, Point2D} from '@diez/prefabs';
-import {colorToCss, dropShadowToCss} from '@diez/web-sdk-common';
+import {PanelData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import PanelIcon from './panel-icon.vue';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<PanelData>;
 
 /**
  * Panel Detail view.
@@ -29,7 +28,7 @@ import PanelIcon from './panel-icon.vue';
   },
 })
 export default class PanelDetail extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<PanelData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get details () {
     return {

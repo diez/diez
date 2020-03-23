@@ -8,17 +8,19 @@
 
 
 <script lang="ts">
-import {displayableHsla, displayableRgba, DocsTargetSpec, hslToHex} from '@diez/targets';
-import {Color, FillData} from '@diez/prefabs';
+// import {displayableHsla, displayableRgba, DocsTargetSpec, hslToHex} from '@diez/targets';
+import {displayableHsla, displayableRgba, hslToHex} from '../../../../src/color';
+import {FillData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<FillData>;
 
 /**
  * Fill Detail view.
  */
 @Component
 export default class FillDetail extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<FillData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get hsla () {
     const {h, s, l, a} = this.tree.properties.color.properties;

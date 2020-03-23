@@ -1,5 +1,5 @@
-type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 import {Component as VueComponent} from 'vue';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 /**
  * A Grid item.

@@ -7,20 +7,22 @@
 </template>
 
 <script lang="ts">
-import {displayableHsla, DocsTargetSpec} from '@diez/targets';
+// import {displayableHsla, DocsTargetSpec} from '@diez/targets';
+import {displayableHsla} from '../../../../src/color';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<LinearGradientData>;
 
 /**
  * Linear Gradient Detail view.
  */
 @Component
 export default class LinearGradientDetail extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<LinearGradientData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get details () {
-    const stops = this.tree.properties.stops.value.reduce((acc, stop: any, index) => {
+    const stops = this.tree.properties.stops.value.reduce((acc: Record<string, string>, stop: GradientStop, index) => {
       const {h, s, l, a} = stop.properties.color.properties;
       const hsla = displayableHsla({h: h.value, s: s.value, l: l.value, a: a.value});
       acc[`Stop-${index}`] = `${hsla} at ${stop.properties.position.value}`;
@@ -48,7 +50,7 @@ export default class LinearGradientDetail extends Vue {
         const {h, s, l, a} = stop.properties.color.properties;
         return GradientStop.make(
           stop.properties.position.value,
-          new Color({h: h.value, s: s.value, l: l.value, a: a.value}),
+          Color.hsla(h.value, s.value, l.value, a.value),
         );
       }),
     });

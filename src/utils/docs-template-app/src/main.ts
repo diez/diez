@@ -16,7 +16,7 @@ Vue.component('docs-detail', DocsDetail);
 Vue.config.productionTip = false;
 
 (async () => {
-  const tree = await fetch('/assets/tree.json');
+  const tree = await fetch('/tree.json');
   Vue.prototype.$treeRoot = await tree.json();
 
   new Vue({

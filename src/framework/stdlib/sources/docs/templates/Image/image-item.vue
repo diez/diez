@@ -12,16 +12,16 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {ImageData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<ImageData>;
 
 /**
  * Image item view.
  */
 @Component
 export default class StringItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<ImageData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 }
 </script>
 

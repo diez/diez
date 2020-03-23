@@ -9,10 +9,10 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {FileData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import FileIcon from './file-icon.vue';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<FileData>;
 
 /**
  * File Item view.
@@ -23,7 +23,7 @@ import FileIcon from './file-icon.vue';
   },
 })
 export default class FileItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<FileData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get extension () {
     return this.tree.properties.type.value;

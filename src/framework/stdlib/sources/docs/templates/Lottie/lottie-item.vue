@@ -9,17 +9,17 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {LottieData} from '@diez/prefabs';
 import lottieWeb from 'lottie-web';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<LottieData>;
 
 /**
  * Lottie Item view.
  */
 @Component
 export default class LottieItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<LottieData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   mounted () {
     lottieWeb.loadAnimation({

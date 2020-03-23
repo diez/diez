@@ -9,16 +9,16 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {Point2DData} from '@diez/prefabs';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<Point2DData>;
 
 /**
  * String item view.
  */
 @Component
 export default class StringItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<Point2DData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get xyPoints () {
     return `(${this.tree.properties.x.value}, ${this.tree.properties.y.value})`;

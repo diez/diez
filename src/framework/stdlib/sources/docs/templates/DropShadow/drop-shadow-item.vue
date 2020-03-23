@@ -14,17 +14,17 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, hslToHex} from '@diez/targets';
 import {Color, DropShadowData, Point2D} from '@diez/prefabs';
-import {colorToCss, dropShadowToCss} from '@diez/web-sdk-common';
+import {dropShadowToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<DropShadowData>;
 
 /**
  * DropShadow Item view.
  */
 @Component
 export default class DropShadowItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<DropShadowData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get hsla () {
     const {h, s, l, a} = this.tree.properties.color.properties;
@@ -33,12 +33,12 @@ export default class DropShadowItem extends Vue {
 
   get style () {
     const offset = this.tree.properties.offset;
-    const radius = this.tree.properties.radius;
+    const {h,s,l,a} = this.hsla;
 
     return {
       boxShadow: dropShadowToCss({
-        color: new Color(this.hsla),
-        offset: new Point2D({x: offset.value.x, y: offset.value.y}),
+        color: Color.hsla(h,s,l,a),
+        offset: Point2D.make(offset.properties.x.value, offset.properties.y.value),
         radius: this.tree.properties.radius.value,
       }),
     };

@@ -12,8 +12,7 @@
     "health": "yarn test && yarn lint",
     "test": "yarn test:e2e && yarn test:unit",
     "test:e2e": "ts-node ./script/prepare-tests.ts && vue-cli-service test:e2e --config nightwatch.config.js",
-    "test:unit": "vue-cli-service test:unit",
-    "pack": "npm pack"
+    "test:unit": "vue-cli-service test:unit"
   },
   "files": [
     "bin",

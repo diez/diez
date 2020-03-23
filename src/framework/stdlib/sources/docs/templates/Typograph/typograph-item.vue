@@ -11,17 +11,18 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec, getPangram} from '@diez/targets';
+import {getPangram} from '../../../../src/typograph';
 import {TypographData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<TypographData>;
 
 /**
  * Typograph Item view.
  */
 @Component
 export default class TypographItem extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<TypographData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get pangram () {
     return getPangram(this.tree.name);

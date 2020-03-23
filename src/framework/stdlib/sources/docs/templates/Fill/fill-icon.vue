@@ -3,17 +3,17 @@
 </template>
 
 <script lang="ts">
-import {DocsTargetSpec} from '@diez/targets';
 import {ColorData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<ColorData>;
 
 /**
  * Fill Icon view.
  */
 @Component
 export default class FillIcon extends Vue {
-  @Prop() readonly tree!: DocsTargetSpec<ColorData>;
+  @Prop() readonly tree!: DocsTargetSpec;
 
   get style () {
     const {h, s, l, a} = this.tree.properties;
