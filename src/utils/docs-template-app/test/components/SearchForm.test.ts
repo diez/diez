@@ -30,12 +30,6 @@ describe('SearchForm', () => {
     expect((wrapper.find('input[type=search]').element as HTMLInputElement).value).toBe($route.query.name);
   });
 
-  it('cleans element values when route params are removed', () => {
-    $route.fullPath = '/DesignLanguage/Something';
-    expect((wrapper.find('input[type=search]').element as HTMLInputElement).value).toBe('');
-    $route.fullPath = '/?type=Color&name=MyColor';
-  });
-
   it('updates the search params when a search by text is performed', () => {
     const input = wrapper.find('input[type=search]');
     input.setValue('newSearch');

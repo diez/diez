@@ -1,7 +1,7 @@
 import {pathToArray, pathToCrumb} from '@/utils/navigation';
 
 describe('utils/navigation', () => {
-  describe('pathToCrumb', async () => {
+  describe('pathToCrumb', () => {
     test('handles basic paths', () => {
       expect(pathToCrumb('/DesignLanguage/Palette/red', '/Palette')).toBe('/DesignLanguage/Palette');
       expect(pathToCrumb('/DesignLanguage/Palette/red', '/red')).toBe('/DesignLanguage/Palette/red');
@@ -15,7 +15,7 @@ describe('utils/navigation', () => {
     });
   });
 
-  describe('pathToArray', async () => {
+  describe('pathToArray', () => {
     test('handles basic paths', () => {
       expect(pathToArray('/DesignLanguage/Palette/red')).toEqual(['DesignLanguage', 'Palette', 'red']);
       expect(pathToArray('/DesignLanguage/Collection/Measures#primitive'))
