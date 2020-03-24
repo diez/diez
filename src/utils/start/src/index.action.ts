@@ -71,7 +71,12 @@ export = async (_: {}, target: Target) => {
     case Target.Docs:
       packageManager.execBinary('diez compile -t docs', {stdio: 'inherit'});
       Log.comment('Starting the Diez docs server...');
-      await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', 'diez-lorem-ipsum-docs')});
+      const buildFolder = readdirSync(join(root, 'build')).find((folder) => folder.includes('-docs'));
+      if (!buildFolder) {
+        Log.error(`Unable to find the compiled docs in ${buildFolder}. This usually happens when your project failed to compile.`);
+        process.exit(1);
+      }
+      await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', buildFolder)});
       break;
   }
 
