@@ -1,4 +1,4 @@
-type DocsTargetSpec = import('@diez/targets').DocsTargetSpec
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
 
 export const singletonComponent: DocsTargetSpec = {
   id: '/DesignLanguage/Palette/red',

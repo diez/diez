@@ -12,10 +12,9 @@
 </template>
 
 <script lang="ts">
-// import {DocsTargetSpec, hslToHex} from '@diez/targets';
-import {hslToHex} from '../../../../src/color';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {hslToHex} from '../../../../src/color';
 type ColorData = import('@diez/prefabs').ColorData;
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<ColorData>;
 

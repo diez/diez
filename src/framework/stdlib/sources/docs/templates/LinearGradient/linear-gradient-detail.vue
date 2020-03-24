@@ -8,10 +8,10 @@
 
 <script lang="ts">
 // import {displayableHsla, DocsTargetSpec} from '@diez/targets';
-import {displayableHsla} from '../../../../src/color';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {displayableHsla} from '../../../../src/color';
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<LinearGradientData>;
 
 /**

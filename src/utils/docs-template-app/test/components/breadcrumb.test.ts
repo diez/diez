@@ -8,7 +8,7 @@ describe('Breadcrumb', () => {
     },
     mocks: {
       $route: {
-        fullPath: '/DesignLanguage/Palette/red'
+        fullPath: '/DesignLanguage/Palette/red',
       },
     },
   });

@@ -14,7 +14,7 @@ class EmptyComponent {}
 
 const references = {
   myRef: 10,
-}
+};
 
 /**
  * Test object comment

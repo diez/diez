@@ -10,10 +10,10 @@
 
 
 <script lang="ts">
-import {displayableHsla} from '../../../../src/color';
 import {Color, DropShadowData, Point2D} from '@diez/prefabs';
 import {dropShadowToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {displayableHsla} from '../../../../src/color';
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<DropShadowData>;
 
 /**
@@ -41,11 +41,11 @@ export default class DropShadowDetail extends Vue {
 
   get style () {
     const offset = this.tree.properties.offset;
-    const {h,s,l,a} = this.hsla;
+    const {h, s, l, a} = this.hsla;
 
     return {
       boxShadow: dropShadowToCss({
-        color: Color.hsla(h,s,l,a),
+        color: Color.hsla(h, s, l, a),
         offset: Point2D.make(offset.properties.x.value, offset.properties.y.value),
         radius: this.tree.properties.radius.value,
       }),

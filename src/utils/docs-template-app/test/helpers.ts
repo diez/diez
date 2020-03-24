@@ -1,6 +1,6 @@
 import {CompilerOptions, projectCache, ProjectParser} from '@diez/compiler-core';
-import {DocsCompiler} from '@diez/targets';
 import {Target} from '@diez/engine';
+import {DocsCompiler} from '@diez/targets';
 import {copySync, existsSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 

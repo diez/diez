@@ -10,7 +10,7 @@ import {join} from 'path';
 import {singletonComponent} from '../fixtures/components/singleton';
 import {buildRoot} from '../helpers';
 
-type ParsedExampleTree = import('@diez/targets').ParsedExampleTree
+type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
 
 const componentWithoutExamples = Object.assign({}, singletonComponent, {
   examples: {},

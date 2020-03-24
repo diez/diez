@@ -1,11 +1,10 @@
+import {Index} from 'lunr';
 import {joinToKebabCase, webComponentListHelper} from '../src/utils';
 import {applyCase, Case, joinToCase} from '../src/utils/casing';
-import {Index} from 'lunr';
-import {buildIndex} from '../src/utils/search';
 import {handlebars, highlight, markdown} from '../src/utils/format';
+import {buildIndex} from '../src/utils/search';
 // tslint:disable-next-line:no-var-requires
 const tree = require('./goldens/Primitives/diez-target-test-stub-docs/tree.json');
-
 
 describe('joinToKebabCase', () => {
   test('joins all arguments using kebab-case', () => {

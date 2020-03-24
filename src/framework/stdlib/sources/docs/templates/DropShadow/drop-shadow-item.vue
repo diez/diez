@@ -33,11 +33,11 @@ export default class DropShadowItem extends Vue {
 
   get style () {
     const offset = this.tree.properties.offset;
-    const {h,s,l,a} = this.hsla;
+    const {h, s, l, a} = this.hsla;
 
     return {
       boxShadow: dropShadowToCss({
-        color: Color.hsla(h,s,l,a),
+        color: Color.hsla(h, s, l, a),
         offset: Point2D.make(offset.properties.x.value, offset.properties.y.value),
         radius: this.tree.properties.radius.value,
       }),

@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
-import {getPangram} from '../../../../src/typograph';
 import {TypographData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {getPangram} from '../../../../src/typograph';
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<TypographData>;
 
 /**
