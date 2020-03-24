@@ -113,6 +113,7 @@ const shadows = {
  *   - If you run `yarn start android` or `npm run start android`, Diez will create an Android library.
  *     Look for `MainActivity.kt` inside `examples/android` to see how you can
  *     use Diez in an Android codebase.
+  *  - If you run `yarn start web` or `npm run start web`, Diez will create a Web App with your tokens.
  */
 export const designLanguage = {
   palette,
