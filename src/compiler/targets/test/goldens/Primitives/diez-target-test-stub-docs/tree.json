@@ -1,0 +1,445 @@
+[
+  {
+    "type": "Primitives",
+    "name": "Primitives",
+    "examples": {},
+    "id": "/Primitives",
+    "comments": {
+      "type": "<p>Test object comment</p>\n"
+    },
+    "properties": {
+      "number": {
+        "id": "/Primitives#number",
+        "name": "number",
+        "type": "Float",
+        "comments": {
+          "instance": "<p>Test property comment</p>\n"
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": 10
+      },
+      "integer": {
+        "id": "/Primitives#integer",
+        "name": "integer",
+        "type": "Int",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": 10
+      },
+      "float": {
+        "id": "/Primitives#float",
+        "name": "float",
+        "type": "Float",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": 10
+      },
+      "string": {
+        "id": "/Primitives#string",
+        "name": "string",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "ten"
+      },
+      "boolean": {
+        "id": "/Primitives#boolean",
+        "name": "boolean",
+        "type": "Boolean",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": true
+      },
+      "integers": {
+        "id": "/Primitives",
+        "name": "integers",
+        "type": "3",
+        "properties": {},
+        "isPrimitive": false,
+        "value": [
+          {
+            "id": "/Primitives",
+            "name": "integers",
+            "type": "3",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives#integers",
+                "name": "integers",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 1
+              },
+              {
+                "id": "/Primitives#integers",
+                "name": "integers",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 2
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          },
+          {
+            "id": "/Primitives",
+            "name": "integers",
+            "type": "3",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives#integers",
+                "name": "integers",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 3
+              },
+              {
+                "id": "/Primitives#integers",
+                "name": "integers",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 4
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          },
+          {
+            "id": "/Primitives",
+            "name": "integers",
+            "type": "3",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives#integers",
+                "name": "integers",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 5
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          }
+        ],
+        "comments": {
+          "instance": ""
+        }
+      },
+      "strings": {
+        "id": "/Primitives",
+        "name": "strings",
+        "type": "2",
+        "properties": {},
+        "isPrimitive": false,
+        "value": [
+          {
+            "id": "/Primitives",
+            "name": "strings",
+            "type": "2",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives",
+                "name": "strings",
+                "type": "2",
+                "properties": {},
+                "isPrimitive": false,
+                "value": [
+                  {
+                    "id": "/Primitives#strings",
+                    "name": "strings",
+                    "type": "String",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": "6"
+                  }
+                ],
+                "comments": {
+                  "instance": ""
+                }
+              },
+              {
+                "id": "/Primitives",
+                "name": "strings",
+                "type": "2",
+                "properties": {},
+                "isPrimitive": false,
+                "value": [
+                  {
+                    "id": "/Primitives#strings",
+                    "name": "strings",
+                    "type": "String",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": "7"
+                  }
+                ],
+                "comments": {
+                  "instance": ""
+                }
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          },
+          {
+            "id": "/Primitives",
+            "name": "strings",
+            "type": "2",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives",
+                "name": "strings",
+                "type": "2",
+                "properties": {},
+                "isPrimitive": false,
+                "value": [
+                  {
+                    "id": "/Primitives#strings",
+                    "name": "strings",
+                    "type": "String",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": "8"
+                  }
+                ],
+                "comments": {
+                  "instance": ""
+                }
+              },
+              {
+                "id": "/Primitives",
+                "name": "strings",
+                "type": "2",
+                "properties": {},
+                "isPrimitive": false,
+                "value": [
+                  {
+                    "id": "/Primitives#strings",
+                    "name": "strings",
+                    "type": "String",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": "9"
+                  }
+                ],
+                "comments": {
+                  "instance": ""
+                }
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          },
+          {
+            "id": "/Primitives",
+            "name": "strings",
+            "type": "2",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "id": "/Primitives",
+                "name": "strings",
+                "type": "2",
+                "properties": {},
+                "isPrimitive": false,
+                "value": [
+                  {
+                    "id": "/Primitives#strings",
+                    "name": "strings",
+                    "type": "String",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": "10"
+                  }
+                ],
+                "comments": {
+                  "instance": ""
+                }
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          }
+        ],
+        "comments": {
+          "instance": ""
+        }
+      },
+      "emptyList": {
+        "id": "/Primitives",
+        "name": "emptyList",
+        "type": "2",
+        "properties": {},
+        "isPrimitive": false,
+        "value": [],
+        "comments": {
+          "instance": ""
+        }
+      },
+      "child": {
+        "type": "ChildComponent",
+        "name": "child",
+        "examples": {},
+        "id": "/Primitives/child",
+        "comments": {
+          "type": "",
+          "instance": ""
+        },
+        "properties": {
+          "diez": {
+            "id": "/Primitives/child#diez",
+            "name": "diez",
+            "type": "Float",
+            "comments": {
+              "instance": ""
+            },
+            "properties": {},
+            "isPrimitive": true,
+            "value": 10
+          }
+        },
+        "value": {},
+        "isPrimitive": false
+      },
+      "childs": {
+        "id": "/Primitives",
+        "name": "childs",
+        "type": "ChildComponent",
+        "properties": {},
+        "isPrimitive": false,
+        "value": [
+          {
+            "id": "/Primitives",
+            "name": "childs",
+            "type": "ChildComponent",
+            "properties": {},
+            "isPrimitive": false,
+            "value": [
+              {
+                "type": "ChildComponent",
+                "name": "childs",
+                "examples": {},
+                "id": "/Primitives/childs",
+                "comments": {
+                  "type": "",
+                  "instance": ""
+                },
+                "properties": {
+                  "diez": {
+                    "id": "/Primitives/childs#diez",
+                    "name": "diez",
+                    "type": "Float",
+                    "comments": {
+                      "instance": ""
+                    },
+                    "properties": {},
+                    "isPrimitive": true,
+                    "value": 10
+                  }
+                },
+                "value": {},
+                "isPrimitive": false
+              }
+            ],
+            "comments": {
+              "instance": ""
+            }
+          }
+        ],
+        "comments": {
+          "instance": ""
+        }
+      },
+      "emptyChild": {
+        "type": "EmptyComponent",
+        "name": "emptyChild",
+        "examples": {},
+        "id": "/Primitives/emptyChild",
+        "comments": {
+          "type": "",
+          "instance": ""
+        },
+        "properties": {},
+        "value": {},
+        "isPrimitive": false
+      },
+      "referred": {
+        "id": "/Primitives#referred",
+        "name": "referred",
+        "type": "Float",
+        "comments": {
+          "instance": "<p>References too!</p>\n"
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": 10
+      }
+    },
+    "value": {},
+    "isPrimitive": false
+  }
+]
