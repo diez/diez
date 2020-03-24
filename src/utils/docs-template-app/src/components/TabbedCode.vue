@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
-// import {ParsedExample, ParsedSnippet} from '../api';
 type ParsedExample = import('@diez/targets').ParsedExample;
 type ParsedSnippet = import('@diez/targets').ParsedSnippet;
 

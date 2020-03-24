@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import {Component, Mixins, Prop} from 'vue-property-decorator';
-// import {DocsTargetSpec, TemplateTypes} from '../api';
 import Box from '../assets/icons/Box.vue';
 import Chevron from '../assets/icons/Chevron.vue';
 import {isBagOfComponents, sortByBagsOfComponentsFirst} from '../utils/component';

@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-// import {displayableHsla, DocsTargetSpec} from '@diez/targets';
 import {Color, GradientStop, LinearGradientData, Point2D} from '@diez/prefabs';
 import {linearGradientToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
@@ -22,7 +21,7 @@ export default class LinearGradientDetail extends Vue {
   @Prop() readonly tree!: DocsTargetSpec;
 
   get details () {
-    const stops = this.tree.properties.stops.value.reduce((acc: Record<string, string>, stop: GradientStop, index) => {
+    const stops = this.tree.properties.stops.value.reduce((acc: Record<string, string>, stop: any, index) => {
       const {h, s, l, a} = stop.properties.color.properties;
       const hsla = displayableHsla({h: h.value, s: s.value, l: l.value, a: a.value});
       acc[`Stop-${index}`] = `${hsla} at ${stop.properties.position.value}`;
