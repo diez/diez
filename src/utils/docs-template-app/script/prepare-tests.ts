@@ -1,12 +1,3 @@
-// Monkey-patch `require()` so the `.diezrc` autodiscovery mechanism can work across monorepos.
-import {addPath} from 'app-module-path';
-// This module needs especial interop settings to be `import`ed
-// tslint:disable-next-line: no-var-requires
-const {Module} = require('module');
-for (const requirePath of Module._nodeModulePaths(global.process.cwd())) {
-  addPath(requirePath);
-}
-
 import {spawnSync} from 'child_process';
 import {copySync, removeSync} from 'fs-extra';
 import {join, resolve} from 'path';

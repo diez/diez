@@ -27,7 +27,7 @@ module.exports = testWithDefaults({
     browser.expect.url().to.contain('/image');
     browser.expect.url().to.not.contain('name=');
     browser.expect.url().to.not.contain('type=');
-    browser.expect.elements('h1').text.to.equal('image');
+    browser.expect.element('h1').text.to.equal('image');
   },
 
   'Filters elements by type': (browser) => {
@@ -44,7 +44,7 @@ module.exports = testWithDefaults({
     browser.expect.element('main').text.to.contain('No components containing "lorem-ipsum-dolor-sit" of type Image.');
 
     selectOption(browser, 'main', '');
-    browser.expect.element('main').text.to.contain('No components containing "lorem-ipsum-dolor-sit".');
+    browser.expect.element('main').text.to.contain('No components containing "lorem-ipsum-dolor-sit"');
   },
 
   'Searching by exact query returns valid results': (browser) => {

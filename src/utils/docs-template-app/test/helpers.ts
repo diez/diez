@@ -1,10 +1,10 @@
 import {CompilerOptions, projectCache, ProjectParser} from '@diez/compiler-core';
 import {DocsCompiler} from '@diez/targets';
-// import {Target} from '@diez/engine';
+import {Target} from '@diez/engine';
 import {copySync, existsSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 
-const workspaceExamplesRoot = join(__dirname, '..', '..', '..', 'examples');
+const workspaceExamplesRoot = join(__dirname, '..', '..', '..', '..', 'examples');
 const fixturesRoot = join(__dirname, 'fixtures');
 
 /**
@@ -20,7 +20,7 @@ export const stubProjectRoot = join(workspaceExamplesRoot, '.stub', 'docs-templa
 /**
  * The build output location for the stub project.
  */
-export const buildRoot = join(stubProjectRoot, 'build', 'docs');
+export const buildRoot = join(stubProjectRoot, 'build', 'diez-docs-template-app-test-stub-docs');
 
 /**
  * The location of e2e tests.
@@ -40,7 +40,7 @@ export const getGeneratedFixturesRoot = (fixture: string) => join(fixturesRoot, 
 /**
  * Generates a program for the specified fixture and target.
  */
-const createProgramForFixture = async (fixture: string, target: any, options?: Partial<CompilerOptions>) => {
+const createProgramForFixture = async (fixture: string, target: Target, options?: Partial<CompilerOptions>) => {
   projectCache.clear();
   removeSync(join(stubProjectRoot, 'assets'));
 
@@ -62,7 +62,7 @@ const createProgramForFixture = async (fixture: string, target: any, options?: P
  * Creates Docs output for a fixture.
  */
 export const createDocsCompilerForFixture = async (fixture: string): Promise<DocsCompiler> => {
-  const program = await createProgramForFixture(fixture, 'docs');
+  const program = await createProgramForFixture(fixture, Target.Docs);
   const compiler = new DocsCompiler(program);
   return compiler;
 };

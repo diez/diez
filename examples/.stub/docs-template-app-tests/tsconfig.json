@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "rootDir": "src",
+    "outDir": "lib",
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "strict": true
+  },
+  "include": ["src/**/*.ts"]
+}

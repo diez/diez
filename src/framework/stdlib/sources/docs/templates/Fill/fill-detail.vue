@@ -8,7 +8,6 @@
 
 
 <script lang="ts">
-// import {displayableHsla, displayableRgba, DocsTargetSpec, hslToHex} from '@diez/targets';
 import {displayableHsla, displayableRgba, hslToHex} from '../../../../src/color';
 import {FillData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';

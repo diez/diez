@@ -1,6 +1,7 @@
-import nightwatch from 'nightwatch';
+import * as nightwatch from 'nightwatch';
 
 declare module 'nightwatch' {
+
   export interface Expect {
     count: this;
     equal(value: string|number): this;

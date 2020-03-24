@@ -1,5 +1,5 @@
 {
-  "extends": "../../../../../diez/src/tsconfig.shared.json",
+  "extends": "../../../../tsconfig.shared.json",
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "lib"

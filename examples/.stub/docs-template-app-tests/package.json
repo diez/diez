@@ -1,0 +1,15 @@
+{
+  "name": "docs-template-app-test-stub",
+  "main": "lib/index.js",
+  "private": true,
+  "version": "10.4.0",
+  "dependencies": {
+    "@diez/engine": "^10.4.0",
+    "@diez/prefabs": "^10.4.0"
+  },
+  "devDependencies": {
+    "@diez/targets": "^10.4.0",
+    "diez": "^10.4.0",
+    "typescript": "^3.7.2"
+  }
+}

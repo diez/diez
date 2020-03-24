@@ -25,6 +25,9 @@
       "web": "./lib/bindings/File/web",
       "docs": "./lib/bindings/File/docs"
     },
+    "@diez/prefabs:Fill": {
+      "docs": "./lib/bindings/Fill/docs"
+    },
     "@diez/prefabs:Image": {
       "ios": "./lib/bindings/Image/ios",
       "android": "./lib/bindings/Image/android",
