@@ -13,6 +13,12 @@ jest.doMock('child_process', () => {
   return childProcess;
 });
 
+const mockReaddirSync = jest.fn().mockReturnValue([]);
+jest.doMock('fs-extra', () => ({
+  ...jest.requireActual('fs-extra'),
+  readdirSync: mockReaddirSync,
+}));
+
 import {EventEmitter} from 'events';
 
 const mockProcess = new EventEmitter();
@@ -68,6 +74,7 @@ describe('diez start command', () => {
   });
 
   test('iOS - no CocoaPods', async () => {
+    mockReaddirSync.mockReturnValueOnce(['mock.xcworkspace', 'something.else']);
     mockCanRunCommand.mockImplementation((command) => command === 'pod --version' ? false : true);
     await diezRun('start ios');
     expect(process.exit).toHaveBeenCalledWith(1);
@@ -80,6 +87,7 @@ describe('diez start command', () => {
   });
 
   test('iOS golden path', async () => {
+    mockReaddirSync.mockReturnValueOnce(['mock.xcworkspace', 'something.else']);
     mockExecSync.mockReturnValueOnce('1.7.0');
     await diezRun('start ios');
     mockProcess.emit('message', 'built');
@@ -98,5 +106,15 @@ describe('diez start command', () => {
       expect.stringContaining('diez compile -t web'), expect.anything());
     expect(mockFork).toHaveBeenCalledWith(
       expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
+  });
+
+  test('Docs golden path', async () => {
+    mockReaddirSync.mockReturnValueOnce(['mock-directory-docs']);
+    await diezRun('start docs');
+    mockProcess.emit('message', 'built');
+    expect(mockPackageManagerInstance.execBinary).toHaveBeenLastCalledWith(
+      expect.stringContaining('diez compile -t docs'), expect.anything());
+    expect(mockPackageManagerInstance.exec).toHaveBeenCalledWith(
+      ['start'], expect.objectContaining({cwd: expect.stringContaining('mock-directory-docs')}));
   });
 });

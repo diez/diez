@@ -72,12 +72,16 @@ export = async (_: {}, target: Target) => {
       packageManager.execBinary('diez compile -t docs', {stdio: 'inherit'});
       Log.comment('Starting the Diez docs server...');
       const buildFolder = readdirSync(join(root, 'build')).find((folder) => folder.includes('-docs'));
+
       if (!buildFolder) {
+        // This should never happen.
         Log.error(`Unable to find the compiled docs in ${buildFolder}. This usually happens when your project failed to compile.`);
-        process.exit(1);
+        return;
       }
+
       await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', buildFolder)});
-      break;
+      // Particular case, since docs doesn't have a 'hot' mode, we just start the docs server and exit.
+      return;
   }
 
   // istanbul ignore next
