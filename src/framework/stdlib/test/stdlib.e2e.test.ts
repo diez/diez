@@ -8,11 +8,12 @@ import {
   createWebCompilerForFixture,
   getFixtures,
   getGoldenRoot,
+  createDocsCompilerForFixture,
 } from './helpers';
 
 beforeAll(() => {
-  // Allow 1 minute per test. Hopefully they don't actually take that long!
-  jest.setTimeout(6e4);
+  // Allow 2 minutes per test. Hopefully they don't actually take that long!
+  jest.setTimeout(12e4);
   registerExpectations();
 });
 
@@ -53,6 +54,9 @@ describe('stdlib.e2e', () => {
 
       const webCompiler = await createWebCompilerForFixture(fixture);
       await webCompiler.start();
+
+      const docsCompiler = await createDocsCompilerForFixture(fixture);
+      await docsCompiler.start();
 
       // Ignore the web SDK's package.json in the directory comparison since version numbers may not match after a
       // release has been created but the stub goldens have not been regenerated.

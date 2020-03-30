@@ -7,6 +7,7 @@ import {
   createWebCompilerForFixture,
   getFixtures,
   getGoldenRoot,
+  createDocsCompilerForFixture,
 } from '../test/helpers';
 
 // Monkey-patch `openSync` from `fontkit` so our font validator works.
@@ -34,6 +35,10 @@ removeSync(buildRoot);
     const webCompiler = await createWebCompilerForFixture(fixture);
     await webCompiler.run();
     await webCompiler.writeSdk();
+
+    // Regenerates Docs goldens.
+    const docsCompiler = await createDocsCompilerForFixture(fixture);
+    await docsCompiler.start();
 
     copySync(buildRoot, goldenRoot);
   }
