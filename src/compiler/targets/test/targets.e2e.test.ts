@@ -4,6 +4,7 @@ import {join} from 'path';
 import {
   buildRoot,
   createAndroidCompilerForFixture,
+  createDocsCompilerForFixture,
   createIosCompilerForFixture,
   createWebCompilerForFixture,
   getFixtures,
@@ -53,6 +54,9 @@ describe('targets.e2e', () => {
 
       const webCompiler = await createWebCompilerForFixture(fixture);
       await webCompiler.start();
+
+      const docsCompiler = await createDocsCompilerForFixture(fixture);
+      await docsCompiler.start();
 
       // Ignore the web SDK's package.json in the directory comparison since version numbers may not match after a
       // release has been created but the stub goldens have not been regenerated.
