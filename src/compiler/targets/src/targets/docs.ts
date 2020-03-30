@@ -1,5 +1,5 @@
 import {CompilerProvider} from '@diez/compiler-core';
-import {Target} from '@diez/engine/types/api';
+import {Target} from '@diez/engine';
 import {docsHandler as handler} from './docs.compiler';
 
 const target: CompilerProvider = {
