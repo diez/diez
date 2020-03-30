@@ -12,8 +12,8 @@ import {
 } from './helpers';
 
 beforeAll(() => {
-  // Allow 1 minute per test. Hopefully they don't actually take that long!
-  jest.setTimeout(6e4);
+  // Allow 2 minutes per test. Hopefully they don't actually take that long!
+  jest.setTimeout(12e4);
   registerExpectations();
 });
 
