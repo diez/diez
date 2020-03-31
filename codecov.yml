@@ -26,3 +26,7 @@ comment:
   layout: "header, diff"
   behavior: default
   require_changes: no
+
+ignore:
+  - "src/utils/docs-template-app"
+  - "src/utils/docs-template-design-language"

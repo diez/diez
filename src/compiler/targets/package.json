@@ -29,10 +29,16 @@
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1",
     "internal-ip": "^4.3.0",
-    "jsdoc-to-markdown": "^5.0.2"
+    "jsdoc-to-markdown": "^5.0.2",
+    "lunr": "^2.3.6",
+    "markdown-it": "^9.1.0",
+    "prismjs": "^1.17.1"
   },
   "devDependencies": {
     "@diez/test-utils": "^10.4.0",
+    "@types/lunr": "^2.3.2",
+    "@types/markdown-it": "^0.0.8",
+    "@types/prismjs": "^1.16.0",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",

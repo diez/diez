@@ -1,3 +1,4 @@
 {
-  "extends": ["tslint-config-haiku"]
+  "extends": ["tslint-config-haiku"],
+  "no-implicit-dependencies": [true, ["@diez/web-sdk-common", "@diez/docs", "vue-property-decorator", "lottie-web"]]
 }

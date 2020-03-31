@@ -12,11 +12,12 @@ const guideUrls = {
   [Target.Android]: 'https://diez.org/getting-started/kotlin.html',
   [Target.Ios]: 'https://diez.org/getting-started/swift.html',
   [Target.Web]: 'https://diez.org/getting-started/javascript.html',
+  [Target.Docs]: 'https://diez.org/getting-started/docs.html',
 };
 
 export = async (_: {}, target: Target) => {
-  if (![Target.Android, Target.Web, Target.Ios].includes(target)) {
-    Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}>`);
+  if (![Target.Android, Target.Web, Target.Ios, Target.Docs].includes(target)) {
+    Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}|${Target.Docs}>`);
     process.exit(1);
     return;
   }
@@ -67,6 +68,20 @@ export = async (_: {}, target: Target) => {
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web'], {stdio: 'inherit'});
       break;
+    case Target.Docs:
+      packageManager.execBinary('diez compile -t docs', {stdio: 'inherit'});
+      Log.comment('Starting the Diez docs server...');
+      const buildFolder = readdirSync(join(root, 'build')).find((folder) => folder.includes('-docs'));
+
+      if (!buildFolder) {
+        // This should never happen.
+        Log.error(`Unable to find the compiled docs in ${buildFolder}. This usually happens when your project failed to compile.`);
+        return;
+      }
+
+      await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', buildFolder)});
+      // Particular case, since docs doesn't have a 'hot' mode, we just start the docs server and exit.
+      return;
   }
 
   // istanbul ignore next

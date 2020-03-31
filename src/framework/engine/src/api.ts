@@ -50,6 +50,7 @@ export const enum Target {
   Android = 'android',
   Ios = 'ios',
   Web = 'web',
+  Docs = 'docs',
 }
 
 /**

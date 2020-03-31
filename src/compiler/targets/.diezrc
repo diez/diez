@@ -3,7 +3,8 @@
     "targets": [
       "./lib/targets/ios",
       "./lib/targets/android",
-      "./lib/targets/web"
+      "./lib/targets/web",
+      "./lib/targets/docs"
     ],
     "extensions": [
       "./lib/targets/ios.extensions"

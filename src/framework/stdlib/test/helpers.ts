@@ -1,6 +1,6 @@
 import {CompilerOptions, Constructor, projectCache, ProjectParser} from '@diez/compiler-core';
 import {Target} from '@diez/engine';
-import {AndroidCompiler, IosCompiler, WebCompiler} from '@diez/targets';
+import {AndroidCompiler, IosCompiler, WebCompiler, DocsCompiler} from '@diez/targets';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 
@@ -82,6 +82,16 @@ export const createAndroidCompilerForFixture = async (fixture: string): Promise<
 export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
   const parser = await createParserForFixture(fixture, Target.Web);
   const compiler = new WebCompiler(parser);
+  compiler.clear();
+  return compiler;
+};
+
+/**
+ * Creates Docs output for a fixture.
+ */
+export const createDocsCompilerForFixture = async (fixture: string): Promise<DocsCompiler> => {
+  const program = await createParserForFixture(fixture, Target.Docs);
+  const compiler = new DocsCompiler(program);
   compiler.clear();
   return compiler;
 };

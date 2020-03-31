@@ -13,7 +13,7 @@
     "change-case": "^3.1.0"
   },
   "devDependencies": {
-    "@types/webpack": "^4.4.27",
+    "@types/webpack": "4.4.27",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.7.2"

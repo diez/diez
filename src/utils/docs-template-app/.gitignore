@@ -1,0 +1,29 @@
+.DS_Store
+node_modules
+/dist
+tree.json
+searchIndex.json
+public/assets
+test/e2e/reports
+test/e2e/lib
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+chromedriver.log
+selenium-debug.log
+geckodriver.log
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

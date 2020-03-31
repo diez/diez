@@ -4,6 +4,7 @@ import {Target} from '@diez/engine';
 import {copySync, existsSync, readdirSync, readFileSync, removeSync, writeFileSync} from 'fs-extra';
 import {join} from 'path';
 import {AndroidCompiler} from '../src/targets/android.compiler';
+import {DocsCompiler} from '../src/targets/docs.compiler';
 import {IosCompiler} from '../src/targets/ios.compiler';
 import {WebCompiler} from '../src/targets/web.compiler';
 
@@ -59,6 +60,7 @@ const createParserForFixture = async (fixture: string, target: Target, options?:
       [Target.Android]: './test/bindings/android',
       [Target.Ios]: './test/bindings/ios',
       [Target.Web]: './test/bindings/web',
+      [Target.Docs]: './test/bindings/docs',
     },
   };
 
@@ -102,6 +104,16 @@ export const createAndroidCompilerForFixture = async (fixture: string): Promise<
 export const createWebCompilerForFixture = async (fixture: string): Promise<WebCompiler> => {
   const parser = await createParserForFixture(fixture, Target.Web);
   const compiler = new WebCompiler(parser);
+  compiler.clear();
+  return compiler;
+};
+
+/**
+ * Creates Docs output for a fixture.
+ */
+export const createDocsCompilerForFixture = async (fixture: string): Promise<DocsCompiler> => {
+  const program = await createParserForFixture(fixture, Target.Docs);
+  const compiler = new DocsCompiler(program);
   compiler.clear();
   return compiler;
 };

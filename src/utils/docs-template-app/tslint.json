@@ -1,0 +1,22 @@
+{
+  "extends": ["tslint-config-haiku"],
+  "rules": {
+    "import-name": false,
+    "no-implicit-dependencies": [
+      true,
+      "dev",
+      [
+        "@/assets",
+        "@/components",
+        "@/utils",
+        "@/api",
+        "@/views",
+        "@/filters",
+        "@diez/web-sdk-common",
+        "@diez/docs",
+        "vue-property-decorator",
+        "lottie-web"
+      ]
+    ]
+  }
+}
