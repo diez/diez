@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0-beta.2](https://github.com/diez/diez/compare/v10.5.0-beta.1...v10.5.0-beta.2) (2020-03-31)
+
+**Note:** Version bump only for package @diez/start
+
+
+
+
+
 # [10.5.0-beta.1](https://github.com/diez/diez/compare/v10.5.0-beta.0...v10.5.0-beta.1) (2020-03-31)
 
 **Note:** Version bump only for package @diez/start
