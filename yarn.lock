@@ -1738,6 +1738,18 @@
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
 
+"@diez/framework-core@^10.4.0":
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/@diez/framework-core/-/framework-core-10.4.0.tgz#1392f9db89108f1474dd883a3b5dd8b8bad7b50d"
+  integrity sha512-bkz3bIiKZoEqSCKnWIhZonkka20X1vMGVkHbcshCNnvTuFGLv1Dh5CTxhu7AJ5EhwYsc+H6Bf6HW9tf94BpjIw==
+
+"@diez/web-sdk-common@^10.1.0", "@diez/web-sdk-common@^10.4.0":
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/@diez/web-sdk-common/-/web-sdk-common-10.4.0.tgz#f69a30430f520d6ef788b0852aa5fe34be1efe50"
+  integrity sha512-/AwxvjtMK4FTEq2IP7O73ocqzB53BxSgErd7RsInkmc3eNfsxRyrkBHOHK3fVQq0BY5T7WYKLaI3kild+Ru35A==
+  dependencies:
+    "@diez/framework-core" "^10.4.0"
+
 "@dsherret/to-absolute-glob@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dsherret/to-absolute-glob/-/to-absolute-glob-2.0.2.tgz#1f6475dc8bd974cea07a2daf3864b317b1dd332c"
