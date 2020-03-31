@@ -15,8 +15,8 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new DiezWebpackPlugin({
-        sdk: 'diez-diez-docs-design-language',
-        projectPath: resolve(dirname(require.resolve('@diez/docs-design-language')), '..', '..'),
+        sdk: 'diez-diez-docs-template-design-language',
+        projectPath: resolve(dirname(require.resolve('@diez/docs-template-design-language')), '..', '..'),
       }),
     ],
   },

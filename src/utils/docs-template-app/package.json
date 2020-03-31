@@ -1,6 +1,6 @@
 {
   "name": "@diez/docs-template-app",
-  "version": "10.5.0-beta.1",
+  "version": "10.5.0-beta.2",
   "description": "Vue app used as a template for docs",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -12,6 +12,7 @@
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "compile": "yarn build",
     "lint": "vue-cli-service lint --no-fix",
     "fix": "vue-cli-service lint",
     "health": "yarn test && yarn lint",
@@ -35,10 +36,10 @@
     "http-server": "^0.10.0"
   },
   "devDependencies": {
-    "@diez/compiler-core": "^10.5.0-beta.1",
-    "@diez/docs-template-design-language": "^10.5.0-beta.1",
-    "@diez/stdlib": "^10.5.0-beta.1",
-    "@diez/targets": "^10.5.0-beta.1",
+    "@diez/compiler-core": "^10.5.0-beta.2",
+    "@diez/docs-template-design-language": "^10.5.0-beta.2",
+    "@diez/stdlib": "^10.5.0-beta.2",
+    "@diez/targets": "^10.5.0-beta.2",
     "@types/app-module-path": "^2.2.0",
     "@types/jest": "^24.0.19",
     "@types/lunr": "^2.3.2",
@@ -51,7 +52,7 @@
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.3",
     "chromedriver": "^80.0.1",
-    "diez-webpack-plugin": "^10.5.0-beta.1",
+    "diez-webpack-plugin": "^10.5.0-beta.2",
     "fs-extra": "^7.0.1",
     "geckodriver": "^1.18.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
