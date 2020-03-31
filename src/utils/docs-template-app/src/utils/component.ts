@@ -1,3 +1,6 @@
+import {DocsReference} from '@/api';
+import {PropertyReference} from '@diez/compiler-core';
+
 type ParsedExampleTree = import('@diez/targets').ParsedExampleTree;
 type DocsPropertySpec = import('@diez/targets').DocsPropertySpec<any>;
 type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
@@ -111,4 +114,49 @@ const findAvailableTypesInBranch = (branch: DocsPropertySpec, types: Set<string>
  */
 export const getDocumentationLinkForType = (type: any) => {
   return `https://diez.org/docs/latest/classes/framework_prefabs.${type.toString().toLowerCase()}.html`;
+};
+
+const referenceCache = new Map<string, DocsReference>();
+
+/**
+ * Finds a component in the tree from a PropertyReference.
+ */
+export const findInTreeFromReference = (tree: DocsTargetSpec[], reference: PropertyReference): DocsReference | null => {
+  const idPath = [reference.parentType.toString(), reference.name];
+  const id = idPath.map((value) => value.toLowerCase()).join('/');
+
+  if (referenceCache.has(id)) {
+    return referenceCache.get(id)!;
+  }
+
+  for (const subtree of tree) {
+    const maybeReference = findPropertyWithIdEndingWith(subtree, id);
+
+    if (maybeReference) {
+      const docsReference = {idPath, link: maybeReference.id};
+      referenceCache.set(id, docsReference);
+      return docsReference;
+    }
+  }
+
+  return null;
+};
+
+/**
+ * Recursively finds a component or property that has an id terminating with the provided path.
+ */
+const findPropertyWithIdEndingWith = (docsComponent: DocsTargetSpec, path: string): DocsTargetSpec | null => {
+  if (docsComponent.id.toLowerCase().endsWith(path)) {
+    return docsComponent;
+  }
+
+  for (const propValue of Object.values(docsComponent.properties)) {
+    const foundNestedProperty = findPropertyWithIdEndingWith(propValue, path);
+
+    if (foundNestedProperty) {
+      return foundNestedProperty;
+    }
+  }
+
+  return null;
 };

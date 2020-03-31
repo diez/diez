@@ -1,4 +1,4 @@
-import {AssetBinder, AssetBindings, DiezType, TargetOutput} from '@diez/compiler-core';
+import {AssetBinder, AssetBindings, DiezType, TargetOutput, PropertyReference} from '@diez/compiler-core';
 import {Prefab} from '@diez/engine';
 
 /**
@@ -47,6 +47,7 @@ export interface DocsTargetSpec<T = {[key: string]: any}> {
     instance?: string;
   };
   examples?: ParsedExampleTree;
+  references?: PropertyReference[];
 }
 
 /**

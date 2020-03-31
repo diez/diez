@@ -34,3 +34,11 @@ type TemplatedSpec = DocsTargetSpec & {template?: () => Promise<any>};
 export interface ComponentTypesMap {
   [key: string]: TemplatedSpec[];
 }
+
+/**
+ * Describes a reference.
+ */
+export interface DocsReference {
+  idPath: string[];
+  link: string;
+}

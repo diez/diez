@@ -20,7 +20,8 @@
         </a>
       </p>
     </div>
-    <details-table :details="details"></details-table>
+    <mappings :references="tree.references" />
+    <details-table :details="details" :references="tree.references"></details-table>
   </div>
 </template>
 
@@ -28,6 +29,7 @@
 import ExternalArrow from '@/assets/icons/ExternalArrow.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import DetailsTable from '@/components/DetailsTable.vue';
+import Mappings from '@/components/Mappings.vue';
 import Pill from '@/components/Pill.vue';
 import {getDocumentationLinkForType} from '@/utils/component';
 import {Component, Prop, Vue} from 'vue-property-decorator';
@@ -42,6 +44,7 @@ type DocsTargetSpec = import('@diez/targets').DocsTargetSpec;
     Breadcrumb,
     Pill,
     ExternalArrow,
+    Mappings,
   },
 })
 export default class DocsDetail extends Vue {

@@ -33,6 +33,7 @@
     "@diez/docs-design-language": "^10.4.0",
     "@diez/stdlib": "^10.4.0",
     "@diez/targets": "^10.4.0",
+    "@diez/compiler-core": "^10.4.0",
     "@types/app-module-path": "^2.2.0",
     "@types/jest": "^24.0.19",
     "@types/lunr": "^2.3.2",

@@ -4,7 +4,7 @@
     <table>
       <tr :key="name" v-for="(value, name) in details">
         <td>{{name}}</td>
-        <td>{{value}}</td>
+        <td>{{value}}<details-table-reference :reference="inferDocReference(name)"></details-table-reference></td>
       </tr>
     </table>
   </div>
@@ -12,14 +12,35 @@
 
 <script lang="ts">
 import {ItemDetails} from '@/api';
+import DetailsTableReference from '@/components/DetailsTableReference.vue';
 import {Component, Prop, Vue} from 'vue-property-decorator';
+import {findInTreeFromReference} from '../utils/component';
+type PropertyReference = import('@diez/compiler-core').PropertyReference;
 
 /**
  * Table showing key/value pairs.
  */
-@Component
+@Component({
+  components: {
+    DetailsTableReference,
+  },
+})
 export default class DetailsTable extends Vue {
   @Prop() readonly details!: ItemDetails;
+  @Prop() protected readonly references!: PropertyReference[];
+
+  inferDocReference (name: string) {
+    if (!this.references) {
+      return null;
+    }
+
+    const reference = this.references.find((ref) => ref.path.find((p) => name.toLowerCase().includes(p.toLowerCase())));
+    if (!reference) {
+      return null;
+    }
+
+    return findInTreeFromReference(this.$treeRoot, reference);
+  }
 }
 </script>
 

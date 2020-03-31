@@ -14,6 +14,7 @@ import {
   PropertyDescription,
   UsageExample,
   UsageExampleTree,
+  PropertyReference,
 } from '@diez/compiler-core';
 import {serialize} from '@diez/engine';
 import {copy, ensureDir, outputFile, readFileSync, remove, writeJson} from 'fs-extra';
@@ -98,6 +99,7 @@ export class DocsCompiler {
     parentId: string[],
     name: string,
     instanceDescription?: PropertyDescription,
+    instanceReferences?: PropertyReference[],
   ) => {
     const component = this.parser.components.get(type);
     if (!component) {
@@ -122,6 +124,7 @@ export class DocsCompiler {
       properties: {},
       value: {},
       isPrimitive: false,
+      references: instanceReferences,
     };
 
     if (binding) {
@@ -284,6 +287,7 @@ export class DocsCompiler {
         id,
         property.name,
         property.description,
+        property.references,
       );
 
       if (!componentSpec) {

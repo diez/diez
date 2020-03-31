@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts">
-import {ColorData} from '@diez/prefabs';
+import {FillData} from '@diez/prefabs';
 import {colorToCss} from '@diez/web-sdk-common';
 import {Component, Prop, Vue} from 'vue-property-decorator';
-type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<ColorData>;
+type DocsTargetSpec = import('@diez/targets').DocsTargetSpec<FillData>;
 
 /**
  * Fill Icon view.
@@ -16,7 +16,7 @@ export default class FillIcon extends Vue {
   @Prop() readonly tree!: DocsTargetSpec;
 
   get style () {
-    const {h, s, l, a} = this.tree.properties;
+    const {h, s, l, a} = this.tree.properties.color.properties;
     return {
       backgroundColor: colorToCss({h: h.value, s: s.value, l: l.value, a: a.value}),
       borderColor: l.value > 0.8 ? undefined : 'transparent',
