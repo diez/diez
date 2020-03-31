@@ -11,7 +11,7 @@ Diez reduces the cost of delivering a consistent visual identity across your com
 
 ## What's in the box?
 
-Diez's toolkit comes in three parts:
+Diez's toolkit comes in four parts:
 
  - **[Compiler](https://github.com/diez/diez/tree/master/src/compiler)** — Diez includes a novel open-source compiler that converts (transpiles) TypeScript tokens into native packages for iOS, Android, and Web.
 
@@ -27,6 +27,10 @@ Diez's toolkit comes in three parts:
  - **[Extractors](https://github.com/diez/diez/tree/master/src/extractors)** — Diez's extractors automate the retrieval of design tokens from Figma, Sketch, Adobe XD, and InVision DSM.  These command-line utilities are powerful tools for customizing your own design/developer hand-offs and are a great fit for CI servers.
 
    <img src="https://static.haiku.ai/diez/readme/extractors.jpg" />
+
+- **[Documentation Generator](https://github.com/diez/diez/blob/master/src/compiler/targets/src/targets/docs.compiler.ts)** — Diez DocsGen builds customizable static HTML docs from any Diez project, complete with markdown-rendered code comments.  Technically implemented as an additional compiler target, Diez DocsGen helps keep your styleguide and documentation perfectly up-to-date with your design token source of truth.
+
+   <img src="https://static.haiku.ai/diez/readme/docsgen.gif" />
 
 
 ## Getting Started & Installation
