@@ -166,6 +166,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "File/file-detail.vue",
@@ -209,6 +210,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "File/file-detail.vue",
@@ -252,6 +254,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "File/file-detail.vue",
@@ -295,6 +298,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "File/file-detail.vue",
@@ -391,6 +395,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Size2D/size2d-detail.vue",
@@ -402,6 +407,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Image/image-detail.vue",
@@ -500,6 +506,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "File/file-detail.vue",
@@ -533,6 +540,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Lottie/lottie-detail.vue",
@@ -761,6 +769,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "File/file-detail.vue",
@@ -838,7 +847,8 @@
               }
             },
             "value": {},
-            "isPrimitive": false
+            "isPrimitive": false,
+            "references": []
           },
           "fontSize": {
             "id": "/Bindings/typograph#fontSize",
@@ -979,6 +989,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Color/color-detail.vue",
@@ -1056,6 +1067,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Typograph/typograph-detail.vue",
@@ -1284,6 +1296,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "File/file-detail.vue",
@@ -1361,7 +1374,8 @@
               }
             },
             "value": {},
-            "isPrimitive": false
+            "isPrimitive": false,
+            "references": []
           },
           "fontSize": {
             "id": "/Bindings/tallTypograph#fontSize",
@@ -1502,6 +1516,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Color/color-detail.vue",
@@ -1602,6 +1617,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Typograph/typograph-detail.vue",
@@ -1861,6 +1877,7 @@
                     },
                     "value": {},
                     "isPrimitive": false,
+                    "references": [],
                     "binding": {
                       "templates": {
                         "detail": "Color/color-detail.vue",
@@ -1871,7 +1888,8 @@
                   }
                 },
                 "value": {},
-                "isPrimitive": false
+                "isPrimitive": false,
+                "references": []
               },
               {
                 "type": "GradientStop",
@@ -2022,6 +2040,7 @@
                     },
                     "value": {},
                     "isPrimitive": false,
+                    "references": [],
                     "binding": {
                       "templates": {
                         "detail": "Color/color-detail.vue",
@@ -2032,7 +2051,8 @@
                   }
                 },
                 "value": {},
-                "isPrimitive": false
+                "isPrimitive": false,
+                "references": []
               }
             ],
             "comments": {
@@ -2127,6 +2147,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Point2D/point2d-detail.vue",
@@ -2223,6 +2244,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Point2D/point2d-detail.vue",
@@ -2234,6 +2256,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "LinearGradient/linear-gradient-detail.vue",
@@ -2330,6 +2353,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Point2D/point2d-detail.vue",
@@ -2426,6 +2450,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Size2D/size2d-detail.vue",
@@ -2603,6 +2628,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Point2D/point2d-detail.vue",
@@ -2750,6 +2776,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Color/color-detail.vue",
@@ -2761,6 +2788,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "DropShadow/drop-shadow-detail.vue",
@@ -2907,6 +2935,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Color/color-detail.vue",
@@ -3166,6 +3195,7 @@
                         },
                         "value": {},
                         "isPrimitive": false,
+                        "references": [],
                         "binding": {
                           "templates": {
                             "detail": "Color/color-detail.vue",
@@ -3176,7 +3206,8 @@
                       }
                     },
                     "value": {},
-                    "isPrimitive": false
+                    "isPrimitive": false,
+                    "references": []
                   },
                   {
                     "type": "GradientStop",
@@ -3327,6 +3358,7 @@
                         },
                         "value": {},
                         "isPrimitive": false,
+                        "references": [],
                         "binding": {
                           "templates": {
                             "detail": "Color/color-detail.vue",
@@ -3337,7 +3369,8 @@
                       }
                     },
                     "value": {},
-                    "isPrimitive": false
+                    "isPrimitive": false,
+                    "references": []
                   }
                 ],
                 "comments": {
@@ -3432,6 +3465,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "Point2D/point2d-detail.vue",
@@ -3528,6 +3562,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "Point2D/point2d-detail.vue",
@@ -3539,6 +3574,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "LinearGradient/linear-gradient-detail.vue",
@@ -3561,6 +3597,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Fill/fill-detail.vue",
@@ -3781,6 +3818,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "Color/color-detail.vue",
@@ -4040,6 +4078,7 @@
                             },
                             "value": {},
                             "isPrimitive": false,
+                            "references": [],
                             "binding": {
                               "templates": {
                                 "detail": "Color/color-detail.vue",
@@ -4050,7 +4089,8 @@
                           }
                         },
                         "value": {},
-                        "isPrimitive": false
+                        "isPrimitive": false,
+                        "references": []
                       },
                       {
                         "type": "GradientStop",
@@ -4201,6 +4241,7 @@
                             },
                             "value": {},
                             "isPrimitive": false,
+                            "references": [],
                             "binding": {
                               "templates": {
                                 "detail": "Color/color-detail.vue",
@@ -4211,7 +4252,8 @@
                           }
                         },
                         "value": {},
-                        "isPrimitive": false
+                        "isPrimitive": false,
+                        "references": []
                       }
                     ],
                     "comments": {
@@ -4306,6 +4348,7 @@
                     },
                     "value": {},
                     "isPrimitive": false,
+                    "references": [],
                     "binding": {
                       "templates": {
                         "detail": "Point2D/point2d-detail.vue",
@@ -4402,6 +4445,7 @@
                     },
                     "value": {},
                     "isPrimitive": false,
+                    "references": [],
                     "binding": {
                       "templates": {
                         "detail": "Point2D/point2d-detail.vue",
@@ -4413,6 +4457,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "LinearGradient/linear-gradient-detail.vue",
@@ -4435,6 +4480,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "Fill/fill-detail.vue",
@@ -4612,6 +4658,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "Point2D/point2d-detail.vue",
@@ -4759,6 +4806,7 @@
                 },
                 "value": {},
                 "isPrimitive": false,
+                "references": [],
                 "binding": {
                   "templates": {
                     "detail": "Color/color-detail.vue",
@@ -4770,6 +4818,7 @@
             },
             "value": {},
             "isPrimitive": false,
+            "references": [],
             "binding": {
               "templates": {
                 "detail": "DropShadow/drop-shadow-detail.vue",
@@ -4792,6 +4841,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Panel/panel-detail.vue",
@@ -4928,6 +4978,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "Color/color-detail.vue",
@@ -4971,6 +5022,7 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [],
         "binding": {
           "templates": {
             "detail": "File/file-detail.vue",
@@ -5107,6 +5159,13 @@
         },
         "value": {},
         "isPrimitive": false,
+        "references": [
+          {
+            "path": [],
+            "parentType": "References",
+            "name": "referencedColor"
+          }
+        ],
         "binding": {
           "templates": {
             "detail": "Color/color-detail.vue",
