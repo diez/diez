@@ -1,8 +1,8 @@
 # `diez`
 
-## The design language framework
+## The Design Token Framework
 
-**To get started,** just run `yarn create diez`.
+**To get started,** just run `yarn create diez` or `npx diez create`.
 
 Diez is a free & open-source developer toolkit for expressing visual styles that can be shared across codebases, native platforms, and teams.
 
