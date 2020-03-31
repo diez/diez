@@ -1,10 +1,11 @@
 import {Log} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
-  AssetFolder,
+  assetFolders,
   codegenDesignLanguage,
   CodegenDesignLanguage,
   createDesignLanguageSpec,
+  ExtractableAssetType,
   getLinearGradientInitializer,
   getTypographInitializer,
   locateFont,
@@ -218,7 +219,7 @@ class XdExtractor implements Extractor {
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}...`);
-    await createFolders(assetsDirectory, [AssetFolder.Slice]);
+    await createFolders(assetsDirectory, [assetFolders[ExtractableAssetType.Slice]]);
     reporters.progress(`Extracting design language from ${assetName}...`);
     const contentsDirectory = getTempFileName();
     ensureDirSync(contentsDirectory);

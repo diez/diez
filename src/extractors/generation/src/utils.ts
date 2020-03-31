@@ -6,7 +6,7 @@ import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
 import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import {basename, extname, join, parse, relative} from 'path';
 import {CodeBlockWriter, ObjectLiteralExpression, SourceFile, VariableDeclarationKind, WriterFunctionOrValue, Writers} from 'ts-morph';
-import {AssetFolder, CodegenDesignLanguage, CodegenEntity, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
+import {AssetFolder, AssetFolderByAssetType, CodegenDesignLanguage, CodegenEntity, ExtractableAssetType, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
 import {regexES3ReservedWord, regexIdentifierNameES5, regexIdentifierNameES6, regexNumber, regexZeroWidth} from './regexes';
 
 const camelCase = (name: string) => {
@@ -77,7 +77,7 @@ export const createDesignLanguageSpec = (
 /**
  * Registers an asset belonging to a given asset folder in a collection.
  */
-export const registerAsset = (asset: GeneratedAsset, folder: AssetFolder, collection: GeneratedAssets) => {
+export const registerAsset = (asset: GeneratedAsset, folder: ExtractableAssetType, collection: GeneratedAssets) => {
   const {name} = parse(asset.src);
   if (collection.has(folder)) {
     collection.get(folder)!.set(name, asset);
@@ -148,6 +148,13 @@ const reduceEntitiesToObject = (collection: CodegenEntity[], scope: string, reso
 const newLine = (writer: CodeBlockWriter) => {
   writer.newLine();
 };
+
+const deprecatedComment = (newDeclarationName: string) => `
+/**
+ * This is provided for backward compatibility, please use \`${newDeclarationName}\` instead.
+ * @deprecated
+ */
+`;
 
 /**
  * Ensures that paths with explicit back-slashes are forced into forward-slashes
@@ -311,13 +318,30 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       images[sanitizedAssetName] = `Image.responsive("${sanitizedSrc}", ${asset.width}, ${asset.height})`;
     }
 
+    const filesName = camelCase(`${spec.designLanguageName} ${assetFolders[folder]} Files`);
+    const imagesName = camelCase(`${spec.designLanguageName} ${assetFolders[folder]}`);
+
     sourceFile.addVariableStatement({
       isExported: true,
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
-        name: camelCase(`${spec.designLanguageName} ${folder} Files`),
+        name: filesName,
         initializer: Writers.object(files),
+      }],
+    });
+
+    /**
+     * Add backwards-compatibility variable declaration for image files.
+     * TODO: remove in next major release
+     */
+    sourceFile.addVariableStatement({
+      isExported: true,
+      leadingTrivia: deprecatedComment(filesName),
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: camelCase(`${spec.designLanguageName} ${deprecatedAssetFolders[folder]} Files`),
+        initializer: filesName,
       }],
     });
 
@@ -326,8 +350,22 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
       leadingTrivia: newLine,
       declarationKind: VariableDeclarationKind.Const,
       declarations: [{
-        name: camelCase(`${spec.designLanguageName} ${folder}`),
+        name: imagesName,
         initializer: Writers.object(images),
+      }],
+    });
+
+    /**
+     * Add backwards-compatibility variable declaration for images.
+     * TODO: remove in next major release
+     */
+    sourceFile.addVariableStatement({
+      isExported: true,
+      leadingTrivia: deprecatedComment(imagesName),
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: [{
+        name: camelCase(`${spec.designLanguageName} ${deprecatedAssetFolders[folder]}`),
+        initializer: imagesName,
       }],
     });
   }
@@ -466,4 +504,23 @@ export const quoteInvalidPropertyName = (name: string): string => {
   }
 
   return needsQuotes ? `'${name}'` : name;
+};
+
+/**
+ * Defines the folder where each asset type should be extracted.
+ * @ignore
+ */
+export const assetFolders: AssetFolderByAssetType = {
+  [ExtractableAssetType.Slice]: AssetFolder.Image,
+  [ExtractableAssetType.Component]: AssetFolder.Image,
+};
+
+/**
+ * Deprecated folder definitions for where each asset type should be extracted.
+ * @ignore
+ * @deprecated since version 10.4.0
+ */
+export const deprecatedAssetFolders: AssetFolderByAssetType = {
+  [ExtractableAssetType.Slice]: AssetFolder.Slice,
+  [ExtractableAssetType.Component]: AssetFolder.Image,
 };

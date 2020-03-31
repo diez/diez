@@ -2,9 +2,11 @@ import {Log, UnauthorizedRequestException} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
   AssetFolder,
+  assetFolders,
   codegenDesignLanguage,
   CodegenDesignLanguage,
   createDesignLanguageSpec,
+  ExtractableAssetType,
   getDropShadowInitializer,
   getLinearGradientInitializer,
   getTypographInitializer,
@@ -39,7 +41,7 @@ const enum FigmaType {
 }
 
 const folders = new Map<FigmaType, AssetFolder>([
-  [FigmaType.Component, AssetFolder.Component],
+  [FigmaType.Component, assetFolders[ExtractableAssetType.Component]],
 ]);
 
 /**
@@ -248,7 +250,7 @@ const downloadAssets = async (
         const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
         Log.info(`Downloading asset ${filename} from the Figma CDN...`);
         streams.push(downloadStream(url).then((stream) => {
-          stream.pipe(createWriteStream(join(assetsDirectory, AssetFolder.Component, filename)));
+          stream.pipe(createWriteStream(join(assetsDirectory, assetFolders[ExtractableAssetType.Component], filename)));
         }).catch(() => {
           Log.warning(`Error downloading ${filename}`);
         }));
@@ -425,9 +427,9 @@ const parseFigmaFile = async (
     registerAsset(
       {
         ...dimensions,
-        src: join(assetsDirectory, AssetFolder.Component, `${filename}.png`),
+        src: join(assetsDirectory, assetFolders[ExtractableAssetType.Component], `${filename}.png`),
       },
-      AssetFolder.Component,
+      ExtractableAssetType.Component,
       spec.assets,
     );
   }
