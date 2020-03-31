@@ -5,6 +5,8 @@ matrix:
   - name: Core
     language: objective-c
     osx_image: xcode10.2
+    addons:
+      chrome: stable
     cache:
       directories:
       - $HOME/.cache/yarn
