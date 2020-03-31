@@ -1,6 +1,6 @@
 <template>
   <div v-if="referenceLink">
-    <h4>Mapping</h4>
+    <h4>Value comes from:</h4>
     <a
       class="link-pill"
       v-if="referenceLink"
