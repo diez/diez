@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.4.0](https://github.com/diez/diez/compare/v10.4.0-beta.1...v10.4.0) (2020-03-18)
+
+**Note:** Version bump only for package @diez/cli-core
+
+
+
+
+
+# [10.4.0-beta.1](https://github.com/diez/diez/compare/v10.4.0-beta.0...v10.4.0-beta.1) (2020-03-18)
+
+
+### Bug Fixes
+
+* update dependencies and prevent npm errors ([#107](https://github.com/diez/diez/issues/107)) ([78720b0](https://github.com/diez/diez/commit/78720b0))
+
+
+
+
+
+# [10.4.0-beta.0](https://github.com/diez/diez/compare/v10.3.1...v10.4.0-beta.0) (2020-03-17)
+
+
+### Bug Fixes
+
+* **extractor:** only warn once per missing font ([#93](https://github.com/diez/diez/issues/93)) ([ce07af9](https://github.com/diez/diez/commit/ce07af9))
+
+
+### Features
+
+* **cli:** add diez update command ([#98](https://github.com/diez/diez/issues/98)) ([cbf03ff](https://github.com/diez/diez/commit/cbf03ff))
+
+
+### Reverts
+
+* feat: add mechanisms to activate diez-enterprise licenses ([#106](https://github.com/diez/diez/issues/106)) ([b51657f](https://github.com/diez/diez/commit/b51657f))
+
+
+
+
+
 ## [10.3.1](https://github.com/diez/diez/compare/v10.3.0...v10.3.1) (2020-03-03)
 
 **Note:** Version bump only for package @diez/cli-core
