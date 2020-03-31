@@ -1,9 +1,14 @@
 {
   "name": "@diez/docs-template-app",
   "version": "10.5.0-beta.0",
-  "private": true,
   "description": "Vue app used as a template for docs",
   "author": "The Haiku Team <contact@haiku.ai>",
+  "license": "SEE LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
+  },
+  "homepage": "https://diez.org",
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -69,5 +74,8 @@
   },
   "bin": {
     "docs-app": "./bin/docs-app.js"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

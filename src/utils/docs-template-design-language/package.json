@@ -1,10 +1,15 @@
 {
-  "name": "@diez/docs-design-language",
-  "main": "build/diez-diez-docs-design-language-web",
+  "name": "@diez/docs-template-design-language",
+  "main": "build/diez-diez-docs-template-design-language-web",
   "version": "10.5.0-beta.0",
   "description": "Design language for docs gen template",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diez/diez.git"
+  },
+  "homepage": "https://diez.org",
   "dependencies": {
     "@diez/engine": "^10.5.0-beta.0",
     "@diez/prefabs": "^10.5.0-beta.0"
@@ -25,7 +30,9 @@
     "start": "yarn run-web",
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix",
-    "compile": "yarn build-web >/dev/null 2>&1",
-    "pack": "npm pack"
+    "compile": "yarn build-web >/dev/null 2>&1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
