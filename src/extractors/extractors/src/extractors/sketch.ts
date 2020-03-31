@@ -1,10 +1,11 @@
 import {execAsync, isMacOS, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Extractor, ExtractorInput} from '@diez/extractors-core';
 import {
-  AssetFolder,
+  assetFolders,
   codegenDesignLanguage,
   CodegenDesignLanguage,
   createDesignLanguageSpec,
+  ExtractableAssetType,
   GeneratedAssets,
   getColorInitializer,
   getDropShadowInitializer,
@@ -29,7 +30,7 @@ const sketchExtension = '.sketch';
 const runExportCommand = (sketchtoolPath: string, source: string, folder: string, out: string) => {
   const output = escapeShell(join(out, folder));
   const command =
-    `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=${output} ${folder} ${escapeShell(source)}`;
+    `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=${output} slices ${escapeShell(source)}`;
 
   return execAsync(command);
 };
@@ -154,11 +155,11 @@ const populateAssets = (assetsDirectory: string, layers: SketchLayer[], extracte
     if (layer.exportOptions.exportFormats.length && isClassOfSlice(layer['<class>'])) {
       registerAsset(
         {
-          src: join(assetsDirectory, AssetFolder.Slice, `${layer.name}.png`),
+          src: join(assetsDirectory, assetFolders[ExtractableAssetType.Slice], `${layer.name}.png`),
           width: layer.frame.width,
           height: layer.frame.height,
         },
-        AssetFolder.Slice,
+        ExtractableAssetType.Slice,
         extractedAssets,
       );
     }
@@ -248,11 +249,11 @@ class SketchExtractor implements Extractor {
     const assetsDirectory = join(assets, `${assetName}.contents`);
 
     reporters.progress(`Creating necessary folders for ${assetName}`);
-    await createFolders(assetsDirectory, [AssetFolder.Slice]);
+    await createFolders(assetsDirectory, [assetFolders[ExtractableAssetType.Slice]]);
     reporters.progress(`Running sketchtool export commands for ${assetName}`);
     const [rawDump] = await Promise.all([
       execAsync(`${parserCliPath} dump ${escapeShell(source)}`, {maxBuffer: Infinity}),
-      runExportCommand(parserCliPath, source, AssetFolder.Slice, assetsDirectory),
+      runExportCommand(parserCliPath, source, assetFolders[ExtractableAssetType.Slice], assetsDirectory),
     ]);
 
     reporters.progress(`Extracting design tokens for ${assetName}`);

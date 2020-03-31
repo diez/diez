@@ -30,7 +30,7 @@ jest.doMock('@diez/compiler-core', () => {
 });
 
 import {VariableDeclarationKind} from 'ts-morph';
-import {AssetFolder} from '../src';
+import {ExtractableAssetType} from '../src';
 import {codegenDesignLanguage, objectToSource, UniqueNameResolver, quoteInvalidPropertyName} from '../src/utils';
 
 describe('UniqueNameResolver', () => {
@@ -90,8 +90,8 @@ describe('#codegenDesignLanguage', () => {
     }],
     fonts: new Map(),
     assets: new Map([
-      [AssetFolder.Slice, new Map([['name', {src: 'asdf', width: 15, height: 15}]])],
-      [AssetFolder.Slice, new Map([['00 invalid slice name', {src: 'asdf', width: 15, height: 15}]])],
+      [ExtractableAssetType.Slice, new Map([['name', {src: 'asdf', width: 15, height: 15}]])],
+      [ExtractableAssetType.Slice, new Map([['00 invalid slice name', {src: 'asdf', width: 15, height: 15}]])],
     ]),
   };
 
@@ -128,12 +128,28 @@ describe('#codegenDesignLanguage', () => {
     expect(sourceFileMock.addVariableStatement).toHaveBeenNthCalledWith(5, expect.objectContaining({
       declarationKind: VariableDeclarationKind.Const,
       declarations: expect.arrayContaining([expect.objectContaining({
-        name: 'loremIpsumSlicesFiles',
+        name: 'loremIpsumImagesFiles',
       })]),
     }));
 
     expect(sourceFileMock.addVariableStatement).toHaveBeenNthCalledWith(6, expect.objectContaining({
       declarationKind: VariableDeclarationKind.Const,
+      leadingTrivia: expect.stringContaining('This is provided for backward compatibility, please use `loremIpsumImagesFiles` instead.'),
+      declarations: expect.arrayContaining([expect.objectContaining({
+        name: 'loremIpsumSlicesFiles',
+      })]),
+    }));
+
+    expect(sourceFileMock.addVariableStatement).toHaveBeenNthCalledWith(7, expect.objectContaining({
+      declarationKind: VariableDeclarationKind.Const,
+      declarations: expect.arrayContaining([expect.objectContaining({
+        name: 'loremIpsumImages',
+      })]),
+    }));
+
+    expect(sourceFileMock.addVariableStatement).toHaveBeenNthCalledWith(8, expect.objectContaining({
+      declarationKind: VariableDeclarationKind.Const,
+      leadingTrivia: expect.stringContaining('This is provided for backward compatibility, please use `loremIpsumImages` instead.'),
       declarations: expect.arrayContaining([expect.objectContaining({
         name: 'loremIpsumSlices',
       })]),

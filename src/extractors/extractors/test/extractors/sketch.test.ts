@@ -17,6 +17,7 @@ jest.doMock('@diez/generation', mockGenerationFactory);
 jest.doMock('os', mockOsFactory);
 jest.doMock('fs-extra', mockFsExtraFactory);
 
+import {ExtractableAssetType} from '@diez/generation';
 import {writeFile} from 'fs-extra';
 import SketchExtractor from '../../src/extractors/sketch';
 
@@ -208,15 +209,15 @@ describe('Sketch', () => {
       expect(mockExec).toHaveBeenCalledTimes(2);
       expect(mockExec).toHaveBeenNthCalledWith(1, `${sketchtoolPath} dump test.sketch`, expect.anything());
       expect(mockExec).toHaveBeenNthCalledWith(2,
-        `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=out/Test.sketch.contents/slices slices test.sketch`);
+        `${sketchtoolPath} export --format=png --scales=1,2,3,4 --output=out/Test.sketch.contents/images slices test.sketch`);
       expect(mockCodegen).toHaveBeenCalled();
       expect(mockCodegen).toHaveBeenCalledWith({
         assets: new Map([[
-          'slices', new Map([[
+          ExtractableAssetType.Slice, new Map([[
             'Slice One', {
               width: 640,
               height: 480,
-              src: 'out/Test.sketch.contents/slices/Slice One.png',
+              src: 'out/Test.sketch.contents/images/Slice One.png',
             },
           ]]),
         ]]),

@@ -36,6 +36,7 @@ import {UnauthorizedRequestException} from '@diez/cli-core';
 import {Readable} from 'stream';
 /* tslint:disable */
 import FigmaExtractor from '../../src/extractors/figma';
+import {ExtractableAssetType} from '@diez/generation';
 
 const figma = FigmaExtractor.create('mock-token');
 
@@ -425,15 +426,15 @@ describe('Figma', () => {
 
       expect(mockCodegen).toHaveBeenCalledWith({
         assets: new Map([[
-          'components',
+          ExtractableAssetType.Component,
           new Map([
             [
               'LegacyTeamComponent',
-              {width: 1920, height: 1080, src: 'out/Hello.figma.contents/components/LegacyTeamComponent.png'},
+              {width: 1920, height: 1080, src: 'out/Hello.figma.contents/images/LegacyTeamComponent.png'},
             ],
             [
               'TeamComponent',
-              {width: 640, height: 480, src: 'out/Hello.figma.contents/components/TeamComponent.png'},
+              {width: 640, height: 480, src: 'out/Hello.figma.contents/images/TeamComponent.png'},
             ],
           ]),
         ]]),
@@ -481,10 +482,10 @@ describe('Figma', () => {
       });
 
       process.nextTick(() => {
-        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent.png']).toBe('asset @1x');
-        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@2x.png']).toBe('asset @2x');
-        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@3x.png']).toBe('asset @3x');
-        expect(mockFileSystem['out/Hello.figma.contents/components/TeamComponent@4x.png']).toBe('asset @4x');
+        expect(mockFileSystem['out/Hello.figma.contents/images/TeamComponent.png']).toBe('asset @1x');
+        expect(mockFileSystem['out/Hello.figma.contents/images/TeamComponent@2x.png']).toBe('asset @2x');
+        expect(mockFileSystem['out/Hello.figma.contents/images/TeamComponent@3x.png']).toBe('asset @3x');
+        expect(mockFileSystem['out/Hello.figma.contents/images/TeamComponent@4x.png']).toBe('asset @4x');
       });
     });
 
