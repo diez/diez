@@ -12,6 +12,7 @@
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "compile": "yarn build",
     "lint": "vue-cli-service lint --no-fix",
     "fix": "vue-cli-service lint",
     "health": "yarn test && yarn lint",
