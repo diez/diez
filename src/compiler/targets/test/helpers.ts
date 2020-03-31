@@ -60,6 +60,7 @@ const createParserForFixture = async (fixture: string, target: Target, options?:
       [Target.Android]: './test/bindings/android',
       [Target.Ios]: './test/bindings/ios',
       [Target.Web]: './test/bindings/web',
+      [Target.Docs]: './test/bindings/docs',
     },
   };
 
