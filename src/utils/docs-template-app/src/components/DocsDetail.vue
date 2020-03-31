@@ -2,6 +2,7 @@
   <div>
     <breadcrumb></breadcrumb>
     <h1>{{tree.name}}</h1>
+    <mappings :references="tree.references" class="mappings" />
     <figcaption v-if="tree.comments.instance" v-html="tree.comments.instance"></figcaption>
     <slot></slot>
     <div id="component-type">
@@ -20,7 +21,6 @@
         </a>
       </p>
     </div>
-    <mappings :references="tree.references" />
     <details-table :details="details" :references="tree.references"></details-table>
   </div>
 </template>
@@ -89,5 +89,9 @@ a {
 
 svg {
   vertical-align: bottom;
+}
+
+.mappings {
+  margin-bottom: $spacings-xxl-px;
 }
 </style>

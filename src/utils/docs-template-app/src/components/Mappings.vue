@@ -1,17 +1,11 @@
 <template>
   <div v-if="referenceLink">
-    <h4>Value comes from:</h4>
-    <a
-      class="link-pill"
-      v-if="referenceLink"
-      :href="referenceLink"
-      >
-        {{reference.parentType}}.{{reference.name}}
-    </a>
+    Defined by:<a :href="referenceLink"><pill>{{reference.parentType}}.{{reference.name}}</pill></a>
   </div>
 </template>
 
 <script lang="ts">
+import Pill from '@/components/Pill.vue';
 import {Component, Prop, Vue} from 'vue-property-decorator';
 import {findInTreeFromReference} from '../utils/component';
 type PropertyReference = import('@diez/compiler-core').PropertyReference;
@@ -19,7 +13,11 @@ type PropertyReference = import('@diez/compiler-core').PropertyReference;
 /**
  * Show mappings of the current component.
  */
-@Component
+@Component({
+  components: {
+    Pill,
+  },
+})
 export default class Mappings extends Vue {
   @Prop() protected readonly references!: PropertyReference[];
 
@@ -46,17 +44,7 @@ export default class Mappings extends Vue {
 <style lang="scss" scoped>
 @import "@diez/styles.scss";
 
-.link-pill {
-  @include button-panel();
-  @include typography-button();
-  border: 1px solid currentColor;
-  display: inline-block;
-  padding: $spacings-md-px $spacings-sm-px;
-  color: $palette-electric-violet;
-  background-color: rgba($palette-secondary, .67);
-
-  &:hover {
-    background-color: $palette-secondary;
-  }
+a {
+  margin-left: -10px;
 }
 </style>

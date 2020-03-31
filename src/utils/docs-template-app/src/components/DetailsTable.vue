@@ -4,7 +4,12 @@
     <table>
       <tr :key="name" v-for="(value, name) in details">
         <td>{{name}}</td>
-        <td>{{value}}<details-table-reference :reference="inferDocReference(name)"></details-table-reference></td>
+        <td>
+          <span v-if="inferDocReference(name)">
+            Defined by:<details-table-reference class="definition-link" :reference="inferDocReference(name)"></details-table-reference>
+          </span>
+          {{value}}
+        </td>
       </tr>
     </table>
   </div>
@@ -58,5 +63,10 @@ td:first-child {
 
 h4 {
   margin-bottom: 15px;
+}
+
+.definition-link {
+  margin-left: -10px;
+  margin-right: 5px;
 }
 </style>
