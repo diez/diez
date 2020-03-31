@@ -343,7 +343,20 @@
       "child": {
         "type": "ChildComponent",
         "name": "child",
-        "examples": {},
+        "examples": {
+          "android": [
+            {
+              "snippets": [
+                {
+                  "lang": "Kotlin",
+                  "snippet": "\n<span class=\"token keyword\">const</span> wrapper <span class=\"token operator\">=</span> document<span class=\"token punctuation\">.</span><span class=\"token function\">getElementById</span><span class=\"token punctuation\">(</span><span class=\"token string\">'lottie-wrapper'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\nchild<span class=\"token punctuation\">.</span><span class=\"token function\">mount</span><span class=\"token punctuation\">(</span>wrapper<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n          "
+                }
+              ],
+              "example": "Usage",
+              "comment": ""
+            }
+          ]
+        },
         "id": "/Primitives/child",
         "comments": {
           "type": "",
@@ -382,7 +395,20 @@
               {
                 "type": "ChildComponent",
                 "name": "childs",
-                "examples": {},
+                "examples": {
+                  "android": [
+                    {
+                      "snippets": [
+                        {
+                          "lang": "Kotlin",
+                          "snippet": "\n<span class=\"token keyword\">const</span> wrapper <span class=\"token operator\">=</span> document<span class=\"token punctuation\">.</span><span class=\"token function\">getElementById</span><span class=\"token punctuation\">(</span><span class=\"token string\">'lottie-wrapper'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\nchilds<span class=\"token punctuation\">.</span><span class=\"token function\">mount</span><span class=\"token punctuation\">(</span>wrapper<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n          "
+                        }
+                      ],
+                      "example": "Usage",
+                      "comment": ""
+                    }
+                  ]
+                },
                 "id": "/Primitives/childs",
                 "comments": {
                   "type": "",

@@ -1,5 +1,5 @@
 import {join, resolve} from 'path';
-import {AndroidBinding} from '../../src/targets/android.api';
+import {AndroidBinding, AndroidLanguages} from '../../src/targets/android.api';
 
 const binding: AndroidBinding = {
   sources: [join(__dirname, '..', 'sources', 'bindings', 'ChildComponent.kt')],
@@ -10,6 +10,20 @@ const binding: AndroidBinding = {
       source: 'com.purr.scratch:meow',
     },
   }],
+  examples: [
+    {
+      example: 'Usage',
+      snippets: [
+        {
+          lang: AndroidLanguages.Kotlin,
+          template: `
+const wrapper = document.getElementById('lottie-wrapper');
+{{path}}.mount(wrapper);
+          `,
+        },
+      ],
+    },
+  ],
   assetsBinder: async ({}, {}, {resources}) => {
     const rawResources = new Map();
     resources.set('raw', rawResources);
