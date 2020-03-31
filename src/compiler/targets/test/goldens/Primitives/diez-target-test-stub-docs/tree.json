@@ -376,7 +376,12 @@
           }
         },
         "value": {},
-        "isPrimitive": false
+        "isPrimitive": false,
+        "binding": {
+          "templates": {
+            "detail": "ChildComponent.vue"
+          }
+        }
       },
       "childs": {
         "id": "/Primitives",
@@ -428,7 +433,12 @@
                   }
                 },
                 "value": {},
-                "isPrimitive": false
+                "isPrimitive": false,
+                "binding": {
+                  "templates": {
+                    "detail": "ChildComponent.vue"
+                  }
+                }
               }
             ],
             "comments": {
