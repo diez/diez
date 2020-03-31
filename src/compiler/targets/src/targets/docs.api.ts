@@ -1,4 +1,4 @@
-import {AssetBinder, AssetBindings, DiezType, TargetOutput, PropertyReference} from '@diez/compiler-core';
+import {AssetBinder, AssetBindings, DiezType, PropertyReference, TargetOutput} from '@diez/compiler-core';
 import {Prefab} from '@diez/engine';
 
 /**

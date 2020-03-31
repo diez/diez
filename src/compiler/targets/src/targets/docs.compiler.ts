@@ -12,9 +12,9 @@ import {
   PrimitiveType,
   Property,
   PropertyDescription,
+  PropertyReference,
   UsageExample,
   UsageExampleTree,
-  PropertyReference,
 } from '@diez/compiler-core';
 import {serialize} from '@diez/engine';
 import {copy, ensureDir, outputFile, readFileSync, remove, writeJson} from 'fs-extra';
