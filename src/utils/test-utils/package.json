@@ -1,7 +1,7 @@
 {
   "name": "@diez/test-utils",
   "main": "lib/index.js",
-  "version": "10.5.0-beta.0",
+  "version": "10.5.0-beta.1",
   "description": "Support library for Diez unit and integration tests.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",

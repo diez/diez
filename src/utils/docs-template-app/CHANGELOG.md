@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0-beta.1](https://github.com/diez/diez/compare/v10.5.0-beta.0...v10.5.0-beta.1) (2020-03-31)
+
+
+### Bug Fixes
+
+* package.json metadata of docs-template-{app|design-language} ([f67dfde](https://github.com/diez/diez/commit/f67dfde))
+* update dependency name in docs-template-app ([ecb42be](https://github.com/diez/diez/commit/ecb42be))
+
+
+
+
+
 # [10.5.0-beta.0](https://github.com/diez/diez/compare/v10.4.0...v10.5.0-beta.0) (2020-03-31)
 
 
