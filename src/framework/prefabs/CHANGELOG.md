@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0-beta.0](https://github.com/diez/diez/compare/v10.4.0...v10.5.0-beta.0) (2020-03-31)
+
+**Note:** Version bump only for package @diez/prefabs
+
+
+
+
+
 # [10.4.0](https://github.com/diez/diez/compare/v10.4.0-beta.1...v10.4.0) (2020-03-18)
 
 **Note:** Version bump only for package @diez/prefabs

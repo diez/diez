@@ -1,6 +1,6 @@
 {
   "name": "@diez/docs-template-app",
-  "version": "10.4.0",
+  "version": "10.5.0-beta.0",
   "private": true,
   "description": "Vue app used as a template for docs",
   "author": "The Haiku Team <contact@haiku.ai>",
@@ -30,10 +30,10 @@
     "http-server": "^0.10.0"
   },
   "devDependencies": {
-    "@diez/docs-design-language": "^10.4.0",
-    "@diez/stdlib": "^10.4.0",
-    "@diez/targets": "^10.4.0",
-    "@diez/compiler-core": "^10.4.0",
+    "@diez/compiler-core": "^10.5.0-beta.0",
+    "@diez/docs-design-language": "^10.5.0-beta.0",
+    "@diez/stdlib": "^10.5.0-beta.0",
+    "@diez/targets": "^10.5.0-beta.0",
     "@types/app-module-path": "^2.2.0",
     "@types/jest": "^24.0.19",
     "@types/lunr": "^2.3.2",
@@ -46,7 +46,7 @@
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.3",
     "chromedriver": "^80.0.1",
-    "diez-webpack-plugin": "^10.4.0",
+    "diez-webpack-plugin": "^10.5.0-beta.0",
     "fs-extra": "^7.0.1",
     "geckodriver": "^1.18.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
