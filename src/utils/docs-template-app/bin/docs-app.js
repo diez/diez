@@ -10,7 +10,7 @@ process.on('unhandledRejection', (err) => {
 
 const {spawnSync} = require('child_process');
 const {resolve, join} = require('path');
-const {copySync, existsSync} = require('fs-extra');
+const {copySync, existsSync, removeSync, mkdirpSync} = require('fs-extra');
 const args = process.argv.slice(2);
 const scriptIndex = args.findIndex((x) => x === 'start');
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
@@ -52,6 +52,21 @@ switch (script) {
       process.exit(1);
     }
     process.exit(result.status);
+  }
+  case 'build': {
+    const outDir = 'dist';
+    const builtApp = resolve(__dirname, '..', 'dist');
+    const assets = join(builtApp, 'assets');
+    const treeJsonPath = resolve('./tree.json');
+    const searchIndexPath = resolve('./searchIndex.json');
+    removeSync(outDir);
+    mkdirpSync(outDir);
+    copySync(builtApp, outDir, {recursive: true});
+    copySync(treeJsonPath, join(assets, 'tree.json'));
+    copySync(searchIndexPath, join(assets, 'searchIndex.json'));
+    console.log('\nBuild complete. The dist/ directory is ready to be deployed.');
+    console.log('Check out deployment instructions at https://diez.org/releasing/docsgen.html\n');
+    process.exit(0);
   }
   default:
     console.log('Unknown script "' + script + '".');
