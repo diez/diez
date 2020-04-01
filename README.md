@@ -29,6 +29,9 @@ Diez's toolkit comes in four parts:
    <img src="https://static.haiku.ai/diez/readme/extractors.jpg" />
 
 - **[Documentation Generator](https://github.com/diez/diez/blob/master/src/compiler/targets/src/targets/docs.compiler.ts)** — Diez DocsGen builds customizable static HTML docs from any Diez project, complete with markdown-rendered code comments.  Technically implemented as an additional compiler target, Diez DocsGen helps keep your styleguide and documentation perfectly up-to-date with your design token source of truth.
+  
+  **See an [example Diez project](https://github.com/HaikuTeam/shibui) and its [DocsGen output](https://shibui.haikuforteams.com/).**
+
 
    <img src="https://static.haiku.ai/diez/readme/docsgen.gif" />
 
