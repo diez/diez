@@ -79,7 +79,7 @@ export = async (_: {}, target: Target) => {
         return;
       }
 
-      await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', buildFolder)});
+      await packageManager.exec(['start'], {stdio: 'inherit', cwd: join(root, 'build', buildFolder), shell: true});
       // Particular case, since docs doesn't have a 'hot' mode, we just start the docs server and exit.
       return;
   }

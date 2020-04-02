@@ -1,5 +1,5 @@
 <template>
-  <a v-if="reference" :href="reference.link"><pill>{{reference.idPath.join('.')}}</pill></a>
+  <router-link v-if="reference" :to="reference.link"><pill>{{reference.idPath.join('.')}}</pill></router-link>
 </template>
 
 <script lang="ts">

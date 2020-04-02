@@ -17,7 +17,7 @@ module.exports = testWithDefaults({
   },
 
   'Automatically searches when a query string for name is provided': (browser) => {
-    browser.url(`${process.env.VUE_DEV_SERVER_URL}?name=image`);
+    browser.url(`${process.env.VUE_DEV_SERVER_URL}/#/?name=image`);
     browser.expect.elements(selectors.items.any).count.to.equal(1);
     browser.expect.element(selectors.items.any).text.to.contain('image');
   },
