@@ -1,6 +1,6 @@
 <template>
   <div v-if="referenceLink">
-    Defined by:<a :href="referenceLink"><pill>{{reference.parentType}}.{{reference.name}}</pill></a>
+    Defined by:<router-link :to="referenceLink"><pill>{{reference.parentType}}.{{reference.name}}</pill></router-link>
   </div>
 </template>
 
