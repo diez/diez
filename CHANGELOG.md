@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0-beta.3](https://github.com/diez/diez/compare/v10.5.0-beta.2...v10.5.0-beta.3) (2020-04-02)
+
+
+### Bug Fixes
+
+* **docsgen:** windows fixes ([#111](https://github.com/diez/diez/issues/111)) ([50b36a0](https://github.com/diez/diez/commit/50b36a0))
+
+
+
+
+
 # [10.5.0-beta.2](https://github.com/diez/diez/compare/v10.5.0-beta.1...v10.5.0-beta.2) (2020-03-31)
 
 
