@@ -1,7 +1,7 @@
 {
   "name": "@diez/stdlib",
   "main": "lib/index.js",
-  "version": "10.5.0-beta.4",
+  "version": "10.5.0-beta.5",
   "description": "Diez bindings and core files for various platforms.",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -21,18 +21,18 @@
     "regenerate-goldens": "ts-node ./scripts/regenerate-goldens"
   },
   "dependencies": {
-    "@diez/cli-core": "^10.5.0-beta.4",
-    "@diez/compiler-core": "^10.5.0-beta.4",
-    "@diez/engine": "^10.5.0-beta.4",
-    "@diez/prefabs": "^10.5.0-beta.4",
-    "@diez/targets": "^10.5.0-beta.4",
-    "@diez/web-sdk-common": "^10.5.0-beta.4",
+    "@diez/cli-core": "^10.5.0-beta.5",
+    "@diez/compiler-core": "^10.5.0-beta.5",
+    "@diez/engine": "^10.5.0-beta.5",
+    "@diez/prefabs": "^10.5.0-beta.5",
+    "@diez/targets": "^10.5.0-beta.5",
+    "@diez/web-sdk-common": "^10.5.0-beta.5",
     "fontkit": "^1.8.0",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.1"
   },
   "devDependencies": {
-    "@diez/test-utils": "^10.5.0-beta.4",
+    "@diez/test-utils": "^10.5.0-beta.5",
     "@types/jest": "^24.0.11",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
