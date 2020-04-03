@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0-beta.4](https://github.com/diez/diez/compare/v10.5.0-beta.3...v10.5.0-beta.4) (2020-04-03)
+
+
+### Bug Fixes
+
+* **docsgen:** path issues on windows for components ids ([c3d2d15](https://github.com/diez/diez/commit/c3d2d15))
+
+
+
+
+
 # [10.5.0-beta.3](https://github.com/diez/diez/compare/v10.5.0-beta.2...v10.5.0-beta.3) (2020-04-02)
 
 **Note:** Version bump only for package @diez/targets
