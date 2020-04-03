@@ -78,7 +78,7 @@ export class DocsCompiler {
       const tree = await this.processComponentInstance(
         componentInstance,
         componentName,
-        [],
+        [''],
         componentName.toString(),
       );
 
