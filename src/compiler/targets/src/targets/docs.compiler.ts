@@ -78,7 +78,7 @@ export class DocsCompiler {
       const tree = await this.processComponentInstance(
         componentInstance,
         componentName,
-        ['/'],
+        [],
         componentName.toString(),
       );
 
@@ -88,6 +88,10 @@ export class DocsCompiler {
     }
 
     return trees;
+  }
+
+  private generateIdFromPath (componentPath: string[]) {
+    return componentPath.join('/');
   }
 
   /**
@@ -116,7 +120,7 @@ export class DocsCompiler {
       type,
       name,
       examples,
-      id: join(...id),
+      id: this.generateIdFromPath(id),
       comments: {
         type: markdown(component.description.body),
         instance: instanceDescription ? markdown(instanceDescription.body) : undefined,
@@ -255,7 +259,7 @@ export class DocsCompiler {
       }
 
       const result: DocsTargetSpec = {
-        id: join(...id),
+        id: this.generateIdFromPath(id),
         name: property.name,
         type: property.type.toString(),
         properties: {},
@@ -299,7 +303,7 @@ export class DocsCompiler {
     }
 
     return {
-      id: `${join(...id)}#${property.name}`,
+      id: `${this.generateIdFromPath(id)}#${property.name}`,
       name: property.name,
       type: PrimitiveType[property.type as number],
       comments: {
