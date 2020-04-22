@@ -1,7 +1,7 @@
 {
   "name": "@diez/docs-template-design-language",
   "main": "build/diez-diez-docs-template-design-language-web",
-  "version": "10.5.0",
+  "version": "10.5.1",
   "description": "Design language for docs gen template",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -11,14 +11,14 @@
   },
   "homepage": "https://diez.org",
   "dependencies": {
-    "@diez/engine": "^10.5.0",
-    "@diez/prefabs": "^10.5.0"
+    "@diez/engine": "^10.5.1",
+    "@diez/prefabs": "^10.5.1"
   },
   "devDependencies": {
-    "@diez/compiler-core": "^10.5.0",
-    "@diez/extractors": "^10.5.0",
-    "@diez/stdlib": "^10.5.0",
-    "diez": "^10.5.0",
+    "@diez/compiler-core": "^10.5.1",
+    "@diez/extractors": "^10.5.1",
+    "@diez/stdlib": "^10.5.1",
+    "diez": "^10.5.1",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
     "typescript": "^3.7.2"
