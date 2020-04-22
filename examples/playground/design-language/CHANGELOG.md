@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [10.5.1](https://github.com/diez/diez/compare/v10.5.0...v10.5.1) (2020-04-22)
-
-
-### Reverts
-
-* release commits for "v10.5.1" since npm publish failed ([303ca5c](https://github.com/diez/diez/commit/303ca5c))
-
-
-
-
-
 # [10.5.0](https://github.com/diez/diez/compare/v10.5.0-beta.6...v10.5.0) (2020-04-03)
 
 **Note:** Version bump only for package playground
