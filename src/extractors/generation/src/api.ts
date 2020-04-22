@@ -26,7 +26,7 @@ export enum AssetFolder {
   /**
    * @deprecated since version 10.4.0
    */
-  Component  = 'component',
+  Component  = 'components',
 }
 
 /**

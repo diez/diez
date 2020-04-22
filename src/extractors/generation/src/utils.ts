@@ -522,5 +522,5 @@ export const assetFolders: AssetFolderByAssetType = {
  */
 export const deprecatedAssetFolders: AssetFolderByAssetType = {
   [ExtractableAssetType.Slice]: AssetFolder.Slice,
-  [ExtractableAssetType.Component]: AssetFolder.Image,
+  [ExtractableAssetType.Component]: AssetFolder.Component,
 };
