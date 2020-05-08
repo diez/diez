@@ -70,22 +70,22 @@ export const getQualifiedCssUrl = (output: WebOutput, relativePath: string) =>
   `url("${output.hotUrl || '/diez'}/${relativePath}")`;
 
   /**
-   * TODO
+   * Returns a path to a file with the contents of a given source.
+   * @ignore
    */
-export const getFileContentsPath = (source: string, type: FileType): Promise<string> =>
+export const getPathToFileContents = (source: string, type: FileType): Promise<string> =>
   new Promise((promiseResolve, promiseReject) => {
     stat(source, (statError, stats) => {
-      let contents = source;
-
       if (statError || !stats.isFile()) {
-        if (type === FileType.Image) {
-          Log.warning(`${source} does not exist.`);
-          contents = join(fallbacksPath, 'missing-image.jpg');
-        } else {
-          return promiseReject(new Error(`File at ${source} does not exists.`));
+        switch (type) {
+          case FileType.Image:
+            Log.warning(`${source} does not exist.`);
+            return promiseResolve(join(fallbacksPath, 'missing-image.jpg'));
+          default:
+            return promiseReject(new Error(`File at ${source} does not exists.`));
         }
       }
 
-      promiseResolve(contents);
+      return promiseResolve(source);
     });
   });

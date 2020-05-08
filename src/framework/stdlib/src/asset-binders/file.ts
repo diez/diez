@@ -3,7 +3,7 @@ import {File, FileType, Font, Image} from '@diez/prefabs';
 // Note: we are careful to import the full module so we can monkey-patch it in our test harness.
 import fontkit from 'fontkit';
 import {extname, join} from 'path';
-import {getFileContentsPath} from '../utils';
+import {getPathToFileContents} from '../utils';
 
 const requireFileTypeForChild = (instance: File, fileType: FileType, type: any) => {
   if (instance.host && instance.host instanceof type && instance.type !== fileType) {
@@ -65,7 +65,7 @@ export const fileAssetBinder: AssetBinder<
   assetBindings.set(
     instance.src,
     {
-      contents: await getFileContentsPath(join(projectRoot, instance.src), instance.type),
+      contents: await getPathToFileContents(join(projectRoot, instance.src), instance.type),
       copy: true,
     },
   );
