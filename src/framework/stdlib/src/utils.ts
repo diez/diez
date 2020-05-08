@@ -79,7 +79,9 @@ export const getPathToFileContents = (source: string, type: FileType): Promise<s
       if (statError || !stats.isFile()) {
         switch (type) {
           case FileType.Image:
-            Log.warning(`${source} does not exist.`);
+            Log.warning(
+              `${source} does not exist, if this image was extracted from a design tool with \`diez extract\` please try extracting again or contact your design tool's support. A placeholder image will be used instead.\n`,
+            );
             return promiseResolve(join(fallbacksPath, 'missing-image.jpg'));
           default:
             return promiseReject(new Error(`File at ${source} does not exists.`));
