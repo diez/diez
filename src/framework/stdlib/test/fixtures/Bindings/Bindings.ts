@@ -25,10 +25,12 @@ const someFont = new Font({
 
 const references = {
   referencedColor: Color.hex('#101010'),
-}
+};
 
 export const bindings = {
   image: Image.responsive('assets/image with spaces.jpg', 246, 246),
+
+  missingImage: Image.responsive('assets/unexistent-image-fallback-test.jpg'),
 
   lottie: Lottie.fromJson('assets/lottie.json'),
 

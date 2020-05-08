@@ -11,6 +11,12 @@ $bindings-image-3x: url("/diez/assets/image with spaces@3x.jpg");
 $bindings-image-width: 246px;
 $bindings-image-height: 246px;
 $bindings-image-size: 246px 246px;
+$bindings-missing-image: url("/diez/assets/unexistent-image-fallback-test.jpg");
+$bindings-missing-image-2x: url("/diez/assets/unexistent-image-fallback-test@2x.jpg");
+$bindings-missing-image-3x: url("/diez/assets/unexistent-image-fallback-test@3x.jpg");
+$bindings-missing-image-width: 0px;
+$bindings-missing-image-height: 0px;
+$bindings-missing-image-size: 0px 0px;
 $bindings-linear-gradient: linear-gradient(90deg, hsla(0, 100%, 50%, 1) 0%, hsla(240, 100%, 50%, 1) 100%);
 $bindings-point-x: 0.5;
 $bindings-point-x-px: 0.5px;
@@ -50,6 +56,21 @@ $bindings-referenced-color: hsla(0, 0%, 6.2745098039215685%, 1);
 
   @media (min-device-pixel-ratio: 3), (min-resolution: 3dppx) {
     background-image: url("/diez/assets/image with spaces@3x.jpg");
+  }
+}
+
+@mixin bindings-missing-image-background-image {
+  background-image: url("/diez/assets/unexistent-image-fallback-test.jpg");
+  width: 0px;
+  height: 0px;
+  background-size: 0px 0px;
+
+  @media (min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+    background-image: url("/diez/assets/unexistent-image-fallback-test@2x.jpg");
+  }
+
+  @media (min-device-pixel-ratio: 3), (min-resolution: 3dppx) {
+    background-image: url("/diez/assets/unexistent-image-fallback-test@3x.jpg");
   }
 }
 

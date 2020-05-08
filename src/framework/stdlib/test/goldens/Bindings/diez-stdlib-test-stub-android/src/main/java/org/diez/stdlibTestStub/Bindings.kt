@@ -9,6 +9,10 @@ data class Bindings(
      */
     val image: Image = Image(File("assets/image%20with%20spaces.jpg", "image"), File("assets/image%20with%20spaces@2x.jpg", "image"), File("assets/image%20with%20spaces@3x.jpg", "image"), File("assets/image%20with%20spaces@4x.jpg", "image"), Size2D(246f, 246f)),
     /**
+     * assets/unexistent-image-fallback-test.jpg (0 x 0)
+     */
+    val missingImage: Image = Image(File("assets/unexistent-image-fallback-test.jpg", "image"), File("assets/unexistent-image-fallback-test@2x.jpg", "image"), File("assets/unexistent-image-fallback-test@3x.jpg", "image"), File("assets/unexistent-image-fallback-test@4x.jpg", "image"), Size2D(0f, 0f)),
+    /**
      * - file: `assets/lottie.json`
      * - loop: `true`
      * - autoplay: `true`

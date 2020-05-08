@@ -10,6 +10,10 @@ public final class Bindings: NSObject, RootComponent {
      */
     @objc public internal(set) var image: Image
     /**
+     * assets/unexistent-image-fallback-test.jpg (0 x 0)
+     */
+    @objc public internal(set) var missingImage: Image
+    /**
      * - file: `assets/lottie.json`
      * - loop: `true`
      * - autoplay: `true`
@@ -88,6 +92,7 @@ public final class Bindings: NSObject, RootComponent {
     convenience public override init() {
         self.init(
             image: Image(file: File(src: "assets/image%20with%20spaces.jpg", type: "image"), file2x: File(src: "assets/image%20with%20spaces@2x.jpg", type: "image"), file3x: File(src: "assets/image%20with%20spaces@3x.jpg", type: "image"), size: Size2D(width: 246, height: 246)),
+            missingImage: Image(file: File(src: "assets/unexistent-image-fallback-test.jpg", type: "image"), file2x: File(src: "assets/unexistent-image-fallback-test@2x.jpg", type: "image"), file3x: File(src: "assets/unexistent-image-fallback-test@3x.jpg", type: "image"), size: Size2D(width: 0, height: 0)),
             lottie: Lottie(file: File(src: "assets/lottie.json", type: "raw"), loop: true, autoplay: true),
             typograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0.16666666666666666, s: 1, l: 0.5, a: 1), iosTextStyle: "body", shouldScale: false, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []),
             tallTypograph: Typograph(font: Font(file: File(src: "assets/SomeFont.ttf", type: "font"), name: "SomeFont"), fontSize: 50, color: Color(h: 0, s: 0, l: 0, a: 1), iosTextStyle: "body", shouldScale: false, lineHeight: 100, letterSpacing: 10, alignment: "natural", decoration: ["underline", "strikethrough"]),
@@ -105,6 +110,7 @@ public final class Bindings: NSObject, RootComponent {
 
     init(
         image: Image,
+        missingImage: Image,
         lottie: Lottie,
         typograph: Typograph,
         tallTypograph: Typograph,
@@ -119,6 +125,7 @@ public final class Bindings: NSObject, RootComponent {
         referencedColor: Color
     ) {
         self.image = image
+        self.missingImage = missingImage
         self.lottie = lottie
         self.typograph = typograph
         self.tallTypograph = tallTypograph

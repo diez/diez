@@ -1,12 +1,20 @@
-import {File} from '@diez/prefabs';
+import {Log} from '@diez/cli-core';
+import {File, FileType} from '@diez/prefabs';
 import {AndroidOutput, getUnitedStyleSheetVariables, StyleSheet, WebOutput} from '@diez/targets';
-import {resolve} from 'path';
+import {stat} from 'fs-extra';
+import {join, resolve} from 'path';
 
 /**
  * The root of all native sources provided by this package.
  * @ignore
  */
 export const sourcesPath = resolve(__dirname, '..', 'sources');
+
+/**
+ * The root of all fallbacks provided by this package.
+ * @ignore
+ */
+export const fallbacksPath = resolve(__dirname, '..', 'fallbacks');
 
 /**
  * Sets the provided variable along with its united variants on the style sheet.
@@ -60,3 +68,24 @@ export const portAssetBindingToResource = (file: File, output: AndroidOutput, ty
  */
 export const getQualifiedCssUrl = (output: WebOutput, relativePath: string) =>
   `url("${output.hotUrl || '/diez'}/${relativePath}")`;
+
+  /**
+   * TODO
+   */
+export const getFileContentsPath = (source: string, type: FileType): Promise<string> =>
+  new Promise((promiseResolve, promiseReject) => {
+    stat(source, (statError, stats) => {
+      let contents = source;
+
+      if (statError || !stats.isFile()) {
+        if (type === FileType.Image) {
+          Log.warning(`${source} does not exist.`);
+          contents = join(fallbacksPath, 'missing-image.jpg');
+        } else {
+          return promiseReject(new Error(`File at ${source} does not exists.`));
+        }
+      }
+
+      promiseResolve(contents);
+    });
+  });

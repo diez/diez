@@ -293,6 +293,10 @@ export declare class Bindings extends RootComponent {
    */
   image: Image;
   /**
+   * assets/unexistent-image-fallback-test.jpg (0 x 0)
+   */
+  missingImage: Image;
+  /**
    * - file: `assets/lottie.json`
    * - loop: `true`
    * - autoplay: `true`
