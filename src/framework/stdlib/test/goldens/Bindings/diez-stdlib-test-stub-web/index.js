@@ -840,6 +840,7 @@ Object.defineProperties(Panel.prototype, {
 class Bindings {
   constructor({
     image = {file: {src: "assets/image%20with%20spaces.jpg", type: "image"}, file2x: {src: "assets/image%20with%20spaces@2x.jpg", type: "image"}, file3x: {src: "assets/image%20with%20spaces@3x.jpg", type: "image"}, size: {width: 246, height: 246}},
+    missingImage = {file: {src: "assets/unexistent-image-fallback-test.jpg", type: "image"}, file2x: {src: "assets/unexistent-image-fallback-test@2x.jpg", type: "image"}, file3x: {src: "assets/unexistent-image-fallback-test@3x.jpg", type: "image"}, size: {width: 0, height: 0}},
     lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
     typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []},
     tallTypograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0, s: 0, l: 0, a: 1}, lineHeight: 100, letterSpacing: 10, alignment: "natural", decoration: ["underline", "strikethrough"]},
@@ -857,6 +858,10 @@ class Bindings {
      * assets/image with spaces.jpg (246 x 246)
      */
     this.image = new Image(image);
+    /**
+     * assets/unexistent-image-fallback-test.jpg (0 x 0)
+     */
+    this.missingImage = new Image(missingImage);
     /**
      * - file: `assets/lottie.json`
      * - loop: `true`

@@ -1,8 +1,8 @@
 import {AssetBinder, AssetBindings} from '@diez/compiler-core';
-import {File, Image} from '@diez/prefabs';
+import {File, FileType, Image} from '@diez/prefabs';
 import {IosBinding, IosLanguages, IosOutput} from '@diez/targets';
 import {basename, dirname, join, parse} from 'path';
-import {sourcesPath} from '../../utils';
+import {getPathToFileContents, sourcesPath} from '../../utils';
 
 const assetCatalog = 'Images.xcassets';
 const examplesPath = join(sourcesPath, 'ios', 'examples', 'Image');
@@ -99,7 +99,7 @@ const addImage = async (file: File, destination: string, projectRoot: string, as
   assetBindings.set(
     path,
     {
-      contents: join(projectRoot, file.src),
+      contents: await getPathToFileContents(join(projectRoot, file.src), FileType.Image),
       copy: true,
     },
   );

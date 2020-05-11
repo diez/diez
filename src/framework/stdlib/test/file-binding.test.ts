@@ -48,7 +48,7 @@ describe('asset binding', () => {
 
     // Wrong file type for Font host component is an error.
     const illegalFont = new Font({
-      file: new File({src: '/dev/null', type: FileType.Image}),
+      file: new File({src: '/dev/null', type: FileType.Raw}),
     });
     await expect(fileAssetBinder(illegalFont.file, compiler.parser, compiler.output, mockComponent, mockProperty))
       .rejects.toThrow();
@@ -101,5 +101,10 @@ describe('asset binding', () => {
     await expect(fileAssetBinder(
       new File({src: 'assets'}), compiler.parser, compiler.output, mockComponent, mockProperty))
         .rejects.toThrow();
+
+    // Missing Image files should use a fallback
+    const missingImageFile = new File({src: '/path/to/missing-image.jpg', type: FileType.Image});
+    await expect(fileAssetBinder(missingImageFile, compiler.parser, compiler.output, mockComponent, mockProperty))
+      .resolves.toBeUndefined();
   });
 });

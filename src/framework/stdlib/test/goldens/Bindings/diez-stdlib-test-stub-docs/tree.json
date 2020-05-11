@@ -416,6 +416,414 @@
           }
         }
       },
+      "missingImage": {
+        "type": "Image",
+        "name": "missingImage",
+        "examples": {
+          "ios": [
+            {
+              "snippets": [
+                {
+                  "lang": "Swift",
+                  "snippet": "<span class=\"token keyword\">import</span> <span class=\"token builtin\">DiezStdlibTestStub</span>\n\n<span class=\"token keyword\">let</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">let</span> image <span class=\"token operator\">=</span> <span class=\"token function\">UIImage</span><span class=\"token punctuation\">(</span>image<span class=\"token punctuation\">:</span> designLanguage<span class=\"token punctuation\">.</span>missingImage<span class=\"token punctuation\">)</span>\n\n<span class=\"token keyword\">let</span> imageView <span class=\"token operator\">=</span> <span class=\"token function\">UIImageView</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\nimageView<span class=\"token punctuation\">.</span>image <span class=\"token operator\">=</span> image\n"
+                },
+                {
+                  "lang": "Objective-C",
+                  "snippet": "<span class=\"token operator\">@</span>import DiezStdlibTestStub<span class=\"token punctuation\">;</span>\n\nBindings <span class=\"token operator\">*</span>designLanguage <span class=\"token operator\">=</span> <span class=\"token punctuation\">[</span><span class=\"token punctuation\">[</span>Bindings alloc<span class=\"token punctuation\">]</span> init<span class=\"token punctuation\">]</span><span class=\"token punctuation\">;</span>\nUIImage <span class=\"token operator\">*</span> _Nullable image <span class=\"token operator\">=</span> <span class=\"token punctuation\">[</span>UIImage dez_imageWithDEZImage<span class=\"token punctuation\">:</span>designLanguage<span class=\"token punctuation\">.</span>missingImage<span class=\"token punctuation\">]</span><span class=\"token punctuation\">;</span>\n\nUIImageView <span class=\"token operator\">*</span>imageView <span class=\"token operator\">=</span> <span class=\"token punctuation\">[</span><span class=\"token punctuation\">[</span>UIImageView alloc<span class=\"token punctuation\">]</span> init<span class=\"token punctuation\">]</span><span class=\"token punctuation\">;</span>\nimageView<span class=\"token punctuation\">.</span>image <span class=\"token operator\">=</span> image<span class=\"token punctuation\">;</span>\n"
+                }
+              ],
+              "example": "UIImage",
+              "comment": ""
+            }
+          ],
+          "android": [
+            {
+              "snippets": [
+                {
+                  "lang": "Kotlin",
+                  "snippet": "<span class=\"token keyword\">import</span> org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub<span class=\"token punctuation\">.</span><span class=\"token operator\">*</span>\n\n<span class=\"token keyword\">val</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">val</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage\n\n<span class=\"token keyword\">val</span> imageView<span class=\"token operator\">:</span> ImageView <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to an ImageView.</span>\nimageView<span class=\"token punctuation\">.</span><span class=\"token function\">load</span><span class=\"token punctuation\">(</span>image<span class=\"token punctuation\">)</span>\n"
+                },
+                {
+                  "lang": "Java",
+                  "snippet": "<span class=\"token keyword\">import</span> <span class=\"token namespace\">org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub</span><span class=\"token punctuation\">.</span>*<span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Bindings</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token keyword\">new</span> <span class=\"token class-name\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token class-name\">Image</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span><span class=\"token function\">getMissingImage</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">ImageView</span> imageView <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to an ImageView.</span>\n<span class=\"token class-name\">ImageKt</span><span class=\"token punctuation\">.</span><span class=\"token function\">load</span><span class=\"token punctuation\">(</span>imageView<span class=\"token punctuation\">,</span> image<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n"
+                }
+              ],
+              "example": "ImageView",
+              "comment": ""
+            },
+            {
+              "snippets": [
+                {
+                  "lang": "Kotlin",
+                  "snippet": "<span class=\"token keyword\">import</span> org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub<span class=\"token punctuation\">.</span><span class=\"token operator\">*</span>\n\n<span class=\"token keyword\">val</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">val</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage\n\n<span class=\"token keyword\">val</span> view<span class=\"token operator\">:</span> View <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a View.</span>\nview<span class=\"token punctuation\">.</span><span class=\"token function\">loadBackgrounImage</span><span class=\"token punctuation\">(</span>image<span class=\"token punctuation\">)</span>\n"
+                },
+                {
+                  "lang": "Java",
+                  "snippet": "<span class=\"token keyword\">import</span> <span class=\"token namespace\">org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub</span><span class=\"token punctuation\">.</span>*<span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Bindings</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token keyword\">new</span> <span class=\"token class-name\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token class-name\">Image</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span><span class=\"token function\">getMissingImage</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">View</span> view <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a View.</span>\n<span class=\"token class-name\">ImageKt</span><span class=\"token punctuation\">.</span><span class=\"token function\">loadBackgroundImage</span><span class=\"token punctuation\">(</span>view<span class=\"token punctuation\">,</span> image<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n"
+                }
+              ],
+              "example": "View",
+              "comment": ""
+            },
+            {
+              "snippets": [
+                {
+                  "lang": "Kotlin",
+                  "snippet": "<span class=\"token keyword\">import</span> org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub<span class=\"token punctuation\">.</span><span class=\"token operator\">*</span>\n\n<span class=\"token keyword\">val</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">val</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage\n\n<span class=\"token keyword\">val</span> textView<span class=\"token operator\">:</span> TextView <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a TextView.</span>\ntextView<span class=\"token punctuation\">.</span><span class=\"token function\">loadLeftDrawable</span><span class=\"token punctuation\">(</span>image<span class=\"token punctuation\">)</span>\n"
+                },
+                {
+                  "lang": "Java",
+                  "snippet": "<span class=\"token keyword\">import</span> <span class=\"token namespace\">org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub</span><span class=\"token punctuation\">.</span>*<span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Bindings</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token keyword\">new</span> <span class=\"token class-name\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token class-name\">Image</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span><span class=\"token function\">getMissingImage</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">TextView</span> textView <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a TextView.</span>\n<span class=\"token class-name\">ImageKt</span><span class=\"token punctuation\">.</span><span class=\"token function\">loadLeftDrawable</span><span class=\"token punctuation\">(</span>textView<span class=\"token punctuation\">,</span> image<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n"
+                }
+              ],
+              "example": "TextView",
+              "comment": ""
+            },
+            {
+              "snippets": [
+                {
+                  "lang": "Kotlin",
+                  "snippet": "<span class=\"token keyword\">import</span> org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub<span class=\"token punctuation\">.</span><span class=\"token operator\">*</span>\n\n<span class=\"token keyword\">val</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">val</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage\n\n<span class=\"token keyword\">val</span> toolbar<span class=\"token operator\">:</span> Toolbar <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a Toolbar.</span>\ntoolbar<span class=\"token punctuation\">.</span><span class=\"token function\">loadIcon</span><span class=\"token punctuation\">(</span>image<span class=\"token punctuation\">)</span>\n"
+                },
+                {
+                  "lang": "Java",
+                  "snippet": "<span class=\"token keyword\">import</span> <span class=\"token namespace\">org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub</span><span class=\"token punctuation\">.</span>*<span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Bindings</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token keyword\">new</span> <span class=\"token class-name\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token class-name\">Image</span> image <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span><span class=\"token function\">getMissingImage</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Toolbar</span> toolbar <span class=\"token operator\">=</span> <span class=\"token comment\">// Get a reference to a Toolbar.</span>\n<span class=\"token class-name\">ImageKt</span><span class=\"token punctuation\">.</span><span class=\"token function\">loadIcon</span><span class=\"token punctuation\">(</span>toolbar<span class=\"token punctuation\">,</span> image<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n"
+                }
+              ],
+              "example": "Toolbar",
+              "comment": ""
+            }
+          ],
+          "web": [
+            {
+              "snippets": [
+                {
+                  "lang": "SCSS",
+                  "snippet": "<span class=\"token keyword\">@include</span> <span class=\"token function\">missing-image-background</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                },
+                {
+                  "lang": "CSS",
+                  "snippet": ".<span class=\"token function\">missing-image-background</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                },
+                {
+                  "lang": "JavaScript",
+                  "snippet": "Object<span class=\"token punctuation\">.</span><span class=\"token function\">assign</span><span class=\"token punctuation\">(</span>myImage<span class=\"token punctuation\">,</span> missingImage<span class=\"token punctuation\">.</span>backgroundImageStyle<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                }
+              ],
+              "example": "Helpers",
+              "comment": "<p><code>Image</code> can be used via mixins, pre-made classes, and provided JavaScript functions.</p>\n"
+            },
+            {
+              "snippets": [
+                {
+                  "lang": "SCSS",
+                  "snippet": "<span class=\"token property\">background-image</span><span class=\"token punctuation\">:</span> <span class=\"token url\">url</span><span class=\"token punctuation\">(</span><span class=\"token variable\">#{$missing-image}</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                },
+                {
+                  "lang": "CSS",
+                  "snippet": "<span class=\"token property\">background-image</span><span class=\"token punctuation\">:</span> <span class=\"token function\">var</span><span class=\"token punctuation\">(</span>--missing-image<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                },
+                {
+                  "lang": "JavaScript",
+                  "snippet": "myImage<span class=\"token punctuation\">.</span>url <span class=\"token operator\">=</span> missingImage<span class=\"token punctuation\">.</span>url"
+                }
+              ],
+              "example": "Variables",
+              "comment": "<p>An <code>Image</code> value can be accessed directly via variables.</p>\n"
+            }
+          ]
+        },
+        "id": "/Bindings/missingImage",
+        "comments": {
+          "type": "<p>Provides an abstraction for raster images. With bindings, this component can embed images in multiple platforms in\naccordance with best practices. Images should provide pixel ratios for standard, @2x, @3x, and @4x with conventional\nfile naming. The availability of retina resolutions is expected to be a compile-time concern, and the &quot;src&quot; of the\nimage is expected to exist and provide an image with the specified dimensions.</p>\n",
+          "instance": ""
+        },
+        "properties": {
+          "file": {
+            "type": "File",
+            "name": "file",
+            "examples": {},
+            "id": "/Bindings/missingImage/file",
+            "comments": {
+              "type": "<p>Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,\nand more. This component is used internally by [[Image]] and [[Font]].</p>\n<p>The compiler may enforce certain restrictions on the <code>type</code> of a <code>File</code> instance.</p>\n<p>Usage: <code>file = new File({src: 'assets/images/file.jpg', type: FileType.Image});</code>.</p>\n",
+              "instance": "<p>Responsive image data.</p>\n"
+            },
+            "properties": {
+              "src": {
+                "id": "/Bindings/missingImage/file#src",
+                "name": "src",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "assets/unexistent-image-fallback-test.jpg"
+              },
+              "type": {
+                "id": "/Bindings/missingImage/file#type",
+                "name": "type",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "image"
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "File/file-detail.vue",
+                "item": "File/file-item.vue",
+                "icon": "File/file-icon.vue"
+              }
+            }
+          },
+          "file2x": {
+            "type": "File",
+            "name": "file2x",
+            "examples": {},
+            "id": "/Bindings/missingImage/file2x",
+            "comments": {
+              "type": "<p>Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,\nand more. This component is used internally by [[Image]] and [[Font]].</p>\n<p>The compiler may enforce certain restrictions on the <code>type</code> of a <code>File</code> instance.</p>\n<p>Usage: <code>file = new File({src: 'assets/images/file.jpg', type: FileType.Image});</code>.</p>\n",
+              "instance": "<p>Responsive image data.</p>\n"
+            },
+            "properties": {
+              "src": {
+                "id": "/Bindings/missingImage/file2x#src",
+                "name": "src",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "assets/unexistent-image-fallback-test@2x.jpg"
+              },
+              "type": {
+                "id": "/Bindings/missingImage/file2x#type",
+                "name": "type",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "image"
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "File/file-detail.vue",
+                "item": "File/file-item.vue",
+                "icon": "File/file-icon.vue"
+              }
+            }
+          },
+          "file3x": {
+            "type": "File",
+            "name": "file3x",
+            "examples": {},
+            "id": "/Bindings/missingImage/file3x",
+            "comments": {
+              "type": "<p>Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,\nand more. This component is used internally by [[Image]] and [[Font]].</p>\n<p>The compiler may enforce certain restrictions on the <code>type</code> of a <code>File</code> instance.</p>\n<p>Usage: <code>file = new File({src: 'assets/images/file.jpg', type: FileType.Image});</code>.</p>\n",
+              "instance": "<p>Responsive image data.</p>\n"
+            },
+            "properties": {
+              "src": {
+                "id": "/Bindings/missingImage/file3x#src",
+                "name": "src",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "assets/unexistent-image-fallback-test@3x.jpg"
+              },
+              "type": {
+                "id": "/Bindings/missingImage/file3x#type",
+                "name": "type",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "image"
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "File/file-detail.vue",
+                "item": "File/file-item.vue",
+                "icon": "File/file-icon.vue"
+              }
+            }
+          },
+          "file4x": {
+            "type": "File",
+            "name": "file4x",
+            "examples": {},
+            "id": "/Bindings/missingImage/file4x",
+            "comments": {
+              "type": "<p>Provides a container for referencing local assets, which can be bridged by compilers to embed images, SVGs,\nand more. This component is used internally by [[Image]] and [[Font]].</p>\n<p>The compiler may enforce certain restrictions on the <code>type</code> of a <code>File</code> instance.</p>\n<p>Usage: <code>file = new File({src: 'assets/images/file.jpg', type: FileType.Image});</code>.</p>\n",
+              "instance": "<p>Responsive image data.</p>\n"
+            },
+            "properties": {
+              "src": {
+                "id": "/Bindings/missingImage/file4x#src",
+                "name": "src",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "assets/unexistent-image-fallback-test@4x.jpg"
+              },
+              "type": {
+                "id": "/Bindings/missingImage/file4x#type",
+                "name": "type",
+                "type": "String",
+                "comments": {
+                  "instance": "<p>File data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": "image"
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "File/file-detail.vue",
+                "item": "File/file-item.vue",
+                "icon": "File/file-icon.vue"
+              }
+            }
+          },
+          "size": {
+            "type": "Size2D",
+            "name": "size",
+            "examples": {
+              "ios": [
+                {
+                  "snippets": [
+                    {
+                      "lang": "Swift",
+                      "snippet": "<span class=\"token keyword\">import</span> <span class=\"token builtin\">DiezStdlibTestStub</span>\n\n<span class=\"token keyword\">let</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">let</span> size <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage<span class=\"token punctuation\">.</span>size<span class=\"token punctuation\">.</span>cgSize\n\n<span class=\"token keyword\">let</span> view <span class=\"token operator\">=</span> <span class=\"token function\">UIView</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\nview<span class=\"token punctuation\">.</span>frame<span class=\"token punctuation\">.</span>size <span class=\"token operator\">=</span> size\n"
+                    },
+                    {
+                      "lang": "Objective-C",
+                      "snippet": "<span class=\"token operator\">@</span>import DiezStdlibTestStub<span class=\"token punctuation\">;</span>\n\nBindings <span class=\"token operator\">*</span>designLanguage <span class=\"token operator\">=</span> <span class=\"token punctuation\">[</span><span class=\"token punctuation\">[</span>Bindings alloc<span class=\"token punctuation\">]</span> init<span class=\"token punctuation\">]</span><span class=\"token punctuation\">;</span>\nCGSize <span class=\"token operator\">*</span>size <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage<span class=\"token punctuation\">.</span>size<span class=\"token punctuation\">.</span>cgSize<span class=\"token punctuation\">;</span>\n\nUIView <span class=\"token operator\">*</span>view <span class=\"token operator\">=</span> <span class=\"token punctuation\">[</span><span class=\"token punctuation\">[</span>UIView alloc<span class=\"token punctuation\">]</span> init<span class=\"token punctuation\">]</span><span class=\"token punctuation\">;</span>\nview<span class=\"token punctuation\">.</span>frame <span class=\"token operator\">=</span> <span class=\"token punctuation\">(</span>CGRect<span class=\"token punctuation\">)</span><span class=\"token punctuation\">{</span>\n    <span class=\"token punctuation\">.</span>origin <span class=\"token operator\">=</span> view<span class=\"token punctuation\">.</span>frame<span class=\"token punctuation\">.</span>origin<span class=\"token punctuation\">,</span>\n    <span class=\"token punctuation\">.</span>size <span class=\"token operator\">=</span> size<span class=\"token punctuation\">,</span>\n<span class=\"token punctuation\">}</span><span class=\"token punctuation\">;</span>\n"
+                    }
+                  ],
+                  "example": "CGSize",
+                  "comment": ""
+                }
+              ],
+              "android": [
+                {
+                  "snippets": [
+                    {
+                      "lang": "Kotlin",
+                      "snippet": "<span class=\"token keyword\">import</span> org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub<span class=\"token punctuation\">.</span><span class=\"token operator\">*</span>\n\n<span class=\"token keyword\">val</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token function\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span>\n<span class=\"token keyword\">val</span> size <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span>missingImage<span class=\"token punctuation\">.</span>size\n"
+                    },
+                    {
+                      "lang": "Java",
+                      "snippet": "<span class=\"token keyword\">import</span> <span class=\"token namespace\">org<span class=\"token punctuation\">.</span>diez<span class=\"token punctuation\">.</span>stdlibTestStub</span><span class=\"token punctuation\">.</span>*<span class=\"token punctuation\">;</span>\n\n<span class=\"token class-name\">Bindings</span> designLanguage <span class=\"token operator\">=</span> <span class=\"token keyword\">new</span> <span class=\"token class-name\">Bindings</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token class-name\">Size2D</span> size <span class=\"token operator\">=</span> designLanguage<span class=\"token punctuation\">.</span><span class=\"token function\">getMissingImage</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">.</span><span class=\"token function\">getSize</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n"
+                    }
+                  ],
+                  "example": "Size2D",
+                  "comment": ""
+                }
+              ],
+              "web": [
+                {
+                  "snippets": [
+                    {
+                      "lang": "SCSS",
+                      "snippet": "<span class=\"token keyword\">@include</span> <span class=\"token function\">missing-image-size-size</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                    },
+                    {
+                      "lang": "CSS",
+                      "snippet": "<span class=\"token selector\">.missing-image-size-size</span> <span class=\"token punctuation\">{</span><span class=\"token punctuation\">}</span>"
+                    },
+                    {
+                      "lang": "JavaScript",
+                      "snippet": "Object<span class=\"token punctuation\">.</span><span class=\"token function\">assign</span><span class=\"token punctuation\">(</span>myElement<span class=\"token punctuation\">,</span> missingImage<span class=\"token punctuation\">.</span>size<span class=\"token punctuation\">.</span>style<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+                    }
+                  ],
+                  "example": "Helpers",
+                  "comment": "<p><code>Size2d</code> can be used via mixins, pre-made classes, and provided JavaScript functions.</p>\n"
+                }
+              ]
+            },
+            "id": "/Bindings/missingImage/size",
+            "comments": {
+              "type": "<p>Provides a two dimensional size.</p>\n<p>Usage: <code>size = Size2D.make(1920, 1080);</code>.</p>\n",
+              "instance": "<p>Responsive image data.</p>\n"
+            },
+            "properties": {
+              "width": {
+                "id": "/Bindings/missingImage/size#width",
+                "name": "width",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Size data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              },
+              "height": {
+                "id": "/Bindings/missingImage/size#height",
+                "name": "height",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Size data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "Size2D/size2d-detail.vue",
+                "item": "Size2D/size2d-item.vue",
+                "icon": "Size2D/size2d-icon.vue"
+              }
+            }
+          }
+        },
+        "value": {},
+        "isPrimitive": false,
+        "references": [],
+        "binding": {
+          "templates": {
+            "detail": "Image/image-detail.vue",
+            "item": "Image/image-item.vue",
+            "icon": "Image/image-icon.vue"
+          }
+        }
+      },
       "lottie": {
         "type": "Lottie",
         "name": "lottie",
