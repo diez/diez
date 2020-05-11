@@ -75,9 +75,18 @@ export class Font extends prefab<FontData>() {
     return new this({name, file: new File({src, type: FileType.Font})});
   }
 
+  static googleWebFont (name: string, options: GoogleWebFontOptions) {
+    return new this({name, weight: options.weight});
+  }
+
   toPresentableValue () {
     return `${this.name}, ${this.weight}, ${this.style}`;
   }
+}
+
+interface GoogleWebFontOptions {
+  weight?: number;
+  swap?: boolean;
 }
 
 /**
@@ -511,4 +520,11 @@ export const AndroidFonts = {
   RobotoRegular: new Font({name: 'Roboto-Regular'}),
   RobotoThin: new Font({name: 'Roboto-Thin'}),
   RobotoThinItalic: new Font({name: 'Roboto-ThinItalic'}),
+};
+
+/**
+ * As a convenience, this enumeration provides the names of most Google fonts.
+ */
+export const GoogleWebFonts = {
+  MontserratBlack: Font.googleWebFont('Montserrat Black', {weight: 900, swap: true}),
 };

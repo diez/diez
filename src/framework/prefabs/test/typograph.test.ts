@@ -1,5 +1,5 @@
 import {Color} from '../src/color';
-import {Font, IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
+import {Font, GoogleWebFonts, IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
 
 describe('typograph', () => {
   test('basic functionality', () => {
@@ -87,9 +87,29 @@ describe('typograph', () => {
     });
   });
 
+  test('google webfonts', () => {
+    const googleWebFont = Font.googleWebFont('Open Sans Condensed', {swap: true, weight: 700});
+
+    expect(googleWebFont.serialize()).toEqual({
+      file: {src: '', type: 'font'},
+      name: 'Open Sans Condensed',
+      style: 'normal',
+      weight: 700,
+      fallbacks: ['sans-serif'],
+    });
+
+    expect(GoogleWebFonts.MontserratBlack.serialize()).toEqual({
+      file: {src: '', type: 'font'},
+      name: 'Montserrat Black',
+      style: 'normal',
+      weight: 900,
+      fallbacks: ['sans-serif'],
+    });
+  });
+
   describe('Font', () => {
     it('#toPresentableValue', () => {
-      const font = Font.fromFile('Bloop-MediumItalic.ttf')
+      const font = Font.fromFile('Bloop-MediumItalic.ttf');
       expect(font.toPresentableValue()).toBe('Bloop-MediumItalic, 400, normal');
     });
   });
