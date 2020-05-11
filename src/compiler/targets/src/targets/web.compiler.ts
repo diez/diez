@@ -2,8 +2,10 @@ import {Format, Log} from '@diez/cli-core';
 import {
   Compiler,
   CompilerTargetHandler,
+  DiezComponent,
   DiezType,
   getAssemblerFactory,
+  MaybeNestedArray,
   PrimitiveType,
   Property,
   TargetDiezComponent,
@@ -11,7 +13,7 @@ import {
 } from '@diez/compiler-core';
 import {Target} from '@diez/engine';
 import {getTempFileName, outputTemplatePackage} from '@diez/storage';
-import {ensureDirSync, readFileSync, writeFileSync} from 'fs-extra';
+import {ensureDirSync, readFileSync, writeFileSync, writeJsonSync} from 'fs-extra';
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
@@ -182,6 +184,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       declarationImports: new Set<string>(),
       dependencies: new Set<WebDependency>(),
       assetBindings: new Map(),
+      serializedTree: {},
       styleSheet: {
         variables: new Map(),
         font: new RuleList(),
@@ -238,6 +241,26 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
     this.output.assetBindings.clear();
     this.output.styleSheet.variables.clear();
     this.output.styleSheet.styles.clear();
+    this.output.serializedTree = {};
+  }
+
+  protected async processComponentProperty (
+    property: Property,
+    instance: MaybeNestedArray<any>,
+    serializedInstance: MaybeNestedArray<any>,
+    component: DiezComponent,
+  ) {
+    if (component.isRootComponent) {
+      const rootComponentType = component.type.toString();
+
+      if (!this.output.serializedTree[rootComponentType]) {
+        this.output.serializedTree[rootComponentType] = {};
+      }
+
+      this.output.serializedTree[rootComponentType][property.name] = serializedInstance;
+    }
+
+    return super.processComponentProperty(property, instance, serializedInstance, component);
   }
 
   private getStyleTokens (): StyleTokens {
@@ -292,11 +315,18 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
     writeFileSync(join(staticRoot, `styles.${lang}`), compile(template)(tokens));
   }
 
+  private writeJsonSdk (tokens: any) {
+    const staticRoot = this.parser.hot ? this.hotStaticRoot : this.staticRoot;
+    ensureDirSync(staticRoot);
+    writeJsonSync(join(staticRoot, 'tree.json'), tokens, {spaces: 2});
+  }
+
   writeAssets () {
     super.writeAssets();
-    const tokens = this.getStyleTokens();
-    this.writeStyleSdk('css', tokens);
-    this.writeStyleSdk('scss', tokens);
+    const styleTokens = this.getStyleTokens();
+    this.writeStyleSdk('css', styleTokens);
+    this.writeStyleSdk('scss', styleTokens);
+    this.writeJsonSdk(this.output.serializedTree);
   }
 
   /**
