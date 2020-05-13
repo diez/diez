@@ -1,5 +1,6 @@
 import {Color} from '../src/color';
-import {Font, GoogleWebFonts, IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
+import {Font} from '../src/font';
+import {GoogleWebFonts, IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
 
 describe('typograph', () => {
   test('basic functionality', () => {
@@ -98,9 +99,9 @@ describe('typograph', () => {
       fallbacks: ['sans-serif'],
     });
 
-    expect(GoogleWebFonts.MontserratBlack.serialize()).toEqual({
+    expect(GoogleWebFonts.MontserratBlack900.serialize()).toEqual({
       file: {src: '', type: 'font'},
-      name: 'Montserrat Black',
+      name: 'Montserrat',
       style: 'normal',
       weight: 900,
       fallbacks: ['sans-serif'],

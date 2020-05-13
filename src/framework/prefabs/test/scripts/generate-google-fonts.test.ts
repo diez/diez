@@ -19,7 +19,11 @@ describe('GoogleFontCollection', () => {
     creator.set('My Font Family', '900italic');
     creator.set('My Font Family', 'regular');
     const out = creator.generateTypescriptFile();
-    expect(out).toMatch("MyFontFamilyBlack900Italic: Font.googleWebFont('My Font Family', {weight: 900, style: FontStyle.Italic}),");
-    expect(out).toMatch("MyFontFamilyRegular400: Font.googleWebFont('My Font Family', {weight: 400, style: FontStyle.Normal})");
+    expect(out).toMatch(
+      "MyFontFamilyBlack900Italic: Font.googleWebFont('My Font Family', {weight: 900, style: FontStyle.Italic}),",
+    );
+    expect(out).toMatch(
+      "MyFontFamilyRegular400: Font.googleWebFont('My Font Family', {weight: 400, style: FontStyle.Normal})",
+    );
   });
 });

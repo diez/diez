@@ -56,7 +56,7 @@ export const ${this.name} = {
  * Utility class to collect and generate TypeScript code from Google Fonts.
  */
 export class GoogleFontCollection extends FontCollectionCreator {
-  protected name = 'GoogleFonts';
+  protected name = 'GoogleWebFonts';
   protected instanceConstructor = 'Font.googleWebFont';
 
   private parseVariation (variation: string) {
