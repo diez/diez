@@ -17,7 +17,8 @@
     "test": "jest",
     "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
     "lint": "tslint -p . -t stylish",
-    "fix": "tslint -p . -t stylish --fix"
+    "fix": "tslint -p . -t stylish --fix",
+    "generate-google-fonts": "tsc -p scripts && yarn diez generate-google-fonts"
   },
   "dependencies": {
     "@diez/engine": "^10.5.2",
@@ -30,6 +31,7 @@
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
     "jest": "^24.7.1",
     "jest-tap-reporter": "^1.9.0",
+    "phin": "^3.4.1",
     "ts-jest": "^24.1.0",
     "tslint": "^5.15.0",
     "tslint-config-haiku": "^1.0.21",
