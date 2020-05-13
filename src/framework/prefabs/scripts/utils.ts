@@ -12,23 +12,26 @@ const FontWeightName: Record<number, string> = {
   900: 'Black',
 };
 
-const DiezFontStyles: Record<string, string> = {
+const DiezFontStyle: Record<string, string> = {
   regular: 'FontStyle.Normal',
   italic: 'FontStyle.Italic',
   bold: 'FontStyle.Bold',
 };
 
 /**
- * TODO
+ * Abstract class wrapping the basic functionalities to collect Font data
+ * and generate TypeScript code with Font prefab instances.
  */
 export abstract class FontCollectionCreator {
   private collection = new Map<string, string>();
-  protected abstract collectionName: string;
+  protected abstract name: string;
+  protected abstract instanceConstructor: string;
 
-  protected addToCollection (family: string, style: string, weight: number, staticConstructor: string) {
-    const fontName = pascalCase(`${family}-${FontWeightName[weight]}${weight}-${style === 'regular' ? '' : style}`);
-    const initializer = `Font.${staticConstructor}('${family}', {weight: ${weight}, style: ${DiezFontStyles[style]}})`;
-    this.collection.set(fontName, initializer);
+  protected addToCollection (family: string, style: string, weight: number) {
+    this.collection.set(
+      pascalCase(`${family}-${FontWeightName[weight]}${weight}-${style === 'regular' ? '' : style}`),
+      `${this.instanceConstructor}('${family}', {weight: ${weight}, style: ${DiezFontStyle[style]}})`,
+    );
   }
 
   generateTypescriptFile () {
@@ -40,9 +43,9 @@ export abstract class FontCollectionCreator {
     return `import {Font, FontStyle} from '../font';
 
 /**
- * TODO
+ * As a convenience, this enumeration provides the names of all the core fonts supported on ${this.name}.
  */
-export const ${this.collectionName} = {
+export const ${this.name} = {
   ${entries.join(',\n  ')},
 };
 `;
@@ -50,10 +53,11 @@ export const ${this.collectionName} = {
 }
 
 /**
- * TODO
+ * Utility class to collect and generate TypeScript code from Google Fonts.
  */
-export class GoogleFontCollectionCreator extends FontCollectionCreator {
-  protected collectionName = 'GoogleFonts';
+export class GoogleFontCollection extends FontCollectionCreator {
+  protected name = 'GoogleFonts';
+  protected instanceConstructor = 'Font.googleWebFont';
 
   private parseVariation (variation: string) {
     const weight = variation.match(/^([0-9]+)/);
@@ -63,6 +67,6 @@ export class GoogleFontCollectionCreator extends FontCollectionCreator {
 
   set (family: string, variant: string) {
     const {style, weight} = this.parseVariation(variant);
-    super.addToCollection(family, style, weight, 'googleWebFont');
+    super.addToCollection(family, style, weight);
   }
 }

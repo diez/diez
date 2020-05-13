@@ -1,7 +1,7 @@
 import {Font, FontStyle} from '../font';
 
 /**
- * TODO
+ * As a convenience, this enumeration provides the names of all the core fonts supported on GoogleFonts.
  */
 export const GoogleFonts = {
   RobotoThin100: Font.googleWebFont('Roboto', {weight: 100, style: FontStyle.Normal}),
