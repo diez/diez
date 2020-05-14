@@ -182,6 +182,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       declarationImports: new Set<string>(),
       dependencies: new Set<WebDependency>(),
       assetBindings: new Map(),
+      resources: new Map(),
       styleSheet: {
         variables: new Map(),
         font: new RuleList(),
@@ -282,6 +283,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       styleVariables,
       styleFonts: this.output.styleSheet.font.serialize(),
       styleSheets: this.output.styleSheet.styles.serialize(),
+      resources: [...this.output.resources.values()].map((resource) => resource.url),
     };
   }
 

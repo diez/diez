@@ -9,6 +9,11 @@ export const enum FontStyle {
   Italic = 'italic',
 }
 
+export const enum WebSource {
+  GoogleFonts = 'GoogleFonts',
+  SelfHosted = 'SelfHosted',
+}
+
 const inferNameFromPath = (src: string) => {
   const pathComponents = src.split('/');
   const filename = pathComponents.pop() || '';
@@ -40,6 +45,7 @@ export interface FontData {
    * The font style (web only).
    */
   style: FontStyle;
+  webSource: WebSource;
 }
 
 interface GoogleWebFontOptions {
@@ -59,12 +65,14 @@ export class Font extends prefab<FontData>() {
     fallbacks: ['sans-serif'],
     weight: 400,
     style: FontStyle.Normal,
+    webSource: WebSource.SelfHosted,
   };
 
   options = {
     fallbacks: {targets: [Target.Web]},
     weight: {targets: [Target.Web]},
     style: {targets: [Target.Web]},
+    webSource: {targets: [Target.Web]},
   };
 
   /**
@@ -81,7 +89,7 @@ export class Font extends prefab<FontData>() {
   }
 
   static googleWebFont (name: string, options: GoogleWebFontOptions) {
-    return new this({name, weight: options.weight});
+    return new this({name, weight: options.weight, webSource: WebSource.GoogleFonts});
   }
 
   toPresentableValue () {

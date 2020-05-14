@@ -1,4 +1,4 @@
-const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss} = require('@diez/web-sdk-common');
+const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss, GoogleFontCollection} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -12,6 +12,14 @@ const registerFont = (font) => {
   }
 
   if (cache.has(font.file.src)) {
+    return;
+  }
+
+  if (font.webSource === 'GoogleFonts') {
+    const collection = new GoogleFontCollection();
+    collection.set(font.name, {weight: font.weight, style: font.style});
+    styleSheet.insertRule(`@import url(${collection.url})`);
+    cache.add(font.file.src);
     return;
   }
 
