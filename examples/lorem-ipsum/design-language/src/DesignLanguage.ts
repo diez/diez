@@ -1,4 +1,4 @@
-import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment, GoogleWebFonts} from '@diez/prefabs';
+import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment} from '@diez/prefabs';
 import {Margin} from './components/Margin';
 
 /**

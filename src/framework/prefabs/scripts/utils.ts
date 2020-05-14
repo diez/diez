@@ -21,8 +21,9 @@ const DiezFontStyle: Record<string, string> = {
 /**
  * Abstract class wrapping the basic functionalities to collect Font data
  * and generate TypeScript code with Font prefab instances.
+ * @ignore
  */
-export abstract class FontCollectionCreator {
+abstract class FontCollection {
   private collection = new Map<string, string>();
   protected abstract name: string;
   protected abstract instanceConstructor: string;
@@ -34,7 +35,7 @@ export abstract class FontCollectionCreator {
     );
   }
 
-  generateTypescriptFile () {
+  toTypeScriptEnum () {
     const entries = [];
     for (const [font, initializer] of this.collection.entries()) {
       entries.push(`${font}: ${initializer}`);
@@ -54,14 +55,15 @@ export const ${this.name} = {
 
 /**
  * Utility class to collect and generate TypeScript code from Google Fonts.
+ * @ignore
  */
-export class GoogleFontCollection extends FontCollectionCreator {
+export class GoogleFontCollection extends FontCollection {
   protected name = 'GoogleWebFonts';
   protected instanceConstructor = 'Font.googleWebFont';
 
   private parseVariation (variation: string) {
     const weight = variation.match(/^([0-9]+)/);
-    const style = variation.match(/([A-Za-z]+)$/i);
+    const style = variation.match(/([A-Za-z]+)$/);
     return {weight: weight ? Number(weight[0]) : 400, style: style ? style[0] : 'regular'};
   }
 

@@ -8,17 +8,17 @@ const requestLibMock = jest.fn(async () => {
 
 describe('getGoogleFontCollection', () => {
   test('loadAction', async () => {
-    await fetchGoogleFontsFromApi({apiKey, requestLib: requestLibMock});
+    await fetchGoogleFontsFromApi(apiKey, requestLibMock);
     expect(requestLibMock).toHaveBeenCalledWith(expect.objectContaining({url: expect.stringContaining(apiKey)}));
   });
 });
 
 describe('GoogleFontCollection', () => {
   test('generates a typescript file from a given collection', () => {
-    const creator = new GoogleFontCollection();
-    creator.set('My Font Family', '900italic');
-    creator.set('My Font Family', 'regular');
-    const out = creator.generateTypescriptFile();
+    const collection = new GoogleFontCollection();
+    collection.set('My Font Family', '900italic');
+    collection.set('My Font Family', 'regular');
+    const out = collection.toTypeScriptEnum();
     expect(out).toMatch(
       "MyFontFamilyBlack900Italic: Font.googleWebFont('My Font Family', {weight: 900, style: FontStyle.Italic}),",
     );

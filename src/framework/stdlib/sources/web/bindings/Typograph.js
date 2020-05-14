@@ -15,7 +15,7 @@ const registerFont = (font) => {
     return;
   }
 
-  if (font.webSource === 'GoogleFonts') {
+  if (font.webFontSource === 'GoogleFonts') {
     const collection = new GoogleFontCollection();
     collection.set(font.name, {weight: font.weight, style: font.style});
     styleSheet.insertRule(`@import url(${collection.url})`);

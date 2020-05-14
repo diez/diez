@@ -1,14 +1,17 @@
-export interface GoogleFontVariation {
+interface GoogleFontVariant {
   style: string;
   weight: number;
 }
 
+/**
+ * TODO
+ */
 export class GoogleFont {
-  private variations = new Set<string>();
+  private variants = new Set<string>();
 
-  constructor (private name: string, variations: GoogleFontVariation[] = []) {
-    for (const variation of variations) {
-      this.setVariation(variation);
+  constructor (private name: string, variants: GoogleFontVariant[] = []) {
+    for (const variation of variants) {
+      this.addVariant(variation);
     }
   }
 
@@ -17,29 +20,32 @@ export class GoogleFont {
   }
 
   private getHashedVariations () {
-    return [...this.variations].join(',');
+    return [...this.variants].join(',');
   }
 
   hash () {
-    if (this.variations.size === 0) {
+    if (this.variants.size === 0) {
       return '';
     }
 
     return `${this.getHashedName()}:${this.getHashedVariations()}`;
   }
 
-  setVariation ({style = 'normal', weight = 400}: GoogleFontVariation) {
-    this.variations.add(`${weight}${style}`);
+  addVariant ({style = 'normal', weight = 400}: GoogleFontVariant) {
+    this.variants.add(`${weight}${style}`);
   }
 }
 
+/**
+ * TODO
+ */
 export class GoogleFontCollection {
   private baseUrl = 'https://fonts.googleapis.com/css';
   private collections: Map<string, GoogleFont> = new Map();
 
-  set (fontName: string, {weight, style}: GoogleFontVariation) {
+  set (fontName: string, {weight, style}: GoogleFontVariant) {
     const font = this.collections.get(fontName) || new GoogleFont(fontName);
-    font.setVariation({style, weight});
+    font.addVariant({style, weight});
     this.collections.set(fontName, font);
   }
 
