@@ -242,7 +242,7 @@ export abstract class Compiler<
       Array.isArray(instance.targets) &&
       !instance.targets.includes(this.parser.options.target)
     ) {
-      // We are looking at an instance that is either not a state or explicitly excluded by the host.
+      // We are looking at an instance that is explicitly excluded by the host.
       return;
     }
 

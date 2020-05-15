@@ -43,6 +43,11 @@ export interface FontData {
 }
 
 /**
+ * Valid Google Fonts data options.
+ */
+export type GoogleWebFontData = Pick<FontData, 'weight' | 'style'>;
+
+/**
  * A representation of a font resource, with a reference to a [[File]] containing a TTF or OTF font file.
  * @noinheritdoc
  */
@@ -74,8 +79,8 @@ export class Font extends prefab<FontData>() {
     return new this({name, file: new File({src, type: FileType.Font})});
   }
 
-  static googleWebFont (name: string, options: Pick<FontData, 'weight' | 'style'>) {
-    return new this({name, file: new File({type: FileType.Remote}), ...options});
+  static googleWebFont (name: string, data: GoogleWebFontData) {
+    return new this({name, file: new File({type: FileType.Remote}), ...data});
   }
 
   toPresentableValue () {

@@ -1,18 +1,22 @@
-interface GoogleFontVariant {
-  style: string;
-  weight: number;
-}
+// Only used as a type.
+// tslint:disable-next-line: no-implicit-dependencies
+import {FontData, FontStyle, GoogleWebFontData} from '@diez/prefabs';
 
 /**
- * TODO
+ * Encapsulates logic to handle multiple Google Fonts variants under the same
+ * font family.
  */
 export class GoogleFont {
   private variants = new Set<string>();
 
-  constructor (private name: string, variants: GoogleFontVariant[] = []) {
+  constructor (private name: string, variants: GoogleWebFontData[] = []) {
     for (const variation of variants) {
       this.addVariant(variation);
     }
+  }
+
+  static isGoogleFont (font: FontData) {
+    return font.file.type === 'remote';
   }
 
   private getHashedName () {
@@ -31,21 +35,22 @@ export class GoogleFont {
     return `${this.getHashedName()}:${this.getHashedVariations()}`;
   }
 
-  addVariant ({style = 'normal', weight = 400}: GoogleFontVariant) {
+  addVariant ({style = 'normal' as FontStyle, weight = 400}: GoogleWebFontData) {
     this.variants.add(`${weight}${style}`);
   }
 }
 
 /**
- * TODO
+ * Encapsulates logic to manage a collection of [[GoogleFont]]s methods to fetch
+ * the fonts from the Google Fonts servers.
  */
 export class GoogleFontCollection {
   private baseUrl = 'https://fonts.googleapis.com/css';
   private collections: Map<string, GoogleFont> = new Map();
 
-  set (fontName: string, {weight, style}: GoogleFontVariant) {
+  set (fontName: string, data: GoogleWebFontData) {
     const font = this.collections.get(fontName) || new GoogleFont(fontName);
-    font.addVariant({style, weight});
+    font.addVariant(data);
     this.collections.set(fontName, font);
   }
 

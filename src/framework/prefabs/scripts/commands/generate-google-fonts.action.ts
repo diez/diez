@@ -13,6 +13,10 @@ interface GoogleFontsCollection {
   items: GoogleFontsFamily[];
 }
 
+interface GenerateGoogleFontsParams {
+  apiKey: string;
+}
+
 type RequestLib = (options: {url: string, parse?: 'json'}) => Promise<{body: GoogleFontsCollection}>;
 
 /**
@@ -26,10 +30,6 @@ export const fetchGoogleFontsFromApi = async (apiKey: string, requestLib = phin 
 
   return response.body.items;
 };
-
-interface GenerateGoogleFontsParams {
-  apiKey: string;
-}
 
 const generateGoogleFontsAction: CliAction = async ({apiKey}: GenerateGoogleFontsParams) => {
   const availableFonts = await fetchGoogleFontsFromApi(apiKey);
