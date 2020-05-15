@@ -1,5 +1,5 @@
 import {fetchGoogleFontsFromApi} from '../../scripts/commands/generate-google-fonts.action';
-import {GoogleFontCollection} from '../../scripts/utils';
+import {FontCollectionGenerator, GoogleFontParser} from '../../scripts/utils';
 
 const apiKey = 'xxxxxxxxx';
 const requestLibMock = jest.fn(async () => {
@@ -15,10 +15,10 @@ describe('getGoogleFontCollection', () => {
 
 describe('GoogleFontCollection', () => {
   test('generates a typescript file from a given collection', () => {
-    const collection = new GoogleFontCollection();
-    collection.set('My Font Family', '900italic');
-    collection.set('My Font Family', 'regular');
-    const out = collection.toTypeScriptEnum();
+    const parser = new GoogleFontParser();
+    parser.parse('My Font Family', '900italic');
+    parser.parse('My Font Family', 'regular');
+    const out = FontCollectionGenerator.generateTypeScriptEnum(parser);
     expect(out).toMatch(
       "MyFontFamilyBlack900Italic: Font.googleWebFont('My Font Family', {weight: 900, style: FontStyle.Italic}),",
     );

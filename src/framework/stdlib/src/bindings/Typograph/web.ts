@@ -37,7 +37,7 @@ const binding: WebBinding<Typograph> = {
 
     if (instance.font.file && instance.font.file.type === FileType.Remote) {
       googleFontCollection.set(instance.font.name, {weight: instance.font.weight, style: instance.font.style});
-      output.resources.set('GoogleFontsCollection', googleFontCollection);
+      output.resources.set('GoogleFonts', googleFontCollection);
     } else if (instance.font.name && instance.font.file && instance.font.file.src) {
       output.styleSheet.font.insertRule({
         selector: instance.font.name,

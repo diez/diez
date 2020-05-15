@@ -2,7 +2,7 @@ import {CliAction} from '@diez/cli-core';
 import {writeFile} from 'fs-extra';
 import {join} from 'path';
 import phin from 'phin';
-import {GoogleFontCollection} from '../utils';
+import {FontCollectionGenerator, GoogleFontParser} from '../utils';
 
 interface GoogleFontsFamily {
   family: string;
@@ -33,15 +33,18 @@ interface GenerateGoogleFontsParams {
 
 const generateGoogleFontsAction: CliAction = async ({apiKey}: GenerateGoogleFontsParams) => {
   const availableFonts = await fetchGoogleFontsFromApi(apiKey);
-  const collection = new GoogleFontCollection();
+  const parser = new GoogleFontParser();
 
   for (const {family, variants} of availableFonts) {
     for (const variant of variants) {
-      collection.set(family, variant);
+      parser.parse(family, variant);
     }
   }
 
-  await writeFile(join('src', 'resources', 'web-google-fonts.ts'), collection.toTypeScriptEnum());
+  await writeFile(
+    join('src', 'resources', 'web-google-fonts.ts'),
+    FontCollectionGenerator.generateTypeScriptEnum(parser),
+  );
 };
 
 export default generateGoogleFontsAction;

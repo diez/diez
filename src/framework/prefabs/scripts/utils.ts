@@ -19,14 +19,17 @@ const DiezFontStyle: Record<string, string> = {
 };
 
 /**
- * Abstract class wrapping the basic functionalities to collect Font data
- * and generate TypeScript code with Font prefab instances.
+ * Abstraction to parse font data from different sources into an internal
+ * standard format.
+ *
  * @ignore
  */
-abstract class FontCollection {
-  private collection = new Map<string, string>();
-  protected abstract name: string;
-  protected abstract instanceConstructor: string;
+abstract class FontCollectionParser {
+  readonly abstract name: string;
+  readonly abstract instanceConstructor: string;
+  collection = new Map<string, string>();
+
+  protected abstract parseVariation (variant: string): {style: string, weight: number};
 
   protected addToCollection (family: string, style: string, weight: number) {
     this.collection.set(
@@ -35,9 +38,38 @@ abstract class FontCollection {
     );
   }
 
-  toTypeScriptEnum () {
+  parse (family: string, variant: string) {
+    const {style, weight} = this.parseVariation(variant);
+    this.addToCollection(family, style, weight);
+  }
+}
+
+/**
+ * Parses responses from the Google Fonts Developer API into a format that can
+ * be easily consumed.
+ *
+ * @ignore
+ */
+export class GoogleFontParser extends FontCollectionParser {
+  readonly name = 'GoogleWebFonts';
+  readonly instanceConstructor = 'Font.googleWebFont';
+
+  protected parseVariation (variation: string) {
+    const weight = variation.match(/^([0-9]+)/);
+    const style = variation.match(/([A-Za-z]+)$/);
+    return {weight: weight ? Number(weight[0]) : 400, style: style ? style[0] : 'regular'};
+  }
+}
+
+/**
+ * Generates output based on data from a [[FontCollectionParser]]
+ *
+ * @ignore
+ */
+export class FontCollectionGenerator {
+  static generateTypeScriptEnum (parser: FontCollectionParser) {
     const entries = [];
-    for (const [font, initializer] of this.collection.entries()) {
+    for (const [font, initializer] of parser.collection.entries()) {
       entries.push(`${font}: ${initializer}`);
     }
 
@@ -46,29 +78,9 @@ abstract class FontCollection {
 /**
  * As a convenience, this enumeration provides the names of all the core fonts supported on ${this.name}.
  */
-export const ${this.name} = {
+export const ${parser.name} = {
   ${entries.join(',\n  ')},
 };
 `;
-  }
-}
-
-/**
- * Utility class to collect and generate TypeScript code from Google Fonts.
- * @ignore
- */
-export class GoogleFontCollection extends FontCollection {
-  protected name = 'GoogleWebFonts';
-  protected instanceConstructor = 'Font.googleWebFont';
-
-  private parseVariation (variation: string) {
-    const weight = variation.match(/^([0-9]+)/);
-    const style = variation.match(/([A-Za-z]+)$/);
-    return {weight: weight ? Number(weight[0]) : 400, style: style ? style[0] : 'regular'};
-  }
-
-  set (family: string, variant: string) {
-    const {style, weight} = this.parseVariation(variant);
-    super.addToCollection(family, style, weight);
   }
 }
