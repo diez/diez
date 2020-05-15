@@ -10,3 +10,6 @@ export * from './point2d';
 export * from './panel';
 export * from './size2d';
 export * from './typograph';
+export * from './resources/android-fonts';
+export * from './resources/ios-fonts';
+export * from './resources/web-google-fonts';

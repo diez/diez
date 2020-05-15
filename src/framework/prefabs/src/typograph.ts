@@ -1,5 +1,6 @@
 import {prefab, Target} from '@diez/engine';
 import {Color} from './color';
+import {FileType} from './file';
 import {Font} from './font';
 
 /**
@@ -116,6 +117,14 @@ export class Typograph extends prefab<TypographData>() {
     shouldScale: {targets: [Target.Ios, Target.Android]},
   };
 
+  constructor (overrides: Partial<TypographData> = {}) {
+    super(overrides);
+
+    if (overrides.font && overrides.font.file.type === FileType.Remote) {
+      this.targets = [Target.Web];
+    }
+  }
+
   sanitize (data: TypographData) {
     if (data.lineHeight < 0 && data.lineHeight !== -1) {
       data.lineHeight = 0;
@@ -128,7 +137,3 @@ export class Typograph extends prefab<TypographData>() {
     return data;
   }
 }
-
-export * from './resources/android-fonts';
-export * from './resources/ios-fonts';
-export * from './resources/web-google-fonts';

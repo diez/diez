@@ -9,14 +9,6 @@ export const enum FontStyle {
   Italic = 'italic',
 }
 
-/**
- * Supported web font sources.
- */
-export const enum WebFontSource {
-  GoogleFonts = 'GoogleFonts',
-  SelfHosted = 'SelfHosted',
-}
-
 const inferNameFromPath = (src: string) => {
   const pathComponents = src.split('/');
   const filename = pathComponents.pop() || '';
@@ -48,16 +40,6 @@ export interface FontData {
    * The font style (web only).
    */
   style: FontStyle;
-  /**
-   * The source of the web font (web only).
-   */
-  webFontSource: WebFontSource;
-}
-
-interface GoogleWebFontOptions {
-  weight?: number;
-  swap?: boolean;
-  style?: FontStyle;
 }
 
 /**
@@ -71,14 +53,12 @@ export class Font extends prefab<FontData>() {
     fallbacks: ['sans-serif'],
     weight: 400,
     style: FontStyle.Normal,
-    webFontSource: WebFontSource.SelfHosted,
   };
 
   options = {
     fallbacks: {targets: [Target.Web]},
     weight: {targets: [Target.Web]},
     style: {targets: [Target.Web]},
-    webFontSource: {targets: [Target.Web]},
   };
 
   /**
@@ -94,8 +74,8 @@ export class Font extends prefab<FontData>() {
     return new this({name, file: new File({src, type: FileType.Font})});
   }
 
-  static googleWebFont (name: string, options: GoogleWebFontOptions) {
-    return new this({name, weight: options.weight, webFontSource: WebFontSource.GoogleFonts});
+  static googleWebFont (name: string, options: Pick<FontData, 'weight' | 'style'>) {
+    return new this({name, file: new File({type: FileType.Remote}), ...options});
   }
 
   toPresentableValue () {

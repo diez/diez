@@ -50,6 +50,10 @@ export const fileAssetBinder: AssetBinder<
   File,
   Pick<TargetOutput, 'assetBindings'>
 > = async (instance, {projectRoot}, {assetBindings}) => {
+  if (instance.type === FileType.Remote) {
+    return;
+  }
+
     // Validate correct types for hosted components.
   requireFileTypeForChild(instance, FileType.Image, Image);
 

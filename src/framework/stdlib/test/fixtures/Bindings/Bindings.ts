@@ -5,6 +5,7 @@ import {
   FileType,
   Fill,
   Font,
+  GoogleWebFonts,
   Image,
   LinearGradient,
   Lottie,
@@ -46,6 +47,12 @@ export const bindings = {
     lineHeight: 100,
     letterSpacing: 10,
     decoration: [TextDecoration.Underline, TextDecoration.Strikethrough],
+  }),
+
+  googleFontsTypograph: new Typograph({
+    font: GoogleWebFonts.YesteryearRegular400,
+    fontSize: 15,
+    color: Color.hex('#C0FFEE'),
   }),
 
   linearGradient: LinearGradient.make(Toward.Right, Color.rgb(255, 0, 0), Color.rgb(0, 0, 255)),

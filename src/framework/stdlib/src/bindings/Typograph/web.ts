@@ -1,5 +1,5 @@
 import {diezVersion} from '@diez/cli-core';
-import {Typograph, WebFontSource} from '@diez/prefabs';
+import {Typograph, FileType} from '@diez/prefabs';
 import {joinToKebabCase, WebBinding, WebLanguages} from '@diez/targets';
 import {colorToCss, fontToCss, GoogleFontCollection, textAlignmentToCss, textDecorationsToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
@@ -35,23 +35,19 @@ const binding: WebBinding<Typograph> = {
     const colorValue = colorToCss(instance.color);
     const fontFamily = fontToCss(instance.font);
 
-    switch (instance.font.webFontSource) {
-      case WebFontSource.GoogleFonts:
-        googleFontCollection.set(instance.font.name, {weight: instance.font.weight, style: instance.font.style});
-        output.resources.set('GoogleFontsCollection', googleFontCollection);
-        break;
-      default:
-        if (instance.font.name && instance.font.file && instance.font.file.src) {
-          output.styleSheet.font.insertRule({
-            selector: instance.font.name,
-            declaration: {
-              'font-family': `"${instance.font.name}"`,
-              'font-weight': instance.font.weight.toString(),
-              'font-style': instance.font.style.toString(),
-              src: `local("${instance.font.name}"), ${getQualifiedCssUrl(output, instance.font.file.src)}`,
-            },
-          });
-        }
+    if (instance.font.file && instance.font.file.type === FileType.Remote) {
+      googleFontCollection.set(instance.font.name, {weight: instance.font.weight, style: instance.font.style});
+      output.resources.set('GoogleFontsCollection', googleFontCollection);
+    } else if (instance.font.name && instance.font.file && instance.font.file.src) {
+      output.styleSheet.font.insertRule({
+        selector: instance.font.name,
+        declaration: {
+          'font-family': `"${instance.font.name}"`,
+          'font-weight': instance.font.weight.toString(),
+          'font-style': instance.font.style.toString(),
+          src: `local("${instance.font.name}"), ${getQualifiedCssUrl(output, instance.font.file.src)}`,
+        },
+      });
     }
 
     const declaration = {
