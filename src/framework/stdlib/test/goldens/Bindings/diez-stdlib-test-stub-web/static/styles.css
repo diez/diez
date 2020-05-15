@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Yesteryear:400normal&swap=true");
+
 @font-face {
   font-family: "SomeFont";
   font-weight: 700;
@@ -105,6 +107,17 @@
   text-align: start;
   text-decoration: underline line-through;
   line-height: 100px;
+}
+
+.bindings-google-fonts-typograph {
+  font-family: "Yesteryear",sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  color: hsla(163.80952380952382, 100%, 87.6470588235294%, 1);
+  letter-spacing: 0px;
+  text-align: start;
+  text-decoration: none;
 }
 
 .bindings-linear-gradient-background {

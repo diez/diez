@@ -489,7 +489,7 @@ class Typograph {
 
 module.exports.Typograph = Typograph;
 
-const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss} = require('@diez/web-sdk-common');
+const {fontToCss, FontFormats, textAlignmentToCss, textDecorationsToCss, GoogleFontCollection} = require('@diez/web-sdk-common');
 
 let styleSheet;
 let cache;
@@ -503,6 +503,14 @@ const registerFont = (font) => {
   }
 
   if (cache.has(font.file.src)) {
+    return;
+  }
+
+  if (font.file.type === 'remote') {
+    const collection = new GoogleFontCollection();
+    collection.set(font.name, {weight: font.weight, style: font.style});
+    styleSheet.insertRule(`@import url(${collection.url})`);
+    cache.add(font.file.src);
     return;
   }
 
@@ -844,6 +852,7 @@ class Bindings {
     lottie = {file: {src: "assets/lottie.json", type: "raw"}, loop: true, autoplay: true},
     typograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0.16666666666666666, s: 1, l: 0.5, a: 1}, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []},
     tallTypograph = {font: {file: {src: "assets/SomeFont.ttf", type: "font"}, name: "SomeFont", fallbacks: ["Verdana", "serif"], weight: 700, style: "normal"}, fontSize: 50, color: {h: 0, s: 0, l: 0, a: 1}, lineHeight: 100, letterSpacing: 10, alignment: "natural", decoration: ["underline", "strikethrough"]},
+    googleFontsTypograph = {font: {file: {src: "", type: "remote"}, name: "Yesteryear", fallbacks: ["sans-serif"], weight: 400, style: "normal"}, fontSize: 15, color: {h: 0.45502645502645506, s: 1, l: 0.8764705882352941, a: 1}, lineHeight: -1, letterSpacing: 0, alignment: "natural", decoration: []},
     linearGradient = {stops: [{position: 0, color: {h: 0, s: 1, l: 0.5, a: 1}}, {position: 1, color: {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}}], start: {x: 0, y: 0.5}, end: {x: 1, y: 0.5}},
     point = {x: 0.5, y: 0.5},
     size = {width: 400, height: 300},
@@ -892,6 +901,18 @@ class Bindings {
      * - decoration: `[underline,strikethrough]`
      */
     this.tallTypograph = new Typograph(tallTypograph);
+    /**
+     * - font: `Yesteryear, 400, normal`
+     * - fontSize: `15`
+     * - color: `hsla(0.46, 1, 0.88, 1)`
+     * - iosTextStyle: `body`
+     * - shouldScale: `false`
+     * - lineHeight: `-1`
+     * - letterSpacing: `0`
+     * - alignment: `natural`
+     * - decoration: `[]`
+     */
+    this.googleFontsTypograph = new Typograph(googleFontsTypograph);
     /**
      * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
      */

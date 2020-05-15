@@ -327,6 +327,18 @@ export declare class Bindings extends RootComponent {
    */
   tallTypograph: Typograph;
   /**
+   * - font: `Yesteryear, 400, normal`
+   * - fontSize: `15`
+   * - color: `hsla(0.46, 1, 0.88, 1)`
+   * - iosTextStyle: `body`
+   * - shouldScale: `false`
+   * - lineHeight: `-1`
+   * - letterSpacing: `0`
+   * - alignment: `natural`
+   * - decoration: `[]`
+   */
+  googleFontsTypograph: Typograph;
+  /**
    * start [0, 0.5], end [1, 0.5], stops: [hsla(0, 1, 0.5, 1) at 0,hsla(0.67, 1, 0.5, 1) at 1]
    */
   linearGradient: LinearGradient;

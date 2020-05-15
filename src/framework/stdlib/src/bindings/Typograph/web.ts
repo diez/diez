@@ -1,5 +1,5 @@
 import {diezVersion} from '@diez/cli-core';
-import {Typograph, FileType} from '@diez/prefabs';
+import {FileType, Typograph} from '@diez/prefabs';
 import {joinToKebabCase, WebBinding, WebLanguages} from '@diez/targets';
 import {colorToCss, fontToCss, GoogleFontCollection, textAlignmentToCss, textDecorationsToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
