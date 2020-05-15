@@ -1,6 +1,7 @@
+import {GoogleWebFonts} from '../src';
 import {Color} from '../src/color';
-import {Font} from '../src/font';
-import {GoogleWebFonts, IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
+import {Font, FontStyle} from '../src/font';
+import {IOSTextStyle, TextAlignment, TextDecoration, Typograph} from '../src/typograph';
 
 describe('typograph', () => {
   test('basic functionality', () => {
@@ -89,10 +90,10 @@ describe('typograph', () => {
   });
 
   test('google webfonts', () => {
-    const googleWebFont = Font.googleWebFont('Open Sans Condensed', {swap: true, weight: 700});
+    const googleWebFont = Font.googleWebFont('Open Sans Condensed', {weight: 700, style: FontStyle.Normal});
 
     expect(googleWebFont.serialize()).toEqual({
-      file: {src: '', type: 'font'},
+      file: {src: '', type: 'remote'},
       name: 'Open Sans Condensed',
       style: 'normal',
       weight: 700,
@@ -100,7 +101,7 @@ describe('typograph', () => {
     });
 
     expect(GoogleWebFonts.MontserratBlack900.serialize()).toEqual({
-      file: {src: '', type: 'font'},
+      file: {src: '', type: 'remote'},
       name: 'Montserrat',
       style: 'normal',
       weight: 900,
