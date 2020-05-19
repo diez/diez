@@ -2,7 +2,7 @@
 import {canRunCommand, Format, getPackageManager, isChildProcess, isMacOS, loadingMessage, locateBinaryMacOS, Log} from '@diez/cli-core';
 import {Target} from '@diez/engine';
 import {ChildProcess, execSync, fork, spawn} from 'child_process';
-import {readdirSync} from 'fs-extra';
+import {pathExists, readdirSync} from 'fs-extra';
 import {join, resolve} from 'path';
 import {gt} from 'semver';
 
@@ -15,7 +15,7 @@ const guideUrls = {
   [Target.Docs]: 'https://diez.org/getting-started/docs.html',
 };
 
-export = async (_: {}, target: Target) => {
+export = async (_: {}, target: Target, {targetRoot}: {targetRoot: string}) => {
   if (![Target.Android, Target.Web, Target.Ios, Target.Docs].includes(target)) {
     Log.error(`Usage: diez start <${Target.Android}|${Target.Ios}|${Target.Web}|${Target.Docs}>`);
     process.exit(1);
@@ -41,8 +41,12 @@ export = async (_: {}, target: Target) => {
 
   const diez = require.resolve('diez');
   const root = global.process.cwd();
-  const targetRoot = resolve(root, '..', 'example-codebases', target);
+  const targetRootPath = targetRoot || resolve(root, '..', 'example-codebases', target);
   const packageManager = await getPackageManager();
+
+  if (!await pathExists(targetRootPath)) {
+    throw new Error(`Unable to find a ${target} project at ${targetRootPath}, please ensure the directory exists. You can provide a custom directory via --targetRoot`);
+  }
 
   Log.comment(`Building Diez project for target ${target}...`);
   let hotProcess!: ChildProcess;
@@ -56,14 +60,14 @@ export = async (_: {}, target: Target) => {
     case Target.Ios:
       packageManager.execBinary('diez compile -t ios --cocoapods', {stdio: 'inherit'});
       Log.comment('Installing CocoaPods dependencies in example codebase...');
-      execSync('pod install', {cwd: targetRoot, stdio: 'inherit'});
+      execSync('pod install', {cwd: targetRootPath, stdio: 'inherit'});
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'ios'], {stdio: 'inherit'});
       break;
     case Target.Web:
       packageManager.execBinary('diez compile -t web', {stdio: 'inherit'});
       const installingMessage = loadingMessage('Installing Node dependencies in example codebase...');
-      await packageManager.installAllDependencies({cwd: targetRoot});
+      await packageManager.installAllDependencies({cwd: targetRootPath});
       installingMessage.stop();
       Log.comment('Starting the Diez hot server...');
       hotProcess = fork(diez, ['hot', '-t', 'web'], {stdio: 'inherit'});
@@ -99,17 +103,17 @@ To learn more, follow along with the guide at:
     switch (target) {
       case Target.Android:
         if (isMacOS() && locateBinaryMacOS('com.google.android.studio')) {
-          return execSync(`open -b com.google.android.studio ${targetRoot}`);
+          return execSync(`open -b com.google.android.studio ${targetRootPath}`);
         }
-        return Log.comment(`Open ${targetRoot} in Android Studio to run the example project.`);
+        return Log.comment(`Open ${targetRootPath} in Android Studio to run the example project.`);
       case Target.Ios:
         try {
-          const xcworkspaceFilename = readdirSync(targetRoot).find((filename) => filename.endsWith('.xcworkspace'));
+          const xcworkspaceFilename = readdirSync(targetRootPath).find((filename) => filename.endsWith('.xcworkspace'));
           if (!xcworkspaceFilename) {
             // This should never happen.
             return;
           }
-          const xcworkspaceRoot = join(targetRoot, xcworkspaceFilename);
+          const xcworkspaceRoot = join(targetRootPath, xcworkspaceFilename);
           if (isMacOS() && locateBinaryMacOS('com.apple.dt.Xcode')) {
             return execSync(`open ${xcworkspaceRoot}`);
           }
@@ -119,7 +123,7 @@ To learn more, follow along with the guide at:
           return;
         }
       case Target.Web:
-        return spawn(packageManager.binary, ['start'], {cwd: targetRoot, stdio: 'inherit', shell: true});
+        return spawn(packageManager.binary, ['start'], {cwd: targetRootPath, stdio: 'inherit', shell: true});
     }
   };
 

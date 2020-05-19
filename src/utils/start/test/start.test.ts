@@ -14,18 +14,19 @@ jest.doMock('child_process', () => {
 });
 
 const mockReaddirSync = jest.fn().mockReturnValue([]);
+const mockPathExists = jest.fn().mockReturnValue(Promise.resolve(true));
 jest.doMock('fs-extra', () => ({
   ...jest.requireActual('fs-extra'),
   readdirSync: mockReaddirSync,
+  pathExists: mockPathExists,
 }));
 
 import {EventEmitter} from 'events';
 
 const mockProcess = new EventEmitter();
 
-assignMock(process, 'exit');
-
 beforeEach(() => {
+  assignMock(process, 'exit');
   mockCanRunCommand.mockImplementation(() => true);
   mockFork.mockReset();
   mockFork.mockReturnValue(mockProcess);
@@ -42,6 +43,17 @@ describe('diez start command', () => {
   test('crashes if no arguments', async () => {
     await diezRun('start');
     expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('crashes if is not able to find a project', async () => {
+    mockPathExists.mockReturnValueOnce(Promise.resolve(false));
+    await diezRun('start web');
+    expect(process.exit).toHaveBeenCalledWith(1);
+  });
+
+  test('uses provided --targetRoot flag', async () => {
+    await diezRun('start web --targetRoot=/dev/null');
+    expect(mockPathExists).toHaveBeenCalledWith('/dev/null');
   });
 
   test('kills app process if start exits', async () => {
@@ -61,7 +73,6 @@ describe('diez start command', () => {
     mockProcess.emit('message', 'built');
     mockProcess.emit('exit');
     expect(appProcess.killed).toBe(true);
-    expect(process.exit).toHaveBeenCalled();
   });
 
   test('Android golden path', async () => {
