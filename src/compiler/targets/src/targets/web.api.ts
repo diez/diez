@@ -113,6 +113,14 @@ export interface StyleTokens {
   styleVariables: StyleVariableToken[];
   styleFonts: Rule[];
   styleSheets: Rule[];
+  resources: string[];
+}
+
+/**
+ * Represents an external web resource.
+ */
+interface WebExternalResource {
+  url: string;
 }
 
 /**
@@ -123,6 +131,7 @@ export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   declarations: Set<string>;
   declarationImports: Set<string>;
   styleSheet: StyleSheet;
+  resources: Map<string, WebExternalResource>;
   serializedTree: Record<string, any>;
 }
 

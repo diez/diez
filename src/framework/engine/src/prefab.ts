@@ -1,4 +1,4 @@
-import {PropertyOptions, Serializable} from './api';
+import {PropertyOptions, Serializable, Target} from './api';
 import {serialize} from './serialization';
 
 /**
@@ -15,6 +15,11 @@ export abstract class Prefab<T extends object> implements Serializable<T> {
    * The component that is hosting us.
    */
   host?: Prefab<any>;
+
+  /**
+   * The list of targets this prefab should target.
+   */
+  protected targets?: Target[];
 
   /**
    * Every concrete extension must implement exhaustive defaults conforming to the data interface.

@@ -44,7 +44,7 @@ export = async (_: {}, target: Target, {targetRoot}: {targetRoot: string}) => {
   const targetRootPath = targetRoot || resolve(root, '..', 'example-codebases', target);
   const packageManager = await getPackageManager();
 
-  if (!await pathExists(targetRootPath)) {
+  if (target !== Target.Docs && !await pathExists(targetRootPath)) {
     throw new Error(`Unable to find a ${target} project at ${targetRootPath}, please ensure the directory exists. You can provide a custom directory via --targetRoot`);
   }
 

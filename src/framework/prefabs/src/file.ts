@@ -7,6 +7,7 @@ export const enum FileType {
   Raw = 'raw',
   Image = 'image',
   Font = 'font',
+  Remote = 'remote',
 }
 
 /**

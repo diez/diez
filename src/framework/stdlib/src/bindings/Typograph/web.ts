@@ -1,9 +1,11 @@
 import {diezVersion} from '@diez/cli-core';
-import {Typograph} from '@diez/prefabs';
+import {FileType, Typograph} from '@diez/prefabs';
 import {joinToKebabCase, WebBinding, WebLanguages} from '@diez/targets';
-import {colorToCss, fontToCss, textAlignmentToCss, textDecorationsToCss} from '@diez/web-sdk-common';
+import {colorToCss, fontToCss, GoogleFontCollection, textAlignmentToCss, textDecorationsToCss} from '@diez/web-sdk-common';
 import {join} from 'path';
 import {getQualifiedCssUrl, sourcesPath} from '../../utils';
+
+const googleFontCollection = new GoogleFontCollection();
 
 const binding: WebBinding<Typograph> = {
   sources: [join(sourcesPath, 'web', 'bindings', 'Typograph.js')],
@@ -33,7 +35,10 @@ const binding: WebBinding<Typograph> = {
     const colorValue = colorToCss(instance.color);
     const fontFamily = fontToCss(instance.font);
 
-    if (instance.font.name && instance.font.file && instance.font.file.src) {
+    if (instance.font.file && instance.font.file.type === FileType.Remote) {
+      googleFontCollection.set(instance.font.name, {weight: instance.font.weight, style: instance.font.style});
+      output.resources.set('GoogleFonts', googleFontCollection);
+    } else if (instance.font.name && instance.font.file && instance.font.file.src) {
       output.styleSheet.font.insertRule({
         selector: instance.font.name,
         declaration: {
@@ -44,6 +49,7 @@ const binding: WebBinding<Typograph> = {
         },
       });
     }
+
     const declaration = {
       'font-family': fontFamily,
       'font-weight': instance.font.weight.toString(),

@@ -55,7 +55,8 @@
     "test": "lerna run test",
     "watch": "yarn diez watch",
     "prepublishOnly": "yarn clean",
-    "prepack": "yarn diez minify-sources"
+    "prepack": "yarn diez minify-sources",
+    "regenerate-goldens": "./scripts/regenerate-goldens.sh"
   },
   "resolutions": {
     "@types/webpack": "4.4.27",

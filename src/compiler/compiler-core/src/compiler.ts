@@ -236,6 +236,16 @@ export abstract class Compiler<
       return;
     }
 
+    if (
+      instance &&
+      instance.targets &&
+      Array.isArray(instance.targets) &&
+      !instance.targets.includes(this.parser.options.target)
+    ) {
+      // We are looking at an instance that is explicitly excluded by the host.
+      return;
+    }
+
     const targetComponent = this.createTargetComponent(name);
     const serializedData = serialize(instance);
 
