@@ -111,6 +111,33 @@
         "strikethrough"
       ]
     },
+    "googleFontsTypograph": {
+      "font": {
+        "file": {
+          "src": "",
+          "type": "remote"
+        },
+        "name": "Yesteryear",
+        "fallbacks": [
+          "sans-serif"
+        ],
+        "weight": 400,
+        "style": "normal"
+      },
+      "fontSize": 15,
+      "color": {
+        "h": 0.45502645502645506,
+        "s": 1,
+        "l": 0.8764705882352941,
+        "a": 1
+      },
+      "iosTextStyle": "body",
+      "shouldScale": false,
+      "lineHeight": -1,
+      "letterSpacing": 0,
+      "alignment": "natural",
+      "decoration": []
+    },
     "linearGradient": {
       "stops": [
         {
