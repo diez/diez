@@ -5386,10 +5386,9 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
-chromedriver@^81.0.0:
-  version "81.0.0"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-81.0.0.tgz#690ba333aedf2b4c4933b6590c3242d3e5f28f3c"
-  integrity sha512-BA++IQ7O1FzHmNpzMlOfLiSBvPZ946uuhtJjZHEIr/Gb+Ha9jiuGbHiT45l6O3XGbQ8BAwvbmdisjl4rTxro4A==
+"chromedriver@git://github.com/HaikuTeam/node-chromedriver.git#chrome-83":
+  version "83.0.0"
+  resolved "git://github.com/HaikuTeam/node-chromedriver.git#981d39fcc5339fe5c685875b33a1bbe1fa287086"
   dependencies:
     "@testim/chrome-version" "^1.0.7"
     axios "^0.19.2"
