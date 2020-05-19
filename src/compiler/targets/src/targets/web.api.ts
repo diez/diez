@@ -132,6 +132,7 @@ export interface WebOutput extends TargetOutput<WebDependency, WebBinding> {
   declarationImports: Set<string>;
   styleSheet: StyleSheet;
   resources: Map<string, WebExternalResource>;
+  serializedTree: Record<string, any>;
 }
 
 /**
@@ -141,4 +142,5 @@ export enum WebLanguages {
   Css = 'CSS',
   Scss = 'SCSS',
   JavaScript = 'JavaScript',
+  Json = 'JSON',
 }

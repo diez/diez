@@ -1,0 +1,20 @@
+{
+  "Primitives": {
+    "number": 10,
+    "integer": 10,
+    "float": 10,
+    "string": "ten",
+    "boolean": true,
+    "integers": 5,
+    "strings": "10",
+    "emptyList": [],
+    "child": {
+      "diez": 10
+    },
+    "childs": {
+      "diez": 10
+    },
+    "emptyChild": {},
+    "referred": 10
+  }
+}
