@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/diez/diez/compare/v10.6.0-beta.1...v10.6.0) (2020-05-20)
+
+**Note:** Version bump only for package @diez/start
+
+
+
+
+
 # [10.6.0-beta.1](https://github.com/diez/diez/compare/v10.6.0-beta.0...v10.6.0-beta.1) (2020-05-20)
 
 **Note:** Version bump only for package @diez/start
