@@ -2,7 +2,7 @@
   "name": "diez-target-test-stub-docs",
   "version": "10.10.10",
   "dependencies": {
-    "@diez/docs-template-app": "^10.5.2"
+    "@diez/docs-template-app": "^10.6.0-beta.0"
   },
   "scripts": {
     "build": "docs-app build",
