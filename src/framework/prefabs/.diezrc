@@ -1,7 +1,0 @@
-{
-  "providers": {
-    "commands": [
-      "./scripts/lib/commands/generate-google-fonts"
-    ]
-  }
-}
