@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0-beta.0](https://github.com/diez/diez/compare/v10.5.2...v10.6.0-beta.0) (2020-05-20)
+
+
+### Features
+
+* add a fallback image instead of throwing on missing image files ([#124](https://github.com/diez/diez/issues/124)) ([36f5b51](https://github.com/diez/diez/commit/36f5b51))
+* **cli:** add a flag to provide custom path to start/demo + useful errors ([#128](https://github.com/diez/diez/issues/128)) ([374c218](https://github.com/diez/diez/commit/374c218))
+* **prefabs:** google webfonts support ([#127](https://github.com/diez/diez/issues/127)) ([bb3bafa](https://github.com/diez/diez/commit/bb3bafa))
+
+
+
+
+
 ## [10.5.2](https://github.com/diez/diez/compare/v10.5.1...v10.5.2) (2020-04-22)
 
 **Note:** Version bump only for package @diez/mono
