@@ -1,6 +1,6 @@
 {
   "name": "@diez/docs-template-app",
-  "version": "10.6.0-beta.0",
+  "version": "10.6.0-beta.1",
   "description": "Vue app used as a template for docs",
   "author": "The Haiku Team <contact@haiku.ai>",
   "license": "SEE LICENSE.md",
@@ -36,10 +36,10 @@
     "http-server": "0.12.1"
   },
   "devDependencies": {
-    "@diez/compiler-core": "^10.6.0-beta.0",
-    "@diez/docs-template-design-language": "^10.6.0-beta.0",
-    "@diez/stdlib": "^10.6.0-beta.0",
-    "@diez/targets": "^10.6.0-beta.0",
+    "@diez/compiler-core": "^10.6.0-beta.1",
+    "@diez/docs-template-design-language": "^10.6.0-beta.1",
+    "@diez/stdlib": "^10.6.0-beta.1",
+    "@diez/targets": "^10.6.0-beta.1",
     "@types/app-module-path": "^2.2.0",
     "@types/jest": "^24.0.19",
     "@types/lunr": "^2.3.2",
@@ -52,7 +52,7 @@
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.3",
     "chromedriver": "git://github.com/HaikuTeam/node-chromedriver.git#chrome-83",
-    "diez-webpack-plugin": "^10.6.0-beta.0",
+    "diez-webpack-plugin": "^10.6.0-beta.1",
     "fs-extra": "^7.0.1",
     "geckodriver": "^1.18.0",
     "istanbul-reporter-cobertura-haiku": "^1.0.4",
