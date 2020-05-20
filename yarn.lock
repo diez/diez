@@ -1738,13 +1738,6 @@
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
 
-"@diez/docs-template-app@^10.5.2":
-  version "10.5.2"
-  resolved "https://registry.yarnpkg.com/@diez/docs-template-app/-/docs-template-app-10.5.2.tgz#3a5472fdf5cf48e0bb30a60ace5465eae5d0e460"
-  integrity sha512-/C6pPYtzib69Eu+sMcGOvJcX9X2utgNCjF0M3uu8B9GOep0jPxU0Bj/ag1gsODRfb18QXWXCyxhTlKy3q7ZQsQ==
-  dependencies:
-    http-server "0.12.1"
-
 "@diez/framework-core@^10.5.2":
   version "10.5.2"
   resolved "https://registry.yarnpkg.com/@diez/framework-core/-/framework-core-10.5.2.tgz#ea523db9e5a5560b908b688068f25c01fcc70a79"
