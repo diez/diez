@@ -18,7 +18,7 @@
     "health": "jest --ci -c jest.ci.js && tslint -p . -t checkstyle -o checkstyle-result.xml",
     "lint": "tslint -p . -t stylish",
     "fix": "tslint -p . -t stylish --fix",
-    "generate-google-fonts": "tsc -p scripts && yarn diez generate-google-fonts"
+    "generate-google-fonts": "ts-node scripts/generate-google-fonts.ts"
   },
   "dependencies": {
     "@diez/engine": "^10.6.0-beta.0",

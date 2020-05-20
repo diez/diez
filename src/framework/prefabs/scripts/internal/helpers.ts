@@ -1,4 +1,7 @@
 import {pascalCase} from 'change-case';
+import {writeFile} from 'fs-extra';
+import {join} from 'path';
+import phin from 'phin';
 
 const FontWeightName: Record<number, string> = {
   100: 'Thin',
@@ -84,3 +87,49 @@ export const ${parser.name} = {
 `;
   }
 }
+
+interface GoogleFontsFamily {
+  family: string;
+  variants: string[];
+}
+
+interface GoogleFontsCollection {
+  items: GoogleFontsFamily[];
+}
+
+interface GenerateGoogleFontsParams {
+  apiKey: string;
+}
+
+type RequestLib = (options: {url: string, parse?: 'json'}) => Promise<{body: GoogleFontsCollection}>;
+
+/**
+ * Fetch all fonts available in Google Fonts via their Developer API.
+ */
+export const fetchGoogleFontsFromApi = async (apiKey: string, requestLib = phin as RequestLib) => {
+  const response = await requestLib({
+    url: `https://www.googleapis.com/webfonts/v1/webfonts?key=${apiKey}&sort=popularity`,
+    parse: 'json',
+  });
+
+  return response.body.items;
+};
+
+/**
+ * Generate google fonts
+ */
+export const generateGoogleFontsAction = async ({apiKey}: GenerateGoogleFontsParams) => {
+  const availableFonts = await fetchGoogleFontsFromApi(apiKey);
+  const parser = new GoogleFontParser();
+
+  for (const {family, variants} of availableFonts) {
+    for (const variant of variants) {
+      parser.parse(family, variant);
+    }
+  }
+
+  await writeFile(
+    join('src', 'resources', 'web-google-fonts.ts'),
+    FontCollectionGenerator.generateTypeScriptEnum(parser),
+  );
+};

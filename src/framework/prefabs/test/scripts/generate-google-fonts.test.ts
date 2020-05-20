@@ -1,5 +1,4 @@
-import {fetchGoogleFontsFromApi} from '../../scripts/commands/generate-google-fonts.action';
-import {FontCollectionGenerator, GoogleFontParser} from '../../scripts/utils';
+import {fetchGoogleFontsFromApi, FontCollectionGenerator, GoogleFontParser} from '../../scripts/internal/helpers';
 
 const apiKey = 'xxxxxxxxx';
 const requestLibMock = jest.fn(async () => {
