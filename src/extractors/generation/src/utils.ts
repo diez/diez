@@ -1,5 +1,5 @@
 import {canRunCommand, diezVersion, execAsync, Log} from '@diez/cli-core';
-import {getProject} from '@diez/compiler-core';
+import {getProject, regexES6ReservedWord, regexIdentifierNameES6, regexNumber, regexZeroWidth} from '@diez/compiler-core';
 import {getTempFileName} from '@diez/storage';
 import {pascalCase} from 'change-case';
 import {FontkitFont, FontkitFontCollection, openSync} from 'fontkit';
@@ -7,7 +7,6 @@ import {copySync, ensureDirSync, readdirSync} from 'fs-extra';
 import {basename, extname, join, parse, relative} from 'path';
 import {CodeBlockWriter, ObjectLiteralExpression, SourceFile, VariableDeclarationKind, WriterFunctionOrValue, Writers} from 'ts-morph';
 import {AssetFolder, AssetFolderByAssetType, CodegenDesignLanguage, CodegenEntity, ExtractableAssetType, GeneratedAsset, GeneratedAssets, GeneratedFont, GeneratedFonts} from './api';
-import {regexES3ReservedWord, regexIdentifierNameES5, regexIdentifierNameES6, regexNumber, regexZeroWidth} from './regexes';
 
 const camelCase = (name: string) => {
   const propertyNamePascal = pascalCase(name, undefined, true);
@@ -475,16 +474,6 @@ const valueAsUnescapedString = (value: string): string => {
 };
 
 /**
- * Checks if a value is an invalid ES5 identifier.
- */
-const isInvalidEs5Identifier = (identifier: string) => {
-  return !regexIdentifierNameES5.test(
-    // Only Unicode escapes are allowed in ES5 identifiers.
-    identifier.replace(/\\u([a-fA-F0-9]{4})/g, ($0, $1) => String.fromCodePoint(parseInt($1, 16))),
-  );
-};
-
-/**
  * Returns the provided string surrounded with single quotes if is not a valid JavaScript identifier.
  *
  * @example quoteInvalidPropertyName('valid') => 'valid';
@@ -498,7 +487,7 @@ export const quoteInvalidPropertyName = (name: string): string => {
   const nameIsNumericLiteral = isNumericLiteral(name);
 
   if (nameIsIdentifierNameES6) {
-    needsQuotes = isInvalidEs5Identifier(name) || regexES3ReservedWord.test(nameAsUnescapedString) || regexZeroWidth.test(nameAsUnescapedString);
+    needsQuotes = regexES6ReservedWord.test(nameAsUnescapedString) || regexZeroWidth.test(nameAsUnescapedString);
   } else if (nameIsNumericLiteral) {
     needsQuotes = false;
   }
