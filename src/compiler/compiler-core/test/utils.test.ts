@@ -1,5 +1,5 @@
 import {findPlugins} from '@diez/cli-core';
-import {Target, Serializable} from '@diez/engine';
+import {Serializable, Target} from '@diez/engine';
 import {
   mockCliCoreFactory,
   mockLogCode,
@@ -27,7 +27,7 @@ jest.doMock('handlebars', () => {
     ...jest.requireActual('handlebars'),
     registerHelper: registerHelperMock,
     registerPartial: registerPartialMock,
-  }
+  };
 });
 
 jest.doMock('fs-extra', () => {
@@ -59,8 +59,8 @@ jest.doMock('source-map', () => {
   };
 });
 
-import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets, showStackTracesFromRuntimeError, indentContentHelper, propertyIsCommentableHelper, setUpHandlebars, presentProperties} from '../src/utils';
 import {Presentable} from '../src/api';
+import {ExistingHotUrlMutexError, getAssemblerFactory, getProjectRoot, getTargets, indentContentHelper, presentProperties, propertyIsCommentableHelper, setUpHandlebars, showStackTracesFromRuntimeError, unquote} from '../src/utils';
 
 beforeEach(() => {
   mockLogError.mockReset();
@@ -171,7 +171,7 @@ at Module._compile (internal/modules/cjs/loader.js:778:30)
       const options = {
         fn: jest.fn(),
         inverse: jest.fn(),
-      }
+      };
 
       beforeEach(() => {
         options.fn.mockReset();
@@ -221,7 +221,7 @@ at Module._compile (internal/modules/cjs/loader.js:778:30)
 
       class BarString extends FooString implements Presentable<string> {
         toPresentableValue () {
-          return 'presented bar'
+          return 'presented bar';
         }
       }
 
@@ -234,9 +234,13 @@ at Module._compile (internal/modules/cjs/loader.js:778:30)
       expect(presentProperties(values)).toEqual({
         justbar: 'bar',
         foo: '[]',
-        bar: 'presented bar'
+        bar: 'presented bar',
       });
     });
   });
 
+  test('#unquote', () => {
+    expect(unquote('unquoted')).toEqual('unquoted');
+    expect(unquote('"quoted"')).toEqual('quoted');
+  });
 });

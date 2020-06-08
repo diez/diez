@@ -456,3 +456,19 @@ export const presentProperties = (value: Record<string, any>): Record<string, st
   }
   return serialized;
 };
+
+/**
+ * Remove wrapping quotes from a string.
+ *
+ * @example
+ * unquote('"property"') // => 'property'
+ */
+export const unquote = (str: string) => {
+  let unquoted = str;
+
+  if (unquoted[0] === '"') {
+    unquoted = JSON.parse(unquoted);
+  }
+
+  return unquoted;
+};
