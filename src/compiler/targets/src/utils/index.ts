@@ -1,5 +1,5 @@
-import {CompilerOptions, TargetProperty} from '@diez/compiler-core';
-import {kebabCase} from 'change-case';
+import {CompilerOptions, TargetProperty, regexES6ReservedWord} from '@diez/compiler-core';
+import {kebabCase, camelCase, camel} from 'change-case';
 import {resolve} from 'path';
 
 /**
@@ -57,3 +57,37 @@ export const getUnitedStyleSheetVariables = (name: string, value: string) => {
     };
   });
 };
+
+const startsWithNumber = /^[0-9]/;
+
+export const safeES6Property = (str: string) => {
+  let sanitized = camelCase(str);
+
+  if (regexES6ReservedWord.test(sanitized) || startsWithNumber.test(sanitized)) {
+    sanitized = `_${sanitized}`
+  }
+
+  return sanitized;
+}
+
+// From: https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html
+const swiftReservedWords = [
+  "associatedtype", "class", "deinit", "enum", "extension", "fileprivate", "func", "import", "init", "inout", "internal", "let", "open", "operator", "private", "protocol", "public", "static", "struct", "subscript", "typealias", "var",
+  "break", "case", "continue", "default", "defer", "do", "else", "fallthrough", "for", "guard", "if", "in", "repeat", "return", "switch", "where", "while",
+  "as", "Any", "catch", "false", "is", "nil", "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
+  "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix", "indirect", "lazy", "left", "mutating", "none", "nonmutating", "optional", "override", "postfix", "precedence", "prefix", "Protocol", "required", "right", "set", "Type", "unowned", "weak", "willSet"
+]
+
+export const safeSwiftIdentifier = (str: string) => {
+  let sanitized = camelCase(str)
+
+  if (swiftReservedWords.includes(sanitized)) {
+    sanitized = `\`${sanitized}\``
+  }
+
+  if (startsWithNumber.test(sanitized)) {
+    sanitized = `_${sanitized}`
+  }
+
+  return sanitized
+}

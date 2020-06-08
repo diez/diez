@@ -14,11 +14,11 @@ import {Target} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {pascalCase} from 'change-case';
 import {readFileSync} from 'fs-extra';
-import {compile} from 'handlebars';
+import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 import {basename, join} from 'path';
-import {sourcesPath} from '../utils';
+import {sourcesPath, safeSwiftIdentifier} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 /**
  * The root location for source files.
@@ -312,6 +312,8 @@ class ViewController: UIViewController {
     const assembler = builder(this.output);
     await assembler.addCoreFiles();
     const hasStaticAssets = this.output.assetBindings.size > 0;
+
+    registerHelper('safeSwiftIdentifier', safeSwiftIdentifier);
 
     const componentsFolder = join(this.output.sourcesRoot, 'Components');
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();

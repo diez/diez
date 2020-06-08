@@ -13,7 +13,7 @@ public final class {{{type}}}: NSObject, Decodable {
 {{/if}}
     {{#each properties}}
     {{> comment .}}
-    @objc public internal(set) var {{this.name}}: {{this.type}}
+    @objc public internal(set) var {{{safeSwiftIdentifier this.name}}}: {{this.type}}
     {{/each}}
     {{#if hasProperties}}
     {{#if fixed}}
@@ -21,7 +21,7 @@ public final class {{{type}}}: NSObject, Decodable {
     convenience {{#if isRootComponent}}public {{/if}}override init() {
         self.init(
             {{#each properties}}
-            {{this.name}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
+            {{{safeSwiftIdentifier this.name}}}: {{{this.initializer}}}{{#unless @last}},{{/unless}}
             {{/each}}
         )
     }
@@ -29,11 +29,11 @@ public final class {{{type}}}: NSObject, Decodable {
 
     init(
         {{#each properties}}
-        {{this.name}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+        {{{safeSwiftIdentifier this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
         {{/each}}
     ) {
         {{#each properties}}
-        self.{{this.name}} = {{{this.name}}}
+        self.{{{safeSwiftIdentifier this.name}}} = {{{safeSwiftIdentifier this.name}}}
         {{/each}}
     }
     {{else}}

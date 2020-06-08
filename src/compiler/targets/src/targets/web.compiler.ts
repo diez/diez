@@ -17,7 +17,7 @@ import {ensureDirSync, readFileSync, writeFileSync, writeJsonSync} from 'fs-extr
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper} from '../utils';
+import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper, safeES6Property} from '../utils';
 import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**
@@ -368,6 +368,8 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);
+    registerHelper('safeES6Property', safeES6Property);
+
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
       // For each fixed, replace it with its simple constructor.
       for (const property of Object.values(targetComponent.properties)) {
