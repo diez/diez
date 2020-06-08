@@ -8,7 +8,7 @@ import {ClassDeclaration, EnumDeclaration, Expression, Project, PropertyDeclarat
 import {createSemanticDiagnosticsBuilderProgram, createWatchCompilerHost, createWatchProgram, Diagnostic, FormatDiagnosticsHost, formatDiagnosticsWithColorAndContext, Program, SymbolFlags, sys} from 'typescript';
 import {v4} from 'uuid';
 import {AcceptableType, CompilerEvent, CompilerOptions, DiezComponent, DiezType, DiezTypeMetadata, NamedComponentMap, Parser, PrimitiveType, PrimitiveTypes, PropertyReference} from './api';
-import {getDescriptionForValue, getProject, isAcceptableType, safelyGetName} from './utils';
+import {getDescriptionForValue, getProject, isAcceptableType, unquote} from './utils';
 
 /**
  * A [[Parser]] for a Diez project.
@@ -354,7 +354,7 @@ export class ProjectParser extends EventEmitter implements Parser {
       for (const property of typeValue.getProperties()) {
         // TODO: support spread notation, etc.
         if (TypeGuards.isPropertyAssignment(property) || TypeGuards.isShorthandPropertyAssignment(property)) {
-          const name = safelyGetName(property.getName());
+          const name = unquote(property.getName());
           children.push(typeSymbol.getMemberOrThrow(name));
         }
       }
@@ -390,7 +390,7 @@ export class ProjectParser extends EventEmitter implements Parser {
         // This should never happen?
         continue;
       }
-      const propertyName = safelyGetName(valueDeclaration.getName());
+      const propertyName = unquote(valueDeclaration.getName());
       const description = getDescriptionForValue(valueDeclaration);
       let propertyType = this.checker.getTypeAtLocation(valueDeclaration);
       // Process array type depth.
