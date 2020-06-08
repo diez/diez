@@ -18,7 +18,7 @@ import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 import {basename, join} from 'path';
-import {sourcesPath, safeSwiftIdentifier} from '../utils';
+import {safeSwiftIdentifier, sourcesPath} from '../utils';
 import {IosBinding, IosDependency, IosOutput} from './ios.api';
 /**
  * The root location for source files.

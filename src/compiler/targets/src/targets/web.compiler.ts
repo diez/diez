@@ -17,7 +17,7 @@ import {ensureDirSync, readFileSync, writeFileSync, writeJsonSync} from 'fs-extr
 import {compile, registerHelper} from 'handlebars';
 import {v4} from 'internal-ip';
 import {join} from 'path';
-import {getUnitedStyleSheetVariables, joinToKebabCase, sourcesPath, webComponentListHelper, safeES6Property} from '../utils';
+import {getUnitedStyleSheetVariables, joinToKebabCase, safeES6Property, sourcesPath, webComponentListHelper} from '../utils';
 import {RuleList, StyleTokens, StyleVariableToken, WebBinding, WebDependency, WebOutput} from './web.api';
 
 /**

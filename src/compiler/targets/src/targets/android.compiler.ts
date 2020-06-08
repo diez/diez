@@ -19,10 +19,10 @@ import {
   readFileSync,
   removeSync,
 } from 'fs-extra';
-import {compile, registerPartial} from 'handlebars';
+import {compile, registerHelper, registerPartial} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, join} from 'path';
-import {sourcesPath} from '../utils';
+import {safeKotlinIdentifier, sourcesPath} from '../utils';
 import {AndroidBinding, AndroidDependency, AndroidOutput} from './android.api';
 
 /**
@@ -269,6 +269,8 @@ class MainActivity ... {
     registerPartial('androidDataClassStart', dataClassStartTemplate);
 
     const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
+
+    registerHelper('safeKotlinIdentifier', safeKotlinIdentifier);
 
     // For each fixed, replace it with its simple constructor.
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
