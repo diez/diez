@@ -466,8 +466,8 @@ export const presentProperties = (value: Record<string, any>): Record<string, st
 export const unquote = (str: string) => {
   let unquoted = str;
 
-  if (unquoted[0] === '"') {
-    unquoted = JSON.parse(unquoted);
+  if (str[0] === '"' || str[0] === '\'') {
+    unquoted = str.slice(1, -1);
   }
 
   return unquoted;

@@ -242,5 +242,6 @@ at Module._compile (internal/modules/cjs/loader.js:778:30)
   test('#unquote', () => {
     expect(unquote('unquoted')).toEqual('unquoted');
     expect(unquote('"quoted"')).toEqual('quoted');
+    expect(unquote('\'quoted\'')).toEqual('quoted');
   });
 });
