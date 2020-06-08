@@ -23,5 +23,10 @@
   --primitives-referred-pt: 10pt;
   --primitives-referred-em: 10em;
   --primitives-referred-rem: 10rem;
+  --primitives-quoted: "quoted";
+  --primitives-class: "reserved word";
+  --primitives-10diez: "starts with number";
+  --primitives-di-ez: "contains invalid characters";
+  --primitives-10-diez: "mix of invalid and numbers";
 }
 

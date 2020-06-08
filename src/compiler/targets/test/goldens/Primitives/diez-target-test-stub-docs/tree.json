@@ -476,6 +476,61 @@
         "properties": {},
         "isPrimitive": true,
         "value": 10
+      },
+      "quoted": {
+        "id": "/Primitives#quoted",
+        "name": "quoted",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "quoted"
+      },
+      "class": {
+        "id": "/Primitives#class",
+        "name": "class",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "reserved word"
+      },
+      "10diez": {
+        "id": "/Primitives#10diez",
+        "name": "10diez",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "starts with number"
+      },
+      "di-ez": {
+        "id": "/Primitives#di-ez",
+        "name": "di-ez",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "contains invalid characters"
+      },
+      "10-diez": {
+        "id": "/Primitives#10-diez",
+        "name": "10-diez",
+        "type": "String",
+        "comments": {
+          "instance": ""
+        },
+        "properties": {},
+        "isPrimitive": true,
+        "value": "mix of invalid and numbers"
       }
     },
     "value": {},

@@ -7,6 +7,6 @@ export declare class {{{type}}} {
 {{/if}}
   {{#each properties}}
   {{> comment .}}
-  {{{this.name}}}: {{this.type}};
+  {{{safeES6Property this.name}}}: {{this.type}};
   {{/each}}
 }

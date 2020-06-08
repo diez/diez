@@ -15,6 +15,11 @@
       "diez": 10
     },
     "emptyChild": {},
-    "referred": 10
+    "referred": 10,
+    "quoted": "quoted",
+    "class": "reserved word",
+    "10diez": "starts with number",
+    "di-ez": "contains invalid characters",
+    "10-diez": "mix of invalid and numbers"
   }
 }

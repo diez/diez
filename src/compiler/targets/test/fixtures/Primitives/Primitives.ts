@@ -46,4 +46,11 @@ export const primitives = {
    * References too!
    */
   referred: references.myRef,
+
+  // Invalid/reserved property names
+  "quoted": "quoted",
+  "class": "reserved word",
+  "10diez": "starts with number",
+  "di-ez": "contains invalid characters",
+  "10-diez": "mix of invalid and numbers",
 };

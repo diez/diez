@@ -53,7 +53,27 @@ data class Primitives(
      *
      * `References.myRef` ( 10 )
      */
-    val referred: Float = 10f
+    val referred: Float = 10f,
+    /**
+     * quoted
+     */
+    val quoted: String = "quoted",
+    /**
+     * reserved word
+     */
+    val _class: String = "reserved word",
+    /**
+     * starts with number
+     */
+    val _10diez: String = "starts with number",
+    /**
+     * contains invalid characters
+     */
+    val diEz: String = "contains invalid characters",
+    /**
+     * mix of invalid and numbers
+     */
+    val _10Diez: String = "mix of invalid and numbers"
 ) : RootComponent {
     companion object {}
     override val name = "Primitives"

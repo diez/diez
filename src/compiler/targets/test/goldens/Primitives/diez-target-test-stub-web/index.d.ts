@@ -59,5 +59,25 @@ export declare class Primitives extends RootComponent {
    * `References.myRef` ( 10 )
    */
   referred: number;
+  /**
+   * quoted
+   */
+  quoted: string;
+  /**
+   * reserved word
+   */
+  _class: string;
+  /**
+   * starts with number
+   */
+  _10diez: string;
+  /**
+   * contains invalid characters
+   */
+  diEz: string;
+  /**
+   * mix of invalid and numbers
+   */
+  _10Diez: string;
 }
 

@@ -40,7 +40,12 @@ class Primitives {
     child = {diez: 10},
     childs = [[{diez: 10}]],
     emptyChild = {},
-    referred = 10
+    referred = 10,
+    quoted = "quoted",
+    _class = "reserved word",
+    _10diez = "starts with number",
+    diEz = "contains invalid characters",
+    _10Diez = "mix of invalid and numbers"
   } = {}) {
     /**
      * Test property comment
@@ -88,6 +93,26 @@ class Primitives {
      * `References.myRef` ( 10 )
      */
     this.referred = referred;
+    /**
+     * quoted
+     */
+    this.quoted = quoted;
+    /**
+     * reserved word
+     */
+    this._class = _class;
+    /**
+     * starts with number
+     */
+    this._10diez = _10diez;
+    /**
+     * contains invalid characters
+     */
+    this.diEz = diEz;
+    /**
+     * mix of invalid and numbers
+     */
+    this._10Diez = _10Diez;
   }
 }
 

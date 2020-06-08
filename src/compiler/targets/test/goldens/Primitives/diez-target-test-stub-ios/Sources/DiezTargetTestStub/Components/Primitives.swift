@@ -51,6 +51,26 @@ public final class Primitives: NSObject, RootComponent {
      * `References.myRef` ( 10 )
      */
     @objc public internal(set) var referred: CGFloat
+    /**
+     * quoted
+     */
+    @objc public internal(set) var quoted: String
+    /**
+     * reserved word
+     */
+    @objc public internal(set) var `class`: String
+    /**
+     * starts with number
+     */
+    @objc public internal(set) var _10diez: String
+    /**
+     * contains invalid characters
+     */
+    @objc public internal(set) var diEz: String
+    /**
+     * mix of invalid and numbers
+     */
+    @objc public internal(set) var _10Diez: String
 
     convenience public override init() {
         self.init(
@@ -65,7 +85,12 @@ public final class Primitives: NSObject, RootComponent {
             child: ChildComponent(diez: 10),
             childs: [[ChildComponent(diez: 10)]],
             emptyChild: EmptyComponent(),
-            referred: 10
+            referred: 10,
+            quoted: "quoted",
+            `class`: "reserved word",
+            _10diez: "starts with number",
+            diEz: "contains invalid characters",
+            _10Diez: "mix of invalid and numbers"
         )
     }
 
@@ -81,7 +106,12 @@ public final class Primitives: NSObject, RootComponent {
         child: ChildComponent,
         childs: [[ChildComponent]],
         emptyChild: EmptyComponent,
-        referred: CGFloat
+        referred: CGFloat,
+        quoted: String,
+        `class`: String,
+        _10diez: String,
+        diEz: String,
+        _10Diez: String
     ) {
         self.number = number
         self.integer = integer
@@ -95,6 +125,11 @@ public final class Primitives: NSObject, RootComponent {
         self.childs = childs
         self.emptyChild = emptyChild
         self.referred = referred
+        self.quoted = quoted
+        self.`class` = `class`
+        self._10diez = _10diez
+        self.diEz = diEz
+        self._10Diez = _10Diez
     }
 
     public static let name = "Primitives"
