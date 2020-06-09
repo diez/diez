@@ -14,7 +14,7 @@ import {Target} from '@diez/engine';
 import {outputTemplatePackage} from '@diez/storage';
 import {pascalCase} from 'change-case';
 import {readFileSync} from 'fs-extra';
-import {compile, registerHelper} from 'handlebars';
+import {compile} from 'handlebars';
 import {v4} from 'internal-ip';
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 import {basename, join} from 'path';
@@ -313,8 +313,6 @@ class ViewController: UIViewController {
     await assembler.addCoreFiles();
     const hasStaticAssets = this.output.assetBindings.size > 0;
 
-    registerHelper('safeSwiftIdentifier', safeSwiftIdentifier);
-
     const componentsFolder = join(this.output.sourcesRoot, 'Components');
     const componentTemplate = readFileSync(join(coreIos, 'ios.component.handlebars')).toString();
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
@@ -326,6 +324,9 @@ class ViewController: UIViewController {
       }
 
       for (const property of Object.values(targetComponent.properties)) {
+        // Sanitize property name
+        property.name = safeSwiftIdentifier(property.name);
+
         if (
           property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = `${property.type}()`;

@@ -3,24 +3,24 @@ class {{{type}}} {
   constructor({
 {{#if fixed}}
 {{#each properties}}
-    {{safeES6Property this.name}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
+    {{this.name}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
   } = {}) {
 {{else}}
 {{#each properties}}
-    {{safeES6Property this.name}}{{#unless @last}},{{/unless}}
+    {{this.name}}{{#unless @last}},{{/unless}}
 {{/each}}
   }) {
 {{/if}}
 {{#each properties}}
 {{#unless this.isComponent}}
     {{> comment .}}
-    this.{{safeES6Property this.name}} = {{safeES6Property this.name}};
+    this.{{this.name}} = {{this.name}};
 {{else if this.depth}}
     {{#list this}}{{/list}}
 {{else}}
     {{> comment .}}
-    this.{{safeES6Property this.name}} = new {{{this.type}}}({{safeES6Property this.name}});
+    this.{{this.name}} = new {{{this.type}}}({{this.name}});
 {{/unless}}
 {{/each}}
   }

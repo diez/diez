@@ -19,7 +19,7 @@ import {
   readFileSync,
   removeSync,
 } from 'fs-extra';
-import {compile, registerHelper, registerPartial} from 'handlebars';
+import {compile, registerPartial} from 'handlebars';
 import {v4} from 'internal-ip';
 import {basename, join} from 'path';
 import {safeKotlinIdentifier, sourcesPath} from '../utils';
@@ -270,11 +270,12 @@ class MainActivity ... {
 
     const componentTemplate = readFileSync(join(coreAndroid, 'android.component.handlebars')).toString();
 
-    registerHelper('safeKotlinIdentifier', safeKotlinIdentifier);
-
     // For each fixed, replace it with its simple constructor.
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
       for (const property of Object.values(targetComponent.properties)) {
+        // Sanitize property name
+        property.name = safeKotlinIdentifier(property.name);
+
         if (
           property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = `${property.type}()`;

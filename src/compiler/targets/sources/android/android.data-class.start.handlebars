@@ -4,12 +4,12 @@ data class {{{type}}}(
 {{#if fixed}}
 {{#each properties}}
     {{> comment .}}
-    val {{{safeKotlinIdentifier this.name}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
+    val {{{this.name}}}: {{{this.type}}} = {{{this.initializer}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{else}}
 {{#each properties}}
     {{> comment .}}
-    val {{{safeKotlinIdentifier this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
+    val {{{this.name}}}: {{{this.type}}}{{#unless @last}},{{/unless}}
 {{/each}}
 {{/if}}
 {{else}}

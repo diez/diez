@@ -368,11 +368,13 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
 
     // Register our list helper for producing list outputs.
     registerHelper('list', webComponentListHelper);
-    registerHelper('safeES6Property', safeES6Property);
 
     for (const [type, {binding, ...targetComponent}] of this.output.processedComponents) {
-      // For each fixed, replace it with its simple constructor.
       for (const property of Object.values(targetComponent.properties)) {
+        // Sanitize property name
+        property.name = safeES6Property(property.name);
+
+        // For each fixed, replace it with its simple constructor.
         if (
           property.originalType && this.parser.getComponentForTypeOrThrow(property.originalType).isFixedComponent) {
           property.initializer = '{}';
