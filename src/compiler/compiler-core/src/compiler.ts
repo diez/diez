@@ -110,8 +110,9 @@ export abstract class Compiler<
 
   constructor (readonly parser: Parser) {
     const projectName = inferProjectName(parser.projectRoot);
+    const outDir = parser.options.outDir || join('build', `diez-${projectName}-${parser.options.target}`);
     this.output = this.createOutput(
-      join(parser.projectRoot, 'build', `diez-${projectName}-${parser.options.target}`),
+      join(parser.projectRoot, outDir),
       projectName,
     );
 
