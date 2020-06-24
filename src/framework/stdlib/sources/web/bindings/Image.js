@@ -1,6 +1,10 @@
 Object.defineProperties(Image.prototype, {
   url: {
     get () {
+      if (this.svgFile) {
+        return this.svgFile;
+      }
+
       switch (Math.ceil(window.devicePixelRatio)) {
         case 1:
           return this.file.url;
