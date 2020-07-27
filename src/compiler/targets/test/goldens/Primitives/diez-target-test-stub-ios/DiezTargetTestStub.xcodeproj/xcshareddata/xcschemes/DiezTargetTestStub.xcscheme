@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FB20A9D63D8652B03798D8D5D90496C0"
+               BlueprintIdentifier = "FB20A9D63D8652B03798D8D5"
                BuildableName = "DiezTargetTestStub.framework"
                BlueprintName = "DiezTargetTestStub"
                ReferencedContainer = "container:DiezTargetTestStub.xcodeproj">
@@ -26,13 +26,14 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      onlyGenerateCoverageForSpecifiedTargets = "NO"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5D90496C0"
+            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5"
             BuildableName = "DiezTargetTestStub.framework"
             BlueprintName = "DiezTargetTestStub"
             ReferencedContainer = "container:DiezTargetTestStub.xcodeproj">
@@ -40,8 +41,6 @@
       </MacroExpansion>
       <CommandLineArguments>
       </CommandLineArguments>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -56,7 +55,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5D90496C0"
+            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5"
             BuildableName = "DiezTargetTestStub.framework"
             BlueprintName = "DiezTargetTestStub"
             ReferencedContainer = "container:DiezTargetTestStub.xcodeproj">
@@ -64,8 +63,6 @@
       </MacroExpansion>
       <CommandLineArguments>
       </CommandLineArguments>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -77,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5D90496C0"
+            BlueprintIdentifier = "FB20A9D63D8652B03798D8D5"
             BuildableName = "DiezTargetTestStub.framework"
             BlueprintName = "DiezTargetTestStub"
             ReferencedContainer = "container:DiezTargetTestStub.xcodeproj">

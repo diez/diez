@@ -42,6 +42,12 @@ export const primitives = {
 
   emptyChild: new EmptyComponent(),
 
+  // simple nested object
+  nested: {
+    propNumber: 10,
+    propPrefab: new ChildComponent({diez: 10}),
+  },
+
   /**
    * References too!
    */

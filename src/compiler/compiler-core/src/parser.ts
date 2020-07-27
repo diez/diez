@@ -278,6 +278,12 @@ export class ProjectParser extends EventEmitter implements Parser {
     }
 
     const predicate = typeValue.getParent();
+
+    // TODO: handle nested object assignments
+    // if (TypeGuards.isPropertyAssignment(predicate)) {
+    //   return this.storeTypeMetadata(typeValue, typeValue, typescriptType);
+    // }
+
     if (!TypeGuards.isVariableDeclaration(predicate)) {
       // This should never happen in real life, but technically an unassigned object literal expression is valid TypeScript.
       return;
