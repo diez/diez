@@ -1,5 +1,9 @@
-import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment} from '@diez/prefabs';
+import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradient, Point2D, TextAlignment, MediaQuery} from '@diez/prefabs';
 import {Margin} from './components/Margin';
+
+const breakpoints = {
+  small: MediaQuery.minWidth(300),
+}
 
 /**
  * You can collect anything inside a Diez component. Design tokens specified as
@@ -116,6 +120,7 @@ const shadows = {
   *  - If you run `yarn start web` or `npm run start web`, Diez will create a Web App with your tokens.
  */
 export const designLanguage = {
+  breakpoints,
   palette,
   typography,
   images,

@@ -30,3 +30,11 @@ ${{this.name}}: {{{this.value}}};
 }
 
 {{/each}}
+
+{{#each mediaQueries}}
+@mixin {{this.name}} {
+  @media {{this.value}} {
+    @content;
+  }
+}
+{{/each}}
