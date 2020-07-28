@@ -4,7 +4,7 @@ import {Margin} from './components/Margin';
 const breakpoints = {
   small: new MediaQuery({minWidth: 576}),
   medium: new MediaQuery({minWidth: 768}),
-  mediumOnly: new MediaQuery({minWidth: 576, maxWidth: 768, minAspectRatio: [16, 9]}),
+  mediumOnly: new MediaQuery({minWidth: 576, maxWidth: 768}),
 }
 
 /**
