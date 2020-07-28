@@ -1,9 +1,9 @@
 import {prefab} from '@diez/engine';
 
 /**
- * Not / Only specifier.
+ * Valid CSS logical operators.
  */
-export const enum NotOnly {
+export const enum QueryOperator {
   Not = 'not',
   Only = 'only',
 }
@@ -11,7 +11,7 @@ export const enum NotOnly {
 /**
  * Valid media type selectors.
  */
-export const enum MediaType {
+export const enum QueryType {
   All = 'all',
   Print = 'print',
   Screen = 'screen',
@@ -19,12 +19,57 @@ export const enum MediaType {
 }
 
 /**
+ * Valid device orientation types.
+ */
+export const enum Orientation {
+  Landscape = 'landscape',
+  Portrait = 'portrait',
+}
+
+/**
+ * Valid color scheme types.
+ */
+export const enum ColorScheme {
+  Light = 'light',
+  Dark = 'dark',
+}
+
+/**
+ * Valid reduced motion types.
+ */
+export const enum ReducedMotion {
+  NoPreference = 'no-preference',
+  Reduce = 'reduce',
+}
+
+/**
+ * Valid display mode types.
+ */
+export const enum DisplayMode {
+  Fullscreen = 'fullscreen',
+  Standalone = 'standalone',
+  MinimalUI = 'minimal-ui',
+  Browser = 'browser',
+}
+
+/**
  * Individual media query data.
  */
 export interface MediaQueryData {
-  notOnly?: NotOnly;
-  type?: MediaType;
+  operator?: QueryOperator;
+  type?: QueryType;
   minWidth?: number;
+  maxWidth?: number;
+  minHeight?: number;
+  maxHeight?: number;
+  minAspectRatio?: number;
+  maxAspectRatio?: number;
+  minResolution?: number;
+  maxResolution?: number;
+  orientation?: Orientation;
+  displayMode?: DisplayMode;
+  prefersColorScheme?: ColorScheme;
+  prefersReducedMotion?: ReducedMotion;
 }
 
 /**
@@ -41,12 +86,24 @@ export interface MediaQueriesData {
 export class MediaQuery extends prefab<MediaQueriesData>() {
   defaults = {
     queries: [{
-      type: MediaType.Screen,
-      minWidth: 0,
+      operator: QueryOperator.Only,
+      type: QueryType.Screen,
     }],
   };
 
-  static minWidth (width: number) {
-    return new MediaQuery({queries: [{type: MediaType.Screen, minWidth: width}]});
+  static minWidth (min: number) {
+    return new MediaQuery({queries: [{type: QueryType.Screen, minWidth: min}]});
+  }
+
+  static maxWidth (max: number) {
+    return new MediaQuery({queries: [{type: QueryType.Screen, maxWidth: max}]});
+  }
+
+  static rangeWidth (min: number, max: number) {
+    return new MediaQuery({queries: [{type: QueryType.Screen, minWidth: min, maxWidth: max}]});
+  }
+
+  static printOnly () {
+    return new MediaQuery({queries: [{operator: QueryOperator.Only, type: QueryType.Print}]});
   }
 }

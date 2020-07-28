@@ -2,7 +2,10 @@ import {Color, DropShadow, Image, Lottie, Toward, Typograph, Font, LinearGradien
 import {Margin} from './components/Margin';
 
 const breakpoints = {
-  small: MediaQuery.minWidth(300),
+  small: MediaQuery.minWidth(576),
+  medium: MediaQuery.minWidth(768),
+  mediumOnly: MediaQuery.rangeWidth(576, 768),
+  print: MediaQuery.printOnly(),
 }
 
 /**
