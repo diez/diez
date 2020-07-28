@@ -1,9 +1,9 @@
-const {queriesToCss} = require('@diez/web-sdk-common');
+const {queryToCss} = require('@diez/web-sdk-common');
 
 Object.defineProperties(MediaQuery.prototype, {
-  query: {
+  mediaQuery: {
     get () {
-      return queriesToCss(this);
+      return queryToCss(this);
     },
   },
 });

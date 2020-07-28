@@ -6,6 +6,7 @@ import {prefab} from '@diez/engine';
 export const enum QueryOperator {
   Not = 'not',
   Only = 'only',
+  None = 'none',
 }
 
 /**
@@ -16,6 +17,7 @@ export const enum QueryType {
   Print = 'print',
   Screen = 'screen',
   Speech = 'speech',
+  None = 'none',
 }
 
 /**
@@ -24,6 +26,7 @@ export const enum QueryType {
 export const enum Orientation {
   Landscape = 'landscape',
   Portrait = 'portrait',
+  None = 'none',
 }
 
 /**
@@ -32,6 +35,7 @@ export const enum Orientation {
 export const enum ColorScheme {
   Light = 'light',
   Dark = 'dark',
+  None = 'none',
 }
 
 /**
@@ -40,6 +44,7 @@ export const enum ColorScheme {
 export const enum ReducedMotion {
   NoPreference = 'no-preference',
   Reduce = 'reduce',
+  None = 'none',
 }
 
 /**
@@ -50,60 +55,53 @@ export const enum DisplayMode {
   Standalone = 'standalone',
   MinimalUI = 'minimal-ui',
   Browser = 'browser',
+  None = 'none',
 }
 
 /**
  * Individual media query data.
  */
 export interface MediaQueryData {
-  operator?: QueryOperator;
-  type?: QueryType;
-  minWidth?: number;
-  maxWidth?: number;
-  minHeight?: number;
-  maxHeight?: number;
-  minAspectRatio?: number;
-  maxAspectRatio?: number;
-  minResolution?: number;
-  maxResolution?: number;
-  orientation?: Orientation;
-  displayMode?: DisplayMode;
-  prefersColorScheme?: ColorScheme;
-  prefersReducedMotion?: ReducedMotion;
-}
-
-/**
- * Group of media queries.
- */
-export interface MediaQueriesData {
-  queries: MediaQueryData[];
+  /**
+   * A value of `-1` or `none` will be treated as if the value is not set.
+   *
+   * TODO: Use optionality instead when it is supported by the compiler.
+   */
+  operator: QueryOperator;
+  type: QueryType;
+  minWidth: number;
+  maxWidth: number;
+  minHeight: number;
+  maxHeight: number;
+  minAspectRatio: number[];
+  maxAspectRatio: number[];
+  minResolution: number;
+  maxResolution: number;
+  orientation: Orientation;
+  displayMode: DisplayMode;
+  prefersColorScheme: ColorScheme;
+  prefersReducedMotion: ReducedMotion;
 }
 
 /**
  * Representation of a media query.
  * @noinheritdoc
  */
-export class MediaQuery extends prefab<MediaQueriesData>() {
+export class MediaQuery extends prefab<MediaQueryData>() {
   defaults = {
-    queries: [{
-      operator: QueryOperator.Only,
-      type: QueryType.Screen,
-    }],
+    operator: QueryOperator.None,
+    type: QueryType.Screen,
+    minWidth: -1,
+    maxWidth: -1,
+    minHeight: -1,
+    maxHeight: -1,
+    minAspectRatio: [-1, -1],
+    maxAspectRatio: [-1, -1],
+    minResolution: -1,
+    maxResolution: -1,
+    orientation: Orientation.None,
+    displayMode: DisplayMode.None,
+    prefersColorScheme: ColorScheme.None,
+    prefersReducedMotion: ReducedMotion.None,
   };
-
-  static minWidth (min: number) {
-    return new MediaQuery({queries: [{type: QueryType.Screen, minWidth: min}]});
-  }
-
-  static maxWidth (max: number) {
-    return new MediaQuery({queries: [{type: QueryType.Screen, maxWidth: max}]});
-  }
-
-  static rangeWidth (min: number, max: number) {
-    return new MediaQuery({queries: [{type: QueryType.Screen, minWidth: min, maxWidth: max}]});
-  }
-
-  static printOnly () {
-    return new MediaQuery({queries: [{operator: QueryOperator.Only, type: QueryType.Print}]});
-  }
 }

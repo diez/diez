@@ -1,66 +1,66 @@
 // Only used as a type.
 // tslint:disable-next-line: no-implicit-dependencies
-import {MediaQueriesData} from '@diez/prefabs';
+import {MediaQueryData} from '@diez/prefabs';
 
 /**
  * Returns a string with a valid css media query.
  */
-export const queriesToCss = ({queries}: MediaQueriesData) => queries.map((query) => {
+export const queryToCss = (query: MediaQueryData) => {
   const mediaQueries = [];
 
-  if (query.operator && query.type) {
+  if (query.operator !== 'none' && query.type !== 'none') {
     mediaQueries.push(`${query.operator} ${query.type}`);
-  } else if (query.type) {
+  } else if (query.type !== 'none') {
     mediaQueries.push(query.type);
   }
 
-  if (typeof query.minWidth !== 'undefined') {
+  if (query.minWidth > -1) {
     mediaQueries.push(`(min-width: ${query.minWidth}px)`);
   }
 
-  if (typeof query.maxWidth !== 'undefined') {
+  if (query.maxWidth > -1) {
     mediaQueries.push(`(max-width: ${query.maxWidth}px)`);
   }
 
-  if (typeof query.minHeight !== 'undefined') {
+  if (query.minHeight > -1) {
     mediaQueries.push(`(min-height: ${query.minHeight}px)`);
   }
 
-  if (typeof query.maxHeight !== 'undefined') {
+  if (query.maxHeight > -1) {
     mediaQueries.push(`(max-height: ${query.maxHeight}px)`);
   }
 
-  if (typeof query.minAspectRatio !== 'undefined') {
-    mediaQueries.push(`(min-aspect-ratio: ${query.minAspectRatio})`);
+  if (query.minAspectRatio.every(num => num > -1)) {
+    mediaQueries.push(`(min-aspect-ratio: ${query.minAspectRatio.slice(0, 2).join('/')})`);
   }
 
-  if (typeof query.maxAspectRatio !== 'undefined') {
-    mediaQueries.push(`(max-aspect-ratio: ${query.maxAspectRatio})`);
+  if (query.maxAspectRatio.every(num => num > -1)) {
+    mediaQueries.push(`(max-aspect-ratio: ${query.maxAspectRatio.slice(0, 2).join('/')})`);
   }
 
-  if (typeof query.minResolution !== 'undefined') {
+  if (query.minResolution > -1) {
     mediaQueries.push(`(min-resolution: ${query.minResolution}dpi)`);
   }
 
-  if (typeof query.maxResolution !== 'undefined') {
+  if (query.maxResolution > -1) {
     mediaQueries.push(`(max-resolution: ${query.maxResolution}dpi)`);
   }
 
-  if (typeof query.orientation !== 'undefined') {
+  if (query.orientation !== 'none') {
     mediaQueries.push(`(orientation: ${query.orientation})`);
   }
 
-  if (typeof query.displayMode !== 'undefined') {
+  if (query.displayMode !== 'none') {
     mediaQueries.push(`(display-mode: ${query.displayMode})`);
   }
 
-  if (typeof query.prefersColorScheme !== 'undefined') {
+  if (query.prefersColorScheme !== 'none') {
     mediaQueries.push(`(prefers-color-scheme: ${query.prefersColorScheme})`);
   }
 
-  if (typeof query.prefersReducedMotion !== 'undefined') {
+  if (query.prefersReducedMotion !== 'none') {
     mediaQueries.push(`(prefers-reduced-motion: ${query.prefersReducedMotion})`);
   }
 
   return mediaQueries.join(' and ');
-}).join(', ');
+};

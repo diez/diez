@@ -2,5 +2,5 @@ export declare class MediaQuery {
   /**
    * The raw media query, suitable for usage with @media
    */
-  query: string;
+  mediaQuery: string;
 }
