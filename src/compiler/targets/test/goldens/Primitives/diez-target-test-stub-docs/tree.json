@@ -466,6 +466,264 @@
         "isPrimitive": false,
         "references": []
       },
+      "nestedPrefabs": {
+        "type": "NestedPrefabComponent",
+        "name": "nestedPrefabs",
+        "examples": {},
+        "id": "/Primitives/nestedPrefabs",
+        "comments": {
+          "type": "",
+          "instance": ""
+        },
+        "properties": {
+          "diez": {
+            "id": "/Primitives/nestedPrefabs#diez",
+            "name": "diez",
+            "type": "Float",
+            "comments": {
+              "instance": ""
+            },
+            "properties": {},
+            "isPrimitive": true,
+            "value": 1
+          },
+          "child": {
+            "type": "ChildComponent",
+            "name": "child",
+            "examples": {
+              "android": [
+                {
+                  "snippets": [
+                    {
+                      "lang": "Kotlin",
+                      "snippet": "\n<span class=\"token keyword\">const</span> wrapper <span class=\"token operator\">=</span> document<span class=\"token punctuation\">.</span><span class=\"token function\">getElementById</span><span class=\"token punctuation\">(</span><span class=\"token string\">'lottie-wrapper'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\nnestedPrefabs<span class=\"token punctuation\">.</span>child<span class=\"token punctuation\">.</span><span class=\"token function\">mount</span><span class=\"token punctuation\">(</span>wrapper<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n          "
+                    }
+                  ],
+                  "example": "Usage",
+                  "comment": ""
+                }
+              ]
+            },
+            "id": "/Primitives/nestedPrefabs/child",
+            "comments": {
+              "type": "",
+              "instance": ""
+            },
+            "properties": {
+              "diez": {
+                "id": "/Primitives/nestedPrefabs/child#diez",
+                "name": "diez",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 2
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "ChildComponent.vue"
+              }
+            }
+          },
+          "color": {
+            "type": "Color",
+            "name": "color",
+            "examples": {},
+            "id": "/Primitives/nestedPrefabs/color",
+            "comments": {
+              "type": "<p>A component encapsulating color, including alpha transparency.</p>\n<p>You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and\n[[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.</p>\n",
+              "instance": ""
+            },
+            "properties": {
+              "h": {
+                "id": "/Primitives/nestedPrefabs/color#h",
+                "name": "h",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              },
+              "s": {
+                "id": "/Primitives/nestedPrefabs/color#s",
+                "name": "s",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              },
+              "l": {
+                "id": "/Primitives/nestedPrefabs/color#l",
+                "name": "l",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              },
+              "a": {
+                "id": "/Primitives/nestedPrefabs/color#a",
+                "name": "a",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 1
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": []
+          }
+        },
+        "value": {},
+        "isPrimitive": false,
+        "references": []
+      },
+      "nestedPrefabsWithOverride": {
+        "type": "NestedPrefabComponent",
+        "name": "nestedPrefabsWithOverride",
+        "examples": {},
+        "id": "/Primitives/nestedPrefabsWithOverride",
+        "comments": {
+          "type": "",
+          "instance": ""
+        },
+        "properties": {
+          "diez": {
+            "id": "/Primitives/nestedPrefabsWithOverride#diez",
+            "name": "diez",
+            "type": "Float",
+            "comments": {
+              "instance": ""
+            },
+            "properties": {},
+            "isPrimitive": true,
+            "value": 1
+          },
+          "child": {
+            "type": "ChildComponent",
+            "name": "child",
+            "examples": {
+              "android": [
+                {
+                  "snippets": [
+                    {
+                      "lang": "Kotlin",
+                      "snippet": "\n<span class=\"token keyword\">const</span> wrapper <span class=\"token operator\">=</span> document<span class=\"token punctuation\">.</span><span class=\"token function\">getElementById</span><span class=\"token punctuation\">(</span><span class=\"token string\">'lottie-wrapper'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\nnestedPrefabsWithOverride<span class=\"token punctuation\">.</span>child<span class=\"token punctuation\">.</span><span class=\"token function\">mount</span><span class=\"token punctuation\">(</span>wrapper<span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n          "
+                    }
+                  ],
+                  "example": "Usage",
+                  "comment": ""
+                }
+              ]
+            },
+            "id": "/Primitives/nestedPrefabsWithOverride/child",
+            "comments": {
+              "type": "",
+              "instance": ""
+            },
+            "properties": {
+              "diez": {
+                "id": "/Primitives/nestedPrefabsWithOverride/child#diez",
+                "name": "diez",
+                "type": "Float",
+                "comments": {
+                  "instance": ""
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 2
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": [],
+            "binding": {
+              "templates": {
+                "detail": "ChildComponent.vue"
+              }
+            }
+          },
+          "color": {
+            "type": "Color",
+            "name": "color",
+            "examples": {},
+            "id": "/Primitives/nestedPrefabsWithOverride/color",
+            "comments": {
+              "type": "<p>A component encapsulating color, including alpha transparency.</p>\n<p>You can use the provided static constructors [[Color.rgb]], [[Color.rgba]], [[Color.hsl]], [[Color.hsla]], and\n[[Color.hex]] to conveniently create color primitives using familiar patterns for color specification.</p>\n",
+              "instance": ""
+            },
+            "properties": {
+              "h": {
+                "id": "/Primitives/nestedPrefabsWithOverride/color#h",
+                "name": "h",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0
+              },
+              "s": {
+                "id": "/Primitives/nestedPrefabsWithOverride/color#s",
+                "name": "s",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 1
+              },
+              "l": {
+                "id": "/Primitives/nestedPrefabsWithOverride/color#l",
+                "name": "l",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 0.403921568627451
+              },
+              "a": {
+                "id": "/Primitives/nestedPrefabsWithOverride/color#a",
+                "name": "a",
+                "type": "Float",
+                "comments": {
+                  "instance": "<p>Provides simple hue-saturation-lightness-alpha color data.</p>\n"
+                },
+                "properties": {},
+                "isPrimitive": true,
+                "value": 1
+              }
+            },
+            "value": {},
+            "isPrimitive": false,
+            "references": []
+          }
+        },
+        "value": {},
+        "isPrimitive": false,
+        "references": []
+      },
       "referred": {
         "id": "/Primitives#referred",
         "name": "referred",

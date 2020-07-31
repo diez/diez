@@ -12,7 +12,9 @@
 		5F5B86DD7798401E2E00D0A0 /* meow in Resources */ = {isa = PBXBuildFile; fileRef = 397703DDBAEDD8F5CDF52A79 /* meow */; };
 		930AB82DB35848F4C1E3FDBF /* Meow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AAA71D4AC30A141B96A8B7 /* Meow.framework */; };
 		99B076F33B749FFE098AF2F3 /* ChildComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7196CF7776EBC53EF094F8EB /* ChildComponent.swift */; };
+		C117C413D66AC8461086BCB7 /* NestedPrefabComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9C917EDE1C11380009C5A /* NestedPrefabComponent.swift */; };
 		E370AE623F514AA667F4B23A /* EmptyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC69A8F90E63FB64A299EBE /* EmptyComponent.swift */; };
+		E820DFBC05456C97437DEBD5 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EA012604A0855E7E63B84 /* Color.swift */; };
 		E9C5C9847D80716DEEFB339E /* ChildComponent+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FC23781B063907026A0F2 /* ChildComponent+Binding.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +29,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13E9C917EDE1C11380009C5A /* NestedPrefabComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedPrefabComponent.swift; sourceTree = "<group>"; };
 		209388F1C358A11F2EA60B20 /* Static.bundle */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; path = Static.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		397703DDBAEDD8F5CDF52A79 /* meow */ = {isa = PBXFileReference; lastKnownFileType = folder; name = meow; path = Sources/Static/meow; sourceTree = SOURCE_ROOT; };
 		7196CF7776EBC53EF094F8EB /* ChildComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildComponent.swift; sourceTree = "<group>"; };
 		73AAA71D4AC30A141B96A8B7 /* Meow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Meow.framework; sourceTree = "<group>"; };
+		7E9EA012604A0855E7E63B84 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		A468599ABC5B0980214C95EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A4FFBBA507E424CB53F47F26 /* Primitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitives.swift; sourceTree = "<group>"; };
 		CBC69A8F90E63FB64A299EBE /* EmptyComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyComponent.swift; sourceTree = "<group>"; };
@@ -54,7 +58,9 @@
 			isa = PBXGroup;
 			children = (
 				7196CF7776EBC53EF094F8EB /* ChildComponent.swift */,
+				7E9EA012604A0855E7E63B84 /* Color.swift */,
 				CBC69A8F90E63FB64A299EBE /* EmptyComponent.swift */,
+				13E9C917EDE1C11380009C5A /* NestedPrefabComponent.swift */,
 				A4FFBBA507E424CB53F47F26 /* Primitives.swift */,
 			);
 			path = Components;
@@ -212,7 +218,9 @@
 			files = (
 				E9C5C9847D80716DEEFB339E /* ChildComponent+Binding.swift in Sources */,
 				99B076F33B749FFE098AF2F3 /* ChildComponent.swift in Sources */,
+				E820DFBC05456C97437DEBD5 /* Color.swift in Sources */,
 				E370AE623F514AA667F4B23A /* EmptyComponent.swift in Sources */,
+				C117C413D66AC8461086BCB7 /* NestedPrefabComponent.swift in Sources */,
 				4DC072D3EC3407A3D486535C /* Primitives.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

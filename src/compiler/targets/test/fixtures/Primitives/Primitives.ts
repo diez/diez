@@ -1,4 +1,5 @@
 import {Float, Integer, prefab} from '@diez/engine';
+import {Color} from '@diez/prefabs';
 
 interface ChildComponentData {
   diez: number;
@@ -10,11 +11,56 @@ class ChildComponent extends prefab<ChildComponentData>() {
   };
 }
 
+interface NestedPrefabComponentData {
+  diez: number;
+  child: ChildComponent;
+  color: Color;
+}
+
+class NestedPrefabComponent extends prefab<NestedPrefabComponentData>() {
+  defaults = {
+    diez: 0,
+    child: new ChildComponent(),
+    color: Color.hex('#fff'),
+  };
+}
+
+const colorBlack = Color.hex('#000');
+const colorRed = Color.hex('#CE0000');
+
+const child = new ChildComponent({
+  diez: 2,
+});
+
+const nestedPrefabComponent = new NestedPrefabComponent({
+  child,
+  diez: 1,
+  color: colorBlack,
+});
+
+const nestedPrefabComponentWithRedColor = new NestedPrefabComponent({
+  child,
+  diez: 1,
+  color: colorRed,
+});
+
 class EmptyComponent {}
 
 const references = {
   myRef: 10,
 };
+
+enum TEST_ENUM {
+  VALUE_1,
+  VALUE_2,
+  VALUE_3,
+}
+
+enum TEST_ENUM_STRING {
+  VALUE_1= 'VALUE_1',
+  VALUE_2= 'VALUE_2',
+  VALUE_3= 'VALUE_3',
+}
 
 /**
  * Test object comment
@@ -46,6 +92,20 @@ export const primitives = {
   nested: {
     propNumber: 10,
     propPrefab: new ChildComponent({diez: 10}),
+  },
+
+  nestedPrefabs: nestedPrefabComponent,
+  nestedPrefabsWithOverride: nestedPrefabComponentWithRedColor,
+
+  // nested object with litteral string as property key
+  nestedStringProp: {
+    'prop string': 10,
+  },
+
+  // nested object with enum as property keys
+  nestedEnumProp: {
+    [TEST_ENUM.VALUE_1]: 10,
+    [TEST_ENUM_STRING.VALUE_1]: 10,
   },
 
   /**

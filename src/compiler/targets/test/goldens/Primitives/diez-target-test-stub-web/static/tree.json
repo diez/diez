@@ -15,6 +15,30 @@
       "diez": 10
     },
     "emptyChild": {},
+    "nestedPrefabs": {
+      "diez": 1,
+      "child": {
+        "diez": 2
+      },
+      "color": {
+        "h": 0,
+        "s": 0,
+        "l": 0,
+        "a": 1
+      }
+    },
+    "nestedPrefabsWithOverride": {
+      "diez": 1,
+      "child": {
+        "diez": 2
+      },
+      "color": {
+        "h": 0,
+        "s": 1,
+        "l": 0.403921568627451,
+        "a": 1
+      }
+    },
     "referred": 10
   }
 }

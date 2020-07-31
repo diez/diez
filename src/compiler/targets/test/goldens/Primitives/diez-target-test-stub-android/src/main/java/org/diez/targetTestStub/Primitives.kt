@@ -49,6 +49,18 @@ data class Primitives(
     val childs: Array<Array<ChildComponent>> = arrayOf<Array<ChildComponent>>(arrayOf<ChildComponent>(ChildComponent(10f))),
     val emptyChild: EmptyComponent = EmptyComponent(),
     /**
+     * - diez: `1`
+     * - child: ``
+     * - color: `hsla(0, 0, 0, 1)`
+     */
+    val nestedPrefabs: NestedPrefabComponent = NestedPrefabComponent(1f, ChildComponent(2f), Color(0f, 0f, 0f, 1f)),
+    /**
+     * - diez: `1`
+     * - child: ``
+     * - color: `hsla(0, 1, 0.4, 1)`
+     */
+    val nestedPrefabsWithOverride: NestedPrefabComponent = NestedPrefabComponent(1f, ChildComponent(2f), Color(0f, 1f, 0.403921568627451f, 1f)),
+    /**
      * References too!
      *
      * `References.myRef` ( 10 )

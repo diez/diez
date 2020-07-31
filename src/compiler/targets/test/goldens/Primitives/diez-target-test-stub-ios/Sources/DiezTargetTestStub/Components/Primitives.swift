@@ -46,6 +46,18 @@ public final class Primitives: NSObject, RootComponent {
     @objc public internal(set) var childs: [[ChildComponent]]
     @objc public internal(set) var emptyChild: EmptyComponent
     /**
+     * - diez: `1`
+     * - child: ``
+     * - color: `hsla(0, 0, 0, 1)`
+     */
+    @objc public internal(set) var nestedPrefabs: NestedPrefabComponent
+    /**
+     * - diez: `1`
+     * - child: ``
+     * - color: `hsla(0, 1, 0.4, 1)`
+     */
+    @objc public internal(set) var nestedPrefabsWithOverride: NestedPrefabComponent
+    /**
      * References too!
      *
      * `References.myRef` ( 10 )
@@ -65,6 +77,8 @@ public final class Primitives: NSObject, RootComponent {
             child: ChildComponent(diez: 10),
             childs: [[ChildComponent(diez: 10)]],
             emptyChild: EmptyComponent(),
+            nestedPrefabs: NestedPrefabComponent(diez: 1, child: ChildComponent(diez: 2), color: Color(h: 0, s: 0, l: 0, a: 1)),
+            nestedPrefabsWithOverride: NestedPrefabComponent(diez: 1, child: ChildComponent(diez: 2), color: Color(h: 0, s: 1, l: 0.403921568627451, a: 1)),
             referred: 10
         )
     }
@@ -81,6 +95,8 @@ public final class Primitives: NSObject, RootComponent {
         child: ChildComponent,
         childs: [[ChildComponent]],
         emptyChild: EmptyComponent,
+        nestedPrefabs: NestedPrefabComponent,
+        nestedPrefabsWithOverride: NestedPrefabComponent,
         referred: CGFloat
     ) {
         self.number = number
@@ -94,6 +110,8 @@ public final class Primitives: NSObject, RootComponent {
         self.child = child
         self.childs = childs
         self.emptyChild = emptyChild
+        self.nestedPrefabs = nestedPrefabs
+        self.nestedPrefabsWithOverride = nestedPrefabsWithOverride
         self.referred = referred
     }
 
