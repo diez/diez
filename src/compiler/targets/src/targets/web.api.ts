@@ -95,6 +95,7 @@ export interface StyleSheet {
   variables: Map<string, string>;
   font: RuleList;
   styles: RuleList;
+  mediaQueries: Map<string, string>;
 }
 
 /**
@@ -111,6 +112,7 @@ export interface StyleVariableToken {
  */
 export interface StyleTokens {
   styleVariables: StyleVariableToken[];
+  mediaQueries: StyleVariableToken[];
   styleFonts: Rule[];
   styleSheets: Rule[];
   resources: string[];
