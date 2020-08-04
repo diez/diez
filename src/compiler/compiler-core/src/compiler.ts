@@ -110,8 +110,9 @@ export abstract class Compiler<
 
   constructor (readonly parser: Parser) {
     const projectName = inferProjectName(parser.projectRoot);
+    const outDir = parser.options.outDir || join('build', `diez-${projectName}-${parser.options.target}`);
     this.output = this.createOutput(
-      join(parser.projectRoot, 'build', `diez-${projectName}-${parser.options.target}`),
+      join(parser.projectRoot, outDir),
       projectName,
     );
 
@@ -142,6 +143,11 @@ export abstract class Compiler<
     const initializer = this.getPrimitiveInitializer(property.type, instance);
     if (!name || !initializer) {
       Log.warning(`Unknown non-component primitive value: ${instance.toString()} with type ${property.type}`);
+      return;
+    }
+
+    if (typeof instance === 'undefined' || instance === null) {
+      Log.warning(`Property ${property.name} is declared as type ${name} but it's ${instance}. Skipping`);
       return;
     }
 

@@ -62,6 +62,10 @@ const action: CliAction = async (options: CompilerOptions) => {
     throw new Error(`Invalid target: ${options.target}. See --help for options.`);
   }
 
+  if (options.outDir) {
+    throw new Error('You cannot provide an output directory in hot mode.');
+  }
+
   await runProgram(options, targetProvider);
 };
 

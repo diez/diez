@@ -35,6 +35,12 @@ const provider: CliCommandProvider = {
       valueName: 'sdkVersion',
       description: 'The semantic version to set on the generated SDK.',
     },
+    {
+      longName: 'outDir',
+      shortName: 'o',
+      valueName: 'outDir',
+      description: 'Generates the output into <outDir>. If not specified, the output goes in a directory named build.',
+    },
   ],
 };
 
