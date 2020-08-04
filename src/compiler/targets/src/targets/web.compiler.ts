@@ -144,7 +144,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       case PrimitiveType.Number:
       case PrimitiveType.Int:
       case PrimitiveType.Boolean:
-        return instance.toString();
+        return String(instance);
       default:
         return undefined;
     }

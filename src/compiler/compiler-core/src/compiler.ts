@@ -146,6 +146,11 @@ export abstract class Compiler<
       return;
     }
 
+    if (typeof instance === 'undefined' || instance === null) {
+      Log.warning(`Property ${property.name} is declared as type ${name} but it's ${instance}. Skipping`);
+      return;
+    }
+
     return {
       ...property,
       initializer,
