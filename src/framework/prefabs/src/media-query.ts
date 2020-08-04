@@ -1,4 +1,4 @@
-import {prefab} from '@diez/engine';
+import {prefab, Target} from '@diez/engine';
 
 /**
  * Valid CSS logical operators.
@@ -104,4 +104,9 @@ export class MediaQuery extends prefab<MediaQueryData>() {
     prefersColorScheme: ColorScheme.None,
     prefersReducedMotion: ReducedMotion.None,
   };
+
+  constructor (overrides: Partial<MediaQueryData> = {}) {
+    super(overrides);
+    this.targets = [Target.Web];
+  }
 }
