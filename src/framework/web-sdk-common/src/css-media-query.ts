@@ -30,11 +30,11 @@ export const queryToCss = (query: MediaQueryData) => {
     mediaQueries.push(`(max-height: ${query.maxHeight}px)`);
   }
 
-  if (query.minAspectRatio.every(num => num > -1)) {
+  if (query.minAspectRatio.every((num) => num > -1)) {
     mediaQueries.push(`(min-aspect-ratio: ${query.minAspectRatio.slice(0, 2).join('/')})`);
   }
 
-  if (query.maxAspectRatio.every(num => num > -1)) {
+  if (query.maxAspectRatio.every((num) => num > -1)) {
     mediaQueries.push(`(max-aspect-ratio: ${query.maxAspectRatio.slice(0, 2).join('/')})`);
   }
 
