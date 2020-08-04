@@ -46,6 +46,9 @@
       "web": "./lib/bindings/Lottie/web",
       "docs": "./lib/bindings/Lottie/docs"
     },
+    "@diez/prefabs:MediaQuery": {
+      "web": "./lib/bindings/MediaQuery/web"
+    },
     "@diez/prefabs:Point2D": {
       "ios": "./lib/bindings/Point2D/ios",
       "android": "./lib/bindings/Point2D/android",

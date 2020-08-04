@@ -34,3 +34,7 @@
 {{/each}}
 
 {{/each}}
+
+{{#each mediaQueries}}
+@custom-media --{{this.name}} {{this.value}};
+{{/each}}
