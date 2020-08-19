@@ -51,8 +51,9 @@ export class Image extends prefab<ImageData>() {
    * assets/
    * ├── filename.png
    * ├── filename@2x.png
-   * └── filename@3x.png
-   * └── filename@4x.png
+   * ├── filename@3x.png
+   * ├── filename@4x.png
+   * └── filename.svg
    * ```
    *
    * can be specified with:
