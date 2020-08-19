@@ -89,7 +89,7 @@ export = async (_: {}, target: Target, {targetRoot}: {targetRoot: string}) => {
   }
 
   // istanbul ignore next
-  const runApp = () => {
+  const runApp = async () => {
     Log.comment(`
 Your Diez project is now running in hot mode for ${target}.
 
@@ -102,7 +102,7 @@ To learn more, follow along with the guide at:
 
     switch (target) {
       case Target.Android:
-        if (isMacOS() && locateBinaryMacOS('com.google.android.studio')) {
+        if (isMacOS() && await locateBinaryMacOS('com.google.android.studio')) {
           return execSync(`open -b com.google.android.studio ${targetRootPath}`);
         }
         return Log.comment(`Open ${targetRootPath} in Android Studio to run the example project.`);
@@ -114,7 +114,7 @@ To learn more, follow along with the guide at:
             return;
           }
           const xcworkspaceRoot = join(targetRootPath, xcworkspaceFilename);
-          if (isMacOS() && locateBinaryMacOS('com.apple.dt.Xcode')) {
+          if (isMacOS() && await locateBinaryMacOS('com.apple.dt.Xcode')) {
             return execSync(`open ${xcworkspaceRoot}`);
           }
           return Log.comment(`Open ${xcworkspaceRoot} in Xcode to run the example project.`);
@@ -129,10 +129,10 @@ To learn more, follow along with the guide at:
 
   let appProcess: void | ChildProcess | Buffer;
 
-  const handleBuilt = (message: string) => {
+  const handleBuilt = async (message: string) => {
     if (message === 'built') {
       hotProcess.removeListener('message', handleBuilt);
-      appProcess = runApp();
+      appProcess = await runApp();
     }
   };
 

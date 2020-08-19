@@ -1,3 +1,4 @@
+import waitForExpect from 'wait-for-expect'
 import {assignMock, cleanupMockCommandData, diezRun, mockCanRunCommand, mockCliCoreFactory, mockPackageManagerInstance} from '@diez/test-utils';
 const cliCore = mockCliCoreFactory();
 jest.doMock('@diez/cli-core', () => cliCore);
@@ -65,14 +66,15 @@ describe('diez start command', () => {
     };
 
     mockSpawn.mockReturnValueOnce(appProcess);
-
     await diezRun('start web');
     expect(mockFork).toHaveBeenNthCalledWith(
       1, expect.stringContaining('diez/bin/diez'), ['hot', '-t', 'web'], expect.anything());
 
     mockProcess.emit('message', 'built');
     mockProcess.emit('exit');
-    expect(appProcess.killed).toBe(true);
+    waitForExpect(() => {
+      expect(appProcess.killed).toBe(true);
+    })
   });
 
   test('Android golden path', async () => {
