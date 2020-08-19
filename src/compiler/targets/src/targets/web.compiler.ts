@@ -144,7 +144,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       case PrimitiveType.Number:
       case PrimitiveType.Int:
       case PrimitiveType.Boolean:
-        return instance.toString();
+        return String(instance);
       default:
         return undefined;
     }
@@ -190,6 +190,7 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
         variables: new Map(),
         font: new RuleList(),
         styles: new RuleList(),
+        mediaQueries: new Map(),
       },
     };
   }
@@ -302,8 +303,14 @@ export class WebCompiler extends Compiler<WebOutput, WebBinding> {
       }
     });
 
+    const mediaQueries: StyleVariableToken[] = [];
+    this.output.styleSheet.mediaQueries.forEach((value, name) => {
+      mediaQueries.push({name, value});
+    });
+
     return {
       styleVariables,
+      mediaQueries,
       styleFonts: this.output.styleSheet.font.serialize(),
       styleSheets: this.output.styleSheet.styles.serialize(),
       resources: [...this.output.resources.values()].map((resource) => resource.url),

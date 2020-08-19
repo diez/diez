@@ -5,3 +5,4 @@ export * from './css-fill';
 export * from './css-font';
 export * from './css-typograph';
 export * from './google-fonts';
+export * from './css-media-query';
