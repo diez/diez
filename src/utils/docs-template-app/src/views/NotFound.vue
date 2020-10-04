@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Sorry, we can't find that component.</h1>
-    <p><router-link to="/">Take me home</router-link></p>
+    <p><router-link :to="rootPath">Take me home</router-link></p>
   </div>
 </template>
 
@@ -13,5 +13,8 @@ import {Component, Vue} from 'vue-property-decorator';
  */
 @Component
 export default class NotFound extends Vue {
+  get rootPath () {
+    return Vue.prototype.$treeRoot[0].id;
+  }
 }
 </script>
