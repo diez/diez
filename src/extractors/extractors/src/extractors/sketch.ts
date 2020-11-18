@@ -136,6 +136,10 @@ interface SketchLayer {
   name: string;
 }
 
+enum SharedSwatchClasses {
+  MSColor="MSColor"
+}
+
 interface SketchDump {
   assets: SketchAssets;
   layerTextStyles: {
@@ -145,6 +149,15 @@ interface SketchDump {
     objects: SketchSharedLayerStyle[];
   };
   pages: SketchLayer[];
+  sharedSwatches: {
+    objects: [{
+      name: string,
+      value: {
+        "<class>": SharedSwatchClasses,
+        value: string //hex string
+      }
+    }]
+  }
 }
 
 const isClassOfSlice = (classType: string) =>
@@ -274,6 +287,16 @@ class SketchExtractor implements Extractor {
       });
     }
 
+    for (const {name, value: {value}} of
+      dump.sharedSwatches.objects
+      .filter(o=>o.value["<class>"] === SharedSwatchClasses.MSColor)) {
+
+      codegenSpec.colors.push({
+        name,
+        initializer: getColorInitializer(value),
+      });
+    }
+
     for (const gradient of dump.assets.gradientAssets) {
       populateInitializerForSketchGradient(gradient.gradient, gradient.name, codegenSpec);
     }
@@ -297,8 +320,8 @@ class SketchExtractor implements Extractor {
     for (const {name, value: {textStyle}} of dump.layerTextStyles.objects) {
       const fontSize = textStyle.NSFont.attributes.NSFontSizeAttribute;
       const letterSpacing = textStyle.NSKern;
-      const lineHeight = textStyle.NSParagraphStyle.style.maximumLineHeight;
-      const alignment = mapNSTextAlignment(textStyle.NSParagraphStyle.style.alignment);
+      const lineHeight = textStyle.NSParagraphStyle.style.maximumLineHeight || 15; //default value as of sketch v69.2
+      const alignment = mapNSTextAlignment(textStyle.NSParagraphStyle.style?.alignment || 0); //default value as of sketch v69.2
       const candidateFont = await locateFont(
         textStyle.NSFont.family,
         {name: textStyle.NSFont.attributes.NSFontNameAttribute},
