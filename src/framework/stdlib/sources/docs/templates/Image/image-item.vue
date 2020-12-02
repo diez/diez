@@ -2,7 +2,7 @@
   <docs-item :tree="tree">
     <template v-slot:preview>
       <div class="image-wrapper">
-        <img :src="`/${tree.properties.file4x.properties.src.value}`" :alt="tree.name">
+        <img :src="`/${tree.properties.file.properties.src.value}`" :alt="tree.name">
       </div>
     </template>
     <template v-slot:extra>

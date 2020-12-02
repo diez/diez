@@ -21,7 +21,8 @@ import {createWriteStream} from 'fs-extra';
 import {join, relative} from 'path';
 import {parse, URLSearchParams} from 'url';
 import {OAuthable} from '../api';
-import {chunk, cliReporters, createFolders} from '../utils';
+// import {chunk, cliReporters, createFolders} from '../utils';
+import {cliReporters, createFolders} from '../utils';
 import {
   getFigmaAccessToken,
   performGetRequestWithBearerToken,
@@ -29,9 +30,9 @@ import {
 
 const figmaHost = 'figma.com';
 const apiBase = 'https://api.figma.com/v1';
-
+const rateLimit = 20;
+const waitTimeInSeconds = 5;
 const figmaDefaultFilename = 'Untitled';
-const importBatchSize = 100;
 
 const enum FigmaType {
   Slice = 'SLICE',
@@ -194,70 +195,71 @@ const fetchFile = (id: string, authToken: string): Promise<FigmaFile> => {
   return performGetRequestWithBearerToken<FigmaFile>(`${apiBase}/files/${id}`, authToken);
 };
 
-interface AssetDownloadParams {
-  scale: string;
-  ids: string;
-}
+const getImageUrl = async (fileId: string, authToken: string, id: string) => {
+  const params = new URLSearchParams([
+    ['format', 'svg'],
+    ['ids', id],
+  ]);
+
+  try {
+    const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
+      `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
+
+    return images[id];
+  } catch (requestError) {
+    Log.warning('Figma failed');
+    return '';
+  }
+};
 
 const downloadAssets = async (
-  filenameMap: Map<string, string>,
+  fnm: Map<string, string>,
   assetsDirectory: string,
   fileId: string,
   authToken: string,
 ) => {
-  if (!filenameMap.size) {
-    Log.info('This Figma file does not contain any images (designated as Figma Components).');
-    return;
-  }
-
-  Log.info('Retrieving component URLs from the Figma API...');
-  const componentIds = chunk(Array.from(filenameMap.keys()), importBatchSize);
-  const scales = ['1', '2', '3', '4'];
   const streams: Promise<void>[] = [];
-
-  for (const chunkedIds of componentIds) {
-    const downloadParams: AssetDownloadParams[] = [];
-
-    for (const scale of scales) {
-      downloadParams.push({scale, ids: chunkedIds.join(',')});
-    }
-    const resolvedUrlMap = new Map<string, Map<string, string>>(scales.map((scale) => [scale, new Map()]));
-    await Promise.all(downloadParams.map(async ({scale, ids}) => {
-      const params = new URLSearchParams([
-        ['format', 'png'],
-        ['ids', ids],
-        ['scale', scale],
-      ]);
-      const urlMap = resolvedUrlMap.get(scale)!;
-
-      try {
-        const {images} = await performGetRequestWithBearerToken<FigmaImageResponse>(
-          `${apiBase}/images/${fileId}?${params.toString()}`, authToken);
-        for (const [id, url] of Object.entries(images)) {
-          urlMap.set(id, url);
-        }
-      } catch (requestError) {
-        Log.warning('Figma failed to render some of your components to images, this generally happens when one or more of your components is too big. Diez will skip these images.');
-      }
-    }));
-
-    for (const [scale, urls] of resolvedUrlMap) {
-      for (const [id, url] of urls) {
-        if (!url) {
-          continue;
-        }
-
-        const filename = `${filenameMap.get(id)!}${scale !== '1' ? `@${scale}x` : ''}.png`;
-        Log.info(`Downloading asset ${filename} from the Figma CDN...`);
-        streams.push(downloadStream(url).then((stream) => {
-          stream.pipe(createWriteStream(join(assetsDirectory, assetFolders[ExtractableAssetType.Component], filename)));
-        }).catch(() => {
-          Log.warning(`Error downloading ${filename}`);
-        }));
-      }
-    }
+  if (!fnm.size) {
+    Log.info('This Figma file does not contain any images (designated as Figma Components).');
+    return Promise.all(streams);
   }
 
+  const componentIds = Array.from(fnm.keys());
+  Log.info(`componentIds: ${componentIds}`);
+  for (let i = 0; i < componentIds.length; i += rateLimit) {
+    const requests = componentIds.slice(i, i + rateLimit).map(async (id) => {
+      const componentName = await fnm.get(id);
+
+      const imageUrl = await getImageUrl(fileId, authToken, id);
+      Log.info(imageUrl!);
+
+      streams.push(
+        downloadStream(imageUrl)
+          .then((stream) => {
+            stream.pipe(createWriteStream(join(
+              assetsDirectory, assetFolders[ExtractableAssetType.Component], `${componentName}.svg`)),
+            );
+          })
+          .catch((e) => {
+            Log.warning(`URL: ${imageUrl ? imageUrl : '(empty)'}`, e, `Error downloading ${componentName}`);
+          }),
+      );
+    });
+
+    await Promise.all(requests)
+      .then(() => {
+        console.log(`Wait for ${waitTimeInSeconds} seconds`);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            Log.info(`${waitTimeInSeconds} seconds!`);
+            resolve();
+          }, waitTimeInSeconds * 1000);
+        });
+      })
+      .catch((err) => {
+        console.error(`Error proccessing ${i} - Error ${err}`);
+      });
+  }
   return Promise.all(streams);
 };
 
@@ -427,7 +429,7 @@ const parseFigmaFile = async (
     registerAsset(
       {
         ...dimensions,
-        src: join(assetsDirectory, assetFolders[ExtractableAssetType.Component], `${filename}.png`),
+        src: join(assetsDirectory, assetFolders[ExtractableAssetType.Component], `${filename}.svg`),
       },
       ExtractableAssetType.Component,
       spec.assets,

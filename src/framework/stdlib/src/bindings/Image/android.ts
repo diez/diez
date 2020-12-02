@@ -22,9 +22,9 @@ const binding: AndroidBinding<Image> = {
 
     const densityMap = new Map<string, File>([
       ['mdpi', instance.file],
-      ['xhdpi', instance.file2x],
-      ['xxhdpi', instance.file3x],
-      ['xxxhdpi', instance.file4x],
+      ['xhdpi', instance.file],
+      ['xxhdpi', instance.file],
+      ['xxxhdpi', instance.file],
     ]);
 
     for (const [density, file] of densityMap) {

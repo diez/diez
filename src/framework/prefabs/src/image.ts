@@ -1,4 +1,5 @@
-import {prefab, Target} from '@diez/engine';
+// import {prefab, Target} from '@diez/engine';
+import {prefab} from '@diez/engine';
 import {File, FileType} from './file';
 import {Size2D} from './size2d';
 
@@ -7,9 +8,9 @@ import {Size2D} from './size2d';
  */
 export interface ImageData {
   file: File;
-  file2x: File;
-  file3x: File;
-  file4x: File;
+  // file2x: File;
+  // file3x: File;
+  // file4x: File;
   size: Size2D;
 }
 
@@ -39,33 +40,33 @@ export class Image extends prefab<ImageData>() {
    * `image = Image.responsive('assets/filename.png', 640, 480);`
    */
   static responsive (src: string, width: number = 0, height: number = 0) {
-    const pathComponents = src.split('/');
-    const filename = pathComponents.pop() || '';
-    const extensionLocation = filename.lastIndexOf('.');
-    const dir = pathComponents.join('/');
-    const name = filename.slice(0, extensionLocation);
-    const ext = filename.slice(extensionLocation);
+    // const pathComponents = src.split('/');
+    // const filename = pathComponents.pop() || '';
+    // const extensionLocation = filename.lastIndexOf('.');
+    // const dir = pathComponents.join('/');
+    // const name = filename.slice(0, extensionLocation);
+    // const ext = filename.slice(extensionLocation);
     return new Image({
       file: new File({src, type: FileType.Image}),
-      file2x: new File({src: `${dir}/${name}@2x${ext}`, type: FileType.Image}),
-      file3x: new File({src: `${dir}/${name}@3x${ext}`, type: FileType.Image}),
-      file4x: new File({src: `${dir}/${name}@4x${ext}`, type: FileType.Image}),
+      // file2x: new File({src: `${dir}/${name}@2x${ext}`, type: FileType.Image}),
+      // file3x: new File({src: `${dir}/${name}@3x${ext}`, type: FileType.Image}),
+      // file4x: new File({src: `${dir}/${name}@4x${ext}`, type: FileType.Image}),
       size: Size2D.make(width, height),
     });
   }
 
   defaults = {
     file: new File({type: FileType.Image}),
-    file2x: new File({type: FileType.Image}),
-    file3x: new File({type: FileType.Image}),
-    file4x: new File({type: FileType.Image}),
+    // file2x: new File({type: FileType.Image}),
+    // file3x: new File({type: FileType.Image}),
+    // file4x: new File({type: FileType.Image}),
     size: Size2D.make(0, 0),
   };
 
   options = {
-    file4x: {
-      targets: [Target.Android],
-    },
+    // file4x: {
+    //   targets: [Target.Android],
+    // },
   };
 
   toPresentableValue () {

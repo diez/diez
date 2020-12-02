@@ -306,14 +306,15 @@ export const codegenDesignLanguage = async (spec: CodegenDesignLanguage) => {
     for (const [name, asset] of assetsMap) {
       const assetName = camelCase(name);
       const sanitizedSrc = windowsPathSanitize(asset.src);
-      const parsedSrc = parse(sanitizedSrc);
+
       const sanitizedAssetName = quoteInvalidPropertyName(assetName);
 
       files[sanitizedAssetName] = `new File({src: "${sanitizedSrc}"})`;
-      [2, 3, 4].forEach((multiplier) => {
-        const baseName = windowsPathSanitize(join(parsedSrc.dir, parsedSrc.name));
-        files[quoteInvalidPropertyName(`${assetName}${multiplier}x`)] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
-      });
+      // const parsedSrc = parse(sanitizedSrc);
+      // [2, 3, 4].forEach((multiplier) => {
+      //   const baseName = windowsPathSanitize(join(parsedSrc.dir, parsedSrc.name));
+      //   files[quoteInvalidPropertyName(`${assetName}${multiplier}x`)] = `new File({src: "${baseName}@${multiplier}x${parsedSrc.ext}"})`;
+      // });
 
       images[sanitizedAssetName] = `Image.responsive("${sanitizedSrc}", ${asset.width}, ${asset.height})`;
     }

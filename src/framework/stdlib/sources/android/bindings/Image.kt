@@ -20,10 +20,8 @@ import kotlin.math.roundToInt
     internal val correctDensityFile: File
         get () {
             return when (effectiveDensity) {
-                1 -> file
-                2 -> file2x
-                3 -> file3x
-                else -> file4x
+                0 -> file
+                else -> file
             }
         }
 

@@ -29,12 +29,10 @@ const makeImagesetContentsImageJson = (filename: string, scale: string) => ({
   idiom: 'universal',
 });
 
-const makeImagesetContentsJson = (bundleId: string, file: string, file2x: string, file3x: string) => ({
+const makeImagesetContentsJson = (bundleId: string, file: string) => ({
   info: makeContentsInfoJson(bundleId),
   images: [
     makeImagesetContentsImageJson(file, '1x'),
-    makeImagesetContentsImageJson(file2x, '2x'),
-    makeImagesetContentsImageJson(file3x, '3x'),
   ],
 });
 
@@ -81,9 +79,7 @@ const addImageSetContents = (destination: string, instance: Image, assetBindings
   const imageSetContents = join(destination, 'Contents.json');
 
   const file = basename(instance.file.src);
-  const file2x = basename(instance.file2x.src);
-  const file3x = basename(instance.file3x.src);
-  const json = makeImagesetContentsJson(bundleId, file, file2x, file3x);
+  const json = makeImagesetContentsJson(bundleId, file);
   const contents = JSON.stringify(json, null, 2);
 
   assetBindings.set(
@@ -111,8 +107,6 @@ const addImageSet = async (instance: Image, projectRoot: string, assetBindings: 
 
   return Promise.all([
     addImage(instance.file, destination, projectRoot, assetBindings),
-    addImage(instance.file2x, destination, projectRoot, assetBindings),
-    addImage(instance.file3x, destination, projectRoot, assetBindings),
     addImageSetContents(destination, instance, assetBindings, bundleId),
   ]);
 };
@@ -126,8 +120,6 @@ const imageAssetBinder: AssetBinder<Image, IosOutput> =
 
     // In non-hot mode, we don't need to create static assets from the underlying files.
     assetBindings.delete(instance.file.src);
-    assetBindings.delete(instance.file2x.src);
-    assetBindings.delete(instance.file3x.src);
 
     const bundleId = `${bundleIdPrefix}.Static`;
 
