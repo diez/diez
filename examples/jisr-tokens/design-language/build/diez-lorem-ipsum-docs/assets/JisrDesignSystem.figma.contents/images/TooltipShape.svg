@@ -1,0 +1,15 @@
+<svg width="116" height="116" viewBox="0 0 116 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 40L8 24L0 32L8 40Z" fill="#202020"/>
+<path d="M8 66L8 50L0 58L8 66Z" fill="#202020"/>
+<path d="M8 92L8 76L0 84L8 92Z" fill="#202020"/>
+<path d="M40 108H24L32 116L40 108Z" fill="#202020"/>
+<path d="M66 108H50L58 116L66 108Z" fill="#202020"/>
+<path d="M92 108H76L84 116L92 108Z" fill="#202020"/>
+<path d="M108 76L108 92L116 84L108 76Z" fill="#202020"/>
+<path d="M108 50L108 66L116 58L108 50Z" fill="#202020"/>
+<path d="M108 24L108 40L116 32L108 24Z" fill="#202020"/>
+<path d="M76 8L92 8L84 0L76 8Z" fill="#202020"/>
+<path d="M50 8L66 8L58 0L50 8Z" fill="#202020"/>
+<path d="M24 8L40 8L32 0L24 8Z" fill="#202020"/>
+<rect x="8" y="8" width="100" height="100" rx="4" fill="#202020"/>
+</svg>

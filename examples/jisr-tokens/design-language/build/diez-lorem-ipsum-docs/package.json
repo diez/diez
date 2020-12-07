@@ -1,0 +1,11 @@
+{
+  "name": "diez-lorem-ipsum-docs",
+  "version": "10.6.0",
+  "dependencies": {
+    "@diez/docs-template-app": "^10.6.0"
+  },
+  "scripts": {
+    "build": "docs-app build",
+    "start": "docs-app start"
+  }
+}
